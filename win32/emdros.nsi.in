@@ -1,0 +1,406 @@
+;NSIS Modern User Interface version 1.70
+;InstallOptions Example Script
+;Written by Joost Verburg
+;This file modified by Ulrik Sandborg-Petersen for Emdros
+
+;---------------------
+;Include local config.nsh
+; May !define DO_X64, as set by win32.mak's config.nsh target.
+
+  !include "config.nsh"
+
+; Here you can ovverride it if not set correctly by win32.mak.
+; !define DO_X64 
+
+!ifdef DO_X64
+  ;Default installation folder
+  InstallDir "$PROGRAMFILES64\Emdros\Emdros-@VERSION@"
+
+  ;Name and file
+  Name "Emdros version @VERSION@ (64-bit)"
+  OutFile "..\Emdros-@VERSION@-setup-windows-x64.exe"
+
+!else
+  ;Default installation folder
+  InstallDir "$PROGRAMFILES\Emdros\Emdros-@VERSION@"
+
+  ;Name and file
+  Name "Emdros version @VERSION@ (32-bit)"
+  OutFile "..\Emdros-@VERSION@-setup-windows-x86.exe"
+
+!endif
+
+
+
+;---------------------
+;Include Modern UI
+
+  !include "MUI.nsh"
+
+;--------------------------------
+;General
+
+  SetCompressor lzma
+
+  
+  ;Get installation folder from registry if available
+  InstallDirRegKey HKLM "Software\Emdros\Emdros\@VERSION@" "Install_Dir"
+
+;--------------------------------
+;Interface Settings
+
+  !define MUI_HEADERIMAGE
+  !define MUI_HEADERIMAGE_BITMAP "emdros-logo-installer.bmp" 
+  ;!define MUI_HEADERIMAGE_BITMAP_NOSTRETCH
+  !define MUI_ABORTWARNING
+  
+
+;--------------------------------
+;Pages
+
+  !insertmacro MUI_PAGE_LICENSE "doc\COPYING.txt"
+  ; Page custom CustomPageA
+  ;!insertmacro MUI_PAGE_COMPONENTS
+  ; Page custom CustomPageB
+  !insertmacro MUI_PAGE_DIRECTORY
+  ; Page custom CustomPageC
+  !insertmacro MUI_PAGE_INSTFILES
+  
+  !insertmacro MUI_UNPAGE_CONFIRM
+  !insertmacro MUI_UNPAGE_INSTFILES
+  
+;--------------------------------
+;Languages
+ 
+  !insertmacro MUI_LANGUAGE "English"
+
+;--------------------------------
+;Reserve Files
+  
+  ;These files should be inserted before other files in the data block
+  ;Keep these lines before any File command
+  ;Only for solid compression (by default, solid compression is enabled for BZIP2 and LZMA)
+  
+  ;ReserveFile "ioA.ini"
+  ;ReserveFile "ioB.ini"
+  ReserveFile "emdros-logo-installer.bmp"
+  !insertmacro MUI_RESERVEFILE_INSTALLOPTIONS
+
+;--------------------------------
+;Variables
+
+  ;Var INI_VALUE
+
+;--------------------------------
+;Installer Sections
+
+Section "Programs and documentation" SecFiles
+
+!ifdef DO_X64
+  SetRegView 64
+!endif
+
+  SetOutPath "$INSTDIR\bin"
+  
+  File "bin\*"
+
+  SetOutPath "$INSTDIR\doc"
+  
+  File "doc\AUTHORS.txt"
+  File "doc\COPYING.txt"
+  File "doc\HOW-TO-USE.txt"
+  File "doc\bootstrapping.txt"
+  File "doc\NEWS.txt"
+  File "doc\NEWS-doc.txt"
+  File "doc\README.txt"
+  File "doc\README-doc.txt"
+  File "doc\ChangeLog.txt"
+  File "doc\ChangeLog-doc.txt"
+  File "doc\config.mak" 
+  File "doc\emdftry.html"
+  File "doc\jsontry.html"
+  File "doc\mqltry.html"
+  File "doc\mqllingtry.html"
+  File "doc\jsontry.html"
+  File "doc\mql.html"
+  File "doc\bptdump.html"
+  File "doc\manage_indices.html"
+  File "doc\renderobjects.html"
+  File "doc\fts_indexer.html"
+  File "doc\fts_harvester.html"
+  File "doc\upgrade_db.html"
+  File "doc\mqldump.html"
+  File "doc\mqlhal.html"
+  File "doc\hal_build_db.html"
+  File "doc\eqtc.html"
+  File "doc\eqtu.html"
+  File "doc\agexport.html"
+  File "doc\ubimport.html"
+  File "doc\pennimport.html"
+  File "doc\negraimport.html"
+  File "doc\tigerxmlimport.html"
+  File "doc\plaintextimport.html"
+  File "doc\slashedtextimport.html"
+  File "doc\sfmimport.html"
+  File "doc\Monad-Sets.lyx"
+  File "doc\MQL-Programmers-Guide.lyx"
+  File "doc\MQL-Query-Guide.lyx"
+  File "doc\New-EMdF.lyx"
+  File "doc\Rel-EMdF.lyx"
+  File "doc\Standard-MdF.lyx"
+  File "doc\Monad-Sets.pdf"
+  File "doc\EmdrosProgRefGuide.pdf"
+  File "doc\MQL-Programmers-Guide.pdf"
+  File "doc\MQL-Query-Guide.pdf"
+  File "doc\New-EMdF.pdf"
+  File "doc\Rel-EMdF.pdf"
+  File "doc\Standard-MdF.pdf"
+  File "doc\EmdrosQueryTool_UsersGuide.pdf"
+  File "doc\ChunkingTool_UsersGuide.pdf"
+  File /nonfatal "doc\README.MySQL.Win32.txt"
+
+
+  SetOutPath "$INSTDIR\doc\java"
+  File /nonfatal "doc\java\*"
+
+  SetOutPath "$INSTDIR\doc\python"
+  File /nonfatal "doc\python\*"
+
+  SetOutPath "$INSTDIR\doc\csharp"
+  File /nonfatal "doc\csharp\*"
+
+
+
+  SetOutPath "$INSTDIR\etc\hal"
+  File "etc\hal\*"
+
+  SetOutPath "$INSTDIR\etc\chunkingtool"
+  File "etc\chunkingtool\*"
+
+  SetOutPath "$INSTDIR\etc\qrytool"
+  File "etc\qrytool\*"
+
+
+  SetOutPath "$INSTDIR\lib"
+  File "lib\*"
+
+  SetOutPath "$INSTDIR\include"
+  File "include\*"
+
+  SetOutPath "$INSTDIR\sourcecode"
+  
+  File "..\..\emdros-@VERSION@.tar.gz"
+
+
+
+  ;Store installation folder
+  WriteRegStr HKLM "Software\Emdros\Emdros\@VERSION@" "Install_Dir" $INSTDIR
+  
+  ; Write the uninstall keys for Windows
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Emdros-@VERSION@" "DisplayName" "Emdros @VERSION@"
+  WriteRegStr HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Emdros-@VERSION@" "UninstallString" '"$INSTDIR\Uninstall.exe"'
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Emdros-@VERSION@" "NoModify" 1
+  WriteRegDWORD HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Emdros-@VERSION@" "NoRepair" 1
+
+
+  ;Create uninstaller
+  WriteUninstaller "$INSTDIR\Uninstall.exe"
+  
+  ;Read a value from an InstallOptions INI file
+  ;!insertmacro MUI_INSTALLOPTIONS_READ $INI_VALUE "ioC.ini" "Field 2" "State"
+  
+  ;Display a messagebox if check box was checked
+  ;StrCmp $INI_VALUE "1" "" +2
+  ;  MessageBox MB_OK "You checked the check box, here is the MessageBox..."
+
+SectionEnd
+
+Section "Start Menu Shortcuts" SecShortcuts
+
+  ; Use "All Users" rather than "Current User" for $SMPROGRAMS
+  SetShellVarContext all
+
+  ; Main programs + Uninstall
+  CreateDirectory "$SMPROGRAMS\Emdros-@VERSION@"
+
+  ; Set OutPath in order to set working directory
+  SetOutPath "$INSTDIR"
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Uninstall.lnk" "$INSTDIR\uninstall.exe" "" "$INSTDIR\uninstall.exe" 0
+
+  ; Set OutPath in order to set working directory
+  SetOutPath "$INSTDIR\etc"
+  CreateDirectory "$SMPROGRAMS\Emdros-@VERSION@\Applications - Unicode"
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Applications - Unicode\Emdros Query Tool (Unicode).lnk" "$INSTDIR\bin\eqtu.exe" "" "$INSTDIR\bin\eqtu.exe" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Applications - Unicode\Emdros Chunking Tool (Unicode).lnk" "$INSTDIR\bin\EmdrosChunkingToolUnicode.exe" "" "$INSTDIR\bin\EmdrosChunkingToolUnicode.exe" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Applications - Unicode\Emdros Import Tool (Unicode).lnk" "$INSTDIR\bin\EmdrosImportToolUnicode.exe" "" "$INSTDIR\bin\EmdrosImportToolUnicode.exe" 0
+
+  ; Documentation in the Start Menu
+  CreateDirectory "$SMPROGRAMS\Emdros-@VERSION@\Documentation"
+
+  ; Manual pages
+  CreateDirectory "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages"
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\emdftry.html.lnk" "$INSTDIR\doc\emdftry.html" "" "$INSTDIR\doc\emdftry.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\jsontry.html.lnk" "$INSTDIR\doc\jsontry.html" "" "$INSTDIR\doc\jsontry.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\jsontry.html.lnk" "$INSTDIR\doc\jsontry.html" "" "$INSTDIR\doc\jsontry.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\manage_indices.html.lnk" "$INSTDIR\doc\manage_indices.html" "" "$INSTDIR\doc\manage_indices.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\renderobjects.html.lnk" "$INSTDIR\doc\renderobjects.html" "" "$INSTDIR\doc\renderobjects.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\fts_indexer.html.lnk" "$INSTDIR\doc\fts_indexer.html" "" "$INSTDIR\doc\fts_indexer.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\fts_harvester.html.lnk" "$INSTDIR\doc\fts_harvester.html" "" "$INSTDIR\doc\fts_harvester.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\upgrade_db.html.lnk" "$INSTDIR\doc\upgrade_db.html" "" "$INSTDIR\doc\upgrade_db.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\mql.html.lnk" "$INSTDIR\doc\mql.html" "" "$INSTDIR\doc\mql.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\bptdump.html.lnk" "$INSTDIR\doc\bptdump.html" "" "$INSTDIR\doc\bptdump.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\agexport.html.lnk" "$INSTDIR\doc\agexport.html" "" "$INSTDIR\doc\agexport.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\pennimport.html.lnk" "$INSTDIR\doc\pennimport.html" "" "$INSTDIR\doc\pennimport.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\ubimport.html.lnk" "$INSTDIR\doc\ubimport.html" "" "$INSTDIR\doc\ubimport.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\negraimport.html.lnk" "$INSTDIR\doc\negraimport.html" "" "$INSTDIR\doc\negraimport.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\tigerxmlimport.html.lnk" "$INSTDIR\doc\tigerxmlimport.html" "" "$INSTDIR\doc\tigerxmlimport.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\plaintextimport.html.lnk" "$INSTDIR\doc\plaintextimport.html" "" "$INSTDIR\doc\plaintextimport.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\slashedtextimport.html.lnk" "$INSTDIR\doc\slashedtextimport.html" "" "$INSTDIR\doc\slashedtextimport.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\sfmimport.html.lnk" "$INSTDIR\doc\sfmimport.html" "" "$INSTDIR\doc\sfmimport.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\mqldump.html.lnk" "$INSTDIR\doc\mqldump.html" "" "$INSTDIR\doc\mqldump.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\mqlhal.html.lnk" "$INSTDIR\doc\mqlhal.html" "" "$INSTDIR\doc\mqlhal.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\hal_build_db.html.lnk" "$INSTDIR\doc\hal_build_db.html" "" "$INSTDIR\doc\hal_build_db.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\mqllingtry.html.lnk" "$INSTDIR\doc\mqllingtry.html" "" "$INSTDIR\doc\mqllingtry.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\eqtc.html.lnk" "$INSTDIR\doc\eqtc.html" "" "$INSTDIR\doc\eqtc.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\eqtu.html.lnk" "$INSTDIR\doc\eqtu.html" "" "$INSTDIR\doc\eqtu.html" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\mqltry.html.lnk" "$INSTDIR\doc\mqltry.html" "" "$INSTDIR\doc\mqltry.html" 0
+
+  
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\AUTHORS.txt.lnk" "$INSTDIR\doc\AUTHORS.txt" "" "$INSTDIR\doc\AUTHORS.txt" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\COPYING.txt.lnk" "$INSTDIR\doc\COPYING.txt" "" "$INSTDIR\doc\COPYING.txt" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\HOW-TO-USE.txt.lnk" "$INSTDIR\doc\HOW-TO-USE.txt" "" "$INSTDIR\doc\HOW-TO-USE.txt" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\bootstrapping.txt.lnk" "$INSTDIR\doc\bootstrapping.txt" "" "$INSTDIR\doc\bootstrapping.txt" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\NEWS.txt.lnk" "$INSTDIR\doc\NEWS.txt" "" "$INSTDIR\doc\NEWS.txt" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\NEWS-doc.txt.lnk" "$INSTDIR\doc\NEWS-doc.txt" "" "$INSTDIR\doc\NEWS-doc.txt" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\README.txt.lnk" "$INSTDIR\doc\README.txt" "" "$INSTDIR\doc\README.txt" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\README-doc.txt.lnk" "$INSTDIR\doc\README-doc.txt" "" "$INSTDIR\doc\README-doc.txt" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\ChangeLog.txt.lnk" "$INSTDIR\doc\ChangeLog.txt" "" "$INSTDIR\doc\ChangeLog.txt" 0
+
+  ; PDF
+  CreateDirectory "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation"
+  CreateDirectory "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\Development docs"
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\Development docs\Emdros Programmer's Reference Guide.pdf.lnk" "$INSTDIR\doc\EmdrosProgRefGuide.pdf" "" "$INSTDIR\doc\EmdrosProgRefGuide.pdf" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\Development docs\Monad Sets - Implementation and Mathematical Foundations.pdf.lnk" "$INSTDIR\doc\Monad-Sets.pdf" "" "$INSTDIR\doc\Monad-Sets.pdf" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\MQL Query Guide.pdf.lnk" "$INSTDIR\doc\MQL-Query-Guide.pdf" "" "$INSTDIR\doc\MQL-Query-Guide.pdf" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\MQL Programmer's Guide.pdf.lnk" "$INSTDIR\doc\MQL-Programmers-Guide.pdf" "" "$INSTDIR\doc\MQL-Programmers-Guide.pdf" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\The Extended MdF Model.pdf.lnk" "$INSTDIR\doc\New-EMdF.pdf" "" "$INSTDIR\doc\New-EMdF.pdf" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\Development docs\Relational Implementation of EMdF and MQL.pdf.lnk" "$INSTDIR\doc\Rel-EMdF.pdf" "" "$INSTDIR\doc\Rel-EMdF.pdf" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\The Standard MdF Model.pdf.lnk" "$INSTDIR\doc\Standard-MdF.pdf" "" "$INSTDIR\doc\Standard-MdF.pdf" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\Emdros Query Tool User's Guide.pdf.lnk" "$INSTDIR\doc\EmdrosQueryTool_UsersGuide.pdf" "" "$INSTDIR\doc\EmdrosQueryTool_UsersGuide.pdf" 0
+  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\Emdros Chunking Tool User's Guide.pdf.lnk" "$INSTDIR\doc\ChunkingTool_UsersGuide.pdf" "" "$INSTDIR\doc\ChunkingTool_UsersGuide.pdf" 0
+
+
+
+
+
+
+
+
+
+
+SectionEnd
+
+
+;--------------------------------
+;Installer Functions
+
+;Function .onInit
+
+  ;Extract InstallOptions INI files
+  ;!insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioA.ini"
+  ;!insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioB.ini"
+  ;!insertmacro MUI_INSTALLOPTIONS_EXTRACT "ioC.ini"
+  
+;FunctionEnd
+
+;LangString TEXT_IO_TITLE ${LANG_ENGLISH} "InstallOptions page"
+;LangString TEXT_IO_SUBTITLE ${LANG_ENGLISH} "This is a page created using the InstallOptions plug-in."
+
+;Function CustomPageA
+;
+;  !insertmacro MUI_HEADER_TEXT "$(TEXT_IO_TITLE)" "$(TEXT_IO_SUBTITLE)"
+;  !insertmacro MUI_INSTALLOPTIONS_DISPLAY "ioA.ini"
+;
+;FunctionEnd
+;
+;Function CustomPageB
+;
+;  !insertmacro MUI_HEADER_TEXT "$(TEXT_IO_TITLE)" "$(TEXT_IO_SUBTITLE)"
+;  !insertmacro MUI_INSTALLOPTIONS_DISPLAY "ioB.ini"
+;
+;FunctionEnd
+;
+;Function CustomPageC
+;
+;  !insertmacro MUI_HEADER_TEXT "$(TEXT_IO_TITLE)" "$(TEXT_IO_SUBTITLE)"
+;  !insertmacro MUI_INSTALLOPTIONS_DISPLAY "ioC.ini"
+;
+;FunctionEnd
+
+;--------------------------------
+;Descriptions
+
+  ;Language strings
+  LangString DESC_SecFiles ${LANG_ENGLISH} "Emdros programs and documentation."
+  LangString DESC_SecShortcuts ${LANG_ENGLISH} "Shortcuts in the Programs menu."
+
+;  ;Assign language strings to sections
+  !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
+    !insertmacro MUI_DESCRIPTION_TEXT ${SecFiles} $(DESC_SecFiles)
+    !insertmacro MUI_DESCRIPTION_TEXT ${SecShortcuts} $(DESC_SecShortcuts)
+  !insertmacro MUI_FUNCTION_DESCRIPTION_END
+
+;--------------------------------
+;Uninstaller Section
+
+Section "Uninstall"
+
+  ; Remove registry keys
+  DeleteRegKey HKLM "Software\Microsoft\Windows\CurrentVersion\Uninstall\Emdros-@VERSION@"
+
+  Delete "$INSTDIR\Uninstall.exe"
+
+  Delete "$INSTDIR\bin\*"
+  Delete "$INSTDIR\doc\java\*"
+  Delete "$INSTDIR\doc\python\*"
+  Delete "$INSTDIR\doc\csharp\*"
+  Delete "$INSTDIR\doc\*"
+  Delete "$INSTDIR\etc\*"
+  Delete "$INSTDIR\include\*"
+  Delete "$INSTDIR\lib\*"
+  Delete "$INSTDIR\sourcecode\*"
+
+  RMDir "$INSTDIR\bin"
+  RMDir "$INSTDIR\doc\java"
+  RMDir "$INSTDIR\doc\python"
+  RMDir "$INSTDIR\doc\csharp"
+  RMDir "$INSTDIR\doc"
+  RMDir "$INSTDIR\etc"
+  RMDir "$INSTDIR\include"
+  RMDir "$INSTDIR\lib"
+  RMDir "$INSTDIR\sourcecode"
+  RMDir "$INSTDIR"
+
+  ; Use "All Users" rather than "Current User" for $SMPROGRAMS
+  SetShellVarContext all
+
+  ; Documentation
+  Delete "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\Development docs\*"
+  RMdir  "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\Development docs\"
+  Delete "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\*"
+  RMdir  "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\"
+  Delete "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\*"
+  RMdir  "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\"
+  Delete "$SMPROGRAMS\Emdros-@VERSION@\Documentation\*"
+  RMdir  "$SMPROGRAMS\Emdros-@VERSION@\Documentation"
+  Delete "$SMPROGRAMS\Emdros-@VERSION@\Applications - Unicode\*"
+  RMdir  "$SMPROGRAMS\Emdros-@VERSION@\Applications - Unicode\"
+  Delete "$SMPROGRAMS\Emdros-@VERSION@\*"
+  RMdir  "$SMPROGRAMS\Emdros-@VERSION@"
+   
+ 
+
+  ;DeleteRegKey /ifempty HKCU "Software\Emdros\Emdros\@VERSION@"
+  DeleteRegKey HKLM "Software\Emdros\Emdros\@VERSION@"  
+
+SectionEnd

@@ -1,0 +1,75 @@
+Overview
+========
+
+This document contains the following sections:
+
+- INSTALLING Emdros on Win32 platforms
+  - Prebuilt binaries
+  - PostgreSQL notes
+  - MySQL notes
+  - Emdros (not) on Cygwin
+  - Compiling with Visual C++
+  - Post-installation docs
+
+
+INSTALLING Emdros on Win32 platforms
+====================================
+
+
+Prebuilt binaries
+-----------------
+
+If you are using a version of Emdros for which binaries have been
+released, it is easiest to use them.  If no binaries are provided, you
+will have to compile Emdros yourself.
+
+
+PostgreSQL notes
+----------------
+
+Please note that PostgreSQL version 8.0 is required on Win32.
+
+Please also note that libpq.dll is no longer needed.
+
+
+MySQL notes
+-----------
+
+Please note that the MySQL version requires the file libmysql.dll to
+be present either in the current path or in the same location as the
+Emdros programs.  This file can be found in the distribution of MySQL,
+and is not distributed with Emdros.  Look for it in
+
+%MYSQLPREFIX%\lib\opt
+
+where "%MYSQLPREFIX%" is usually something like
+
+"C:\Program Files\MySQL\MySQL Server 4.1"
+
+or the like.
+
+
+Emdros (not) on Cygwin
+----------------------
+
+As of 1.1.8, Emdros does not support compiling under cygwin.
+
+
+Compiling with Visual C++
+-------------------------
+
+Go to the win32 directory and read the README.txt file for
+instructions on how to compile.
+
+
+Post-installation docs
+----------------------
+
+After installation, please read the doc/HOW-TO-USE file.
+
+Please also see the other documentation in the doc/ directory.
+
+
+
+
+

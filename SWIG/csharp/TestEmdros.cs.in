@@ -1,0 +1,111 @@
+using System;
+using Emdros;
+
+public class TestEmdros {
+        EmdrosEnv env;
+	
+	public TestEmdros() {
+		// Constructors work as expected
+		SetOfMonads som = new SetOfMonads(1,3);
+
+		// So do methods with longs / monad_ms / id_ds
+		som.add(7,10);
+
+		// And we can call methods without parameters,
+		// expecting std::strings to be translated to 
+		// C# strings.
+		Console.Write(som.toString() + "\n");
+
+		// Enums are referenced through their
+		// enum name, then a dot, then the constant name.
+		env = new EmdrosEnv(eOutputKind.kOKConsole,
+				    eCharsets.kCSUTF8,
+				    "localhost", // hostname
+				    "emdf",      // db username
+				    "changeme",  // db password
+			            "emdf",      // initial database
+				    eBackendKind.kSQLite2); // backend kind
+	}
+
+	bool Exec(String query) {
+	        bool bResult = false;
+
+		// Note how C++ parameters that are declared
+		// as non-const references (bool& bResult in this case)
+		// need the ref keyword.
+
+		// Note also how C++ bool parameters can be
+		// used seamlessly.
+                if (!env.executeString(query,	
+		                       ref bResult, // Compiler result
+				       true,  // Print result
+				       true)) { // Report error
+			Console.WriteLine("DB error!");
+			return false;
+		}
+		if (!bResult) {
+		        Console.WriteLine("Compiler error!");
+			return false;
+		}
+		return true;
+	}
+	
+	public bool Test() {
+                bool bResult = false;
+		
+		bResult = Exec("DROP DATABASE 'emdf3' GO");
+		bResult = Exec("CREATE DATABASE 'emdf3' GO");
+		if (!bResult) {
+			return false;
+		}
+		bResult = Exec("USE DATABASE 'emdf3' GO");
+		if (!bResult) {
+			return false;
+		}
+		bResult = Exec("CREATE OBJECT TYPE [Token surface : STRING;]GO");
+		if (!bResult) {
+			return false;
+		}
+		bResult = Exec("CREATE OBJECT FROM MONADS = {1} [Token surface:=\"Hello\";]GO\n"
+			       + "CREATE OBJECT FROM MONADS = {2} [Token surface:=\"World!\";]GO\n"
+			       + "CREATE OBJECT FROM MONADS = {3} [Token surface:=\"\\xd7\\x91\\xd6\\xbc\\xd6\\xb0\";]GO\n"
+			       + "CREATE OBJECT FROM MONADS = {4} [Token surface:=\"\\xd7\\x91\\xd6\\xbc\\xd6\\xb0\";]GO");
+		if (!bResult) {
+			return false;
+		}
+
+	        ReadTokens();
+		
+		return true;	     
+	}
+
+	void ReadTokens() {
+		bool bResult = Exec("SELECT ALL OBJECTS WHERE [Token GET surface]");
+		if (!bResult) {
+			return;
+		}
+
+		Sheaf sheaf = env.takeOverSheaf();
+		SheafConstIterator sheafit = sheaf.const_iterator();
+		while (sheafit.hasNext()) {
+			Straw straw = sheafit.next();
+			StrawConstIterator strawit = straw.const_iterator();
+			while (strawit.hasNext()) {
+				MatchedObject mo = strawit.next();
+				EMdFValue ev = mo.getEMdFValue(0);
+				string s = ev.getString();
+
+				Console.WriteLine("Token: " + mo.getMonads().toString() + " surface = '" + s + "'");				
+			}	
+		}
+	}
+	
+}
+
+public class EmdrosTest {
+	public static void Main (string[] args)
+	{
+		TestEmdros t = new TestEmdros();
+		t.Test();		
+	}
+}

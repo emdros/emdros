@@ -1,0 +1,129 @@
+;Amsterdam.map
+;first draft cjs May 2005
+;second draft cjs June 2005
+;limited to what is required for the WIVU database
+;do they code rafe at all?
+;needs decision on handling morph-break marker '-'
+
+;NB do not apply normalisation to Hebrew with current fonts
+;they assume consonant-dagesh-vowel-cant order
+
+EncodingName	"Amsterdam"
+DescriptiveName	"Amsterdam"
+Contact	"mailto: christopher_samuel@sil.org"				;jw
+
+
+;Initial pass to reorder prepositive cant codes to follow consonant-[dagesh]-vowel
+
+pass (Byte)
+
+ByteClass [WS] 	= ( 009 010 013 032 176 '&' )
+ByteClass [num] = ( '0' '1' '2' '3' '4' '5' '6' '7' '8' '9' )
+ByteClass [con] = ( '>' 'B' 'G' 'D' 'H' 'W' 'Z' 'X' 'V' 'J' 'K' 'L' 'M' 'N' 'S' '<' 'P' 'Y' 'Q' 'R' 'F' 'C' 'T' )
+ByteClass [dag] = ( '.' )
+ByteClass [vow] = ( 'A' '@' 'E' ';' 'I' 'O' 'U' ':' )
+
+[WS]=a [num]{2,2}=b [con]=c [dag]{0,1}=d [vow]{1,2}=e <> @a @c @d @e @b
+
+[num]{2,2}=b [con]=c [dag]{0,1}=d [vow]{1,2}=e / # _ <> @c @d @e @b
+
+
+;Main pass to convert to Unicode
+
+pass (Byte_Unicode)
+
+ByteDefault		'?'
+UniDefault		replacement_character
+
+ByteClass [x] = (0..255)
+UniClass [x] = (0..255)
+
+;consonants
+'>' <> U+05D0 ; aleph
+'B' <> U+05D1 ; beth
+'G' <> U+05D2 ; gimmel
+'D' <> U+05D3 ; daleth
+'H' <> U+05D4 ; he
+'W' <> U+05D5 ; waw
+'Z' <> U+05D6 ; zayin
+'X' <> U+05D7 ; heth
+'V' <> U+05D8 ; teth
+'J' <> U+05D9 ; yodh
+'k' <> U+05DA ; kaph final
+'K' <> U+05DB ; kaph
+'L' <> U+05DC ; lamed
+'m' <> U+05DD ; mem final
+'M' <> U+05DE ; mem
+'n' <> U+05DF ; nun final
+'N' <> U+05E0 ; nun
+'S' <> U+05E1 ; samek
+'<' <> U+05E2 ; ayin
+'p' <> U+05E3 ; pe final
+'P' <> U+05E4 ; pe
+'y' <> U+05E5 ; tsade final
+'Y' <> U+05E6 ; tsade
+'Q' <> U+05E7 ; qoph
+'R' <> U+05E8 ; resh
+'F' <> U+05E9 U+05C2 ; sin
+'C' <> U+05E9 U+05C1 ; shin
+'T' <> U+05EA ; tau
+
+;miscellaneous
+'.' <> U+05BC ; dagesh
+'&' <> U+05BE ; maqqeph
+; next line commented out
+;'-' <> U+002D ; morph break - how does Ulrik deal with this?
+
+;vowels
+'A' <> U+05B7 ; pathah
+'@' <> U+05B8 ; qamets
+'E' <> U+05B6 ; seghol
+';' <> U+05B5 ; tsere
+'I' <> U+05B4 ; hireq
+'O' <> U+05B9 ; holem
+'U' <> U+05BB ; qibbuts
+':' <> U+05B0 ; shewa
+':A' <> U+05B2 ; hateph pathah
+':E' <> U+05B6 ; hateph seghol
+':@' <> U+05B8 ; hateph qamets
+
+;cants
+'00' <> U+05C3 ; sop pasuq
+'01' <> U+0592 ; segolta
+'02' <> U+05AE ; zarqa, sinnor
+'03' <> U+0599 ; pashta, azla legarmeh
+'04' <> U+05A9 ; telisha parvum
+'05' <> U+05C0 ; paseq [separator] legarmeh
+'10' <> U+059A ; yetib (yetiv)
+'11' <> U+059D ; mugrash
+'13' <> U+05AD ; dehi or tipha
+'14' <> U+05A0 ; telisha magnum
+'24' <> U+05A9 ; telisha qetannah (med)
+'33' <> U+05A8 ; (with 03, left of letter)
+'35' <> U+05BD ; meteg (med)
+'44' <> U+05A0 ; telisha magnum (med)
+'60' <> U+05AB ; ole or mahpakatum
+'61' <> U+059C ; geresh or teres
+'62' <> U+059E ; garshajim
+'63' <> U+05A8 ; azla, azla or qadma
+'64' <> U+05AC ; illuj
+'65' <> U+0593 ; shalshelet (magn,parv)
+'70' <> U+05A4 ; mahpak or mehuppak
+'71' <> U+05A5 ; mereka
+'72' <> U+05A6 ; mereka kepulah (duplex)
+'73' <> U+0596 ; tipha, tarha majela
+'74' <> U+05A3 ; munah
+'75' <> U+05BD ; silluq [meteg (left)]
+'80' <> U+0594 ; zaqep parvum
+'81' <> U+0597 ; rebia (magnum=parvum)
+'82' <> U+0598 ; sinnorit
+'83' <> U+05A1 ; pazer
+'84' <> U+059F ; pazer mag. or qarne para
+'85' <> U+0595 ; zaqep magnum
+'91' <> U+059B ; tebir
+'92' <> U+0591 ; atnah
+'93' <> U+05AA ; galgal or jerah
+'94' <> U+05A7 ; darga
+'95' <> U+05BD ; meteg (right) [cf 35,75]
+
+[x] <> [x]

@@ -1,0 +1,79 @@
+.\" Man page for manage_indices.1
+.\" Use the following command to view man page:
+.\"
+.\"  tbl manage_indices.1 | nroff -man | less
+.\"
+.TH MANAGE_INDICES 1 "January 20, 2007"
+.SH NAME
+manage_indices \- A tool to manage indices on Emdros databases
+.SH SYNOPSIS
+\fBmanage_indices\fR --create [options] database-name
+.br
+\fBmanage_indices\fR --drop [options] database-name
+.br
+\fBmanage_indices\fR --help
+.br
+\fBmanage_indices\fR (-V|--version)
+.br
+.SH DESCRIPTION
+
+\fBmanage_indices\fR is a tool for creating and dropping indices on an
+Emdros database's object types.  If the option "--type
+object-type-name" is given, only that object type is affected.  If
+this option is not given, all object types in the database are
+affected.
+.SH OPTIONS
+\fBmanage_indices\fR supports the following command-line switches:
+.TP 6
+.BI \-\-help
+show help
+.TP
+.BI \-V\ ,\ \-\-version
+show version
+.TP
+.BI \-\-create
+indices are created
+.TP
+.BI \-\-drop
+indices are dropped
+.TP
+.TP
+.BI \-b\ ,\ \-\-backend \ backend
+set database backend to `backend'. Valid values are: For PostgreSQL:
+"p", "pg", "postgres", and "postgresql". For MySQL: "m", "my", and
+"mysql". For SQLite 2.X.X: "2", "s", "l", "lt", "sqlite", and
+"sqlite2". For SQLite 3.X.X: "3", "s3", "lt3", and "sqlite3".
+.BI \-t\ ,\ \-\-type " object-type-name"
+only the object type \fIobject-type-name\fR is affected
+.TP
+.BI \-h\ ,\ \-\-host \ hostname 
+set db back-end hostname to connect to (default is 'localhost').  Has
+no effect on SQLite.
+.TP
+.BI \-u\ ,\ \-\-user \ user
+set database user to connect as (default is 'emdf').  Has no effect on
+SQLite.
+.TP
+.BI \-p\ ,\ \-\-password \ password
+set password to use for the database user.  Has no effect on SQLite,
+unless you have an encryption-enabled SQLite, in which case this gets
+passed as the key.
+
+
+.SH RETURN VALUES
+.TP
+.BR 0 " Success"
+.TP
+.BR 1 " Wrong usage"
+.TP
+.BR 2 " Connection to backend server could not be established"
+.TP
+.BR 3 " An exception occurred (the type is printed on stderr)"
+.TP
+.BR 5 " Database error"
+.SH AUTHORS
+Copyright
+.Cr
+2001-2006 by Ulrik Petersen (ulrikp@users.sourceforge.net).  Note that
+this software is distributed under the GNU GPL.  See the sources for
+details.

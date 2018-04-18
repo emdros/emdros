@@ -1,0 +1,74 @@
+README for Emdros Perl bindings
+-------------------------------
+
+From: Chris Wilson <emdros@qwirx.com>
+Date: 24-Feb-2003
+
+Current status:
+	* Readiness:     EXPERIMENTAL, needs testing
+	* Completeness:  fairly COMPLETE (no known omissions)
+	* Documentation: UNDOCUMENTED (but see test.pl for code samples)
+	* Stability:     UNSTABLE, known memory leaks
+
+This interface will probably change, as the changes listed in the TODO
+section are implemented.
+
+What works
+----------
+- connect to database
+- Use the CEMdFDB interface
+- Create a EMdFOutput object
+- Create a MQLExecEnv object
+- Execute MQL queries
+- Determine whether the query succeeded or failed, and whether the result
+  is a table or sheaf
+- For tables, retrieve the contents of the table one cell at a time,
+  and the whole table into a 2D array reference
+- For sheaves, retrieve an array of straws (Emdros::Straw objects)
+- For straws,  retrieve an array of matched objects (Emdros::MatchedObject)
+- For matched objects, retrieve properties and the embedded sheaf
+
+What doesn't work
+-----------------
+- Nothing known to be missing at this time, but:
+- Everything not listed above is untested, and
+- Your mileage may vary.
+
+TODO
+----
+
+- Some accessor methods will become member methods
+- A bug in SWIG needs to be fixed so that some shadow methods such as
+  Emdros::Straw_to_array become usable (in the meantime use their
+  equivalents from the Emdrosc:: package instead)
+- New classes may be created to provide more Perl-friendly interfaces
+  than C++ iterators
+- The test script (test.pl) will not rely on the presence of a "wihebrew"
+  database
+- The whole interface should become generic and not Perl-specific,
+  sharing as much code as possible with the Ruby bindings, designed to
+  facilitate creation of new bindings
+- Dependence on MySQL will be removed
+
+Installation
+------------
+Compilation and installation are NOT integrated with the rest of Emdros
+at this time. SWIG is required to build. MySQL server, libraries and headers 
+are required, as is the wihebrew database. Only Linux is tested.
+
+To install the libraries, run the following commands as indicated by the
+lines starting with "unix#".
+
+unix# cd emdros-1.1.x/SWIG/perl
+unix# make -f Makefile.swig
+unix# perl Makefile.PL
+unix# make
+unix# make test
+...
+All tests finished OK!
+unix# make install
+
+Usage
+-----
+See the file 'test.pl' for examples of all currently supported features
+and how to use them.

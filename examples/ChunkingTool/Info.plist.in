@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>chunkingtoolu</string>
+	<key>CFBundleGetInfoString</key>
+	<string>Emdros Chunking Tool version @VERSION@, (c) 1999-2006 Ulrik Petersen</string>
+	<key>CFBundleIconFile</key>
+	<string>blue-E.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>org.emdros.ectu</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleLongVersionString</key>
+	<string>@VERSION@, (c) 1999-2006 Ulrik Petersen</string>
+	<key>CFBundleName</key>
+	<string>Emdros Chunking Tool</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>@VERSION@</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>@VERSION@</string>
+	<key>CSResourcesFileMapped</key>
+	<true/>
+	<key>LSRequiresCarbon</key>
+	<true/>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright 1999-2006 Ulrik Petersen</string>
+</dict>
+</plist>

@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+
+Exec=importtoolu
+Icon=emergence-blue-E
+
+Name=Emdros Import Tool
+Comment=Convert text and corpora to Emdros MQL for later import
+
+Categories=Education;Languages;

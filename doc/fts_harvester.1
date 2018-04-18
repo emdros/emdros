@@ -1,0 +1,174 @@
+.\" Man page for fts_harvester
+.\" Use the following command to view man page:
+.\"
+.\"  tbl fts_harvester.1 | nroff -man | less
+.\"
+.TH FTS_HARVESTER 1 "March 26, 2015"
+.SH NAME
+fts_harvester \- A tool to harvest Emdros databases with Full Text Search
+.SH SYNOPSIS
+\fBfts_harvester\fR [ options ] <query-terms...>
+.br
+\fBfts_harvester\fR <--help|-V|--version>
+.br
+.SH DESCRIPTION
+\fBfts_harvester\fR is a command-line tool to harvest an Emdros
+database that has been prepared for Full Text Search by fts_indexer(1)
+or via the libharvest library.
+
+The \fBfts_harvester\fR tool needs a source database to read from, and
+at least one query term.
+
+The program also needs a "bookcase object type", which must consist of
+objects that are somehow "larger" than the "indexed object type". (In
+Information Retrieval terms, the "bookcase_object_type" is the
+"document".)  That is, the "indexed object type" (for example, "Word")
+must have objects which are wholly contained within the "bookcase
+object type" (for example, "document").  In effect, the "bookcase
+object type" provides the frames of monads within which to index the
+"indexed object type". In addition, the "indexed object type" must
+have a concomitant "indexed feature", which is the feature on which to
+index.  For example, "surface" could be a feature on "Word" which
+could be ideal to index on.
+
+The output of the program is either plain text or XHTML snippets (if
+the --xhtml option is given).
+
+The program can optionally show titles, taken from a "bookcase title
+object type" having a "bookcase title feature".  If, for example,
+there is an object type called "part", having a feature "part_name",
+then the former can be given as the bookcase title object type (using
+the option "--bookcase-title-otn"), and the feature "part" can be
+given as the boookcase title feature (using the option
+"--bookcase-title-feature").
+
+
+.SH OPTIONS
+\fBfts_harvester\fR supports the following command-line switches:
+.TP 6
+.BI \-\-help
+show help
+.TP
+.BI \-V\ ,\ \-\-version
+show version
+.TP
+.BI \-fe\ ,\ \-\-fts\-engine \ fts\-engine\-version
+Use the given version of the FTS engine. Currently, versions 1 and 2
+are supported. Version 1 is the current default.
+.TP
+.BI \-g\ ,\ \-\-google-syntax
+If given, each query term, if surrounded by "double quotes", is
+interpreted as a series of terms which must appear in (monad) sequence
+right after each other.  Example: \fB-g '"the prime minister"'\fR.
+.TP
+.BI \-\-xhtml
+If given, XHTML snippets are emitted.  The XHTML preamble and the
+ending </body></html> snippet are not emitted.
+.TP
+.BI \-d\ ,\ \-\-dbname \ dbname 
+set database from which to read, and to which to write (unless -td or
+--nodb is given).
+.TP
+.BI \-lp\ ,\ \-\-largest-proximity \ integer
+Use this number as the largest proximity (in monads) to allow between
+query terms (within the boundaries of each object in the bookcase
+object type).
+.TP
+.BI \-\-bookcase\-otn \ object\-type\-name
+Use object-type-name as the object type which surrounds the "indexed
+object type".
+.TP
+.BI \-\-indexed\-otn \ object\-type\-name
+Use object-type-name as the object type which must be indexed.
+.TP
+.BI \-\-indexed\-feature \ feature\-name
+Use feature-name as the feature on the indexed object type for which
+to generate the index.  That is, if the indexed object type is, for
+example, "Word", then the indexed feature could be "surface", and then
+"Word" must have a feature called "surface".
+.TP
+.BI \-\-bookcase\-title\-otn \ object\-type\-name
+Use object-type-name as the object type from which to get a title for
+each hit.
+.BI \-btf\ ,\ \-\-bookcase\-title\-feature \ feature\-name
+Use feature-name as the feature on the bookcase title object type from
+which to get a title for each hit.  For example, if there is an object
+type callled "part", with a feature called "name", then "name" might
+be given here, and "part" might be given for --bookcase-title-otn.
+.TP
+.BI \-o\ ,\ \-\-output \ filename
+dump MQL statements to file filename. If this switch is not given,
+then the MQL is just executed within the target database.
+.TP
+.BI \-h\ ,\ \-\-host \ hostname 
+set source db back-end hostname to connect to (default
+is 'localhost').  Has no effect on SQLite or SQLite 3.  If --nodb is
+not given, and if -th or --target-host is not given, then the target
+database host will be the same as the source database host.
+.TP
+.BI \-u\ ,\ \-\-user \ user
+set source database user to connect as (default is 'emdf').  Has no
+effect on SQLite or SQLite 3.  Will be used for the target database
+user as well, unless --nodb, -tu, or --target-user is given.
+.TP
+.BI \-p\ ,\ \-\-password \ password
+set source database password to use for the source database user.  Has
+no effect on SQLite or SQLite 3, unless you have an encryption-enabled
+SQLite (3), in which case this gets passed as the key.  Will be used
+for the target database password, unless one of --nodb, -tp or
+--target-password is given.
+.TP
+.BI \-b\ ,\ \-\-backend \ backend
+set source database backend to `backend'. The target database backend
+is also given with this switch, unless provided by the -tb switch.
+Valid values are: For PostgreSQL: "p", "pg", "postgres", and
+"postgresql". For MySQL: "m", "my", and "mysql". For SQLite 2.X.X:
+"2", "s", "l", "lt", "sqlite", and "sqlite2". For SQLite 3.X.X: "3",
+"s3", "lt3", and "sqlite3".
+.TP
+.BI \-page\ ,\ \-\-page \ page-number
+In XHTML mode, gives the page to start at (first page == 1). If < 1,
+all results are returned. Defaults to -1, so all results are displayed
+by default.
+.TP
+.BI \-hpp\ ,\ \-\-hits-per-page \ max-number-of-hits-per-page
+Sets the maximum number of hits per page. Defaults to 10.
+.TP
+.BI \-sf\ ,\ \-\-stylesheet-filename \ stylesheet-filename
+Gives the name of the file containing the JSON stylesheet to use. See
+the man-page fts_filters(5) to learn the syntax of that file.
+
+This option must be used in conjunction with the -s option.  If it is
+used, you cannot also use filters at the end of the command line.
+.TP
+.BI \-s\ ,\ \-\-stylesheet \ stylesheet-name
+This option tells the program which stylesheet within the stylesheet
+file provided with the -sf option must be used.
+
+This option must be used in conjunction with the -sf option.
+
+.SH FILTERS
+See fts_filters(5) for a discussion of filters.  See the options -sf
+and -s for how to use them.
+
+.SH RETURN VALUES
+.TP
+.BR 0 " Success"
+.TP
+.BR 1 " Wrong usage"
+.TP
+.BR 2 " Connection to backend server could not be established"
+.TP
+.BR 3 " An exception occurred (the type is printed on stderr)"
+.TP
+.BR 4 " Could not open file"
+.TP
+.BR 5 " Database error"
+.TP
+.BR 6 " Compiler error (internal error)
+.SH AUTHORS
+Copyright
+.Cr
+2010-2011 by Ulrik Sandborg-Petersen (ulrikp@users.sourceforge.net).
+Note that this software is distributed under the GNU GPL.  See the
+sources for details.

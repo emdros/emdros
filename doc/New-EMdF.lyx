@@ -1,0 +1,919 @@
+#LyX 1.4.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 245
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage{a4wide}
+\usepackage{times}
+\end_preamble
+\language english
+\inputencoding auto
+\fontscheme default
+\graphics default
+\paperfontsize 12
+\spacing single
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 5
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle fancy
+\tracking_changes false
+\output_changes true
+\end_header
+
+\begin_body
+
+\begin_layout Title
+The Extended MdF Model
+\end_layout
+
+\begin_layout Author
+Ulrik Petersen
+\end_layout
+
+\begin_layout Date
+September 22, 2003
+\end_layout
+
+\begin_layout Standard
+\begin_inset LatexCommand \tableofcontents{}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+In this article, I present the Extended MdF model, or the 
+\begin_inset Quotes eld
+\end_inset
+
+EMdF model
+\begin_inset Quotes erd
+\end_inset
+
+.
+ It was originally proposed in 
+\begin_inset LatexCommand \cite{BSc}
+
+\end_inset
+
+.
+ The EMdF model builds on the MdF model as proposed by Crist-Jan Doedens
+ in his 1994 PhD thesis 
+\begin_inset LatexCommand \cite{Doedens1994}
+
+\end_inset
+
+.
+ For a summary of the MdF model, see 
+\begin_inset LatexCommand \cite{MdFSummary}
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The EMdF model arose out of my efforts in implementing the MdF model.
+ I realized that the MdF model in itself is too abstract to be directly
+ implementable.
+ Thus I came up with a number of concepts and distinctions which make it
+ easier to talk about an implementation.
+ The EMdF model contains these concepts.
+ Thus the EMdF model does little beyond adding some useful concepts to the
+ MdF model.
+ It limits the MdF model in only one respect, namely in restricting the
+ codomains of features.
+ This was necessary in order to be able to implement the MdF model in practice.
+\end_layout
+
+\begin_layout Section
+Sequences
+\end_layout
+
+\begin_layout Standard
+\begin_inset LatexCommand \label{sec:Sequences}
+
+\end_inset
+
+In an EMdF implementation, a big part of keeping the internal data integrity
+ depends on IDs.
+ For example, objects have ids (
+\begin_inset Quotes eld
+\end_inset
+
+object id_ds
+\begin_inset Quotes erd
+\end_inset
+
+), object types have ids (
+\begin_inset Quotes eld
+\end_inset
+
+object type_ids
+\begin_inset Quotes erd
+\end_inset
+
+), etc.
+ In the EMdF model, these IDs are drawn from two sequences of integers.
+ One sequence is for generating object id_ds, and the other sequence is
+ for all other kinds of IDs.
+ Thus, in an EMdF database, these two sequences are present:
+\end_layout
+
+\begin_layout Itemize
+SEQUENCE_OBJECT_ID_DS
+\end_layout
+
+\begin_layout Itemize
+SEQUENCE_OTHER_IDS
+\end_layout
+
+\begin_layout Standard
+These two sequences provide two separate 
+\begin_inset Quotes eld
+\end_inset
+
+namespaces
+\begin_inset Quotes erd
+\end_inset
+
+ for generating IDs.
+\end_layout
+
+\begin_layout Section
+Monads
+\end_layout
+
+\begin_layout Subsection
+Introduction
+\end_layout
+
+\begin_layout Standard
+The EMdF model has a concept of 
+\begin_inset Quotes eld
+\end_inset
+
+largest possible monad_m
+\begin_inset Quotes erd
+\end_inset
+
+.
+ This is called 
+\begin_inset Quotes eld
+\end_inset
+
+MAX_MONAD
+\begin_inset Quotes erd
+\end_inset
+
+.
+ This is distinct from the monad 
+\begin_inset Quotes eld
+\end_inset
+
+max_m,
+\begin_inset Quotes erd
+\end_inset
+
+ which is the largest monad present in any object in a particular database.
+\end_layout
+
+\begin_layout Subsection
+MAX_MONAD
+\end_layout
+
+\begin_layout Standard
+In order to be implementable, the EMdF model introduces the concept of 
+\begin_inset Quotes eld
+\end_inset
+
+largest possible monad_m
+\begin_inset Quotes erd
+\end_inset
+
+.
+ This is an integer called 
+\begin_inset Quotes eld
+\end_inset
+
+MAX_MONAD
+\begin_inset Quotes erd
+\end_inset
+
+.
+ In any given implementation, this integer can be chosen arbitrarily large,
+ only limited by what the underlying implementation-primitives allow.
+\end_layout
+
+\begin_layout Subsection
+max_m
+\end_layout
+
+\begin_layout Standard
+Each database has a monad called max_m.
+ It is the largest monad in the database in the sense that it is the last
+ monad of the object(s) in the database that extend(s) farthest upwards
+ into the monad sequence.
+ Thus max_m is a particular monad in a particular database which is the
+ largest monad in use.
+\end_layout
+
+\begin_layout Subsection
+min_m
+\end_layout
+
+\begin_layout Standard
+By anaology, each database has a monad called min_m.
+ It is the smallest monad in the database in that it is the first monad
+ of the object(s) in the database that extend(s) farthest downwards in the
+ monad sequence.
+ Thus min_m is a particular monad in a particular database which is the
+ smallest monad in use.
+\end_layout
+
+\begin_layout Section
+Objects
+\end_layout
+
+\begin_layout Subsection
+Introduction
+\end_layout
+
+\begin_layout Standard
+The EMdF model makes a distinction between 
+\begin_inset Quotes eld
+\end_inset
+
+objects in the abstract
+\begin_inset Quotes erd
+\end_inset
+
+, called 
+\begin_inset Quotes eld
+\end_inset
+
+object_ms
+\begin_inset Quotes erd
+\end_inset
+
+, and 
+\begin_inset Quotes eld
+\end_inset
+
+objects in an implementation
+\begin_inset Quotes erd
+\end_inset
+
+, called 
+\begin_inset Quotes eld
+\end_inset
+
+object_dms
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The first two sections deal with this distinction.
+\end_layout
+
+\begin_layout Standard
+In the EMdF model, objects are no longer unique in their monads.
+ This has a number of ramifications for object ids.
+ The third section deals with this issue.
+ 
+\end_layout
+
+\begin_layout Standard
+In the last two sections, some notation is introduced for accessing the
+ monad information in an object.
+\end_layout
+
+\begin_layout Subsection
+Object_ms
+\end_layout
+
+\begin_layout Standard
+In order to be able to distinguish between 
+\begin_inset Quotes eld
+\end_inset
+
+objects in the abstract
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+objects in an implementation
+\begin_inset Quotes erd
+\end_inset
+
+, I have renamed the old notion of objects to 
+\begin_inset Quotes eld
+\end_inset
+
+object_m
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Thus an object_m is exactly the same as what Doedens calls an 
+\begin_inset Quotes eld
+\end_inset
+
+object
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Object_dms
+\end_layout
+
+\begin_layout Standard
+An object_dm is an object_m that has been concretely instantiated in a concrete
+ EMdF database.
+ 
+\end_layout
+
+\begin_layout Standard
+The special object types all_m, pow_m, and any_m, do not have any object_dms
+ in the database, since these object types are not meant for storing in
+ an MdF database.
+\end_layout
+
+\begin_layout Subsection
+object ids
+\end_layout
+
+\begin_layout Subsubsection
+Objects are not unique in their monads
+\end_layout
+
+\begin_layout Standard
+The MdF model stipulates that,
+\end_layout
+
+\begin_layout Quote
+\begin_inset Quotes eld
+\end_inset
+
+No two objects of the same type may consist of the same set of monads.
+ The reason for this restriction is that it allows us a simple and clear
+ criterion for what different objects are.
+\begin_inset Quotes erd
+\end_inset
+
+ (
+\begin_inset LatexCommand \cite[page 59]{Doedens1994}
+
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Standard
+In the EMdF model, this restriction has been done away with.
+ Instead, each object is given a unique ID, its 
+\begin_inset Quotes eld
+\end_inset
+
+object id_d.
+\begin_inset Quotes erd
+\end_inset
+
+ Doing away with this restriction also has ramifications for object id_ms,
+ and for the linear ordering of objects per type.
+ Object ordinals and object id_os are not changed, however.
+\end_layout
+
+\begin_layout Subsubsection
+object id_d
+\end_layout
+
+\begin_layout Standard
+\begin_inset LatexCommand \label{object_id_d}
+
+\end_inset
+
+An object id_d is an integer which functions as a unique object identifier.
+ Only object_dms have object id_ds.
+ Objects of the special object types, all_m, pow_m, and any_m, do not have
+ an object id_d.
+\end_layout
+
+\begin_layout Description
+Notation: For the object_dm 
+\begin_inset Formula $O$
+\end_inset
+
+, 
+\begin_inset Formula $O.id$
+\end_inset
+
+ denotes its object id_d.
+\end_layout
+
+\begin_layout Subsubsection
+object id_m
+\end_layout
+
+\begin_layout Standard
+The Object id_m's are not redefined in the EMdF model.
+ However, it is necessary to realize that, since objects are no longer unique
+ in their monads, the object id_m need not be an id for any other object
+ types than the special object types all_m, any_m, and pow_m.
+ Thus object\InsetSpace ~
+id_m's should only be used for these types.
+ For application-specific object types, the concept of object\InsetSpace ~
+id_m has been
+ supplanted by the concept of object id_d.
+\end_layout
+
+\begin_layout Subsubsection
+linear ordering of objects per types
+\end_layout
+
+\begin_layout Standard
+The concept of linear ordering of objects per type has had to be redifined
+ slightly in the EMdF model.
+ The reason is that the objects_dm's are no longer unique in their monads.
+ Thus the concept of linear ordering per type is now defined as follows.
+ 
+\end_layout
+
+\begin_layout Standard
+Take an object type 
+\begin_inset Formula $T$
+\end_inset
+
+ and two objects of type 
+\begin_inset Formula $T$
+\end_inset
+
+, 
+\begin_inset Formula $O_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $O_{2}$
+\end_inset
+
+:
+\end_layout
+
+\begin_layout Enumerate
+If 
+\begin_inset Formula $O_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $O_{2}$
+\end_inset
+
+ do not have the same monads, then linear ordering is decided as in the
+ MdF model.
+\end_layout
+
+\begin_layout Enumerate
+If 
+\begin_inset Formula $O_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $O_{2}$
+\end_inset
+
+ have the same monads, then 
+\begin_inset Formula $O_{1}$
+\end_inset
+
+ <
+\begin_inset Formula $_{T}$
+\end_inset
+
+ 
+\begin_inset Formula $O_{2}$
+\end_inset
+
+ iff 
+\begin_inset Formula $O_{1}.id<O_{2}.id$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+object ordinal, object id_o
+\end_layout
+
+\begin_layout Standard
+The concepts of object ordinal and of object id_o from the MdF model are
+ not changed in the EMdF model.
+ They are still based on the linear ordering of objects per type.
+ 
+\end_layout
+
+\begin_layout Subsection
+O.monads()
+\end_layout
+
+\begin_layout Standard
+In the EMdF model, each object (both object_dms and object_ms) have a function,
+ 
+\series bold
+monads
+\series default
+, which returns the set of monad_ms making up the object.
+\end_layout
+
+\begin_layout Description
+Notation: The function is denoted 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $O$
+\end_inset
+
+.monads()
+\begin_inset Quotes erd
+\end_inset
+
+ for the object 
+\begin_inset Formula $O$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+O.first(), O.last()
+\end_layout
+
+\begin_layout Standard
+In the EMdF model, each object (both object_dms and object_ms) have two
+ functions, 
+\series bold
+first
+\series default
+ and 
+\series bold
+last
+\series default
+, which return the left border and the right border respectively.
+\end_layout
+
+\begin_layout Description
+Notation: These functions are denoted 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $O$
+\end_inset
+
+.first()
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $O$
+\end_inset
+
+.last()
+\begin_inset Quotes erd
+\end_inset
+
+ for the object 
+\begin_inset Formula $O$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Object types
+\end_layout
+
+\begin_layout Standard
+The only addition that the EMdF model makes to the MdF model regarding object
+ types is that each object type is identified in the database by a unique
+ integer, the 
+\begin_inset Quotes eld
+\end_inset
+
+
+\series bold
+object type_id
+\series default
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ This id is drawn from the sequence 
+\begin_inset Quotes eld
+\end_inset
+
+SEQUENCE_OTHER_IDS
+\begin_inset Quotes erd
+\end_inset
+
+, see section 
+\begin_inset LatexCommand \vref{sec:Sequences}
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Features
+\end_layout
+
+\begin_layout Standard
+The only addition that the EMdF model makes to the MdF model regarding features
+ is that each feature is identified in the database by a unique integer,
+ the 
+\begin_inset Quotes eld
+\end_inset
+
+
+\series bold
+feature_id
+\series default
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ This id is drawn from the sequence 
+\begin_inset Quotes eld
+\end_inset
+
+SEQUENCE_OTHER_IDS
+\begin_inset Quotes erd
+\end_inset
+
+, see section 
+\begin_inset LatexCommand \vref{sec:Sequences}
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Enumerations
+\end_layout
+
+\begin_layout Standard
+The EMdF model explicitly includes the type 
+\begin_inset Quotes eld
+\end_inset
+
+enumeration
+\begin_inset Quotes erd
+\end_inset
+
+ in the set of codomains that a feature can take on.
+ An enumeration is a named set of pairs (identifier, value), where the identifie
+r 
+\begin_inset Quotes eld
+\end_inset
+
+stands for
+\begin_inset Quotes erd
+\end_inset
+
+ the value.
+ Thus, for example, one could have the following enumeration:
+\end_layout
+
+\begin_layout LyX-Code
+psp_t = { psp_NotAppliccable = -1, verb = 1, noun, proper_noun, 
+\end_layout
+
+\begin_layout LyX-Code
+          adverb, preposition, conjunction, personal_pronoun,
+\end_layout
+
+\begin_layout LyX-Code
+          demonstrative_pronoun, interrogative_pronoun,
+\end_layout
+
+\begin_layout LyX-Code
+          interjection, negative_particle, interrogative,
+\end_layout
+
+\begin_layout LyX-Code
+          adjective }
+\end_layout
+
+\begin_layout Standard
+This enumeration would be called 
+\begin_inset Quotes eld
+\end_inset
+
+psp_t
+\begin_inset Quotes erd
+\end_inset
+
+, and its constant 
+\begin_inset Quotes eld
+\end_inset
+
+noun
+\begin_inset Quotes erd
+\end_inset
+
+ would have the value 
+\begin_inset Quotes eld
+\end_inset
+
+2
+\begin_inset Quotes erd
+\end_inset
+
+, while its constant 
+\begin_inset Quotes eld
+\end_inset
+
+conjunction
+\begin_inset Quotes erd
+\end_inset
+
+ would have the value 
+\begin_inset Quotes eld
+\end_inset
+
+6
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Each enumeration has an 
+\begin_inset Quotes eld
+\end_inset
+
+
+\series bold
+enum_id
+\series default
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+ This is a unique integer drawn from the sequence 
+\begin_inset Quotes eld
+\end_inset
+
+SEQUENCE_OTHER_IDS
+\begin_inset Quotes erd
+\end_inset
+
+, see section 
+\begin_inset LatexCommand \vref{sec:Sequences}
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Each enumeration always has one enumeration constant which is the default.
+ This default is used when the user creates an object without specifying
+ the value of a feature whose codomain is an enumeration.
+ In the absence of a user-specified value, the default constant is used.
+\end_layout
+
+\begin_layout Section
+Codomains of features
+\end_layout
+
+\begin_layout Standard
+In order to be implementable in practice, the EMdF model puts restrictions
+ on what the codomains of features can be.
+ In particular, only the following four are allowed:
+\end_layout
+
+\begin_layout Enumerate
+integers
+\end_layout
+
+\begin_layout Enumerate
+strings
+\end_layout
+
+\begin_layout Enumerate
+object id_ds
+\end_layout
+
+\begin_layout Enumerate
+enumerations
+\end_layout
+
+\begin_layout Section
+Inst(T,U)
+\end_layout
+
+\begin_layout Standard
+In the EMdF model, a big part of the implementation of the MQL query language
+ relies on a special function, inst(T,U).
+ This function returns, for a given object type T, the object id_ds of all
+ the objects which are part_of the arbitrary set of monad_ms U.
+\end_layout
+
+\begin_layout Section
+Conclusion
+\end_layout
+
+\begin_layout Standard
+I have presented the Extended MdF, or EMdF, model.
+ The EMdF model has added to the MdF model a number of concepts that are
+ useful in implementing the MdF model.
+ The EMdF model mostly adds to the MdF model, and in only one case does
+ it restrict the MdF model, namely in what the codomains of features can
+ be.
+ The EMdF model is closer to an implementation than the MdF model by itself.
+ This is its main benefit.
+\end_layout
+
+\begin_layout Bibliography
+
+\bibitem {Doedens1994}
+Doedens, Crist-Jan [Christianus Franciscus Joannes].
+ 
+\emph on
+Text Databases.
+ One Database Model and Several Retrieval Languages.
+
+\emph default
+ Language and Computers, Number 14.
+ Amsterdam and Atlanta, GA: Editions Rodopi Amsterdam, 1994.
+ ISBN: 90-5183-729-1.
+\end_layout
+
+\begin_layout Bibliography
+
+\bibitem {BSc}
+Petersen, Ulrik.
+ 
+\emph on
+The Extended MdF Model
+\emph default
+.
+ Unpublished B.Sc.
+ thesis from the University of Aarhus, Denmark.
+ November 30, 1999.
+ Electronic copies available upon request from the author at 
+\family typewriter
+ulrikp@users.sourceforge.net
+\family default
+.
+\end_layout
+
+\begin_layout Bibliography
+
+\bibitem {MdFSummary}
+Petersen, Ulrik.
+ 
+\emph on
+The Standard MdF model
+\emph default
+.
+ Unpublished article.
+ 2002.
+ Electronic copies available from http://emdros.org/docs.html
+\end_layout
+
+\end_body
+\end_document

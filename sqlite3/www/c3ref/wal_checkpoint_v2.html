@@ -1,0 +1,196 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<title>Checkpoint a database</title>
+<style type="text/css">
+body {
+    margin: auto;
+    font-family: Verdana, sans-serif;
+    padding: 8px 1%;
+}
+
+a { color: #044a64 }
+a:visited { color: #734559 }
+
+.logo { position:absolute; margin:3px; }
+.tagline {
+  float:right;
+  text-align:right;
+  font-style:italic;
+  width:300px;
+  margin:12px;
+  margin-top:58px;
+}
+
+.menubar {
+  clear: both;
+  border-radius: 8px;
+  background: #044a64;
+  padding: 0px;
+  margin: 0px;
+  cell-spacing: 0px;
+}    
+.toolbar {
+  text-align: center;
+  line-height: 1.6em;
+  margin: 0;
+  padding: 0px 8px;
+}
+.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
+.toolbar a:visited { color: white; }
+.toolbar a:hover { color: #044a64; background: white; }
+
+.content    { margin: 5%; }
+.content dt { font-weight:bold; }
+.content dd { margin-bottom: 25px; margin-left:20%; }
+.content ul { padding:0px; padding-left: 15px; margin:0px; }
+
+/* Things for "fancyformat" documents start here. */
+.fancy img+p {font-style:italic}
+.fancy .codeblock i { color: darkblue; }
+.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
+.fancy h2 { margin-left: 10px }
+.fancy h3 { margin-left: 20px }
+.fancy h4 { margin-left: 30px }
+.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
+.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
+.fancy #toc a        { color: darkblue ; text-decoration: none }
+.fancy .todo         { color: #AA3333 ; font-style : italic }
+.fancy .todo:before  { content: 'TODO:' }
+.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
+.fancy img { display:block; }
+.fancy :link:hover, .fancy :visited:hover { background: wheat }
+.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
+.fancy li p { margin: 1em 0 }
+/* End of "fancyformat" specific rules. */
+
+</style>
+  
+</head>
+<body>
+<div><!-- container div to satisfy validator -->
+
+<a href="../index.html">
+<img class="logo" src="../images/sqlite370_banner.gif" alt="SQLite Logo"
+ border="0"></a>
+<div><!-- IE hack to prevent disappearing logo--></div>
+<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
+
+<table width=100% class="menubar"><tr>
+  <td width=100%>
+  <div class="toolbar">
+    <a href="../about.html">About</a>
+    <a href="../sitemap.html">Sitemap</a>
+    <a href="../docs.html">Documentation</a>
+    <a href="../download.html">Download</a>
+    <a href="../copyright.html">License</a>
+    <a href="../news.html">News</a>
+    <a href="../support.html">Support</a>
+  </div>
+<script>
+  gMsg = "Search SQLite Docs..."
+  function entersearch() {
+    var q = document.getElementById("q");
+    if( q.value == gMsg ) { q.value = "" }
+    q.style.color = "black"
+    q.style.fontStyle = "normal"
+  }
+  function leavesearch() {
+    var q = document.getElementById("q");
+    if( q.value == "" ) { 
+      q.value = gMsg
+      q.style.color = "#044a64"
+      q.style.fontStyle = "italic"
+    }
+  }
+</script>
+<td>
+    <div style="padding:0 1em 0px 0;white-space:nowrap">
+    <form name=f method="GET" action="http://www.sqlite.org/search">
+      <input id=q name=q type=text
+       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
+      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
+    </form>
+    </div>
+  </table>
+
+<div class=startsearch></div>
+  
+<a href="intro.html"><h2>SQLite C Interface</h2></a><h2>Checkpoint a database</h2><blockquote><pre>int sqlite3_wal_checkpoint_v2(
+  sqlite3 *db,                    /* Database handle */
+  const char *zDb,                /* Name of attached database (or NULL) */
+  int eMode,                      /* SQLITE_CHECKPOINT_* value */
+  int *pnLog,                     /* OUT: Size of WAL log in frames */
+  int *pnCkpt                     /* OUT: Total number of frames checkpointed */
+);
+</pre></blockquote><p>
+Run a checkpoint operation on WAL database zDb attached to database
+handle db. The specific operation is determined by the value of the
+eMode parameter:</p>
+
+<p><dl>
+<dt>SQLITE_CHECKPOINT_PASSIVE<dd>
+Checkpoint as many frames as possible without waiting for any database
+readers or writers to finish. Sync the db file if all frames in the log
+are checkpointed. This mode is the same as calling
+sqlite3_wal_checkpoint(). The busy-handler callback is never invoked.</p>
+
+<p><dt>SQLITE_CHECKPOINT_FULL<dd>
+This mode blocks (calls the busy-handler callback) until there is no
+database writer and all readers are reading from the most recent database
+snapshot. It then checkpoints all frames in the log file and syncs the
+database file. This call blocks database writers while it is running,
+but not database readers.</p>
+
+<p><dt>SQLITE_CHECKPOINT_RESTART<dd>
+This mode works the same way as SQLITE_CHECKPOINT_FULL, except after
+checkpointing the log file it blocks (calls the busy-handler callback)
+until all readers are reading from the database file only. This ensures
+that the next client to write to the database file restarts the log file
+from the beginning. This call blocks database writers while it is running,
+but not database readers.
+</dl></p>
+
+<p>If pnLog is not NULL, then *pnLog is set to the total number of frames in
+the log file before returning. If pnCkpt is not NULL, then *pnCkpt is set to
+the total number of checkpointed frames (including any that were already
+checkpointed when this function is called). *pnLog and *pnCkpt may be
+populated even if sqlite3_wal_checkpoint_v2() returns other than SQLITE_OK.
+If no values are available because of an error, they are both set to -1
+before returning to communicate this to the caller.</p>
+
+<p>All calls obtain an exclusive "checkpoint" lock on the database file. If
+any other process is running a checkpoint operation at the same time, the
+lock cannot be obtained and SQLITE_BUSY is returned. Even if there is a
+busy-handler configured, it will not be invoked in this case.</p>
+
+<p>The SQLITE_CHECKPOINT_FULL and RESTART modes also obtain the exclusive
+"writer" lock on the database file. If the writer lock cannot be obtained
+immediately, and a busy-handler is configured, it is invoked and the writer
+lock retried until either the busy-handler returns 0 or the lock is
+successfully obtained. The busy-handler is also invoked while waiting for
+database readers as described above. If the busy-handler returns 0 before
+the writer lock is obtained or while waiting for database readers, the
+checkpoint operation proceeds from that point in the same way as
+SQLITE_CHECKPOINT_PASSIVE - checkpointing as many frames as possible
+without blocking any further. SQLITE_BUSY is returned in this case.</p>
+
+<p>If parameter zDb is NULL or points to a zero length string, then the
+specified operation is attempted on all WAL databases. In this case the
+values written to output parameters *pnLog and *pnCkpt are undefined. If
+an SQLITE_BUSY error is encountered when processing one or more of the
+attached WAL databases, the operation is still attempted on any remaining
+attached databases and SQLITE_BUSY is returned to the caller. If any other
+error occurs while processing an attached database, processing is abandoned
+and the error code returned to the caller immediately. If no error
+(SQLITE_BUSY or otherwise) is encountered while processing the attached
+databases, SQLITE_OK is returned.</p>
+
+<p>If database zDb is the name of an attached database that is not in WAL
+mode, SQLITE_OK is returned and both *pnLog and *pnCkpt set to -1. If
+zDb is not NULL (or a zero length string) and is not the name of any
+attached database, SQLITE_ERROR is returned to the caller.
+</p><p>See also lists of
+  <a href="objlist.html">Objects</a>,
+  <a href="constlist.html">Constants</a>, and
+  <a href="funclist.html">Functions</a>.</p>

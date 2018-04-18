@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleDevelopmentRegion</key>
+	<string>English</string>
+	<key>CFBundleExecutable</key>
+	<string>htmlcanvastestu</string>
+	<key>CFBundleGetInfoString</key>
+	<string>Emdros test program htmlcanvastest, version @VERSION@, (c) 2007 Ulrik Petersen</string>
+	<key>CFBundleIconFile</key>
+	<string>blue-E.icns</string>
+	<key>CFBundleIdentifier</key>
+	<string>org.emdros.htmlcanvastest</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>CFBundleLongVersionString</key>
+	<string>@VERSION@, (c) 2007 Ulrik Petersen</string>
+	<key>CFBundleName</key>
+	<string>Emdros Test Program, htmlcanvastest</string>
+	<key>CFBundlePackageType</key>
+	<string>APPL</string>
+	<key>CFBundleShortVersionString</key>
+	<string>@VERSION@</string>
+	<key>CFBundleSignature</key>
+	<string>????</string>
+	<key>CFBundleVersion</key>
+	<string>@VERSION@</string>
+	<key>CSResourcesFileMapped</key>
+	<true/>
+	<key>LSRequiresCarbon</key>
+	<true/>
+	<key>NSHumanReadableCopyright</key>
+	<string>Copyright (C) 2007 Ulrik Petersen</string>
+</dict>
+</plist>

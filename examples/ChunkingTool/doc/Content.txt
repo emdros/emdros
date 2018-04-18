@@ -1,0 +1,638 @@
+<page ID="1000">
+
+</page>
+
+
+<page ID="1001">
+
+
+<P>This is the User's Guide to the Emdros Chunking Tool.</P>
+
+<P>The Emdros Chunking Tool allows you to split running text into
+lines and then indent those lines with respect to each other.</P>
+
+</page>
+
+
+<page ID="1005">
+
+<P>The Emdros Chunking Tool exists in two graphical versions:</P>
+
+<UL>
+
+     <LI>A non-Unicode version
+
+     <LI>A Unicode-aware version
+
+</UL>
+
+</page>
+
+
+<page ID="1010">
+
+<h2>Introduction</h2>
+
+<index term="configuration file"> 
+
+<P>Before running the Emdros Chunking Tool for the first time on a
+database, you need to write a configuration file that matches your
+database.  This is a one-off thing: Once it's done, you don't need to
+bother with it any more.</P>
+
+<h2>Sample configuration file</h2>
+
+<P>A number of sample configuration files are supplied with Emdros.
+You can use these as a starting point for writing your own
+configuration file.</P>
+
+<P>One supplied configuration file is called "tisch.cfg", while
+another is called "wihebrew.cfg".  You can search for these on your
+computer to locate where they are, or see the manual page for
+chunkingtool to know where they are installed (on Windows, they are
+installed in %EMDROSINSTALLPREFIX%\etc\).  </P>
+
+<h2>Full details</h2>
+
+<P>The "tisch.cfg" file is almost self-documenting.  However, you
+can get more information about the details of the configuration file
+here:</P>
+
+<UL>
+
+  <LI><page_anchor ID="2000">Configuring the program</page_anchor>
+
+</UL>
+
+
+</page>
+
+
+<page ID="1100">
+
+<P>We now explain how to use the program.</P>
+
+
+</page>
+
+<page ID="1110">
+
+<h2>Getting started</h2>
+
+<P>Once you open the program, you will be presented with the main
+screen.  You will then need to "connect" to a database.  Either choose
+the menu-item "File|Connect" or press the button <IMG
+SRC="connect.png"> "Connect to database".</P>
+
+<h2>Connection dialog</h2>
+
+<P>You will then be given a dialog box allowing you to choose the
+Connection Settings.  At the top is a drop-down box allowing you to
+choose the backend.  Based on this choice, the dialog box will appear
+slightly differently depending whether the backend is:</P>
+
+<UL>
+  <LI><page_anchor ID="1115">SQLite 2 or 3</page_anchor>, or
+  <LI><page_anchor ID="1118">MySQL or PostgreSQL</page_anchor><index term="MySQL"><index term="PostgreSQL">
+
+</UL>  
+
+<H2>Non-Unicode vs. Unicode</h2>
+
+<P>For each backend, the program exists in two versions:</P>
+
+<UL>
+
+  <LI>A non-Unicode version
+  <LI>A Unicode-aware version
+
+</UL>
+
+</page>
+
+
+
+<page ID="1115">
+
+<P>The Connection Settings dialog looks like this if you have selected
+SQLite 2 or 3 as the backend:</P><index term="Connection settings
+dialog">
+
+<IMG SRC="SQLiteConnSettings.png" ALT="SQLite Connection settings dialog">
+
+<h2>Set the configuration file</h2>
+
+<index term="configuration file">
+<P>The first thing you should do is press the "Browse" button next to
+the "Configuration" edit box, then navigate to where you have your
+<page_anchor ID="1010">configuration file</page_anchor>.</P>
+
+<P>Once you've opened the configuration file, the "database" field
+will be filled from the "database" value stored in the configuration
+file, if any.  If this is not the database you want, simply enter (or
+browse for) the database you want.</P>
+
+<P>For example:</P>
+
+<IMG SRC="SQLiteConnSettingsFilled.png" ALT="SQLite Connection
+settings dialog, filled with values">
+
+<h2>Press OK</h2>
+
+<P>Once you're done setting the configuration file and the database,
+press "OK".  If you want to quit the program instead, press
+"Cancel".</P>
+
+
+</page>
+
+
+
+<page ID="1118">
+
+<P>When you start the Emdros Chunking Tool using the MySQL or the<index
+term="MySQL"> PostgreSQL backend, you will see this dialog:</P>
+
+<IMG SRC="MyPgSQLConnSettings.png" ALT="MySQL/PostgreSQL Connection
+settings dialog"><index term="Connection settings dialog">
+
+<index term="configuration file">
+<h2>Set the configuration file</h2>
+
+<P>The first thing you should do is press the "Browse" button next to
+the "Configuration" edit box, then navigate to where you have your
+<page_anchor ID="1010">configuration file</page_anchor>.</P>
+
+<h2>Database</h2>
+
+<P>Once you've opened the configuration file, the "database" field
+will be filled from the "database" value stored in the configuration
+file, if any.  If this is not the database you want, simply enter the
+database you want.</P>
+
+<h2>Host, user, password</h2>
+
+<P>Most people can leave the "host" and "user" fields as they are, and
+simply write the password.</P><index term="password">
+
+<P>The "host" field shows which computer to connect to, i.e., the
+computer where the MySQL or PostgreSQL backend is running. "localhost"
+means the computer where the Chunking Tool is running.</P>
+
+<P>The "user" field is the database user to connect to the backend as.
+Note that this may be different from your computer user name.  The
+default is "emdf", since that is the recommended default user to
+create when you bootstrap the MySQL or PostgreSQL database (see
+"bootstrapping.txt" in the <A
+HREF="http://emdros.org/docs-download.html">Emdros
+documentation</A>).</P>
+
+<P>The "password" field is for the password of the database user to
+connect as.  This is set either by the database administrator, or by
+the one who bootstrapped the MySQL or PostgreSQL database.</P><index
+term="password">
+
+<h2>Example</h2>
+
+
+<IMG SRC="MyPgConnSettingsFilled.png" ALT="MySQL/PostgreSQL Connection settings dialog, filled with values">
+
+
+<h2>Press OK</h2>
+
+<P>Once you're done setting the configuration file and the database,
+press "OK".  If you want to quit the program instead, press
+"Cancel".</P>
+
+
+
+</page>
+
+
+
+<page ID="1120">
+
+<P>Once you've pressed "OK" on the "Connection settings" dialog box,
+you will see the main screen:</P>
+
+
+<IMG SRC="MainScreen.png" ALT="The main screen">
+
+<h2>Parts</h2>
+
+<P>The main screen consist of these parts:</P>
+
+<UL>
+
+  <LI>A <page_anchor ID="1140">menu</page_anchor> at the top. 
+
+  <IMG SRC="MenuBar.png" ALT="The menu bar">
+
+  <LI>Below that, a <page_anchor ID="1130">toolbar</page_anchor> with
+  buttons. 
+
+  <IMG SRC="ToolBar.png" ALT="The toolbar">
+
+  <LI>Below that, an area that is to display the text you want to
+  chunk.  In the picture above, it is all white.
+
+</UL>
+
+<h2>Next</h2>
+
+<P>Next, we describe each of these parts.</P>
+
+</page>
+
+
+
+<page ID="1130">
+
+<P>The toolbar looks like this:</P>
+
+<IMG SRC="ToolBar.png" ALT="The toolbar">
+
+<P>The buttons represent actions, each of which will be explained
+below.</P>
+
+<h2>New Connection</h2>
+
+<P><strong>New Connection</strong>&nbsp;<IMG SRC="connect.png"
+ALT="New Connection">&nbsp;: Connects to a database via a <page_anchor
+ID="2000">configuration file</page_anchor> <index term="configuration
+file"></P>
+
+<h2>Commit</h2>
+
+<P><strong>Commit</strong>&nbsp;<IMG SRC="commit.png"
+ALT="Commit">&nbsp;: Saves the chunking-changes made in the program,
+by committing them to the database.</P>
+
+<h2>Split, Combine</h2>
+
+<P><strong>Split</strong>&nbsp;<IMG SRC="flash.png"
+ALT="Split">&nbsp;: Splits the current chunk right before the currently
+selected box.</P>
+
+<P><strong>Combine</strong>&nbsp;<IMG SRC="together.png"
+ALT="Combine">&nbsp;: Combines the chunk containing the currently
+selected box with the previous chunk.</P>
+
+<h2>Move left, Move right</h2>
+
+<P><strong>Move left</strong>&nbsp;<IMG SRC="leftarrow.png" ALT="Move
+left">&nbsp;: Moves the chunk containing the currently selected box
+one tab-stop to the left.</P>
+
+<P><strong>Move right</strong>&nbsp;<IMG SRC="rightarrow.png" ALT="Move
+right">&nbsp;: Moves the chunk containing the currently selected box
+one tab-stop to the right.</P>
+
+</page>
+
+
+
+<page ID="1140">
+
+<P>There are four menus, each explained on its own:</P>
+
+<OL>
+
+  <LI><page_anchor ID="1145">File menu</page_anchor>
+
+  <LI><page_anchor ID="1150">Edit menu</page_anchor>
+
+  <LI><page_anchor ID="1155">Tools menu</page_anchor>
+
+  <LI><page_anchor ID="1160">Help menu</page_anchor>
+
+</OL>
+
+
+</page>
+
+
+
+<page ID="1145">
+
+<h2>Connect...</h2>
+
+<P>The "Connect..." menu item connects to a database via a
+<page_anchor ID="2000">configuration file</page_anchor> <index
+term="configuration file"></P>
+
+<p>equivalent <page_anchor id="1130">toolbar</page_anchor> button:
+<img src="connect.png" alt="Connect">.</p>
+
+
+<h2>Commit</h2>
+
+<P>The "Commit" menu item saves the chunking-changes made in the program,
+by committing them to the database.</P>
+
+<p>equivalent <page_anchor id="1130">toolbar</page_anchor> button:
+<img src="commit.png" alt="Commit">.</p>
+
+
+<h2>Exit</h2>
+
+<P>The "Exit" menu item quits the program.</P>
+
+<P>Equivalent <page_anchor ID="1130">toolbar</page_anchor> button:
+None.</P>
+
+</page>
+
+
+
+<page ID="1150">
+
+<h2>Split</h2>
+
+<P>The "Split" menu item splits the current chunk right before the
+currently selected box.</P>
+
+<P>Equivalent <page_anchor ID="1130">toolbar</page_anchor> button:
+<IMG SRC="flash.png" ALT="Split">.</P>
+
+<h2>Combine</h2>
+
+<P>The "Combine" menu item combines the chunk containing the currently
+selected box with the previous chunk.</P>
+
+<P>Equivalent <page_anchor ID="1130">toolbar</page_anchor> button:
+<IMG SRC="together.png" ALT="Combine">.</P>
+
+<h2>Move left</h2>
+
+<P>The "Move left" menu item moves the chunk containing the currently
+selected box one tab-stop to the left.</P>
+
+<P>Equivalent <page_anchor ID="1130">toolbar</page_anchor> button:
+<IMG SRC="leftarrow.png" ALT="Move left">.</P>
+
+
+<h2>Move right</h2>
+
+<P>The "Move right" menu item moves the chunk containing the currently
+selected box one tab-stop to the right.</P>
+
+<P>Equivalent <page_anchor ID="1130">toolbar</page_anchor> button:
+<IMG SRC="rightarrow.png" ALT="Move right">.</P>
+
+
+
+</page>
+
+
+
+<page ID="1155">
+
+<h2>Configure...</h2>
+
+<P>This menu-item has not been implemented yet.  Sorry.</P>
+
+
+
+</page>
+
+
+
+<page ID="1160">
+
+<h2>Help Contents...</h2>
+
+<P>This brings up this help document.</P>
+
+
+<h2>About Emdros Chunking Tool...</h2>
+
+<P>This brings up the "About box".  Press "OK" to dismiss it
+again.</P>
+
+<P>Equivalent <page_anchor ID="1130">toolbar</page_anchor> button:
+None.</P>
+
+
+
+</page>
+
+
+
+<page ID="1300">
+
+<P>The chunking area is middle of the program window.  It is this area
+that is the place for interacting with the program.</P>
+
+<P>Once a database connection has been loaded, you will see some text
+in this window.  The text is divided into clickable (and thus
+selectable) boxes.</P>
+
+<P>You can use the "split" <IMG SRC="flash.png" ALT="Split"> and
+"combine" <IMG SRC="together.png" ALT="Combine"> buttons to split or
+combine the text into "chunks", each on its own line.</P>
+
+<P>These chunks can then be indented with respect to each other with
+the "Move left" <IMG SRC="leftarrow.png" ALT="Move left"> and "Move
+right" <IMG SRC="rightarrow.png" ALT="Move right"> buttons.</P>
+
+<h2>Example</h2>
+
+<P>In the image below, you can see an example database that has been
+chunked and indented.</P>
+
+<P><IMG SRC="MainScreenGreekExample.png" ALT="Example with Greek"></P>
+
+</page>
+
+
+<page ID="2000">
+
+<h2></h2>
+
+<h2>Format of the configuration file</h2>
+
+<P>The configuration file follows many other Unix and Windows
+configuration files in that:</P>
+
+<UL> 
+
+<LI>Comments are prefixed by #, and anything from the # to the end of
+  the line is ignored.  
+
+<LI>Blank lines are ignored. 
+
+<LI>The rest is a number of "key = value" pairs.  
+
+<LI>The keys are pre-defined (see below).  
+
+<LI>The values are either "quote-enclosed strings" (e.g.,
+  "C:\Emdros\mymap.map") or consist of letters, numbers, underscores,
+  and/or dots, optionally followed by a "quote-enclosed string" (e.g.,
+  'word.surface', or 'word.surface."C:\Documents and
+  Settings\Administrator\teckitmap.map"').
+
+</UL>
+
+<P>When a value has dots that are not enclosed in "quotes", then the
+strings on either side of the dots are interpreted as subkeys.  For
+example, the value "word.surface" represents the subkey "word" with
+the value "surface", and the value
+"word.surface."/home/myname/Blah.map" represents the subkey "word"
+with the subsubkey "surface", followed by the value
+"/home/myname/Blah.map".</P>
+
+
+
+<P>Here is a sample configuration file, explained bit by bit:</P>
+
+<h3>Database selection</h3>
+<PRE class="code">
+{PREHASH} database
+database = mydb
+</PRE><!-- widthincm : 12 -->
+
+<P>You can specify a database that is always to be used with this
+configuration file.</P>
+
+<P>If using SQLite 2 or SQLite 3, you may wish to specify a path.  Do
+so in quotes:</P>
+
+<PRE class="code">
+{PREHASH} Database path. You can place it anywhere you want, so long
+{PREHASH} as you abide by the rules of your operating system. For
+{PREHASH} example, on Windows, do not place any "changing" data,
+{PREHASH} such as an Emdros database, underneath 
+{PREHASH} C:{PREBACKSLASH}Program Files{PREBACKSLASH}.
+database = "C:{PREBACKSLASH}Users{PREBACKSLASH}yourusername{PREBACKSLASH}Documents{PREBACKSLASH}Emdros{PREBACKSLASH}mydb.sqlite3"
+</PRE><!-- widthincm : 12 -->
+
+<h3>Data unit</h3>
+
+<PRE class="code">
+{PREHASH} data unit
+{PREHASH} There can only be one data unit
+{PREHASH} but it can have as many data{PREUNDERSCORE}features as you like.
+{PREHASH} Each data{PREUNDERSCORE}feature will go on its own interlinear line.
+{PREHASH} 
+
+data{PREUNDERSCORE}unit            = word
+data{PREUNDERSCORE}feature         = graphical{PREUNDERSCORE}word
+data{PREUNDERSCORE}feature         = graphical{PREUNDERSCORE}lexeme
+</PRE><!-- widthincm : 14 -->
+
+<P>The data unit is the basic unit that will result in one box in the
+chunking area.  They can be any object type, and need not be words.
+However, probably you want them to be words or word-like objects.  It
+depends on how large segments you want to be able to chunk at a
+time.</P>
+
+<P>You must specify which feature(s) to display for the data unit.</P>
+
+<P>There can only be one data unit.</P>
+
+
+<h3>TECkit mappings</h3>
+
+<PRE class="code">
+{PREHASH} TECKit
+{PREHASH}
+{PREHASH} data{PREUNDERSCORE}feature{PREUNDERSCORE}teckit{PREUNDERSCORE}mapping defines what TECkit map to use
+{PREHASH} for a given data{PREUNDERSCORE}feature.
+{PREHASH}
+{PREHASH} data{PREUNDERSCORE}feature{PREUNDERSCORE}teckit{PREUNDERSCORE}in{PREUNDERSCORE}encoding specifies the in{PREUNDERSCORE}encoding ("bytes" 
+{PREHASH} or "unicode") for the given data{PREUNDERSCORE}feature.
+{PREHASH}
+{PREHASH} data{PREUNDERSCORE}feature{PREUNDERSCORE}teckit{PREUNDERSCORE}out{PREUNDERSCORE}encoding specifies the out{PREUNDERSCORE}encoding ("bytes"
+{PREHASH} or "unicode") for the given data{PREUNDERSCORE}feature.
+{PREHASH} 
+data{PREUNDERSCORE}feature{PREUNDERSCORE}teckit{PREUNDERSCORE}mapping      = graphical{PREUNDERSCORE}word."Amsterdam.map"
+data{PREUNDERSCORE}feature{PREUNDERSCORE}teckit{PREUNDERSCORE}in{PREUNDERSCORE}encoding  = graphical{PREUNDERSCORE}word.bytes
+data{PREUNDERSCORE}feature{PREUNDERSCORE}teckit{PREUNDERSCORE}out{PREUNDERSCORE}encoding = graphical{PREUNDERSCORE}word.unicode
+</PRE><!-- widthincm : 14 -->
+
+<P><strong>TECkit</strong> is a tool made by SIL International.  It
+converts between encodings, in particular to and from Unicode.  The
+Emdros Chunking Tool incorporates TECkit, and you can apply it to any
+textual feature of any object type.</P>
+
+<P>TECkit works with a so-called "map file" -- a text file which you
+or someone else writes.  More information about writing TECkit
+mappings can be found on SIL's website:</P>
+
+<center><P><strong>http://scripts.sil.org/TECkit/</strong></P></center>
+
+<P>The Emdros Chunking Tool needs three pieces of information in
+order for TECkit to work on a particular feature:</P>
+
+<OL> 
+
+  <LI>The name of the file which holds the maping.  This is given
+      with the key "data_feature_teckit_mapping".
+
+  <LI>The input encoding (encoding of the feature-string): This is
+      given with the key "data_feature_teckit_in_encoding".  The value
+      can be either "bytes" or "unicode" (without the quotes).
+      "bytes" means that TECkit does not convert to UTF-8.  "unicode"
+      means it is converted to UTF-8 for display.  You should use
+      whatever is used in the map file for input encoding here.
+
+  <LI>The output encoding (encoding to transform into): This is given
+      with the key "data_feature_teckit_out_encoding".  The same
+      meanings and restrictions apply as for the input encoding.
+
+</OL>
+
+<P>TECkit can not only convert between encodings, but also remove
+stuff from a string.  This can come in handy when you have characters
+in your feature-strings which you do not wish to display.  Again, see
+the TECkit site on SIL's website for information on how to write a
+TECkit mapping.</P>
+
+<P>You should give first the object type, then a dot, then the
+feature-name, then a dot, then the full path to the map file.  You
+probably need to enclose the path in "double quotes".</P>
+
+<P>You can only have one TECkit per feature.</P>
+
+
+<h3>Options</h3>
+
+<PRE class="code">
+{PREHASH} Options
+{PREHASH}
+{PREHASH} The only option available is 'right{PREUNDERSCORE}to{PREUNDERSCORE}left', which, if set,
+{PREHASH} will cause the chunking area to run right to left rather than
+{PREHASH} left to right.
+option = right{PREUNDERSCORE}to{PREUNDERSCORE}left
+</PRE><!-- widthincm : 14 -->
+
+
+<h3>Display options</h3>
+
+<PRE class="code">
+{PREHASH} Fonts -- chunking area font names.
+{PREHASH} If you give more than one chunking{PREUNDERSCORE}area{PREUNDERSCORE}font{PREUNDERSCORE}name,
+{PREHASH} they will be assigned to individual data{PREUNDERSCORE}feature interlinear
+{PREHASH} lines, in the same order as the data{PREUNDERSCORE}feature keys appear.
+{PREHASH}
+{PREHASH} If you give less keys here than you have data{PREUNDERSCORE}feature keys,
+{PREHASH} then the last one will be used for the ones that aren't assigned
+{PREHASH} an explicit value.
+{PREHASH}
+{PREHASH} If you give no values for this key, then some sensible default
+{PREHASH} font will be used.
+{PREHASH}
+chunking{PREUNDERSCORE}area{PREUNDERSCORE}font{PREUNDERSCORE}name = "Ezra SIL"
+chunking{PREUNDERSCORE}area{PREUNDERSCORE}font{PREUNDERSCORE}name = "Courier"
+chunking{PREUNDERSCORE}area{PREUNDERSCORE}font{PREUNDERSCORE}name = "Ezra SIL"
+
+{PREHASH}
+{PREHASH} The magnification (in percent) of the chunking area.
+{PREHASH} 100 corresponds approximately to a font size of 12 points.
+{PREHASH}
+chunking{PREUNDERSCORE}area{PREUNDERSCORE}magnification  = 120
+</PRE><!-- widthincm : 14 -->
+
+</page>
+

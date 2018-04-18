@@ -1,0 +1,26 @@
+1000	Table of contents	1001	-1	Indhold
+1001	Introduction	1005	1000	Part
+1005	Three versions	1010	1001	P
+1010	Getting started	1020	1001	P
+1020	Command-line version	1100	1001	P
+1100	Graphical version User's Guide	1110	1000	Part
+1110	Starting the program	1115	1100	P
+1115	SQLite version	1118	1110	P
+1118	MySQL/PostgreSQL version	1120	1110	P
+1120	The main screen	1130	1100	P
+1130	Toolbar	1140	1120	P
+1140	Menus	1145	1120	P
+1145	File menu	1150	1140	P
+1150	Edit menu	1155	1140	P
+1155	Tools menu	1160	1140	P
+1160	Help menu	1200	1140	P
+1200	Input area	1300	1120	P
+1300	Output area	1400	1120	P
+1400	Database Schema area	1410	1120	P
+1410	Enumerations	1420	1400	P
+1420	Object types	1430	1400	P
+1430	Monad sets	1700	1400	P
+1700	Normal usage	2000	1100	P
+2000	Configuring the program	3000	1000	Part
+3000	Query Guide	3100	1000	Part
+3100	MQL Cheat Sheet	-1	3000	P

@@ -1,0 +1,209 @@
+README for Emdros SWIG-Java
+Created: 2/12-2003 (February 12, 2003)
+Last update: 4/12-2009
+
+Introduction
+============
+
+This document explains how to use the SWIG Java bindings for Emdros.
+
+
+Setting the CLASSPATH
+=====================
+
+You must set your CLASSPATH to point to the jemdros.jar archive.  
+
+Unix
+----
+
+It is located (on Unix) in $prefix/lib/emdros, e.g.,
+
+export CLASSPATH=/usr/local/lib/emdros/jemdros.jar:.
+
+
+Win32
+-----
+
+On Win32, it is located in %EMDROSPATH%\lib, e.g.:
+
+SET CLASSPATH=%CLASSPATH%;C:\Program Files\Emdros\Emdros-1.2.0.pre236\lib\jemdros.jar;.
+
+You should also set the Windows System PATH to include the Emdros lib
+path:
+
+SET PATH=%PATH%;C:\Program Files\Emdros\Emdros-1.2.0.pre236\lib
+
+
+Loading the library
+===================
+
+There are two ways:
+
+1) Use System.load() with the full path and filename, e.g., on Unix:
+
+        System.load("/usr/local/lib/emdros/libjemdros.so");
+
+   or
+
+        System.load("C:\\emdros-1.1.12\\lib\\jemdros.dll");
+
+2) Use System.loadLibrary() with just the base name ("jemdros"), e.g.,
+
+	System.loadLibrary("jemdros");
+
+   For this to work, you must (on Unix) provide a symbolic link from a
+   directory in the "java.library.path" system property to the
+   libjemdros.so file.
+
+   To find out which directories are in "java.library.path", do the
+   following:
+
+	System.out.println(System.getProperty("java.library.path","."));
+
+
+Test program
+============
+
+There is a test program, TestEmdros.java, which shows how to use the
+jemdros module.  It is available in the source directory SWIG/java
+after compilation, or in the documentation directory of the
+emdros-VERSION package if installed via RPM, e.g.,
+/usr/share/doc/emdros-1.2.0.pre236/.
+
+Note that you cannot run this test program inside the source
+directory.  You must copy it elsewhere, compile it, and run the class
+file.
+
+To run the test:
+
+
+1) Set CLASSPATH (as above) and on Windows, PATH (as above)
+
+2) Copy TestEmdros.java out of the source directory (if there), and go
+   to its new location.
+
+3) javac TestEmdros.java
+
+4) java TestEmdros
+
+
+
+Installation
+============
+
+The jemdros.jar file needs to be in your CLASSPATH.  See above.
+
+You may also want to put a symlink in somewhere in the
+"java.library.path" path to the libjemdros.so file (on Unix).  See
+above.
+
+
+Building
+========
+
+Linux
+-----
+
+When building from source, you will need to pass the following option
+to the configure script in the top-level directory:
+
+--with-swig-language-java
+
+Additionally, you will need the JDK.  You may need to tell the
+configure script where to find the JDK, with the following option:
+
+--with-jdk-dir=<dir>
+
+
+Win32
+-----
+
+In win32\config.mak:
+
+1) uncomment the line that says "WITH_SWIG_JAVA=yes",
+
+2) Edit the SWIG_JDK_DIR variable to point to your
+   equivalent JDK directory.
+
+Then just proceed as described in win32\README.txt.
+
+
+
+Using
+=====
+
+The online Programmer's Reference Guide shows most of the API that is
+accessible, and all of the API that you are likely to need.  Follow
+these guidelines to convert between the C++ method signatures and
+their Java counterparts:
+
+- C++ classes are wrapped with the exact same name, e.g., C++
+  "EmdrosEnv" is called the same in Java.
+
+- pointers to objects are generally converted to their Java
+  equivalents.  Just use Java references, and assume that garbage
+  collection works.
+
+- Enumeration constants are wrapped as public static fields of a Java
+  class implementing the corresponding enumeration.  So to get
+  kMOKID_D, use eMOKind.kMOKID_D.
+
+- const std::string& is a Java String
+- std::string is a Java String
+
+- bool is a Java boolean
+- int/long/monad_m/id_d_t are Java int's
+
+- bool& represents an output parameter, and is explained below
+- long& represents an output parameter, and is explained below
+
+- std::vector<std::string> translates to a class named StringVector,
+  and it is a wrapper around the std::vector template, instantiated
+  for std::string.  Please see the documentation on std::vector to see
+  what method are available, e.g., at http://www.cplusplus.com.  The
+  most important ones are:
+
+  long size();
+  String get(int index); // 0-based
+  boolean isEmpty();
+
+- Similar to a std::vector<std::string>, a std::vector<long> is
+  translated to an IntVector.  Its most important methods are:
+
+  long size();
+  int get(int index); // 0-based
+  boolean isEmpty();
+
+- EmdrosException (the base of all Emdros exceptions) is a descendant
+  of java.lang.Exception. This means that you can catch any Emdros
+  exception in your program.
+
+- C++ STL exceptions will get caught, and a SWIG exception thrown,
+  instead of the program just crashing.
+
+
+
+bool& and long&
+---------------
+
+When passing a parameter which is a bool& in C++, it should be an
+array of boolean that is 1 long.  E.g.:
+
+  EmdrosEnv env; // Assumed to have been initialized somewhere
+
+  // Get enumeration constant name for the enum const
+  // with value 3 in the "phrase_type_t" enumeration
+  boolean bDBError[] = new boolean[1];
+  String phrase_type = env.getEnumConstNameFromValue(3,
+      "phrase_type_t", bDBError);
+
+  // Test for DB error
+  if (!bDBError[0]) {
+    // There was a DB error
+  } else {
+    // There was no DB error
+  }
+
+long& is treated similarly, with a long[] array of length 1.
+
+

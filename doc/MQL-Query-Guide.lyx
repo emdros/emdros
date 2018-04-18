@@ -1,0 +1,5852 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass article
+\begin_preamble
+\usepackage{times}
+\end_preamble
+\use_default_options false
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding auto
+\fontencoding global
+\font_roman "default" "default"
+\font_sans "default" "default"
+\font_typewriter "default" "default"
+\font_math "auto" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref false
+\papersize a4paper
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 0
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style plain
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Emdros Query Guide
+\end_layout
+
+\begin_layout Date
+October 4, 2016
+\end_layout
+
+\begin_layout Author
+Ulrik Sandborg-Petersen
+\end_layout
+
+\begin_layout Abstract
+This guide will show you how to use the Emdros Corpus Query System to query
+ your data.
+ It assumes that you have already imported your data into Emdros, and simply
+ want to start querying.
+ It is aimed at the non-technical person, though familiarity with corpus
+ linguistics is assumed.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+This query guide will show you how to query your data with the Emdros Corpus
+ Query System.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+http://www.emdros.org/
+\end_layout
+
+\end_inset
+
+ It is aimed at a non-technical (i.e., non-programmer) reader, but assumes
+ familiarity with corpus linguistics.
+\end_layout
+
+\begin_layout Section
+The database model
+\end_layout
+
+\begin_layout Standard
+The EMdF model underlying Emdros has four concepts:
+\end_layout
+
+\begin_layout Enumerate
+Monads
+\end_layout
+
+\begin_layout Enumerate
+Objects
+\end_layout
+
+\begin_layout Enumerate
+Object types
+\end_layout
+
+\begin_layout Enumerate
+Features
+\end_layout
+
+\begin_layout Standard
+A monad is simply an integer, no more, no less.
+\end_layout
+
+\begin_layout Standard
+An object is a set of monads, and belongs to an object type.
+\end_layout
+
+\begin_layout Standard
+An object type groups a set of objects with similar characteristics.
+ Examples would include 
+\begin_inset Quotes eld
+\end_inset
+
+Word
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+Phrase
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+Clause
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+Page
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+Chapter
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+Line
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+Book
+\begin_inset Quotes erd
+\end_inset
+
+, etc.
+\end_layout
+
+\begin_layout Standard
+The object type of an object determins what features it has.
+ A feature is an attribute.
+ Examples would include 
+\begin_inset Quotes eld
+\end_inset
+
+Word.part_of_speech
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+Word.surface
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+Word.lemma
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+Phrase.phrase_type
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Quotes eld
+\end_inset
+
+Phrase.function
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+Chapter.chapter_number
+\begin_inset Quotes erd
+\end_inset
+
+, etc.
+\end_layout
+
+\begin_layout Standard
+The set of monads of an object is quite arbitrary, in that it need not be
+ contiguous, but may have one or more gaps.
+ This is useful to model things like embedded relative clauses and postpositive
+ conjunctions.
+\end_layout
+
+\begin_layout Standard
+A feature 
+\begin_inset Quotes eld
+\end_inset
+
+take on
+\begin_inset Quotes erd
+\end_inset
+
+ exactly one type.
+ This type is one of the following:
+\end_layout
+
+\begin_layout Enumerate
+Integer (e.,g., 1, 3, 100, 133, etc.)
+\end_layout
+
+\begin_layout Enumerate
+id_d (this is a unique integer identifying an object, e.g., 1,3,1003, etc.)
+\end_layout
+
+\begin_layout Enumerate
+enumeration (see below)
+\end_layout
+
+\begin_layout Enumerate
+list of any of the above
+\end_layout
+
+\begin_layout Enumerate
+string of characters (e.g., 'This is my string.')
+\end_layout
+
+\begin_layout Enumerate
+set of monads.
+\end_layout
+
+\begin_layout Standard
+An enumeration is a set of labels, grouped together to form a type with
+ the labels as values of that type.
+ The database designer decides which labels are available in which enumerations
+ in a given database.
+ Thus the exact enumerations available to you depend on what enumerations
+ the database designer has decided to put into the database.
+ Examples could be, if you have an enumeration called 
+\begin_inset Quotes eld
+\end_inset
+
+part_of_speech
+\begin_inset Quotes erd
+\end_inset
+
+, it might contain labels like 
+\begin_inset Quotes eld
+\end_inset
+
+noun
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+verb
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+adjective
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+adverb
+\begin_inset Quotes erd
+\end_inset
+
+, etc.
+ Enumerations are also sometimes used for phrasal categories like 
+\begin_inset Quotes eld
+\end_inset
+
+NP
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+PP
+\begin_inset Quotes erd
+\end_inset
+
+, etc.
+ Again, the exact categories available to you are dependent on what is available
+ in your database; these are just examples.
+\end_layout
+
+\begin_layout Section
+Getting started
+\end_layout
+
+\begin_layout Standard
+At the beginning of every query, you must have this incantation:
+\end_layout
+
+\begin_layout LyX-Code
+SELECT ALL OBJECTS
+\end_layout
+
+\begin_layout LyX-Code
+WHERE
+\end_layout
+
+\begin_layout Standard
+This tells Emdros that you wish to issue a linguistic query.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+ The MQL language caters to much more than just linguistic queries, but
+ the rest is mainly concerned with database maintenance and display of data,
+ and so are outside the scope of this query guide.
+ See the MQL User's Guide for more information on these other query types.
+\end_layout
+
+\end_inset
+
+ In this guide, we will mostly omit this incantation, since it is common
+ to all queries.
+\end_layout
+
+\begin_layout Standard
+NOTE: If you are using Emdros through an interface not provided by the author
+ of Emdros, your interface designer may have chosen to let you omit this
+ stanza.
+\end_layout
+
+\begin_layout Section
+Comments
+\end_layout
+
+\begin_layout Standard
+In this guide, we will often show comments in the queries.
+ There are two kinds of comments, but we will only show examples of one
+ kind, namely the one that begins with two slashes:
+\end_layout
+
+\begin_layout LyX-Code
+// This is a comment
+\end_layout
+
+\begin_layout Standard
+This kind of comment starts with the two slashes, and extend to the end
+ of the line.
+ Such comments are ignored by Emdros.
+\end_layout
+
+\begin_layout Standard
+The other kind is described in Appendix
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:Lexical-rules"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+Gentle introduction
+\end_layout
+
+\begin_layout Subsection
+Blocks
+\end_layout
+
+\begin_layout Standard
+A 
+\begin_inset Quotes eld
+\end_inset
+
+block
+\begin_inset Quotes erd
+\end_inset
+
+ looks for something in the database.
+ There are three kinds of blocks:
+\end_layout
+
+\begin_layout Enumerate
+Object blocks – look for objects.
+\end_layout
+
+\begin_layout Enumerate
+Power blocks – used to mean 
+\begin_inset Quotes eld
+\end_inset
+
+arbitrary space within surrounding the context
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Gap blocks – look for 
+\begin_inset Quotes eld
+\end_inset
+
+gaps
+\begin_inset Quotes erd
+\end_inset
+
+ in the surrounding context.
+\end_layout
+
+\begin_layout Subsubsection
+Object blocks
+\end_layout
+
+\begin_layout Standard
+A simple object block looks like this:
+\end_layout
+
+\begin_layout LyX-Code
+[word]
+\end_layout
+
+\begin_layout Standard
+This looks for an object of type word.
+\end_layout
+
+\begin_layout Subsubsection
+Power block
+\end_layout
+
+\begin_layout Standard
+A simple power block looks like this:
+\end_layout
+
+\begin_layout LyX-Code
+..
+\end_layout
+
+\begin_layout Standard
+It is simply two dots next to each other.
+\end_layout
+
+\begin_layout Subsubsection
+Gap blocks
+\end_layout
+
+\begin_layout Standard
+A simple gap block looks like this:
+\end_layout
+
+\begin_layout LyX-Code
+[gap]
+\end_layout
+
+\begin_layout Standard
+If you wish the gap to be optional, you can put a question mark after the
+ 
+\begin_inset Quotes eld
+\end_inset
+
+gap
+\begin_inset Quotes erd
+\end_inset
+
+ keyword:
+\end_layout
+
+\begin_layout LyX-Code
+[gap?]
+\end_layout
+
+\begin_layout Standard
+This is called an 
+\begin_inset Quotes eld
+\end_inset
+
+optional gap block
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+The overruling principle of MQL
+\end_layout
+
+\begin_layout Standard
+The overarching principle of MQL is:
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+
+\size larger
+The structure of the query
+\begin_inset Newline newline
+\end_inset
+
+mirrors
+\begin_inset Newline newline
+\end_inset
+
+the structure of the objects found
+\begin_inset Newline newline
+\end_inset
+
+with respect to sequence and embedding.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This means that:
+\end_layout
+
+\begin_layout Enumerate
+If two blocks are next to each other in the query, the objects they find
+ must be adjacent in the database:
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+[A]
+\end_layout
+
+\begin_layout LyX-Code
+[B]
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+If a block A is embedded inside another block B in the query, then the object
+ that block A finds must be embedded inside the object that block B finds:
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+[B
+\end_layout
+
+\begin_layout LyX-Code
+   [A] // A object must be embedded in B
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Strings of blocks
+\end_layout
+
+\begin_layout Standard
+You can place blocks next to each other and thus look for a string of blocks.
+ For example, the query:
+\end_layout
+
+\begin_layout LyX-Code
+[phrase]
+\end_layout
+
+\begin_layout LyX-Code
+[phrase]
+\end_layout
+
+\begin_layout Standard
+looks for two phrases that are adjacent in the database.
+\end_layout
+
+\begin_layout Subsection
+Embedding of blocks
+\end_layout
+
+\begin_layout Standard
+You can embed (strings of) blocks in another block:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase]
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase]
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+This query would find clauses inside of which there are at least three phrases.
+ The phrases must be adjacent.
+\end_layout
+
+\begin_layout Standard
+If you use the 
+\begin_inset Quotes eld
+\end_inset
+
+power block
+\begin_inset Quotes erd
+\end_inset
+
+, you should always do so within the context of a surrounding block:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase]
+\end_layout
+
+\begin_layout LyX-Code
+   ..
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+This would find all clauses in which there were at least two phrases, but
+ the phrases need not be adjacent.
+\end_layout
+
+\begin_layout Standard
+The reason you should always use a surrounding context when using the power
+ block is that otherwise, all combinations in the database of what appears
+ before the power block and what appears after it will be retrieved, which
+ will probably be more data than you will want to deal with.
+ The language does not disallow using a power block at the outermost level,
+ it might just return too much data for your liking.
+\end_layout
+
+\begin_layout Section
+Blocks in more detail
+\end_layout
+
+\begin_layout Standard
+In this section, we explain blocks in more detail: First object blocks,
+ then power blocks, and finally gap blocks.
+\end_layout
+
+\begin_layout Subsection
+Object blocks
+\end_layout
+
+\begin_layout Standard
+As stated before, object blocks at their simplest look like this:
+\end_layout
+
+\begin_layout LyX-Code
+[Phrase]
+\end_layout
+
+\begin_layout Standard
+This query will find all phrases in the database.
+ The word right after the opening bracket (
+\begin_inset Quotes eld
+\end_inset
+
+[
+\begin_inset Quotes eld
+\end_inset
+
+) is the object type you wish to search for.
+ The exact categories of object type available to you depend on your database.
+\end_layout
+
+\begin_layout Subsubsection
+Feature-restrictions
+\end_layout
+
+\begin_layout Standard
+You can search for feature-restrictions:
+\end_layout
+
+\begin_layout LyX-Code
+[Word surface='see']
+\end_layout
+
+\begin_layout Standard
+This finds all words whose surface-feature is the string 
+\begin_inset Quotes eld
+\end_inset
+
+see
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+You can use arbitrary Boolean expressions with feature-restrictions with
+ the operators AND, OR, NOT, and grouping (i.e., parentheses):
+\end_layout
+
+\begin_layout LyX-Code
+[Phrase phrase_type=NP 
+\end_layout
+
+\begin_layout LyX-Code
+        AND (function = Subj OR function = Obj)
+\end_layout
+
+\begin_layout LyX-Code
+        AND NOT self = 13082
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+This will find all phrases whose type is NP, and whose function is either
+ Subj(ect) or Obj(ect), and whose 
+\begin_inset Quotes eld
+\end_inset
+
+self
+\begin_inset Quotes erd
+\end_inset
+
+ feature is not 13082.
+\end_layout
+
+\begin_layout Subsubsection
+Feature-comparison form
+\end_layout
+
+\begin_layout Standard
+Each feature-comparison is of the form:
+\end_layout
+
+\begin_layout LyX-Code
+feature operator value
+\end_layout
+
+\begin_layout Standard
+For example, in the feature-comparison
+\end_layout
+
+\begin_layout LyX-Code
+phrase_type = NP
+\end_layout
+
+\begin_layout Standard
+\begin_inset Quotes eld
+\end_inset
+
+type
+\begin_inset Quotes erd
+\end_inset
+
+ is the feature, 
+\begin_inset Quotes eld
+\end_inset
+
+=
+\begin_inset Quotes erd
+\end_inset
+
+ is the operator, and 
+\begin_inset Quotes eld
+\end_inset
+
+NP
+\begin_inset Quotes erd
+\end_inset
+
+ is the value.
+\end_layout
+
+\begin_layout Standard
+The feature-comparisons must always appear in this order.
+ Thus, for example, you cannot say:
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The 
+\begin_inset Quotes eld
+\end_inset
+
+*
+\begin_inset Quotes erd
+\end_inset
+
+ in front is meant to signify that the example is erronerous, in accordance
+ with the usual convention in linguistic writing.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+* NP = phrase_type // This won't work
+\end_layout
+
+\begin_layout Subsubsection
+Values
+\end_layout
+
+\begin_layout Standard
+For details on values, such as integers and strings, please see Appendix
+ 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:Values"
+
+\end_inset
+
+.
+ Briefly:
+\end_layout
+
+\begin_layout Itemize
+integers and id_ds are written as usual (e.g., 1, 100, 175, etc.).
+\end_layout
+
+\begin_layout Itemize
+it is recommended that strings be written surrounded by 'single quotes',
+ not "double quotes".
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+The reason is that double-quote-strings treat many characters specially,
+ so you may need to 
+\begin_inset Quotes eld
+\end_inset
+
+escape
+\begin_inset Quotes erd
+\end_inset
+
+ certain characters.
+ See Appendix 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:Lexical-rules"
+
+\end_inset
+
+ for details.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Itemize
+enumeration constants are written as they are declared in the database.
+ Of course, this is database-dependent.
+ Examples could be (this may differ from your database): NP, PP, AP, noun,
+ verb.
+\end_layout
+
+\begin_layout Subsubsection
+Comparison operators
+\end_layout
+
+\begin_layout Standard
+The operators available to you are listed in Table 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "cap:Comparison-operators"
+
+\end_inset
+
+.
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+
+\size footnotesize
+\begin_inset Tabular
+<lyxtabular version="3" rows="11" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top">
+<column alignment="left" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Op.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Meaning
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Left-hand-side feature must be
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Right-hand-side value must be
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+=
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Equality
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+integer, string, id_d, enumeration, list
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Same as left-hand-side
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+<>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Inequality
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+integer, string, id_d, enumeration
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Same as left-hand-side
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+<
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Less than
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+integer, string, id_d, enumeration
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Same as left-hand-side
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+<=
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Less than or equal to
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+integer, string, id_d, enumeration
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Same as left-hand-side
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+>
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Greater than
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+integer, string, id_d, enumeration
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Same as left-hand-side
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+>=
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Greater than or equal to
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+integer, string, id_d, enumeration
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Same as left-hand-side
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+~
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Regular expression
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+string
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+string
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+!~
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+Negated regular expr.
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+string
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+string
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+IN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+List-membership
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+integer, id_d, enumeration
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+list
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+HAS
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+List-membership
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+list
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\size footnotesize
+integer, id_d, enumeration
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Comparison operators
+\begin_inset CommandInset label
+LatexCommand label
+name "cap:Comparison-operators"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+The IN operator
+\end_layout
+
+\begin_layout Standard
+The IN operator is used like this:
+\end_layout
+
+\begin_layout LyX-Code
+[Word psp IN (noun,adjective,conjunction,article)]
+\end_layout
+
+\begin_layout Standard
+That is, the left-hand-side must be a feature that is either an integer,
+ an id_d, or an enumeration, and the right-hand-side must be a comma-separated
+ list of values in parentheses.
+\end_layout
+
+\begin_layout Subsubsection
+The HAS operator
+\end_layout
+
+\begin_layout Standard
+The HAS operator is the inverse: It looks for a single value in a list-feature:
+\end_layout
+
+\begin_layout LyX-Code
+[Word semantic_categories HAS royal]
+\end_layout
+
+\begin_layout Subsection
+Power blocks
+\end_layout
+
+\begin_layout Standard
+Power blocks are used to mean 
+\begin_inset Quotes eld
+\end_inset
+
+an arbitrary stretch of space
+\begin_inset Quotes erd
+\end_inset
+
+:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase]
+\end_layout
+
+\begin_layout LyX-Code
+   ..
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+This will find all clauses which have at least two phrases, and inside such
+ clauses, all combinations of two phrases.
+ The two phrases need not be adjacent.
+\end_layout
+
+\begin_layout Subsubsection
+Limiting with < and <=
+\end_layout
+
+\begin_layout Standard
+You can limit the scope of the power-block like this:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase]
+\end_layout
+
+\begin_layout LyX-Code
+   ..
+ <= 5   // The space may only be up to 5 monads long
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+This also exists in a 
+\begin_inset Quotes eld
+\end_inset
+
+strictly less than
+\begin_inset Quotes erd
+\end_inset
+
+ version:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase]
+\end_layout
+
+\begin_layout LyX-Code
+   ..
+ < 5    // The space may only be up to 4 monads long
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+Exactly how many linguistic units a monad constitutes in your database is
+ dependent on how the database was designed.
+ It may be 
+\begin_inset Quotes eld
+\end_inset
+
+word
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+morpheme
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+phoneme
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+sentence
+\begin_inset Quotes erd
+\end_inset
+
+, or none of these.
+ Ask the person who designed the database how they treated 
+\begin_inset Quotes eld
+\end_inset
+
+monad granularity
+\begin_inset Quotes erd
+\end_inset
+
+ if in doubt.
+\end_layout
+
+\begin_layout Subsubsection
+Limiting with BETWEEN X AND Y
+\end_layout
+
+\begin_layout Standard
+The power block can also be used like this:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase]
+\end_layout
+
+\begin_layout LyX-Code
+   ..
+ BETWEEN 3 AND 5 // The space must be at least 3
+\end_layout
+
+\begin_layout LyX-Code
+                      // and at most 5 monads long.
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+This is equivalent to 
+\begin_inset Quotes eld
+\end_inset
+
+3 <= X <= 5
+\begin_inset Quotes erd
+\end_inset
+
+, where X is the length of the stretch in monads.
+\end_layout
+
+\begin_layout Subsection
+Gap blocks
+\end_layout
+
+\begin_layout Subsubsection
+Introduction
+\end_layout
+
+\begin_layout Standard
+Gap blocks are used to look for 
+\begin_inset Quotes eld
+\end_inset
+
+gaps
+\begin_inset Quotes erd
+\end_inset
+
+ in the surrounding context.
+ For example, some linguists would hold that the sentence:
+\end_layout
+
+\begin_layout Itemize
+The door, which opened towards the East, was blue.
+\end_layout
+
+\begin_layout Standard
+in fact consists of two clauses, namely:
+\end_layout
+
+\begin_layout Itemize
+The door \SpecialChar ldots
+ was blue.
+\end_layout
+
+\begin_layout Itemize
+which opened towards the East
+\end_layout
+
+\begin_layout Standard
+and that 
+\begin_inset Quotes eld
+\end_inset
+
+which opened towards the East
+\begin_inset Quotes erd
+\end_inset
+
+ is a 
+\emph on
+sibling
+\emph default
+, not a child, of the clause 
+\begin_inset Quotes eld
+\end_inset
+
+The door \SpecialChar ldots
+ was blue.
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In an Emdros database encoding such an analysis, there would be a 
+\begin_inset Quotes eld
+\end_inset
+
+gap
+\begin_inset Quotes erd
+\end_inset
+
+ in the clause 
+\begin_inset Quotes eld
+\end_inset
+
+The door \SpecialChar ldots
+ was blue
+\begin_inset Quotes erd
+\end_inset
+
+, corresponding to the embedded relative clause.
+\end_layout
+
+\begin_layout Standard
+You can look for such cases with the gap block:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+   [gap
+\end_layout
+
+\begin_layout LyX-Code
+      [clause clause_type = relative]
+\end_layout
+
+\begin_layout LyX-Code
+   ]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Subsubsection
+Optional gap blocks
+\end_layout
+
+\begin_layout Standard
+You can specify that a gap block may be optional, by placing a question
+ mark after the 
+\begin_inset Quotes eld
+\end_inset
+
+gap
+\begin_inset Quotes erd
+\end_inset
+
+ keyword:
+\end_layout
+
+\begin_layout LyX-Code
+[Phrase
+\end_layout
+
+\begin_layout LyX-Code
+   [word psp=article]
+\end_layout
+
+\begin_layout LyX-Code
+   [gap?
+\end_layout
+
+\begin_layout LyX-Code
+      [word first and last psp = conjunction]
+\end_layout
+
+\begin_layout LyX-Code
+   ]
+\end_layout
+
+\begin_layout LyX-Code
+   [word psp=noun]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+This would look for all phrases in which there is an article, followed optionall
+y by a gap inside of which the sole word is a conjunction.
+ After the optional gap, there must be a word which is a noun.
+ This occurs, e.g., in classical Greek, where postpositive conjunctions abound.
+ These are usually constituents at a higher level, but intervene in the
+ phrase and/or clause in which they stand.
+ Thus they would give rise to a 
+\begin_inset Quotes eld
+\end_inset
+
+gap
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Automatic insertion of optional gap blocks
+\end_layout
+
+\begin_layout Standard
+An optional gap block is inserted between other blocks by default.
+ This is to safeguard against not finding cases such as the above with the
+ postpositive conjunction.
+ Thus the following:
+\end_layout
+
+\begin_layout LyX-Code
+[Phrase
+\end_layout
+
+\begin_layout LyX-Code
+   [word psp=article]
+\end_layout
+
+\begin_layout LyX-Code
+   [word psp=noun]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+would also find the cases where a postpositive conjunction intervened between
+ the article and the noun.
+ Thus the above does not really mean that the article and the noun must
+ be adjacent; it really means that they must be adjacent, 
+\emph on
+ignoring any gaps in between
+\emph default
+.
+\end_layout
+
+\begin_layout Standard
+If you want to turn this automatic insertion off, you can place an exclamation
+ mark (
+\begin_inset Quotes eld
+\end_inset
+
+!
+\begin_inset Quotes erd
+\end_inset
+
+) between the blocks:
+\end_layout
+
+\begin_layout LyX-Code
+[Phrase
+\end_layout
+
+\begin_layout LyX-Code
+   // The ! turns off insertion of optional gap block
+\end_layout
+
+\begin_layout LyX-Code
+   [word psp=article]! 
+\end_layout
+
+\begin_layout LyX-Code
+   [word psp=noun]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+This will ensure that the article and the noun really are adjacent, and
+ that no gaps intervene.
+\end_layout
+
+\begin_layout Section
+Advanced topics
+\end_layout
+
+\begin_layout Subsection
+Introduction
+\end_layout
+
+\begin_layout Standard
+This section explains some 
+\begin_inset Quotes eld
+\end_inset
+
+advanced
+\begin_inset Quotes erd
+\end_inset
+
+ topics.
+ By 
+\begin_inset Quotes eld
+\end_inset
+
+advanced
+\begin_inset Quotes erd
+\end_inset
+
+ we do not mean that they are difficult to grasp; rather, we merely mean
+ that they do not belong to the 
+\begin_inset Quotes eld
+\end_inset
+
+basics
+\begin_inset Quotes erd
+\end_inset
+
+ of writing an MQL query.
+ In addition, taking a 
+\begin_inset Quotes eld
+\end_inset
+
+spiral approach to learning
+\begin_inset Quotes erd
+\end_inset
+
+ is a philosophy to which we subscribe.
+\end_layout
+
+\begin_layout Subsection
+Object blocks
+\end_layout
+
+\begin_layout Subsubsection
+Object references (
+\begin_inset Quotes eld
+\end_inset
+
+AS
+\begin_inset Quotes erd
+\end_inset
+
+)
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Object-references-(AS)"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+You can give an object a name, and refer back to it later in the query:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause AS container // the AS keyword assigns the name
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase parent = container.self]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+The AS keyword must appear right after the object type name (
+\begin_inset Quotes eld
+\end_inset
+
+Clause
+\begin_inset Quotes erd
+\end_inset
+
+ in this example).
+ After the AS keyword, you can write the name you want to give to the object.
+\end_layout
+
+\begin_layout Standard
+Later in the query, you can then refer to a feature on the named object
+ by means of the 
+\begin_inset Quotes eld
+\end_inset
+
+dot-notation
+\begin_inset Quotes erd
+\end_inset
+
+.
+ In the above example, the 
+\begin_inset Quotes eld
+\end_inset
+
+parent
+\begin_inset Quotes erd
+\end_inset
+
+ feature of the 
+\begin_inset Quotes eld
+\end_inset
+
+Phrase
+\begin_inset Quotes erd
+\end_inset
+
+ object type is compared with the 
+\begin_inset Quotes eld
+\end_inset
+
+self
+\begin_inset Quotes erd
+\end_inset
+
+ feature of the 
+\begin_inset Quotes eld
+\end_inset
+
+Clause
+\begin_inset Quotes erd
+\end_inset
+
+ object.
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+The 
+\begin_inset Quotes eld
+\end_inset
+
+self
+\begin_inset Quotes erd
+\end_inset
+
+ feature gives the id_d of the object in question.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This can be used with any operator, so long as the 
+\emph on
+left-hand-side
+\emph default
+ is a feature (e.g., 
+\begin_inset Quotes eld
+\end_inset
+
+parent
+\begin_inset Quotes erd
+\end_inset
+
+), and the 
+\emph on
+right-hand-side
+\emph default
+ is the object reference usage (e.g., 
+\begin_inset Quotes eld
+\end_inset
+
+container.self
+\begin_inset Quotes erd
+\end_inset
+
+).
+ Thus you cannot say:
+\end_layout
+
+\begin_layout LyX-Code
+* [Clause AS container
+\end_layout
+
+\begin_layout LyX-Code
+      [Phrase container.self = parent] // This won't work
+\end_layout
+
+\begin_layout LyX-Code
+      // switch them around and it will work.
+\end_layout
+
+\begin_layout LyX-Code
+  ]
+\end_layout
+
+\begin_layout Subsubsection
+MARKS
+\end_layout
+
+\begin_layout Standard
+You can specify 
+\begin_inset Quotes eld
+\end_inset
+
+marks
+\begin_inset Quotes erd
+\end_inset
+
+ on either an object block, a gap block, or an optional gap block.
+ The marks look like this: 
+\begin_inset Quotes eld
+\end_inset
+
+`red
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+`yellow
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+`context
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+`red`context
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+`Flash_Gordon
+\begin_inset Quotes erd
+\end_inset
+
+.
+ That is, they start with a backquote (`), followed by a sequence of letters,
+ numbers or the underscore (_), where the first character must be either
+ a letter or an underscore.
+ This pattern can be repeated, as the marks 
+\begin_inset Quotes eld
+\end_inset
+
+`red`context
+\begin_inset Quotes erd
+\end_inset
+
+ shows.
+\end_layout
+
+\begin_layout LyX-Code
+[Clause`yellow
+\end_layout
+
+\begin_layout LyX-Code
+     [Phrase`red AS p1]
+\end_layout
+
+\begin_layout LyX-Code
+     ..
+\end_layout
+
+\begin_layout LyX-Code
+     [Phrase`blue phrase_type = p1.phrase_type]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+The marks specification must come immediately after the object type, as
+ shown by 
+\begin_inset Quotes eld
+\end_inset
+
+Clause`yellow
+\begin_inset Quotes erd
+\end_inset
+
+ above.
+\end_layout
+
+\begin_layout Standard
+Emdros itself does nothing with the marks; it simply passes it on to the
+ application lying on top of Emdros.
+ Thus you need to consult any manual for your particular Emdros-application
+ for whether it does anything with the marks.
+ If not, there is no point in using them.
+ In particular, Emdros does not assign any meaning to the sequences of charaters
+ – for example, 
+\begin_inset Quotes eld
+\end_inset
+
+`red
+\begin_inset Quotes erd
+\end_inset
+
+ does not mean that Emdros will show anything in red, and 
+\begin_inset Quotes eld
+\end_inset
+
+`context
+\begin_inset Quotes erd
+\end_inset
+
+ does not mean that Emdros will recognize that such and such is context.
+ The application lying on top of Emdros may do such things, but that is
+ outside the scope of this manual.
+\end_layout
+
+\begin_layout Subsubsection
+FOCUS/RETRIEVE/NORETRIEVE
+\end_layout
+
+\begin_layout Standard
+You can specify that an object must be in FOCUS:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause FOCUS]
+\end_layout
+
+\begin_layout Standard
+How this shows up in your results depends on the implementation of the display
+ tool.
+\end_layout
+
+\begin_layout Standard
+Alternatively, you can explicitly say that something must not be retrieved:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause NORETRIEVE]
+\end_layout
+
+\begin_layout Standard
+You can also explicitly say that it must be retrieved (this is unnecessary,
+ as all objects are retrieved by default):
+\end_layout
+
+\begin_layout LyX-Code
+[Clause RETRIEVE]
+\end_layout
+
+\begin_layout Standard
+If you have an object reference declaration on a block, then the FOCUS/RETRIEVE/
+NORETRIEVE keyword must come after the object reference declararition, and
+ before any feature-restrictions:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+   AS C1                    // 1.
+ Object reference declaration
+\end_layout
+
+\begin_layout LyX-Code
+   FOCUS                    // 2.
+ Focus-specification
+\end_layout
+
+\begin_layout LyX-Code
+   clause_type = Wayyiqtol  // 3.
+ Feature-restriction
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Subsubsection
+Inner string of blocks
+\end_layout
+
+\begin_layout Standard
+You can, as already shown, have an inner string of blocks inside an object
+ block:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase]
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase]
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+This will find all clauses that have at least three phrases inside.
+\end_layout
+
+\begin_layout Standard
+The inner string of blocks must come after any feature-restrictions:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+   AS C1                    // 1.
+ Object reference declaration
+\end_layout
+
+\begin_layout LyX-Code
+   FOCUS                    // 2.
+ Focus-specification
+\end_layout
+
+\begin_layout LyX-Code
+   clause_type = Wayyiqtol  // 3.
+ Feature-restriction
+\end_layout
+
+\begin_layout LyX-Code
+     [Word]                 // 4.
+ Inner string of blocks
+\end_layout
+
+\begin_layout LyX-Code
+     [Phrase]
+\end_layout
+
+\begin_layout LyX-Code
+     [Phrase]   
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Subsubsection
+FIRST/LAST/FIRST AND LAST
+\end_layout
+
+\begin_layout Standard
+You can specify that an object block must be FIRST, LAST, or FIRST AND LAST
+ in its surrounding context:
+\end_layout
+
+\begin_layout LyX-Code
+// Example 1:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase FIRST AND LAST] // must be the only phrase in its context
+\end_layout
+
+\begin_layout LyX-Code
+]
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+// Example 2:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase FIRST] // Must be first
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase LAST] // Must be last
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+The FIRST/LAST/FIRST AND LAST specification must come between any FOCUS/RETRIEVE
+/NORETRIVE specification and any feature-restrictions:
+\end_layout
+
+\begin_layout LyX-Code
+[Sentence
+\end_layout
+
+\begin_layout LyX-Code
+   [Clause
+\end_layout
+
+\begin_layout LyX-Code
+      AS C1                    // 1.
+ Object reference declaration
+\end_layout
+
+\begin_layout LyX-Code
+      FOCUS                    // 2.
+ Focus-specification
+\end_layout
+
+\begin_layout LyX-Code
+      FIRST AND LAST           // 3.
+ FIRST/LAST/FIRST-AND-LAST spec.
+\end_layout
+
+\begin_layout LyX-Code
+      clause_type = Wayyiqtol  // 4.
+ Feature-restriction
+\end_layout
+
+\begin_layout LyX-Code
+        [Word]                 // 5.
+ Inner string of blocks
+\end_layout
+
+\begin_layout LyX-Code
+        [Phrase]
+\end_layout
+
+\begin_layout LyX-Code
+        [Phrase]   
+\end_layout
+
+\begin_layout LyX-Code
+   ]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Subsubsection
+Regular expression operators
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Quotes eld
+\end_inset
+
+~
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+!~
+\begin_inset Quotes erd
+\end_inset
+
+ operators work with Perl5
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Perl is a programming language, and Perl5 is version 5 of the language.
+\end_layout
+
+\end_inset
+
+-compatible regular expressions
+\begin_inset Foot
+status open
+
+\begin_layout Plain Layout
+For details on regular expressions, please see Appendix 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:Regular-expressions"
+
+\end_inset
+
+.
+\end_layout
+
+\end_inset
+
+ on the right-hand-side:
+\end_layout
+
+\begin_layout LyX-Code
+// finds both "see" and "See"
+\end_layout
+
+\begin_layout LyX-Code
+[Word surface ~ '[Ss]ee'] 
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+// finds everything that is neither "my" nor "your"
+\end_layout
+
+\begin_layout LyX-Code
+[Word surface !~ '(my)|(your)']
+\end_layout
+
+\begin_layout Standard
+Note that if you use the 
+\begin_inset Quotes eld
+\end_inset
+
+backslash
+\begin_inset Quotes erd
+\end_inset
+
+ escape-operator with "double-quote-strings", you need to escape it twice:
+\end_layout
+
+\begin_layout LyX-Code
+// This will find a literal $ followed by a literal dot.
+\end_layout
+
+\begin_layout LyX-Code
+[Word surface ~ "
+\backslash
+
+\backslash
+$
+\backslash
+
+\backslash
+."]
+\end_layout
+
+\begin_layout Standard
+Thus it is often easier to use 'single quote strings' with regular expressions:
+\end_layout
+
+\begin_layout LyX-Code
+// This will find a literal $ followed by a literal dot.
+\end_layout
+
+\begin_layout LyX-Code
+[Word surface ~ '
+\backslash
+$
+\backslash
+.']
+\end_layout
+
+\begin_layout Standard
+For details, please see Appendix 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "sec:Lexical-rules"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+NOTEXIST
+\end_layout
+
+\begin_layout Standard
+You can specify that an object block must 
+\begin_inset Quotes eld
+\end_inset
+
+not exist
+\begin_inset Quotes erd
+\end_inset
+
+ with the 
+\begin_inset Quotes eld
+\end_inset
+
+NOTEXIST
+\begin_inset Quotes erd
+\end_inset
+
+ keyword:
+\end_layout
+
+\begin_layout LyX-Code
+[Sentence
+\end_layout
+
+\begin_layout LyX-Code
+   NOTEXIST [Word surface = 'see']
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+This finds all sentences in which the word 
+\begin_inset Quotes eld
+\end_inset
+
+see
+\begin_inset Quotes erd
+\end_inset
+
+ does not occur.
+\end_layout
+
+\begin_layout Standard
+Note how this is very different from saying:
+\end_layout
+
+\begin_layout LyX-Code
+[Sentence
+\end_layout
+
+\begin_layout LyX-Code
+   [Word surface <> 'see']
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+This would find all sentences which has a word which is not 
+\begin_inset Quotes eld
+\end_inset
+
+see
+\begin_inset Quotes erd
+\end_inset
+
+.
+ That would include sentences which did have the word 
+\begin_inset Quotes eld
+\end_inset
+
+see
+\begin_inset Quotes erd
+\end_inset
+
+, but which also had other words.
+\end_layout
+
+\begin_layout Standard
+You are allowed to intermix NOTEXIST with other blocks in the same context.
+ For example, this is allowed:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause 
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase]
+\end_layout
+
+\begin_layout LyX-Code
+   NOTEXIST [Word surface='food']
+\end_layout
+
+\begin_layout LyX-Code
+   [Word surface='glue']
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+What that means is that we want clauses inside of which there is a phrase,
+ 
+\emph on
+right after which
+\emph default
+ there is a Word with surface=
+\begin_inset Quotes erd
+\end_inset
+
+glue
+\begin_inset Quotes erd
+\end_inset
+
+.
+ From the end of the Phrase until the end of the Clause, there must not
+ exist a Word with surface=
+\begin_inset Quotes erd
+\end_inset
+
+food
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+So: a) The NOTEXIST block is regarded as not being present when considering
+ the surrounding blocks.
+ That is why the 
+\begin_inset Quotes eld
+\end_inset
+
+glue
+\begin_inset Quotes erd
+\end_inset
+
+ word must be right after the Phrase in order for this query to match.
+ Essentially, a NOTEXIST block has 
+\begin_inset Quotes eld
+\end_inset
+
+zero width
+\begin_inset Quotes erd
+\end_inset
+
+ with respect to consecutiveness.
+ b) The NOTEXIST block is looked for starting at the end of the previous
+ block (or the start of the context if the NOTEXIST block is the first)
+ and running to the end of the context.
+ 
+\end_layout
+
+\begin_layout Standard
+You are allowed to use NOTEXIST more than once in any given context.
+ For example, this is allowed:
+\end_layout
+
+\begin_layout LyX-Code
+[Sentence
+\end_layout
+
+\begin_layout LyX-Code
+   NOTEXIST [Word surface = 'see']
+\end_layout
+
+\begin_layout LyX-Code
+   NOTEXIST [Word surface = 'the']
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+This would find all sentences inside of which neither a word with surface=
+\begin_inset Quotes erd
+\end_inset
+
+see
+\begin_inset Quotes erd
+\end_inset
+
+ nor a word with surface=
+\begin_inset Quotes erd
+\end_inset
+
+the
+\begin_inset Quotes erd
+\end_inset
+
+ exists.
+ Because the NOTEXIST block with surface=
+\begin_inset Quotes erd
+\end_inset
+
+see
+\begin_inset Quotes erd
+\end_inset
+
+ is the first in the context, the word 
+\begin_inset Quotes eld
+\end_inset
+
+see
+\begin_inset Quotes erd
+\end_inset
+
+ must not occur anywhere within the sentence.
+ Because a NOTEXIST block has 
+\begin_inset Quotes eld
+\end_inset
+
+zero width
+\begin_inset Quotes erd
+\end_inset
+
+ with respect to consecutiveness, it means that the domain within which
+ a word with surface=
+\begin_inset Quotes erd
+\end_inset
+
+the
+\begin_inset Quotes erd
+\end_inset
+
+ must not occur is also anywhere within the sentence.
+\end_layout
+
+\begin_layout Standard
+You cannot use an object reference that has been declared 
+\begin_inset Quotes eld
+\end_inset
+
+inside
+\begin_inset Quotes erd
+\end_inset
+
+ a NOTEXIST, except if you also use it 
+\begin_inset Quotes eld
+\end_inset
+
+inside
+\begin_inset Quotes erd
+\end_inset
+
+ the same NOTEXIST.
+ Thus you cannot say:
+\end_layout
+
+\begin_layout LyX-Code
+* [Clause 
+\end_layout
+
+\begin_layout LyX-Code
+     [Phrase
+\end_layout
+
+\begin_layout LyX-Code
+        NOTEXIST[Word as w1 surface='food']
+\end_layout
+
+\begin_layout LyX-Code
+     ]
+\end_layout
+
+\begin_layout LyX-Code
+     // OOPS! The NOTEXIST intervenes, so we can't 
+\begin_inset Quotes eld
+\end_inset
+
+see
+\begin_inset Quotes erd
+\end_inset
+
+ w1 here...
+\end_layout
+
+\begin_layout LyX-Code
+     [Word part_of_speech=w1.part_of_speech] 
+\end_layout
+
+\begin_layout LyX-Code
+  ]
+\end_layout
+
+\begin_layout Standard
+But you can say:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+   NOTEXIST [Phrase
+\end_layout
+
+\begin_layout LyX-Code
+                [Word as w1 part_of_speech=noun]
+\end_layout
+
+\begin_layout LyX-Code
+                ..
+\end_layout
+
+\begin_layout LyX-Code
+                // This is OK! NOTEXIST does not intervene,
+\end_layout
+
+\begin_layout LyX-Code
+                // but stands above both!
+\end_layout
+
+\begin_layout LyX-Code
+                [Word part_of_speech <> w1.part_of_speech]
+\end_layout
+
+\begin_layout LyX-Code
+            ]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Subsubsection
+Order of things inside an object block
+\end_layout
+
+\begin_layout Standard
+As we have seen, an object block allows for certain restrictions and other
+ elements inside it, such as an 
+\begin_inset Quotes eld
+\end_inset
+
+AS name
+\begin_inset Quotes erd
+\end_inset
+
+ element, a 
+\begin_inset Quotes eld
+\end_inset
+
+FOCUS
+\begin_inset Quotes erd
+\end_inset
+
+ element, a 
+\begin_inset Quotes eld
+\end_inset
+
+FIRST
+\begin_inset Quotes erd
+\end_inset
+
+ element, etc.
+ These elements must come in a certain order for the query to be syntactically
+ correct (i.e., parseable by Emdros).
+ The exact order is (and any of these is optional):
+\end_layout
+
+\begin_layout Enumerate
+Marks
+\end_layout
+
+\begin_layout Enumerate
+Object reference declartion (
+\begin_inset Quotes eld
+\end_inset
+
+AS <name>
+\begin_inset Quotes erd
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Enumerate
+FOCUS / RETRIEVE / NORETRIEVE
+\end_layout
+
+\begin_layout Enumerate
+FIRST / LAST / FIRST AND LAST
+\end_layout
+
+\begin_layout Enumerate
+feature-comparison (e.g., 
+\begin_inset Quotes eld
+\end_inset
+
+part_of_speech <> noun
+\begin_inset Quotes erd
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Enumerate
+optional inner block string.
+\end_layout
+
+\begin_layout Subsection
+Strings of blocks
+\end_layout
+
+\begin_layout Subsubsection
+OR between strings of blocks
+\end_layout
+
+\begin_layout Standard
+A 
+\begin_inset Quotes eld
+\end_inset
+
+string of blocks
+\begin_inset Quotes erd
+\end_inset
+
+ is an unbroken sequence of object blocks, power blocks, and/or gap blocks.
+ You can put an 
+\begin_inset Quotes eld
+\end_inset
+
+OR
+\begin_inset Quotes erd
+\end_inset
+
+ keyword in between two such strings.
+ The result will be as though you had issued two separate queries, with
+ one string of blocks taken away and the other left in (and the OR taken
+ out as well), then vice-versa for the second query.
+ This is useful, e.g.
+ to search for different combinations of a given sequence of phrases with
+ specific functions:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Subj]
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Pred]
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Objc]     // Here the object comes before
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Adjunct]  // the adjunct
+\end_layout
+
+\begin_layout LyX-Code
+    or
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Subj]
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Pred]
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Adjunct]  // Here the adjunct comes before 
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Objc]     // the object
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+As mentioned, the OR construct works between strings of blocks.
+ It doesn't matter what kind of block is involved (object block, power block,
+ or gap block), so you could also say:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Subj]
+\end_layout
+
+\begin_layout LyX-Code
+    ..
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Objc]
+\end_layout
+
+\begin_layout LyX-Code
+    OR // The OR Works between on the one hand Subj..Objc 
+\end_layout
+
+\begin_layout LyX-Code
+       // and on the other hand, Objc..Adjunct
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Objc]
+\end_layout
+
+\begin_layout LyX-Code
+    ..
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Adjunct]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+Or even:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+    [gap [Clause clause_type = Appositional]]
+\end_layout
+
+\begin_layout LyX-Code
+    OR
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Objc]
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Adjunct]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+You can also have more than one OR between more than two strings of blocks:
+\end_layout
+
+\begin_layout LyX-Code
+// Finds all triples of object, adjunct, and complement
+\end_layout
+
+\begin_layout LyX-Code
+// where either the object or the complement is first.
+\end_layout
+
+\begin_layout LyX-Code
+// To find all six combinations (i.e., also adjunct first),
+\end_layout
+
+\begin_layout LyX-Code
+// simply add two more ORs with the right orders of phrases.
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Objc]
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Adjunct]
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase functino = Complement]
+\end_layout
+
+\begin_layout LyX-Code
+    OR
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Objc]
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase functino = Complement]
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Adjunct]
+\end_layout
+
+\begin_layout LyX-Code
+    OR
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase functino = Complement]
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Objc]
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Adjunct]
+\end_layout
+
+\begin_layout LyX-Code
+    OR
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase functino = Complement]
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Adjunct]
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Objc]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout Subsubsection
+Restrictions on OR (more on the AS keyword)
+\end_layout
+
+\begin_layout Standard
+There is one restriction pertaining to OR: When you have a reference between
+ two objects (using the AS keyword, see Section 
+\begin_inset CommandInset ref
+LatexCommand vref
+reference "subsec:Object-references-(AS)"
+
+\end_inset
+
+), then both the object block on which you use the AS keyword, and the object
+ block on which you use the reference, must be within the SAME string of
+ blocks.
+ The usage cannot cross an OR.
+ Thus you cannot say:
+\end_layout
+
+\begin_layout LyX-Code
+* [Clause
+\end_layout
+
+\begin_layout LyX-Code
+     [Phrase AS p1]
+\end_layout
+
+\begin_layout LyX-Code
+     OR
+\end_layout
+
+\begin_layout LyX-Code
+     [Phrase function = p1.function] // OOPS! Illegal because it
+\end_layout
+
+\begin_layout LyX-Code
+                                     // crosses the OR construct!
+\end_layout
+
+\begin_layout LyX-Code
+ ]
+\end_layout
+
+\begin_layout Standard
+Nor can you say:
+\end_layout
+
+\begin_layout LyX-Code
+* [Clause
+\end_layout
+
+\begin_layout LyX-Code
+     [Phrase
+\end_layout
+
+\begin_layout LyX-Code
+         [Phrase AS p2]
+\end_layout
+
+\begin_layout LyX-Code
+     ]
+\end_layout
+
+\begin_layout LyX-Code
+     OR
+\end_layout
+
+\begin_layout LyX-Code
+     [Phrase function = p2.function] // OOPS! Illegal because it
+\end_layout
+
+\begin_layout LyX-Code
+                                     // crosses the OR construct!
+\end_layout
+
+\begin_layout LyX-Code
+ ]
+\end_layout
+
+\begin_layout Standard
+When we said that both the declaration (with the 
+\begin_inset Quotes eld
+\end_inset
+
+AS
+\begin_inset Quotes erd
+\end_inset
+
+ keyword) and the usage must be within the same string of blocks, we did
+ not mean that they have to be at the same level, like this:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase AS p1]
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function <> p1.function] // This is OK, since it does not
+\end_layout
+
+\begin_layout LyX-Code
+    OR                               // cross the OR.
+\end_layout
+
+\begin_layout LyX-Code
+    [gap]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+These two, the declaration and the usage, are at the same level.
+ But it is OK to have one of them be more deeply nested than the other:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase 
+\end_layout
+
+\begin_layout LyX-Code
+        [Phrase AS p1] // This is more deeply nested than the usage
+\end_layout
+
+\begin_layout LyX-Code
+    ]
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function <> p1.function] // This is OK, since it does not
+\end_layout
+
+\begin_layout LyX-Code
+    OR                               // cross the OR.
+\end_layout
+
+\begin_layout LyX-Code
+    [gap]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Subsection
+Grouping ([square brackets])
+\end_layout
+
+\begin_layout Subsubsection
+Introduction
+\end_layout
+
+\begin_layout Standard
+\begin_inset Quotes eld
+\end_inset
+
+[Square brackets]
+\begin_inset Quotes erd
+\end_inset
+
+ are used to group one or more strings of blocks, as if there were 
+\begin_inset Quotes eld
+\end_inset
+
+parentheses
+\begin_inset Quotes erd
+\end_inset
+
+ around them.
+\end_layout
+
+\begin_layout Subsubsection
+Examples
+\end_layout
+
+\begin_layout Standard
+The following topograph illustrates the use of square brackets for grouping:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Predicate]
+\end_layout
+
+\begin_layout LyX-Code
+    [
+\end_layout
+
+\begin_layout LyX-Code
+        [Phrase function = Objc]
+\end_layout
+
+\begin_layout LyX-Code
+        [Phrase function = Adjunct]
+\end_layout
+
+\begin_layout LyX-Code
+        OR
+\end_layout
+
+\begin_layout LyX-Code
+        [Phrase function = Indirect_object]
+\end_layout
+
+\begin_layout LyX-Code
+        [Phrase function = Complement]
+\end_layout
+
+\begin_layout LyX-Code
+    ]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+This query finds all clauses in which there is a Phrase whose function is
+ Predicate.
+ Right after this phrase must come, either an Object followed by an Adjunct,
+ or an Indirect object followed by a Complement.
+\end_layout
+
+\begin_layout Standard
+Another example:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+    [
+\end_layout
+
+\begin_layout LyX-Code
+        [Phrase function = Subject]
+\end_layout
+
+\begin_layout LyX-Code
+        OR
+\end_layout
+
+\begin_layout LyX-Code
+        [Phrase function = Complement]
+\end_layout
+
+\begin_layout LyX-Code
+        [Phrase function = Adjunct]
+\end_layout
+
+\begin_layout LyX-Code
+    ]
+\end_layout
+
+\begin_layout LyX-Code
+    ..
+\end_layout
+
+\begin_layout LyX-Code
+    [Phrase function = Predicate]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+This query finds all clauses in which there is, first either a Subject,
+ or a Complement followed by an Adjunct.
+ Then, after either of these, there can be arbitary space within the Clause
+ (indicated by the 
+\begin_inset Quotes eld
+\end_inset
+
+..
+\begin_inset Quotes erd
+\end_inset
+
+ power block), and then a Predicate must appear.
+\end_layout
+
+\begin_layout Subsection
+Kleene star
+\end_layout
+
+\begin_layout Subsubsection
+Introduction
+\end_layout
+
+\begin_layout Standard
+You can have a Kleene star construction on any object block or [group] in
+ a query:
+\end_layout
+
+\begin_layout LyX-Code
+[Phrase
+\end_layout
+
+\begin_layout LyX-Code
+   // Note the * at the end
+\end_layout
+
+\begin_layout LyX-Code
+   [Word psp IN (article,noun,conjunction,adjective)]*
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+This query will find all phrases, inside of which there are zero or more
+ adjacent words whose parts of speech are either article, noun, conjunction,
+ or adjective.
+ This would find many noun phrases.
+\end_layout
+
+\begin_layout Standard
+You can also have a Kleene star on a group of blocks:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+   [
+\end_layout
+
+\begin_layout LyX-Code
+      [Word psp IN (article, noun, preposition)]
+\end_layout
+
+\begin_layout LyX-Code
+      [Word psp IN (noun, adjective)]
+\end_layout
+
+\begin_layout LyX-Code
+   ] *
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+This would find all clauses inside of which there are zero or more iterations
+ of the pattern 
+\begin_inset Quotes eld
+\end_inset
+
+a Word whose part of speech is either article, noun, or preposition
+\begin_inset Quotes erd
+\end_inset
+
+, followed by a 
+\begin_inset Quotes eld
+\end_inset
+
+Word whose part of speech is either noun or adjective.
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+NOTE: Because there are [square brackets] around the two words, and because
+ the Kleene star applies to the group, it is the 
+\emph on
+group
+\emph default
+ that is repeated.
+\end_layout
+
+\begin_layout Standard
+The Kleene star means 
+\begin_inset Quotes eld
+\end_inset
+
+find me zero or more like this
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Specifying the number of iterations
+\end_layout
+
+\begin_layout Standard
+You can also specify a set of integers that gives the number of times required:
+\end_layout
+
+\begin_layout LyX-Code
+// Example 1:
+\end_layout
+
+\begin_layout LyX-Code
+[Phrase
+\end_layout
+
+\begin_layout LyX-Code
+   [Word]*{0,1} // This makes the word optional (0 or 1 times)
+\end_layout
+
+\begin_layout LyX-Code
+]
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+// Example 2:
+\end_layout
+
+\begin_layout LyX-Code
+// This finds all clauses in which the first phrase is a subject,
+\end_layout
+
+\begin_layout LyX-Code
+// followed by exactly 3 non-subject, non-adjunct prases,
+\end_layout
+
+\begin_layout LyX-Code
+// followed by an adjunct phrase.
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase FIRST function = Subject]
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+   // There must be exactly three phrases between the subject...
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase NOT function IN (Subject,Adjunct)]*{3}
+\end_layout
+
+\begin_layout LyX-Code
+ 
+\end_layout
+
+\begin_layout LyX-Code
+   // ...
+ and the adjunct
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase function = Adjunct]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout LyX-Code
+  
+\end_layout
+
+\begin_layout LyX-Code
+// Example 3:
+\end_layout
+
+\begin_layout LyX-Code
+[Clause
+\end_layout
+
+\begin_layout LyX-Code
+   // Finds such phrases 1,2,3,5,6,7, or 9 and above times
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase 
+\end_layout
+
+\begin_layout LyX-Code
+      function = Subj OR function = Obj
+\end_layout
+
+\begin_layout LyX-Code
+   ]*{1-3,5-7,9-}
+\end_layout
+
+\begin_layout LyX-Code
+   // But still only within the surrounding clause
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Subsubsection
+Restrictions
+\end_layout
+
+\begin_layout Standard
+The following restrictions apply:
+\end_layout
+
+\begin_layout Itemize
+You cannot have an object reference declaration (using the AS keyword) on
+ an object block on which you also have a Kleene Star.
+ For example, this is NOT allowed:
+\end_layout
+
+\begin_layout LyX-Code
+* [Phrase as p1]* // OOPS! Not allowed to have both AS and Kleene Star!
+\end_layout
+
+\begin_layout LyX-Code
+  [Phrase function=p1.functino]
+\end_layout
+
+\begin_layout Itemize
+You cannot use an object reference that has been declared inside an object
+ block or group with a Kleene Star, if the usage is outside the object block
+ or group with the Kleene Star.
+ (If it is used inside, you can use it there, but not outside).
+ Thus this is NOT allowed:
+\end_layout
+
+\begin_layout LyX-Code
+* [Phrase
+\end_layout
+
+\begin_layout LyX-Code
+     [Word as w1]
+\end_layout
+
+\begin_layout LyX-Code
+  ]* // OOPS! Kleene Star on Phrase...
+\end_layout
+
+\begin_layout LyX-Code
+  [Word surface=w1.surface] // so we can't 
+\begin_inset Quotes eld
+\end_inset
+
+see
+\begin_inset Quotes erd
+\end_inset
+
+ the reference here!
+\end_layout
+
+\begin_layout LyX-Code
+    
+\end_layout
+
+\begin_layout Itemize
+Whereas this 
+\emph on
+is allowed
+\emph default
+:
+\end_layout
+
+\begin_layout LyX-Code
+[Phrase
+\end_layout
+
+\begin_layout LyX-Code
+    [Word as w1]
+\end_layout
+
+\begin_layout LyX-Code
+    ..
+\end_layout
+
+\begin_layout LyX-Code
+    [Word lexeme=w1.lexeme]
+\end_layout
+
+\begin_layout LyX-Code
+]* // This * is OK; we don't 
+\begin_inset Quotes eld
+\end_inset
+
+cross
+\begin_inset Quotes erd
+\end_inset
+
+ it when we use the reference!
+\end_layout
+
+\begin_layout Subsection
+Unordered group
+\end_layout
+
+\begin_layout Subsubsection
+Example
+\end_layout
+
+\begin_layout Standard
+As of Emdros version 3.4.1.pre32, a new MQL construct has been added to the
+ capabilities of MQL, namely the 
+\begin_inset Quotes eld
+\end_inset
+
+Unordered group
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For example:
+\end_layout
+
+\begin_layout LyX-Code
+[Sentence
+\end_layout
+
+\begin_layout LyX-Code
+    [UnorderedGroup
+\end_layout
+
+\begin_layout LyX-Code
+        [Word surface='good']
+\end_layout
+
+\begin_layout LyX-Code
+        [Word surface='life']
+\end_layout
+
+\begin_layout LyX-Code
+    ]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+This would find a Sentence, within which both the word 
+\begin_inset Quotes eld
+\end_inset
+
+good
+\begin_inset Quotes erd
+\end_inset
+
+ and the word 
+\begin_inset Quotes eld
+\end_inset
+
+life
+\begin_inset Quotes erd
+\end_inset
+
+ would appear, in any order.
+ Thus sentences such as 
+\begin_inset Quotes eld
+\end_inset
+
+He lives the good life
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+His life is good
+\begin_inset Quotes erd
+\end_inset
+
+ would both be found by this query.
+\end_layout
+
+\begin_layout Subsubsection
+Restrictions on unordered groups
+\end_layout
+
+\begin_layout Standard
+The following restrictions apply:
+\end_layout
+
+\begin_layout Enumerate
+Placement: You can only have an Unordered group where you would otherwise
+ have a complete string of blocks, without any OR on either side.
+ Thus you can have it:
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+At the top-most level in the query
+\end_layout
+
+\begin_layout Enumerate
+Right inside an object block or gap block, with no OR before or after the
+ Unordered group.
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+Only object blocks: You can only have 
+\begin_inset Quotes eld
+\end_inset
+
+bare
+\begin_inset Quotes erd
+\end_inset
+
+ object blocks inside an Unordered group.
+ No power blocks, gap blocks, optional gap blocks, or NOTEXIST object blocks
+ are allowed inside an Unordered group.
+\end_layout
+
+\begin_layout Enumerate
+No Kleene star: You cannot use a Kleene star on an Unordered group.
+\end_layout
+
+\begin_layout Enumerate
+Object declarations export barrier: You can use object references (e.g., 
+\begin_inset Quotes eld
+\end_inset
+
+parents HAS s1.self
+\begin_inset Quotes erd
+\end_inset
+
+) declared above an object block inside the Unordered group, but you cannot
+ declare an object reference (e.g., 
+\begin_inset Quotes eld
+\end_inset
+
+AS w1
+\begin_inset Quotes erd
+\end_inset
+
+) inside an Unordered group and use it outside the Unordered group, or even
+ within it.
+\end_layout
+
+\begin_layout Enumerate
+No exclamation marks: Since no optional gap blocks are allowed inside the
+ Unordered group, you cannot use the ! to declare that no optional gap blocks
+ will be inserted — order doesn't matter within an unordered group, so optional
+ gap blocks between object blocks does not make sense.
+\end_layout
+
+\begin_layout Subsection
+Monad set relation clauses
+\end_layout
+
+\begin_layout Subsubsection
+Monad set features
+\end_layout
+
+\begin_layout Standard
+Every object in an Emdros database has a special feature called 
+\begin_inset Quotes eld
+\end_inset
+
+monads
+\begin_inset Quotes erd
+\end_inset
+
+.
+ It is a set of monads, and is the default way of relating objects to one
+ another.
+ However, it is possible to have more than one monad set feature on an object.
+ It is up to the designer of the database to determine whether to put more
+ than one monad set feature on an object, and which monads to put inside
+ these other monad set features.
+\end_layout
+
+\begin_layout Subsubsection
+Universe and substrate
+\end_layout
+
+\begin_layout Standard
+While executing an MQL query, Emdros keeps track of the 
+\begin_inset Quotes eld
+\end_inset
+
+context
+\begin_inset Quotes erd
+\end_inset
+
+ set of monads within which to search.
+ At the top level, this is usually 
+\begin_inset Quotes eld
+\end_inset
+
+all the monads from the lowest monad to the highest monad on any object
+ in the database
+\begin_inset Quotes erd
+\end_inset
+
+.
+ However, inside an object block or gap block, the context switches to the
+ monad set of the surrounding object or gap.
+\end_layout
+
+\begin_layout Standard
+This 
+\begin_inset Quotes eld
+\end_inset
+
+context monad set
+\begin_inset Quotes erd
+\end_inset
+
+ is called the 
+\begin_inset Quotes eld
+\end_inset
+
+Substrate
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+A substrate always has a companion monad set, called the 
+\begin_inset Quotes eld
+\end_inset
+
+Universe
+\begin_inset Quotes erd
+\end_inset
+
+.
+ The Universe is defined as the set of monads containins all the monads
+ from the first monad of the substrate to the last monad of the substrate.
+ Another way to think about it is to think of the Universe as the same as
+ the substrate, with any gaps in the substrate 
+\begin_inset Quotes eld
+\end_inset
+
+filled out
+\begin_inset Quotes erd
+\end_inset
+
+ in the Universe.
+\end_layout
+
+\begin_layout Subsubsection
+Monad set relations
+\end_layout
+
+\begin_layout Standard
+The default way of relating objects embedded inside another object is to
+ check whether the inner object's monads is a subset of the Substrate, i.e.,
+ whether the inner object's monads is a subset of the surrounding context's
+ monads.
+ For example:
+\end_layout
+
+\begin_layout LyX-Code
+[Sentence
+\end_layout
+
+\begin_layout LyX-Code
+   [Phrase] // The Phrase's monads must be a subset 
+\end_layout
+
+\begin_layout LyX-Code
+            // of the monads of the Sentence
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Standard
+However, the 
+\begin_inset Quotes eld
+\end_inset
+
+subset relation
+\begin_inset Quotes erd
+\end_inset
+
+, while the default, is not the only relation between monad sets which Emdros
+ supports.
+ There are three such relations in total:
+\end_layout
+
+\begin_layout Enumerate
+part_of: This is the default, the 
+\begin_inset Quotes eld
+\end_inset
+
+subset
+\begin_inset Quotes erd
+\end_inset
+
+ relation.
+\end_layout
+
+\begin_layout Enumerate
+overlap: This means that the inner object must have at least one monad in
+ common with the context set of monads.
+ Notice that this entails that the object may start before, and/or end after
+ the monad set of the surrounding context.
+ It doesn't matter, so long as there is at least one monad in common.
+\end_layout
+
+\begin_layout Enumerate
+starts_in: This means that the inner object must have its first monad be
+ a member of the context set of monads.
+ Notice that there is no restriction on where the inner object ends: Its
+ last monad may be inside the surrounding context monad set, but it may
+ also end after it.
+\end_layout
+
+\begin_layout Subsubsection
+Syntax of monad set relation clauses
+\end_layout
+
+\begin_layout Standard
+A monad set relation clause can be placed on any object block or NOTEXIST
+ object block.
+ It looks like one of the following four templates:
+\end_layout
+
+\begin_layout Enumerate
+<monad set relation> 
+\begin_inset Quotes eld
+\end_inset
+
+(
+\begin_inset Quotes eld
+\end_inset
+
+ <monad set name> 
+\begin_inset Quotes eld
+\end_inset
+
+,
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+substrate
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+)
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+<monad set relation> 
+\begin_inset Quotes eld
+\end_inset
+
+(
+\begin_inset Quotes eld
+\end_inset
+
+ <monad set name> 
+\begin_inset Quotes eld
+\end_inset
+
+,
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+universe
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+)
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+<monad set relation> 
+\begin_inset Quotes eld
+\end_inset
+
+(
+\begin_inset Quotes eld
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+substrate
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+)
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+<monad set relation> 
+\begin_inset Quotes eld
+\end_inset
+
+(
+\begin_inset Quotes eld
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+universe
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+)
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It may also be empty, in which case it means 
+\begin_inset Quotes eld
+\end_inset
+
+part_of(monads, substrate)
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For example:
+\end_layout
+
+\begin_layout Itemize
+part_of(monads, universe)
+\end_layout
+
+\begin_layout Itemize
+overlap(monads, substrate)
+\end_layout
+
+\begin_layout Itemize
+overlap(dependency_head_monad_set, substrate)
+\end_layout
+
+\begin_layout Itemize
+starts_in(monads, universe)
+\end_layout
+
+\begin_layout Itemize
+part_of(universe)
+\end_layout
+
+\begin_layout Itemize
+starts_in(universe)
+\end_layout
+
+\begin_layout Standard
+The monad set relation clause must be placed between any 
+\begin_inset Quotes eld
+\end_inset
+
+FIRST
+\begin_inset Quotes erd
+\end_inset
+
+ / 
+\begin_inset Quotes eld
+\end_inset
+
+LAST
+\begin_inset Quotes erd
+\end_inset
+
+ / 
+\begin_inset Quotes eld
+\end_inset
+
+FIRST AND LAST
+\begin_inset Quotes erd
+\end_inset
+
+ element and any feature constraints.
+\end_layout
+
+\begin_layout Subsubsection
+Example
+\end_layout
+
+\begin_layout Subsubsection
+Examples
+\end_layout
+
+\begin_layout LyX-Code
+// In a database of Shakespeare's plays, the actant 
+\begin_inset Quotes eld
+\end_inset
+
+Romeo
+\begin_inset Quotes erd
+\end_inset
+
+ may 
+\end_layout
+
+\begin_layout LyX-Code
+// say a Sentence which overlaps with a VerseLine object.
+\end_layout
+
+\begin_layout LyX-Code
+// Sentences often span verse lines, so part_of
+\end_layout
+
+\begin_layout LyX-Code
+// won't find such verse-line-spanning sentences,
+\end_layout
+
+\begin_layout LyX-Code
+// since the subset relation does not hold.
+\end_layout
+
+\begin_layout LyX-Code
+// Instead, the overlap relation is used.
+\end_layout
+
+\begin_layout LyX-Code
+[ActantSpeech actant='Romeo'
+\end_layout
+
+\begin_layout LyX-Code
+    [VerseLine
+\end_layout
+
+\begin_layout LyX-Code
+        [Sentence overlap(substrate)] 
+\end_layout
+
+\begin_layout LyX-Code
+    ]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+// Sometimes in Shakespeare's plays, a single verse line
+\end_layout
+
+\begin_layout LyX-Code
+// which is started by one actant is finished by
+\end_layout
+
+\begin_layout LyX-Code
+// another actant.
+  The following query would find
+\end_layout
+
+\begin_layout LyX-Code
+// verse lines which start somewhere inside a
+\end_layout
+
+\begin_layout LyX-Code
+// speech by Friar Lawrence, regardless of whether
+\end_layout
+
+\begin_layout LyX-Code
+// it is also finished by Friar Lawrence.
+\end_layout
+
+\begin_layout LyX-Code
+[ActantSpeech actant='Friar Lawrence'
+\end_layout
+
+\begin_layout LyX-Code
+    [VerseLine starts_in(universe)]
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout Section
+\start_of_appendix
+Values
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Values"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Atomic values
+\end_layout
+
+\begin_layout Standard
+There are four kinds of atomic values:
+\end_layout
+
+\begin_layout Enumerate
+integer: e.g.
+ 0, 1, 42, 976, 1000, etc.
+\end_layout
+
+\begin_layout Enumerate
+id_d: Like integers, but can also be NIL (no value).
+\end_layout
+
+\begin_layout Enumerate
+enumeration: Whatever is defined in your database.
+\end_layout
+
+\begin_layout Enumerate
+string: Enclosed in "double quotes" or 'single quotes'.
+\end_layout
+
+\begin_layout Subsection
+Lists
+\end_layout
+
+\begin_layout Standard
+You can build lists out of integers, id_ds, and enumeration labels, but
+ you cannot currently build lists of out strings.
+\end_layout
+
+\begin_layout Standard
+Lists are enclosed in (parentheses), and are comma-separated.
+ For example:
+\end_layout
+
+\begin_layout Enumerate
+List of integer: (0,1000,23,76)
+\end_layout
+
+\begin_layout Enumerate
+List of id_d: (NIL, 13200)
+\end_layout
+
+\begin_layout Enumerate
+List of enum label: (NP,AP,PP)
+\end_layout
+
+\begin_layout Standard
+A list can also have a single value inside, e.g., (NP).
+\end_layout
+
+\begin_layout Section
+Lexical rules
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Lexical-rules"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Whitespace is ignored except to separate tokens, and in strings.
+\end_layout
+
+\begin_layout Enumerate
+Everything except enumeration-labels and strings is case-INsensitive.
+ Enumeration labels and strings ARE case-sensitive.
+\end_layout
+
+\begin_layout Enumerate
+Reserved words (such as 
+\begin_inset Quotes eld
+\end_inset
+
+object
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+create
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+type
+\begin_inset Quotes erd
+\end_inset
+
+, etc.) may not be used except as reserved words.
+ That is, you cannot, say, have a feature called 
+\begin_inset Quotes eld
+\end_inset
+
+type
+\begin_inset Quotes erd
+\end_inset
+
+ or an enumeration constant called 
+\begin_inset Quotes eld
+\end_inset
+
+object
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Strings can be of two kinds: Either surrounded by "double quotes", or surrounded
+ by 'single quotes'.
+ Both may contain newlines.
+ Backslashes inside "double-quote-strings" behave as escape-characters according
+ to Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "cap:Backslash-escapes-in-\"double-quote-strings\""
+
+\end_inset
+
+.
+ Backslashes inside of 'single-quote-strings' behave as backslashes, and
+ in fact you cannot escape anything inside of a 'single-quote-string'.
+\end_layout
+
+\begin_layout Enumerate
+Comments are ignored when parsing MQL.
+ There are two kinds:
+\begin_inset Separator latexpar
+\end_inset
+
+
+\end_layout
+
+\begin_deeper
+\begin_layout LyX-Code
+
+\size footnotesize
+// This kind starts with two slashes.
+\end_layout
+
+\begin_layout LyX-Code
+
+\size footnotesize
+// It extends to the end of the line.
+\end_layout
+
+\begin_layout LyX-Code
+
+\size footnotesize
+// Thus if you want multiple lines commented out,
+\end_layout
+
+\begin_layout LyX-Code
+
+\size footnotesize
+// you have to start each new line with the double slash.
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+
+\size footnotesize
+/* This is the other kind of comment.
+\end_layout
+
+\begin_layout LyX-Code
+
+\size footnotesize
+   It may extend over multiple lines.
+ It begins with
+\end_layout
+
+\begin_layout LyX-Code
+
+\size footnotesize
+   slash-star and ends with star-slash.
+\end_layout
+
+\begin_layout LyX-Code
+
+\size footnotesize
+*/
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+An 
+\series bold
+identifier
+\series default
+ starts with an underscore or the letters A-Z or the letters a-z.
+ If it is longer than 1 character, it continues with underscores, letters
+ from A-Z, letters from a-z, or digits in the range 0-9.
+ Thus it conforms to the regular expression '[_A-Za-z][_A-Za-z0-9]*'.
+\end_layout
+
+\begin_layout Enumerate
+Database names,
+\begin_inset Foot
+status collapsed
+
+\begin_layout Plain Layout
+Except on SQLite, where a database name may be non-identifiers.
+ In that case, however, it must be expressed as a "string" or a 'string'.
+\end_layout
+
+\end_inset
+
+ object type names, feature names, enumeration names, enumeration labels,
+ and monad set names must be identifiers.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="14" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="left" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Escape
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Meaning
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\backslash
+n
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+line feed (ASCII 0x0a)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\backslash
+t
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+horizontal tab (ASCII 0x09)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\backslash
+v
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+vertical tab (ASCII 0x0b)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\backslash
+b
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+backspace (ASCII 0x08)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\backslash
+a
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+alert/bell (ASCII 0x07)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\backslash
+f
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+form feed (ASCII 0x0c)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\backslash
+r
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+carriage-return (ASCII 0x0d)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\backslash
+
+\backslash
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\backslash
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\backslash
+?
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+?
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\backslash
+'
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+'
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\backslash
+
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+"
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\backslash
+XYZ
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The character with octal-based number XYZ (e.g., 
+\backslash
+040 meaning 32)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\backslash
+xXY
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+The character with hexadecimal-based number XY (e.g.
+ 
+\backslash
+x20 meaning 32)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Backslash-escapes in "double-quote-strings"
+\begin_inset CommandInset label
+LatexCommand label
+name "cap:Backslash-escapes-in-\"double-quote-strings\""
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Regular expressions
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Regular-expressions"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+This is a crash course in regular expressions.
+ Regular expressions (or RegExes) are a way of specifying a set of strings,
+ which in Emdros can be used to compare a string-feature against many values
+ at once.
+ For example, if you wish to search for both 
+\begin_inset Quotes eld
+\end_inset
+
+See
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+see
+\begin_inset Quotes erd
+\end_inset
+
+ at once, you can use the regular expression comparison:
+\end_layout
+
+\begin_layout LyX-Code
+surface ~ '[Ss]ee'
+\end_layout
+
+\begin_layout Standard
+The effect is as if you had said:
+\end_layout
+
+\begin_layout LyX-Code
+surface = 'See' OR surface = 'see'
+\end_layout
+
+\begin_layout Subsection
+Character classes
+\end_layout
+
+\begin_layout Standard
+You can specify character-classes with the [square brackets].
+ A character-class is a set of characters that are looked for at once.
+ A simple example would be:
+\end_layout
+
+\begin_layout LyX-Code
+[AaBbCc]
+\end_layout
+
+\begin_layout Standard
+This would look for the letters A, B, C, a, b, and c all at once.
+ If just one of them was present, the whole character class would match.
+\end_layout
+
+\begin_layout Standard
+The above could also be rewritten as:
+\end_layout
+
+\begin_layout LyX-Code
+[A-Ca-c]
+\end_layout
+
+\begin_layout Standard
+This is because, inside a character class, the dash (also known as minus)
+ means 
+\begin_inset Quotes eld
+\end_inset
+
+from the previous character to the next character, both inclusive
+\begin_inset Quotes erd
+\end_inset
+
+.
+ Thus if you wish to search for the characters A-Z, you can say [A-Z].
+ If you wish to search for a minus, and include the minus in the character
+ class, you can put it last in the character class:
+\end_layout
+
+\begin_layout LyX-Code
+[A-Z-]
+\end_layout
+
+\begin_layout Standard
+This would search for the letters A-Z, but would also search for the minus.
+\end_layout
+
+\begin_layout Standard
+If you wish to negate the character class, you can put the 
+\begin_inset Quotes eld
+\end_inset
+
+hat
+\begin_inset Quotes erd
+\end_inset
+
+ (
+\begin_inset Quotes eld
+\end_inset
+
+^
+\begin_inset Quotes erd
+\end_inset
+
+) at the beginning of the class:
+\end_layout
+
+\begin_layout LyX-Code
+[^A-Z]
+\end_layout
+
+\begin_layout Standard
+This would search for all characters 
+\emph on
+except
+\emph default
+ the letters A-Z (thus it would also search for the letters a-z, since regular
+ expressions are case-sensitive).
+\end_layout
+
+\begin_layout Subsection
+Grouping
+\end_layout
+
+\begin_layout Standard
+You can group sequences of characters or character classes with parentheses:
+\end_layout
+
+\begin_layout LyX-Code
+(se[ea])
+\end_layout
+
+\begin_layout Standard
+The utility of grouping will be apparent shortly.
+\end_layout
+
+\begin_layout Subsection
+Kleene Star (*)
+\end_layout
+
+\begin_layout Standard
+You can specify that something must occur zero or more times:
+\end_layout
+
+\begin_layout LyX-Code
+[A-Za-z0-9]*
+\end_layout
+
+\begin_layout Standard
+This would search for the characters A-Z, a-z, and 0-9, and they may occur
+ 0 or more times after each other.
+ Thus both 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+a
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+aA, 
+\begin_inset Quotes eld
+\end_inset
+
+aAZ
+\begin_inset Quotes erd
+\end_inset
+
+, and 
+\begin_inset Quotes eld
+\end_inset
+
+abc0
+\begin_inset Quotes erd
+\end_inset
+
+ would match.
+\end_layout
+
+\begin_layout Standard
+The Kleene Star applies only to the previous character, character class,
+ or group.
+ Thus if you wish a whole string of characters to be repeated, you must
+ use grouping:
+\end_layout
+
+\begin_layout LyX-Code
+(elar)*
+\end_layout
+
+\begin_layout Standard
+This would match 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+elar
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+elarelar
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+elarelarelar
+\begin_inset Quotes erd
+\end_inset
+
+, etc.
+\end_layout
+
+\begin_layout Standard
+If you say:
+\end_layout
+
+\begin_layout LyX-Code
+elar*
+\end_layout
+
+\begin_layout Standard
+then 
+\begin_inset Quotes eld
+\end_inset
+
+ela
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+elar
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+elarr
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+elarrr
+\begin_inset Quotes erd
+\end_inset
+
+, etc.
+ will be matched.
+\end_layout
+
+\begin_layout Subsection
+Kleene Plus (+)
+\end_layout
+
+\begin_layout Standard
+The Kleene Plus (specified with 
+\begin_inset Quotes eld
+\end_inset
+
++
+\begin_inset Quotes erd
+\end_inset
+
+) is similar to the Kleene Star, except that it matches one or more times,
+ not zero or more times:
+\end_layout
+
+\begin_layout LyX-Code
+utterance ~ 'My precious+'
+\end_layout
+
+\begin_layout Standard
+would match any of 
+\begin_inset Quotes eld
+\end_inset
+
+My precious
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+My preciouss
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+My preciousss
+\begin_inset Quotes erd
+\end_inset
+
+, etc.
+\end_layout
+
+\begin_layout Standard
+Again, the Kleene Plus applies only to the previous character, character
+ class, or group.
+ If you wish to repeat a whole string, then it must be grouped with parentheses.
+\end_layout
+
+\begin_layout Subsection
+OR (|)
+\end_layout
+
+\begin_layout Standard
+You can specify that either of two characters, character classes, or groups
+ should match, with the 
+\begin_inset Quotes eld
+\end_inset
+
+or
+\begin_inset Quotes erd
+\end_inset
+
+ construct (which in the regular expressions is a 
+\begin_inset Quotes eld
+\end_inset
+
+|
+\begin_inset Quotes erd
+\end_inset
+
+):
+\end_layout
+
+\begin_layout LyX-Code
+(sea)|(lake)
+\end_layout
+
+\begin_layout Standard
+This would match either 
+\begin_inset Quotes eld
+\end_inset
+
+sea
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+lake
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+As with the Kleene Star, the | applies only to the surrounding two characters,
+ character classes, or groups.
+ Thus if you do wish to match either of two strings, you must put parentheses
+ around both strings, as in the 
+\begin_inset Quotes eld
+\end_inset
+
+sea or lake
+\begin_inset Quotes erd
+\end_inset
+
+ example above.
+ If you say:
+\end_layout
+
+\begin_layout LyX-Code
+sea|lake
+\end_layout
+
+\begin_layout Standard
+then the two strings 
+\begin_inset Quotes eld
+\end_inset
+
+selake
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+seaake
+\begin_inset Quotes erd
+\end_inset
+
+ will be matched.
+\end_layout
+
+\begin_layout Subsection
+Escapes
+\end_layout
+
+\begin_layout Standard
+If you wish to match one of the characters that have a special meaning,
+ e.g., 
+\begin_inset Quotes eld
+\end_inset
+
+[
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+]
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+*
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
++
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+|
+\begin_inset Quotes erd
+\end_inset
+
+, etc., then you must put a backslash (
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+
+\begin_inset Quotes erd
+\end_inset
+
+) in front: 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+[
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+]
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+*
+\begin_inset Quotes erd
+\end_inset
+
+, etc.
+\end_layout
+
+\begin_layout Standard
+Of course, a backslash also has special meaning, so if you wish to match
+ a backslash, you must escape it, too: 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+
+\backslash
+
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Any character
+\end_layout
+
+\begin_layout Standard
+If you wish to match 
+\begin_inset Quotes eld
+\end_inset
+
+any character
+\begin_inset Quotes erd
+\end_inset
+
+, there is a shorthand for the character class that matches 
+\begin_inset Quotes eld
+\end_inset
+
+all characters
+\begin_inset Quotes erd
+\end_inset
+
+: It is simply a dot (also known as period):
+\end_layout
+
+\begin_layout LyX-Code
+^We the people.*
+\end_layout
+
+\begin_layout Standard
+This would match any string which started with the letters 
+\begin_inset Quotes eld
+\end_inset
+
+We the people
+\begin_inset Quotes erd
+\end_inset
+
+ and which then continued with zero or more characters of any kind.
+\end_layout
+
+\begin_layout Standard
+Note that if you wish to match a period, you need to escape the period:
+ 
+\begin_inset Quotes eld
+\end_inset
+
+
+\backslash
+.
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\end_body
+\end_document

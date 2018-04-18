@@ -1,0 +1,56 @@
+.\" Man page for mqltry.1
+.\" Use the following command to view man page:
+.\"
+.\"  tbl mqltry.1 | nroff -man | less
+.\"
+.TH MQLTRY 1 "January 20, 2007"
+.SH NAME
+mqltry \- A tool to test basic Emdros functionality
+.SH SYNOPSIS
+\fBmqltry\fR [options] 
+.br
+.SH DESCRIPTION
+
+\fBmqltry\fR is a tool for testing basic Emdros functionality.  In
+particular, it exercises the MQL layer.  It should run with no errors,
+emitting a lot of messages.
+
+If all tests completed successfully, the last line of output will be
+"SUCCESS: All tests completed successfully."
+
+If at least one test failed, the last line of output will be "FAILURE:
+At least one test failed."
+
+.SH OPTIONS
+\fBmqltry\fR supports the following command-line switches:
+.TP 6
+.BI \-\-help
+show help
+.TP
+.BI \-V\ ,\ \-\-version
+show version
+.TP
+.BI \-b\ ,\ \-\-backend \ backend
+set database backend to `backend'. Valid values are: For PostgreSQL:
+"p", "pg", "postgres", and "postgresql". For MySQL: "m", "my", and
+"mysql". For SQLite 2.X.X: "2", "s", "l", "lt", "sqlite", and
+"sqlite2". For SQLite 3.X.X: "3", "s3", "lt3", and "sqlite3".
+.TP
+.BI \-u\ ,\ \-\-user \ user
+set database user to connect as (default is 'emdf').  Has no effect on
+SQLite.
+.TP
+.BI \-p\ ,\ \-\-password \ password
+set password to use for the database user.  Has no effect on SQLite,
+unless you have an encryption-enabled SQLite, in which case this gets
+passed as the key.
+
+
+
+
+.SH AUTHORS
+Copyright
+.Cr
+2001-2006 by Ulrik Petersen (ulrikp@users.sourceforge.net).  Note that
+this software is distributed under the GNU GPL.  See the sources for
+details.

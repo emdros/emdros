@@ -1,0 +1,54 @@
+CREATE OBJECT TYPE
+WITH SINGLE MONAD OBJECTS
+HAVING UNIQUE FIRST MONADS
+[Word
+    surface : STRING WITH INDEX;
+    postag : STRING FROM SET WITH INDEX;
+    morphtag : STRING FROM SET WITH INDEX;
+    edge : STRING WITH INDEX;
+    parent : ID_D;
+    parents : LIST OF ID_D;
+    secedge1 : STRING FROM SET WITH INDEX;
+    secparent1 : ID_D;
+    secedge2 : STRING FROM SET WITH INDEX;
+    secparent2 : ID_D;
+    secedge3 : STRING FROM SET WITH INDEX;
+    secparent3 : ID_D;
+    secedge4 : STRING FROM SET WITH INDEX;
+    secparent4 : ID_D;
+    secedge5 : STRING FROM SET WITH INDEX;
+    secparent5 : ID_D;
+]
+GO
+
+
+CREATE OBJECT TYPE
+[Phrase
+    tag : STRING FROM SET WITH INDEX;
+    morphtag : STRING FROM SET WITH INDEX;
+    edge : STRING FROM SET WITH INDEX;
+    parent : ID_D;
+    parents : LIST OF ID_D;
+    secedge1 : STRING FROM SET WITH INDEX;
+    secparent1 : ID_D;
+    secedge2 : STRING FROM SET WITH INDEX;
+    secparent2 : ID_D;
+    secedge3 : STRING FROM SET WITH INDEX;
+    secparent3 : ID_D;
+    secedge4 : STRING FROM SET WITH INDEX;
+    secparent4 : ID_D;
+    secedge5 : STRING FROM SET WITH INDEX;
+    secparent5 : ID_D;
+]
+GO
+
+CREATE OBJECT TYPE
+WITH SINGLE RANGE OBJECTS
+HAVING UNIQUE FIRST MONADS
+[Sentence
+    sentence_id : INTEGER;
+    editor_id : STRING FROM SET WITH INDEX;
+    date : INTEGER;
+    origin_id : STRING WITH INDEX;
+]
+GO

@@ -1,0 +1,200 @@
+.\" Man page for tigerxmlimport
+.\" Use the following command to view man page:
+.\"
+.\"  tbl tigerxmlimport.1 | nroff -man | less
+.\"
+.TH TIGERXMLIMPORT 1 "May 25, 2008"
+.SH NAME
+tigerxmlimport \- A tool to convert TIGER XML format to Emdros MQL
+.SH SYNOPSIS
+\fBtigerxmlimport\fR [ options ] [input_filename ...]
+.br
+.SH DESCRIPTION
+\fBtigerxmlimport\fR is a command-line tool for converting a corpus
+stored as TIGER XML to Emdros MQL statements that create object types
+and/or objects.  These can then later be imported into Emdros, e.g.,
+with the mql(1) program.
+
+Only the data definition part of TIGER XML is supported, not the parts
+that represent queries or matches.  This is not really a bug, since
+the purpose of the program is to import data, not queries or matches.
+
+
+.SH OPTIONS
+\fBtigerxmlimport\fR supports the following command-line switches:
+.TP 6
+.BI \-\-help
+show help, then quit
+.TP
+.BI \-V\ ,\ \-\-version
+show version, then quit
+.TP
+.BI \-b\ ,\ \-\-backend \ backend
+set database backend to `backend'. Valid values are: For PostgreSQL:
+"p", "pg", "postgres", and "postgresql". For MySQL: "m", "my", and
+"mysql". For SQLite 2.X.X: "2", "s", "l", "lt", "sqlite", and
+"sqlite2". For SQLite 3.X.X: "3", "s3", "lt3", and "sqlite3".
+.TP
+.BI \-s\ ,\ \-\-schema
+print MQL schema to the output stream, before dumping data.
+.TP
+.BI \-d\ ,\ \-\-dbname \ dbname 
+set database name. If used with -s, the string "CREATE DATABASE
+'dbname' GO USE DATABASE 'dbname' GO" will be issued before the schema.  If used when importing, "USE DATABASE 'dbname' GO" will be issued before anything else.
+.TP
+.BI \-o\ ,\ \-\-output \ filename
+dump to file filename. The default is "-", which means "standard
+output".
+.TP
+.BI \-\-start-monad \ monad
+The start monad to use. Must be >= 1.  The default is 1.
+.TP
+.BI \-\-start-id_d \ id_d
+The start id_d to use. Must be >= 1.  The default is 1.
+.TP
+.BI \-\-ntotf \ feature\-name
+The feature name to use in case you want to have separate object types
+for NonTerminals.  Each value for the named feature will become an
+object type, and the TigerXML feature will not show up as an EMdF
+feature on the object type.  Renaming will occur if a value is not a
+valid object type name (i.e., if it is not a C identifier).  The
+renaming is detailed below.  If this switch is not given, all
+NonTerminals are gathered into a single object type called
+"Nonterminal".
+.TP
+.BI --termotn \ object\-type\-name
+The object type name to use for terminals.  If this switch is not
+given, the terminals will be placed into an object type named
+"Terminal".
+
+.SH OPERATION
+
+\fBtigerxmlimport\fR reads corpus data in TIGER XML format, and
+converts the data to MQL statements for later importing into Emdros.
+
+The filename given after the options on the command line is opened,
+and it must contain a TIGER XML document.  If no filename is given,
+the input is read from stdin.
+
+If no \fB-o\fR switch is given, the output is printed on stdout.
+
+If an error occurs, the string "FAILURE" or the string "ERROR" is
+printed on stderr, along with an error message.
+
+If no error occurs, a string of the form "SUCCESS: next_monad is X
+next_id_d is Y" is printed on stderr, where X and Y are positive
+integers denoting the next monad and the next id_d to be used by the
+next invocation of the program, respectively.  This is useful if
+you've got several directories' worth of documents to import.
+
+.SH SCHEMA
+
+The schema can be seen by giving the program \fB-s\fR switch, with an
+optional \fB-d\fR switch.
+
+A "Sentence" corresponds to one top-level sentence.  It has a single
+feature, called "id", giving the corpus id of the sentence.  The "id"
+feature is of type STRING.
+
+If the --ntotf switch is not given, all nonterminals are gathered into
+a single object type, called "Nonterminal".  A "Nonterminal" is a
+nonterminal in the tree which is not a top-level sentence.  Note that
+this encompasses clauses ("S") as well as phrases.  Its "parent"
+feature is an id_d that points to its immediate parent.  Its "edge"
+feature is a STRING which shows the edge label <annotation> tag held.
+
+The rest of the features of a "Nonterminal" object are computed as
+follows: Inside the <annotation> tag, each <feature> tag whose domain
+is either "NT" or "FREC" becomes an Emdros feature of type STRING FROM
+SET, with the name given in the "name" attribute of the <feature> tag.
+For example, <feature name="cat" domain="NT"> will become one Emdros
+feature, with the name "cat" and the type "STRING FROM SET".
+
+Secondary edges are given as secedgeX (a STRING FROM SET) and
+secedgeparentX (an id_d pointing to the secondary edge parent), where
+X is an integer (1,2,3,4.... etc.).  The number of pairs of
+secedgeX/secedgeparentX features depends on the maximum number of
+secondary edges actually found in the corpus imported.  For example,
+if there are a maximum of two secondary edges on any node in the
+corpus, then the features will be secedge1, secedgeparent1, secedge2,
+secedgeparent2.
+
+If the --ntotf switch is given, the same as the above occurs, except
+that the TigerXML feature named by the --ntotf switch will not be
+added to any nonterminal object.  Instead, the feature named by the
+switch will be interpreted as an object type name, and all
+nonterminals with the same value for this feature will be placed into
+an object type of the same name.  For example, if the switch + value
+"--ntotf cat" are given, then the TigerXML feature "cat" is used.  If
+a Nonterminal has a "cat" of "CL", then that nonterminal will be
+placed into the object type named "CL".  If the value is not a valid
+object type name (i.e., if it is not a valid C identifier), then the
+value is renamed in order to become a valid object type name.  This is
+done as follows: All characters which do not belong to the set
+[A-Za-z0-9_] are first made into underscores.  Then, if the result
+starts with a digit ("[0-9]"), then an underscore is prepended.  Then,
+if the result is either a reserved MQL word, or if the name already
+exists in the set of object types to be used, underscores are appended
+until the name is unique and not an MQL reserved word.
+
+If the "--termotn" switch is not given, all terminals are gathered
+into an object type by the name "Terminal".  A "Terminal" is a
+terminal node in the tree (i.e., a token). Its features are calculated
+precisely as for Nonterminal, except that the domain of the <feature>
+tag is either "T" or "FREC", but not "NT".
+
+If the "--termotn" switch, on the other hand, is given, then all
+terminals are gathered into an object type with the name given by the
+switch.
+
+
+Since the schema is created from the <feature> parts of the header,
+the program needs to read the corpus before it can emit the schema.
+If you give the -s switch to the program, the schema will be printed
+on stdout.
+
+
+.SH EXAMPLES
+
+tigerxmlimport -o data.mql -d mycorpus --schema \\
+corpus.xml > schema.mql
+
+This example reads the corpus.xml corpus (which must be in TIGER XML
+format), and writes the data to the data.mql file, while writing the
+schema to schema.mql.  The Emdros database will be called 'mycorpus'
+
+Afterwards, the following will create the database:
+
+mql schema.mql
+
+mql data.mql
+
+
+
+
+.SH BUGS
+
+The subcorpus feature of TIGER XML is not supported.
+
+
+.SH RETURN VALUES
+.TP
+.BR 0 " Success"
+.TP
+.BR 1 " Wrong usage"
+.TP
+.BR 2 " Connection to backend server could not be established"
+.TP
+.BR 3 " An exception occurred (the type is printed on stderr)"
+.TP
+.BR 4 " Could not open file"
+.TP
+.BR 5 " Database error"
+.TP
+.BR 6 " Compiler error (internal error)"
+.SH AUTHORS
+Copyright
+.Cr
+2001-2007 by Ulrik Petersen (ulrikp@users.sourceforge.net).  Note that
+this software is distributed under the GNU GPL.  See the sources for
+details.

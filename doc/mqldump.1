@@ -1,0 +1,137 @@
+.\" Man page for mqldump
+.\" Use the following command to view man page:
+.\"
+.\"  tbl mqldump.1 | nroff -man | less
+.\"
+.TH MQLDUMP 1 "October 9, 2007"
+.SH NAME
+mqldump \- A tool to dump Emdros databases in MQL
+.SH SYNOPSIS
+\fBmqldump\fR [ options ] database [object type names...]
+.br
+.SH DESCRIPTION
+\fBmqldump\fR is a tool to dump (parts of) an Emdros database into an
+MQL script.  This MQL script can then later be run through the
+\fBmql(1)\fR program to recreate (the dumped parts of) the database.
+
+If one or more object type names are given after the database name,
+only those object types are processed in the order given.  Otherwise,
+all object types are processed.
+
+If the -o option is given, the output is placed on the file with the
+filename given.  Otherwise, the output is dumped to stdout.
+
+Object id_ds are preserved, i.e., when dumping object data, each
+CREATE OBJECT statement has a WITH ID_D part.  This makes it possible
+to import the MQL script again and preserve things like id_d feature
+values that point to other objects.
+
+If the -v or --verbose option is given, a lot of information is
+displayed showing the progress of the dump.  When dumping objects,
+each emitted dot represents 5000 objects.
+
+.SH OPTIONS
+\fBmqldump\fR supports the following command-line switches:
+.TP 6
+.BI \-\-help
+show help
+.TP
+.BI \-V\ ,\ \-\-version
+show version
+.TP
+.BI \-b\ ,\ \-\-backend \ backend
+set database backend to `backend'. Valid values are: For PostgreSQL:
+"p", "pg", "postgres", and "postgresql". For MySQL: "m", "my", and
+"mysql". For SQLite 2.X.X: "2", "s", "l", "lt", "sqlite", and
+"sqlite2". For SQLite 3.X.X: "3", "s3", "lt3", and "sqlite3".
+.TP
+.BI \-h\ ,\ \-\-host \ hostname 
+set db back-end hostname to connect to (default is 'localhost').  Has
+no effect on SQLite.
+.TP
+.BI \-u\ ,\ \-\-user \ user
+set database user to connect as (default is 'emdf').  Has no effect on
+SQLite.
+.TP
+.BI \-p\ ,\ \-\-password \ password
+set password to use for the database user.  Has no effect on SQLite,
+unless you have an encryption-enabled SQLite, in which case this gets
+passed as the key.
+
+.TP
+.BI \-v\ ,\ \-\-verbose
+be verbose
+.TP
+.BI \-o \ filename
+produce output on file rather than stdout
+.TP
+.BI \-n\ ,\ \-\-no\-create\-db
+do not produce CREATE DATABASE and USE DATABASE statements at the beginning
+.TP
+.BI \-i\ ,\ \-\-no\-create\-info
+do not produce meta-data info (same as --no-create-enums
+--no-create-object-types)
+.TP
+.BI \-t\ ,\ \-\-no\-create\-object\-types
+do not produce object type meta-data info (i.e., don't produce CREATE
+OBJECT TYPE statements)
+.TP
+.BI \-e\ ,\ \-\-no\-create\-enums
+do not produce enumeration (meta-)data info (i.e., don't create
+enumerations and enumeration constants by producing CREATE ENUMERATION
+statements)
+.TP
+.BI \-m\ ,\ \-\-no\-create\-monad\-sets
+do not produce arbitrary monad sets (i.e., don't create monad sets by 
+producing CREATE MONAD SET statements)
+.TP
+.BI \-d\ ,\ \-\-no\-create\-objects
+do not produce object data (i.e., don't produce CREATE OBJECT statements)
+.TP
+.BI \-\-batch\-create\-objects
+use CREATE OBJECTS WITH OBJECT TYPE rather than individual CREATE
+OBJECT statements.
+.TP
+.BI \-\-batch\-size \ number 
+issue \fInumber\fR object-creations per CREATE OBJECTS WITH OBJECT
+TYPE statement.  Implies \fB\-\-batch\-create\-objects\fR.
+.TP
+.BI \-\-start \ number 
+set monad at which dumping should start.  Default is MIN_M (i.e.,
+lowest monad in database).
+.TP
+.BI \-\-end \ number 
+set monad at which dumping should end.  Default is MAX_M (i.e.,
+highest monad in database).
+.TP
+.BI \-\-encoding \ encoding
+When issuing the CREATE DATABASE statement, pass the 'encoding'
+argument in the "USING ENCODING" clause of the CREATE DATABASE
+statement.  The default is not to pass any "USING ENCODING" clause.
+Valid encodings: 'utf-8' and 'iso-8859-1'.
+
+
+
+.SH RETURN VALUES
+.TP
+.BR 0 " Success"
+.TP
+.BR 1 " Wrong usage"
+.TP
+.BR 2 " Connection to backend server could not be established"
+.TP
+.BR 3 " An exception occurred (the type is printed on stderr)"
+.TP
+.BR 4 " Could not open file"
+.TP
+.BR 5 " Database error"
+.TP
+.BR 6 " Compiler error (error in MQL input)"
+.SH AVAILABILITY
+Available from http://emdros.org/.
+.SH AUTHORS
+Copyright
+.Cr
+2003-2007 by Ulrik Petersen (ulrikp@users.sourceforge.net).  Note that
+this software is distributed under the GNU GPL.  See the sources for
+details.

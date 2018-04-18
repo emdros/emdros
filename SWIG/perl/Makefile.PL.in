@@ -1,0 +1,9 @@
+# File : Makefile.PL
+use ExtUtils::MakeMaker;
+WriteMakefile(
+	'NAME'    => 'EmdrosPerl',              # Name of package
+	'OBJECT'  => 'plemdros_wrap.o',       # Object files
+	'LIBS'    => '-L../../EMdF/.libs -L../../MQL/.libs -L/usr/lib/mysql -lmql @EMDFLDADD@ -lstdc++ ',
+	'INC'     => '-I../../include',
+	'MAKEFILE' => 'Makefile.swig',
+);

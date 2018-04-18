@@ -1,0 +1,15 @@
+Document: emdros-docs-pdf
+Title: Emdros PDF and HTML manuals
+Author: Ulrik Sandborg-Petersen
+Abstract: These PDF and HTML manuals describe Emdros and
+ how it can be used to manage text plus
+ information about that text.
+Section: Text
+
+Format: PDF
+Files: ${prefix}/share/doc/emdros/*.pdf.gz
+
+Format: HTML
+Index: ${prefix}/share/doc/emdros/emdros-progref-guide.html/index.html
+Files: ${prefix}/share/doc/emdros/emdros-progref-guide.html/*.html
+

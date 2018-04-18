@@ -1,0 +1,27 @@
+/* Define to empty if the keyword does not work.  */
+/* #undef const */
+
+/* Define to `unsigned' if <sys/types.h> doesn't define.  */
+/* #undef size_t */
+
+/* Define if you have the ANSI C header files.  */
+#define STDC_HEADERS 1
+
+/* Define if you have the strerror function.  */
+#define HAVE_STRERROR 1
+
+/* Define if you have the strtol function.  */
+#define HAVE_STRTOL 1
+
+/* Define if you have the <limits.h> header file.  */
+#define HAVE_LIMITS_H 1
+
+/* Define if you have the <unistd.h> header file.  */
+#define HAVE_UNISTD_H 0
+
+/* Name of package */
+#define PACKAGE "emdros"
+
+/* Version number of package */
+#define VERSION "1.0.0"
+

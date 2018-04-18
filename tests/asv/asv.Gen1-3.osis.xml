@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<osis xmlns="http://www.bibletechnologies.net/2003/OSIS/namespace" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.bibletechnologies.net/2003/OSIS/namespace osisCore.2.0.xsd">
+ <osisText osisIDWork="ASV" osisRefWork="Bible" xml:lang="en">
+  <header>
+   <revisionDesc resp="Rainbow Missions,&#xD;&#xA;Inc.">
+    <date>2005-09-15T12.51.50</date>
+    <p> The WORDS in this edition match the printed edition to a
+high degree of certainty. (If you find otherwise, please contact Editors@eBible.org with “ASV Comment” in the subject line.) Many
+paragraph &amp; line end markers are missing in poetry sections. Any volunteers to insert them where they belong?
+</p>
+    <p>Converted asv.gbf in GBF to asv.osis.xml in
+an XML format that is mostly compliant with OSIS 2.0 using gbf2osis.exe.
+(Please see http://ebt.cx/translation/ for links to this software.)</p>
+    <p>GBF and OSIS metadata fields do not exactly correspond to each other, so
+the conversion is not perfect in the metadata. However, the Scripture portion
+should be correct.</p>
+    <p>No attempt was to convert quotation marks to structural markers using q or
+speech elements, because this would require language and style-dependent
+processing, and because the current OSIS specification is deficient in that
+quotation mark processing is not guaranteed to produce the correct results
+for all languages and translations. In English texts, the hard part of the
+conversion to markup is figuring out what ’ means.
+The other difficulty is that OSIS in no way guarantees that these punctuation
+marks would be reconstituted properly by software that reads OSIS files
+for anything other than modern English, and even then, it does not
+accommodate all styles of punctuation and all cases.
+We strongly recommend that anyone using OSIS NOT replace quotation mark
+punctuation in any existing text with q or speech elements. It is better
+for multiple language processing capabilities to leave the quotation
+punctuation as part of the text. If you need the q or speech markup, then you
+may supplement those punctuation marks with those markup elements, but specify
+the n='' parameter in those elements to indicate that no generation of any
+punctuation from those markup elements is required or desired. That way you
+can have BOTH correct punctuation already in the text AND markup so that you
+can automatically determine when you are in a quotation or not, independent
+of language. This may be useful for a search by speaker, for example.</p>
+    <p>The output of gbf2osis marks Jesus' words in a non-standard way using the q
+element AND quotation marks if they were marked with FR/Fr markers in the GBF
+file. The OSIS 2.0 specification requires that quotation marks be stripped out,
+and reinserted by software that reads the OSIS files when q elements are used.
+This is not acceptable for the reasons given above, and we choose not to do
+that, but we used the q element with who='Jesus' to indicate Jesus' words.
+Do not generate any additional punctuation due to these markers. The correct
+punctuation is already in the text.</p>
+    <p>OSIS does not currently support footnote start anchors. Therefore, these
+start anchors have been represented with milestone elements, in case someone
+might like to use them, for example, to start an href element in a conversion
+to HTML. (OSIS sort of supports the same idea by allowing a catchword to be
+defined within a footnote, but I did not implement the processing to convert
+to this different way of doing things, and it isn't exactly the same, anyway.)</p>
+    <p>Traditional psalm book titles are rendered as text rather than titles, because
+the title element does not support containing transChange elements, as would be
+required to encode the KJV text using OSIS title elements. This may actually be
+a superior solution, anyway, in that the Masoretic text makes no such distinction
+(even though many modern typeset Bibles do make a typographic distinction in this
+case).</p>
+    <p>The schema location headers were modified to use local copies rather than the
+standard locations so that these files could be validated and used without an
+Internet connection active at all times (very important for the developer's
+remote island location), but you may wish to change them back.</p>
+   </revisionDesc>
+   
+    <title>The American Standard Version of the Holy Bible (1901)</title>
+    <creator>ASV committee</creator>
+    <date event="eversion" type="Gregorian">2005-09-15</date>
+    <publisher>Rainbow Missions,
+Inc.</publisher>
+    <type type="OSIS">Bible</type>
+    <identifier type="OSIS">Bible.en.ASV</identifier>
+    <source>http://eBible.org/asv/</source>
+    <language type="SIL">ENG</language>
+    <coverage>America in 1900</coverage>
+    <rights>The American Standard Version of the Holy
+Bible is now in the Public Domain. Feel free to copy it for your friends, give it away, sell it, and publish it.
+http://ebible.org/asv/</rights>
+    <scope>Gen.1-Gen.12</scope>
+    <refSystem>Bible.KJV</refSystem>
+   
+  </header>
+  <div type="bookGroup" canonical="true">
+   <div type="book" osisID="Gen" scope="Gen">
+    <title type="main" short="Genesis">The First Book of Moses, called Genesis </title>
+    <chapter sID="Gen.1" osisID="Gen.1" />
+    <p>
+     <verse sID="Gen.1.1" osisID="Gen.1.1" />In the beginning God created the heavens and the earth.
+<verse eID="Gen.1.1" /><verse sID="Gen.1.2" osisID="Gen.1.2" />And the earth was waste and void; and darkness was upon the face of the deep: and the Spirit of God moved upon the face of the
+waters.
+<verse eID="Gen.1.2" /><verse sID="Gen.1.3" osisID="Gen.1.3" />And God said, Let there be light: and there was light.
+<verse eID="Gen.1.3" /><verse sID="Gen.1.4" osisID="Gen.1.4" />And God saw the light, that it was good: and God divided the light from the darkness.
+<verse eID="Gen.1.4" /><verse sID="Gen.1.5" osisID="Gen.1.5" />And God called the light Day, and the darkness he called Night. And there was evening and there was morning, one day.</p>
+    <p>
+     <verse eID="Gen.1.5" />
+     <verse sID="Gen.1.6" osisID="Gen.1.6" />And God said, Let there be a firmament in the midst of the waters, and let it divide the waters from the waters.
+<verse eID="Gen.1.6" /><verse sID="Gen.1.7" osisID="Gen.1.7" />And God made the firmament, and divided the waters which were under the firmament from the waters which were above the firmament:
+and it was so.
+<verse eID="Gen.1.7" /><verse sID="Gen.1.8" osisID="Gen.1.8" />And God called the firmament Heaven. And there was evening and there was morning, a second day.</p>
+    <p>
+     <verse eID="Gen.1.8" />
+     <verse sID="Gen.1.9" osisID="Gen.1.9" />And God said, Let the waters under the heavens be gathered together unto one place, and let the dry land appear: and it was so.
+<verse eID="Gen.1.9" /><verse sID="Gen.1.10" osisID="Gen.1.10" />And God called the dry land Earth; and the gathering together of the waters called he Seas: and God saw that it was good.
+<verse eID="Gen.1.10" /><verse sID="Gen.1.11" osisID="Gen.1.11" />And God said, Let the earth put forth grass, herbs yielding seed, <transChange type="added">and</transChange> fruit-trees bearing fruit after their kind, wherein
+is the seed thereof, upon the earth: and it was so.
+<verse eID="Gen.1.11" /><verse sID="Gen.1.12" osisID="Gen.1.12" />And the earth brought forth grass, herbs yielding seed after their kind, and trees bearing fruit, wherein is the seed thereof,
+after their kind: and God saw that it was good.
+<verse eID="Gen.1.12" /><verse sID="Gen.1.13" osisID="Gen.1.13" />And there was evening and there was morning, a third day.</p>
+    <p>
+     <verse eID="Gen.1.13" />
+     <verse sID="Gen.1.14" osisID="Gen.1.14" />And God said, Let there be lights in the firmament of heaven to divide the day from the night; and let them be for signs, and for
+seasons, and for days and years:
+<verse eID="Gen.1.14" /><verse sID="Gen.1.15" osisID="Gen.1.15" />and let them be for lights in the firmament of heaven to give light upon the earth: and it was so.
+<verse eID="Gen.1.15" /><verse sID="Gen.1.16" osisID="Gen.1.16" />And God made the two great lights; the greater light to rule the day, and the lesser light to rule the night: <transChange type="added">he made</transChange> the
+stars also.
+<verse eID="Gen.1.16" /><verse sID="Gen.1.17" osisID="Gen.1.17" />And God set them in the firmament of heaven to give light upon the earth,
+<verse eID="Gen.1.17" /><verse sID="Gen.1.18" osisID="Gen.1.18" />and to rule over the day and over the night, and to divide the light from the darkness: and God saw that it was good.
+<verse eID="Gen.1.18" /><verse sID="Gen.1.19" osisID="Gen.1.19" />And there was evening and there was morning, a fourth day.</p>
+    <p>
+     <verse eID="Gen.1.19" />
+     <verse sID="Gen.1.20" osisID="Gen.1.20" />And God said, Let the waters swarm with swarms of living creatures, and let birds fly above the earth in the open firmament of
+heaven.
+<verse eID="Gen.1.20" /><verse sID="Gen.1.21" osisID="Gen.1.21" />And God created the great sea-monsters, and every living creature that moveth, wherewith the waters swarmed, after their kind, and
+every winged bird after its kind: and God saw that it was good.
+<verse eID="Gen.1.21" /><verse sID="Gen.1.22" osisID="Gen.1.22" />And God blessed them, saying, Be fruitful, and multiply, and fill the waters in the seas, and let birds multiply on the earth.
+<verse eID="Gen.1.22" /><verse sID="Gen.1.23" osisID="Gen.1.23" />And there was evening and there was morning, a fifth day.</p>
+    <p>
+     <verse eID="Gen.1.23" />
+     <verse sID="Gen.1.24" osisID="Gen.1.24" />And God said, Let the earth bring forth living creatures after their kind, cattle, and creeping things, and beasts of the earth
+after their kind: and it was so.
+<verse eID="Gen.1.24" /><verse sID="Gen.1.25" osisID="Gen.1.25" />And God made the beasts of the earth after their kind, and the cattle after their kind, and everything that creepeth upon the
+ground after its kind: and God saw that it was good.
+<verse eID="Gen.1.25" /><verse sID="Gen.1.26" osisID="Gen.1.26" />And God said, Let us make man in our image, after our likeness: and let them have dominion over the fish of the sea, and over the
+birds of the heavens, and over the cattle, and over all the earth, and over every creeping thing that creepeth upon the earth.
+<verse eID="Gen.1.26" /><verse sID="Gen.1.27" osisID="Gen.1.27" />And God created man in his own image, in the image of God created he him; male and female created he them.
+<verse eID="Gen.1.27" /><verse sID="Gen.1.28" osisID="Gen.1.28" />And God blessed them: and God said unto them, Be fruitful, and multiply, and replenish the earth, and subdue it; and have dominion
+over the fish of the sea, and over the birds of the heavens, and over every living thing that moveth upon the earth.
+<verse eID="Gen.1.28" /><verse sID="Gen.1.29" osisID="Gen.1.29" />And God said, Behold, I have given you every herb yielding seed, which is upon the face of all the earth, and every tree, in which
+is the fruit of a tree yielding seed; to you it shall be for food:
+<verse eID="Gen.1.29" /><verse sID="Gen.1.30" osisID="Gen.1.30" />and to every beast of the earth, and to every bird of the heavens, and to everything that creepeth upon the earth, wherein there is
+life, <transChange type="added">I have given</transChange> every green herb for food: and it was so.
+<verse eID="Gen.1.30" /><verse sID="Gen.1.31" osisID="Gen.1.31" />And God saw everything that he had made, and, behold, it was very good. And there was evening and there was morning, the sixth
+day.</p>
+    <lb/>
+    <p>
+     <verse eID="Gen.1.31" />
+     <chapter eID="Gen.1" />
+     <chapter sID="Gen.2" osisID="Gen.2" />
+     <verse sID="Gen.2.1" osisID="Gen.2.1" />And the heavens and the earth were finished, and all the host of them.
+<verse eID="Gen.2.1" /><verse sID="Gen.2.2" osisID="Gen.2.2" />And on the seventh day God finished his work which he had made; and he rested on the seventh day from all his work which he had
+made.
+<verse eID="Gen.2.2" /><verse sID="Gen.2.3" osisID="Gen.2.3" />And God blessed the seventh day, and hallowed it; because that in it he rested from all his work which God had created and made.</p>
+    <p>
+     <verse eID="Gen.2.3" />
+     <verse sID="Gen.2.4" osisID="Gen.2.4" />These are the generations of the heavens and of the earth when they were created, in the day that Jehovah God made earth and heaven.
+<verse eID="Gen.2.4" /><verse sID="Gen.2.5" osisID="Gen.2.5" />And no plant of the field was yet in the earth, and no herb of the field had yet sprung up; for Jehovah God had not caused it to
+rain upon the earth: and there was not a man to till the ground;
+<verse eID="Gen.2.5" /><verse sID="Gen.2.6" osisID="Gen.2.6" />but there went up a mist from the earth, and watered the whole face of the ground.
+<verse eID="Gen.2.6" /><verse sID="Gen.2.7" osisID="Gen.2.7" />And Jehovah God formed man of the dust of the ground, and breathed into his nostrils the breath of life; and man became a living
+soul.
+<verse eID="Gen.2.7" /><verse sID="Gen.2.8" osisID="Gen.2.8" />And Jehovah God planted a garden eastward, in Eden; and there he put the man whom he had formed.
+<verse eID="Gen.2.8" /><verse sID="Gen.2.9" osisID="Gen.2.9" />And out of the ground made Jehovah God to grow every tree that is pleasant to the sight, and good for food; the tree of life also in
+the midst of the garden, and the tree of the knowledge of good and evil.
+<verse eID="Gen.2.9" /><verse sID="Gen.2.10" osisID="Gen.2.10" />And a river went out of Eden to water the garden; and from thence it was parted, and became four heads.
+<verse eID="Gen.2.10" /><verse sID="Gen.2.11" osisID="Gen.2.11" />The name of the first is Pishon: that is it which compasseth the whole land of Havilah, where there is gold;
+<verse eID="Gen.2.11" /><verse sID="Gen.2.12" osisID="Gen.2.12" />and the gold of that land is good: there is bdellium and the onyx stone.
+<verse eID="Gen.2.12" /><verse sID="Gen.2.13" osisID="Gen.2.13" />And the name of the second river is Gihon: the same is it that compasseth the whole land of Cush.
+<verse eID="Gen.2.13" /><verse sID="Gen.2.14" osisID="Gen.2.14" />And the name of the third river is Hiddekel: that is it which goeth in front of Assyria. And the fourth river is the Euphrates.
+<verse eID="Gen.2.14" /><verse sID="Gen.2.15" osisID="Gen.2.15" />And Jehovah God took the man, and put him into the garden of Eden to dress it and to keep it.
+<verse eID="Gen.2.15" /><verse sID="Gen.2.16" osisID="Gen.2.16" />And Jehovah God commanded the man, saying, Of every tree of the garden thou mayest freely eat:
+<verse eID="Gen.2.16" /><verse sID="Gen.2.17" osisID="Gen.2.17" />but of the tree of the knowledge of good and evil, thou shalt not eat of it: for in the day that thou eatest thereof thou shalt
+surely die.</p>
+    <p>
+     <verse eID="Gen.2.17" />
+     <verse sID="Gen.2.18" osisID="Gen.2.18" />And Jehovah God said, It is not good that the man should be alone; I will make him a help meet for him.
+<verse eID="Gen.2.18" /><verse sID="Gen.2.19" osisID="Gen.2.19" />And out of the ground Jehovah God formed every beast of the field, and every bird of the heavens; and brought them unto the man to
+see what he would call them: and whatsoever the man called every living creature, that was the name thereof.
+<verse eID="Gen.2.19" /><verse sID="Gen.2.20" osisID="Gen.2.20" />And the man gave names to all cattle, and to the birds of the heavens, and to every beast of the field; but for man there was not
+found a help meet for him.
+<verse eID="Gen.2.20" /><verse sID="Gen.2.21" osisID="Gen.2.21" />And Jehovah God caused a deep sleep to fall upon the man, and he slept; and he took one of his ribs, and closed up the flesh
+instead thereof:
+<verse eID="Gen.2.21" /><verse sID="Gen.2.22" osisID="Gen.2.22" />and the rib, which Jehovah God had taken from the man, made he a woman, and brought her unto the man.
+<verse eID="Gen.2.22" /><verse sID="Gen.2.23" osisID="Gen.2.23" />And the man said, This is now bone of my bones, and flesh of my flesh: she shall be called Woman, because she was taken out of Man.
+<verse eID="Gen.2.23" /><verse sID="Gen.2.24" osisID="Gen.2.24" />Therefore shall a man leave his father and his mother, and shall cleave unto his wife: and they shall be one flesh.
+<verse eID="Gen.2.24" /><verse sID="Gen.2.25" osisID="Gen.2.25" />And they were both naked, the man and his wife, and were not ashamed.</p>
+    <lb/>
+    <p>
+     <verse eID="Gen.2.25" />
+     <chapter eID="Gen.2" />
+     <chapter sID="Gen.3" osisID="Gen.3" />
+     <verse sID="Gen.3.1" osisID="Gen.3.1" />Now the serpent was more subtle than any beast of the field which Jehovah God had made. And he said unto the woman, Yea, hath
+God said, Ye shall not eat of any tree of the garden?
+<verse eID="Gen.3.1" /><verse sID="Gen.3.2" osisID="Gen.3.2" />And the woman said unto the serpent, Of the fruit of the trees of the garden we may eat:
+<verse eID="Gen.3.2" /><verse sID="Gen.3.3" osisID="Gen.3.3" />but of the fruit of the tree which is in the midst of the garden, God hath said, Ye shall not eat of it, neither shall ye touch it,
+lest ye die.
+<verse eID="Gen.3.3" /><verse sID="Gen.3.4" osisID="Gen.3.4" />And the serpent said unto the woman, Ye shall not surely die:
+<verse eID="Gen.3.4" /><verse sID="Gen.3.5" osisID="Gen.3.5" />for God doth know that in the day ye eat thereof, then your eyes shall be opened, and ye shall be as God, knowing good and evil.
+<verse eID="Gen.3.5" /><verse sID="Gen.3.6" osisID="Gen.3.6" />And when the woman saw that the tree was good for food, and that it was a delight to the eyes, and that the tree was to be desired
+to make one wise, she took of the fruit thereof, and did eat; and she gave also unto her husband with her, and he did eat.
+<verse eID="Gen.3.6" /><verse sID="Gen.3.7" osisID="Gen.3.7" />And the eyes of them both were opened, and they knew that they were naked; and they sewed fig-leaves together, and made themselves
+aprons.
+<verse eID="Gen.3.7" /><verse sID="Gen.3.8" osisID="Gen.3.8" />And they heard the voice of Jehovah God walking in the garden in the cool of the day: and the man and his wife hid themselves from
+the presence of Jehovah God amongst the trees of the garden.</p>
+    <p>
+     <verse eID="Gen.3.8" />
+     <verse sID="Gen.3.9" osisID="Gen.3.9" />And Jehovah God called unto the man, and said unto him, Where art thou?
+<verse eID="Gen.3.9" /><verse sID="Gen.3.10" osisID="Gen.3.10" />And he said, I heard thy voice in the garden, and I was afraid, because I was naked; and I hid myself.
+<verse eID="Gen.3.10" /><verse sID="Gen.3.11" osisID="Gen.3.11" />And he said, Who told thee that thou wast naked? Hast thou eaten of the tree, whereof I commanded thee that thou shouldest not eat?
+<verse eID="Gen.3.11" /><verse sID="Gen.3.12" osisID="Gen.3.12" />And the man said, The woman whom thou gavest to be with me, she gave me of the tree, and I did eat.
+<verse eID="Gen.3.12" /><verse sID="Gen.3.13" osisID="Gen.3.13" />And Jehovah God said unto the woman, What is this thou hast done? And the woman said, The serpent beguiled me, and I did eat.
+<verse eID="Gen.3.13" /><verse sID="Gen.3.14" osisID="Gen.3.14" />And Jehovah God said unto the serpent, Because thou hast done this, cursed art thou above all cattle, and above every beast of the
+field; upon thy belly shalt thou go, and dust shalt thou eat all the days of thy life:
+<verse eID="Gen.3.14" /><verse sID="Gen.3.15" osisID="Gen.3.15" />and I will put enmity between thee and the woman, and between thy seed and her seed: he shall bruise thy head, and thou shalt
+bruise his heel.
+<verse eID="Gen.3.15" /><verse sID="Gen.3.16" osisID="Gen.3.16" />Unto the woman he said, I will greatly multiply thy pain and thy conception; in pain thou shalt bring forth children; and thy
+desire shall be to thy husband, and he shall rule over thee.
+<verse eID="Gen.3.16" /><verse sID="Gen.3.17" osisID="Gen.3.17" />And unto Adam he said, Because thou hast hearkened unto the voice of thy wife, and hast eaten of the tree, of which I commanded
+thee, saying, Thou shalt not eat of it: cursed is the ground for thy sake; in toil shalt thou eat of it all the days of thy life;
+<verse eID="Gen.3.17" /><verse sID="Gen.3.18" osisID="Gen.3.18" />thorns also and thistles shall it bring forth to thee; and thou shalt eat the herb of the field;
+<verse eID="Gen.3.18" /><verse sID="Gen.3.19" osisID="Gen.3.19" />in the sweat of thy face shalt thou eat bread, till thou return unto the ground; for out of it wast thou taken: for dust thou art,
+and unto dust shalt thou return.
+<verse eID="Gen.3.19" /><verse sID="Gen.3.20" osisID="Gen.3.20" />And the man called his wife’s name Eve; because she was the mother of all living.
+<verse eID="Gen.3.20" /><verse sID="Gen.3.21" osisID="Gen.3.21" />And Jehovah God made for Adam and for his wife coats of skins, and clothed them.</p>
+    <p>
+     <verse eID="Gen.3.21" />
+     <verse sID="Gen.3.22" osisID="Gen.3.22" />And Jehovah God said, Behold, the man is become as one of us, to know good and evil; and now, lest he put forth his hand, and take
+also of the tree of life, and eat, and live for ever—
+<verse eID="Gen.3.22" /><verse sID="Gen.3.23" osisID="Gen.3.23" />therefore Jehovah God sent him forth from the garden of Eden, to till the ground from whence he was taken.
+<verse eID="Gen.3.23" /><verse sID="Gen.3.24" osisID="Gen.3.24" />So he drove out the man; and he placed at the east of the garden of Eden the Cherubim, and the flame of a sword which turned every
+way, to keep the way of the tree of life.</p>
+     <verse eID="Gen.3.24" />
+     <chapter eID="Gen.3" />
+   </div>
+  </div>
+ </osisText>
+</osis>

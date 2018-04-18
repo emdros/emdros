@@ -1,0 +1,14 @@
+{
+	"json_version":1,
+	 "mainwindow":{
+	 "mainwindow_strings":{"font_size_index":5,},
+	 "bible_tabs":{
+		"current_bible_tab":1,
+		"bible_tab_list":[
+		{"strings": 
+		{"cur_url": "bible:Titus.3","cur_bible_url": "bible:Titus.3","cur_bible_ref": "Titus.3","human_readable_OSIS_ref": "Tit 3","current_commentary_db_name": "JFB","db_list": ["Bibelen p\xc3\xa5 Hverdagsdansk"],"info_tab_urls":{"kSearchTab":"home://","kInfoTab":"home://","kCommentaryTab":"commentary:blah/JFB/Titus.3",},
+		"history": {
+		"history_pos": 2,
+		"urllist": ["instructions://","intro:Titus","bible:Titus.3"]
+		}
+		},{"strings": {"cur_url": "bible:1Sam.4","cur_bible_url": "bible:1Sam.4","cur_bible_ref": "1Sam.4","human_readable_OSIS_ref": "1 Sam 4","current_commentary_db_name": "JFB","db_list": ["Bibelen p\xc3\xa5 Hverdagsdansk"],"info_tab_urls":{"kSearchTab":"home://","kInfoTab":"home://","kCommentaryTab":"commentary:blah/JFB/1Sam.4",},"history": {"history_pos": 2,"urllist": ["instructions://","intro:1Sam","bible:1Sam.4"]}}]}},}

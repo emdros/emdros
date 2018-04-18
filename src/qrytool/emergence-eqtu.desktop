@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Type=Application
+
+Exec=eqtu
+Icon=emergence-blue-E
+
+Name=Emdros Query Tool
+Comment=Query Emdros databases interactively
+
+Categories=Education;Languages;

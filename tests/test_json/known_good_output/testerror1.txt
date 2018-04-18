@@ -1,0 +1,8 @@
+---------- start of consumed input -----
+{"json_version":1,"mainwindow:{"m
+---------- end of consumed input -----
+Parsing failed
+
+syntax error near <<EOF>>
+
+FAILURE!

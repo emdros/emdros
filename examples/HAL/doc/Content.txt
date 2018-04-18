@@ -1,0 +1,564 @@
+<page ID="1000">
+
+
+</page>
+
+
+<page ID="1001">
+
+<P>Welcome to the Emdros HAL example.  Here you will find information on:</P>
+
+<UL>
+  <LI><page_anchor ID="1020">What is a HAL space?</page_anchor>
+  <LI><page_anchor ID="1030">What does the example do?</page_anchor>
+  <LI><page_anchor ID="1100">Running the example</page_anchor>
+</UL>
+
+
+</page>
+
+
+
+<page ID="1010">
+
+<UL>
+  <LI><page_anchor ID="1020">What is a HAL space?</page_anchor>
+  <LI><page_anchor ID="1030">What does the example do?</page_anchor>
+</UL>
+
+</page>
+
+
+<page ID="1020">
+
+<h2>Background</h2>
+
+<P>HAL stands for:</P>
+
+<center><P>
+  <b>H</b>yperspace <b>A</b>nalogue to <b>L</b>anguage
+</P></center>
+
+<P>It was invented by a research group at University of California at
+Riverside.  It has a homepage <A HREF="http://hal.ucr.edu">here</A>.</P>
+
+<P>HAL is a numeric method for analysing text.  It does so by running
+a <em>sliding window</em> of fixed length across a text, calculating a
+matrix of word cooccurrence values along the way.</P>
+
+<h2>Informal definition</h2>
+
+<P>A HAL space is an QxQ matrix of integers, where Q is the number of
+distinct word-forms in the text.  For example, if the text contains
+50,000 running words, of which 6,000 are unique forms, then the
+corresponding HAL space will be a 6,000x6,000 matrix.</P>
+
+<P>Each entry in the matrix is a sum of all values arising from
+running the sliding window over the text.</P>
+
+<P>The sliding window is <em>n</em> words wide, e.g., 8.</P>
+
+<P>Then, for a given word, say, the one at index <em>t</em>, a value
+is added to the matrix for each of the word pairs which arise by
+pairing the word at index</P>
+
+<P><em>t</em></P>
+
+<P>with each of the words at indexes</P>
+
+<P><em>t</em>-<em>n</em> to <em>t</em>-1</P>.
+
+<P>This basically means the <em>n</em> words before the one at index
+<em>t</em> are paired with the word at index <em>t</em>.</P>
+
+<P>For each of these word-pairs, a value is calculated as follows: If
+the word before <em>t</em> is at index <em>j</em> (e.g.,
+<em>t</em>-3), then the value is</P>
+
+<P><em>n</em> - |<em>t</em>-<em>j</em>| + 1</P>
+
+<P>For example (<em>t</em>=10, <em>j</em>=10-3=7):</P>
+
+<P>8 - |10 - 7| + 1 = 6</P>
+
+<P>This basically means that words close to <em>t</em> get a higher
+score than words farther away.</P>
+
+<P>If the word-form corresponding to <em>t</em> has number <em>p</em>
+in the HAL-matrix, and the word-form corresponding to <em>j</em> has
+number <em>q</em> in the HAL-matrix, then this value is added to the
+p'th row and the q'th column.</P>
+
+<h2>Mathematical definition</h2>
+
+<P>Assume or define the following:</P>
+
+<UL>
+   <LI>Assume that the words are numbered 1..M.
+
+   <LI>The words themselves will be called T(1), T(2), ..., T(M) for
+   easy reference.
+
+   <LI>Assume that there are Q unique forms.  Then the forms will be
+   called F(0), F(1), F(2), ..., F(Q-1).
+
+   <LI>Assume that the function Form(n) maps word-indexes in 1..M to
+   form-indexes in 0..Q-1.  For example, if T(2) has the form F(10),
+   then Form(2) = 10.
+
+   <LI>Assume that the window-width is n.
+
+   <LI>Define the delta function D(a,b) as follows: D(a,b) = n - |a-b| + 1
+
+   <LI>Assume that Matrix[0..Q-1][0..Q-1] is the HAL matrix, and that
+   all values are initially 0.
+
+</UL>
+
+<P>The HAL space is calculated as follows:</P>
+
+<OL>
+
+  <LI>Initialize all matrix-cells to be 0.
+
+  <LI>For each word-index <em>i</em> in the range 2..M:
+
+  <OL>
+
+     <LI>For each word-index <em>i2</em> in the range
+     <em>i</em>-n..<em>i</em>-1 (the lower bound of this range must be
+     adjusted if there is no such word, e.g., if <em>n</em>=4 and
+     <em>i</em> is 2, the first value will be 1, not -2):
+
+     <OL>
+ 
+        <LI>Let d = D(i2,i)
+  
+        <LI>Add d to the HAL matrix's Form(<em>i</em>)'th row and
+            Form(<em>i2</em>)'th column.  I.e., add d to the existing
+            value of Matrix[Form(i)][Form(i2)].
+
+     </OL>
+
+  </OL>
+
+</OL>
+
+</page>
+
+
+<page ID="1030">
+
+<h2>Overview</h2>
+
+<P>The example can do these things:</P>
+
+<OL>
+
+  <LI>It can load an Emdros database with a text, initializing the
+  database for use with the example.
+
+  <LI>It can build HAL-spaces of the in the database
+
+  <LI>It can load a previously generated HAL space from the database
+
+  <LI>It can emit two kinds of output:
+
+      <OL>
+
+          <LI>A complete HAL-space as a Comma-Separated-Value (CSV)
+          text file suitable for loading into a spreadsheet.
+
+          <LI>Certain parts of a HAL-space, based on certain
+          word-forms that are of interest.
+      </OL>
+</OL>
+
+<h2>What output does it give?</h2>
+
+<UL>
+
+  <LI>For building the database:
+
+     <UL>
+
+        <LI>A loaded Emdros database
+
+        <LI>A list of word-forms found in the text (the Q word forms
+        spoken of on the <page_anchor ID="1020">HAL
+        space</page_anchor> page).
+
+     </UL>
+
+  <LI>For querying the database:
+
+     <UL>
+
+        <LI><P>Optionally, a Comma-Separated Value (CSV) file
+        containing the entire HAL-space, suitable for loading into a
+        spreadsheet.</P>
+
+        <LI><P>An output file with data for words which you are
+        specially interested in.</P>
+
+        <P>For each word, a list is given of the words with which it
+        cooccurs most frequently and closely.</P>
+
+        <P>If the word form you are interested in is w1 and the word
+        form with which it cooccurs is w2, then the score is
+        calculated as Matrix[w1][w2] + Matrix[w2][w1].</P>
+
+        <P>This score is printed twice: First, it is printed in a
+        scaled form.  The score is multiplied by a user-specified
+        factor and divided by the text length.  And second, it is
+        printed in its raw form, as it came from the matrix.</P>
+
+        <P>The list is sorted, so that the "heaviest" words come
+        first.  The user can specify how many words to put in the
+        list.</P>
+
+     </UL>
+
+
+</UL>
+
+<h2>What input does it need?</h2>
+
+<OL>
+
+  <LI>For loading the database: Only a text file.
+
+  <LI>For querying the database: A configuration file with a
+  <page_anchor ID="1130">special format</page_anchor>.
+
+</OL>
+
+<h2>What is a configuration?</h2>
+
+<P>A <page_anchor ID="1130">configuration file</page_anchor> is a
+plain text file which looks like a Unix configuration file, and holds
+information necessary for running the HAL example.  See the
+<page_anchor ID="1130">later page</page_anchor> for its format.</P>
+
+<h2>What information does an input file contain?</h2>
+
+<P>An input file contains the following:</P>
+
+<UL> 
+
+  <LI>The <strong>database name</strong> which holds the text to
+  analyze.
+
+  <LI>The <strong>sliding window width</strong>, <em>n</em>.
+
+  <LI>The name of the <strong>CSV-file</strong> containing the
+  HAL-space in a CSV-format, suitable for reading into a spreadsheet.
+  ("none" if you don't want a CSV file).
+
+  <LI>The name of the <strong>output file</strong> containing the
+  output for the words you are interested in.
+
+  <LI>The <strong>words you are interested in</strong>.
+
+  <LI>The <strong>maximum number of values</strong> for each word you
+  are interested in.
+
+  <LI>The <strong>factor by which to multiply</strong> each value for
+  a given word.  This is first divided by the number of words in the
+  text.  This can come in handy if you wish to compare texts of
+  different lengths.
+
+</UL>
+
+</page>
+
+
+<page ID="1100">
+
+<P>The example can be run as follows:</P>
+
+<OL>
+
+  <LI><page_ref ID="1110">
+
+  <LI><page_ref ID="1120"> which has two sub-parts
+
+  <OL>
+
+     <LI><page_ref ID="1130">
+
+     <LI><page_ref ID="1140">
+
+  </OL>
+
+</OL>
+
+
+</page>
+
+
+<page ID="1110">
+
+<h2>How</h2>
+
+<P>The database needs only be built once and for all.  To do so, run the</P>
+
+<pre class="code">
+hal_build_db
+</pre><!-- widthincm : 12 -->
+
+<P>command-line program with the right options.</P>
+
+<h2>hal_build_db usage</h2>
+
+<P>To see the hal_build_db usage, run the following command:</P>
+
+<pre class="code">
+hal_build_db --help
+</pre><!-- widthincm : 12 -->
+
+<P>This displays the following output:</P>
+
+<pre class="code">
+hal_build_db version {PRELT}version-number{PREGT} on {PRELT}backend-name{PREGT}
+Usage: hal_build_db [options]
+OPTIONS:
+   -d , --dbname db     Use this database
+   -f textfilename      Use this text input file
+   -o wordlistfilename  Use this wordlist output file
+   --help               Show this help
+   -V , --version       Show version
+   -h , --host host     Set hostname to connect to
+   -u , --user user     Set database user to connect as (default: 'emdf')
+   -p , --password pwd  Set password to use for database user
+</pre><!-- widthincm : 12 -->
+
+<h2>Example</h2>
+
+<P>Assume that you want the following:</P>
+
+<UL>
+  <LI>Build a database called <strong>hal_test</strong>
+
+  <LI>using an input-file called <strong>mytext.txt</strong>
+
+  <LI>writing a word-list to a file called <strong>wordlist.txt</strong>
+
+</UL>
+
+<P>And assume the following (not necessary if using SQLite 2 or SQLite
+3):</P>
+
+<UL>
+
+  <LI>You have set up your backend database with the <strong>user</strong>
+  called <strong>emdf</strong>
+
+  <LI>having a <strong>password</strong> called
+  <strong>changeme</strong>.
+
+  <LI>You are using MySQL as a backend.
+
+</UL>
+
+<p>The the following command-line would do it:</P>
+
+<pre class="code">
+hal_build_db -d hal_text -f mytext.txt -o wordlist.txt -p changeme -u emdf -b m
+</pre><!-- widthincm : 12 -->
+
+<P>That's it.</P>
+
+<P>If you want to use PostgreSQL as a backend, use "-b p" instead of
+"-b m".</P>
+
+</page>
+
+
+<page ID="1120">
+
+<P>Having <page_anchor ID="1110">built the database</page_anchor>,
+your next step is to query it in interesting ways.</P>
+
+<P>There are two steps to this:</P>
+
+  <OL>
+
+     <LI><page_ref ID="1130">
+
+     <LI><page_ref ID="1140">
+
+  </OL>
+
+
+</page>
+
+
+<page ID="1130">
+
+<h2>Overview</h2>
+
+<P>The format of the file is much like a Windows .ini file or a Unix
+configuration file:</P>
+
+<UL>
+
+  <LI>The file contains a number of <em>key</em>=<em>value</em> pairs.
+
+  <LI>Lines beginning "#" are ignored (i.e., are comments).
+
+</UL>
+
+<h2>Self-documenting example</h2>
+
+<P>The following is a self-documenting example.</P>
+
+<P>Please refer back to the "<page_ref ID="1030">" page for a
+description of each of the following settings.</P>
+
+
+<pre class="code">
+# The db name
+database = hca
+
+# The factor by which to multiply each value in the output.
+# This is divided by the text length, so for example if your text
+# has 70000 words, 100000 would be a good value
+factor = 100000
+
+# The window width
+n = 5
+
+# The csv output filename
+csv = haltest.csv.txt
+
+# The value-vector output filename
+output = haltest.out.txt
+
+# The maximum number of values in each value-vector
+max_values = 20
+
+# Place the words here, with one 'word' key per line, e.g.:
+word = mor
+word = barn
+word = blomst
+</pre><!-- widthincm : 12 -->
+
+
+</page>
+
+
+<page ID="1140">
+
+<h2>How</h2>
+
+<P>First, open a command-line prompt.<P>
+
+<P>Then follow this schema:</P>
+
+<pre class="code">
+mqlhal -c myconfigfile.cfg  
+</pre><!-- widthincm : 12 -->
+
+<P>If on MySQL or PostgreSQL, you may need to use the "-u username",
+"-p password", and/or the "-h hostname" options.</P>
+
+
+<h2>Example</h2>
+
+<P>This example is for Windows users.</P>
+
+<OL>
+
+  <LI>Open a command-line prompt.
+
+  <LI>cd to the right directory, e.g., "C:\Emdros\"
+
+  <pre class="code">
+      C:{PREBACKSLASH}>C:
+      c:{PREBACKSLASH}>cd C:{PREBACKSLASH}Emdros{PREBACKSLASH}
+      C:{PREBACKSLASH}Emdros>
+</pre><!-- widthincm : 12 -->
+
+  <LI>Run the program.  Assume that your <page_anchor ID="1130">configuration file</page_anchor> is called "C:\temp\myconfig.cfg"
+
+  <pre class="code">
+      C:{PREBACKSLASH}Emdros>bin{PREBACKSLASH}mqlhal.exe -c "C:{PREBACKSLASH}temp{PREBACKSLASH}myconfig.cfg"
+</pre><!-- widthincm : 12 -->
+
+</OL>
+
+<P>That's it.  Now sit back and watch as the program spits out various
+messages and runs to completion.</P>
+
+<h2>What happens next?</h2>
+
+<P>Afterwards, it's time to analyze the output.  Perhaps you need to
+adjust the configuration file and rerun the program to get new output.
+This will likely be an iterative process until you find what you are
+looking for, or have tested your hypothesis about the text.</P>
+
+</page>
+
+
+<page ID="1200">
+
+
+<P>Here, we have two kinds of references:</P>
+
+<OL>
+
+  <LI><page_ref ID="1210">
+
+  <LI><page_ref ID="1220">
+
+</OL>
+
+
+</page>
+
+
+<page ID="1210">
+
+
+<h2>Articles</h2>
+
+<UL>
+
+  <LI><P>Burgess, C., K. Livesay, and K. Lund (1998). <em>Explorations
+  in Context Space: Words, Sentences, Discourse</em>, Discourse
+  Processes, Volume 25, pp. 211 - 257.<br> <em>See <A
+  HREF="http://locutus.ucr.edu/abstracts/97-bll-expl.html">http://locutus.ucr.edu/abstracts/97-bll-expl.html</A>
+  from where you can also download the paper.</em></P>
+
+  <LI><P>Burgess, C. and K. Lund. (1997). <em>Modelling parsing
+  constraints with high-dimensional context space.</em> Language and
+  Cognitive Processes, Volume 12, pp. 1-34.<br> <em>See <A
+  HREF="http://citeseer.nj.nec.com/context/398051/0">http://citeseer.nj.nec.com/context/398051/0</A>.</em></P>
+
+  <LI><P>Lund, Kevin and Curt Burgess. (1996) <em>Producing
+  high-dimensional semantic spaces from lexical co-occurrence</em>,
+  Behavior Research Methods, Instruments and Computers, Volume 28,
+  number 2, pp. 203--208.<br> <em>See <A
+  HREF="http://locutus.ucr.edu/abstracts/96-lb-prod.html">http://locutus.ucr.edu/abstracts/96-lb-prod.html</A>
+  from where you can also download the paper.</em></P>
+
+</UL>
+
+
+</page>
+
+
+<page ID="1220">
+
+<UL>
+
+  <LI><A HREF="http://hal.ucr.edu/">Official HAL Homepage</A>
+  <LI><A HREF="http://emdros.org">Emdros homepage</A>
+
+</UL>
+
+
+</page>
+
+

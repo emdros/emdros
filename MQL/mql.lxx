@@ -1,0 +1,291 @@
+%{
+
+/*
+ * mql.lxx
+ *
+ * MQL lexer
+ *
+ * Ulrik Petersen
+ * Created: 2/27-2001
+ * Last update: 2/14-2011
+ *
+ */
+/************************************************************************
+ *
+ *   Emdros - the database engine for analyzed or annotated text
+ *   Copyright (C) 2001-2011  Ulrik Sandborg-Petersen
+ *
+ *   This program is free software; you can redistribute it and/or
+ *   modify it under the terms of the GNU General Public License as
+ *   published by the Free Software Foundation, license version 2.  
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *   General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *   02111-1307 USA
+ *
+ *
+ *   Special exception
+ *   =================
+ * 
+ *   In addition, as a special exception, Ulrik Petersen, the
+ *   copyright holder of Emdros, gives permission to link Emdros, in
+ *   whole or in part, with the libraries which are normally
+ *   distributed with:
+ *   
+ *   a) Sun's Java platform,
+ *   b) Python, 
+ *   c) Jython,
+ *   d) Ruby, and/or 
+ *   e) Perl 
+ *   f) PostgreSQL
+ *   g) OpenSSL
+ *
+ *   (or with modified versions of these), and to distribute linked
+ *   combinations including both Emdros, in whole or in part, and one
+ *   or more of the libraries normally distributed with (a)-(g) above.
+ *
+ *   Please note: This gives you special rights concerning the
+ *   libraries which normally accompany the above pieces of software.
+ *   It gives you no special rights concerning software that you write
+ *   yourself.  You must obey the GNU General Public License in all
+ *   respects for all of the code used other than the libraries
+ *   normally distributed with (a)-(g) above.
+ *
+ *   If you modify this file, you may extend this exception to your
+ *   version of the file, but you are not obligated to do so. If you
+ *   do not wish to do so, delete this exception statement from your
+ *   version.
+ *
+ *
+ *   Other licensing forms
+ *   =====================
+ *
+ *   If you wish to negotiate commercial licensing, please contact
+ *   Ulrik Petersen at ulrikp[at]users.sourceforge.net.
+ *
+ *   Licensing can also be negotiated if your organization is an
+ *   educational, non-profit, charity, missionary or similar
+ *   organization.
+ *
+ *
+ *   Website
+ *   =======
+ *
+ *   Emdros has a website here:
+ *
+ *   http://emdros.org
+ *
+ *
+ *
+ **************************************************************************/
+
+
+
+#include <string>
+#include <sstream>
+#ifdef __DJGPP__
+#include <string~1.h>
+#include <mql_ty~1.h>
+#include <mql_qu~1.h>
+#include <mql_er~1.h>
+#include <mql_ex~1.h>
+#include <mql_ex~2.h>
+#include <mql_ex~3.h>
+#else
+#include <string_func.h>
+#include <mql_types.h>
+#include <mql_query.h>
+#include <mql_error.h>
+#include <mql_extern.h>
+#endif
+
+#define TOKEN_RETURN(X,Y) { yylval->setName(X); return Y; }
+
+
+%}
+
+%option c++
+%option prefix="xx"
+%option yylineno
+%option case-insensitive
+%option noyywrap
+%option 8bit
+
+%x STRINGDQ
+%x STRINGSQ
+%x COMMENT_SLASH_STAR
+%x COMMENT_SLASH_SLASH
+
+%%
+
+create                      TOKEN_RETURN("create", T_KEY_CREATE);
+update                      TOKEN_RETURN("update", T_KEY_UPDATE);
+select                      TOKEN_RETURN("select", T_KEY_SELECT); 
+drop                        TOKEN_RETURN("drop", T_KEY_DROP); 
+get                         TOKEN_RETURN("get", T_KEY_GET); 
+insert                      TOKEN_RETURN("insert", T_KEY_INSERT); 
+delete                      TOKEN_RETURN("delete", T_KEY_DELETE); 
+database                    TOKEN_RETURN("database", T_KEY_DATABASE); 
+use                         TOKEN_RETURN("use", T_KEY_USE); 
+initialize                  TOKEN_RETURN("initialize", T_KEY_INITIALIZE); 
+vacuum                      TOKEN_RETURN("vacuum", T_KEY_VACUUM);
+analyze                     TOKEN_RETURN("analyze", T_KEY_ANALYZE);
+begin                       TOKEN_RETURN("begin", T_KEY_BEGIN);
+commit                      TOKEN_RETURN("commit", T_KEY_COMMIT);
+abort                       TOKEN_RETURN("abort", T_KEY_ABORT);
+transaction                 TOKEN_RETURN("transaction", T_KEY_TRANSACTION);
+type                        TOKEN_RETURN("type", T_KEY_TYPE); 
+types                       TOKEN_RETURN("types", T_KEY_TYPES); 
+object                      TOKEN_RETURN("object", T_KEY_OBJECT); 
+objects                     TOKEN_RETURN("objects", T_KEY_OBJECTS); 
+list                        TOKEN_RETURN("list", T_KEY_LIST);
+of                          TOKEN_RETURN("of", T_KEY_OF);
+indexes                     TOKEN_RETURN("indexes", T_KEY_INDEXES);
+index                       TOKEN_RETURN("index", T_KEY_INDEX);
+integer                     TOKEN_RETURN("integer", T_KEY_INTEGER); 
+string                      TOKEN_RETURN("string", T_KEY_STRING); 
+ascii                       TOKEN_RETURN("ascii", T_KEY_ASCII);
+id_d                        TOKEN_RETURN("id_d", T_KEY_ID_D); 
+id_ds                       TOKEN_RETURN("id_ds", T_KEY_ID_DS); 
+default                     TOKEN_RETURN("default", T_KEY_DEFAULT); 
+computed                    TOKEN_RETURN("computed", T_KEY_COMPUTED); 
+add                         TOKEN_RETURN("add", T_KEY_ADD); 
+remove                      TOKEN_RETURN("remove", T_KEY_REMOVE); 
+from                        TOKEN_RETURN("from", T_KEY_FROM); 
+by                          TOKEN_RETURN("by", T_KEY_BY); 
+enum                        TOKEN_RETURN("enum", T_KEY_ENUM); 
+enumeration                 TOKEN_RETURN("enumeration", T_KEY_ENUMERATION); 
+enumerations                TOKEN_RETURN("enumerations", T_KEY_ENUMERATIONS); 
+constants                   TOKEN_RETURN("constants", T_KEY_CONSTANTS); 
+segment                     TOKEN_RETURN("segment", T_KEY_SEGMENT); 
+range                       TOKEN_RETURN("range", T_KEY_RANGE); 
+single                      TOKEN_RETURN("single", T_KEY_SINGLE);
+multiple                    TOKEN_RETURN("multiple", T_KEY_MULTIPLE);
+focus                       TOKEN_RETURN("focus", T_KEY_FOCUS); 
+all                         TOKEN_RETURN("all", T_KEY_ALL); 
+in                          TOKEN_RETURN("in", T_KEY_IN); 
+has                         TOKEN_RETURN("has", T_KEY_HAS); 
+where                       TOKEN_RETURN("where", T_KEY_WHERE); 
+having                      TOKEN_RETURN("having", T_KEY_HAVING);
+feature                     TOKEN_RETURN("feature", T_KEY_FEATURE); 
+features                    TOKEN_RETURN("features", T_KEY_FEATURES); 
+universe                    TOKEN_RETURN("universe", T_KEY_UNIVERSE); 
+substrate                   TOKEN_RETURN("substrate", T_KEY_SUBSTRATE); 
+monads                      TOKEN_RETURN("monads", T_KEY_MONADS); 
+monad                       TOKEN_RETURN("monad", T_KEY_MONAD); 
+unique                      TOKEN_RETURN("unique", T_KEY_UNIQUE); 
+using                       TOKEN_RETURN("using", T_KEY_USING); 
+with                        TOKEN_RETURN("with", T_KEY_WITH); 
+without                     TOKEN_RETURN("without", T_KEY_WITHOUT); 
+key                         TOKEN_RETURN("key", T_KEY_KEY);
+noretrieve                  TOKEN_RETURN("noretrieve", T_KEY_NORETRIEVE); 
+retrieve                    TOKEN_RETURN("retrieve", T_KEY_RETRIEVE); 
+first                       TOKEN_RETURN("first", T_KEY_FIRST); 
+last                        TOKEN_RETURN("last", T_KEY_LAST); 
+or                          TOKEN_RETURN("or", T_KEY_OR); 
+and                         TOKEN_RETURN("and", T_KEY_AND); 
+not                         TOKEN_RETURN("not", T_KEY_NOT); 
+notexist                    TOKEN_RETURN("notexist", T_KEY_NOTEXIST); 
+notexists                   TOKEN_RETURN("notexists", T_KEY_NOTEXISTS); 
+gap                         TOKEN_RETURN("gap", T_KEY_GAP); 
+gap\?                       TOKEN_RETURN("gap?", T_KEY_OPT_GAP); 
+\.\.                        TOKEN_RETURN("..", T_KEY_POWER); 
+between                     TOKEN_RETURN("between", T_KEY_BETWEEN);
+as                          TOKEN_RETURN("as", T_KEY_AS); 
+nil                         TOKEN_RETURN("nil", T_KEY_NIL); 
+go                          TOKEN_RETURN("go", T_KEY_GO);
+returning                   TOKEN_RETURN("returning", T_KEY_RETURNING);
+calculation                 TOKEN_RETURN("calculation", T_KEY_CALCULATION);
+min_m                       TOKEN_RETURN("min_m", T_KEY_MIN_M);
+max_m                       TOKEN_RETURN("max_m", T_KEY_MAX_M);
+flat                        TOKEN_RETURN("flat", T_KEY_FLAT);
+full                        TOKEN_RETURN("full", T_KEY_FULL);
+on                          TOKEN_RETURN("on", T_KEY_ON);
+sheaf                       TOKEN_RETURN("sheaf", T_KEY_SHEAF);
+at                          TOKEN_RETURN("at", T_KEY_AT);
+quit                        TOKEN_RETURN("quit", T_KEY_QUIT);
+set                         TOKEN_RETURN("set", T_KEY_SET);
+sets                        TOKEN_RETURN("sets", T_KEY_SETS);
+overlap                     TOKEN_RETURN("overlap", T_KEY_OVERLAP);
+part_of                     TOKEN_RETURN("part_of", T_KEY_PART_OF);
+union                       TOKEN_RETURN("union", T_KEY_UNION);
+intersect                   TOKEN_RETURN("intersect", T_KEY_INTERSECT);
+difference                  TOKEN_RETURN("difference", T_KEY_DIFFERENCE);
+replace                     TOKEN_RETURN("replace", T_KEY_REPLACE);
+encoding                    TOKEN_RETURN("encoding", T_KEY_ENCODING);
+=                           TOKEN_RETURN("=", T_KEY_EQUALS); 
+"<"                         TOKEN_RETURN("<", T_KEY_LESS_THAN); 
+">"                         TOKEN_RETURN(">", T_KEY_GREATER_THAN); 
+"<>"                        TOKEN_RETURN("<>", T_KEY_NOT_EQUAL); 
+"<="                        TOKEN_RETURN("<=", T_KEY_LESS_THAN_OR_EQUAL); 
+"=<"                        TOKEN_RETURN("=<", T_KEY_LESS_THAN_OR_EQUAL); 
+">="                        TOKEN_RETURN(">=", T_KEY_GREATER_THAN_OR_EQUAL); 
+"=>"                        TOKEN_RETURN("=>", T_KEY_GREATER_THAN_OR_EQUAL); 
+"\~"                        TOKEN_RETURN("~", T_KEY_TILDE);
+"!\~"                       TOKEN_RETURN("!~", T_KEY_NOT_TILDE);
+"\["                        TOKEN_RETURN("[", T_KEY_OPEN_SQUARE_BRACKET);
+"\]"                        TOKEN_RETURN("]", T_KEY_CLOSE_SQUARE_BRACKET);
+"{"                         TOKEN_RETURN("{", T_KEY_OPEN_BRACE); 
+"}"                         TOKEN_RETURN("}", T_KEY_CLOSE_BRACE); 
+"\("                        TOKEN_RETURN("(", T_KEY_OPEN_BRACKET);
+"\)"                        TOKEN_RETURN(")", T_KEY_CLOSE_BRACKET);
+":="                        TOKEN_RETURN(":=", T_KEY_ASSIGN); 
+":"                         TOKEN_RETURN(":", T_KEY_COLON);
+";"                         TOKEN_RETURN(";", T_KEY_SEMICOLON);
+","                         TOKEN_RETURN(",", T_KEY_COMMA);
+"\."                        TOKEN_RETURN(".", T_KEY_DOT);
+"\*"                        TOKEN_RETURN("*", T_KEY_STAR);
+"-"                         TOKEN_RETURN("-", T_KEY_DASH);
+"!"                         TOKEN_RETURN("!", T_KEY_EXCLAMATION);
+[a-z_][a-z0-9_]*            { yylval->setString(new std::string(yytext)); 
+                              TOKEN_RETURN("identifier", T_IDENTIFIER); }
+(\`[a-z_][a-z0-9_]*)+   { yylval->setString(new std::string(yytext)); 
+                              TOKEN_RETURN("mark", T_MARK); }
+[0-9]+                      { yylval->setInteger(strtol(yytext, (char **)NULL, 10));  
+                              TOKEN_RETURN(INTEGER_MAGIC, T_INTEGER); }
+"/*"                        { BEGIN(COMMENT_SLASH_STAR); }
+<COMMENT_SLASH_STAR>[^*\n]        { /* eat anything that's not a '*' */ }
+<COMMENT_SLASH_STAR>"*"+[^*/\n]*  { /* eat up '*'s not followed by '/'s */ }
+<COMMENT_SLASH_STAR>\n            { /* eat up '\n' */ }
+<COMMENT_SLASH_STAR>"*"+"/"       { BEGIN(INITIAL); }
+"//"                        { BEGIN(COMMENT_SLASH_SLASH); }
+<COMMENT_SLASH_SLASH>.      { /* eat up */ }
+<COMMENT_SLASH_SLASH>\n     { BEGIN(INITIAL); }
+\"                          { BEGIN(STRINGDQ); 
+                              yylval->setString(new std::string); }
+<STRINGDQ>\"                { BEGIN(INITIAL); TOKEN_RETURN("string", T_STRING); }
+<STRINGDQ>\\n               { yylval->pString->append(1, '\n'); }
+<STRINGDQ>\\t               { yylval->pString->append(1, '\t'); }
+<STRINGDQ>\\v               { yylval->pString->append(1, '\v'); }
+<STRINGDQ>\\b               { yylval->pString->append(1, '\b'); }
+<STRINGDQ>\\a               { yylval->pString->append(1, '\a'); }
+<STRINGDQ>\\r               { yylval->pString->append(1, '\r'); }
+<STRINGDQ>\\f               { yylval->pString->append(1, '\f'); }
+<STRINGDQ>\\\\              { yylval->pString->append(1, '\\'); }
+<STRINGDQ>\\\?              { yylval->pString->append(1, '\?'); }
+<STRINGDQ>\\'               { yylval->pString->append(1, '\''); }
+<STRINGDQ>\\\"              { yylval->pString->append(1, '\"'); }
+<STRINGDQ>\\[0-3][0-7][0-7] { yylval->pString->append(1, octal2char(yytext+1)); }
+<STRINGDQ>\\x[A-Fa-f0-9][A-Fa-f0-9]    { yylval->pString->append(1, hex2char(yytext+2));}
+<STRINGDQ>.                 { yylval->pString->append(1, *yytext); }
+<STRINGDQ>\n                { *(yylval->pString) += yytext; }
+'                           { BEGIN(STRINGSQ); 
+                              yylval->setString(new std::string); }
+<STRINGSQ>'                 { BEGIN(INITIAL); TOKEN_RETURN("string",T_STRING); }
+<STRINGSQ>.                 { yylval->pString->append(1, *yytext); }
+<STRINGSQ>\n                { *(yylval->pString) += yytext; }
+" "                         /* eat away */;
+\t                          /* eat away */;
+\r                          /* eat away */;
+.                           { yylval->setChar(*yytext); 
+                              TOKEN_RETURN(CHAR_MAGIC, *yytext); }
+\n                          /* eat away */;
+
+%%
+

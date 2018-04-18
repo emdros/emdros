@@ -1,0 +1,90 @@
+.\" Man page for mql
+.\" Use the following command to view man page:
+.\"
+.\"  tbl mql.1 | nroff -man | less
+.\"
+.TH MQL 1 "July 24, 2013"
+.SH NAME
+mql \- A front-end to the Emdros engine using the MQL query language
+.SH SYNOPSIS
+\fBmql\fR [ options ] filename
+.br
+\fBmql\fR [ options ] 
+.br
+.SH DESCRIPTION
+\fBmql\fR is a front-end to Emdros using the MQL query language.  If a
+filename is given on the command-line, the contents of that file are
+piped through the MQL engine.  If no filename is given on the
+command-line, stdin is used to get the MQL input.  The output is given
+on stdout, or on stderr if unsuccessful.
+
+.SH OPTIONS
+\fBmql\fR supports the following command-line switches:
+.TP 6
+.BI \-\-help
+show help
+.TP
+.BI \-V\ ,\ \-\-version
+show version
+.TP
+.BI \-\-xml\ 
+output-format is XML
+.TP
+.BI \-\-cxml\ 
+output-format is compact XML
+.TP
+.BI \-\-console
+output-format is console (this is the default)
+.TP
+.BI \-\-incomplete-output
+the caller is prepared to expect incomplete output.  The tradeoff is
+that, with this option, we gain some speed due to flushing the output
+buffer all the time being unnecessary.
+.TP
+.BI \-d\ ,\ \-\-dbname \ dbname 
+set initial dbname (default is 'emdf')
+.TP
+.BI \-h\ ,\ \-\-host \ hostname 
+set db back-end hostname to connect to (default is 'localhost').  Has
+no effect on SQLite.
+.TP
+.BI \-u\ ,\ \-\-user \ user
+set database user to connect as (default is 'emdf').  Has no effect on
+SQLite.
+.TP
+.BI \-p\ ,\ \-\-password \ password
+set password to use for the database user.  Has no effect on SQLite,
+unless you have an encryption-enabled SQLite, in which case this gets
+passed as the key.
+.TP
+.BI \-b\ ,\ \-\-backend \ backend
+set database backend to `backend'. Valid values are: For PostgreSQL:
+"p", "pg", "postgres", and "postgresql". For MySQL: "m", "my", and
+"mysql". For SQLite 2.X.X: "2", "s", "l", "lt", "sqlite", and
+"sqlite2". For SQLite 3.X.X: "3", "s3", "lt3", and "sqlite3".
+.TP
+.BI \-n\ ,\ \-\-nop 
+do not print results (no output)
+
+
+.SH RETURN VALUES
+.TP
+.BR 0 " Success"
+.TP
+.BR 1 " Wrong usage"
+.TP
+.BR 2 " Connection to backend server could not be established"
+.TP
+.BR 3 " An exception occurred (the type is printed on stderr)"
+.TP
+.BR 4 " Could not open file"
+.TP
+.BR 5 " Database error"
+.TP
+.BR 6 " Compiler error (error in MQL input)"
+.SH AUTHORS
+Copyright
+.Cr
+2001-2003 by Ulrik Petersen (ulrikp@users.sourceforge.net).  Note that
+this software is distributed under the GNU GPL.  See the sources for
+details.

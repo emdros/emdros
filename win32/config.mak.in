@@ -1,0 +1,178 @@
+# ---------------------
+# Set the target CPU:
+# X86 for 32-bit, X64 for 64-bit
+# ---------------------
+TARGET_CPU = X64
+
+# ---------------------
+# Comment any of these out
+# in order not to compile that backend
+# ---------------------
+
+SQLITE2=1
+SQLITE3=1
+MYSQL=1
+
+# PostgreSQL support is not provided in the official binaries,
+# due to library conflicts between PostgreSQL and MySQL,
+# and due to licensing restrictions posed on the libraries
+# shipped with PostreSQL.
+#
+# Feel free to enable PostgreSQL support in your own binaries,
+# by setting the following variable to 1
+PGSQL=0
+
+#
+# The BPT backend is a database backend for Emdros developed
+# by Ulrik Sandborg-Petersen, the author of Emdros.
+#
+# It is much faster than even SQLite, which otherwise is the fastest
+# backend for Emdros, and the databases created for the BPT backend
+# are much smaller than even the databases of SQLite 3, which already
+# compresses data a lot.
+#
+# The BPT backend is proprietary, and only avilable by licensing from
+# Ulrik Sandborg-Petersen.
+#
+# Please feel free to inquire about the BPT backend: ulrikp@emdros.org
+#
+# If you have obtained a license, and therefore the source code,
+# you can set the following to 1.
+#
+BPT=0
+
+#
+# The BPT2 backend is a database backend similar to the BPT backend,
+# developed by the author of Emdros.
+#
+# It compresses the data even more than BPT.
+#
+# BPT2 is proprietary, and only available by licensing from Ulrik
+# Sandborg-Petersen.
+#
+# Feel free to inquire about the BPT2 backend: ulrikp@emdros.org.
+#
+# If you have obtained a license, and therefore the source code,
+# you can set the following to 1.
+#
+BPT2=0
+
+
+# -----------------------
+# Choose debug or release
+# -----------------------
+
+DEBUG=0
+#DEBUG=1
+
+# Don't do anything to this.
+DEBUGINFO=1
+
+
+# -----------------------------------------------
+# Choose whether to build stuff other than Emdros
+# Set this to 1 if only Emdros is to be built
+# (including the programs in src\, but not in
+#  src\qrytool).
+# -----------------------------------------------
+
+EMDROS_ONLY=0
+#EMDROS_ONLY=1
+
+
+
+# ----------------------------------------------
+# Set one of the following paths 
+# to wherever you have your PostgreSQL
+# or MySQL (and ignore whichever isn't relevant)
+# ----------------------------------------------
+PGTOP=$(PROGRAMFILES)\PostgreSQL\8.4
+MYSQLTOP=C:\Program Files\MySQL\MySQL Connector.C 6.1
+
+
+# ----------------------------------------------
+# 
+# SQLite variables
+# 
+# ----------------------------------------------
+
+# If this is set to 1, then syncing is turned off on SQLite. 
+# This means that changes are just handed to the operating system
+# and then the SQLite library moves on, without calling the appropriate
+# OS API to make sure changes are flushed to disk.  This means that 
+# changes may be lost if the machine crashes while the SQLite library 
+# has a database open. 
+#
+# On the other hand, things are significantly faster with this set to 1.
+
+SQLITE2_NO_SYNC=1
+#SQLITE2_NO_SYNC=0
+
+SQLITE3_NO_SYNC=1
+#SQLITE3_NO_SYNC=0
+
+
+# ----------------------------------------------
+# 
+# wxWidgets variables
+# 
+# ----------------------------------------------
+
+# Uncomment this line if you wish to compile the programs
+# which depend on wxWidgets
+WITH_WXWIN=yes
+
+# Set this as appropriate
+WXWIN_HOME=c:\wxWidgets-3.0.4
+
+# ----------------------------------------------
+# SWIG C# support
+# ----------------------------------------------
+
+# uncomment to enable C sharp
+WITH_SWIG_CSHARP=yes
+
+
+# ----------------------------------------------
+# SWIG Python support
+# ----------------------------------------------
+
+# uncomment to enable Python
+#WITH_SWIG_PYTHON=yes
+
+#PYTHON_INCLUDE : Set this to the directory that contains python.h
+PYTHON_INCLUDE=c:\python27\include
+
+# PYTHON_LIB : Set this to the python library including path for linking with
+PYTHON_LIB=c:\python27\libs\python27.lib
+
+
+# ----------------------------------------------
+# SWIG Java upport
+# ----------------------------------------------
+
+# uncomment to enable Java
+#WITH_SWIG_JAVA=yes
+
+#SWIG_JDK_DIR : Set this to the top-level JDK directory
+SWIG_JDK_DIR=c:\Program Files\java\jdk1.8.0_121
+
+
+
+# ----------------------------------------------
+# 
+# NSIS "Nullsoft install-system" support 
+# (http://nsis.sourceforge.net)
+# 
+# ----------------------------------------------
+NSISEXE=C:\Program Files (x86)\NSIS\makensis.exe
+
+
+# Set VERSION variable
+# VERSION=@VERSION@
+VERSION=@VERSION@
+
+
+# Don't touch this, or Emdros won't compile.
+# Useful for re-purposing body.mak to projects outside of Emdros.
+COMPILE_EMDROS = 1

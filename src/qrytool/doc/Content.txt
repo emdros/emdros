@@ -1,0 +1,1778 @@
+<page ID="1000">
+
+</page>
+
+
+<page ID="1001">
+
+
+<P>This is a short User's Guide to the Emdros Query Tool (aka eqt).</P>
+
+<P>The Emdros Query Tool reads MQL queries and gives back the results
+in a way that makes sense in the context of <em>your</em>
+database.</P>
+
+<h2>Origins of the query tool</h2>
+
+<P>The original algorithms for the Emdros Query Tool were written by
+<strong>Hendrik Jan Bosman</strong> in Python.  Thus he is the real
+father of the Emdros Query Tool. The algorithms were rewritten in C++
+by Ulrik Petersen.</P>
+
+<h2>This Guide</h2>
+
+<P>This User's Guide is divided into four parts:</P>
+
+<OL>
+
+  <LI>This introduction, which explains how to get started,
+  <LI><page_anchor ID="1100">Graphical version User's Guide</page_anchor>
+  <LI><page_anchor ID="2000">Configuration of the program</page_anchor>
+  <LI><page_anchor ID="3000">Query Guide</page_anchor> (including the <page_anchor ID="3100">MQL Cheat Sheet</page_anchor>)
+
+</OL>
+
+
+<h2>PCRE Library</h2>
+
+<P>Regular expression support is provided by the PCRE library package,
+which is open source software, written by Philip Hazel, and copyright
+by the University of Cambridge, England.</P>
+
+<P>PCRE can be downloaded from:</P>
+
+<center><P>ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/</P></center>
+
+</page>
+
+
+<page ID="1005">
+
+<P>The Emdros Query Tool exists in three versions:</P>
+
+<UL>
+
+  <LI>A command-line version (<strong>eqtc</strong>)
+  <LI>Two graphical versions:
+
+      <UL>
+
+         <LI>A non-Unicode version (<strong>eqt</strong>)<index term="eqt">
+         <LI>A Unicode-aware version (<strong>eqtu</strong>)<index term="eqtu">
+
+      </UL>
+
+</UL>
+
+<P>The next page explains how to get started with either of these
+versions.</P>
+
+</page>
+
+
+<page ID="1010">
+
+<h2>Introduction</h2>
+
+<index term="configuration file"> 
+
+<P>Before running the Emdros Query Tool for the first time on a
+database, you need to write a configuration file that matches your
+database.  This is a one-off thing: Once it's done, you don't need to
+bother with it any more.</P>
+
+<h2>Sample configuration file</h2>
+
+<P>A number of sample configuration files are supplied with Emdros.
+You can use these as a starting point for writing your own
+configuration file.</P>
+
+<P>One supplied configuration file is called "default.cfg", while
+another is called "wihebrew.cfg".  You can search for these on your
+computer to locate where they are, or see the manual page for eqt to
+know where they are installed (on Windows, they are installed in
+%EMDROSINSTALLPREFIX%\etc\).  </P>
+
+<h2>Full details</h2>
+
+<P>The "default.cfg" file is almost self-documenting.  However, you
+can get more information about the details of the configuration file
+here:</P>
+
+<UL>
+
+  <LI><page_anchor ID="2000">Configuring the program</page_anchor>
+
+</UL>
+
+
+</page>
+
+
+<page ID="1020">
+
+<P>After you've written the configuration file, you can then proceed
+to running the Emdros query tool, like this:</P>
+
+<PRE class="code">
+eqtc -c {PRELT}your-config-file{PREGT} myquery.mql
+</PRE><!-- widthincm : 12 -->
+
+<P>For example:</P>
+
+<PRE class="code">
+eqtc -c myconfigfile.cfg myquery.mql
+</PRE><!-- widthincm : 12 -->
+
+
+<h2>Saving the output</h2>
+
+<P>The results will be printed on standard output, so you can redirect
+that to a file for later viewing:</P>
+
+<PRE class="code">
+eqtc -c {PRELT}your-config-file{PREGT} myquery.mql {PREGT} myoutput.txt
+</PRE><!-- widthincm : 12 -->
+
+<h2>More options</h2>
+
+<P>If using MySQL or PostgreSQL, you may need to pass a password
+<index term="password">to the program.  Do this with the -p option.
+You may also need to pass a database username (-u) or the name of the
+database host computer (-h).  For example:</P>
+<index term="MySQL">
+<index term="PostgreSQL">
+
+<PRE class="code">
+eqtc -c {PRELT}your-config-file{PREGT} -u {PRELT}dbuser{PREGT} -p {PRELT}password{PREGT} -h {PRELT}dbhost{PREGT} myquery.mql
+</PRE><!-- widthincm : 12 -->
+
+<P>To get a list of supported options, run eqtc with the "--help"
+switch:</P>
+
+<PRE class="code">
+eqtc --help
+</PRE><!-- widthincm : 12 -->
+
+
+</page>
+
+<page ID="1100">
+
+This section of the Emdros Query Tool User's Guide shows how to use
+the graphical versions of the Emdros Query Tool.
+
+</page>
+
+
+
+<page ID="1110">
+
+<h2>Getting started</h2>
+
+<P>Once you open the program, you will be presented with the main
+screen.  You will then need to "connect" to a database.  Either choose
+the menu-item "Tools|New database connection" or press the button <IMG
+SRC="connect.png"> "Connect to database".</P>
+
+<h2>Connection dialog</h2>
+
+<P>You will then be given a dialog box allowing you to choose the
+Connection Settings.  At the top is a drop-down box allowing you to
+choose the backend.  Based on this choice, the dialog box will appear
+slightly differently depending whether the backend is:</P>
+
+<UL>
+  <LI><page_anchor ID="1115">SQLite</page_anchor>, or
+  <LI><page_anchor ID="1118">MySQL or PostgreSQL</page_anchor><index term="MySQL"><index term="PostgreSQL">
+
+</UL>  
+
+<H2>Non-Unicode vs. Unicode</h2>
+
+<P>For each backend, the program exists in two versions:</P>
+
+<UL>
+
+  <LI>A non-Unicode version (<strong>eqt</strong>)<index term="eqt">
+  <LI>A Unicode-aware version (<strong>eqtu</strong>)<index term="eqtu">
+
+</UL>
+
+<P>Note that on Linux/Unix, eqtu may in fact be called eqt, replacing
+the non-Unicode version.  This occurs if the installed wxWidgets uses
+Unicode by default.</P>
+
+</page>
+
+
+
+<page ID="1115">
+
+<P>The Connection Settings dialog looks like this if you have selected
+SQLite as the backend:</P><index term="Connection settings dialog">
+
+<IMG SRC="SQLiteConnSettings.png" ALT="SQLite Connection settings dialog">
+
+<h2>Set the configuration file</h2>
+
+<index term="configuration file">
+<P>The first thing you should do is press the "Browse" button next to
+the "Configuration" edit box, then navigate to where you have your
+<page_anchor ID="1010">configuration file</page_anchor>.</P>
+
+<P>Once you've opened the configuration file, the "database" field
+will be filled from the "database" value stored in the configuration
+file, if any.  If this is not the database you want, simply enter (or
+browse for) the database you want.</P>
+
+<P>For example:</P>
+
+<IMG SRC="SQLiteConnSettingsFilled.png" ALT="SQLite Connection
+settings dialog, filled with values">
+
+<h2>Press OK</h2>
+
+<P>Once you're done setting the configuration file and the database,
+press "OK".  If you want to quit the program instead, press
+"Cancel".</P>
+
+
+</page>
+
+
+
+<page ID="1118">
+
+<P>When you start the Emdros Query Tool using the MySQL or the<index
+term="MySQL"> PostgreSQL backend, you will see this dialog:</P>
+
+<IMG SRC="MyPgSQLConnSettings.png" ALT="MySQL/PostgreSQL Connection
+settings dialog"><index term="Connection settings dialog">
+
+<index term="configuration file">
+<h2>Set the configuration file</h2>
+
+<P>The first thing you should do is press the "Browse" button next to
+the "Configuration" edit box, then navigate to where you have your
+<page_anchor ID="1010">configuration file</page_anchor>.</P>
+
+<h2>Database</h2>
+
+<P>Once you've opened the configuration file, the "database" field
+will be filled from the "database" value stored in the configuration
+file, if any.  If this is not the database you want, simply enter the
+database you want.</P>
+
+<h2>Host, user, password</h2>
+
+<P>Most people can leave the "host" and "user" fields as they are, and
+simply write the password.</P><index term="password">
+
+<P>The "host" field shows which computer to connect to, i.e., the
+computer where the MySQL or PostgreSQL backend is running. "localhost"
+means the computer where eqt(u) <index term="eqt"><index
+term="eqtu">is running.</P>
+
+<P>The "user" field is the database user to connect to the backend as.
+Note that this may be different from your computer user name.  The
+default is "emdf", since that is the recommended default user to
+create when you bootstrap the MySQL or PostgreSQL database (see
+"bootstrapping.txt" in the <A
+HREF="http://emdros.org/docs-download.html">Emdros
+documentation</A>).</P>
+
+<P>The "password" field is for the password of the database user to
+connect as.  This is set either by the database administrator, or by
+the one who bootstrapped the MySQL or PostgreSQL database.</P><index
+term="password">
+
+<h2>Example</h2>
+
+
+<IMG SRC="MyPgConnSettingsFilled.png" ALT="MySQL/PostgreSQL Connection settings dialog, filled with values">
+
+
+<h2>Press OK</h2>
+
+<P>Once you're done setting the configuration file and the database,
+press "OK".  If you want to quit the program instead, press
+"Cancel".</P>
+
+
+
+</page>
+
+
+
+<page ID="1120">
+
+<P>Once you've pressed "OK" on the "Connection settings" dialog box,
+you will see the main screen:</P>
+
+
+<IMG SRC="MainScreen.png" ALT="The main screen">
+
+<h2>Parts</h2>
+
+<P>The main screen consist of these parts:</P>
+
+<UL>
+
+  <LI>A <page_anchor ID="1140">menu</page_anchor> at the top. 
+
+  <IMG SRC="MenuBar.png" ALT="The menu bar">
+
+  <LI>Below that, a <page_anchor ID="1130">toolbar</page_anchor> with
+  buttons. 
+
+  <IMG SRC="ToolBar.png" ALT="The toolbar">
+
+  <LI>Below that, three areas:
+
+     <UL>
+
+        <LI>To the right, a collapsible tree that shows the
+        <page_anchor ID="1400">database schema</page_anchor>
+
+        <LI>In the top half of the left side, the <page_anchor
+        ID="1200">input area</page_anchor>, where you write your
+        queries and your configuration files.
+<index term="configuration file">
+        <LI>In the lower half of the left side, the <page_anchor
+        ID="1300">output area</page_anchor>, where the output from
+        queries will be written.
+
+     </UL>
+
+</UL>
+
+<h2>Next</h2>
+
+<P>Next, we describe each of these parts.</P>
+
+</page>
+
+
+
+<page ID="1130">
+
+<P>The toolbar looks like this:</P>
+
+<IMG SRC="ToolBar.png" ALT="The toolbar">
+
+<P>The buttons represent actions, each of which will be explained
+below.</P>
+
+<h2>New, Open, Save</h2>
+
+<P><strong>New</strong>&nbsp;<IMG SRC="new.png" ALT="New">&nbsp;:
+Clears the input and output areas to "start afresh".</P>
+
+<P><strong>Open</strong>&nbsp;<IMG SRC="open.png" ALT="Open">&nbsp;:
+Opens a file (a query or a configuration file).</P> <index
+term="configuration file">
+
+<P><strong>Save</strong>&nbsp;<IMG SRC="save.png" ALT="Save">&nbsp;:
+Saves the current file.</P>
+
+<h2>Copy, Cut, Paste</h2>
+
+<P><strong>Copy</strong>&nbsp;<IMG SRC="copy.png" ALT="Copy">&nbsp;:
+Copies the current selection to the clipboard.  Works for both the
+<page_anchor ID="1200">input area</page_anchor> and the <page_anchor
+ID="1300">output area</page_anchor>output area.</P>
+
+<P><strong>Cut</strong>&nbsp;<IMG SRC="cut.png" ALT="Cut">&nbsp;: Cuts
+the current selection to the clipboard.  Works for both the
+<page_anchor ID="1200">input area</page_anchor> and the <page_anchor
+ID="1300">output area</page_anchor>output area.</P>
+
+<P><strong>Paste</strong>&nbsp;<IMG SRC="paste.png"
+ALT="Paste">&nbsp;: Pastes the current clipboard contents.  Works for
+both the <page_anchor ID="1300">input area</page_anchor> and the
+<page_anchor ID="1300">output area</page_anchor>.</P>
+
+<h2>Execute, Stop</h2>
+
+<P><strong>Execute</strong>&nbsp;<IMG SRC="flash.png"
+ALT="Execute">&nbsp;: Executes the query in the <page_anchor
+ID="1200">input area</page_anchor>.</P>
+
+<P><strong>Stop</strong>&nbsp;<IMG SRC="stop.png" ALT="Stop">&nbsp;:
+Stops the current execution.  You may have to wait a bit before the
+execution stops.  Please try pressing this button again if execution
+does not stop immediately.</P>
+
+
+</page>
+
+
+
+<page ID="1140">
+
+<P>There are four menus, each explained on its own page:</P>
+
+<OL>
+
+  <LI><page_anchor ID="1145">File menu</page_anchor>
+
+  <LI><page_anchor ID="1150">Edit menu</page_anchor>
+
+  <LI><page_anchor ID="1155">Tools menu</page_anchor>
+
+  <LI><page_anchor ID="1160">Help menu</page_anchor>
+
+</OL>
+
+
+</page>
+
+
+
+<page ID="1145">
+
+<h2>New...</h2>
+
+<P>The "New..." menu item clears the <page_anchor ID="1200">input
+area</page_anchor> and the <page_anchor ID="1300">output
+area</page_anchor>, thus "starting afresh".</P>
+
+<P>Equivalent <page_anchor ID="1130">toolbar</page_anchor> button:
+<IMG SRC="new.png" ALT="New">.</P>
+
+<h2>Open</h2>
+
+<P>The "Open" menu item opens a file and reads it into the
+<page_anchor ID="1200">input area</page_anchor>.</P>
+
+<P>The file can be either an MQL query or a configuration file.</P>
+<index term="configuration file">
+
+<P>Equivalent <page_anchor ID="1130">toolbar</page_anchor> button:
+<IMG SRC="open.png" ALT="Open">.</P>
+
+<h2>Save</h2>
+
+<P>The "Save" menu item saves the current contents of the <page_anchor
+ID="1200">input area</page_anchor>.  If no filename has been given
+previously, the "Save As" dialog box will appear so you can give the
+file a name.
+
+<P>Equivalent <page_anchor ID="1130">toolbar</page_anchor> button:
+<IMG SRC="save.png" ALT="Save">.</P>
+
+<h2>Save as</h2>
+
+<P>The "Save as" menu item saves the current contents of the input
+area, giving it a (new) name.</P>
+
+<P>Equivalent <page_anchor ID="1130">toolbar</page_anchor> button:
+None.</P>
+
+<h2>Exit</h2>
+
+<P>The "Exit" menu item quits the program.</P>
+
+<P>Equivalent <page_anchor ID="1130">toolbar</page_anchor> button:
+None.</P>
+
+</page>
+
+
+
+<page ID="1150">
+
+<h2>Copy</h2>
+
+<P>The "Copy" menu item copies the current selection to the
+clipboard.</P>
+
+<P>Equivalent <page_anchor ID="1130">toolbar</page_anchor> button:
+<IMG SRC="copy.png" ALT="Copy">.</P>
+
+<h2>Cut</h2>
+
+<P>The "Cut" menu item cuts the current selection to the
+clipboard.</P>
+
+<P>Equivalent <page_anchor ID="1130">toolbar</page_anchor> button:
+<IMG SRC="cut.png" ALT="Cut">.</P>
+
+<h2>Paste</h2>
+
+<P>The "Paste" menu item pastes the current contents of the
+clipboard.</P>
+
+<P>Equivalent <page_anchor ID="1130">toolbar</page_anchor> button:
+<IMG SRC="paste.png" ALT="Paste">.</P>
+
+
+
+</page>
+
+
+
+<page ID="1155">
+
+<h2>New Connection...</h2>
+
+<index term="Connection settings dialog">
+<P>The "New Connection..." menu item closes the current database
+connection and brings up the Connection settings dialog (<page_anchor
+ID="1115">SQLite</page_anchor> version, <page_anchor
+ID="1118">MySQL/PostgreSQL</page_anchor> version).</P><index
+term="MySQL"><index term="PostgreSQL">
+
+<P>This allows you to connect to a new database, or to reconnect if
+the connection was lost, or to use a different configuration file.</P>
+<index term="configuration file">
+
+<P>Equivalent <page_anchor ID="1130">toolbar</page_anchor> button:
+None.</P>
+
+<h2>Execute query</h2>
+
+<P>The "Execute query" menu item attempts to execute the contents of
+the <page_anchor ID="1200">input area</page_anchor> as an MQL query
+against the backend.  The <page_anchor ID="1300">output
+area</page_anchor> will show the results.</P>
+
+<P>Equivalent <page_anchor ID="1130">toolbar</page_anchor> button:
+<IMG SRC="flash.png" ALT="Execute">.</P>
+
+<h2>Configure...</h2>
+
+<P>This menu-item has not been implemented yet.  Sorry.</P>
+
+
+
+</page>
+
+
+
+<page ID="1160">
+
+<h2>About Emdros Query Tool...</h2>
+
+<P>This brings up the "About box".  Press "OK" to dismiss it
+again.</P>
+
+<P>Equivalent <page_anchor ID="1130">toolbar</page_anchor> button:
+None.</P>
+
+
+
+</page>
+
+
+
+<page ID="1200">
+
+<P>The input area is the top left pane:</P>
+
+<IMG SRC="InputArea.png" ALT="Input area">
+
+<P>Use it to write/edit your MQL query, or to write/edit a
+configuration file.</P> <index term="configuration file">
+
+<h2>Example</h2>
+
+<P>Here a query has been written in the input area:</P>
+
+<IMG SRC="InputAreaExampleQuery.png" ALT="Input area with example query">
+
+
+</page>
+
+
+
+<page ID="1300">
+
+<P>The output area is the bottom left pane:</P>
+
+<IMG SRC="OutputArea.png" ALT="Output area">
+
+<h2>Example</h2>
+
+<P>Here a query has been executed, and the output area shows the
+progress of the query.  Of course, the output itself would also be
+shown if one scrolled the window.</P>
+
+<IMG SRC="OutputAreaSampleOutput.png" ALT="Output area with sample output">
+
+
+</page>
+
+
+
+<page ID="1400">
+
+<h2>What is a schema?</h2>
+
+<index term="schema">
+
+<P>The "schema" of an Emdros database consists of the enumerations,
+object types, and monad sets created as "meta-data" in the
+database.</P>
+
+<P>An object type could be, e.g., "Word", "Phrase", "Clause", "Verse",
+"Line", etc., and the designer of the database has determined these
+when he or she created the Emdros database.</P>
+
+<P>An enumeration is a set of labels that can be used for easy
+mnemonic access to commonly used values.  Examples could include
+"noun", "verb", "adjective", etc. for the enumeration
+"part_of_speech".</P>
+
+<h2>The schema area</h2>
+
+<P>The pane in the right-hand side shows the database schema of the
+current database in a tree.</P>
+
+<IMG SRC="MainScreen.png" ALT="Main screen; the schema area is on the
+right.">
+
+<h2>The schema tree</h2>
+
+<P>The schema area consists of a tree which is fully
+expandable/collapsible by pressing the "+" and "-" buttons next to a
+label.</P>
+
+<P>The "root" of the tree shows the name and/or location of the
+current database.</P>
+
+<P>Underneath the root, there are three categories:</P>
+
+<OL>
+
+  <LI><strong><page_anchor ID="1410">Enumerations</page_anchor></strong>
+
+  <LI><strong><page_anchor ID="1420">Object types</page_anchor></strong>
+
+  <LI><strong><page_anchor ID="1430">Monad sets</page_anchor></strong>
+
+</OL>
+
+<P>These will be deal with in turn.</P>
+
+</page>
+
+
+
+
+<page ID="1410">
+
+<P>An enumeration is a set of labels for easy use of mnemonic
+values.</P>
+
+<P>The "Enumerations" top-level category can be expanded to show the
+enumerations available in the current database.</P>
+
+<P>For example:</P>
+
+<IMG SRC="SchemaEnumerations.png" ALT="Sample enumerations">
+
+<P>The <em>enumerations</em> appear at the level just below the
+"Enumerations" label.  That means, in this picture, "boolean",
+"book_name_t", and "verbal_stem_t" are all enumerations.</P>
+
+<P>You can expand or collapse each enumeration to show or hide its
+enumeration labels.  In the above picture, "true" and "false" are
+labels in the "boolean" set, whereas "NA", "imperative", "perfect",
+etc. are labels in the "verbal_tense_t" enumeration.</P>
+
+</page>
+
+
+<page ID="1420">
+
+<h2>Crash course in object types</h2>
+
+<P>An object type groups objects with similar characteristics.  For
+example, the database designer may have created the object types
+"Word", "Phrase", "Clause", "Book", etc.</P>
+
+<index term="feature"><index term="attribute">
+<index term="object feature"><index term="object attribute">
+
+<P>An object type has a number of "attributes", also known as
+"features".  The features that an object type has determines the values that can be associated with objects of the given type.</P>
+
+<P>For example, an object of type "Phrase" may have values for
+features such as "phrase_type", and "function".  This is up to the
+database designer to decide.</P>
+
+<P>A feature always has a type, drawn from the following table:</P>
+
+<UL>
+
+  <LI>integer: A positive or negative integer, or 0.
+
+  <LI>string: An 8-bit string
+
+  <LI>ascii: A 7-bit string
+
+  <LI>id_d: A pointer that points to the "self" feature of another object.
+
+  <LI><em>everything else</em>: An <page_anchor
+  ID="1410">enumeration</page_anchor>.
+
+</UL>
+
+<P>All objects have a "self" feature which is a unique ID.  Ohter
+objects can refer to a given object by the value of that object's
+"self" feature.  Database designers use the "id_d" feature type for
+this purpose.</P>
+
+<h2>The schema tree</h2>
+
+<P>Here is a partial schema tree showing the object types of a sample
+database:</P>
+
+<IMG SRC="SchemaObjectTypes.png" ALT="Schema tree with sample object
+types">
+
+<P>The object types appear directly below the "Object Types" label.
+For example, in the above picture, "chapter", "book", "verse", and
+"word", are all object types.</P>
+
+<P>You can collapse or expand each object type by pressing the "+" and
+"-" buttons next to the object type's name.  When expanded, the
+<em>features</em> will appear, along with their type (see the list
+above).</P>
+
+<P>If a feature's type is an enumeration, then the feature label can
+be expanded to show the enumeration labels.  In the above example, the
+object type "chapter" has a feature "book" whose type is the
+enumeration "book_name_t".  The enumeration labels are not visible,
+but the user could clikc the "+" next to "book" to expand the tree and
+see the enumeration labels.</P>
+
+<P>The object type "word" has a feature "gender" which is of the
+enumeration type "gender_t".  This has been expanded to reveal the
+labels "NA", "masculine", "feminine", and "unknown".</P>
+
+
+</page>
+
+
+<page ID="1430">
+
+<P>The user can create "arbitrary, named monad sets" in the database
+by using the "CREATE MONAD SET" query.  These can be viewed with the
+schema tree:</P>
+
+<IMG SRC="SchemaMonadSets.png" ALT="Sample monad sets in the schema tree">
+
+<P>The names of the monad sets appear just below the "Monad Sets"
+label in the tree.</P>
+
+<P>Each monad set name can be exapanded to reveal the monad set in
+question.</P>
+
+<P>It is just coincidence that the above sets are all single-range
+sets: The monad sets can be quite arbitrary, and may therefore have
+gaps.</P>
+
+<h2>Usage</h2>
+
+<P>The main benefit of having arbitrary monad sets is that they can be
+used to limit searches, like this:</P>
+
+<PRE class="code">
+SELECT ALL OBJECTS
+IN Poetry
+WHERE
+[Clause]
+GO
+</PRE><!-- widthincm : 12 -->
+
+<P>Here all clauses in the monad set named "Poetry" will be retrieved.</P>
+
+</page>
+
+
+
+
+<page ID="1700">
+
+<P>Normal usage involves:</P>
+
+<OL>
+
+  <LI>Starting the program.
+
+<index term="Connection settings dialog">
+  <LI>Filling out the Connection settings dialog (<page_anchor
+      ID="1115">SQLite</page_anchor> version, <page_anchor
+      ID="1118">MySQL/PostgreSQL</page_anchor> version).  This<index
+      term="MySQL"><index term="PostgreSQL"> connects to a database
+      using a certain <page_anchor
+      ID="1010">configuration</page_anchor>.
+
+  <LI>Opening a query, or or writing a query in the <page_anchor
+  ID="1200">input area</page_anchor>.
+
+  <LI>Executing the query with the <IMG SRC="flash.png" ALT="Execute">
+  <strong>execute</strong> button.
+
+  <LI>Examining the output in the <page_anchor ID="1300">output
+  area</page_anchor>.
+
+  <LI>Repeating from step 3, or quitting the program.
+
+</OL>
+
+</page>
+
+
+
+<page ID="2000">
+
+<h2>Format of the configuration file</h2>
+
+<P>The configuration file follows many other Unix and Windows
+configuration files in that:</P>
+
+<UL> 
+
+<LI>Comments are prefixed by #, and anything from the # to the end of
+  the line is ignored.  
+
+<LI>Blank lines are ignored. 
+
+<LI>The rest is a number of "key = value" pairs.  
+
+<LI>The keys are pre-defined (see below).  
+
+<LI>The values are either "quote-enclosed strings" (e.g.,
+  "C:\Emdros\mymap.map") or consist of letters, numbers, underscores,
+  and/or dots, optionally followed by a "quote-enclosed string" (e.g.,
+  'word.surfce', 'word.surface."C:\Documents and
+  Settings\Administrator\teckitmap.map"').
+
+</UL>
+
+<P>When a value has dots that are not enclosed in "quotes", then the
+strings on either side of the dots are interpreted as subkeys.  For
+example, the value "word.surface" represents the subkey "word" with
+the value "surface", and the value
+"word.surface."/home/myname/Blah.map" represents the subkey "word"
+with the subsubkey "surface", followed by the value
+"/home/myname/Blah.map".</P>
+
+
+
+<P>Here is a sample configuration file, explained bit by bit:</P>
+
+<h3>Database selection</h3>
+<PRE class="code">
+{PREHASH} database
+database = mydb
+</PRE><!-- widthincm : 12 -->
+
+<P>You can specify a database that is always to be used with this
+configuration file (unless overridden with the -d switch to
+eqtc).</P>
+
+<P>If using SQLite 2 or SQLite 3, you may wish to specify a path.  Do
+so in quotes:</P>
+
+<PRE class="code">
+{PREHASH} Database path. You can place it anywhere you want, so long
+{PREHASH} as you abide by the rules of your operating system. For
+{PREHASH} example, on Windows, do not place any "changing" data,
+{PREHASH} such as an Emdros database, underneath 
+{PREHASH} C:{PREBACKSLASH}Program Files{PREBACKSLASH}.
+database = "C:{PREBACKSLASH}Users{PREBACKSLASH}yourusername{PREBACKSLASH}Documents{PREBACKSLASH}Emdros{PREBACKSLASH}mydb.sqlite3"
+</PRE><!-- widthincm : 12 -->
+
+<h3>Rasterising unit</h3>
+
+<PRE class="code">
+{PREHASH} rasterising unit
+raster{PREUNDERSCORE}unit          = clause
+</PRE><!-- widthincm : 12 -->
+
+<P>The Emdros Query Tool operates with a notion of "rasterising unit".
+That is the unit to be displayed on one line.  For example, if your
+query returns a bunch of words, then, in the example above, all
+clauses that contains at least one of the words will be fetched and
+displayed.</P>
+
+<P>There can only be one rasterising unit.</P>
+
+<h3>Raster context</h3>
+
+<PRE class="code">
+{PREHASH} raster context
+raster{PREUNDERSCORE}context{PREUNDERSCORE}before          = 10
+raster{PREUNDERSCORE}context{PREUNDERSCORE}after           = 10
+</PRE><!-- widthincm : 12 -->
+
+The &quot;raster_unit&quot; can be replaced with &quot;so many monads
+of context&quot; (before and after a hit).  If a raster_unit is
+specified, it will take priority.  If a raster unit is not specified,
+then both of the raster_context_before / raster_context_after values
+must be present.
+
+
+<h3>Data units</h3>
+
+<PRE class="code">
+{PREHASH} data units
+data{PREUNDERSCORE}unit            = clause
+data{PREUNDERSCORE}unit            = phrase
+data{PREUNDERSCORE}unit            = word
+data{PREUNDERSCORE}feature         = word.surface
+data{PREUNDERSCORE}feature         = word.psp
+data{PREUNDERSCORE}feature         = phrase.phrase{PREUNDERSCORE}type
+data{PREUNDERSCORE}feature         = phrase.function        {PREHASH} You can have more than one
+data{PREUNDERSCORE}unit{PREUNDERSCORE}name            = clause."Cl"
+data{PREUNDERSCORE}left{PREUNDERSCORE}boundary   = phrase.OPEN{PREUNDERSCORE}BRACKET    {PREHASH} Specifies left boundary marker
+data{PREUNDERSCORE}right{PREUNDERSCORE}boundary  = phrase.CLOSE{PREUNDERSCORE}BRACKET   {PREHASH} Specifies right boundary marker
+</PRE><!-- widthincm : 14 -->
+
+<P>The data units are the units to be displayed in each rasterising
+line.  They can be anything, and need not be words.</P>
+
+<P>You must specify which feature(s) to display for each data unit.
+The feature-names must be prefixed with the name of the data unit plus
+a dot, as in the example above.</P>
+
+<P>The capitalisation must be exactly the same as the value for the
+"data_unit" key.  For example, if you said "data_unit = phrase", then
+you must also say "data_feature = phrase.phrase_type", not
+"Phrase.phrase_type".</P>
+
+<P>There can be more than one data unit.  If so, they should be
+specified in the order from largest to smallest (e.g., clause, phrase,
+word).  This will give the "output" output style (see below) a hint as
+to how to print things in the right order.</P>
+
+<P>You can optionally specify "boundary markers" that will be printed
+at the left and right boundaries of a unit respectively.  The strings
+to be printed can be taken from the following table:</P>
+
+<table border="1">  <!-- columns : 2 -->
+<tr>
+  <th>This string...</th>
+  <th>Is replaced by...<br>(without the quotes)</th>
+</tr>
+<tr>
+  <td>SPACE</td>
+  <td>"&nbsp;"</td>
+</tr>
+<tr>
+  <td>COMMA</td>
+  <td>","</td>
+</tr>
+<tr>
+  <td>COMMA_SPACE</td>
+  <td>",&nbsp;"</td>
+</tr>
+<tr>
+  <td>COLON</td>
+  <td>":"</td>
+</tr>
+<tr>
+  <td>COLON_SPACE</td>
+  <td>":&nbsp;"</td>
+</tr>
+<tr>
+  <td>OPEN_BRACE</td>
+  <td>"{OPENBRACE}"</td>
+</tr>
+<tr>
+  <td>CLOSE_BRACE</td>
+  <td>"{CLOSEBRACE}"</td>
+</tr>
+<tr>
+  <td>OPEN_BRACKET</td>
+  <td>"["</td>
+</tr>
+<tr>
+  <td>CLOSE_BRACKET</td>
+  <td>"]"</td>
+</tr>
+<tr>
+  <td>OPEN_PAREN</td>
+  <td>"("</td>
+</tr>
+<tr>
+  <td>CLOSE_PAREN</td>
+  <td>")"</td>
+</tr>
+<tr>
+  <td>NEWLINE</td>
+  <td>newline</td>
+</tr>
+<tr>
+  <td>NIL</td>
+  <td>""</td>
+</tr>
+</table>
+
+<P>The "data_unit_name" key gives, for a given object type, a string
+which will appear above all the other data_features (if any).  In the
+above example, the clause unit is given a "Cl" label.</P>
+
+<P>Finally, in the graphical version of the Emdros Query Tool, it is
+possible to have an interlinear display.  The order of the lines in
+the interlinear display is the same as the data_feature keys. The
+number of lines is equal to the number of features for the data unit
+for which the most data_feature keys are given, plus the number of
+data_unit_name keys for that unit.</P>
+
+
+<h3>TECkit mappings</h3>
+
+<PRE class="code">
+{PREHASH}surface
+data{PREUNDERSCORE}feature{PREUNDERSCORE}teckit{PREUNDERSCORE}mapping  = word.surface."e:{PREBACKSLASH}TECkit{PREBACKSLASH}mymap.map"
+data{PREUNDERSCORE}feature{PREUNDERSCORE}teckit{PREUNDERSCORE}in{PREUNDERSCORE}encoding  = word.surface.bytes
+data{PREUNDERSCORE}feature{PREUNDERSCORE}teckit{PREUNDERSCORE}out{PREUNDERSCORE}encoding = word.surface.unicode
+
+{PREHASH} lemma
+data{PREUNDERSCORE}feature{PREUNDERSCORE}teckit{PREUNDERSCORE}mapping  = word.lemma."e:{PREBACKSLASH}TECkit{PREBACKSLASH}mymap.map"
+data{PREUNDERSCORE}feature{PREUNDERSCORE}teckit{PREUNDERSCORE}in{PREUNDERSCORE}encoding  = word.lemma.bytes
+data{PREUNDERSCORE}feature{PREUNDERSCORE}teckit{PREUNDERSCORE}out{PREUNDERSCORE}encoding = word.lemma.unicode
+</PRE><!-- widthincm : 14 -->
+
+<P><strong>TECkit</strong> is a tool made by SIL International.  It
+converts between encodings, in particular to and from Unicode.  The
+Emdros Query Tool incorporates TECkit, and you can apply it to any
+textual feature of any object type.</P>
+
+<P>TECkit works with a so-called "map file" -- a text file which you
+or someone else writes.  More information about writing TECkit
+mappings can be found on SIL's website:</P>
+
+<center><P><strong>http://scripts.sil.org/TECkit/</strong></P></center>
+
+<P>The Emdros Query Tool needs three pieces of information in
+order for TECkit to work on a particular feature:</P>
+
+<OL> 
+
+  <LI>The name of the file which holds the maping.  This is given
+      with the key "data_feature_teckit_mapping".
+
+  <LI>The input encoding (encoding of the feature-string): This is
+      given with the key "data_feature_teckit_in_encoding".  The value
+      can be either "bytes" or "unicode" (without the quotes).
+      "bytes" means that TECkit does not convert to UTF-8.  "unicode"
+      means it is converted to UTF-8 for display.  You should use
+      whatever is used in the map file for input encoding here.
+
+  <LI>The output encoding (encoding to transform into): This is given
+      with the key "data_feature_teckit_out_encoding".  The same
+      meanings and restrictions apply as for the input encoding.
+
+</OL>
+
+<P>TECkit can not only convert between encodings, but also remove
+stuff from a string.  This can come in handy when you have characters
+in your feature-strings which you do not wish to display.  Again, see
+the TECkit site on SIL's website for information on how to write a
+TECkit mapping.</P>
+
+<P>You should give first the object type, then a dot, then the
+feature-name, then a dot, then the full path to the map file.  You
+probably need to enclose the path in "double quotes".</P>
+
+<P>You can only have one TECkit per feature.</P>
+
+
+<h3>Reference unit</h3>
+
+<PRE class="code">
+{PREHASH} reference units
+reference{PREUNDERSCORE}unit      = verse
+reference{PREUNDERSCORE}feature   = verse.book
+reference{PREUNDERSCORE}feature   = verse.chapter
+reference{PREUNDERSCORE}feature   = verse.verse
+
+reference{PREUNDERSCORE}sep = SPACE {PREHASH} between book and chapter
+reference{PREUNDERSCORE}sep = COMMA {PREHASH} between chapter and verse
+</PRE><!-- widthincm : 14 -->
+
+<P>If you have a unit in your database which somehow identifies the
+position in the document, or an ID, you can display these units at the
+left of each line.  The canonical example is the Biblical system of
+book-chapter-verse, but in many corpora, there will be a unit
+identifying, e.g., which newspaper article something came from.</P>
+
+<P>In the above example, verse is the reference unit, and three
+features are fetched, namely book, chapter, verse.  The order in which
+they are specified in the configuration file is the order in which
+they will be emitted.
+
+<P>If there is more than one reference unit feature, you must specify
+the separators to separate them.  In the above example "SPACE" will be
+emitted between "book" and "chapter", and "COMMA" will be emitted
+between the chapter and the verse (again, the order matters).  See the
+table above for some possibilities of using special characters.</P>
+
+<P>There can be only one reference unit.</P>
+
+<h3>Output style</h3>
+
+<PRE class="code">
+{PREHASH}output{PREUNDERSCORE}style = kwic
+{PREHASH}output{PREUNDERSCORE}style = tree
+{PREHASH}output{PREUNDERSCORE}style = xml
+output{PREUNDERSCORE}style = output
+</PRE><!-- widthincm : 14 -->
+
+<P>Specifies which implementation to use for emitting
+solutions. Currently, three kinds of output style are implemented:</P>
+
+<UL>
+  <LI><strong>output</strong>: A "bracketed" view.
+  <LI><strong>tree</strong>: A "tree" view
+  <LI><strong>kwic</strong>: A "key words in context" view.
+  <LI><strong>xml</strong>: XML output view.  For usage, please see the DTD that is emitted along with the output.
+</UL>
+
+<h3>Data tree parent</h3>
+
+<PRE class="code">
+{PREHASH} Tree parent feature.
+{PREHASH} If output{PREUNDERSCORE}style = tree, then it is assumed that
+{PREHASH} there is a feature on all relevant data units which gives the
+{PREHASH} id{PREUNDERSCORE}d of the parent.  That is, each child node in the tree
+{PREHASH} must have a feature which provides the id{PREUNDERSCORE}d of its parent.
+{PREHASH} If a data{PREUNDERSCORE}unit is provided which does not have a data{PREUNDERSCORE}tree{PREUNDERSCORE}parent,
+{PREHASH} then that data{PREUNDERSCORE}unit *must* contain the top-most nodes in the tree.
+data{PREUNDERSCORE}tree{PREUNDERSCORE}parent = clause.parent
+data{PREUNDERSCORE}tree{PREUNDERSCORE}parent = phrase.parent
+data{PREUNDERSCORE}tree{PREUNDERSCORE}parent = word.parent
+</PRE><!-- widthincm : 14 -->
+
+<P>If "output_style" is set to "tree", then this option specifies, for
+each terminal and non-terminal in the tree, what feature gives the
+parent of the node.  Note that this feature must have type "id_d", and
+the value must point to the id_d of the parent node.</P>
+
+<h3>Tree terminal unit</h3>
+
+<PRE class="code">
+{PREHASH} Tree terminal unit.
+{PREHASH} If output{PREUNDERSCORE}style = tree, then the Emdros Query Tool needs to know
+{PREHASH} which object types are terminals (i.e., leaf nodes in the tree)
+{PREHASH} and which object types are non-terminals.  This is done by
+{PREHASH} designating *one* (1) data{PREUNDERSCORE}unit to be the data{PREUNDERSCORE}tree{PREUNDERSCORE}terminal{PREUNDERSCORE}unit.
+{PREHASH} The rest of the data{PREUNDERSCORE}units will then be non-terminals.
+data{PREUNDERSCORE}tree{PREUNDERSCORE}terminal{PREUNDERSCORE}unit = word
+</PRE><!-- widthincm : 14 -->
+
+<P>This options tells the tree layout code which data_unit contains
+the terminals.  Note that the Emdros Query Tool assumes that terminals
+and nonterminals are different object types.  There may be more than
+one nonterminal object type, but only one terminal object type.  The
+non-terminsl object types are determined based on the data_unit
+option.</P>
+
+<h3>Object Type Name as Tree node name</h3>
+
+<PRE class="code">
+{PREHASH} Tree nonterminal unit name.
+{PREHASH} If and only if this is set to "true" (without the quotes),
+{PREHASH} use the object type name as the node name in the tree.
+{PREHASH}
+{PREHASH} otherwise, it is advisable to add data{PREUNDERSCORE}feature entries for all
+{PREHASH} nonterminal units, which will then be shown.
+{PREHASH}
+{PREHASH} You can set this to "true" and still use data{PREUNDERSCORE}feature -- the features
+{PREHASH} will then be addedbelow the object type name.
+{PREHASH}
+data{PREUNDERSCORE}tree{PREUNDERSCORE}object{PREUNDERSCORE}type{PREUNDERSCORE}name{PREUNDERSCORE}for{PREUNDERSCORE}nonterminals = true
+</PRE><!-- widthincm : 14 -->
+
+<P>This options tells the tree layout code to add the object type name
+of each nonterminal as the first line in each node box. If set to
+"true", this is what is done.  If set to anything else, or if not set,
+it is not done.</P>
+
+<h3>Hit type</h3>
+
+<PRE class="code">
+{PREHASH} hit type
+{PREHASH} hit{PREUNDERSCORE} must be one of:
+{PREHASH}    focus
+{PREHASH}    innermost
+{PREHASH}    innermost{PREUNDERSCORE}focus
+{PREHASH}    outermost
+hit{PREUNDERSCORE}type    =  outermost
+</PRE><!-- widthincm : 12 -->
+
+<P>The hit type determines how the sheaf is interpreted.  There are
+four available options:</P>
+
+<UL>
+
+   <LI><strong>focus</strong>: Means that an object originating in a
+       block with the FOCUS keyword present will result in one "hit".
+
+   <LI><strong>innermost</strong>: Means that only the innermost
+       MatchedObjects will give rise to hits; one hit per string of
+       blocks in which all matched objects have no descendants (i.e.,
+       no inner sheaf).
+
+   <LI><strong>innermost_focus</strong>: Like innermost, but only
+       those matched objects whose &quot;focus&quot; boolean is set
+       will have their monads included.
+
+   <LI><strong>outermost</strong>: Means that only the outermost
+       MatchedObjects will give rise to hits; one hit per outermost
+       MatchedObject.
+
+</UL>
+
+<P>If none of these are specified, then &quot;outermost&quot; is
+assumed as the default.</P>
+
+
+<h3>Options</h3>
+
+<PRE class="code">
+{PREHASH} display options
+option = apply{PREUNDERSCORE}focus
+option = break{PREUNDERSCORE}after{PREUNDERSCORE}raster
+option = quiet
+option = single{PREUNDERSCORE}raster{PREUNDERSCORE}units
+</PRE><!-- widthincm : 14 -->
+
+<P>You can have these options:</P>
+
+<table border="1">  <!-- columns : 2 -->
+<tr>
+  <th>Option</th>
+  <th>Meaning</th>
+</tr>
+
+<tr>
+  <td>apply_focus</td>
+  <td>If set, then those data units which had the "focus" keyword in
+  the original query will be surrounded by {OPENBRACE}braces{CLOSEBRACE} in the
+  output.</td>
+</tr>
+
+<tr>
+  <td>break_after_raster</td>
+  <td>If set, then a newline is emitted after each raster-line.  If
+  not set, then the raster-lines are run together.</td>
+</tr>
+
+<tr>
+  <td>quiet</td>
+
+  <td>If set, then only results will be printed; nothing else.  If not
+  set, then things like progress and number of solutions will be
+  printed.  If an error occurs, then that will be printed regardless
+  of the status of this option.</td>
+
+</tr>
+
+<tr>
+  <td>single_raster_units</td>
+
+  <td>If set, then each raster unit will only ever be printed once.
+      This affects the number of solutions printed: If two solutions
+      each contain the same raster unit, then only one of the
+      solutions will be printed.</td>
+
+</tr>
+
+</table>
+
+
+<h3>Display options</h3>
+
+<PRE class="code">
+input{PREUNDERSCORE}area{PREUNDERSCORE}font{PREUNDERSCORE}name  = "Arial MS Unicode"
+input{PREUNDERSCORE}area{PREUNDERSCORE}font{PREUNDERSCORE}size  = 11  {PREHASH} in points
+output{PREUNDERSCORE}area{PREUNDERSCORE}font{PREUNDERSCORE}name{PREUNDERSCORE}1 = "SPIonic"
+output{PREUNDERSCORE}area{PREUNDERSCORE}font{PREUNDERSCORE}name{PREUNDERSCORE}2 = "Courier New"
+output{PREUNDERSCORE}area{PREUNDERSCORE}font{PREUNDERSCORE}name{PREUNDERSCORE}3 = "Times New Roman"
+output{PREUNDERSCORE}area{PREUNDERSCORE}magnification  = 100  {PREHASH} in percent (%)
+</PRE><!-- widthincm : 14 -->
+
+<P>You can set the default font name and font size (in points) for the
+input area.</P>
+
+<P>You cannot set the font size in points for the output area.
+Instead, you can set it to a percentage of 12 point.  For example,
+setting output_area_magnification to 150 will select a font size of 18
+points, and setting it to 200 will select a font size of 24
+points.</P>
+	
+
+
+</page>
+
+
+
+<page ID="3000">
+
+<h2>Topographic queries vs. table-queries</h2>
+
+<P>The Emdros Query Tool can display two kinds of results: Sheaves
+(from topographic queries) and tables (from all other queries).</P>
+
+<h2>Topographic queries</h2>
+
+<P>Topographic queries are described in the <page_anchor
+ID="3100">cheat sheet</page_anchor>.</P>
+
+</page>
+
+
+<page ID="3100">
+
+<h2>Preamble</h2>
+
+<P>For topographic queries, you must prefix the query with this magic
+incantation:</P>
+
+<PRE class="code">
+SELECT ALL OBJECTS
+WHERE
+// Your query here.
+</PRE><!-- widthincm : 14 -->
+
+<P>Variations over this exist:</P>
+
+<PRE class="code">
+SELECT ALL OBJECTS
+IN MyMonadSet
+WHERE
+// Query here, will only find objects
+// in the stored monad set "MyMonadSet"
+
+SELECT ALL OBJECTS
+IN {PREOPENBRACE}1-23400{PRECLOSEBRACE}
+WHERE
+// Query here, will only find objects
+// within the monads {PREOPENBRACE}1-23400{PRECLOSEBRACE}.
+</PRE><!-- widthincm : 14 -->
+
+
+<h2>Overview</h2>
+
+<UL>
+
+
+  <LI><A HREF="#Basics">The basics</A>
+  <LI><A HREF="#FeatureRestrictions">Feature-restrictions</A>
+  <LI><A HREF="#FirstLast">First/last</A>
+  <LI><A HREF="#ObjectReferences">Object references</A>
+  <LI><A HREF="#NOTEXISTKleeneStar">NOTEXIST and Kleene Star</A>
+
+</UL>
+
+
+<h2><A NAME="Basics">The basics</A></h2>
+
+<P><strong>Object blocks, Sequence, Embedding</strong></P>
+
+<table border="1">  <!-- columns : 3 -->
+<tr>
+  <th>Construction</th>
+  <th>Meaning</th>
+  <th>Example</th>
+</tr>
+
+<tr>
+  <td><PRE class="MQLExample">[ObjectType]</PRE></td>
+  <td>Objects:<br>Finds object of type ObjectType</td>
+  <td><PRE class="MQLExample">[Word]</PRE></td>
+</tr>
+
+<tr>
+  <td><PRE class="MQLExample">[A]
+[B]</PRE></td>
+  <td>Adjacency:<br>Finds objects of type A that are adjacent to objects of type B.  However, if there is a gap in the context, that gap will be ignored and objects on either side of the gap will be "adjacent"</td>
+  <td><PRE class="MQLExample">[Word]
+[Phrase]</PRE></td>
+</tr>
+
+<tr>
+  <td><PRE class="MQLExample">[A]!
+[B]</PRE></td>
+  <td>Strict adjacency:<br>Finds objects of type A that are _really_ adjacent to objects of type B.  No gaps allowed.</td>
+  <td><PRE class="MQLExample">[Word]![Word]</PRE></td>
+</tr>
+
+<tr>
+  <td><PRE class="MQLExample">[A
+  [B]
+]</PRE></td>
+  <td>Embedding:<br>Finds objects of type A inside which there is an embedded object of type B.</td>
+  <td><PRE class="MQLExample">[Phrase
+  [Word]
+]</PRE></td>
+</tr>
+</table>
+
+<P><strong>Arbitrary space</strong></P>
+
+<table border="1">  <!-- columns : 3 -->
+<tr>
+  <th>Construction</th>
+  <th>Meaning</th>
+  <th>Example</th>
+</tr>
+
+
+<tr>
+  <td><PRE class="MQLExample">[A
+  [B]
+  ..
+  [C]
+]</PRE></td>
+
+  <td>Arbitrary space:<br>Finds objects of type A, inside of which
+  ther are two objects, one of type B and one of type C, and they need
+  not be adjacent (though they can be).</td>
+
+  <td><PRE class="MQLExample">[Clause
+  [Phrase]
+  ..
+  [Phrase]
+]</PRE></td>
+</tr>
+
+<tr>
+  <td><PRE class="MQLExample">[A
+  [B]
+  .. {PRELT}= 5
+  [C]
+]</PRE></td>
+
+  <td>Arbitrary space with restriction:<br>Finds objects of type A,
+  inside of which ther are two objects, one of type B and one of type
+  C, and they need not be adjacent (though they can be), and there may
+  be up to 5 monads between them.</td>
+
+  <td><PRE class="MQLExample">[Clause
+  [Phrase]
+  .. {PRELT}= 20
+  [Phrase]
+]</PRE></td>
+</tr>
+
+<tr>
+  <td><PRE class="MQLExample">[A
+  [B]
+  .. {PRELT} 6
+  [C]
+]</PRE></td>
+
+  <td>Arbitrary space with restriction:<br>Finds objects of type A,
+  inside of which ther are two objects, one of type B and one of type
+  C, and they need not be adjacent (though they can be), and there may
+  be up to 5 monads between them.</td>
+
+  <td><PRE class="MQLExample">[Clause
+  [Phrase]
+  .. {PRELT} 21
+  [Phrase]
+]</PRE></td>
+</tr>
+
+<tr>
+  <td><PRE class="MQLExample">[A
+  [B]
+  .. BETWEEN 3 AND 6
+  [C]
+]</PRE></td>
+
+  <td>Arbitrary space with restriction:<br>Finds objects of type A,
+  inside of which ther are two objects, one of type B and one of type
+  C, and they need not be adjacent (though they can be), and there
+  must be at least 3 and at most 6 monads between them.</td>
+
+  <td><PRE class="MQLExample">[Clause
+  [Word]
+  .. BETWEEN 2 AND 5
+  [Word]
+]</PRE></td>
+
+</tr>
+</table>
+
+<h2><A NAME="FeatureRestrictions">Feature-restrictions</A></h2>
+
+<P><strong>Basic feature-restrictions</strong></P>
+
+<table border="1">  <!-- columns : 3 -->
+
+<tr>
+  <th>Construction</th>
+  <th>Meaning</th>
+  <th>Example</th>
+</tr>
+
+<tr>
+  <td><PRE class="MQLExample">[A myfeature = val]</PRE></td>
+
+  <td>Feature-equality: A's feature "myfeature" must have value "val".<br>Other comparison-operators include:
+<UL>
+  <LI>"&lt;&gt;": inequality (different from)
+  <LI>"&lt;": less than
+  <LI>"&gt;": greather than
+  <LI>"&lt;=": less than or equal to
+  <LI>"&gt;=": greater than or equal to
+</UL>
+</td>
+
+  <td><PRE class="MQLExample">[Word lemma="see"]</PRE></td>
+</tr>
+
+<tr>
+  <td><PRE class="MQLExample">[A myfeature 
+   IN (value-list)]</PRE></td>
+
+  <td>Value-list:<br>A.myfeature must be an enumeration, and
+  value-list must be a comma-separated list of enumeration constants
+  in parentheses.  The meaning is as if an OR had been placed between
+  individual equality (=) comparisons between the feature and the members
+  of the list.</td>
+
+  <td><PRE class="MQLExample">[Word pos IN 
+     (article,noun,
+      conjunction,
+      adjective)]
+</PRE></td>
+</tr>
+
+
+<tr>
+  <td><PRE class="MQLExample">[A myfeature 
+      ~ "regex"]</PRE></td>
+
+  <td>Regular expression:<br>A.myfeature is matched via the regular
+  expression "regex".  The regular expressions are compatible with
+  Perl 5.  Can only be used with string-features.</td>
+
+  <td><PRE class="MQLExample">[Word lemma 
+       ~ "A(b{PREPIPE}a{PREPIPE}e)*"]</PRE></td>
+</tr>
+
+<tr>
+  <td><PRE class="MQLExample">[A myfeature 
+       !~ "regex"]</PRE></td>
+
+  <td>Negated regular expression: Matches those objects for which the
+  feature in question does NOT match the regular expression. Can only
+  be used with string-features.</td>
+
+  <td><PRE class="MQLExample">[Word surface 
+       !~ "se(a{PREPIPE}e)"]</PRE></td>
+</tr>
+
+</table>
+
+<P><strong>Boolean combinations of feature-restrictions</strong></P>
+
+<table border="1">  <!-- columns : 3 -->
+<tr>
+  <td><PRE class="MQLExample">[A feature1 = value1 
+  AND 
+  feature2 = value2
+]</PRE></td>
+  <td>Conjunction:<br>Both feature-comparisons must be true at the same time for the object to match.</td>
+  <td><PRE class="MQLExample">[Word lemma="see" 
+   AND tense=past]</PRE></td>
+</tr>
+
+<tr>
+  <td><PRE class="MQLExample">[A feature1 = value1
+ OR feature2 = value2
+]</PRE></td>
+
+  <td>Disjunction:<br>If either of the feature-comparisons evaluates to true, then the object matches.</td>
+
+  <td><PRE class="MQLExample">[Phrase 
+   phrase{PREUNDERSCORE}type = NP 
+   OR phrase{PREUNDERSCORE}type=PP
+]</PRE></td>
+</tr>
+
+<tr>
+  <td><PRE class="MQLExample">[A NOT 
+ feature1 = value1]</PRE></td>
+  <td>Negation:<br>The feature-comparison must not be true.</td>
+  <td><PRE class="MQLExample">[Word NOT pos=verb]</PRE></td>
+</tr>
+
+<tr>
+  <td><PRE class="MQLExample">[A (feature1 = value1
+   OR 
+  feature2 = value2)
+   AND 
+  feature3 = value3)</PRE></td>
+  <td>Grouping:<br>Parentheses can be used to group feature-comparisons.</td>
+  <td><PRE class="MQLExample">[Phrase 
+    phrase{PREUNDERSCORE}type = VP 
+AND
+ (function = Predicate
+ OR 
+ function = PredCmpl)
+]</PRE></td>
+</tr>
+
+</table>
+
+<h2><A NAME="FirstLast">First/last</A></h2>
+
+<P>An object can be first, last, or first and last in its context.</P>
+
+<table border="1">  <!-- columns : 3 -->
+
+<tr>
+  <th>Construction</th>
+  <th>Meaning</th>
+  <th>Example</th>
+</tr>
+
+
+<tr>
+  <td><PRE class="MQLExample">[B
+  [A first]
+]</PRE></td>
+  <td>The A object must be first in the context of the B object.</td>
+  <td><PRE class="MQLExample">[Phrase
+   [Word first]
+   [Word]
+]</PRE></td>
+</tr>
+
+<tr>
+  <td><PRE class="MQLExample">[B
+  [A last]
+]</PRE></td>
+  <td>The A object must be last in the context of the B object.</td>
+  <td><PRE class="MQLExample">[Phrase
+   [Word]
+   ..
+   [Word last]
+]</PRE></td>
+</tr>
+
+	
+<tr>
+  <td><PRE class="MQLExample">[B
+  [A first and last]
+]</PRE></td>
+  <td>The A object must be both first and last in the context of the B object.</td>
+  <td><PRE class="MQLExample">[Phrase
+   [Word first 
+         and last]
+]</PRE></td>
+</tr>
+
+</table>
+
+<h2><A NAME="ObjectReferences">Object references</A></h2>
+
+<P>You can give an object a name with the "AS" keyword and then refer
+to that object later in the query with the "dot notation".</P>
+
+<table border="1">  <!-- columns : 3 -->
+
+<tr>
+  <th>Construction</th>
+  <th>Meaning</th>
+  <th>Example</th>
+</tr>
+
+
+<tr>
+  <td><PRE class="MQLExample">[A AS a1
+  [B feature{PREUNDERSCORE}on{PREUNDERSCORE}B = 
+     a1.feature{PREUNDERSCORE}on{PREUNDERSCORE}A]
+]</PRE></td>
+  <td>B's feature_on_B feature must be the same as the feature_on_A feature on the A object.</td>
+  <td><PRE class="MQLExample">[Phrase AS p1
+  // The phrase must
+  // be the immediate
+  // ancestor of the
+  // word
+  [Word parent = 
+        p1.self]
+]</PRE></td>
+</tr>
+
+</table>
+
+
+<h2><A NAME="NOTEXISTKleeneStar">NOTEXIST and Kleene Star</A></h2>
+
+<P>The NOTEXIST keyword tells that an object must not exist at a given
+point.</P>
+
+<P>The Kleene-Star tells that an object must occur either 0, 1, or
+more times.</P>
+
+<P>The Kleene-Star with a set of integers tucked behind tells the
+exact number of times the object may occur.</P>
+
+<P>Currently, the Kleene Star cannot be used on the first object in a
+context, or the first object after a "..".</P>
+
+<table border="1"> <!-- columns : 3 -->
+
+<tr>
+  <th>Construction</th>
+  <th>Meaning</th>
+  <th>Example</th>
+</tr>
+
+<tr>
+  <td><PRE class="MQLExample">[A NOTEXIST [B]]</PRE></td>
+  <td>There must not exist a B inside of A.</td>
+  <td><PRE class="MQLExample">[Sentence
+   NOTEXIST [Word 
+       surface="saw"]
+]</PRE></td>
+</tr>
+
+<tr>
+  <td><PRE class="MQLExample">[A
+  [B]
+  [C]*
+]</PRE></td>
+  <td>Inside of A, there must be a B, followed by zero or more C's.</td>
+  <td><PRE class="MQLExample">[Phrase
+  [Word first 
+     pos=preposition]
+  [Word pos IN 
+      (article,noun,
+       conjunction)]*
+]</PRE></td>
+</tr>
+
+<tr>
+  <td><PRE class="MQLExample">[A
+  [B]
+  [C]*{PREOPENBRACE}0,1{PRECLOSEBRACE}
+]</PRE></td>
+  <td>Inside of A, there must occur a B object, followed by either 0 or 1 C objects.  Note how this makes the C object optional.</td>
+  <td><PRE class="MQLExample">[Clause
+  [word 
+    pos="conjunction"]
+  [word 
+    pos="conjunction"
+  ]*{PREOPENBRACE}0,1{PRECLOSEBRACE}
+]</PRE></td>
+</tr>
+
+</table>
+
+
+
+</page>

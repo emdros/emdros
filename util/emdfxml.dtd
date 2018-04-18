@@ -1,0 +1,309 @@
+<!-- This DTD describes and documents the 'emdfxml' data format.  The
+     documentation is in the comments above each element declaration.
+
+     The format has been designed with two goals in mind:
+
+     1) Easy human readability in the 'monad_sets' and 'schema' sections.
+
+     2) Compactness of expression in the 'data' section.
+
+
+     The 'emdfxml' format is useful for:
+
+     a) Dumping Emdros database to XML (rather than MQL).  This makes
+     for greater interoperability with other tools which do not read
+     MQL.
+
+     b) Importing Emdros databases from XML (rather than MQL).  This
+     might make it easier to write an importer for a given kind of
+     data, since XML can be emitted by the importer, rather than MQL.
+
+     c) Importing an Emdros database directly into the BPT engine
+     without first importing it into a writable backend, such as
+     PostgreSQL, MySQL, or SQLite 3.
+
+-->
+
+<!-- emdfxml is the root element.  It contains one or more 'db' elements.
+-->
+<!ELEMENT emdfxml
+	  (db)+ >
+
+<!-- db is the element that contains an entire database.
+
+     The attribute, 'name', may be given in order to name the
+     database.  If not given, the tool using the emdfxml XML file is
+     expected to provide a name.
+
+     Whether this name, if given, is overridden by the tooling is up
+     to the tool.
+-->
+<!ELEMENT db
+	  ((schema)?,(data)?)
+	  >
+<!ATTLIST db
+	  name CDATA #IMPLIED
+	  >
+
+<!ELEMENT schema
+	  ((monad_sets)?,(enumerations)?,object_type_declarations)
+	  >
+
+<!ELEMENT monad_sets
+	  (monad_set)*
+	  >
+
+<!--
+    The element, 'monad_set', declares a stored monad set.
+
+    The 'name' attribute must follow the general rules of MQL monad
+    set names.  Currently, this means that the name must be a C
+    identifier, following the regular expression
+    "[A-Za-z_][A-Za-z0-9_]*"
+
+    The format of the 'monads' attribute is the same as in MQL.  The
+    precise rules are given below under the 'm' attribute of the 'o'
+    element.
+
+-->
+<!ELEMENT monad_set
+	  EMPTY
+	  >
+<!ATTLIST monad_set
+	  name CDATA #REQUIRED
+	  monads CDATA #REQUIRED
+	  >
+
+
+<!ELEMENT enumerations
+	  (enumeration)*
+	  >
+
+<!-- The 'enumeration' element declares one enumeration.  It contains
+    one or more enum_const elements.
+
+    The 'name' attribute is required, and must be a C identifier,
+    following the regular expression "[A-Za-z_][A-Za-z0-9_]*".
+
+-->
+<!ELEMENT enumeration
+	  (enum_const)+
+	  >
+<!ATTLIST enumeration
+	  name CDATA #REQUIRED
+	  >
+
+<!-- The 'enum_const' element declares one enumeration constant within
+     the containing 'enumeration' element.  It is a single-tag
+     element.
+
+     The 'name' attribute is required, and must be a C identifier,
+     following the regular expression "[A-Za-z_][A-Za-z0-9_]*". It is
+     case-sensitive, meaning the enum const names 'ADD' and 'Add' are
+     considered two different enum const names.
+
+     The 'value' attribute, if present, must be an integer in base-10.
+     If not present, the value of this enum const is the value of the
+     previous declared enum const, plus 1.  If this is the first enum
+     const being declared without a value, its assigned value is 0.
+
+     The 'default' attribute, if present, can be either "true" or
+     "false".  If absent, "false" is assumed.  It is an error to
+     declare an enumeration with more than one 'default="true"'
+     attribute.  If none of the enum_const elements has
+     'default="true"', then the first enum_const is declared to be the
+     default.
+
+-->
+<!ELEMENT enum_const
+	  EMPTY
+	  >
+<!ATTLIST enum_const
+	  name    CDATA #REQUIRED
+	  value   CDATA #IMPLIED
+	  default CDATA #IMPLIED
+	  >
+
+<!-- The 'object_type_declarations' element declares zero or more
+     object types inside.
+-->
+<!ELEMENT object_type_declarations
+	  (object_type_declaration)*
+	  >
+
+<!-- Element 'object_type_declaration' declares an object type.
+     Inside it may have zero or more feature_declaration elements.
+
+     The 'id_d' and 'monads' features are automatically created. It is
+     an error to declare them.
+
+     The attribute, 'name', is required, and must follow the rules of
+     MQL object type names.  Currently, this means that the name must
+     be a C identifier, conforming to the regular expression,
+     "[A-Za-z_][A-Za-z0-9_]*"
+
+     The attribute, 'range_type', declares the kinds of monad sets of
+     the 'monads' feature of all objects in this object type.  If
+     present, it must be one of the following strings:
+
+     a) "WITH SINGLE MONAD OBJECTS"
+     b) "WITH SINGLE RANGE OBJECTS"
+     c) "WITH MULTIPLE RANGE OBJECTS"
+
+     These values are case-insensitive, but must be case-insensitively
+     equivalent to one of the above.  It is an error to declare a
+     value which is not one of the above.
+
+     If absent, this value defaults to "WITH MULTIPLE RANGE OBJECTS".
+
+     The attribute, 'monad_uniqueness_type', declares some
+     restrictions on the uniqueness of the first and last monads.  If
+     present, it must be one of the following strings:
+
+     a) "HAVING UNIQUE FIRST MONADS"
+     b) "HAVING UNIQUE FIRST AND LAST MONADS"
+     c) "WITHOUT UNIQUE MONADS"
+     
+     These values are case-insensitive, but must be case-insensitively
+     equivalent to one of the above.  It is an error to declare a
+     value which is not one of the above.
+
+     If absent, this defaults to "WITHOUT UNIQUE MONADS".
+
+-->
+<!ELEMENT object_type_declaration
+	  (feature_declaration)*
+	  >
+<!ATTLIST object_type_declaration
+	  name                  CDATA #REQUIRED
+	  range_type            CDATA #IMPLIED
+	  monad_uniqueness_type CDATA #IMPLIED
+	  >
+
+<!-- The element, "feature_declaration", is a single-tag element with
+     two required attributes, and two optional attributes.  It
+     declares a single feature on the surrounding object type.
+
+     The required attribute, 'name', is the name of the feature as it
+     would be declared in an MQL "CREATE OBJECT TYPE" statement.
+
+     The required attribute, "feature_type", must be
+     case-insensitively equivalent to one of the following:
+
+     a) "INTEGER"
+     b) "ID_D"
+     c) <enum-name>
+     d) "LIST OF INTEGER"
+     e) "LIST OF ID_D"
+     f) "LIST OF <enum-name>"
+     g) "STRING"
+     h) "ASCII"
+     i) "SINGLE MONAD SET OF MONADS"
+     j) "SINGLE RANGE SET OF MONADS"
+     k) "MULTIPLE RANGE SET OF MONADS"
+     l) "SET OF MONADS"  (same as (k)).
+
+     The optional attribute, 'from_set', if present, must be one of
+     the following:
+
+     a) "true"
+     b) "false"
+
+     It defaults to "false".  If 'true' is given, the feature type is
+     declared to be 'from set'.  This currently only works if the
+     feature_type is either "string" or "ascii".
+
+     The optional attribute, 'with_index', if present, must be one of
+     the following:
+
+     a) "true"
+     b) "false"
+
+     It defaults to "false".  If 'true' is given, an index is declared
+     on the feature in the underlying database backend.
+
+     The optional attribute, 'default_value', if present, must be an
+     expression giving the default value of the feature.
+-->
+<!ELEMENT feature_declaration
+	  EMPTY
+	  >
+<!ATTLIST feature_declaration
+	  name             CDATA #REQUIRED
+	  feature_type     CDATA #REQUIRED
+	  from_set         CDATA #IMPLIED
+	  with_index       CDATA #IMPLIED
+	  default_value    CDATA #IMPLIED
+	  >
+  
+<!-- The 'data' element contains zero or more object_type_data
+     elements.
+-->
+<!ELEMENT data
+	  (object_type_data)*
+	  >
+
+<!-- The 'object_type_data' element encompasses zero or more objects
+     for the object type with the given name.
+
+     The 'name' attribute must obey the restrictions on object types,
+     and the object type must already be declared.  The declaration
+     can happen in MQL, if dumping to a database, or inside the XML
+     'schema' element.
+
+     When dumping to BPT, it is an error to have more than one
+     object_type_data declaration with the same object type name in
+     the same XML file.
+
+     When dumping to an SQL database, this is not an error.
+-->
+<!ELEMENT object_type_data
+	  (o)*
+	  >
+<!ATTLIST object_type_data
+	  name CDATA #REQUIRED
+	  >
+	  
+<!-- Element 'o' contains the data for an individual object of the
+     encompassing object type.
+
+     The attribute, 'id_d', if given, will become the id_d of the
+     object.
+
+     If the attribute 'id_d' is not given, an id_d will be
+     auto-assigned in a way similar to the way id_ds are uniquely
+     assigned while creating a database through MQL.
+
+     The attribute, 'm', must contain a valid monad set.  Here,
+     "valid" means:
+
+     a) Its first non-space character is '{'.
+     b) Its last non-space character is '}'.
+
+     c) Between the { and } must be a non-empty, comma-separated list
+        of "monad set elements".  Spaces are ignored around the
+        integers and dashes, and around commas.
+     d) A "monad set element" is of one of the following two forms:
+     
+        i) \d+   (base-10 integer)
+	ii) \d+-\d+ (range of two base-10 integers, in which the
+            second integer must be greater than or equal to the
+            first).
+
+     In other words, the monad set must follow the syntax of the monad
+     sets in MQL.
+-->
+<!ELEMENT o
+	  (f)*
+	  >
+<!ATTLIST o
+	  id_d CDATA #IMPLIED
+	  m CDATA #REQUIRED
+	  >
+
+<!ELEMENT f
+	  EMPTY >
+<!ATTLIST f
+	  n CDATA #REQUIRED
+	  v CDATA #REQUIRED
+	  >

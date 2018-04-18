@@ -1,0 +1,79 @@
+# -*- coding: utf-8 -*-
+#
+# ***** DO NOT EDIT THE generate_extrafiles.py FILE! *****
+#
+# Instead, edit generate_extrafiles.py.in.  It is generated in the Makefile in the root.
+#
+# 
+# This script generates two files:
+#
+# 1) extrafiles-emdros.txt
+# 2) extrafiles-emdros-devel.txt
+#
+#
+# They contain the names of some files that are to be included in the
+# emdros and emdros-devel RPMs respectively, and are used by
+# emdros.spec.in.
+#
+
+extrafiles_emdros_list = [
+    @SWIG_WITH_RUBY_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosRuby.so.*", # MAIN
+    @SWIG_WITH_PYTHON_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPy.py",   #MAIN
+    @SWIG_WITH_PYTHON_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPy.pyc",  #MAIN
+    @SWIG_WITH_PYTHON_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPy.pyo",  #MAIN
+    @SWIG_WITH_PYTHON_WRAPPERS_TRUE@"%{prefix}/lib/emdros/_EmdrosPy.so.*", #MAIN
+    @SWIG_WITH_PYTHON3_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPy3.py",  #MAIN
+    @SWIG_WITH_PYTHON3_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPy3.pyc",  #MAIN
+    @SWIG_WITH_PYTHON3_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPy3.pyo",  #MAIN
+    @SWIG_WITH_PYTHON3_WRAPPERS_TRUE@"%{prefix}/lib/emdros/_EmdrosPy3.so.*",  #MAIN
+    @SWIG_WITH_PHP_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP.php", # MAIN 
+    @SWIG_WITH_PHP_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP.so.*", # MAIN
+    @SWIG_WITH_PHP7_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP7.php", # MAIN
+    @SWIG_WITH_PHP7_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP7.ini", # MAIN
+    @SWIG_WITH_PHP7_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP7.so.*", # MAIN
+    @SWIG_WITH_NODEJS_WRAPPERS_TRUE@"%{prefix}/lib/emdros/emdrosnode.node", # MAIN
+    @SWIG_WITH_JAVA_WRAPPERS_TRUE@"%{prefix}/lib/emdros/jemdros.jar", # MAIN
+    @SWIG_WITH_JAVA_WRAPPERS_TRUE@"%{prefix}/lib/emdros/libjemdros.so.*", # MAIN
+    @SWIG_WITH_PERL_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPerl.pm", # MAIN
+    @SWIG_WITH_PERL_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPerl.so.*", # MAIN
+    @SWIG_WITH_CSHARP_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosDotNet.dll", #MAIN
+    @SWIG_WITH_CSHARP_WRAPPERS_TRUE@"%{prefix}/lib/emdros/libcsemdros.so.*", # MAIN
+]
+
+extrafiles_emdros_devel_list = [
+    @SWIG_WITH_RUBY_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosRuby.la", 
+    @SWIG_WITH_RUBY_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosRuby.so", 
+    @SWIG_WITH_PYTHON_WRAPPERS_TRUE@"%{prefix}/lib/emdros/_EmdrosPy.la",
+    @SWIG_WITH_PYTHON_WRAPPERS_TRUE@"%{prefix}/lib/emdros/_EmdrosPy.so",
+    @SWIG_WITH_PYTHON3_WRAPPERS_TRUE@"%{prefix}/lib/emdros/_EmdrosPy3.la",
+    @SWIG_WITH_PYTHON3_WRAPPERS_TRUE@"%{prefix}/lib/emdros/_EmdrosPy3.so",
+    @SWIG_WITH_PHP_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP.la", 
+    @SWIG_WITH_PHP_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP.so", 
+    @SWIG_WITH_PHP7_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP7.la",
+    @SWIG_WITH_PHP7_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP7.so",
+    @SWIG_WITH_JAVA_WRAPPERS_TRUE@"%{prefix}/lib/emdros/libjemdros.la",
+    @SWIG_WITH_JAVA_WRAPPERS_TRUE@"%{prefix}/lib/emdros/libjemdros.so",
+    @SWIG_WITH_PERL_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPerl.la",
+    @SWIG_WITH_PERL_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPerl.so",
+    @SWIG_WITH_CSHARP_WRAPPERS_TRUE@"%{prefix}/lib/emdros/libcsemdros.la",
+    @SWIG_WITH_CSHARP_WRAPPERS_TRUE@"%{prefix}/lib/emdros/libcsemdros.so",
+    @WX_DO_UNICODE_TRUE@"%{prefix}/lib/libemdrosguiu.a",
+]
+
+
+def write_file(outfilename, filename_list):
+    fout = open(outfilename, "wb")
+
+    for filename in filename_list:
+        fout.write(filename + "\n")
+
+    fout.close()
+
+
+def doIt():
+    write_file("extrafiles-emdros.txt", extrafiles_emdros_list)
+    write_file("extrafiles-emdros-devel.txt", extrafiles_emdros_devel_list)
+
+
+if __name__ == '__main__':
+    doIt()

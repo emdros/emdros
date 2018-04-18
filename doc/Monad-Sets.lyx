@@ -1,0 +1,1243 @@
+#LyX 1.4.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 245
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage{a4wide}
+\usepackage{times}
+\end_preamble
+\language english
+\inputencoding auto
+\fontscheme default
+\graphics dvips
+\paperfontsize default
+\spacing single
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 5
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes true
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Monad Sets --
+\newline
+Implementation and Mathematical Foundations
+\end_layout
+
+\begin_layout Author
+Ulrik Petersen
+\end_layout
+
+\begin_layout Date
+July 31, 2002
+\end_layout
+
+\begin_layout Standard
+\begin_inset LatexCommand \tableofcontents{}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+This document describes one efficient way of implementing arbitrary sets
+ of monads.
+ This way is used in the implementation of Emdros.
+ This document is meant both as an introduction to the Emdros implementation
+ of monad sets, and as a point of departure if you need to implement sets
+ of monads yourself.
+\end_layout
+
+\begin_layout Standard
+It is likely that you will need at least a basic implementation of sets
+ of monads if you are using Emdros.
+ If you are using C++, you can use the implementation provided in the EMdF
+ library.
+ If you are not using C++, first check to see whether there are any easy
+ ways of implementing monad sets using some pre-existing library for your
+ language, and that this easy way meets your requirements.
+ If not, then you may consider implementing monad sets in the language you
+ are using.
+ If you do, please consider contributing your code to the Emdros code base
+ so that others may benefit.
+\end_layout
+
+\begin_layout Standard
+We start in section 
+\begin_inset LatexCommand \ref{sec:Monad-Set-Elements}
+
+\end_inset
+
+ by defining and motivating the 
+\begin_inset Quotes eld
+\end_inset
+
+Monad Set Element
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+mse.
+\begin_inset Quotes erd
+\end_inset
+
+ This is a basic building block in the way of implementing sets of monads
+ which is described in this document.
+\end_layout
+
+\begin_layout Standard
+In section 
+\begin_inset LatexCommand \ref{sec:Monad-Sets}
+
+\end_inset
+
+ we describe how to build sets of monads from mses.
+\end_layout
+
+\begin_layout Standard
+In section 
+\begin_inset LatexCommand \ref{sec:Operations-on-monad}
+
+\end_inset
+
+ we describe a number of operations which it is desirable to have on monad
+ sets.
+ Most of these are implemented in the Emdros C++ implementation, so you
+ can draw inspiration from there.
+\end_layout
+
+\begin_layout Standard
+Then, in section 
+\begin_inset LatexCommand \ref{sec:Relationships-between-MSEs}
+
+\end_inset
+
+ we describe six ways that MSEs can stand in a relationship to each other.
+ These six ways turn out to be handy distinctions when implementing monad
+ sets.
+\end_layout
+
+\begin_layout Standard
+Finally, in an appendix, we give a formal proof that for any data-structure
+ which obeys the invariants set down in sections 
+\begin_inset LatexCommand \ref{sec:Monad-Set-Elements}
+
+\end_inset
+
+ and 
+\begin_inset LatexCommand \ref{sec:Monad-Sets}
+
+\end_inset
+
+, there is one and only one representation of each distinct set of monads,
+ in other words, the representation is unique.
+\end_layout
+
+\begin_layout Section
+Monad Set Elements
+\begin_inset LatexCommand \label{sec:Monad-Set-Elements}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+A monad set element (or Monad_Set_Element or MSE or mse) is a pair of integers
+ (or monads), called 
+\begin_inset Quotes eld
+\end_inset
+
+first
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+last.
+\begin_inset Quotes erd
+\end_inset
+
+ The intended interpretation is that it denotes the range first..last.
+ That is, it denotes a set of monads which includes every monad in the sequence
+ of natural numbers starting at first and ending at last, with the two endpoints
+ included.
+\end_layout
+
+\begin_layout Standard
+The invariant is that first 
+\begin_inset Formula $\leq$
+\end_inset
+
+ last.
+ Thus last is never smaller than first, but may be equal to it.
+ The latter means that the mse denotes a singleton set (i.e., a set with only
+ one monad in it).
+\end_layout
+
+\begin_layout Standard
+The first and last attributes of a Monad_Set_Element mse can be accessed
+ as mse.first and mse.last.
+\end_layout
+
+\begin_layout Section
+Monad Sets
+\begin_inset LatexCommand \label{sec:Monad-Sets}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Introduction
+\end_layout
+
+\begin_layout Standard
+From monad set elements, we build monad sets.
+ We do this in such a way that the representation of any given set of monads
+ is unique.
+ 
+\end_layout
+
+\begin_layout Standard
+The monad set is seen as a list of monad set elements.
+ The list is ordered.
+ It may be a vector or a linked list.
+ In the following, we describe the monad set as though the underlying data-struc
+ture were a vector.
+ If many set-theoretic operations are to be performed on the set, then it
+ is probably better to implement it as a linked list into which we can easily
+ insert elements and take them out again.
+ For space-efficiency, an array of monad set elements would probably be
+ better.
+\end_layout
+
+\begin_layout Standard
+There is an invariant on the list/vector/array of monad set elements.
+ This invariant is responsible for most of the elegance of the implementation,
+ as well as for the uniqueness property.
+ We describe this invariant next.
+\end_layout
+
+\begin_layout Subsection
+Invariant
+\end_layout
+
+\begin_layout Standard
+There is the following invariant on the Monad_Set_Element's stored in the
+ vector:
+\end_layout
+
+\begin_layout Standard
+For all Monad_Set_Elements mse in the vector, it is the case that:
+\end_layout
+
+\begin_layout Enumerate
+Either
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Its predecessor prev is empty (i.e., is not there), OR 
+\end_layout
+
+\begin_layout Enumerate
+prev.last+1 < mse.first, 
+\end_layout
+
+\end_deeper
+\begin_layout Enumerate
+AND either 
+\end_layout
+
+\begin_deeper
+\begin_layout Enumerate
+Its successor succ is empty (i.e., is not there), OR 
+\end_layout
+
+\begin_layout Enumerate
+mse.last+1 < succ.first 
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+This means:
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Formula $\forall$
+\end_inset
+
+ mse IN vector: (
+\begin_inset Formula $\forall$
+\end_inset
+
+ prev before mse: prev.last+1 < mse.first ) 
+\begin_inset Formula $\wedge$
+\end_inset
+
+ (
+\begin_inset Formula $\forall$
+\end_inset
+
+ succ after mse: mse.last + 1 < succ.first )
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here the two nested for-all quantifiers take care of 1(a) and 2(a) by being
+ vacuously true when prev and succ are not there.
+\end_layout
+
+\begin_layout Standard
+This mathematical predicate captures these two intuitions:
+\end_layout
+
+\begin_layout Enumerate
+All Monad_Set_Elements are 
+\emph on
+maximal
+\emph default
+, in the sense that they extend as far as they can without violating the
+ other intuition, which is that
+\end_layout
+
+\begin_layout Enumerate
+The Monad_Set_Elements are 
+\emph on
+sorted
+\emph default
+ in such a way that, for any two Monad_Set_Element's A and B, where A is
+ the direct predecessor of B,
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+A.last < B.first
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which can be strengthened, by intuition 1., to:
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+A.last + 1 < B.first
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which means that there is at least one monad in between each Monad_Set_Element.
+\end_layout
+
+\begin_layout Section
+Operations on monad sets
+\begin_inset LatexCommand \label{sec:Operations-on-monad}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Here is a list of operations on monad sets which are desirable to have:
+\end_layout
+
+\begin_layout Enumerate
+Set-theoretic union of two monad sets.
+\end_layout
+
+\begin_layout Enumerate
+Set-theoretic difference between two monad sets.
+\end_layout
+
+\begin_layout Enumerate
+Set-theoretic intersection of two monad sets.Traversal, getting each monad
+ set element in turn.
+\end_layout
+
+\begin_layout Enumerate
+Whether a monad set element is part_of another.
+ The part_of relation is another name for the set inclusion operator, 
+\begin_inset Formula $\subseteq$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Enumerate
+Addition of MSE (which can be split into the two cases of add(first,last)
+ and add(singleton)).
+\end_layout
+
+\begin_layout Enumerate
+Set-theoretic equality (whether two sets of monads are identical).
+\end_layout
+
+\begin_layout Enumerate
+Whether a monad is a member of a set of monads.
+\end_layout
+
+\begin_layout Enumerate
+Whether a gap exists in a set of monads starting at a given monad.
+\end_layout
+
+\begin_layout Enumerate
+What the next monad after a given monad is in a set of monads, if any.
+ That is, either the next in the monad sequence or the first monad after
+ a gap, or none if we were looking at the last monad of the set.
+\end_layout
+
+\begin_layout Standard
+Most of these are implemented in the Emdros source code, so you can get
+ inspiration from there.
+ You may not need all of these, and 1-3 are available through the MQL language,
+ so if performance is not of concern, you can use the MQL language rather
+ than implementing these yourself.
+ It stands to reason that processor-power will be faster in this case than
+ calling up the MQL engine with a query and parsing the output.
+\end_layout
+
+\begin_layout Section
+Relationships between MSEs
+\begin_inset LatexCommand \label{sec:Relationships-between-MSEs}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The implementation of monad sets in Emdros takes advantage of the fact that
+ any two MSEs can stand in one and only one of precisely six different relations
+hips to each other.
+ There are other conceivable relationships, but these six are what seem
+ to be relevant.
+ The six relationships are also orthogonal to each other, meaning that they
+ are mutually exclusive.
+ The six relationships are depicted in figure 
+\begin_inset LatexCommand \vref{RANGES OF MONADS}
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+You may want to use these distinctions, too, if you implement monad sets.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+placement htbp
+wide false
+sideways false
+status open
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename MSE-Relationships.eps
+	display color
+	width 40page%
+	keepAspectRatio
+	rotateOrigin center
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+The two monad set elements, A and B, can stand in six different relationships
+ to each other.
+ The relationships are:
+\end_layout
+
+\begin_layout Enumerate
+A.last < B.first
+\end_layout
+
+\begin_layout Enumerate
+A.first < B.first AND A.last >= B.first AND A.last <= B.last
+\end_layout
+
+\begin_layout Enumerate
+A.first >= B.first AND A.last <= B.last
+\end_layout
+
+\begin_layout Enumerate
+A.first >= B.first AND A.first <= B.last AND A.last > B.last
+\end_layout
+
+\begin_layout Enumerate
+A.first > B.last
+\end_layout
+
+\begin_layout Enumerate
+A.first < B.first AND A.last > B.last
+\end_layout
+
+\begin_layout Caption
+Ranges of monads and their interrelationships
+\begin_inset LatexCommand \label{RANGES OF MONADS}
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+\start_of_appendix
+Proof of the uniqueness of monad sets
+\end_layout
+
+\begin_layout Subsection
+Introduction
+\end_layout
+
+\begin_layout Standard
+We will give a detailed proof that two sets of monads are identical if and
+ only if their representations are identical.
+ The proof rests on the invariant.
+\end_layout
+
+\begin_layout Standard
+Thus the representation of a given set is a unique representation -- there
+ is only one.
+ 
+\end_layout
+
+\begin_layout Subsection
+Proposition: 
+\end_layout
+
+\begin_layout Standard
+Any two Set_of_monad_ms represent the same set of monad_m's if and only
+ if their monad_ms vectors are identical.
+\end_layout
+
+\begin_layout Subsection
+Proof:
+\end_layout
+
+\begin_layout Standard
+Take two Set_of_monad_ms's A' and B'.
+ Let A be an mse-vector representing A' and let B be an mse-vector representing
+ B'.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Quotes eld
+\end_inset
+
+if
+\begin_inset Quotes erd
+\end_inset
+
+: Assume that the two vectors A and B are identical.
+ Then they trivially represent the same set.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Quotes eld
+\end_inset
+
+only if:
+\begin_inset Quotes eld
+\end_inset
+
+ Assume that the two vectors represent the same set.
+ We will now prove that the vectors are identical.
+ The proof works by induction on the subscript operator i.
+\end_layout
+
+\begin_layout Subsubsection
+Base case: 
+\end_layout
+
+\begin_layout Standard
+i = 0.
+\end_layout
+
+\begin_layout Standard
+To prove: A[0] = B[0].
+\end_layout
+
+\begin_layout Standard
+Let mseA = A[0] and mseB = B[0].
+\end_layout
+
+\begin_layout Standard
+Since the two sets are identical, certainly mseA.first == mseB.first, since
+ this is the first monad of the sets.
+ However, it is also the case that mseA.last == mseB.last.
+ We will now see why.
+\end_layout
+
+\begin_layout Standard
+There are two cases.
+ Either there is only one mse in the vector A, or there is more than one.
+\end_layout
+
+\begin_layout Standard
+Suppose there is only one mse in A.
+ Then there is also only one mse in B, and mseA.last == mseB.last.
+ To see this, consider the following: A' is not empty, since there is one
+ mse mseA representing A'.
+ Since the set of natural numbers is well-formed, and since A' is non-empty,
+ A' has both a lower bound and an upper bound.
+ The lower bound is mseA.first and the upper bound is mseA.last.
+ If there is only one mse mseA in A, then A' is a single contiguous stretch
+ of monads.
+ Since A' and B' are identical, B' also consists of a single contiguous
+ stretch of monads.
+ By the invariant, the only way a single contiguous stretch of monads can
+ be represented is with one mse.
+ Otherwise, there would have to be two or more mse's representing the contiguous
+ stretch of monads, but there is always at least one monad in between each
+ mse.
+ Therefore, the only way a single contiguous stretch of monads can be represente
+d is with one mse.
+ Since mseA.first == mseB.first, and since the two single contiguous stretches
+ of monads are identical, it follows that mseA.last == mseB.last.
+ Hence, if there is only one mse mseA in A, then there will be only one
+ mseB in B, and mseA == mseB.
+\end_layout
+
+\begin_layout Standard
+The other case is when there is more than one mse in A.
+ Assume therefore that there is more than one mse in A.
+ Then, since we have proved uniqueness when there is only one mse in A,
+ there must also be more than one mse in B.
+ In particular, A[0+1] = A[1] and B[0+1] = B[1] will exist.
+\end_layout
+
+\begin_layout Standard
+Let mseA' = A[0+1] and mseB' = B[0+1].
+ 
+\end_layout
+
+\begin_layout Standard
+Now, since the invariant holds, it is the case that 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+mseA.last + 1 < mseA'.first.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is also the case that 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+mseB.last + 1 < mseB'.first.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Assume for the sake of contradiction that mseA.last 
+\begin_inset Formula $\neq$
+\end_inset
+
+ mseB.last.
+ Assume Without Loss of Generality that mseA.last > mseB.last.
+ Then there must be at least one monad m in the set A' represented by A
+ that is not in the set B' represented by B.
+ (Note: This is not a renaming from the presentation of the proof above:
+ It is the same A' and B'!) Next, we will see why.
+\end_layout
+
+\begin_layout Standard
+There is at least one monad m = mseB.last+1 which is not in B but which is
+ in A.
+ To see this, note that, first, m cannot be in B', since
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+mseB.last+1 = m < mseB'.first.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Second, note that, since 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+mseA.last > mseB.last, 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+m is in A', since the preceding inequality is equivalent to 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+mseA.last >= mseB.last+1
+\end_layout
+
+\begin_layout Standard
+but
+\end_layout
+
+\begin_layout Standard
+\align center
+mseB.last+1 = m >= mseB.first 
+\end_layout
+
+\begin_layout Standard
+and
+\end_layout
+
+\begin_layout Standard
+\align center
+mseB.first = mseA.first
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Thus m is in A', since it is between mseA.last and mseA.first.
+ Since we have now proved that there is a monad m in A' which is not in
+ B', we have a contradiction with our assumption that the two sets are identical.
+\end_layout
+
+\begin_layout Standard
+Thus, there is a contradiction.
+ Our assumption that mseA.last 
+\begin_inset Formula $\neq$
+\end_inset
+
+ mseB.last must therefore be false.
+ Therefore, mseA.last = mseB.last.
+ Thus the base case holds.
+\end_layout
+
+\begin_layout Subsubsection
+Induction step
+\end_layout
+
+\begin_layout Standard
+Assume that mseA' = A[i] and mseB' = B[i] are identical.
+ Specifically, the following holds:
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+mseA'.first = mseB'.first 
+\begin_inset Formula $\wedge$
+\end_inset
+
+ mseA'.last = mseB'.last
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+We wish to prove that mseA = A[i+1] and mseB = B[i+1] are identical.
+\end_layout
+
+\begin_layout Standard
+First, we prove that mseA.first = mseB.first.
+ Second, we prove that mseA.last = mseB.last.
+\end_layout
+
+\begin_layout Standard
+To see that mseA.first = mseB.first, assume for the sake of contradiction
+ that
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+mseA.first 
+\begin_inset Formula $\neq$
+\end_inset
+
+ mseB.last.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Assume Without Loss of Generality that
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+mseA.first < mseB.first.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Then there must be at least one monad 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+m = mseA.first 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which is in the set A' represented by A, but which is not in the set B'
+ represented by B.
+ To see this, note first that m is in A'.
+ Second, note that m cannot be in B' by virtue of being in mseB.
+ Note also that m cannot be in B' by virtue of being in mseB', because of
+ the assumption that 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+mseB'.last = mseA'.last.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Since m is clearly not in B', m is in the set A' represented by A but not
+ in the set B' represented by B.
+ Since the two sets of monad_m's are assumed to be the same, we have a contradic
+tion.
+ Thus our assumption is false that mseA.first 
+\begin_inset Formula $\neq$
+\end_inset
+
+ mseB.first, and thus it is true that 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+mseA.first = mseB.first.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Second, we prove that 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+mseA.last = mseB.last.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Assume, for the sake of contradiction, that 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+mseA.last 
+\begin_inset Formula $\neq$
+\end_inset
+
+ mseB.last.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Assume, Without Loss of Generality, that 
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+mseA.last > mseB.last.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Then there is at least one monad, m = mseB.last + 1, which is in the set
+ A' represented by A but which is not in the set B' represented by B.
+\end_layout
+
+\begin_layout Standard
+To see this, note that if i+1 points to the last element in B, then certainly
+ there is a contradiction, since then the last monad in the set represented
+ by A is not in the set represented by B, since the vectors are sorted and
+ mseA.last > mseB.last.
+\end_layout
+
+\begin_layout Standard
+Assume, therefore, that mseB'' = B[i+2] exists.
+ Then, by the invariant,
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+mseB.last + 1 = m < mseB''.first.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Note that this means that m is not in the set represented by B, since it
+ 
+\begin_inset Quotes eld
+\end_inset
+
+falls between two chairs
+\begin_inset Quotes erd
+\end_inset
+
+ or, rather, two Monad_set_elements.
+\end_layout
+
+\begin_layout Standard
+Note also that m is in the set A' represented by A, since
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+mseA.last > mseB.last
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+which is equivalent to
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\align center
+mseA.last 
+\begin_inset Formula $\geq$
+\end_inset
+
+ m = mseB.last + 1 > mseB.first = mseA.first.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Thus, m is in the set A' represented by A, but not in the set B' represented
+ by B, so the two sets are not identical, which we assumed.
+ Therefore, there is a contradiction, and it is therefore false that mseA.last
+ 
+\begin_inset Formula $\neq$
+\end_inset
+
+ mseB.last.
+ Therefore, it is true that mseA.last = mseB.last.
+\end_layout
+
+\begin_layout Standard
+We have thus proved the induction step.
+\end_layout
+
+\begin_layout Subsubsection
+Conclusion
+\end_layout
+
+\begin_layout Standard
+We have thus proved that, if the sets represented by two vectors in two
+ Set_of_monad_ms's are identical, then the vectors will be identical.
+\end_layout
+
+\begin_layout Standard
+We have thus proved the proposition.
+\end_layout
+
+\end_body
+\end_document

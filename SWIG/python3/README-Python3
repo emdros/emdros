@@ -1,0 +1,121 @@
+README for Emdros SWIG-Python3
+Created: 2/11-2003 (February 11, 2003)
+Last update: 1/25-2017
+
+Introduction
+============
+
+This document explains how to use the SWIG Python 3 bindings for
+Emdros.
+
+This document is still sketchy.
+
+
+Test program
+============
+
+There is a test program, test3.py, which shows how to use the
+EmdrosPy3 module.  Use it for inspiration.
+
+
+Compilation
+===========
+
+Linux
+-----
+
+When running ./configure, just give the `--with-swig-language-python3'
+switch.  This will schedule the Python module for compilation.
+
+
+
+Installation
+============
+
+No installation
+---------------
+
+You needn't install the module in order to use it.  Just do the
+following before importing the module:
+
+On Linux:
+
+   import sys
+   sys.path += ['/usr/local/lib/emdros']
+
+Replace this paths with the ones that apply to your system.
+
+
+
+From sources
+------------
+
+Before running "make" in the top-level directory, you must configure
+Emdros to compile with Python support.  Use the 
+
+  --with-swig-language-python3
+
+option to ./configure in the top-level directory.
+
+
+
+Using the module
+================
+
+Import the module
+-----------------
+
+In order to use the module, do the following:
+
+import EmdrosPy3
+
+This assumes that you have either installed the module or you have
+done the sys.path += ['/path/to/module/directory'] incantation
+described above.
+
+
+General naming
+--------------
+
+Generally, C++ classes map directly to Python classes.  For example,
+the C++ class "EmdrosEnv" is called the same in Python.  The methods
+have not been renamed either.  So the C++ method
+EmdrosEnv::connectionOk() is called connectionOk() in Python as well.
+
+
+Method arguments
+----------------
+
+Method arguments are handled as follows:
+
+- If it is a pass-by-value parameter, not a pointer or reference,
+  (e.g., const std::string&, std::string, long, int, bool), then the
+  corresponding Python value may be passed.  Note that 
+
+  const std::string& 
+
+  is considered as pass-by-value, as is
+
+  std::string&
+
+  even though it is a reference parameter.
+
+- If it is a pass-by-reference parameter (e.g., bool&), then the
+  method does not return a simple Python object, but rather a tuple of
+  Python objects where the first object is the return value from the
+  method call, the second is the first pass-by-reference parameters's
+  value after having returned from executing the C++ code.  The third
+  object is the second pass-by-reference parameters' value, and so on.
+
+  Note that std::string&, even though it is pass-by-reference in C++,
+  is pass-by-value in the SWIG Python implementation.  Therefore, you
+  cannot get at the value of such a parameter after the call, nor does
+  it get appended to the above-mentioned tuple.  This is not a serious
+  limitation, however, as none of the methods you would want to call
+  from Python use std::string& for returning anything.
+
+
+Exceptions
+----------
+
+You can try...except any Emdros exception.

@@ -1,0 +1,414 @@
+%include{
+
+/*
+ * templatelang.yxx
+ *
+ * Template language parser
+ *
+ * Ulrik Sandborg-Petersen
+ * Created: 7/28-2008
+ * Last update: 12/21-2017
+ *
+ */
+/************************************************************************
+ *
+ *   Emdros - the database engine for analyzed or annotated text
+ *   Copyright (C) 2008-2017  Ulrik Sandborg-Petersen
+ *
+ *   This program is free software; you can redistribute it and/or
+ *   modify it under the terms of the GNU General Public License as
+ *   published by the Free Software Foundation, license version 2.  
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *   General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *   02111-1307 USA
+ *
+ *
+ *   Special exception
+ *   =================
+ * 
+ *   In addition, as a special exception, Ulrik Petersen, the
+ *   copyright holder of Emdros, gives permission to link Emdros, in
+ *   whole or in part, with the libraries which are normally
+ *   distributed with:
+ *   
+ *   a) Sun's Java platform,
+ *   b) Python, 
+ *   c) Jython,
+ *   d) Ruby, and/or 
+ *   e) Perl 
+ *   f) PostgreSQL
+ *   g) OpenSSL
+ *
+ *   (or with modified versions of these), and to distribute linked
+ *   combinations including both Emdros, in whole or in part, and one
+ *   or more of the libraries normally distributed with (a)-(g) above.
+ *
+ *   Please note: This gives you special rights concerning the
+ *   libraries which normally accompany the above pieces of software.
+ *   It gives you no special rights concerning software that you write
+ *   yourself.  You must obey the GNU General Public License in all
+ *   respects for all of the code used other than the libraries
+ *   normally distributed with (a)-(g) above.
+ *
+ *   If you modify this file, you may extend this exception to your
+ *   version of the file, but you are not obligated to do so. If you
+ *   do not wish to do so, delete this exception statement from your
+ *   version.
+ *
+ *
+ *   Other licensing forms
+ *   =====================
+ *
+ *   If you wish to negotiate commercial licensing, please contact
+ *   Ulrik Petersen at ulrikp[at]users.sourceforge.net.
+ *
+ *   Licensing can also be negotiated if your organization is an
+ *   educational, non-profit, charity, missionary or similar
+ *   organization.
+ *
+ *
+ *   Website
+ *   =======
+ *
+ *   Emdros has a website here:
+ *
+ *   http://emdros.org
+ *
+ *
+ *
+ **************************************************************************/
+
+
+#include <templatelang_classes.h>
+#include <mql_yylex.h>
+#include <cstdlib>
+#include <string>
+#include <cassert>
+
+#undef TOKEN
+
+} // end include
+
+
+%token_destructor { $$->clear(); delete $$;
+                    UNUSED(pEE); // Just to silence a warning
+		  }
+%token_prefix T_TEMPLATELANG_
+%token_type   {Token*}
+%extra_argument {TemplateLangExecEnv *pEE}
+%syntax_error {
+  pEE->bSyntaxError = true;
+  std::string errMsg = "syntax error near " + TOKEN->getTokenName();
+  pEE->addToError(errMsg);
+}
+%name TemplateLangParser
+
+%parse_failure {
+  pEE->bSyntaxError = true;
+}
+
+%type top_value {TemplateASTNode*}
+%destructor top_value { delete($$); }
+top_value ::= template_list(X) . { pEE->setTopNode(X); }
+
+%type template_list  {TemplateASTNode*}
+%destructor template_list {delete($$);}
+template_list(T) ::= template_list_element(E) .
+{ T = E; }
+template_list(T) ::= template_list(A) template_list_element(E) .
+{ T = E; T->setNext(A); }
+
+%type template_list_element  {TemplateASTNode*}
+%destructor template_list_element {delete($$);}
+template_list_element(T) ::= template_string(S) .
+{ T = S; }
+template_list_element(T) ::= template_if(I) .
+{ T = I; }
+template_list_element(T) ::= KEY_ID_D .
+{ T = new TemplateSimpleNode(kTemplateID_D); }
+template_list_element(T) ::= KEY_FIRSTMONAD .
+{ T = new TemplateSimpleNode(kTemplateFirstMonad); }
+template_list_element(T) ::= KEY_FEATURE KEY_SPACE INTEGER(I) KEY_BB_CLOSE .
+{ T = new TemplateFeature(I->integer, kMKXML); delete I; }
+template_list_element(T) ::= KEY_FEATUREJSONMANGLE KEY_SPACE INTEGER(I) KEY_BB_CLOSE .
+{ T = new TemplateFeature(I->integer, kMKJSON); delete I; }
+template_list_element(T) ::= KEY_FEATURENOMANGLE KEY_SPACE INTEGER(I) KEY_BB_CLOSE .
+{ T = new TemplateFeature(I->integer, kMKNone); delete I; }
+template_list_element(T) ::= KEY_DBNAME .
+{ T = new TemplateSimpleNode(kTemplateDBName); }
+template_list_element(T) ::= KEY_ATTRIB KEY_SPACE IDENTIFIER(I) KEY_BB_CLOSE .
+{ T = new TemplateAttrib(I->extractString()); delete I; }
+template_list_element(T) ::= KEY_ATTRIB_NOMANGLE KEY_SPACE IDENTIFIER(I) KEY_BB_CLOSE .
+{ T = new TemplateAttribNoMangle(I->extractString()); delete I; }
+template_list_element(T) ::= KEY_COPYATTRIBS KEY_BB_CLOSE .
+{ T = new TemplateCopyAttribs(); }
+template_list_element(T) ::= KEY_COUNTER KEY_SPACE STRING(I) KEY_BB_CLOSE .
+{ T = new TemplateCounter(I->extractString()); delete I; }
+template_list_element(T) ::= KEY_COUNTER KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_FORMAT KEY_SPACE STRING(F) KEY_BB_CLOSE .
+{ T = new TemplateCounterFormat(I->extractString(), F->extractString()); delete I; delete F;}
+template_list_element(T) ::= KEY_SETCOUNTER KEY_SPACE STRING(I) KEY_SPACE INTEGER(V) KEY_BB_CLOSE .
+{ T = new TemplateSetCounter(I->extractString(), V->integer); delete I; delete V; }
+template_list_element(T) ::= KEY_SETCOUNTER KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_VAR KEY_SPACE STRING(V) KEY_BB_CLOSE .
+{ T = new TemplateSetCounterVar(I->extractString(), V->extractString()); delete I; delete V; }
+template_list_element(T) ::= KEY_INCCOUNTER KEY_SPACE STRING(I) KEY_BB_CLOSE .
+{ T = new TemplateIncCounter(I->extractString(), 1, 0); delete I; }
+template_list_element(T) ::= KEY_INCCOUNTER KEY_SPACE STRING(I) KEY_SPACE INTEGER(S) KEY_BB_CLOSE .
+{ T = new TemplateIncCounter(I->extractString(), S->integer, 0); delete I; delete S; }
+template_list_element(T) ::= KEY_INCCOUNTER KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_VAR KEY_SPACE STRING(V) KEY_BB_CLOSE .
+{ T = new TemplateIncCounter(I->extractString(), 0, V->extractString()); delete I; delete V; }
+template_list_element(T) ::= KEY_DECCOUNTER KEY_SPACE STRING(I) KEY_BB_CLOSE .
+{ T = new TemplateDecCounter(I->extractString(), 1, 0); delete I; }
+template_list_element(T) ::= KEY_DECCOUNTER KEY_SPACE STRING(I) KEY_SPACE INTEGER(S) KEY_BB_CLOSE .
+{ T = new TemplateDecCounter(I->extractString(), S->integer, 0); delete I; delete S; }
+template_list_element(T) ::= KEY_DECCOUNTER KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_VAR KEY_SPACE STRING(V) KEY_BB_CLOSE .
+{ T = new TemplateDecCounter(I->extractString(), 0, V->extractString()); delete I; delete V; }
+template_list_element(T) ::= KEY_LISTEMIT KEY_SPACE STRING(I) KEY_SPACE STRING(D) KEY_BB_CLOSE .
+{ T = new TemplateListEmit(I->extractString(), D->extractString()); delete I; delete D; }
+template_list_element(T) ::= KEY_LISTCLEAR KEY_SPACE STRING(I) KEY_BB_CLOSE .
+{ T = new TemplateListClear(I->extractString()); delete I; }
+template_list_element(T) ::= KEY_NAMEDSETEMIT KEY_SPACE STRING(I) KEY_SPACE STRING(D) KEY_BB_CLOSE .
+{ T = new TemplateNamedSetEmit(I->extractString(), D->extractString()); delete I; delete D; }
+template_list_element(T) ::= KEY_NAMEDSETCLEAR KEY_SPACE STRING(I) KEY_BB_CLOSE .
+{ T = new TemplateNamedSetClear(I->extractString()); delete I; }
+template_list_element(T) ::= template_listappend(A) .
+{ T = A; }
+template_list_element(T) ::= template_listappend_end(A) .
+{ T = A; }
+template_list_element(T) ::= template_namedsetadd(A) .
+{ T = A; }
+template_list_element(T) ::= template_namedsetadd_end(A) .
+{ T = A; }
+template_list_element(T) ::= template_namedsetremove(A) .
+{ T = A; }
+template_list_element(T) ::= template_namedsetremove_end(A) .
+{ T = A; }
+template_list_element(T) ::= template_setvarnow(A) .
+{ T = A; }
+template_list_element(T) ::= template_setvar(A) .
+{ T = A; }
+template_list_element(T) ::= template_setvar_end(A) .
+{ T = A; }
+template_list_element(T) ::= template_emitvar(A) .
+{ T = A; }
+template_list_element(T) ::= template_setnixing(A) .
+{ T = A; }
+template_list_element(T) ::= template_dictlookup_feature(A) .
+{ T = A; }
+template_list_element(T) ::= template_dictlookup_var(A) .
+{ T = A; }
+template_list_element(T) ::= template_dictlookup_counter(A) .
+{ T = A; }
+
+
+%type template_dictlookup_feature {TemplateDictlookupFeature*}
+%destructor template_dictlookup_feature {delete ($$);}
+template_dictlookup_feature(T) ::= KEY_DICTLOOKUP KEY_SPACE STRING(S) KEY_SPACE KEY_BARE_FEATURE KEY_SPACE INTEGER(I) KEY_SPACE STRING(D) KEY_BB_CLOSE .
+{ T = new TemplateDictlookupFeature(S->extractString(), I->integer, D->extractString(), true); 
+  delete S; delete I; delete D;
+}
+template_dictlookup_feature(T) ::= KEY_DICTLOOKUP KEY_SPACE STRING(S) KEY_SPACE KEY_BARE_FEATURENOMANGLE KEY_SPACE INTEGER(I) KEY_SPACE STRING(D) KEY_BB_CLOSE .
+{ T = new TemplateDictlookupFeature(S->extractString(), I->integer, D->extractString(), false); 
+  delete S; delete I; delete D;
+}
+
+%type template_dictlookup_var {TemplateDictlookupVar*}
+%destructor template_dictlookup_var {delete ($$);}
+template_dictlookup_var(T) ::= KEY_DICTLOOKUP KEY_SPACE STRING(S) KEY_SPACE KEY_BARE_VAR KEY_SPACE STRING(V) KEY_SPACE STRING(D) KEY_BB_CLOSE .
+{ T = new TemplateDictlookupVar(S->extractString(), V->extractString(), D->extractString(), true); 
+  delete S; delete V; delete D;
+}
+template_dictlookup_var(T) ::= KEY_DICTLOOKUP KEY_SPACE STRING(S) KEY_SPACE KEY_BARE_VARNOMANGLE KEY_SPACE STRING(V) KEY_SPACE STRING(D) KEY_BB_CLOSE .
+{ T = new TemplateDictlookupVar(S->extractString(), V->extractString(), D->extractString(), false); 
+  delete S; delete V; delete D;
+}
+
+
+%type template_dictlookup_counter {TemplateDictlookupCounter*}
+%destructor template_dictlookup_counter {delete ($$);}
+template_dictlookup_counter(T) ::= KEY_DICTLOOKUP KEY_SPACE STRING(S) KEY_SPACE KEY_BARE_COUNTER KEY_SPACE STRING(C) KEY_SPACE STRING(D) KEY_BB_CLOSE .
+{ T = new TemplateDictlookupCounter(S->extractString(), C->extractString(), D->extractString(), true); 
+  delete S; delete C; delete D;
+}
+
+
+%type template_setnixing {TemplateNixing*}
+%destructor template_setnixing {delete ($$);}
+template_setnixing(T) ::= KEY_SETNIXING_ALL .
+{ T = new TemplateNixing(kTNTAll); 
+}
+template_setnixing(T) ::= KEY_SETNIXING_DOC .
+{ T = new TemplateNixing(kTNTDoc); 
+}
+template_setnixing(T) ::= KEY_SETNIXING_OFF .
+{ T = new TemplateNixing(kTNTOff); 
+}
+
+
+
+
+
+
+%type template_if_featureequal {TemplateIfFeatureEqual*}
+%destructor template_if_featureequal {delete ($$);}
+template_if_featureequal(T) ::= KEY_IF_FEATUREEQUAL KEY_SPACE INTEGER(I) KEY_SPACE STRING(S) KEY_BB_CLOSE .
+{ T = new TemplateIfFeatureEqual(I->integer, S->extractString()); 
+  delete S; delete I;			     
+}
+
+%type template_if_varequal {TemplateIfVarEqual*}
+%destructor template_if_varequal {delete ($$);}
+template_if_varequal(T) ::= KEY_IF_VAREQUAL KEY_SPACE STRING(V) KEY_SPACE STRING(S) KEY_BB_CLOSE .
+{ T = new TemplateIfVarEqual(V->extractString(), S->extractString(), false); 
+  delete V; delete S;			     
+}
+template_if_varequal(T) ::= KEY_IF_VAREQUAL KEY_SPACE STRING(V) KEY_SPACE KEY_BARE_VAR KEY_SPACE STRING(S) KEY_BB_CLOSE .
+{ T = new TemplateIfVarEqual(V->extractString(), S->extractString(), true); 
+  delete V; delete S;			     
+}
+
+%type template_if_listempty {TemplateIfListEmpty*}
+%destructor template_if_listempty {delete ($$);}
+template_if_listempty(T) ::= KEY_IF_LISTEMPTY KEY_SPACE STRING(L) KEY_BB_CLOSE .
+{ T = new TemplateIfListEmpty(L->extractString());
+  delete L; 
+}
+
+%type template_if_namedsetempty {TemplateIfNamedSetEmpty*}
+%destructor template_if_namedsetempty {delete ($$);}
+template_if_namedsetempty(T) ::= KEY_IF_NAMEDSETEMPTY KEY_SPACE STRING(L) KEY_BB_CLOSE .
+{ T = new TemplateIfNamedSetEmpty(L->extractString());
+  delete L; 
+}
+
+%type template_if_hasattrib {TemplateIfHasAttrib*}
+%destructor template_if_hasattrib {delete ($$);}
+template_if_hasattrib(T) ::= KEY_IF_HASATTRIB KEY_SPACE IDENTIFIER(I) KEY_BB_CLOSE .
+{ T = new TemplateIfHasAttrib(I->extractString()); 
+  delete I; 
+}
+
+%type template_if_attribequal {TemplateIfAttribEqual*}
+%destructor template_if_attribequal {delete ($$);}
+template_if_attribequal(T) ::= KEY_IF_ATTRIBEQUAL KEY_SPACE IDENTIFIER(I) KEY_SPACE STRING(S) KEY_BB_CLOSE .
+{ T = new TemplateIfAttribEqual(I->extractString(), S->extractString()); 
+  delete S; delete I; 
+}
+
+%type template_some_if {TemplateASTNode*}
+%destructor template_some_if {delete($$);}
+template_some_if(T) ::= template_if_featureequal(I) .
+{ T = I; }
+template_some_if(T) ::= template_if_varequal(I) .
+{ T = I; }
+template_some_if(T) ::= template_if_listempty(I) .
+{ T = I; }
+template_some_if(T) ::= template_if_namedsetempty(I) .
+{ T = I; }
+template_some_if(T) ::= template_if_attribequal(I) .
+{ T = I; }
+template_some_if(T) ::= template_if_hasattrib(I) .
+{ T = I; }
+
+%type template_if {TemplateIf*}
+%destructor template_if {delete($$);}
+template_if(T) ::= template_some_if(I) template_list(L1) KEY_ENDIF .
+{ T = new TemplateIf(I, L1, 0); }
+template_if(T) ::= template_some_if(I) template_list(L1) KEY_ELSE template_list(L2) KEY_ENDIF .
+{ T = new TemplateIf(I, L1, L2); }
+template_if(T) ::= template_some_if(I) KEY_ELSE template_list(L2) KEY_ENDIF .
+{ T = new TemplateIf(I, 0, L2); }
+
+
+%type template_listappend {TemplateListAppendBegin*}
+%destructor template_listappend {delete($$);}
+template_listappend(T) ::= KEY_LISTAPPENDBEGIN KEY_SPACE STRING(I) KEY_BB_CLOSE  .
+{ T = new TemplateListAppendBegin(I->extractString(), 0); delete I; }
+template_listappend(T) ::= KEY_LISTAPPENDBEGIN KEY_SPACE STRING(I) KEY_SPACE STRING(D) KEY_BB_CLOSE  .
+{ T = new TemplateListAppendBegin(I->extractString(), D->extractString()); delete I; delete D; }
+
+%type template_listappend_end {TemplateListAppendEnd*}
+%destructor template_listappend_end {delete($$);}
+template_listappend_end(T) ::= KEY_LISTAPPENDEND .
+{ T = new TemplateListAppendEnd(); }
+
+%type template_namedsetadd {TemplateNamedSetAddBegin*}
+%destructor template_namedsetadd {delete($$);}
+template_namedsetadd(T) ::= KEY_NAMEDSETADD KEY_SPACE STRING(I) KEY_SPACE STRING(D) KEY_BB_CLOSE  .
+{ T = new TemplateNamedSetAddBegin(I->extractString(), D->extractString()); delete I; delete D; }
+
+%type template_namedsetadd_end {TemplateNamedSetAddEnd*}
+%destructor template_namedsetadd_end {delete($$);}
+template_namedsetadd_end(T) ::= KEY_NAMEDSETADDEND .
+{ T = new TemplateNamedSetAddEnd(); }
+
+%type template_namedsetremove {TemplateNamedSetRemoveBegin*}
+%destructor template_namedsetremove {delete($$);}
+template_namedsetremove(T) ::= KEY_NAMEDSETREMOVE KEY_SPACE STRING(I) KEY_SPACE STRING(D) KEY_BB_CLOSE  .
+{ T = new TemplateNamedSetRemoveBegin(I->extractString(), D->extractString()); delete I; delete D; }
+
+%type template_namedsetremove_end {TemplateNamedSetRemoveEnd*}
+%destructor template_namedsetremove_end {delete($$);}
+template_namedsetremove_end(T) ::= KEY_NAMEDSETREMOVEEND .
+{ T = new TemplateNamedSetRemoveEnd(); }
+
+
+%type template_setvarnow {TemplateSetVarNow*}
+%destructor template_setvarnow {delete($$);}
+template_setvarnow(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE STRING(V) KEY_BB_CLOSE  .
+{ T = new TemplateSetVarNow(I->extractString(), V->extractString()); delete I; delete V; }
+
+%type template_setvar {TemplateSetVarBegin*}
+%destructor template_setvar {delete($$);}
+template_setvar(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_BB_CLOSE  .
+{ T = new TemplateSetVarBegin(I->extractString()); delete I; }
+
+
+%type template_setvar_end {TemplateSetVarEnd*}
+%destructor template_setvar_end {delete($$);}
+template_setvar_end(T) ::= KEY_SETVAREND .
+{ T = new TemplateSetVarEnd(); }
+
+
+%type template_emitvar {TemplateEmitVar*}
+%destructor template_emitvar {delete($$);}
+template_emitvar(T) ::= KEY_EMITVAR KEY_SPACE STRING(I) KEY_BB_CLOSE  .
+{ T = new TemplateEmitVar(I->extractString()); delete I; }
+
+
+
+
+%type template_string {TemplateString*}
+%destructor template_string {delete($$);}
+template_string(T) ::= CHAR(C) .
+{ T = new TemplateString(new std::string(1, C->cChar)); delete C; }
+template_string(T) ::= IDENTIFIER(I) .
+{ T = new TemplateString(I->extractString()); delete I; }
+template_string(T) ::= KEY_BARE_COUNTER .
+{ T = new TemplateString(new std::string("counter")); }
+template_string(T) ::= KEY_BARE_FEATURE .
+{ T = new TemplateString(new std::string("feature")); }
+template_string(T) ::= KEY_BARE_FEATURENOMANGLE .
+{ T = new TemplateString(new std::string("featurenomangle")); }
+template_string(T) ::= KEY_BARE_FORMAT .
+{ T = new TemplateString(new std::string("format")); }
+template_string(T) ::= KEY_BARE_VAR .
+{ T = new TemplateString(new std::string("var")); }
+template_string(T) ::= KEY_BARE_VARNOMANGLE .
+{ T = new TemplateString(new std::string("varnomangle")); }
+template_string(T) ::= INTEGER(I) .
+{ T = new TemplateString(new std::string(*I->pString)); delete I; }
+template_string(T) ::= STRING(I) .
+{ std::string *pString = new std::string("\""); *pString += *I->pString + "\""; T = new TemplateString(pString); delete I; }
+template_string(T) ::= KEY_SPACE .
+{ T = new TemplateString(new std::string(" ")); }
+template_string(T) ::= KEY_NEWLINE .
+{ T = new TemplateString(new std::string("\n")); }
+
+

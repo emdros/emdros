@@ -1,0 +1,477 @@
+{
+    "dictionaries" : {
+		     "osisBook2overskrift" : {
+		          "Gen" : "1. Mosebog",
+			  "Exod" : "2. Mosebog",
+			  "Lev" : "3. Mosebog", 
+			  "Num" : "4. Mosebog", 
+			  "Deut" : "5. Mosebog", 
+			  "Josh" : "Josva", 
+			  "Judg" : "Dommer", 
+			  "Ruth" : "Ruth", 
+			  "1Sam" : "1. Samuel", 
+			  "2Sam" : "2. Samuel", 
+			  "1Kgs" : "1. Kongebog", 
+			  "2Kgs" : "2. Kongebog", 
+			  "1Chr" : "1. Krønikebog", 
+			  "2Chr" : "2. Krønikebog", 
+			  "Ezra" : "Ezra", 
+			  "Neh" : "Nehemias", 
+			  "Esth" : "Ester", 
+			  "Job" : "Job", 
+			  "Ps" : "Salmerne", 
+			  "Prov" : "Ordsprogene", 
+			  "Eccl" : "Prædikeren", 
+			  "Song" : "Højsangen", 
+			  "Isa" : "Esajas", 
+			  "Jer" : "Jeremias", 
+			  "Lam" : "Klagesangene", 
+			  "Ezek" : "Ezekiel", 
+			  "Dan" : "Daniel", 
+			  "Hos" : "Hoseas", 
+			  "Joel" : "Joel", 
+			  "Amos" : "Amos", 
+			  "Obad" : "Obadias", 
+			  "Jonah" : "Jonas", 
+			  "Mic" : "Mika", 
+			  "Nah" : "Nahum", 
+			  "Hab" : "Habakkuk", 
+			  "Zeph" : "Zefanias", 
+			  "Hag" : "Haggaj", 
+			  "Zech" : "Zakarias", 
+			  "Mal" : "Malakias", 
+			  "Matt" : "Mattæus", 
+			  "Mark" : "Markus", 
+			  "Luke" : "Lukas", 
+			  "John" : "Johannes", 
+			  "Acts" : "Apostlenes Gerninger", 
+			  "Rom" : "Romerne", 
+			  "1Cor" : "1. Korinter", 
+			  "2Cor" : "2. Korinter", 
+			  "Gal" : "Galaterne", 
+			  "Eph" : "Efeserne", 
+			  "Phil" : "Filipperne", 
+			  "Col" : "Kolossenserne", 
+			  "1Thess" : "1. Thessaloniker", 
+			  "2Thess" : "2. Thessaloniker", 
+			  "1Tim" : "1. Timoteus", 
+			  "2Tim" : "2. Timoteus", 
+			  "Titus" : "Titus", 
+			  "Phlm" : "Filemon", 
+			  "Heb" : "Hebræerne", 
+			  "Jas" : "Jakob", 
+			  "1Pet" : "1. Peter", 
+			  "2Pet" : "2. Peter", 
+			  "1John" : "1. Johannes", 
+			  "2John" : "2. Johannes", 
+			  "3John" : "3. Johannes", 
+			  "Jude" : "Judas", 
+			  "Rev" : "Åbenbaringen", 
+		     },
+		     "osisBook2abbrev" : {
+                          "Gen" : "1 Mos",
+                          "Exod" : "2 Mos",
+                          "Lev" : "3 Mos",
+                          "Num" : "4 Mos",
+                          "Deut" : "5 Mos",
+                          "Josh" : "Jos",
+                          "Judg" : "Dom",
+                          "Ruth" : "Ruth",
+                          "1Sam" : "1 Sam",
+                          "2Sam" : "2 Sam",
+                          "1Kgs" : "1 Kong",
+                          "2Kgs" : "2 Kong",
+                          "1Chr" : "1 Krøn",
+                          "2Chr" : "2 Krøn",
+                          "Ezra" : "Ezra",
+                          "Neh" : "Neh",
+                          "Esth" : "Est",
+                          "Job" : "Job",
+                          "Ps" : "Sl",
+                          "Prov" : "Ordsp",
+                          "Eccl" : "Præd",
+                          "Song" : "Højs",
+                          "Isa" : "Es",
+                          "Jer" : "Jer",
+                          "Lam" : "Klages",
+                          "Ezek" : "Ez",
+                          "Dan" : "Dan",
+                          "Hos" : "Hos",
+                          "Joel" : "Joel",
+                          "Amos" : "Am",
+                          "Obad" : "Obad",
+                          "Jonah" : "Jon",
+                          "Mic" : "Mika",
+                          "Nah" : "Nah",
+                          "Hab" : "Hab",
+                          "Zeph" : "Sef",
+                          "Hag" : "Hagg",
+                          "Zech" : "Zak",
+                          "Mal" : "Mal",
+                          "Matt" : "Matt",
+                          "Mark" : "Mark",
+                          "Luke" : "Luk",
+                          "John" : "Joh",
+                          "Acts" : "ApG",
+                          "Rom" : "Rom",
+                          "1Cor" : "1 Kor",
+                          "2Cor" : "2 Kor",
+                          "Gal" : "Gal",
+                          "Eph" : "Ef",
+                          "Phlm" : "Filem",
+                          "Phil" : "Fil",
+                          "Col" : "Kol",
+                          "1Thess" : "1 Thess",
+                          "2Thess" : "2 Thess",
+                          "1Tim" : "1 Tim",
+                          "2Tim" : "2 Tim",
+                          "Titus" : "Tit",
+                          "Heb" : "Hebr",
+                          "Jas" : "Jak",
+                          "1Pet" : "1 Pet",
+                          "2Pet" : "2 Pet",
+                          "1John" : "1 Joh",
+                          "2John" : "2 Joh",
+                          "3John" : "3 Joh",
+                          "Jude" : "Jud",
+                          "Rev" : "Åb",
+		     },
+   },
+   "fetchinfo" : {
+      "base" : {
+         "object_types" : {
+	    "chapter" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "",
+                  "get" : [
+		        "osisBook",
+			"chapter",
+                     ],
+                  "start" : "<chapterstart book=\"{{ feature 0 }}\" chapter=\"{{ feature 1 }}\" booktitle=\"{{ dictlookup 'osisBook2overskrift' feature 0 'Kapitel' }}\"/>",
+	    },
+            "title" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "{{ if featureequal 0 'bookGroup' }}</bookgroup-title>{{ endif }}{{ if featureequal 0 'book' }}</book-title>{{ endif }}{{ if featureequal 0 'chapter' }}</chapter-title>{{ endif }}",
+                  "get" : [
+                        "divtype",
+                     ],
+                  "start" : "{{ if featureequal 0 'bookGroup' }}<bookgroup-title>{{ endif }}{{ if featureequal 0 'book' }}<book-title>{{ endif }}{{ if featureequal 0 'chapter' }}<chapter-title>{{ endif }}"
+               },
+            "token" : {
+               "docindexfeature" : "xmlindex",
+               "end" : "",
+	       "get" : [
+                    "wholesurface",
+                    "parsing",
+                    "strongs",
+               ],
+               "start" : "<t surface=\"{{ featurenomangle 0 }}\" parsing=\"{{ featurenomangle 1 }}\" strongs=\"{{ feature 2 }}\"/>"
+            },
+            "br" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "",
+                  "start" : "<br/>"
+               },
+            "paragraph" : {
+               "docindexfeature" : "xmlindex",
+               "end" : "",
+               "start" : "<paragraph/>"
+            },
+            "verse" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "",
+                  "get" : [
+			"chapter",
+			"verse",
+			"osisID",
+                     ],
+                  "start" : "<versestart chapter=\"{{ feature 0 }}\" verse=\"{{ feature 1 }}\" osisID=\"{{ feature 2 }}\"/>",
+               },
+         },
+        "postprocess" : [
+	             {
+		          "prefix" : "<tisch>"
+		     },
+	             {
+		          "suffix" : "</tisch>"
+		     },
+	       ],
+      },
+      "parallel" : {
+         "object_types" : {
+	    "chapter" : {
+                  "docindexfeature" : "xmlindex",
+                  "get" : [
+			"chapter",
+                     ],
+                  "start" : "<chapterstart chapter=\"{{ feature 0 }}\"/>",
+	    },
+            "title" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "{{ if featureequal 0 'bookGroup' }}</bookgroup-title>{{ endif }}{{ if featureequal 0 'book' }}</book-title>{{ endif }}{{ if featureequal 0 'chapter' }}</chapter-title>{{ endif }}",
+                  "get" : [
+                        "divtype",
+                     ],
+                  "start" : "{{ if featureequal 0 'bookGroup' }}<bookgroup-title>{{ endif }}{{ if featureequal 0 'book' }}<book-title>{{ endif }}{{ if featureequal 0 'chapter' }}<chapter-title>{{ endif }}"
+               },
+            "token" : {
+               "docindexfeature" : "xmlindex",
+               "end" : "",
+	       "get" : [
+                    "wholesurface",
+                    "parsing",
+                    "strongs",
+               ],
+               "start" : "<t surface=\"{{ featurenomangle 0 }}\" parsing=\"{{ featurenomangle 1 }}\" strongs=\"{{ feature 2 }}\"/>"
+            },
+            "verse" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "",
+                  "get" : [
+			"chapter",
+			"verse",
+			"osisID",
+		        "bible_align"
+                     ],
+                  "start" : "<versestart chapter=\"{{ feature 0 }}\" verse=\"{{ feature 1 }}\" osisID=\"{{ feature 2 }}\" bible_align=\"{{ feature 3 }}\"/>",
+               },
+         },
+        "postprocess" : [
+	             {
+		          "prefix" : "<tisch db=\"{{ dbname }}\">"
+		     },
+	             {
+		          "suffix" : "</tisch>"
+		     },
+	             {
+		          "instring" : "\xc2\xa0",
+			  "outstring" : " ",
+		     },
+	             
+	       ],
+      },
+      "footnote" : {
+         "object_types" : {
+            "note" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "</note>",
+                  "get" : [
+                     ],
+                  "start" : "<note>"
+               },
+            "token" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "",
+                  "get" : [
+                        "wholesurface"
+                     ],
+                  "kind" : "base",
+                  "start" : "<t m=\"{{ firstmonad }}\" t=\"{{ feature 0 }}\"/>"
+               },
+            "bold" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "</b>",
+                  "start" : "<b>"
+               },
+            "italics" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "</em>",
+                  "start" : "<em>"
+               },
+         },
+        "postprocess" : [
+                     {
+                          "prefix" : "<footnotexml>"
+                     },
+                     {
+                          "suffix" : "</footnotexml>"
+                     },
+               ],
+
+      },
+   },
+   "renderinfo" : {
+         "context" : {
+               "elements" : {
+                  "paragraph" : {
+		     "end" : "",
+                     "start" : "</font></p><p align=\"left\"><font face=\"Gentium\" size=\"+3\">"
+                  },
+		  "br" : {
+                        "end" : "",
+                        "start" : "<br/>"
+                     },
+		  "book-title" : {
+		       "end" : "",
+		       "start" : "",
+		       "nix" : true,
+                  },
+		  "bookgroup-title" : {
+		       "end" : "",
+		       "start" : "",
+		       "nix" : true,
+                  },
+		  "chapter-title" : {
+		       "end" : "</h3><p><font face=\"Gentium\" size=\"+3\">",
+		       "start" : "</font></p><h3>",
+                  },
+	    	  "chapterstart" : {
+		       "end" : "",
+		       "start" : "</font></p><h2 color=\"#2b55a4\">{{ if attribequal book 'Ps' }}Salme{{ else }}Kapitel{{ endif }} {{ attrib chapter }}</h2><p><font face=\"Gentium\" size=\"+3\">",
+	    	     },
+	    	  "versestart" : {
+            	        "end" : "",
+	      	        "start" : "</font><sup><font size=\"+2\" color=\"#ce4105\" face=\"Arial\">{{ attrib verse }}</font></sup><font face=\"Gentium\" size=\"+3\">",
+	    	     },
+                  "t" : {
+                        "end" : "",
+                        "start" : "{{ if attribequal strongs '0' }}{{ attrib surface }}{{ else }}<a visible=\"false\" color=\"#000000\" href=\"gdef:{{ attrib strongs }}/{{ attrib parsing }}\">{{ attrib surface }}</a>{{ endif }} "
+                     },
+		  "tisch" : {
+		        "start" : "<p align=\"left\"><font face=\"Gentium\" size=\"+3\">",
+			"end" : "</font></p>",
+                  },
+               },
+               "extends" : null,
+               "fetch_stylesheet" : "base",
+            },
+         "context+parsings" : {
+               "elements" : {
+                  "t" : {
+                        "end" : "",
+                        "start" : "{{ if attribequal strongs '0' }}{{ attrib surface }}{{ else }}<a visible=\"false\" color=\"#000000\" href=\"gdef:{{ attrib strongs }}/{{ attrib parsing }}\">{{ attrib surface }}<sup><font color=\"#ce4105\" size=\"+2\">{{ attrib parsing }}</font></sup></a>{{ endif }} "
+                     },
+               },
+               "extends" : "context",
+               "fetch_stylesheet" : "base",
+            },
+         "parallel" : {
+               "elements" : {
+	          "tisch" : {
+		       "end" : "\"},",
+		       "start" : "\"{{ attrib db }}\" : { \"dummy\" : \"",
+                  },
+                  "versestart" : {
+                        "end" : "",
+                        "start" : "\",\n\"{{ attrib osisID }}\" : \"",
+                     },
+                  "t" : {
+                        "start" : "{{ if attribequal strongs '0' }}<font face=\\\"Gentium\\\" size=\\\"+3\\\">{{ attrib surface }}</font>{{ else }}<a visible=\\\"false\\\" color=\\\"#000000\\\" href=\\\"gdef:{{ attrib strongs }}/{{ attrib parsing }}\\\"><font face=\\\"Gentium\\\" size=\\\"+3\\\">{{ attrib surface }}</font></a>{{ endif }} "
+                     },
+		  "book-title" : {
+		       "end" : "",
+		       "start" : "",
+		       "nix" : true,
+                  },
+		  "bookgroup-title" : {
+		       "end" : "",
+		       "start" : "",
+		       "nix" : true,
+                  },
+		  "chapter-title" : {
+		       "end" : "</h3>",
+		       "start" : "<h3>",
+                  },
+	    	  "chapterstart" : {
+            	        "end" : "",
+	      	        "start" : "",
+	    	     },
+               },
+               "extends" : null,
+               "fetch_stylesheet" : "parallel",
+            },
+
+         "parallel2" : {
+               "elements" : {
+	          "tisch" : {
+		       "end" : "\"} },",
+		       "start" : "\"{{ attrib db }}\" : { \"dummy\" : { \"osisID\" : \"dummy\", \"text\" : \"",
+                  },
+		  "book-title" : {
+		       "end" : "",
+		       "start" : "",
+		       "nix" : true,
+                  },
+		  "bookgroup-title" : {
+		       "end" : "",
+		       "start" : "",
+		       "nix" : true,
+                  },
+		  "chapter-title" : {
+		       "end" : "",
+		       "start" : "",
+		       "nix" : true,
+                  },
+		  "chapterstart" : {
+		       "end" : "",
+		       "start" : "",
+                  },
+                  "versestart" : {
+                        "end" : "",
+                        "start" : "\"},\n\"{{ attrib osisID }}\" : { \"bible_align\" : \"{{ attrib bible_align }}\", \"text\" : \"",
+                     },
+                  "t" : {
+                        "start" : "{{ if attribequal strongs '0' }}<font face=\\\"Gentium\\\" size=\\\"+3\\\">{{ attrib surface }}</font>{{ else }}<a visible=\\\"false\\\" color=\\\"#000000\\\" href=\\\"gdef:{{ attrib strongs }}/{{ attrib parsing }}\\\"><font face=\\\"Gentium\\\" size=\\\"+3\\\">{{ attrib surface }}</font></a>{{ endif }} "
+                     },
+		  "br" : {
+                        "end" : "",
+                        "start" : "<br/>"
+                     },
+		  "transadd" : {
+                        "end" : "</em>",
+                        "start" : "<em>"
+                     },
+                  "note" : {
+                        "end" : "",
+                        "start" : "",
+			"nix" : true,
+                     },
+                  "reference" : {
+                        "end" : "",
+                        "start" : "",
+			"nix" : true,
+                     },
+                  "notecontent" : {
+                        "end" : "",
+                        "start" : "",
+			"nix" : true,
+                     },
+		  "b" : {
+                        "end" : "</b>",
+                        "start" : "<b>"
+                     },
+		  "em" : {
+                        "end" : "</em>",
+                        "start" : "<em>"
+                     },
+               },
+               "extends" : null,
+               "fetch_stylesheet" : "parallel",
+            },
+         "footnote" : {
+               "elements" : {
+	          "footnotexml" : {
+		       "end" : "</p>",
+		       "start" : "<p>",
+                  },
+                  "t" : {
+                        "start" : "{{ attrib t }}"
+                     },
+		  "note" : {
+			"end" : "",
+			"start" : "",   
+		  },
+		  "b" : {
+                        "end" : "</b>",
+                        "start" : "<b>"
+                     },
+		  "em" : {
+                        "end" : "</em>",
+                        "start" : "<em>"
+                     },
+               },
+               "extends" : null,
+               "fetch_stylesheet" : "footnote",
+            },
+      }
+}

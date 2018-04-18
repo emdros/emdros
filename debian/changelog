@@ -1,0 +1,588 @@
+emdros (3.6.0) unstable; urgency=low
+
+  * Upgrade to 3.6.0
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Tue, 17 Apr 2018 23:29:57 +0200
+
+emdros (3.5.25) unstable; urgency=low
+
+  * Upgrade to 3.5.25
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Sat, 7 Apr 2018 15:45:13 +0200
+
+emdros (3.5.24) unstable; urgency=low
+
+  * Upgrade to 3.5.24
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Fri, 23 Feb 2018 02:59:27 +0100
+
+emdros (3.5.23) unstable; urgency=low
+
+  * Upgrade to 3.5.23
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Wed, 7 Feb 2018 01:05:53 +0100
+
+emdros (3.5.22) unstable; urgency=low
+
+  * Upgrade to 3.5.22
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 21 Dec 2017 18:40:37 +0100
+
+emdros (3.5.21) unstable; urgency=low
+
+  * Upgrade to 3.5.21
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 21 Dec 2017 17:54:12 +0100
+
+emdros (3.5.20) unstable; urgency=low
+
+  * Upgrade to 3.5.20
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Sun, 3 Dec 2017 00:16:37 +0100
+
+emdros (3.5.19) unstable; urgency=low
+
+  * Upgrade to 3.5.19
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Sat, 2 Dec 2017 22:48:21 +0100
+
+emdros (3.5.18) unstable; urgency=low
+
+  * Upgrade to 3.5.18
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Fri, 17 Nov 2017 22:55:07 +0100
+
+emdros (3.5.17) unstable; urgency=low
+
+  * Upgrade to 3.5.17
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 12 Oct 2017 18:57:24 +0200
+
+emdros (3.5.16) unstable; urgency=low
+
+  * Upgrade to 3.5.16
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 27 Jun 2017 11:33:39 +0200
+
+emdros (3.5.15) unstable; urgency=low
+
+  * Upgrade to 3.5.15
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Fri, 23 Jun 2017 21:05:38 +0200
+
+emdros (3.5.14-1) unstable; urgency=low
+
+  * Upgrade to 3.5.14
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Fri, 23 Jun 2017 16:35:27 +0200
+
+emdros (3.5.13-1) unstable; urgency=low
+
+  * Upgrade to 3.5.13
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Fri, 23 Jun 2017 16:30:03 +0200
+
+emdros (3.5.12-1) unstable; urgency=low
+
+  * Upgrade to 3.5.12
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 22 Jun 2017 20:11:27 +0200
+
+emdros (3.5.11-1) unstable; urgency=low
+
+  * Upgrade to 3.5.11
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 15 Jun 2017 09:31:57 +0200
+
+emdros (3.5.10-1) unstable; urgency=low
+
+  * Upgrade to 3.5.10
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Wed, 31 May 2017 16:40:21 +0200
+
+emdros (3.5.9-1) unstable; urgency=low
+
+  * Upgrade to 3.5.9
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Wed, 31 May 2017 15:48:51 +0200
+
+emdros (3.5.8-1) unstable; urgency=low
+
+  * Upgrade to 3.5.8
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Wed, 31 May 2017 14:34:10 +0200
+
+emdros (3.5.7-1) unstable; urgency=low
+
+  * Upgrade to 3.5.7
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Mon, 22 May 2017 13:24:51 +0200
+
+emdros (3.5.6-1) unstable; urgency=low
+
+  * Upgrade to 3.5.6
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Tue, 18 Apr 2017 17:07:38 +0200
+
+emdros (3.5.5-1) unstable; urgency=low
+
+  * Upgrade to 3.5.5
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Tue, 11 Apr 2017 19:26:17 +0200
+
+emdros (3.5.4-1) unstable; urgency=low
+
+  * Upgrade to 3.5.4
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Tue, 6 Mar 2017 21:59:56 +0100
+
+emdros (3.5.3-1) unstable; urgency=low
+
+  * Upgrade to 3.5.3
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 2 Mar 2017 19:58:34 +0100
+
+emdros (3.5.2-1) unstable; urgency=low
+
+  * Upgrade to 3.5.2
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 2 Mar 2017 18:00:03 +0100
+
+emdros (3.5.1-1) unstable; urgency=low
+
+  * Upgrade to 3.5.1
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Wed, 1 Feb 2017 14:54:38 +0100
+
+emdros (3.5.0-1) unstable; urgency=low
+
+  * Upgrade to 3.5.0
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Mon, 30 Jan 2017 21:35:17 +0100
+
+emdros (3.4.1.pre43-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre43
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Mon, 30 Jan 2017 16:40:41 +0100
+
+emdros (3.4.1.pre42-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre42
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Tue, 24 Jan 2017 16:24:37 +0100
+
+emdros (3.4.1.pre41-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre41
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Wed, 28 Dec 2016 23:24:46 +0100
+
+emdros (3.4.1.pre40-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre40
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Fri, 25 Nov 2016 17:12:29 +0100
+
+emdros (3.4.1.pre39-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre39
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 24 Nov 2016 20:06:55 +0100
+
+emdros (3.4.1.pre38-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre38
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 24 Nov 2016 17:49:23 +0100
+
+emdros (3.4.1.pre37-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre37
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Wed, 23 Nov 2016 02:26:47 +0100
+
+emdros (3.4.1.pre36-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre36
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Sat, 29 Oct 2016 01:48:23 +0200
+
+emdros (3.4.1.pre35-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre35
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Fri, 28 Oct 2016 22:29:27 +0200
+
+emdros (3.4.1.pre34-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre34
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 20 Oct 2016 19:34:10 +0200
+
+emdros (3.4.1.pre33-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre33
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Sat, 8 Oct 2016 16:01:23 +0200
+
+emdros (3.4.1.pre32-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre32
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Mon, 12 Sep 2016 14:40:57 +0200
+
+emdros (3.4.1.pre31-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre31
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Fri, 9 Sep 2016 14:54:14 +0200
+
+emdros (3.4.1.pre30-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre30
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Tue, 26 Jul 2016 18:03:51 +0200
+
+emdros (3.4.1.pre29-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre29
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Tue, 19 Jul 2016 17:17:07 +0200
+
+emdros (3.4.1.pre28-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre28
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Wed, 15 Jul 2016 18:45:27 +0200
+
+emdros (3.4.1.pre27-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre27
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Wed, 22 Jun 2016 17:16:13 +0200
+
+emdros (3.4.1.pre26-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre26
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Sat, 18 Jun 2016 12:59:31 +0200
+
+emdros (3.4.1.pre25-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre25
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Wed, 1 Jun 2016 00:38:17 +0200
+
+emdros (3.4.1.pre24-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre24
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 21 Apr 2016 00:48:03 +0200
+
+emdros (3.4.1.pre23-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre23
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Fri, 15 Apr 2016 13:21:17 +0200
+
+emdros (3.4.1.pre22-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre22
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Sat, 5 Mar 2016 16:31:57 +0100
+
+emdros (3.4.1.pre21-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre21
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Sun, 28 Feb 2016 14:04:17 +0100
+
+emdros (3.4.1.pre20-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre20
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Sun, 28 Feb 2016 13:30:32 +0100
+
+emdros (3.4.1.pre19-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre19
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Wed, 17 Feb 2016 21:03:18 +0100
+
+emdros (3.4.1.pre18-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre18
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Wed, 17 Feb 2016 17:58:27 +0100
+
+emdros (3.4.1.pre17-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre17
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Sat, 13 Feb 2016 19:34:44 +0100
+
+emdros (3.4.1.pre16-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre16
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Sat, 13 Feb 2016 19:34:14 +0100
+
+emdros (3.4.1.pre15-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre15
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 17 Dec 2015 17:31:26 +0100
+
+emdros (3.4.1.pre14-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre14
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Mon, 16 Nov 2015 17:16:49 +0100
+
+emdros (3.4.1.pre13-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre13
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Fri, 16 Oct 2015 22:20:33 +0200
+
+emdros (3.4.1.pre12-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre12
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 16 Apr 2015 05:31:48 +0200
+
+emdros (3.4.1.pre11-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre11
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Fri, 20 Feb 2015 19:51:07 +0100
+
+emdros (3.4.1.pre10-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre10
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Tue, 20 Jan 2015 15:08:23 +0100
+
+emdros (3.4.1.pre09-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre09
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Tue, 30 Dec 2014 21:40:37 +0100
+
+emdros (3.4.1.pre08-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre08
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Sat, 20 Dec 2014 23:38:06 +0100
+
+emdros (3.4.1.pre07-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre07
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Mon, 24 Nov 2014 11:13:27 +0100
+
+emdros (3.4.1.pre06-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre06
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Tue, 21 Oct 2014 14:42:03 +0200
+
+emdros (3.4.1.pre05-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre05
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Fri, 19 Sep 2014 15:20:21 +0200
+
+emdros (3.4.1.pre04-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre04
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Mon, 14 Jul 2014 13:58:47 +0200
+
+emdros (3.4.1.pre03-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre03
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 9 Jun 2014 17:21:13 +0200
+
+emdros (3.4.1.pre02-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre02
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 9 Jun 2014 16:29:53 +0200
+
+emdros (3.4.1.pre01-1) unstable; urgency=low
+
+  * Upgrade to 3.4.1.pre01
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 18 May 2014 13:28:17 +0200
+
+emdros (3.4.0-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 13 May 2014 08:35:46 +0200
+
+emdros (3.4.0.pre20-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0.pre20
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 8 May 2014 12:56:12 +0200
+
+emdros (3.4.0.pre19-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0.pre19
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Fri, 11 Apr 2014 19:32:48 +0200
+
+emdros (3.4.0.pre18-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0.pre18
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Tue, 8 Apr 2014 10:52:14 +0200
+
+emdros (3.4.0.pre17-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0.pre17
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Sun, 16 Mar 2014 16:03:32 +0100
+
+emdros (3.4.0.pre16-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0.pre16
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Wed, 26 Feb 2014 01:07:17 +0100
+
+emdros (3.4.0.pre15-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0.pre15
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Tue, 6 Jan 2014 22:57:26 +0100
+
+emdros (3.4.0.pre14-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0.pre14
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Tue, 1 Jan 2014 10:48:13 +0100
+
+emdros (3.4.0.pre13-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0.pre13
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Tue, 31 Dec 2013 00:31:47 +0100
+
+emdros (3.4.0.pre12-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0.pre12
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Mon, 21 Oct 2013 22:24:54 +0200
+
+emdros (3.4.0.pre11-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0.pre11
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 17 Oct 2013 21:41:11 +0200
+
+emdros (3.4.0.pre10-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0.pre10
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 17 Oct 2013 21:16:47 +0200
+
+emdros (3.4.0.pre09-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0.pre09
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 17 Oct 2013 21:03:23 +0200
+
+emdros (3.4.0.pre08-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0.pre08
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Mon, 14 Oct 2013 02:27:07 +0200
+
+emdros (3.4.0.pre07-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0.pre07
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Sun, 13 Oct 2013 10:49:53 +0200
+
+emdros (3.4.0.pre06-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0.pre06
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Tue, 01 Oct 2013 15:36:11 +0200
+
+emdros (3.4.0.pre05-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0.pre05
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Tue, 01 Oct 2013 15:01:43 +0200
+
+emdros (3.4.0.pre03-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0.pre03
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Wed, 20 Aug 2013 14:15:21 +0200
+
+emdros (3.4.0.pre02-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0.pre02
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Wed, 17 Aug 2013 01:26:43 +0200
+
+emdros (3.4.0.pre01-1) unstable; urgency=low
+
+  * Upgrade to 3.4.0.pre01
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Wed, 24 Jul 2013 00:03:27 +0200
+
+emdros (3.3.1.pre25-1) unstable; urgency=low
+
+  * Upgrade to 3.3.1.pre25
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Wed, 12 Jun 2013 09:29:27 +0200
+
+emdros (3.3.1.pre23-1) unstable; urgency=low
+
+  * Upgrade to 3.3.1.pre23
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 02 May 2013 21:17:43 +0200
+
+emdros (3.3.1.pre22-1) unstable; urgency=low
+
+  * Upgrade to 3.3.1.pre22
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 26 Apr 2013 23:27:58 +0200
+
+emdros (3.3.1.pre21-1) unstable; urgency=low
+
+  * Upgrade to 3.3.1.pre21
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 25 Apr 2013 16:38:27 +0200
+
+emdros (3.3.1.pre11-1) unstable; urgency=low
+
+  * Upgrade to 3.3.1.pre11
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Mon, 28 May 2012 22:34:27 +0100
+
+emdros (3.3.1.pre10-1) unstable; urgency=low
+
+  * Upgrade to 3.3.1.pre10
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Mon, 28 May 2012 22:32:37 +0100
+
+emdros (3.3.1.pre09-1) unstable; urgency=low
+
+  * Changes to QMake *.pro files
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Mon, 24 Apr 2012 01:27:40 +0100
+
+emdros (3.3.1.pre08-1) unstable; urgency=low
+
+  * Initial release
+
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Thu, 16 Feb 2012 00:26:40 +0100
+

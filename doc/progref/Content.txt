@@ -1,0 +1,5109 @@
+<page ID="1000">
+
+</page>
+
+
+<page ID="1001">
+
+
+<P>Welcome to the Emdros Programmer's Reference Guide.  This guide is
+designed to help you get up to speed quickly with how to program an
+application on top of Emdros.  Here are some of the topics
+covered:</P>
+
+<UL>
+
+  <LI>Emdros <page_anchor ID="1020">architecture</page_anchor> and how
+  <page_anchor ID="1030">your application</page_anchor> fits in.
+
+  <LI>API for the <page_anchor ID="1130">MQL language</page_anchor>.
+
+  <LI>The DTD of the <page_anchor ID="1150">XML</page_anchor> output
+  by the MQL engine.
+
+  <LI>Tips for how to <page_anchor ID="1210">architect your
+  application</page_anchor>.
+
+  <LI>Tips for <page_anchor ID="1220">loading</page_anchor> an Emdros
+  database with existing data.
+
+  <LI>Tips for creating a <page_anchor
+  ID="1230">query-application</page_anchor>.
+
+</UL>
+
+<P>Plus additional goodies.</P>
+
+<h2>Appliccable version</h2>
+
+<P>This guide documents Emdros version <strong>3.5.22</strong>
+and later.</P>
+
+
+
+<h2>How to use this guide</h2>
+
+<p>Click on any item in the menu on the left.  This will expand it and
+go to that page.</P>
+
+</page>
+
+
+<page ID="1010">
+
+<p>In Part I, we lay the foundation for the rest of the programmer's
+reference guide.  We will look at the following things:</P>
+
+<UL>
+
+  <LI><page_anchor ID="1020">Emdros architecture</page_anchor> and how
+  your application fits in
+
+  <LI><page_anchor ID="1030">Your application</page_anchor> and what
+  it minimally needs to include in order to interact with Emdros.
+
+  <LI><page_anchor ID="1070">Libraries</page_anchor> and how to use them.
+
+</UL>
+
+</page>
+
+
+
+<page ID="1020">
+
+<P>Emdros fits into an architecture as follows:</P>
+
+<PRE class="code">
++---------------+
+{PREPIPE}  Application  {PREPIPE} Which you must write
++---------------+
+       {PREPIPE}
++---------------+
+{PREPIPE}   Harvest     {PREPIPE} Emdros
++---------------+
+       {PREPIPE}
++---------------+
+{PREPIPE}     MQL       {PREPIPE} Emdros
++---------------+
+       {PREPIPE}
++---------------+
+{PREPIPE}     EMdF      {PREPIPE} Emdros
++---------------+
+       {PREPIPE}
++---------------+
+{PREPIPE}      DB       {PREPIPE} PostgreSQL or MySQL or SQLite3 or SQLite2 or BPT
++---------------+
+</pre><!-- widthincm : 12 -->
+
+<P>At the top, we have your application, which in turn rests on
+Emdros.  Emdros is made up of three layers, first the "Harvest" layer,
+then the MQL layer, which then rests upon the EMdF layer.  The EMdF
+layer, in turn, interacts with the underlying RDBMS or the BPT storage
+layer.</P>
+
+<P>Four RDBMS backends are currently supported, as shown. An
+alternative, proprietary backend backend ("BPT") exists.  This backend
+features much faster querying speed, as well as much smaller
+databases, making it ideal for deployment on mobile devices running
+iOS, Android, and other mobile platforms.</P>
+
+<P>This Programmer's Reference Guide is about making you successful in
+building your application.</P>
+
+</page>
+
+
+
+<page ID="1030">
+
+<P>In this section, we describe two things:</P>
+
+<OL>
+
+  <LI><page_anchor ID="1031">Four ways</page_anchor> to call Emdros,
+  and
+
+  <LI>The <page_anchor ID="1040">details</page_anchor> of how to do
+  so.
+
+</OL>
+
+</page>
+
+
+
+<page ID="1031">
+
+<P>There are a number of ways you can go about writing your
+application.  Here are four of them:</P>
+
+<OL>
+
+  <LI><P>Write your application in C++, interacting directly with the
+  Emdros libraries.</P>
+
+  <LI><P>Write your application in one of the scripting languages
+  which Emdros supports through <A
+  HREF="http://www.swig.org/">SWIG</A> (currently Python 2.7, Python
+  3.x, Perl, Ruby, Java, C#/.Net, Node.JS, PHP5, and PHP7).
+
+  <LI><P>Interface via the mql(1) program as a command-line program,
+  or via a system() call or the like.</P>
+
+  <LI><P>Write a wrapper around Emdros, and call it from, e.g., iOS,
+  Android, or via a web-API using Node.JS, Django, or similar.</P>
+
+</OL>
+
+<P>We will look at each of these in turn.</P>
+
+</page>
+
+
+
+<page ID="1032">
+
+<h2>Benefits</h2>
+
+<P>Interfacing with Emdros via C++ offers the following benefits:</p>
+
+<UL>
+
+  <LI>Greatest performance:
+
+     <UL>
+
+        <LI><P>No need to parse the output of the MQL engine.  You can
+            use the datastructures returned by MQL directly instead of
+            first dumping them to stdout, then reading them back into
+            memory again.  This saves both space and time.</P>
+
+        <LI><P>No need to start and stop the mql(1) process.
+            Everything is done in-process.</P>
+
+        <LI><P>Persistence of back-end connection: No need to connect
+            and reconnect to the back-end.  This saves time.</P>
+
+     </UL>
+
+  <LI>Greatest flexibility: You can use the full EMdF API, rather than
+  "just" the MQL API.
+
+</UL>
+
+<h2>Drawbacks</h2>
+
+<P>Drawbacks include:</p>
+
+<UL>
+
+  <LI><P>Greater complexity, due to:</P>
+
+      <UL>
+
+         <LI>Complexity of C++ language,
+
+         <LI>Complexity of Emdros APIs.
+
+      </UL>
+
+  <LI><P>Steeper learning-curve (due to greater complexity).</P>
+
+</UL>
+
+</page>
+
+
+<page ID="1035">
+
+<h2>Overview</h2>
+
+<P><A HREF="http://www.swig.org/">SWIG</A> is the "Simplified Wrapper
+Generator", and allows a programmer to wrap his C or C++ application's
+interface so that it can be used from a number of scripting
+languages.</P>
+
+<P>Emdros implements SWIG interfaces for a number of languages.  They
+include:</P>
+
+<UL>
+
+  <LI>Python 2.7
+  <LI>Python 3.x
+  <LI>Java
+  <LI>C# (or other .Net languages)
+  <LI>Ruby
+  <LI>Perl
+  <LI>PHP5
+  <LI>PHP7
+
+</UL>
+
+<P>This means that you can use Emdros from these scripting languages
+as though you were writing in C++ with almost no performance overhead.
+The libraries are linked in through dynamic library loading.</P>
+
+<P>Granted, Java and C# are not scripting languages, but are mentioned
+as such here for simplicity of presentation.</P>
+
+<P><STRONG>Availability Note:</STRONG> currently, <strong>only Python
+2.7</strong>-bindings, <strong>C#/.Net</strong>-bindings, and
+<strong>Java</strong>-bindings are <strong>available on
+Windows</strong>.  All are available on Linux, and some are available
+on macOS/Mac OS X.  It is unknown whether any will work on Solaris.</P>
+
+
+<h2>Benefits</h2>
+
+<P>Benefits include:</p>
+
+<UL>
+
+  <LI>Having the simplicity and rapid prototyping of scripting
+  languages.
+  
+  <LI>Losing none of the power of direct access to the Emdros class
+  hierarchy.
+
+  <LI>Not having to parse the output from MQL, instead directly
+  accessing the <page_anchor ID="1139">MQLResult</page_anchor>
+  object.  This reduces performance overhead.
+
+</UL>
+
+<h2>Drawbacks</h2>
+
+<P>Drawbacks include:</p>
+
+<UL>
+
+  <LI>Slightly slower performance than with pure C++.
+
+</UL>
+
+
+</page>
+
+
+<page ID="1033">
+
+<h2>Overview</h2>
+
+<P>You can use the mql(1) program for interfacing with Emdros.  In C,
+this is typically done with the system() library-call.
+Scripting-languages such as Ruby, Perl, and Python have their own ways
+of calling external programs.</p>
+
+<h2>Benefits</h2>
+
+<P>Benefits include:</p>
+
+<UL>
+
+  <LI><P>Simplicity: The only APIs to learn are:</P>
+
+      <UL>
+
+          <LI><P>The MQL language itself (which you must learn anyway),</P>
+
+          <LI><P>The format of the MQL output,</P>
+
+          <LI><P>The exit-status codes of the mql(1) program.</P>
+
+      </UL>
+
+</UL>
+
+<h2>Drawbacks</h2>
+
+<P>Drawbacks include:</p>
+
+<UL>
+
+  <LI><P>Less performance:</P>
+
+      <UL>
+
+          <LI><P>Output must be parsed and the datastructures
+              recreated.  This takes both space and time.</P>
+
+          <LI><P>mql(1) process must be started and stopped for each
+              collection of MQL statements you wish to have evaluated.
+              This takes time.</P>
+
+          <LI><P>Back-end connection is established and broken
+              together with the mql(1) process.  This takes time.</P>
+
+      </UL>
+
+  <LI><P>Less flexibility: You can only interface with Emdros via the
+      MQL language, not the EMdF API.</P>
+
+</UL>
+
+
+<P>That having been said, it may be possible to keep the mql(1)
+process running, keeping an open pipe between your application and the
+mql(1) process.  If so, the only performance-problem that remains is
+the parsing of the output.</p>
+
+
+
+</page>
+
+
+
+<page ID="1034">
+
+<h2>Overview</h2>
+
+<P>You can write a wrapper around Emdros which only uses the part(s)
+you actually need, then use that wrapper inside of an environment such
+as:</P>
+
+<UL>
+
+	<LI><P>iOS: In this case, you can write a wrapper in
+	Objective-C++ or Objective-C and interface with either Swift
+	or our Objective-C/C++ application.</P>
+
+	<LI><P>Android: In this case, you write a C++ wrapper around
+	Emdros which implements a JNI interface, then use NDK to
+	compile it, then interface with the Java parts of the JNI
+	interface from your application.  Please contact the author of
+	Emdros for further details.</P>
+
+	<LI><P>Web API: In this case, you write your wrapper in one of
+	the supported language bindings (currently Python 2.7, Python
+	3.x, C#, Java, Ruby, Perl, PHP5, and PHP7), and then hook your
+	wrapper up to a web-api that suits your needs, such as a
+	RESTful API or a JSON or SOAP API.  You need to write both the
+	wrapper and the Web API at this point, though plans are
+	underway to make some general Web APIs around Emdros.</P>
+
+</UL>
+
+
+</page>
+
+
+
+
+<page ID="1040">
+
+<P>Having described the benefits and drawbacks of each method of
+calling Emdros, let us describe how to actually do it.</P>
+
+</page>
+
+
+
+<page ID="1041">
+
+<P>In this section, we will describe how to interface to Emdros via
+the mql(1) program.</P>
+
+</page>
+
+
+
+<page ID="1042">
+
+<h2>As a command</h2>
+
+<P>When calling mql(1) as a command, you can either pass the input on
+a file or on stdin.  The output is given on stdout.</P>
+
+<P>You can capture the output by redirecting it to a file (e.g.,
+append "&gt; /tmp/x13wd93pq" to the command line).  Alternatively, set up
+a pipe between your application and the mql(1) program.  See your
+system manual pages for how to do this.</P>
+
+<P>See the mql(1) man-page for details of command-line options and
+command-line syntax.</P>
+
+
+</page>
+
+
+
+<page ID="1043">
+
+<h2>Three choices</h2>
+
+<P>You have three choices for output, specified by two command-line
+switches:</P>
+
+<UL>
+
+  <LI><P><strong><page_anchor ID="1047">XML
+  output</page_anchor></strong>, which is suitable for interaction between
+  programs, and</P>
+
+  <LI><P><strong><page_anchor ID="1049">JSON
+  output</page_anchor></strong>, which is suitable for interaction between
+  programs and is simpler than XML, and </P>
+
+  <LI><P><strong><page_anchor ID="1048">Console
+  output</page_anchor></strong>, which is slightly more human-readable
+  than XML output.</P>
+
+</UL>
+
+</page>
+
+
+
+<page ID="1047">
+
+<h2>Benefits</h2>
+
+<P>Benefits include:</P>
+
+<UL>
+
+  <LI><P>Has better support for error-handling: It tells you
+  explicitly when something when wrong, in what stage of the MQL
+  compiler, the source of the error (compiler or back-end), and any
+  error message.</P>
+
+  <LI><P>Tells you exactly when a command is being processed and when
+  it is finished.</P>
+
+  <LI><P>Shows the progress of query-queries.</P>
+
+</UL>
+
+<h2>Drawbacks</h2>
+
+<P>Drawbacks include:</P>
+
+<UL>
+
+  <LI><P>More verbose, and may take longer to parse.</P>
+
+  <LI><P>More complex in its syntax and more complex to parse.</P>
+
+</UL>
+
+<P>Later, we will expound the <page_anchor ID="1150">DTD</page_anchor>
+of the XML output.</P>
+
+
+
+</page>
+
+<page ID="1049">
+
+<h2>Benefits and Drawbacks</h2>
+
+<P>Benefits and drawbacks are very similar to those of <page_anchor
+ID="1047">XML output</page_anchor>. However, JSON is easier to parse,
+and some programming languages can directly handle JSON.
+
+
+</page>
+
+
+
+<page ID="1048">
+
+<h2>Benefits</h2>
+
+<P>Benefits include:</P>
+
+<UL>
+
+  <LI><P>Simpler in its syntax.  Can be parsed even with AWK.</P>
+
+  <LI><P>Less verbose, which may constitute a performance gain on
+  really slow hardware.</P>
+
+</UL>
+
+
+<h2>Drawbacks</h2>
+
+<P>Drawbacks include:</P>
+
+<UL>
+
+  <LI><P>Less robust error-handling.  Is meant for human reading, not
+  for parsing by machines.</P>
+
+  <LI><P>Does not tell you when a statement has finished or when it is
+  being processed.</P>
+
+</UL>
+
+</page>
+
+
+
+<page ID="1044">
+
+<P>The mql(1) program has the following exit codes:</P>
+
+<PRE class="code">
+ * 0 : Success
+ * 1 : Wrong usage
+ * 2 : Connection to backend server could not be established
+ * 3 : An exception occurred
+ * 4 : Could not open file
+ * 5 : Database error
+ * 6 : Compiler error
+</PRE><!-- widthincm : 12 -->
+
+</page>
+
+
+
+
+
+<page ID="1050">
+
+<h2>Easy procedure</h2>
+
+<P>As of Emdros version 1.1.11, the easiest way of interfacing with
+Emdros is to use the <page_anchor ID="1160">EmdrosEnv</page_anchor>
+API.  This sets up all the machinery described in the next
+section.</P>
+
+<h2>Full procedure (mostly obsolete: Use EmdrosEnv instead)</h2>
+
+<P>The following instructions are <strong>not necessary to
+follow</strong>.  You can simply use the <page_anchor
+ID="1160">EmdrosEnv</page_anchor> API.  If you want to know how to do
+without it, the following instructions tell you that.
+
+<OL>
+
+  <LI><P>Create an EMdF database object.  This must not be an
+  <page_anchor ID="1110">EMdFDB</page_anchor> object, but rather one
+  of the descendants matching the back-end you are running:</P>
+
+  <UL>
+
+     <LI><P><page_anchor ID="1110">PgEMdFDB</page_anchor> for a
+     PostgreSQL back-end,</P>
+
+     <LI><P><page_anchor ID="1110">MySQLEMdFDB</page_anchor> for a
+     MySQL back-end.</P>
+
+     <LI><P><page_anchor ID="1110">SQLiteEMdFDB</page_anchor> for an
+     SQLite 2 back-end.</P>
+
+     <LI><P><page_anchor ID="1110">SQLite3EMdFDB</page_anchor> for an
+     SQLite 3 back-end.</P>
+
+  </UL>
+
+  <LI><P>Check that the connection is OK with the connectionOk()
+  method.  If not, back up and implement an error-recovery strategy of
+  your choice.</P>
+
+  <LI><P>Create a <page_anchor ID="1101">EMdFOutput</page_anchor>
+  object.  This is for specifying:</P>
+
+  <UL>
+
+     <LI><P>The default encoding (e.g., ISO-8859-1),</P>
+
+     <LI><P>The std::ostream descendant on which output should be
+     printed (e.g., std::cout), and</P>
+
+     <LI><P>The output kind (XML, JSON, or Console).</P>
+
+  </UL>
+
+
+  <LI><P>Create a <page_anchor
+  ID="1120">MQLExecEnv</page_anchor> from the EMdF
+  database and the EMdFOutput object.</P>
+
+  <LI><P>Use the executing environment to interact with the MQL layer,
+  and the EMdF database object to interact with the EMdF layer.</P>
+
+  <LI>When you are done, delete the execution environment and the EMdF
+  database object.</P>
+
+</OL>
+
+<h2>Next</h2>
+
+<P>Next, we will see a code-snippet from the mql(1) program which
+shows how to use the <page_anchor ID="1160">EmdrosEnv</page_anchor>
+API.</P>
+
+</page>
+
+
+
+<page ID="1051">
+
+<P>The following are some snippets from the mql(1) program.  They are
+placed under the GPL license as given at the beginning of the file
+src/mql.cpp in the Emdros <A
+HREF="http://sourceforge.net/project/showfiles.php?group_id=37219">sourcecode</A>
+package.</P>
+
+<PRE class="code">
+
+{PREHASH}include {PRELT}emdfdb.h{PREGT}
+{PREHASH}include {PRELT}emdros{PREUNDERSCORE}environment.h{PREGT}
+{PREHASH}include {PRELT}iostream{PREGT}
+{PREHASH}include {PRELT}sstream{PREGT}
+{PREHASH}include {PRELT}fstream{PREGT}
+{PREHASH}include {PRELT}string{PREGT}
+
+
+// Not showing exec{PREUNDERSCORE}file() function
+
+int exec{PREUNDERSCORE}cin(<page_anchor ID="1160">EmdrosEnv</page_anchor> *pEE)
+{
+  bool bResult;
+  std::string strError;
+  int nResult;
+  if (!pEE->executeStream(std::cin, bResult, true, true)) {
+    std::cerr {PRELT}{PRELT} "FAILURE: Database error executing stdin." {PRELT}{PRELT} std::endl;
+    nResult = 5;
+  } else {
+    if (!bResult) {
+      // std::cerr {PRELT}{PRELT} "FAILURE: Compiler error executing stdin." {PRELT}{PRELT} std::endl;
+      nResult = 6;
+    } else { 
+      // std::cout {PRELT}{PRELT} "SUCCESS executing stdin." {PRELT}{PRELT} std::endl;
+      nResult = 7;
+    }
+  }
+
+  // Return result
+  return nResult;
+}
+
+int main(int argc, char* argv[])
+{
+  // Set defaults
+  eOutputKind output{PREUNDERSCORE}kind = kOKConsole;
+  std::string initial{PREUNDERSCORE}db("emdf");
+  std::string filename;
+  std::string hostname("localhost");
+  std::string user("emdf");
+  eBackendKind backend_kind = kSQLite2; // Could also be kPostgreSQL or kMySQL or kSQLite3
+
+  // Get default password
+  std::string password;
+{PREHASH}if USE[PREUNDERSCORE}DEFAULT{PREUNDERSCORE}PASSWORD
+  getDefaultPassword(password);
+{PREHASH}else
+  password = "";
+{PREHASH}endif
+
+  // Parse arguments
+  if (!parse{PREUNDERSCORE}arguments(argc, argv, output{PREUNDERSCORE}kind, 
+                        initial{PREUNDERSCORE}db, filename, 
+                        hostname, user, password)) {
+    print{PREUNDERSCORE}usage(std::cerr);
+    return 1;
+  }
+
+  // Make connection
+  <page_anchor ID="1160">EmdrosEnv</page_anchor> *pEE = new <page_anchor ID="1160">EmdrosEnv</page_anchor>(output{PREUNDERSCORE}kind, kCSISO{PREUNDERSCORE}8859{PREUNDERSCORE}1,
+				   hostname,
+				   user, password,
+				   initial{PREUNDERSCORE}db,
+				   backend{PREUNDERSCORE}kind);
+  // Zero-fill password
+  zeroFillString(password);
+
+  // Check that we connected
+  if (!pEE->connectionOk()) {
+    std::cerr {PRELT}{PRELT} "Connection to backend server could not be established.  Aborting." 
+             {PRELT}{PRELT} std::endl;
+    delete pEE;
+    return 2;
+  }
+
+  int nResult = 3;
+  try {
+    if (filename == "") {
+      nResult = exec{PREUNDERSCORE}cin(pEE);
+    } else {
+      nResult = exec{PREUNDERSCORE}file(pEE, filename);
+    }
+  } catch (EMdFDBException e) {
+    std::cerr {PRELT}{PRELT} "ERROR: EMdFDBException (Database error)..." {PRELT}{PRELT} std::endl;
+    std::cerr {PRELT}{PRELT} pEE->getDBError() {PRELT}{PRELT} std::endl; 
+    std::cerr {PRELT}{PRELT} pEE->getCompilerError() {PRELT}{PRELT} std::endl;
+  } catch (BadMonadsException e) {
+    std::cerr {PRELT}{PRELT} "BadMonadsException caught.  Program aborted." {PRELT}{PRELT} std::endl;
+  } catch (WrongCharacterSetException e) {
+    std::cerr {PRELT}{PRELT} "WrongCharacterSetException caught.  Program aborted." {PRELT}{PRELT} std::endl;
+  } catch (EMdFOutputException e) {
+    std::cerr {PRELT}{PRELT} "EMdFOutputException caught.  Program aborted." {PRELT}{PRELT} std::endl;
+  } catch (...) {
+    std::cerr {PRELT}{PRELT} "Unknown exception occurred.  Program aborted." {PRELT}{PRELT} std::endl;
+  }
+
+  // Clean up
+  delete pEE;
+  return nResult;
+}
+
+
+
+</PRE><!-- widthincm : 12 -->
+
+</page>
+
+
+<page ID="1060">
+
+<h2>Overview</h2>
+
+<p>This method was described <page_anchor
+ID="1035">previously</page_anchor>.</P>
+
+<h2>Examples and HOW-TOs</h2>
+
+<P>For <STRONG>code examples and HOW-TOs</STRONG>, please see the <A
+HREF="http://sourceforge.net/project/showfiles.php?group_id=37219">sources</A>,
+especially:</P>
+
+<UL>
+
+  <LI>The READMEs in the SWIG directory and the SWIG/<em>language</em>
+directories (SWIG/java, SWIG/ruby, etc.), 
+
+  <LI>The testing program available for each scripting language in the
+appropriate SWIG/<em>language</em> directory.</P>
+
+</UL>
+
+<P>Other than that, we refer to the <page_anchor ID="1050">description
+of C++</page_anchor> for HOW-TOs.  The method is the same, even if the
+language is different.</P>
+
+</page>
+
+
+<page ID="1070">
+
+<h2>Introduction</h2>
+
+<P>In this section, you will find:</P>
+
+<UL>
+
+  <LI><P>Information on <page_anchor ID="1071">which
+  libraries</page_anchor> to use,</P>
+
+  <LI><P>Information on <page_anchor ID="1075">how to configure your
+  Linux</page_anchor> environment for Emdros shared libraries,</P>
+
+  <LI><P>A <page_anchor ID="1080">shared-library HOWTO</page_anchor> by Kirk Lowery.</P>
+
+</UL>
+
+</page>
+
+
+<page ID="1071">
+
+<h2>Introduction</h2>
+
+<P>This page is split up into two sections:</P>
+
+<UL>
+
+  <LI><page_anchor ID="1072">Unix/Linux</page_anchor>,
+
+  <LI><page_anchor ID="1073">Windows</page_anchor>.
+
+</UL>
+
+
+</page>
+
+
+<page ID="1072">
+
+<h2>Introduction</h2>
+
+<P>This page gives instructions about which libraries to use on
+Unix/Linux, and how to use them.  But first, some background.</P>
+
+<h2>Background</h2>
+
+<P>On Unix, there are two kinds of libraries:</P>
+
+<UL>
+  <LI>static, and 
+  <LI>shared.
+</UL>
+
+<P>Static libraries normally end in ".a", while shared libraries
+normally end in ".so".</P>
+
+<P>A library named "foo" will generally have a "lib" prefix, so it
+will be either:</P>
+
+<UL>
+  <LI><strong>libfoo.a</strong> (if static), or
+  <LI><strong>libfoo.so</strong> (if shared)
+</UL>
+
+<h2>How to link</h2>
+
+<h3>What</h3>
+
+<P>When linking your application, you will need to pass a number of
+switches to the linker.  How this is done depends on your compiler
+and/or linker.</P>
+
+<P>Generally speaking, the <strong>-l</strong> switch tells the linker
+to link in a certain library.  So <strong>-lfoo</strong> links in the
+<strong>foo</strong> library.</P>
+
+<P>Most linkers will choose a shared library over a static one by
+default, so -lfoo will link in libfoo.so if it is present.</P>
+
+<h3>Where</h3>
+
+<P>In addition, the linker will need to know where to search for the
+libraries.  Generally speaking, this is done with the
+<strong>-L</strong> switch.  So</P>
+
+<pre class="code">
+-L/usr/local/lib/emdros
+</PRE><!-- widthincm : 12 -->
+
+<P>will tell the linker to look in the /usr/local/lib/emdros
+directory.</P>
+
+<h3>LDFLAGS</h3>
+
+<P>The conventional way of doing this in Makefiles is to set the
+<strong>LDFLAGS</strong> variable to the string of switches that is
+necessary.</P>
+
+<h3>Order matters</h3>
+
+<P>The order in which you specify these options usually
+matters. Generally speaking, -L switches should come before -l
+switches, and dependent libraries should come before libraries on
+which they are dependent.</P>
+
+<h2>Which libraries to use</h2>
+
+<h3>Always</h3>
+
+<P>You will <strong>always</strong> need the following library:</P>
+
+<pre class="code">
+-lemdf
+</PRE><!-- widthincm : 12 -->
+
+<h3>PostgreSQL</h3>
+
+<P>If using <strong>PostgreSQL</strong>, you will also need the
+following library:</P>
+
+<pre class="code">
+-lpq
+</PRE><!-- widthincm : 12 -->
+
+<P>libpq is a PostgreSQL library.</P>
+
+
+<h3>MySQL</h3>
+
+<P>If using <strong>MySQL</strong>, you will also need the
+following library:</P>
+
+<pre class="code">
+-lmysqlclient
+</PRE><!-- widthincm : 12 -->
+
+<P>In addition, you will probably need to tell the linker where to
+find the mysqlclient library.  It is probably located in
+/usr/lib/mysql:</P>
+
+<pre class="code">
+-L/usr/lib/mysql -lmysqlclient
+</PRE><!-- widthincm : 12 -->
+
+<P>In addition, you may find that libmysqlclient depends on libz.  So
+you may need to do the following:</P>
+
+<pre class="code">
+-L/usr/lib/mysql -lmysqlclient -lz
+</PRE><!-- widthincm : 12 -->
+
+<P>libmysqlclient is a MySQL library.</P>
+
+
+<h3>SQLite 2</h3>
+
+<P>If using <strong>SQLite 2</strong>, you will also need the
+following library:</P>
+
+<pre class="code">
+-lsqlite{PREUNDERSCORE}emdros
+</PRE><!-- widthincm : 12 -->
+
+<P>This library is found in the same directory as the other Emdros
+libraries, so there should be no need for extra -L flags.</P>
+
+
+
+<h3>SQLite 3</h3>
+
+<P>If using <strong>SQLite 3</strong>, you will also need the
+following library:</P>
+
+<pre class="code">
+-lsqlite3{PREUNDERSCORE}emdros
+</PRE><!-- widthincm : 12 -->
+
+<P>This library is found in the same directory as the other Emdros
+libraries, so there should be no need for extra -L flags.</P>
+
+<h3>BPT</h3>
+
+<P>If using <strong>the BPT engine</strong>, you simply follow the
+instructions that come with the BPT source code, then compile Emdros
+and link to the EMdF libary, since the BPT source code will be
+incorporated in the EMdF library.</P>
+
+
+
+<h3>MQL</h3>
+
+<P>If using <strong>MQL</strong>, you will need the follwoing
+libraries:</P>
+
+<pre class="code">
+-lmql -lpcre{PREUNDERSCORE}emdros
+</PRE><!-- widthincm : 12 -->
+
+<P>libmql depends on libemdf and libpcre_emdros.</P>
+
+
+<h3>Summary: PostgreSQL</h3>
+
+<P>If using <strong>PostgreSQL</strong>, you will need a string such
+as the following:</P>
+
+<pre class="code">
+-L/usr/local/lib/emdros -lmql -lpcre{PREUNDERSCORE}emdros -lemdf -lpq 
+</PRE><!-- widthincm : 12 -->
+
+
+<h3>Summary: MySQL</h3>
+
+<P>If using <strong>MySQL</strong>, you will need a string such as the following:</P>
+
+<pre class="code">
+-L/usr/local/lib/emdros -L/usr/lib/mysql -lmql -lpcre{PREUNDERSCORE}emdros -lemdf -lmysqlclient 
+</PRE><!-- widthincm : 12 -->
+
+<h3>Summary: SQLite 2</h3>
+
+<P>If using <strong>SQLite 2</strong>, you will need a string such as
+the following:</P>
+
+<pre class="code">
+-L/usr/local/lib/emdros -lmql -lpcre{PREUNDERSCORE}emdros -lemdf -lsqlite{PREUNDERSCORE}emdros
+</PRE><!-- widthincm : 12 -->
+
+
+<h3>Summary: SQLite 3</h3>
+
+<P>If using <strong>SQLite 3</strong>, you will need a string such as
+the following:</P>
+
+<pre class="code">
+-L/usr/local/lib/emdros -lmql -lpcre{PREUNDERSCORE}emdros -lemdf -lsqlite3{PREUNDERSCORE}emdros
+</PRE><!-- widthincm : 12 -->
+
+
+</page>
+
+
+<page ID="1073">
+
+<h2>Introduction</h2>
+
+<P>This page describes which libraries to use on Windows.</P>
+
+<P>Look in the win32.mak makefiles in the sourcecode distribution in
+order to get a feel for how to use them.  Also consult the Visual
+Studio documentation for how to add libraries to your project.</P>
+
+<h2>Which libraries to use</h2>
+
+<h3>Always</h3>
+
+<P>You will <strong>always</strong> need the following library:</P>
+
+<UL>
+  <LI>libemdf.lib
+</UL>
+
+
+<h3>PostgreSQL</h3>
+
+<P>If using <strong>PostgreSQL</strong>, you will also need the
+following libraries:</P>
+
+<UL>
+  <LI>libpq.lib
+  <LI>libpq.dll
+</UL>
+
+<P>libpq.lib and libpq.dll are PostgreSQL libraries, and are
+distributed with the Emdros PostgreSQL binaries.</P>
+
+<P>If your version of PostgreSQL does not match the version from which
+these libraries came in the binary distribution, follow the
+instructions in INSTALL.Win32 in the source distribution in order to
+build your own.</P>
+
+<P>libemdf.lib depends on libpq.lib.</P>
+
+
+<h3>MySQL</h3>
+
+<P>If using <strong>MySQL</strong>, you will also need the
+following library:</P>
+
+<UL>
+  <LI>mysqlclient.lib
+</UL>
+
+
+<P>In addition, you may need access to the MySQL header-files.</P>
+
+<P>mysqlclient.lib is a MySQL library.</P>
+
+<P>libemdf.lib depends on mysqlclient.lib.</P>
+
+
+<h3>SQLite 2</h3>
+
+<P>If using <strong>SQLite 2</strong>, you will also need the
+following library:</P>
+
+<UL>
+  <LI>sqlite_emdros.lib
+</UL>
+
+
+<P>This is compiled automatically when you specify in the config.mak
+file that you want SQLite 2 as a backend.</P>
+
+
+<h3>SQLite 3</h3>
+
+<P>If using <strong>SQLite 3</strong>, you will also need the
+following library:</P>
+
+<UL>
+  <LI>sqlite3_emdros.lib
+</UL>
+
+
+<P>This is compiled automatically when you specify in the config.mak
+file that you want SQLite 3 as a backend.</P>
+
+
+<h3>MQL</h3>
+
+<P>If using <strong>MQL</strong>, you will need the following
+libraries:</P>
+
+<UL>
+  <LI>libmql.lib
+  <LI>libpcre_emdros.lib
+</UL>
+
+<P>libmql.lib depends on libemdf.lib and libpcre_emdros.lib.</P>
+
+
+<h3>Harvest</h3>
+
+<P>If using the <strong>Harvest library</strong>, you will need the
+following library:</P>
+
+<UL>
+  <LI>libharvest.lib
+</UL>
+
+<P>libharvest.lib depends on libmql.lib and on libemdf.lib.</P>
+
+
+<h3>Util</h3>
+
+<P>If using the <strong>Emdros Utilities library</strong>, you will
+need the following library:</P>
+
+<UL>
+  <LI>libutil_emdros.lib
+</UL>
+
+<P>libutil_emdros.lib depends on libmql.lib and on libemdf.lib.</P>
+
+
+<h3>Summary: PostgreSQL</h3>
+
+<P>If using <strong>PostgreSQL</strong>, you will need the following
+libraries:</P>
+
+<UL> 
+  <LI>libmql.lib
+  <LI>libemdf.lib
+  <LI>libpq.lib
+  <LI>libpq.dll
+  <LI>libpcre_emdros.lib
+</UL>
+
+
+<h3>Summary: MySQL</h3>
+
+<P>If using <strong>MySQL</strong>, you will need the following libraries:</P>
+
+<UL>
+  <LI>libmql.lib
+  <LI>libemdf.lib
+  <LI>mysqlclient.lib
+  <LI>libpcre_emdros.lib
+</UL>
+
+
+<h3>Summary: SQLite 2</h3>
+
+<P>If using <strong>SQLite 2</strong>, you will need the following
+libraries:</P>
+
+<UL>
+  <LI>libmql.lib
+  <LI>libemdf.lib
+  <LI>libsqlite_emdros.lib
+  <LI>libpcre_emdros.lib
+</UL>
+
+
+
+
+<h3>Summary: SQLite 3</h3>
+
+<P>If using <strong>SQLite 3</strong>, you will need the following
+libraries:</P>
+
+<UL>
+  <LI>libmql.lib
+  <LI>libemdf.lib
+  <LI>libsqlite3_emdros.lib
+  <LI>libpcre_emdros.lib
+</UL>
+
+</page>
+
+
+
+<page ID="1075">
+
+<h2>Introduction</h2>
+
+<P>This page describes how to set up your linker on Linux so that it
+finds the Emdros shared libraries.</P>
+
+<h2>ld.so</h2>
+
+<P>The ld.so(8) linker is the system component responsible for linking
+in shared libraries.  By default, it looks in a number of standard
+directories for shared libraries.  There are two ways to configure
+this:</P>
+
+<UL>
+
+  <LI>Edit the /etc/ld.so.conf file by adding the directories that
+  should be searched, or
+
+  <LI>Set the LD_LIBRARY_PATH environment variable to point to the
+  directories that should be searched in addition to the ones in
+  /etc/ldd.conf.
+
+</UL>
+
+<h2>Setting LD_LIBRARY_PATH</h2>
+
+<P>In order to set the LD_LIBRARY_PATH variable, you can do the
+following (in the bash shell):</P>
+
+<pre class="code">
+export LD{PREUNDERSCORE}LIBRARY{PREUNDERSCORE}PATH="$LD{PREUNDERSCORE}LIBRARY{PREUNDERSCORE}PATH:/usr/local/lib/emdros"
+</PRE><!-- widthincm : 12 -->
+
+
+</page>
+
+
+
+<page ID="1080">
+
+<h2>Attribution</h2>
+
+<P>The following was contributed by Prof. Dr. Kirk E. Lowery,
+klowery{at}grovescenterPARIS.edu.  (remove French city).</P>
+
+<h2>Shared Library Fundamentals</h2>
+
+
+<P>Libraries first came about when complex programs organized function
+calls in logical groupings. With the advent of GUIs and
+object-oriented programming, functions began to be designed for use by
+many programs, and so needed grouping conveniently together into one
+file of object modules produced by the compiler.</P>
+
+
+<P>These libraries are called "static" libraries and, on Linux
+systems, usually carry the "a" extension, e.g., libemdf.a. A
+programmer wishing to use the functions in a particular library uses
+the syntax of the function call documented in the header file, e.g.,
+monads.h, called the "Application Program Interface (API)". At link
+time, the linker makes a copy of the desired functions binary code,
+and includes it in the final executable binary of the application
+program. Such a program is called "statically" linked, and is
+independent of the presence of the original static library. The
+program can be used on any compatible system whether or not the static
+library is present, since the program carries all needed code within
+itself.</P>
+
+
+<P>As operating systems became more complex, and especially with the
+appearance of client-server technology, hard disks and RAM became
+cluttered with many copies of the same functions. Application program
+binaries were increasing in size by whole orders of magnitude. In
+order to improve effeciency the concept of "shared" libraries was
+created.</P>
+
+
+<P>The idea of a shared library is simple: code that is used by more
+than one application needs to reside only *once* on the hard disk and
+in memory. And it does not need to be loaded into memory until called
+for. It can even be removed from memory if deemed necessary.</P>
+
+
+<P>For an application such as Emdros, the necessity for and advantages
+of shared libraries are obvious. Emdros is intended to work with
+databases, standing in between a client application and the database
+server itself. Such an environment is inherently multi-tasking and
+multi-user. The more basic of emdros' function calls (e.g., the
+creation and manipulation of monads, or mql queries) will be used
+thousands of time during the session of one user. We don't want
+thousands of copies of dozens of functions filling up memory, and once
+the overhead of calling a function and copying it into memory is paid,
+we don't want to have to pay it over and over again.</P>
+
+
+<h2>Using and Linking with Shared Libraries</h2>
+
+
+<P>Let's use the example of Emdros' own application program that uses
+the Emdros libraries: mql (or, under Windows: mql.exe). Here is a code
+snippet from mql.cpp where an emdros library function is used:</P>
+
+
+<pre class="code">
+// Make EMdFOutput
+EMdFOutput *pOut = new EMdFOutput(kCSISO{PREUNDERSCORE}8859{PREUNDERSCORE}1, {PREAMP}std::cout, output{PREUNDERSCORE}kind);
+</PRE><!-- widthincm : 12 -->
+
+
+<P>A new instance of the object EMdFOutput is created here and given the
+name pOut. Accompanying this object are a set of methods (or,
+functions) which can be used with this object. We don't need to know
+the details of how EMdFOutput does its magic. All we need to know is
+found in emdf_output.h:</P>
+
+
+<pre class="code">
+class EMdFOutput {
+protected:
+  eCharsets m{PREUNDERSCORE}charset;
+  eOutputKind m{PREUNDERSCORE}output{PREUNDERSCORE}kind;
+  std::ostream *m{PREUNDERSCORE}pStream;
+  int m{PREUNDERSCORE}current{PREUNDERSCORE}indent;
+  int m{PREUNDERSCORE}indent{PREUNDERSCORE}chars;
+public:
+  EMdFOutput(eCharsets charset, std::ostream *pStream, 
+              eOutputKind output{PREUNDERSCORE}kind, int indent{PREUNDERSCORE}chars = 3);
+  ~EMdFOutput();
+  // Getting
+  eOutputKind getOutputKind(void) const { return m{PREUNDERSCORE}output{PREUNDERSCORE}kind; }
+  // Output
+  void increaseIndent();
+  void decreaseIndent();
+  void out(std::string s);
+  void outCharData(std::string s);
+  void newline();
+  void flush() { *m{PREUNDERSCORE}pStream {PRELT}{PRELT} std::flush; };
+  // XML members
+  void printXMLDecl();
+  void printDTDstart(std::string root{PREUNDERSCORE}element);
+  void printDTDend();
+  void startTag(std::string name, bool newline{PREUNDERSCORE}before = false);
+  // Must have pairs of (attribute name, attribute value)
+  void startTag(std::string name, const AttributePairList{PREAMP} 
+                 attributes, bool newline{PREUNDERSCORE}before = false); 
+  // for tags of type {PRELT}tag/{PREGT}
+  void startSingleTag(std::string name, bool newline{PREUNDERSCORE}before = false); 
+  // for tags of type {PRELT}tag/{PREGT}
+  void startSingleTag(std::string name, const AttributePairList{PREAMP} 
+                 attributes, bool newline{PREUNDERSCORE}before = false); 
+  void endTag(std::string name, bool newline{PREUNDERSCORE}before = false);
+protected:
+  void emitAttributes(const AttributePairList{PREAMP} attributes);
+};
+</PRE><!-- widthincm : 12 -->
+
+
+<P>This API tells us all we need in order to create instances of
+objects of this class, what information we need to give to it, what
+kind of information we can expect from it, and what functions we can
+use to manipulate it.</P>
+
+
+<P>In order to compile the mql application program we issue the
+command:</P>
+
+
+<pre class="code">
+g++ -g -o .libs/mql mql.o  -L/usr/local/src/emdros/EMdF {PREBACKSLASH}
+                           -L/usr/local/src/emdros/MQL {PREBACKSLASH}
+                           -L/usr/local/src/emdros/pcre {PREBACKSLASH}
+          /usr/local/src/emdros/MQL/.libs/libmql.so -lpcre{PREUNDERSCORE}emdros {PREBACKSLASH}
+          /usr/local/src/emdros/EMdF/.libs/libemdf.so {PREBACKSLASH}
+             -lpq -Wl,--rpath -Wl,/usr/local/lib/emdros
+</PRE><!-- widthincm : 12 -->
+
+
+<P>The compiler is told the name of the object output file (mql.o),
+where to place it in the source tree before installation (.libs/mql),
+and to include debugging information (-g). The "-L" option tells g++
+where to find libraries to link to, and the "-l" option tells it which
+libraries it is to link against, looking for a "libpcre_emdros.a" in
+the case of "-lpcre_emdros". This is correct, since the pcre library
+is not compiled as shared, but are linked statically into library
+functions that need it. In the case of the other libraries, the ".so"
+extention (Shared Objects) tells the linker that we want to link
+against these "dynamically," not "statically". "pq" stands for the
+"postgresql" libraries, which is the database backend chosen for this
+installation of emdros. "--rpath" is the "runtime path" that will be
+used to find the shared libraries as the program is executing.</P>
+
+
+<P>If you are using the GNU Autobuild tools (autoconf, automake,
+libtool) -- and if you are not, you should be! -- then the following
+lines in your Makefile.am will generate the above command, assuming
+you have properly created the top-level configure.in file:</P>
+
+
+<pre class="code">
+bin{PREUNDERSCORE}PROGRAMS = mql
+mql{PREUNDERSCORE}LDADD = -L../EMdF -L../MQL -L../pcre -lmql @EMDFLDADD@
+mql{PREUNDERSCORE}DEPENDENCIES = @EMDFDEPS@ ../pcre/libpcre{PREUNDERSCORE}emdros.a ../MQL/libmql.la
+mql{PREUNDERSCORE}SOURCES = mql.cpp
+INCLUDES = -I../include
+CLEANFILES = *~ core .deps/*
+AM{PREUNDERSCORE}CXXFLAGS = @CXXFLAGS@ @DEBUGFLAG@
+</PRE><!-- widthincm : 12 -->
+
+
+<P>Note how libmql is to be linked as a shared library so it is listed
+as "libmql.la" whereas libpcre_emdros is listed as "libpcre_emdros.a"
+for static linking.</P>
+
+
+<P>It is beyond the scope of this HOWTO to get into all the details of
+the Autobuild tools, but the reader is referred not just to the
+excellent documentation that comes along with the software, but also
+to the highly recommended tutorial "The AutoBook"</P>
+
+
+&lt;<A
+HREF="http://sources.redhat.com/autobook/">http://sources.redhat.com/autobook/</A>&gt;
+
+
+<h2>Making Your Own Shared Library</h2>
+
+
+<P>Creating a shared library is pretty straightforward. But I am not
+going to talk about how to do it manually without using the Autobuild
+tools, particularly libtool. Unless your situation is trivially
+simple, libtool makes your life so much easier. I am going to use my
+experience in modifying the emdros distribution to build shared
+libraries in addition to the static ones. To make matters even more
+simple, I will concentrate on just one library: libemdf.</P>
+
+
+<P>There are two files that concern us in the task. First is
+configure.in in the top-level emdros directory. The second is
+EMdF/Makefile.am. I will note the elements needed for building the
+libraries only.</P>
+
+
+<P>In configure.in, we need the following:</P>
+
+
+<pre class="code">
+dnl Library versioning
+dnl We begin with 0:0:0
+LIB{PREUNDERSCORE}CURRENT=0
+LIB{PREUNDERSCORE}REVISION=0
+LIB{PREUNDERSCORE}AGE=0
+AC{PREUNDERSCORE}SUBST(LIB{PREUNDERSCORE}CURRENT)
+AC{PREUNDERSCORE}SUBST(LIB{PREUNDERSCORE}REVISION)
+AC{PREUNDERSCORE}SUBST(LIB{PREUNDERSCORE}AGE)
+
+
+dnl Invoke libtool
+AC{PREUNDERSCORE}PROG{PREUNDERSCORE}LIBTOOL
+
+
+dnl
+dnl Set EMDFLDADD and EMDFDEPS
+dnl
+if test "x$BACKEND" = "xpostgresql"; then
+  EMDFLDADD="-lemdf -lpq";
+  EMDFDEPS="../EMdF/libemdf.la";
+else
+  EMDFLDADD="-lemdf -lmysqlclient";
+  EMDFDEPS="../EMdF/libemdf.la";
+fi
+</PRE><!-- widthincm : 12 -->
+
+<P>Let's deal with the easy stuff first. In order to use libtool, we
+need to tell autoconf that it is going to be used, with the macro
+AC_PROG_LIBTOOL. We don't need AC_PROG_RANLIB used for static
+libraries, because libtool handles all that. Because we have a choice
+of database backends, emdros needs to be told which database it will
+be used with, and the appropriate emdros libraries to be linked
+in. These dependencies get propagated down to the lower level
+makefiles, such as the EMdF subdirectory.</P>
+
+
+<h2>Library Versioning</h2>
+
+
+<P>Now a more complex but essential subject is library
+versioning. Because many libraries form the foundation of many other
+libraries and programs, e.g., libc, and because these libraries are in
+constant development and change, a protocol was created to allow
+multiple versions of the same shared library to exist on the same
+system, so that application programs (and, indeed, the kernel) can
+have the version of libraries against which they were compiled. So now
+the question is, when does one need more than one version of a
+library? The answer is, when the API changes. If the API does not
+change, then the application program doesn't care particularly if
+something "under the hood" changes.</P>
+
+
+<P>Library versions track the *interface*, which is a set of three
+entry points into the library. These entry points are arranged in a
+hierarchy:</P>
+
+<pre class="code">
+current interface:revision number:age number
+</PRE><!-- widthincm : 12 -->
+
+
+<P>The current interface documents a specific way the library
+functions are called. That means if there is any addition to the
+library functions, or changes in the way those functions are called,
+the data type of their parameters, etc., then the interface number of
+the library must change. If any revisions to the source code of the
+library is made by fixing bugs, improving performance, even adding
+functionality (e.g., more rigorous tests made of input data), *but*
+the prototype of the library functions has not changed, then this is a
+*revision* of the *current* interface, and the middle number is
+incremented. The runtime loader will always use the highest revision
+number of the current interface. Finally, the age number tells us how
+many previous interfaces are supersets of earlier interfaces, i.e.,
+how many earlier interfaces can be linked by binaries. The age must
+always be less than or equal to the current interface number.</P>
+
+
+<P>Quoting from AutoBook, here are the rules for incrementing these
+three numbers:</P>
+
+
+<OL>
+
+   <LI> If you have changed any of the sources for this library, the
+      revision number must be incremented. This is a new revision of
+      the current interface.
+
+
+   <LI> If the interface has changed, then current must be incremented,
+      and revision reset to `0'. This is the first revision of a new
+      interface.
+
+
+   <LI> If the new interface is a superset of the previous interface
+      (that is, if the previous interface has not been broken by the
+      changes in this new release), then age must be incremented. This
+      release is backwards compatible with the previous release.
+
+
+   <LI> If the new interface has removed elements with respect to the
+      previous interface, then you have broken backward compatibility
+      and age must be reset to `0'. This release has a new, but
+      backwards incompatible interface.
+
+</OL>
+
+<P>Thus, in our example above, since this is the first interface for the
+shared libraries, it receives the number 0. There are no revisions for
+this new interface, so revision=0 and age must be 0. Here is a very
+important principle:</P>
+
+
+<center><P><strong> THE SOFTWARE RELEASE VERSION<br>
+AND THE SHARED LIBRARY VERSION NUMBERING SCHEMES<br>
+HAVE NOTHING TO DO WITH EACH OTHER!</strong></P></center>
+
+
+<P>Even though emdros is at Release 1.1.7 when shared libraries
+support was added, the numbering scheme of the libraries is 0:0:0 and
+is independent of the release numbers. The library versioning *must*
+conform to the four rules listed above. If other parts of emdros are
+changed, but not the libraries, then the library verions remain the
+same.</P>
+
+
+<P>Finally, the AC_SUBST macro exports the values of the library versions
+for substitution in lower-level makefiles.</P>
+
+
+<h2>The Final Step</h2>
+
+
+<P>The code for the libemdf library itself is found in
+EMdF/Makefile.am:</P>
+
+
+<pre class="code">
+pkglib{PREUNDERSCORE}LTLIBRARIES = libemdf.la
+libemdf{PREUNDERSCORE}la{PREUNDERSCORE}SOURCES = conn.cpp {PREBACKSLASH}
+       emdf{PREUNDERSCORE}wstring.cpp {PREBACKSLASH}
+       emdfdb.cpp {PREBACKSLASH}
+       utils.cpp {PREBACKSLASH}
+       inst.cpp {PREBACKSLASH}
+       monads.cpp {PREBACKSLASH}
+       infos.cpp {PREBACKSLASH}
+       table.cpp {PREBACKSLASH}
+       string{PREUNDERSCORE}func.cpp {PREBACKSLASH}
+       inst{PREUNDERSCORE}object.cpp {PREBACKSLASH}
+       emdf{PREUNDERSCORE}output.cpp
+libemdf{PREUNDERSCORE}la{PREUNDERSCORE}LDFLAGS = -version-info @LIB{PREUNDERSCORE}CURRENT@:@LIB{PREUNDERSCORE}REVISION@:@LIB{PREUNDERSCORE}AGE@
+</PRE><!-- widthincm : 12 -->
+
+<P>First, we tell automake about our library: we want it installed in
+the "package" directory for libraries (/usr/local/lib/emdros in this
+case), that the following list of of libraries are to be made in both
+static and shared versions, using the "la" extension name. The next
+macro tells automake what source files are to be used for building
+libemdf.la. Finally, we tell automake about the version of the
+library.</P>
+
+
+<P>That's it, believe it or not! Automake and libtool handle all the
+rest. Simply invoke the compile. For example:</P>
+
+
+<pre class="code">
+aclocal {PREAMP}{PREAMP} automake --add-missing {PREAMP}{PREAMP} autoconf {PREAMP}{PREAMP} ./configure {PREAMP}{PREAMP} make install
+</PRE><!-- widthincm : 12 -->
+
+<P>Now do you see why we so strongly recommend the Autobuild tools?
+Yes, we thought so! :-)</P>
+
+
+
+
+
+</page>
+
+
+<page ID="1100">
+
+<P>Part II contains information on the various APIs necessary for
+interfacing with Emdros.</P>
+
+<P>The <page_anchor ID="1110">EMdF API</page_anchor> is not described
+in its fullness, since most of it is not strictly necessary for
+interfacing with Emdros.  Interested readers may consult the source
+code.</P>
+
+</page>
+
+
+
+<page ID="1160">
+
+<h2>Overview</h2>
+
+<P>The EmdrosEnv class is an abstraction of the Emdros API.  Use it
+in your applications as the main interface to Emdros.</P>
+
+
+<h2>C++ interface</h2>
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}emdros{PREUNDERSCORE}environment.h{PREGT}
+
+/** Backend kind
+ *
+ * Used to distinguish among backends.
+ *
+ */
+enum eBackendKind {
+	kBackendNone = 0,/**{PRELT} No backend selected */
+	kPostgreSQL = 1, /**{PRELT} PostgreSQL */
+	kMySQL = 2,      /**{PRELT} MySQL */
+	kSQLite2 = 3,    /**{PRELT} SQLite 2.X.X */
+	kSQLite3 = 4     /**{PRELT} SQLite 3.X.X */
+};
+
+
+
+class EmdrosEnv {
+public:
+  EmdrosEnv(std::ostream* output{PREUNDERSCORE}stream, 
+             <page_anchor ID="1101">eOutputKind</page_anchor> output{PREUNDERSCORE}kind, <page_anchor ID="1101">eCharsets</page_anchor> charset, 
+             std::string hostname, 
+             std::string user, std::string password, 
+             std::string initial{PREUNDERSCORE}db,
+             eBackendKind backend{PREUNDERSCORE}kind = DEFAULT{PREUNDERSCORE}BACKEND{PREUNDERSCORE}ENUM);
+  // The following constructor uses std::cout (Standard Out)
+  EmdrosEnv(<page_anchor ID="1101">eOutputKind</page_anchor> output{PREUNDERSCORE}kind, <page_anchor ID="1101">eCharsets</page_anchor> charset, 
+             std::string hostname, 
+             std::string user, std::string password, 
+             std::string initial{PREUNDERSCORE}db,
+             eBackendKind backend{PREUNDERSCORE}kind = DEFAULT{PREUNDERSCORE}BACKEND{PREUNDERSCORE}ENUM);
+  virtual ~EmdrosEnv();
+
+  // Backend-name
+  static std::string getBackendName(void);
+
+
+  // Executing MQL queries
+  // See the <page_anchor ID="1130">mqlExecute*</page_anchor> functions
+  // for information on the parameters.
+  bool executeString(const std::string{PREAMP} input, bool{PREAMP} bResult, 
+                      bool bPrintResult, bool bReportError);
+  bool executeFile(std::string filename, bool{PREAMP} bResult, 
+                    bool bPrintResult, bool bReportError);
+  bool executeStream(std::istream{PREAMP} strin, bool{PREAMP} bResult, 
+                      bool bPrintResult, bool bReportError);
+
+  // Cleaning up
+  // clean() calls <page_anchor ID="1120">MQLExecEnv</page_anchor>::clean().
+  // It is good to call if you are through with a query's results
+  // and there is a long time till the next executeXXX call.
+  void clean();
+
+  // Database support
+  // Call the corresponding <page_anchor ID="1110">EMdFDB</page_anchor> methods
+  bool connectionOk(void);
+  bool vacuum(bool bAnalyze);
+  bool getMin{PREUNDERSCORE}m(monad{PREUNDERSCORE}m{PREAMP} /* out */ min{PREUNDERSCORE}m);
+  bool getMax{PREUNDERSCORE}m(monad{PREUNDERSCORE}m{PREAMP} /* out */ max{PREUNDERSCORE}m);
+  bool getAll{PREUNDERSCORE}m{PREUNDERSCORE}1(<page_anchor ID="1135">SetOfMonads</page_anchor>{PREAMP} /* out */ all{PREUNDERSCORE}m{PREUNDERSCORE}1);
+
+  // Returns the string-representation of an enumeration constant in 
+  // enum enum{PREUNDERSCORE}name with the value value.
+  // Just calls the corresponding EMdFDB method.
+  // bDBOK is true on no DB error.
+  virtual std::string getEnumConstNameFromValue(long value,
+                                                const std::string{PREAMP} enum{PREUNDERSCORE}name,
+                                                /* out */ bool &bDBOK);
+
+
+  // Transactions
+  // Call the corresponding <page_anchor ID="1110">EMdFDB</page_anchor> methods
+  bool beginTransaction(void);
+  bool commitTransaction(void);
+  bool abortTransaction(void);
+
+  //
+  // Check for results
+  //
+
+  // Check for sheaf
+  // Returns true on result is sheaf.  
+  // Returns false on no result or result not sheaf 
+  bool isSheaf(void); 
+
+  // Check for table
+  // Returns true on result is table.
+  // Returns false on no result or result not table.
+  bool isTable(void); 
+
+  // NOTE on statements:
+  // If only one MQL query was executed by the last executeXXX
+  // invocation, then there will be only one statement to get.  
+  // If more than one MQL query was given to one of these methods,
+  // only the results from the last statement executed will be available.
+
+  // Getting results.  Next invocation of executeXXX deletes the object,
+  // so you cannot execute a query until you are done processing
+  // the result
+  <page_anchor ID="1139">MQLResult</page_anchor>* getResult(void); // Return nil on no result
+  <page_anchor ID="1138">Sheaf</page_anchor>* getSheaf(void); // Returns nil on no result or result not a sheaf
+  <page_anchor ID="1138">FlatSheaf</page_anchor>* getFlatSheaf(void); // Returns nil on no result or result not a flat sheaf
+  <page_anchor ID="1137">Table</page_anchor>* getTable(void); // Returns nil on no result or result not a table
+  <page_anchor ID="1136">Statement</page_anchor> *getStatement(void); // Returns nil on no statement
+
+  // Take over object.  You now have responsibility for deleting it, 
+  // and it will not be deleted by the next invocation of executeXXX.
+  <page_anchor ID="1139">MQLResult</page_anchor>* takeOverResult(void); // Return nil on no result
+  <page_anchor ID="1138">Sheaf</page_anchor>* takeOverSheaf(void); // Returns nil on no result or result not a sheaf
+  <page_anchor ID="1138">FlatSheaf</page_anchor>* takeOverFlatSheaf(void); // Returns nil on no result or result not a flat sheaf
+  <page_anchor ID="1137">Table</page_anchor>* takeOverTable(void); // Returns nil on no result or result not a table
+  <page_anchor ID="1136">Statement</page_anchor> *takeOverStatement(void); // Returns nil on no statement
+
+
+
+  // Getting error-messages and info
+  std::string getDBError(void);
+  std::string getCompilerError(void);
+  // Gets the compiler stage that was executed last
+  int getLastCompilerStage(void); 
+  // clears local DB error message in <page_anchor ID="1110">EMdFDB</page_anchor> and local error in <page_anchor ID="1125">MQLError</page_anchor>
+  void clearErrors(void); 
+
+  // Outputting
+  // These all output on the stream in local <page_anchor ID="1101">EMdFOutput</page_anchor>,
+  // i.e., the stream you passed to the constructor of EmdrosEnv,
+  // or stdout if the other constructor was used
+  void out(std::string str);  // out your own string
+  void out(<page_anchor ID="1139">MQLResult</page_anchor> *pResult);
+  void out(<page_anchor ID="1138">Sheaf</page_anchor> *pSheaf);
+  void out(<page_anchor ID="1137">Table</page_anchor> *pTable);
+
+  //
+  // XML outputting
+  //
+
+  // XML declaration.
+  // Calls <page_anchor ID="1101">EMdFOutput</page_anchor>::printXMLDecl on the local <page_anchor ID="1101">EMdFOutput</page_anchor>
+  void printXMLDecl(); 
+
+  // DTDs
+  void printDTDStart(std::string root{PREUNDERSCORE}element);
+  void printDTDEnd();
+  void printDTDMQLResult(void);
+  void printDTDTable(void);
+  void printDTDSheaf(void);
+
+  // Accessing members
+  <page_anchor ID="1120">MQLExecEnv</page_anchor>* getMQLEE(void);
+};
+	 
+</PRE><!-- widthincm : 12 -->
+
+</page>
+
+
+<page ID="1101">
+
+<h2>Overview</h2>
+
+<P>The EMdFOutput class is an abstraction of three things:</P>
+
+<UL>
+
+  <LI><P>A default encoding (e.g., ISO-8859-1),</P>
+
+  <LI><P>A pointer to a std::ostream descendant to use when
+  outputting, and</P>
+
+  <LI><P>An output kind, telling Emdros whether to use <page_anchor
+  ID="1048">console output</page_anchor>, <page_anchor ID="1047">XML
+  output</page_anchor>,or <page_anchor ID="1049">JSON outut</page_anchor>.</P>
+
+</UL>
+
+<h2>C++ interface</h2>
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}emdf{PREUNDERSCORE}output.h{PREGT}
+
+typedef enum {
+  kCSASCII,
+  kCSISO{PREUNDERSCORE}8859{PREUNDERSCORE}1,
+  kCSISO{PREUNDERSCORE}8859{PREUNDERSCORE}8,
+  kCSUTF8
+} eCharsets;
+
+typedef enum {
+  kOKXML,         // XML.
+  kOKConsole,     // Console (more or less human-readable).
+  kOKCompactXML,  // Compact XML.
+  kOKJSON,        // JSON.
+  kOKCompactJSON  // Compact JSON.
+
+
+} eOutputKind;
+
+class EMdFOutput {
+public:
+  EMdFOutput(eCharsets charset,       // Default encoding
+              std::ostream *pStream,   // Output stream
+              eOutputKind output{PREUNDERSCORE}kind, // XML, JSON, or Console?
+              int indent{PREUNDERSCORE}chars = 3     // No. of indent-spaces for XML or JSON
+              );
+  ~EMdFOutput();
+  eOutputKind getOutputKind(void) const { return m{PREUNDERSCORE}output{PREUNDERSCORE}kind; }
+};
+
+</PRE><!-- widthincm : 12 -->
+
+</page>
+
+
+
+<page ID="1110">
+
+<h2>Overview</h2>
+
+<P>The EMdF database classes are structured in the following
+hierarchy:</P>
+
+<UL>
+
+  <LI>EMdFDB
+
+  <UL>
+
+     <LI>PgEMdFDB
+
+     <LI>MySQLEMdFDB
+
+     <LI>SQLiteEMdFDB (for SQLite 2)
+
+     <LI>SQLite3EMdFDB (for SQLite 3)
+
+  </UL>
+
+</UL>
+
+<h2>Boolean return value</h2>
+
+<P>For the functions which return a boolean, the return value
+generally means the following:</P>
+
+<UL>
+
+  <LI>true: No error.
+
+  <LI>false: An error occurred.  Use the error interface to get to
+  know what the error was.  The values of any reference parameters
+  which should have returned something are undefined.
+
+</UL>
+
+<P>The only exceptions to this rule are the <page_anchor
+ID="1115">transaction interface</page_anchor> methods and the
+ConnectionOk() method.</P>
+
+<h2>Special 'emdf' database name</h2>
+
+<P>All of the backends recognize the special database name 'emdf'
+(without the quotes).  This is a valid database name, but will not
+associate the connection with any database.</P>
+
+<P>Hence, you can use 'emdf' as a default database name used until you
+issue a 'USE DATABASE' MQL statement or call the EMdFDB::useDatabase()
+method.</P>
+
+<P>On PostgreSQL, the user is actually connected to the 'template1'
+database.</P>
+
+<P>On MySQL, the user is connected with no default associated database.</P>
+
+<P>On SQLite (2 and 3), the user is not connected to any database.</P>
+
+<h2>C++ interface</h2>
+
+<h3>emdfdb.h</h3>
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}emdfdb.h{PREGT}
+
+class EMdFDBException {};
+class EMdFDBDBError : public EMdFDBException {};
+
+class EMdFDB {
+public:
+  //
+  // Construction and destruction
+  EMdFDB();
+  virtual ~EMdFDB();        
+
+  // Get backend-name
+  static std::string getBackendName(void);
+
+  //
+  // Database manipulation
+  virtual bool useDatabase(const std::string{PREAMP} db{PREUNDERSCORE}name);
+
+  // min{PREUNDERSCORE}m and max{PREUNDERSCORE}m
+  bool getMin{PREUNDERSCORE}m(monad{PREUNDERSCORE}m{PREAMP} /* out */ min{PREUNDERSCORE}m);
+  bool getMax{PREUNDERSCORE}m(monad{PREUNDERSCORE}m{PREAMP} /* out */ max{PREUNDERSCORE}m);
+  bool getAll{PREUNDERSCORE}m{PREUNDERSCORE}1(SetOfMonads{PREAMP} /* out */ all{PREUNDERSCORE}m{PREUNDERSCORE}1);
+
+  // Indices
+  bool createIndicesOnDatabase(const std::string{PREAMP} database{PREUNDERSCORE}name);
+  bool dropIndicesOnDatabase(const std::string{PREAMP} database{PREUNDERSCORE}name);
+  bool createIndicesOnObjectType(const std::string{PREAMP} object{PREUNDERSCORE}type{PREUNDERSCORE}name);
+  bool dropIndicesOnObjectType(const std::string{PREAMP} object{PREUNDERSCORE}type{PREUNDERSCORE}name);
+  bool createIndicesOnObjectType(const std::string{PREAMP} database{PREUNDERSCORE}name, 
+                                 const std::string{PREAMP} object{PREUNDERSCORE}type{PREUNDERSCORE}name);
+  bool dropIndicesOnObjectType(const std::string{PREAMP} database{PREUNDERSCORE}name, 
+                               const std::string{PREAMP} object{PREUNDERSCORE}type{PREUNDERSCORE}name);
+    
+
+  // DB maintenance
+  virtual bool vacuum(bool bAnalyze);
+
+  // Transactions
+  virtual bool beginTransaction(void);
+  virtual bool commitTransaction(void);
+  virtual bool abortTransaction(void);
+
+  //
+  // Error messages
+  virtual std::string errorMessage(void);
+  virtual bool connectionOk(void);
+  void clearLocalError(void);
+  std::string getLocalError(void);
+};
+
+</PRE><!-- widthincm : 12 -->
+
+
+
+<h3>PgEMdFDB</h3>
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}pgemdfdb.h{PREGT}
+
+class PgEMdFDB : public EMdFDB {
+public:
+  PgEMdFDB(std::string host,         // Hostname to connect to 
+                                     // (e.g., "localhost"),
+           std::string user,         // PostgreSQL user (e.g., "emdf")
+           std::string passwd,       // PostgreSQL password (e.g., "changeme"),
+           std::string database{PREUNDERSCORE}name // Initial database to connect to 
+                                     // (e.g., "emdf").
+          );
+  virtual ~PgEMdFDB();
+};
+
+
+</PRE><!-- widthincm : 12 -->
+
+
+<h3>MySQLEMdFDB</h3>
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}mysqlemdfdb.h{PREGT}
+
+class MySQLEMdFDB : public EMdFDB {
+public:
+  MySQLEMdFDB(std::string host,         // Hostname to connect to 
+                                        // (e.g., "localhost"),
+              std::string user,         // MySQL user (e.g., "emdf")
+              std::string passwd,       // MySQL password (e.g., "changeme"),
+              std::string database{PREUNDERSCORE}name // Initial database to connect to 
+                                        // (e.g., "emdf").
+             );
+  virtual ~MySQLEMdFDB();
+};
+
+
+</PRE><!-- widthincm : 12 -->
+
+
+<h3>SQLiteEMdFDB</h3>
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}sqliteemdfdb.h{PREGT}
+
+class SQLiteEMdFDB : public EMdFDB {
+public:
+  SQLiteEMdFDB(std::string database{PREUNDERSCORE}name, // Initial database to connect to 
+                                          // (e.g., "emdf").
+               std::string database{PREUNDERSCORE}key, // "Key" to use with encrypted SQLite dbs.
+                                          // Is ignored if there is no encryption available.
+                                          // (can be purchased separately from the Emdros author)
+              );
+  virtual ~SQLiteEMdFDB();
+};
+</PRE><!-- widthincm : 12 -->
+
+
+<h3>SQLite3EMdFDB</h3>
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}sqlite3emdfdb.h{PREGT}
+
+class SQLite3EMdFDB : public EMdFDB {
+public:
+  SQLite3EMdFDB(std::string database{PREUNDERSCORE}name, // Initial database to connect to 
+                                           // (e.g., "emdf").
+                std::string database{PREUNDERSCORE}key, // "Key" to use with encrypted SQLite dbs.
+                                           // Is ignored if there is no encryption available.
+                                           // (can be purchased separately from the Emdros author)
+              );
+  virtual ~SQLite3EMdFDB();
+};
+
+
+</PRE><!-- widthincm : 12 -->
+
+
+
+</page>
+
+
+
+<page ID="1115">
+
+<h2>Overview</h2>
+
+<P>Transactions are implemented for PostgreSQL and SQLite (2 and 3)
+only.  The MySQL interface returns false on all three member
+functions.</P>
+
+<P>The beginTransaction member function is special in that its return
+value, though boolean, does not mean "success/error".  Instead, the
+return value means the following:</P>
+
+<UL>
+
+  <LI>true: The transaction was started,
+
+  <LI>false: The transaction was not started.
+
+</UL>
+
+<P>The other two functions, commitTransaction and abortTransaction,
+follow the normal pattern of returning true on success, false on
+error.</P>
+
+<P>Nested transactions are not supported.  If a transaction is
+currently in progress, beginTransaction will return false.</P>
+
+<h2>C++ interface</h2>
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}emdfdb.h{PREGT}
+
+class EMdFDB {
+public:
+  // Transactions
+  virtual bool beginTransaction(void);
+  virtual bool commitTransaction(void);
+  virtual bool abortTransaction(void);
+};
+
+</PRE><!-- widthincm : 12 -->
+
+
+<h2>C++ example</h2>
+
+<P>The following shows how to use transactions. pDB is a pointer to
+the database object.</P>
+
+<PRE class="code">
+
+  bool bDoCommit;  // Should we commit later?
+  bDoCommit = pDB->beginTransaction(); // Possibly begin transaction
+
+  // Process...
+
+  if (/* something went wrong */) {
+    // Recover...
+    if (bDoCommit) {
+      if (!pDB->abortTransaction()) {
+        // Abort failed
+      }
+    }
+    // Exit from function
+  }
+
+  // More processing...
+
+  // We're done!
+
+  if (bDoCommit) {
+    if (!pDB->commitTransaction()) {
+      // Commit failed.
+    }
+  }
+
+</PRE><!-- widthincm : 12 -->
+
+</page>
+
+
+
+<page ID="1120">
+
+<h2>Overview</h2>
+
+<P>The MQL execution environment is a container for everything the MQL
+engine needs to know about its environment in order to function.</P>
+
+<P>It is recommended that you create an MQLExecEnv only indirectly,
+through an EmdrosEnv.</P>
+
+<h2>C++ interface</h2>
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}mql{PREUNDERSCORE}execution{PREUNDERSCORE}environment.h{PREGT}
+
+{PREHASH}define COMPILER{PREUNDERSCORE}STAGE{PREUNDERSCORE}NONE   (0)
+{PREHASH}define COMPILER{PREUNDERSCORE}STAGE{PREUNDERSCORE}PARSE  (1)
+{PREHASH}define COMPILER{PREUNDERSCORE}STAGE{PREUNDERSCORE}WEED   (2)
+{PREHASH}define COMPILER{PREUNDERSCORE}STAGE{PREUNDERSCORE}SYMBOL (3)
+{PREHASH}define COMPILER{PREUNDERSCORE}STAGE{PREUNDERSCORE}TYPE   (4)
+{PREHASH}define COMPILER{PREUNDERSCORE}STAGE{PREUNDERSCORE}MONADS (5)
+{PREHASH}define COMPILER{PREUNDERSCORE}STAGE{PREUNDERSCORE}EXEC   (6)
+
+class MQLExecEnv {
+public:
+	/** Continue execution?
+	 *
+	 * Is automatically set to true by the constructor (and
+	 * clean()).
+	 *
+	 * If set to false, execution will stop, and a failed sheaf
+	 * will be returned.
+	 *
+	 * Only works with topographic queries, for now.
+	 *
+	 */
+	bool m_bContinueExecution; 
+
+  <page_anchor ID="1136">Statement</page_anchor>    *pStatement;  // Only valid after a successful parse.
+                              // Deleted and set to nil by clean().
+  <page_anchor ID="1110">EMdFDB</page_anchor>* pDB;
+  <page_anchor ID="1101">EMdFOutput</page_anchor> *pOut;
+  <page_anchor ID="1125">MQLError</page_anchor> *pError;  // Initialized by constructor, deleted by destructor
+  MQLExecEnv(<page_anchor ID="1110">EMdFDB</page_anchor>* pMyDB, <page_anchor ID="1101">EMdFOutput</page_anchor> *pMyOut);
+  ~MQLExecEnv();
+  int nCompilerStage; // Shows you which compiler stage went wrong
+  void clean(void);   // Must be called before each query is executed,
+                      // but is called automatically by the 
+                      // <page_anchor ID="1130">mqlExecuteXXX</page_anchor> functions and so, by proxy, the 
+                      // <page_anchor ID="1160">EmdrosEnv</page_anchor>::executeXXX methods
+};
+
+
+</PRE><!-- widthincm : 12 -->
+
+
+</page>
+
+
+
+<page ID="1125">
+
+<h2>Overview</h2>
+
+<P>The MQL Error class encapsulates a string which contains the latest
+error message from the MQL compiler.  Any database error must be
+gotten from the <page_anchor ID="1110">EMdFDB</page_anchor>
+interface.</P>
+
+<h2>C++ interface</h2>
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}mql{PREUNDERSCORE}error.h{PREGT}
+
+class MQLError {
+public:
+  MQLError();
+  ~MQLError();
+  void clearError(void);
+  std::string getError(void);
+};
+
+</PRE><!-- widthincm : 12 -->
+
+
+</page>
+
+
+
+<page ID="1130">
+
+<h2>Overview</h2>
+
+<P>The MQL language interface consists of three functions, each of
+which differs from the others only in the kind of input it takes:</P>
+
+<UL>
+
+  <LI><strong>mqlExecuteFile</strong> takes a the name of a file
+
+  <LI><strong>mqlExecuteStream</strong> takes a descendant of std::istream
+
+  <LI><strong>mqlExecuteString</strong> takes a std::string
+
+</UL>
+
+<h2>Arguments</h2>
+
+<P>The following are the other arguments, common to them all:</P>
+
+<UL>
+
+  <LI>pEE is the <page_anchor ID="1120">execution
+  environment</page_anchor>.
+
+  <LI>bResult&amp; is a boolean reference returning true on success and
+  false on error.
+
+  <LI>bPrintResult is a boolean indicating whether the results should
+  be dumped using the <page_anchor ID="1101">EMdFOutput</page_anchor>
+  object in the execution environment (true) or not (false).  Set this
+  to false if you plan to use the <page_anchor
+  ID="1136">pStatement</page_anchor> of the <page_anchor
+  ID="1120">execution environment</page_anchor> for getting the
+  results.
+
+  <LI>bReportError is a boolean indicating whether any error message
+  should be reported using the <page_anchor
+  ID="1101">EMdFOutput</page_anchor> object in the <page_anchor
+  ID="1120">execution environment</page_anchor>.  This only has an
+  effect if the <page_anchor ID="1043">output kind</page_anchor> is
+  <page_anchor ID="1101">kOKConsole</page_anchor>, since any error
+  message is always given in the <page_anchor ID="1047">XML
+  output</page_anchor> and <page_anchor ID="1049">JSON
+  output</page_anchor>.
+
+</UL>
+
+<h2>C++ interface</h2>
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}mql{PREUNDERSCORE}execute.h{PREGT}
+
+extern bool mqlExecuteFile(<page_anchor ID="1120">MQLExecEnv</page_anchor> *pEE, 
+                             std::string filename, 
+                             bool{PREAMP} bResult, 
+                             bool bPrintResult, 
+                             bool bReportError);
+
+extern bool mqlExecuteStream(<page_anchor ID="1120">MQLExecEnv</page_anchor> *pEE, 
+                               std::istream{PREAMP} strin, 
+                               bool{PREAMP} bResult, 
+                               bool bPrintResult, 
+                               bool bReportError);
+
+extern bool mqlExecuteString(<page_anchor ID="1120">MQLExecEnv</page_anchor> *pEE, 
+                               const std::string{PREAMP} input, 
+                               bool{PREAMP} bResult, 
+                               bool bPrintResult, 
+                               bool bReportError);
+
+</PRE><!-- widthincm : 12 -->
+
+
+</page>
+
+
+
+<page ID="1135">
+
+<h2>Overview</h2>
+
+<P>The monads interface is useful in all kinds of ways, since monads
+are so fundamental to Emdros.</P>
+
+<h2>C++ interface</h2>
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}monads.h{PREGT}
+
+class BadMonadsException {};
+
+class MonadSetElement {
+public:
+    MonadSetElement(monad{PREUNDERSCORE}m first, monad{PREUNDERSCORE}m last);
+    MonadSetElement(monad{PREUNDERSCORE}m monad);
+    monad{PREUNDERSCORE}m first(void) const; // Gets the member variable
+    monad{PREUNDERSCORE}m last(void) const;  // Gets the member variable
+    void printConsole(<page_anchor ID="1101">EMdFOutput</page_anchor> *pOut) const;
+    void printXML(<page_anchor ID="1101">EMdFOutput</page_anchor> *pOut) const;
+
+    // Returns true on this and b having the same first{PREUNDERSCORE}m and
+    // this and b having the same last{PREUNDERSCORE}m.
+    bool equals(const MonadSetElement{PREAMP} b) const;
+
+    // Returns true on this object being 
+    // "lexicographically" before other object.
+    // That is, true if and only if 
+    // this-{PREGT}first{PREUNDERSCORE}m {PRELT} other.first{PREUNDERSCORE}m 
+    // or (this-{PREGT}first{PREUNDERSCORE}m == other.first{PREUNDERSCORE}m 
+    //     and
+    //     this-{PREGT}last{PREUNDERSCORE}m {PRELT} other.last{PREUNDERSCORE}m)
+    bool isBefore(const MonadSetElement{PREAMP} other) const;
+};
+
+
+class SOMConstIterator {
+public:
+  SOMConstIterator();
+  ~SOMConstIterator();
+  bool hasNext() const; // Is the iterator == end iterator?  Doesn't alter iterator
+  const MonadSetElement{PREAMP} next(); // Gets current and advances iterator afterwards
+  const MonadSetElement{PREAMP} current(); // Gets current without altering iterator
+};
+
+
+class SetOfMonads {
+public:
+  monad{PREUNDERSCORE}m first() const;  // First in set
+  monad{PREUNDERSCORE}m last() const;   // Last in set
+  SOMConstIterator const{PREUNDERSCORE}iterator() const;  
+  std::ostream{PREAMP} putme(std::ostream{PREAMP} s) const;
+  void printConsole(<page_anchor ID="1101">EMdFOutput</page_anchor> *pOut) const;
+  void printXML(<page_anchor ID="1101">EMdFOutput</page_anchor> *pOut) const;
+  SetOfMonads() {};
+  /** Constructor from compact string.
+   * 
+   * Constructs a set from a compact string.  This would previously
+   * have been gotten from SetOfMonads::toCompactString().
+   *
+   * @param compactString The compact string to create from.
+   */
+  SetOfMonads(const std::string{PREAMP} compactString) : m{PREUNDERSCORE}first(MAX{PREUNDERSCORE}MONAD), m{PREUNDERSCORE}last(0) { 
+       fromCompactString(compactString); };
+  /** Constructor for singleton set.
+   * 
+   * Constructs a set with (initially) only one monad, {PREBACKSLASH}p m.
+   *
+   * @param m The monad to add to the empty set.
+   */
+  SetOfMonads(monad{PREUNDERSCORE}m m) { add(m); };
+  /** Constructor for single range set.
+   * 
+   * Constructs a set with (initially) a single range, from {PREBACKSLASH}p first
+   * to {PREBACKSLASH}p last.
+   *
+   * @param first The first monad of the range to add to an empty set.
+   * @param last The last monad of the range to add to an empty set.
+   */
+  SetOfMonads(monad{PREUNDERSCORE}m first, monad{PREUNDERSCORE}m last) : m{PREUNDERSCORE}first(first), m{PREUNDERSCORE}last(last) { 
+         monad{PREUNDERSCORE}ms.push{PREUNDERSCORE}back(MonadSetElement(first,last)); };
+  ~SetOfMonads();
+  SetOfMonads{PREAMP} operator=(const SetOfMonads{PREAMP} som); // Not SWIG-wrapped
+  std::string toString(void) const; // Get string-representation
+  bool part{PREUNDERSCORE}of(const SetOfMonads{PREAMP} other) const;
+  void unionWith(const SetOfMonads{PREAMP} other);
+  void difference(const SetOfMonads{PREAMP} other);
+  static SetOfMonads intersect(const SetOfMonads{PREAMP} Aset, const SetOfMonads{PREAMP} Bset);
+  void addMSE(MonadSetElement mse);
+  void add(monad{PREUNDERSCORE}m monad);
+  void add(monad{PREUNDERSCORE}m first, monad{PREUNDERSCORE}m last);
+  bool equals(SetOfMonads{PREAMP} other) const; // A proxy for operator==
+  bool operator==(SetOfMonads{PREAMP} other) const; // Not SWIG-wrapped
+  bool isMemberOf(monad{PREUNDERSCORE}m m) const;
+  bool isEmpty(void) const;
+  void getMonad{PREUNDERSCORE}mVector(std::vector{PRELT}monad{PREUNDERSCORE}m{PREGT}{PREAMP} monad{PREUNDERSCORE}vec) const; // Not SWIG-wrapped
+  void getMonad{PREUNDERSCORE}mList(std::list{PRELT}monad{PREUNDERSCORE}m{PREGT}{PREAMP} monad{PREUNDERSCORE}list) const; // Not SWIG-wrapped
+  void getGapVector(std::vector{PRELT}monad{PREUNDERSCORE}m{PREGT}{PREAMP} gap{PREUNDERSCORE}vec) const; // Not SWIG-wrapped
+  void removeMSE(const MonadSetElement{PREAMP} mse);
+  bool gapExists(monad{PREUNDERSCORE}m Sm, monad{PREUNDERSCORE}m{PREAMP} m) const; // Gap exists in
+    // set, starting at Sm, finishing at m
+  void offset(monad{PREUNDERSCORE}m m); // Add m to all mse's in set
+  void clear(); // Make empty	 
+  std::string toCompactString(void) const;
+  void fromCompactString(const std::string{PREAMP} inStr);
+  /** Check whether set is a singleton or single range.
+   *
+   * Returns true if there is only one MonadSetElement in the set.
+   * This can be either a singleton or a single range.
+   *
+   * @return true if there is only one MonadSetElement, false if not.
+   */
+  bool hasOnlyOneMSE(void) const; 
+};
+</PRE><!-- widthincm : 12 -->
+
+<h2>Examples</h2>
+
+<P>A <strong>SetOfMonads</strong> can be used like this:</P>
+
+<pre class="code">
+
+  // Declare and fill som with monads
+  SetOfMonads som;
+  som.add(1);      // Now is { 1 }
+  som.add(3,6);    // Now is { 1, 3-6 }
+  som.add(10,13) ; // Now is { 1, 3-6, 10-13 }
+
+  // Get string representation
+  std::string stringRepresentation = som.toString();
+
+  // Declare and fill som2 with monads
+  SetOfMonads som2;
+  som2.add(2,7);  // Now is { 2-7 }
+
+  // Declare and fill som3 with monads
+  SetOfMonads som3;
+  som3.add(2,4);  // Now is { 2-4 }
+  
+
+  // Add the monads of som2 to som
+  som.unionWith(som2) // som is now { 1-7, 10-13 }
+
+  // Get set intersection of som and som3
+  SetOfMonads som4;
+  som4 = SetOfMonads::intersect(som, som3); // som4 is now { 2-4 }
+
+  // Subtract the monads of som2 from som
+  som.difference(som2); // som is now { 10-13 }
+
+</PRE><!-- widthincm : 12 -->
+
+<P>The <strong>SOMConstIterator</strong> can be used like this:</P>
+
+<pre class="code">
+
+  SetOfMonads som; // Assumed to be initialized from somewhere
+  SOMConstIterator sci = som.const{PREUNDERSCORE}iterator();
+  while (sci.hasNext()) {
+    MonadSetElement mse = sci.current();
+   
+    // Process mse ...
+
+    // Are there any left?
+    if (sci.hasNext()) {
+       // Do something if the just-processed mse is not the last
+    }
+
+    sci.next();
+  }
+
+  // Or like this:
+  SetOfMonads som; // Assumed to be initialized from somewhere
+  SOMConstIterator sci = som.const{PREUNDERSCORE}iterator();
+  while (sci.hasNext()) {
+    MonadSetElement mse = sci.next();
+   
+    // Process mse ...
+
+    // Note how there is no si.next() again, since next() 
+    // first gets current element and then advances iterator.
+
+  }
+
+</PRE><!-- widthincm : 12 -->
+
+
+</page>
+
+
+
+
+<page ID="1136">
+
+<h2>Overview</h2>
+
+<P>The Statement class is the base class for all MQL statements.  It
+contains the <page_anchor ID="1139">MQLResult</page_anchor> object
+associated with each execution of a statement.</P>
+
+<p>When executing more than one statement at a time in a single call
+to <page_anchor ID="1160">EmdrosEnv</page_anchor>::executeXXX or
+<page_anchor ID="1130">mqlExecuteXXX</page_anchor>, only the results
+from the last statement executed are available afterwards.  Executing
+more than one query is mostly used when parsing the output from the
+mql(1) program.</p>
+
+<h2>Example</h2>
+
+<P>You can get to the results of an MQL statement via the following
+path:</P>
+
+<PRE class="code">
+  pEE->getStatement()->getResult(); // pEE is the <page_anchor ID="1160">EmdrosEnv</page_anchor> environment
+</PRE><!-- widthincm : 12 -->
+
+
+<h2>C++ interface</h2>
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}mql{PREUNDERSCORE}types.h{PREGT}
+
+// Base class for all statements
+class Statement {
+public:
+  <page_anchor ID="1139">MQLResult</page_anchor>* getResult();
+};
+
+
+</PRE><!-- widthincm : 12 -->
+
+
+</page>
+
+
+
+
+<page ID="1137">
+
+<h2>Overview</h2>
+
+<P>The table is the kind of output returned from all MQL statements
+which return something, except for "SELECT (ALL|FOCUS) OBJECTS", which
+returns a <page_anchor ID="1138">sheaf</page_anchor>.</P>
+
+<P>A table is a list of <strong>TableRow</strong>s.  A TableRow, in
+turn, is a list of strings.</P>
+
+<P>The columns are numbered beginning with 1, not 0.</P>
+
+<P>Java-style iterators are provided for accessing the rows and their
+contents.</P>
+
+<h2>C++ interface</h2>
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}table.h{PREGT}
+
+typedef enum { 
+  kTCString, 
+  kTCInteger, 
+  kTCID{PREUNDERSCORE}D, 
+  kTCMonad{PREUNDERSCORE}m, 
+  kTCBool, 
+  kTCEnum 
+} TableColumnType;
+
+class TableRowIterator {
+public:
+  TableRowIterator(TableRow *pMotherTableRow);
+  TableRowIterator();
+  ~TableRowIterator();
+  bool hasNext() const; // Is the iterator == end iterator?  Doesn't alter iterator
+  std::string next(); // Gets current and advances iterator afterwards
+  std::string previous(); // Regresses iterator and then gets current
+  std::string current(); // Gets current without altering iterator
+  std::string getColumn(int column); // Gets column in current without touching iterator. First column is 1.
+};
+
+class TableRow : public std::list{PRELT}std::string{PREGT} {
+public:
+  TableRow();
+  ~TableRow();
+  TableRowIterator iterator();  // Gets iterator pointing to beginning
+  std::string getColumn(int column); // Gets column.  First column is 1.
+  unsigned int size() const;  // Gets number of columns
+};
+
+class TableIterator {
+public:
+  TableIterator();
+  TableIterator(Table *pMotherTable);
+  TableIterator(const TableIterator{PREAMP} other);
+  ~TableIterator();
+  bool hasNext() const; // Is the iterator == end iterator?  Doesn't alter iterator
+  TableRow{PREAMP} next(); // Gets current and advances iterator afterwards
+  TableRow{PREAMP} previous();  // Regresses iterator and then gets current
+  TableRow{PREAMP} current(); // Gets current without altering iterator
+  std::string next(int column);  // Gets column in current and then advances iterator
+  std::string getColumn(int column); // Gets column in current without altering iterator.  First column is 1.
+};
+
+
+class Table {
+public:
+  Table();
+  ~Table();
+  // Reading from a table
+  TableIterator iterator();
+
+  // Find row with string str at column column{PREUNDERSCORE}index. First column is 1.
+  TableIterator find(const std::string{PREAMP} str, int column{PREUNDERSCORE}index, 
+                    bool bCompareCaseInsensitively = true);
+
+  // Find row with str1 and str2 at their respective columns. First column is 1.
+  TableIterator find(const std::string{PREAMP} str1, int column{PREUNDERSCORE}index1, 
+                     const std::string{PREAMP} str2, int column{PREUNDERSCORE}index2, 
+                     bool bCompareCaseInsensitively = true);
+  void erase(TableIterator{PREAMP} d);
+  void clear();
+
+  // First column is 1.
+  std::string getColumn(TableIterator{PREAMP} i, int column{PREUNDERSCORE}index);
+  long size() const; // Get number of rows
+
+  // Adding to a table
+  void append(const std::string{PREAMP} str);
+  void newline();
+  void appendHeader(std::string header{PREUNDERSCORE}name, 
+                    TableColumnType tc{PREUNDERSCORE}type, 
+                    std::string enum{PREUNDERSCORE}type = "");
+
+  // First column is 1.
+  void updateRow(TableIterator{PREAMP} i, const std::string new{PREUNDERSCORE}value, int column{PREUNDERSCORE}index);
+
+  // Should be called before append.
+  void startNewRow();
+
+  // Printing a table
+  void printConsole(EMdFOutput *pOut) const;
+  void printXML(EMdFOutput *pOut) const;
+  static void printDTD(EMdFOutput *pOut);
+};
+
+
+</PRE><!-- widthincm : 12 -->
+
+
+<h2>Examples</h2>
+
+<h3>Iterators (reading from a table)</h3>
+
+<P>Here is an example of how to use the iterators.</P>
+
+<pre class="code">
+
+  Table *pTable; // Assumed to be initialized from somewhere
+
+  // Get first string of first row
+  TableIterator ti = pTable->iterator();
+  std::string firstRowCol = pTable->getColumn(ti, 1);  // Note how column 1 is the first.
+
+  // out table
+  ti = pTable->iterator();
+  while (ti.hasNext()) {
+    // Get iterator for current row
+    TableRowIterator tri = ti.current().iterator();
+
+    // out row
+    while (tri.hasNext()) {
+      // out string plus horizontal tab, and advance iterator
+      printf("%s{PREBACKSLASH}t", tri.next());
+    }
+
+    // out newline
+    printf("{PREBACKSLASH}n");
+
+    // Advance iterator
+    ti.next();
+  }
+
+  // Find something in table
+  int column{PREUNDERSCORE}to{PREUNDERSCORE}search = 2;
+  TableIterator ti2 = pTable->find("StringToFind", column{PREUNDERSCORE}to{PREUNDERSCORE}search);
+  if (ti2.hasNext()) {
+    printf("String found!{PREBACKSLASH}n");
+    TableRow{PREAMP} tr = ti.current();
+    printf("Column 1 = '%s'{PREBACKSLASH}n", tr.getColumn(1));
+  } else {
+    printf("String not found.{PREBACKSLASH}n");
+  }
+
+</PRE><!-- widthincm : 12 -->
+
+<h3>Adding to a table</h3>
+
+<P>Here's an example of how to add to a table:</P>
+
+<pre class="code">
+
+  // Create header (not really necessary if you know what you've
+  // placed into the table; mostly for aesthetics when printing
+  // and for communicating with other parts of the program)
+  pTable->appendHeader("first{PREUNDERSCORE}monad", kTCMonad{PREUNDERSCORE}m);
+  pTable->appendHeader("last{PREUNDERSCORE}monad", kTCMonad{PREUNDERSCORE}m);
+  
+  // Start a new row (call this method before starting a new row)
+  pTable->startNewRow();
+
+  // Add row 1
+  pTable->append(1); // Monad 1 in first{PREUNDERSCORE}monad
+  pTable->append(4); // Monad 4 in last{PREUNDERSCORE}monad
+
+
+  // Add row 2
+  pTable->startNewRow();
+  pTable->append(10); // Monad 10 in first{PREUNDERSCORE}monad
+  pTable->append(13); // Monad 13 in last{PREUNDERSCORE}monad
+
+</PRE><!-- widthincm : 12 -->
+
+</page>
+
+
+
+
+<page ID="1138">
+
+<h2>Overview</h2>
+
+<P>The sheaf is the datastructure returned by the "SELECT (ALL|FOCUS)
+OBJECTS" query.  See the MQL User's Guide Chapter 4 for a description
+of the sheaf.</P>
+
+<P>Briefly, a <strong>sheaf</strong> is a list of straws.  A
+<strong>straw</strong> is a list of matched_objects.  A
+<strong>matched_object</strong> may have an inner sheaf, which makes
+the datastructure recursive.</P>
+
+<P>A matched_object corresponds to an object_block(_first) or
+(opt_)gap_block in a topographic MQL query.  A straw corresponds to a
+block_string.  A sheaf corresponds to a blocks.</P>
+
+<P>A matched_object may be one of two kinds:</P>
+
+<UL>
+
+  <LI>kMOKID_D : Match of object_block(_first)
+  <LI>kMOKID_M : Match of (opt_)gap_block
+
+</UL>
+
+<P>Use the getKind() method to find out which it is, if you don't
+already know from the query.</P>
+
+<P>A matched_object contains the following information:</P>
+
+<UL>
+
+  <LI>An eMOKind enumeration (either kMOKID_D or KMOKID_M)
+
+  <LI>An id_d (valid if the eMOKind enumeration is kMOKID_D)
+
+  <LI>An object type (valid if the eMOKind enumeration is kMOKID_D)
+
+  <LI>A set of monads (always valid)
+
+  <LI>A focus boolean (always valid)
+
+  <LI>A "marks" string (always valid, but may be empty)
+
+  <LI>An inner sheaf (always valid)
+
+  <LI>A vector of EMdFValue values, non-empty if the object block had
+  a GET clause.
+
+</UL>
+
+<P>Java-style iterators are provided.</P>
+
+<h2>C++ interface</h2>
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}mql{PREUNDERSCORE}sheaf.h{PREGT}
+
+
+typedef enum { 
+  kMOKNIL{PREUNDERSCORE}mo,   // Used only while building sheaf, never in finished sheaf
+  kMOKEMPTY{PREUNDERSCORE}mo, // Used only while building sheaf, never in finished sheaf
+  kMOKID{PREUNDERSCORE}D,     // Match of object{PREUNDERSCORE}block({PREUNDERSCORE}first)
+  kMOKID{PREUNDERSCORE}M      // Match of (opt{PREUNDERSCORE})gap{PREUNDERSCORE}block
+} eMOKind;
+
+class MatchedObject {
+public:  
+  MatchedObject(const MatchedObject{PREAMP} other);
+  ~MatchedObject();
+  const <page_anchor ID="1135">SetOfMonads</page_anchor>{PREAMP} getMonads(void) const;
+  id{PREUNDERSCORE}d{PREUNDERSCORE}t getID{PREUNDERSCORE}D(void) const;
+  const Sheaf* getSheaf(void) const;
+  bool sheafIsEmpty(void) const;
+  eMOKind getKind(void) const;
+  /** Return true if this is an ID{PREUNDERSCORE}M.
+   *
+   * @return {PREBACKSLASH}p true if this is an ID{PREUNDERSCORE}M matched object,
+   * {PREBACKSLASH}p false if it is an ID{PREUNDERSCORE}D matched object.
+   */
+  bool isID{PREUNDERSCORE}M(void) const;
+  /** Return true if this is an ID{PREUNDERSCORE}D.
+   *
+   * @return {PREBACKSLASH}p true if this is an ID{PREUNDERSCORE}D matched object,
+   * {PREBACKSLASH}p false if it is an ID{PREUNDERSCORE}M matched object.
+   */
+  bool isID{PREUNDERSCORE}D(void) const;
+  /** Return true if the block from which this came had the FOCUS keyword.
+   *
+   * @return {PREBACKSLASH}p true if this matched object is in FOCUS,
+   * {PREBACKSLASH}p false otherwise.
+   */
+  bool getFocus(void) const;
+   /* Return the mark string (given in the query with a backping
+    * ("`"), right after the object type in an object{PREUNDERSCORE}block, or
+    * right after "[gap?" or "[gap".
+    *
+    * Can be called for all types of MatchedObjects, but will return "" (the
+    * empty string) if either there is no mark, or it is an EMPTY{PREUNDERSCORE}MO.
+    *
+    * @return the mark string, including the backping.
+    */
+  std::string getMarkString() const;
+  MatchedObject{PREAMP} operator=(const MatchedObject{PREAMP} other); // Not SWIG-wrapped
+  short int getObjectTypeIndex(void) const;
+
+  // A convenience function for getEMdFValue.
+  //
+  // Returns a string representation of the given EMdFValue.
+  // Integers and ID{PREUNDERSCORE}Ds are returned as their base-10 representation.
+  // Strings are returned as-is.
+  // Enums are returned as their string name, not their integer value.
+  // Lists of integers are returned as a comma-separated list of
+  // the base-10 representation of the integers involved, surrounded by
+  // parentheses.
+  // Lists of id{PREUNDERSCORE}ds are returned like lists of integers.
+  //
+  // Always returns a string, so long as the index parameter is in range.
+  //
+  // Throws an EmdrosException if index out of range.
+  std::string getFeatureAsString(int index) const;
+
+  // A convenience function for getEMdFValue.
+  //
+  // Returns the "long" value of the given EMdFValue, if possible.
+  //
+  // Only features that are integers, id{PREUNDERSCORE}ds, or enums return a value.
+  // All others will throw an EmdrosException.
+  //
+  // Integers and id{PREUNDERSCORE}ds are returned as is.
+  // Enums are returned by their integer value, not their string name.
+  //
+  // Throws an EmdrosException if index out of range.
+  long getFeatureAsLong(int index) const;
+
+  // Get enum label from an index into the EMdFValue vector
+  std::string getEnumLabel(int index) const;
+
+  // Returns 0 on index out of range.
+  // Is the fastest
+  const <page_anchor ID="1140">EMdFValue</page_anchor> *getEMdFValue(int index) const;
+
+  // Returns 0 on index out of range.
+  // Is slow.
+  const <page_anchor ID="1140">EMdFValue</page_anchor> *getEMdFValue(const std::string{PREAMP} feature{PREUNDERSCORE}name) const; 
+
+  // Get the index of a feature name to be used for 
+  // getEMdFValue(short int index).
+  // Returns -1 on not found
+  int getEMdFValueIndex(const std::string{PREAMP} feature{PREUNDERSCORE}name) const;
+
+
+  // Get list of feature-names in the order in which they appear in
+  // the value vector.  Thus this list can be used as a basis for
+  // getting the indexes of the EMdFValues to be used with
+  // MatchedObject::getEMdFValue().
+  <page_anchor ID="1141">StringList</page_anchor> getFeatureList(void) const;
+
+  // Get number of values in list of EMdFValue's.
+  unsigned int getNoOfEMdFValues(void) const;
+
+  // Get name of object type for this MatchedObject (may be pow{PREUNDERSCORE}m).
+  std::string getObjectTypeName() const;
+
+  void printConsole(<page_anchor ID="1101">EMdFOutput</page_anchor> *pOut) const;
+  void printXML(<page_anchor ID="1101">EMdFOutput</page_anchor>* pOut) const;
+
+  // See Sheaf::getSOM() for an explanation
+  void getSOM(SetOfMonads{PREAMP} som, bool bUseOnlyFocusObjects) const;
+
+  // See Sheaf::countObjects() for an explanation.
+  long countObjects(bool bUseOnlyFocusObjects) const;
+
+  // See Sheaf::countObjectsFromObjectType() for an explanation.
+  long countObjectsFromObjectType(const std::string& object_type_name, bool bUseOnlyFocusObjects) const;
+
+  // See Sheaf::countStraws() for an explanation.
+  long countStraws() const;
+  
+
+};
+
+class StrawConstIterator {
+public:
+  StrawConstIterator(const Straw *pMotherStraw);
+  StrawConstIterator();
+  StrawConstIterator(const StrawConstIterator{PREAMP} other);
+  ~StrawConstIterator();
+  bool hasNext() const; // Is the iterator == end iterator?  Doesn't alter iterator
+  const MatchedObject* next(); // Gets current and advances iterator afterwards
+  const MatchedObject* previous(); // Regresses iterator and then gets current
+  const MatchedObject* current(); // Gets current without altering iterator
+};
+
+class Straw {
+private:
+  friend class StrawConstIterator;
+  monad{PREUNDERSCORE}m m{PREUNDERSCORE}last;
+  MOList m{PREUNDERSCORE}list;
+public:
+  ~Straw();
+  Straw(const Straw{PREAMP} other);
+  StrawConstIterator const{PREUNDERSCORE}iterator() const;
+  Straw{PREAMP} operator=(const Straw{PREAMP} other); // Not SWIG-wrapped
+  monad{PREUNDERSCORE}m getLast(void) const { return m{PREUNDERSCORE}last; };
+  void printConsole(<page_anchor ID="1101">EMdFOutput</page_anchor> *pOut) const;
+  void printXML(<page_anchor ID="1101">EMdFOutput</page_anchor>* pOut) const;
+
+  // See Sheaf::countObjects() for an explanation.
+  long countObjects(bool bUseOnlyFocusObjects) const;
+
+  // See Sheaf::countObjectsFromObjectType() for an explanation.
+  long countObjectsFromObjectType(const std::string& object_type_name, bool bUseOnlyFocusObjects) const;
+
+  // See Sheaf::countStraws() for an explanation.
+  long countStraws() const;
+
+  // See Sheaf::getSOM() for an explanation
+  void getSOM(SetOfMonads{PREAMP} som, bool bUseOnlyFocusObjects) const;
+};
+
+class SheafIterator {
+public:
+  SheafIterator(ListOfStraws *pMotherList);
+  SheafIterator();
+  SheafIterator(const SheafIterator{PREAMP} other);
+  ~SheafIterator();
+  bool hasNext() const; // Is the iterator == end iterator?  Doesn't alter iterator
+  Straw* next(); // Gets current and advances iterator afterwards
+  Straw* previous(); // Regresses iterator and then gets current
+  Straw* current(); // Gets current without altering iterator
+};
+
+
+
+class SheafConstIterator {
+public:
+  SheafConstIterator(const ListOfStraws *pMotherList);
+  SheafConstIterator();
+  SheafConstIterator(const SheafConstIterator{PREAMP} other);
+  ~SheafConstIterator();
+  bool hasNext() const; // Is the iterator == end iterator?  Doesn't alter iterator
+  const Straw* next(); // Gets current and advances iterator afterwards
+  const Straw* previous(); // Regresses iterator and then gets current
+  const Straw* current(); // Gets current without altering iterator
+};
+
+
+
+class ListOfStraws {
+public:
+  ~ListOfStraws();
+  ListOfStraws(const ListOfStraws{PREAMP} other);
+  SheafIterator iterator();
+  SheafConstIterator const{PREUNDERSCORE}iterator() const;
+  bool isEmpty() const;
+  void printConsole(<page_anchor ID="1101">EMdFOutput</page_anchor> *pOut) const;
+  void printXML(<page_anchor ID="1101">EMdFOutput</page_anchor>* pOut) const;
+};
+
+class Sheaf {
+public:
+  Sheaf(const Sheaf{PREAMP} other);
+  ~Sheaf();
+  bool isFail(void) const;
+  SheafIterator iterator();
+  SheafConstIterator const{PREUNDERSCORE}iterator() const;
+  const ListOfStraws* get{PREUNDERSCORE}plist(void) const { return m{PREUNDERSCORE}plist; };
+  Sheaf{PREAMP} operator=(const Sheaf{PREAMP} other); // Not SWIG-wrapped
+  void printConsole(<page_anchor ID="1101">EMdFOutput</page_anchor> *pOut) const;
+  void printXML(<page_anchor ID="1101">EMdFOutput</page_anchor>* pOut) const;
+  // out sheaf's contribution to DTD
+  static void printDTD(EMdFOutput* pOut);
+
+  // Count the objects inside the sheaf.  If bUseOnlyFocusObjects is true,
+  // only those MatchedObjects whose FOCUS boolean is true are added to the
+  // count.
+  //
+  // The algorithm counts recursively throughout the sheaf, into the innermost
+  // sheaves.
+  long countObjects(bool bUseOnlyFocusObjects) const;
+
+  // Count the objects inside the sheaf with a given object type name.
+  //
+  // If object_type_name is empty, all object types are counted.
+  //
+  // If object_type_name is "pow_m", only gap_blocks and opt_gap_blocks are
+  // counted.
+  //
+  // If object_type_name is neither empty nor "pow_m", only objects of the
+  // given object type are counted.
+  //
+  // The object_type_name parameter should be passed through the
+  // std::string normalizeOTName(const std::string& object_type_name)
+  // function before passing it as a parameter.
+  //
+  // If bUseOnlyFocusObjects is true, only those MatchedObjects whose
+  // FOCUS boolean is true are added to the count.
+  //
+  // The algorithm counts recursively throughout the sheaf, into the innermost
+  // sheaves.
+  long countObjectsFromObjectType(const std::string& object_type_name, bool bUseOnlyFocusObjects) const;
+
+  // See Sheaf::countStraws() for an explanation.
+  long countStraws() const;
+
+
+  // Gets big-union of sets of monads in sheaf's matched{PREUNDERSCORE}objects. 
+  // This is done recursively through all straws and inner sheafs.
+  //
+  // If  bUseOnlyFocusObjects is true, only matched{PREUNDERSCORE}objects with their
+  // focus boolean set to true will be included. Otherwise, all matched{PREUNDERSCORE}objects
+  // are considered. 
+
+  // The method makes no distinction between matched{PREUNDERSCORE}objects arising from 
+  // (opt-)gap-blocks and object blocks.
+  //
+  // You should probably start with an empty set of monads unless you
+  // want to include monads that are not in the sheaf.
+  virtual void getSOM(SetOfMonads{PREAMP} som, bool bUseOnlyFocusObjects) const;
+
+  // Here is a version which starts with an empty set and returns the result
+  // rather than passing it as a parameter.
+  virtual SetOfMonads getSOM(bool bUseOnlyFocusObjects) const;
+};
+
+
+////////////////////////////////////////////////////////////////
+//
+// Flat sheaf
+//
+////////////////////////////////////////////////////////////////
+
+class FlatStraw {
+public:
+  FlatStraw(const std::string{PREAMP} object{PREUNDERSCORE}type{PREUNDERSCORE}name);
+  ~FlatStraw();
+  FlatStrawConstIterator const{PREUNDERSCORE}iterator(void) const;
+  void addMO(const MatchedObject *pMO);
+  void printConsole(EMdFOutput *pOut) const;
+  void printXML(EMdFOutput* pOut) const;
+  std::string getObjectTypeName(void) const;
+};
+
+class FlatStrawConstIterator {
+public:
+  FlatStrawConstIterator();
+  FlatStrawConstIterator(const FlatStrawConstIterator{PREAMP} other);
+  ~FlatStrawConstIterator() {};
+  bool hasNext() const; // Is the iterator == end iterator?  Doesn't alter iterator
+  MatchedObject *next(); // Gets current and advances iterator afterwards
+  MatchedObject *current(); // Gets current without altering iterator
+};
+
+
+
+
+class FlatSheafConstIterator {
+public:
+  FlatSheafConstIterator();
+  FlatSheafConstIterator(const FlatSheafConstIterator{PREAMP} other);
+  ~FlatSheafConstIterator();
+  bool hasNext() const; // Is the iterator == end iterator?  Doesn't alter iterator
+  FlatStraw* next(); // Gets current and advances iterator afterwards
+  FlatStraw* current(); // Gets current without altering iterator
+};
+
+class FlatSheaf {
+public:
+  FlatSheaf(); // For "all" object types
+  // For only a select few -- isn't SWIG-wrapped
+  FlatSheaf(const std::list{PRELT}std::pair{PRELT}id{PREUNDERSCORE}d{PREUNDERSCORE}t, std::string{PREGT} {PREGT}{PREAMP} object{PREUNDERSCORE}types); 
+  ~FlatSheaf();
+  bool isFail(void) const { return m{PREUNDERSCORE}bIsFail; };
+  void printConsole(EMdFOutput *pOut) const;
+  void printXML(EMdFOutput* pOut) const;
+  static void printDTD(EMdFOutput *pOut);
+  FlatSheafConstIterator const{PREUNDERSCORE}iterator(void) const;
+};
+
+
+// For all object types in the sheaf. 
+// Is not SWIG-wrapped. Use the interface in 
+// <page_anchor ID="1139">MQLResult</page_anchor> instead.
+extern FlatSheaf *mql{PREUNDERSCORE}flatten{PREUNDERSCORE}sheaf(const Sheaf *pSheaf); 
+
+// Only for certain object types
+// Is not SWIG-wrapped. Use the interface in 
+// <page_anchor ID="1139">MQLResult</page_anchor> instead.
+extern FlatSheaf *mql{PREUNDERSCORE}flatten{PREUNDERSCORE}sheaf(<page_anchor ID="1141">StringList</page_anchor> *pObjectTypeNames, EMdFDB *pDB, 
+                                  const Sheaf *pSheaf);
+
+// Only for certain object types
+// Is not SWIG-wrapped. Use the interface in 
+// <page_anchor ID="1139">MQLResult</page_anchor> instead.
+extern FlatSheaf *mql{PREUNDERSCORE}flatten{PREUNDERSCORE}sheaf(<page_anchor ID="1141">StringList</page_anchor> *pObjectTypeNames, EmdrosEnv *pEnv, 
+                                  const Sheaf *pSheaf);
+
+
+
+
+</PRE><!-- widthincm : 12 -->
+
+<h2>Example</h2>
+
+<P>The iterators are used like this:</P>
+
+<pre class="code">
+
+  Sheaf *pSheaf; // Assumed to be initialized from somewhere
+  SheafConstIterator sci = pSheaf->const{PREUNDERSCORE}iterator();
+  while (sci.hasNext()) {
+    const Straw *pStraw = sci.current();
+   
+    // Process pStraw ...
+
+    sci.next();
+  }
+
+  // Or like this:
+  SheafIterator si = pSheaf->iterator();
+  while (si.hasNext()) {
+    Straw *pStraw = si.next();
+   
+    // Process pStraw ...
+
+    // Note how there is no si.next() again, since next() 
+    // first gets current element and then advances iterator.
+
+    // NOTE: This is also possible with the const iterators.
+
+  }
+
+</PRE><!-- widthincm : 12 -->
+
+</page>
+
+
+<page ID="1140">
+
+<h2>Overview</h2>
+
+<P>EMdFValue is returned from MatchedObject::getEMdFValue().  It
+holds an EMdF value, i.e., one of the following:</P>
+
+<UL>
+  <LI>Integer
+  <LI>ID_D
+  <LI>String
+  <LI>Enum
+  <LI>List of Integer (<page_anchor ID="1143">IntegerList</page_anchor>).
+  <LI>List of ID_D
+</UL>
+
+<h2>Enums</h2>
+
+<P>The enum constants returned are integers, both for kEVEnum and
+kEVListOfInteger (which is also used for lists of enum constants).
+You must use <page_anchor
+ID="">EmdrosEnv</page_anchor>::getEnumConstNameFromValue()</P> in
+order to retrieve the string-form of the enum.</P>
+
+<h2>C++ interface</h2>
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}emdf{PREUNDERSCORE}value.h{PREGT}
+
+typedef enum {
+  kEVInt,
+  kEVEnum,
+  kEVID{PREUNDERSCORE}D,
+  kEVString,
+  kEVListOfInteger, // Also used for enums
+  kEVListOfID_D
+} eEVkind;
+
+class EMdFValue {
+public: 
+  // Copy-constructor
+  EMdFValue(const EMdFValue{PREAMP} other);
+
+  // kind must be kEVInt, kEVEnum or kEVID{PREUNDERSCORE}D
+  EMdFValue(eEVkind kind, long i);
+
+  // kind becomes kEVString
+  EMdFValue(const std::string{PREAMP} str);
+
+  // Kind must be kEVListOfInteger or kEVListOfID_D
+  EMdFValue(eEVkind kind, IntegerList *pIntegerList);
+
+  ~EMdFValue();
+
+  // Get kind
+  eEVkind getKind(void) const;
+
+  // Get if it is a string
+  const std::string getString(void) const;
+
+  // Get if it is an ID{PREUNDERSCORE}D
+  id{PREUNDERSCORE}d{PREUNDERSCORE}t getID{PREUNDERSCORE}D(void) const;
+
+  // Get if it is an integer
+  long getInt(void) const;
+
+  // Get if it is an enum
+  long getEnum(void) const;
+
+  // Get if it is kEVListOfInteger or kEVListOfID_D
+  IntegerList *getIntegerList(void) const;
+
+  // Get a string representation
+  void toString(std::string{PREAMP} result) const;
+
+  // Change string-value. Must be kEVString
+  void changeString(const std::string{PREAMP}newString);
+
+  // Assignment operator
+  EMdFValue{PREAMP} operator=(const EMdFValue{PREAMP} other); // Not SWIG-wrapped
+};
+
+
+</PRE><!-- widthincm : 12 -->
+
+
+
+</page>
+
+
+<page ID="1141">
+
+<h2>Overview</h2>
+
+<P>A StringList is for communicating a list of strings between Emdros
+and the program using Emdros.</P>
+
+<P>The list is ordered, and can be iterated with the normal
+Emdros-iterators.</P>
+
+<P><strong>SPECIAL SWIG JAVA NOTE:</strong> Use of the
+StringListConstIterator is discouraged under Java.  Instead, please use
+the getAsVector() method, which will return a Java Vector of Java
+String objects.</P>
+
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}string{PREUNDERSCORE}list.h{PREGT}
+
+class StringListConstIterator {
+public:
+  StringListConstIterator();
+  StringListConstIterator(const StringList *pMotherStringList); // Not SWIG-wrapped.
+  StringListConstIterator(const StringListConstIterator{PREAMP} other);
+  ~StringListConstIterator();
+  bool hasNext() const; // Is the iterator == end iterator?  Doesn't alter iterator
+  std::string next(); // Gets current and advances iterator afterwards
+  std::string previous();  // Regresses iterator and then gets current
+  std::string current(); // Gets current without altering iterator
+};
+
+class StringList {
+public:
+  // Create empty string list, to be populated later
+  // with addStringListNodes.
+  StringList();
+
+  // Copy constructor
+  StringList(const StringList{PREAMP} other);
+
+  // Assignment operator
+  const StringList{PREAMP} operator=(const StringList{PREAMP} other); // Not SWIG-wrapped!
+
+  ~StringList();
+
+  StringListConstIterator const{PREUNDERSCORE}iterator() const;
+
+  // Add at beginning of list, pushing everything down one member
+  void addStringFront(const std::string{PREAMP} str);
+
+  // Add at end of list
+  void addStringBack(const std::string{PREAMP} str);
+
+  std::vector{PRELT}std::string{PREGT} getAsVector(void) const;
+
+  // Return the length
+  int getLength() const;
+
+  bool isEmpty(void) const;
+};
+
+</PRE><!-- widthincm : 12 -->
+
+</page>
+
+
+
+
+<page ID="1143">
+
+<h2>Overview</h2>
+
+<P>An IntegerList is for communicating a list of integers (C++
+"long"s, actually) between Emdros and the program using Emdros.
+Internally, monad_ms, id_d_ts, and enumeration constant values are all
+longs.  Thus an IntegerList can hold any of those kinds of values.</P>
+
+<P>The list is ordered, and can be iterated with the normal
+Emdros-iterators.</P>
+
+<P>The interface of IntegerList is very, very similar to <page_anchor
+ID="1141">StringList</page_anchor>.  They are even defined using the
+same template in the same header-file.</P>
+
+<P><strong>SPECIAL SWIG JAVA NOTE:</strong> The use of
+IntegerListConstIterator is deprecated on SWIG Java.  Please use the
+IntegerList::getAsVector to obtain an IntVector instead.</P>
+
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}string{PREUNDERSCORE}list.h{PREGT}
+
+class IntegerListConstIterator {
+public:
+  IntegerListConstIterator();
+  IntegerListConstIterator(const IntegerList *pMotherIntegerList); // Not SWIG-wrapped.
+  IntegerListConstIterator(const IntegerListConstIterator{PREAMP} other);
+  ~IntegerListConstIterator();
+  bool hasNext() const; // Is the iterator == end iterator?  Doesn't alter iterator
+  long next(); // Gets current and advances iterator afterwards
+  long previous();  // Regresses iterator and then gets current
+  long current(); // Gets current without altering iterator
+};
+
+class IntegerList {
+public:
+  // Create empty string list, to be populated later
+  // with addIntegerFront and/or addIntegerBack.
+  IntegerList();
+
+  // Copy constructor
+  IntegerList(const IntegerList{PREAMP} other);
+
+  // Assignment operator
+  const IntegerList{PREAMP} operator=(const IntegerList{PREAMP} other); // Not SWIG-wrapped!
+
+  ~IntegerList();
+
+  IntegerListConstIterator const{PREUNDERSCORE}iterator() const;
+
+  std::vector{PRELT}long{PREGT} getAsVector(void) const;
+
+  // Add at beginning of list, pushing everything down one member
+  void addIntegerFront(long l);
+
+  // Add at end of list
+  void addIntegerBack(long l);
+
+  bool isEmpty(void) const;
+};
+
+</PRE><!-- widthincm : 12 -->
+
+</page>
+
+
+
+
+<page ID="1139">
+
+<h2>Overview</h2>
+
+<P>The MQLResult class encapsulates the results of an MQL query.  It
+is either a <page_anchor ID="1138">sheaf</page_anchor> or a
+<page_anchor ID="1137">table</page_anchor>.  If it is a sheaf, the
+table-part will be empty.  If it is a table, getSheaf() will return
+nil.  If it is a sheaf, getSheaf will return a pointer to the
+sheaf.</P>
+
+<h2>C++ interface</h2>
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}mql{PREUNDERSCORE}result.h{PREGT}
+
+class MQLResult : public <page_anchor ID="1137">Table</page_anchor> {
+public:
+  ~MQLResult();
+  <page_anchor ID="1138">Sheaf</page_anchor> *getSheaf(void);
+  <page_anchor ID="1137">Table</page_anchor> *getTable(void);
+  <page_anchor ID="1138">FlatSheaf</page_anchor> *getFlatSheaf(void);
+
+  bool isSheaf() const;
+  bool isFlatSheaf() const;
+  bool isTable() const;
+
+  // out prints either XML, JSON or Console output, based on pOut
+  void out(<page_anchor ID="1101">EMdFOutput</page_anchor> *pOut) const;
+
+  // printDTD prints the MQLResult's contributions to the DTD
+  static void printDTD(<page_anchor ID="1101">EMdFOutput</page_anchor>* pOut);
+
+  // For all object types in the sheaf
+  bool flatten(); 
+
+  // Only for the object types in pObjectTypeNames.
+  bool flatten(<page_anchor ID="1141">StringList</page_anchor> *pObjectTypeNames, EMdFDB *pDB); 
+};
+</PRE><!-- widthincm : 12 -->
+
+
+</page>
+
+
+
+
+<page ID="1150">
+
+<h2>Overview</h2>
+
+<P>This section describes the XML DTD.</P>
+
+<h2>DTD</h2>
+
+<PRE class="code">
+
+{PRELT}!-- Top-level element is "mql{PREUNDERSCORE}results" --{PREGT}
+{PRELT}!DOCTYPE mql{PREUNDERSCORE}results   
+  [
+
+  {PRELT}!-- "mql{PREUNDERSCORE}results" is zero or more "mql{PREUNDERSCORE}result"'s
+  {PRELT}!ELEMENT mql{PREUNDERSCORE}results (mql{PREUNDERSCORE}result)* {PREGT} 
+  {PRELT}!ATTLIST mql{PREUNDERSCORE}results {PREGT}
+
+
+  {PRELT}!-- "mql{PREUNDERSCORE}result" consists of:
+       * An optional "mql{PREUNDERSCORE}progress",
+       * A "status"
+       * An optional "error"
+       * An optional "warning"
+       * Either a "table", a "sheaf", or nothing
+
+       An "mql{PREUNDERSCORE}result" is emitted for each statement in the
+       input stream.
+  --{PREGT}
+  {PRELT}!ELEMENT mql{PREUNDERSCORE}result ((mql{PREUNDERSCORE}progress)?, status, (error)?, 
+                        (warning)?, (table{PREPIPE}sheaf)?) {PREGT}
+  {PRELT}!ATTLIST mql{PREUNDERSCORE}result  {PREGT}
+
+
+  {PRELT}!-- "mql{PREUNDERSCORE}progress" is just a series of dots emitted at intervals 
+       while processing a "SELECT (FOCUS{PREPIPE}ALL) OBJECTS" query. 
+  --{PREGT}
+  {PRELT}!ELEMENT mql{PREUNDERSCORE}progress ({PREHASH}PCDATA)* {PREGT}
+
+
+  {PRELT}!-- The empty "status" element shows, via its "success" attribute
+       whether the statement succeeded or not (i.e., whether an error
+       occurred. 
+  --{PREGT}
+  {PRELT}!ELEMENT status EMPTY {PREGT}
+  {PRELT}!ATTLIST status 
+                success (true{PREPIPE}false) {PREHASH}REQUIRED {PREGT}
+
+
+  {PRELT}!-- The "error" element is only emitted if an error occurred. --{PREGT}
+  {PRELT}!ELEMENT error (error{PREUNDERSCORE}source, error{PREUNDERSCORE}stage, 
+                   error{PREUNDERSCORE}message{PREUNDERSCORE}db, error{PREUNDERSCORE}message{PREUNDERSCORE}compiler) {PREGT}
+  {PRELT}!ATTLIST error {PREGT}
+
+  {PRELT}!-- The "error{PREUNDERSCORE}source" element, being part of the "error" element,
+       is only emitted if an error occurred.  It shows the source of 
+       the error: whether it was the MQL compiler or the database 
+       back-end.
+  --{PREGT}
+  {PRELT}!ELEMENT error{PREUNDERSCORE}source EMPTY {PREGT}
+  {PRELT}!ATTLIST error{PREUNDERSCORE}source 
+                source  (compiler{PREPIPE}db) {PREHASH}REQUIRED {PREGT}
+
+
+  {PRELT}!-- The "error{PREUNDERSCORE}stage" element, being part of the "error" element,
+       is only emitted if an error occurred.  It shows in which stage
+       of the compiler the error occurred. 
+  --{PREGT}
+  {PRELT}!ELEMENT error{PREUNDERSCORE}stage EMPTY {PREGT}
+  {PRELT}!ATTLIST error{PREUNDERSCORE}stage  
+                stage   (none{PREPIPE}parse{PREPIPE}weed{PREPIPE}symbol{PREPIPE}type{PREPIPE}monads{PREPIPE}exec) {PREHASH}REQUIRED {PREGT}
+
+
+  {PRELT}!-- The "error{PREUNDERSCORE}message{PREUNDERSCORE}db" element, being part of the "error" element,
+       is only emitted if an error occurred.  It contains any error-message
+       from the back-end.
+  --{PREGT}
+  {PRELT}!ELEMENT error{PREUNDERSCORE}message{PREUNDERSCORE}db ({PREHASH}PCDATA)* {PREGT}
+  {PRELT}!ATTLIST error{PREUNDERSCORE}message{PREUNDERSCORE}db {PREGT}
+
+
+  {PRELT}!-- The "error{PREUNDERSCORE}message{PREUNDERSCORE}compiler" element, being part of the "error"
+       element, is only emitted if an error occurred.  It contains any
+       error-message from the compiler.
+  --{PREGT}
+  {PRELT}!ELEMENT error{PREUNDERSCORE}message{PREUNDERSCORE}compiler ({PREHASH}PCDATA)* {PREGT}
+  {PRELT}!ATTLIST error{PREUNDERSCORE}message{PREUNDERSCORE}compiler {PREGT}
+
+  {PRELT}!-- The "warning" element shows the text of any warning from the
+       compiler.
+  --{PREGT}
+  {PRELT}!ELEMENT warning ({PREHASH}PCDATA)* {PREGT}
+  {PRELT}!ATTLIST warning {PREGT}
+
+
+
+  {PRELT}!-- *************
+       *** Table ***
+       *************
+  --{PREGT}
+
+  {PRELT}!-- A "table" is a "theader" followed by zero or more "trow"'s. --{PREGT}
+  {PRELT}!ELEMENT table (theader, trow*) {PREGT}
+  {PRELT}!ATTLIST table {PREGT}
+
+
+  {PRELT}!-- A "theader" is zero or more "theadercolumn"'s --{PREGT}
+  {PRELT}!ELEMENT theader (theadercolumn)* {PREGT}
+  {PRELT}!ATTLIST theader {PREGT}
+
+
+  {PRELT}!-- A "theadercolumn" is a "tcaption" followed by a "ttype" --{PREGT}
+  {PRELT}!ELEMENT theadercolumn (tcaption, ttype) {PREGT}
+  {PRELT}!ATTLIST theadercolumn {PREGT}
+
+
+  {PRELT}!-- A "tcaption" gives the name of a column-header. --{PREGT}
+  {PRELT}!ELEMENT tcaption ({PREHASH}PCDATA)* {PREGT}
+  {PRELT}!ATTLIST tcaption {PREGT}
+
+
+  {PRELT}!-- A "ttype" gives the type of a column.  If the type is "enum",
+       the "enum{PREUNDERSCORE}type" attribute gives the name of the enum.
+  --{PREGT}
+  {PRELT}!ELEMENT ttype EMPTY {PREGT}
+  {PRELT}!ATTLIST ttype 
+     type (bool{PREPIPE}string{PREPIPE}integer{PREPIPE}id{PREUNDERSCORE}d{PREPIPE}enum) {PREHASH}REQUIRED
+     enum{PREUNDERSCORE}type CDATA {PREHASH}IMPLIED {PREGT}
+
+
+  {PRELT}!-- A "trow" is zero or more "tcolumn"'s.  The number of columns in
+       a "trow" is always the same throughout the table, and is also
+       the same as the number of "theadercolumn"'s in the "theader".
+  --{PREGT}
+  {PRELT}!ELEMENT trow (tcolumn)* {PREGT}
+  {PRELT}!ATTLIST trow {PREGT}
+
+
+  {PRELT}!-- A "tcolumn" contains the value of a column in a row. --{PREGT}
+  {PRELT}!ELEMENT tcolumn ({PREHASH}PCDATA)* {PREGT}
+  {PRELT}!ATTLIST tcolumn {PREGT}
+
+
+  {PRELT}!-- *************
+       *** Sheaf ***
+       *************
+  --{PREGT}
+
+  {PRELT}!-- A "sheaf" is zero or more "straw"'s. --{PREGT}
+  {PRELT}!ELEMENT sheaf (straw)* {PREGT}
+  {PRELT}!ATTLIST sheaf {PREGT}
+
+  {PRELT}!-- A "straw" is zero or more "matched{PREUNDERSCORE}object"'s. --{PREGT}
+  {PRELT}!ELEMENT straw (matched{PREUNDERSCORE}object)* {PREGT}
+  {PRELT}!ATTLIST straw {PREGT}
+
+
+  {PRELT}!-- A "matched{PREUNDERSCORE}object" is a "monad{PREUNDERSCORE}set" followed by an optional
+       "sheaf".  The optional sheaf constitutes a match of the inner
+       blocks from the block which gave rise to the matched{PREUNDERSCORE}object.
+
+       The "focus" boolean tells whether the block in question had the
+       "focus" modifier.
+
+       The "object{PREUNDERSCORE}type{PREUNDERSCORE}name" attribute is the object type name of the
+       object that matched the object{PREUNDERSCORE}block({PREUNDERSCORE}first) which gave rise to
+       this matched{PREUNDERSCORE}object.
+
+       The "id{PREUNDERSCORE}d" is the object id{PREUNDERSCORE}d of the object that matched the
+       object{PREUNDERSCORE}block({PREUNDERSCORE}first) which gave rise to this matched{PREUNDERSCORE}object.
+  --{PREGT}
+  {PRELT}!ELEMENT matched{PREUNDERSCORE}object (monad{PREUNDERSCORE}set, (sheaf)?) {PREGT}
+  {PRELT}!ATTLIST matched{PREUNDERSCORE}object 
+            object{PREUNDERSCORE}type{PREUNDERSCORE}name CDATA {PREHASH}REQUIRED 
+            focus (false {PREPIPE} true) {PREHASH}REQUIRED
+            marks (CDATA) {PREHASH}IMPLIED
+            id{PREUNDERSCORE}d CDATA "nil"
+  {PREGT}
+
+
+  {PRELT}!-- A "monad{PREUNDERSCORE}set" is one or more "mse"'s." --{PREGT}
+  {PRELT}!ELEMENT monad{PREUNDERSCORE}set (mse)+ {PREGT}
+  {PRELT}!ATTLIST monad{PREUNDERSCORE}set {PREGT}
+
+  {PRELT}!-- An "mse" a "monad set element".  It is a pair of attributes,
+       "first" and "last", each of which gives the first and the last
+       monad (a 10-base integer) of the monad set element.  See the
+       document "Monad Sets -- Implementation and Mathematical
+       Foundations" for an explanation.
+  --{PREGT}
+  {PRELT}!ELEMENT mse EMPTY{PREGT}
+  {PRELT}!ATTLIST mse
+            first CDATA {PREHASH}REQUIRED
+            last  CDATA {PREHASH}REQUIRED
+  {PREGT}
+]{PREGT}
+
+</PRE><!-- widthincm : 12 -->
+
+
+</page>
+
+
+
+
+<page ID="1200">
+
+<p>In part III, we describe:</P>
+
+<UL>
+
+  <LI>Tips for how to <page_anchor ID="1210">architect your
+  application</page_anchor>.
+
+  <LI>Tips for <page_anchor ID="1220">loading</page_anchor> an Emdros
+  database with existing data.
+
+  <LI>Tips for creating a <page_anchor
+  ID="1230">query-application</page_anchor>, including:.
+
+  <UL>
+
+     <LI>Tips for how to create an <page_anchor ID="1235">in-memory
+     EMdF database</page_anchor>.
+
+  </UL>
+
+  <LI>Tips for creating a <page_anchor
+  ID="1240">display</page_anchor>-application.
+
+</UL>
+
+</page>
+
+
+
+<page ID="1210">
+
+<h2>Ways you can benefit</h2>
+
+<P>Emdros is for storing and retrieving analyzed or annotated text.
+As such, you are likely to benefit from Emdros in at least one of the
+following ways:</P>
+
+<UL>
+
+  <LI>Ways you can build an Emdros database:
+
+     <UL>
+
+        <LI><P>You have an existing text database which you want to
+             import into Emdros.</P>
+
+        <LI><P>You want to build a database "on the fly" using
+            analyses or annotations you are making.</P>
+
+     </UL>
+
+  <LI>Ways you can use an Emdros database:
+
+     <UL>
+
+         <LI><P>You can display the database contents as they are,
+         based on selection criteria which you make up.</P>
+
+         <LI><P>You can search the database and display the
+         results.</P>
+
+     </UL>
+
+</UL>
+
+<P>How you build your application will depend on which of these four
+goals you have (one or more of them).</P>
+
+<h2>Use MQL</h2>
+
+<P>The easiest way of writing any application on top of Emdros is
+probably to take advantage of the MQL language, rather than dealing
+with the EMdF layer directly.  MQL is quite powerful, and allows you
+to do most things you would want to do with Emdros.  Thus however you
+architect your application, plan on using the MQL User's Guide
+extensively.</P>
+
+
+<h2>In the following</h2>
+
+<P>In the following, we describe:</P>
+
+<OL>
+
+  <LI><page_anchor ID="1220">Loading</page_anchor> a database
+
+  <LI>Building a <page_anchor
+  ID="1230">query</page_anchor>-application
+
+  <LI>Building a <page_anchor
+  ID="1240">display</page_anchor>-application
+
+</OL>
+
+
+</page>
+
+
+
+<page ID="1220">
+
+<p>In order to populate a database, go through the following
+steps:</P>
+
+<OL>
+
+  <LI><P>Create a schema file which contains MQL statements which
+      create all the enumerations and object types and features
+      necessary.  Use the CREATE ENUMERATION and CREATE OBJECT TYPE
+      statements for this.  See the MQL User's Guide for how to use
+      these statements.  The schema file should contain a CREATE
+      DATABASE statement and a USE DATABASE statement at the top of
+      the file.</P>
+
+  <LI><P>Run this schema file through the mql(1) program.</P>
+
+  <LI><P>Populate the database.  This can be done in two ways:</P>
+
+  <OL>
+
+    <LI><P>Write and run a program which takes any existing data and
+        uses the MQL query language to create new objects.  In
+        particular, use the CREATE OBJECT FROM MONADS statement, or
+        the CREATE OBJECTS WITH OBJECT TYPE statement.</P>
+
+    <LI><P>Create the database on-the-fly using some analysis program
+        you have created.</P>
+
+  </OL>
+
+</OL>
+
+</page>
+
+
+
+<page ID="1222">
+
+<P>There are a number of things you can do in order to speed up the
+population process:</p>
+
+<UL>
+
+  <LI><P><page_anchor ID="1224">Generally applicable</page_anchor>
+  things, and</P>
+
+  <LI><P><page_anchor ID="1225">PostgreSQL-specific</page_anchor>
+  things.</P>
+
+</UL>
+
+
+</page>
+
+
+
+<page ID="1224">
+
+<h2>Use CREATE OBJECTS WITH OBJECT TYPE</h2>
+
+<P>In general, it is faster to use CREATE OBJECTS WITH OBJECT TYPE
+rather than CREATE OBJECT FROM MONADS.  On my machine, it is between 7
+and 10 times faster, depending on the backend.</P>
+
+<P>One drawback of CREATE OBJECTS WITH OBJECT TYPE is that you can't
+get the object id_d back immediately.  You would have to query the
+database (e.g., using SELECT OBJECTS HAVING MONADS IN) to find out the
+object id_ds of the newly created objects.</P>
+
+<P>If your application requires complex interaction between objects,
+e.g., setting features based on other objects' id_ds, it may be easier
+(but certainly not faster) to use CREATE OBJECT FROM MONADS.</P>
+
+
+<h2>Drop indexes</h2>
+
+<P>In order to speed up queries, one thing you can do is to issue a
+</P>
+
+<pre class="code">
+  {PREDOLLAR} manage{PREUNDERSCORE}indices --drop databasename
+</PRE><!-- widthincm : 12 -->
+
+<P>command on the command-line before starting the program which
+populates the database.  Then, once all creation has taken place, you
+can issue the command:</P>
+
+<pre class="code">
+  {PREDOLLAR} manage{PREUNDERSCORE}indices --create databasename
+</PRE><!-- widthincm : 12 -->
+
+<P>in order to recreate the indices.  See the manage_indices(1) manual
+page for more information.</P>
+
+<P>You can also use the MQL statements DROP INDEXES and CREATE
+INDEXES.  See the MQL User's Guide for more information.</P>
+
+</page>
+
+
+
+<page ID="1225">
+
+<P>You can also issue a VACUUM command on the database after each part
+of the database has been loaded, or even while loading the database.
+The latter can be done in one of two ways:</P>
+
+<OL>
+
+  <LI><P>Either with the MQL "VACUUM DATABASE" statement, or</P>
+
+  <LI><P>With the <page_anchor ID="1110">EMdFDB</page_anchor>::Vacuum
+  method if you have the EMdF library linked in.</P>
+
+</OL>
+
+<P>See the PostgreSQL documentation for details on the VACUUM command.
+See also the vacuumdb(1) manual page.</P>
+
+<P>Also, you may want to set the option "fsync = false" in the
+postgresql.conf file (located in /var/lib/pgsql/data on RedHat).  See
+the PostgreSQL documentation for more information.  The performance
+gain, however, may be minimal with PostgreSQL version 7.1 and
+higher.</P>
+
+
+</page>
+
+
+
+<page ID="1230">
+
+<P>If your application has the goal of displaying the results of a
+SELECT (ALL|FOCUS) OBJECTS query, i.e., if it has the goal of
+displaying the results of the kind of MQL query which your users will
+likely be interested in, then the following strategy could be
+used:</P>
+
+<OL>
+
+   <LI><P>Parse the sheaf. Create an internal representation, and
+       extract what you need from that. This will include the monads
+       and object id_ds of the objects in question.</P>
+
+   <LI><P>Make a big-union of the sets of monads of all the objects
+       you are interested in.  You can use the MONAD SET CALCULATION
+       query to build this union.  Alternatively, if you have the emdf
+       library linked into your application, you can use the
+       SetOfMonads to calculate the union.</P>
+
+   <LI><P>Issue a GET OBJECTS HAVING MONADS IN query for each of
+       the object types you need to see (e.g., morpheme) with the
+       monad set which is the union of all monads you are interested
+       in. This will get you all the object id_ds of the objects you
+       are interested in.</P>
+
+       <P>How you go from here depends on how you want to solve the
+       display problem.  One strategy could be:</P>
+
+   <LI><P>Build an <page_anchor ID="1235">in-memory EMdF
+       database</page_anchor> with this information.</P>
+
+   <LI><P>Display the in-memory EMdF database on-screen in a scrolling
+       view, or dump results to a file or stdout.</P>
+
+</OL>
+
+<P>Next, we describe the design of such an in-memory EMdF database.</P>
+
+</page>
+
+
+
+<page ID="1235">
+
+<h2>Benefits</h2>
+
+<P>Building an in-memory EMdF database has the advantage of being close
+to the EMdF model, and thus to the data you get back.  Also, we have
+found the EMdF model to be quite powerful when manipulating and
+displaying data in-memory.</P>
+
+<h2>Necessary operations</h2>
+
+<P>Here are some operations you will likely need:</P>
+
+<UL>
+  <LI>Database operations
+  <UL>
+     <LI>Get object(s) of a given object type at a given monad.
+     <LI>Get object by id_d
+     <LI>Insert object into database
+     <LI>Delete object from database
+  </UL>
+  <LI>Object operations
+  <UL>
+     <LI>Create object
+     <LI>Delete object
+     <LI>Get feature value
+     <LI>Set feature value
+  </UL>
+
+</UL>
+
+</page>
+
+
+
+<page ID="1236">
+
+<P>With these operations, you will be able to construct most other
+operations you may need.  For example, if your application domain uses
+an immediate constituent model, one way of modeling this is to have,
+in each object type, a feature called "parent", which is an id_d
+pointing to the parent object.  Then a number of desirable operations
+can easily be implemented in terms of the above operations:</P>
+
+<UL>
+  <LI>Get immediate constituents of object
+  <LI>Get parent of object
+  <LI>Get siblings (through judicious use of the two above operations)
+  <LI>is_c_commanding (a boolean)
+</UL>
+
+<P>etc. etc.</P>
+
+
+
+</page>
+
+
+
+<page ID="1237">
+
+<P>One strategy for implementing an in-memory EMdF database (using C++
+terminology as an example) would be the following:</P>
+
+<UL>
+
+  <LI><P>Have a class which encapsulates the database.</P>
+
+  <LI><P>Have a class which encapsulates object types.  Each object
+      type should encapsulate the features it has, as well as their
+      types.  Associate each object type with an object type id and
+      store these in the database class.</P>
+
+  <LI><P>Have a class called, e.g., CMonad_d (for "database monad").
+      This represents a monad_m, and has, for each object type, a list
+      of the object id_ds of the objects which have this monad.  In
+      the database class, use either an array or an associative map
+      (e.g., std::map) which associates each monad_m with its
+      CMonad_d.</P>
+
+  <LI><P>Have a class which encapsulates objects, their monads, and
+      their feature values.  You can choose either to make the class
+      generic, capable of handling all object types, or to subclass it
+      for each object type in your application domain.</P>
+
+  <LI><P>For each object type, use some sort of associative map (e.g.,
+      std::map) which maps id_ds to pointers to object objects, and
+      put these in the database class.  You may wish to put all of the
+      objects in one big map, regardless of object type.</P>
+
+</UL>
+
+<P>This should serve most needs.</P>
+
+</page>
+
+
+<page ID="1238">
+
+<P>If you do implement a generic in-memory EMdF database, please
+consider contributing it to the Emdros project.  Contact Ulrik
+Petersen &lt;ulrikp[at]users.sourceforge.net&gt; with any
+contributions.</P>
+
+
+</page>
+
+
+
+<page ID="1240">
+
+<p>When displaying text from an Emdros database, you need to take the
+following steps:</P>
+
+<OL>
+
+  <LI><P>Find out the object id_ds of the objects which you wish to
+  display.  This can either be done with a "SELECT (ALL|FOCUS)
+  OBJECTS" query, or, if you know the monads in which to look, with a
+  "SELECT OBJECTS HAVING MONADS IN" query.</P>
+
+  <LI><P>Once you have the id_ds you want, proceed from step 2 in the
+  instructions for a <page_anchor
+  ID="1230">query-application</page_anchor>.
+
+</OL>
+
+
+
+</page>
+
+
+
+<page ID="1400">
+
+<p>Part IV is about the "harvest" library that has been part of Emdros since
+version 3.0.2.</p>
+
+<p><b>WARNING:</b> This library is not yet fully documented, though
+all parts are ready for prime-time use.</P>
+
+</page>
+
+<page ID="1410">
+
+<h2>Purpose</h2>
+
+<p>The purpose of the harvest library is to assist in retrieving and
+displaying objects from an Emdros database.</p>
+
+<p>For the moment, there are four components to the Emdros "harvest"
+library:</p>
+
+<OL>
+
+  <LI><p>A "RenderObjects" class, which supports reading of objects into
+  memory, producing a document from the objects read.  The document can be
+  XML-based, but need not be.</p>
+
+  <LI><p>A "RenderXML" module, which supports SAX-parser-based parsing of XML
+  and rendering into something else, probably HTML.</p>
+
+  <LI><p>A "full text search" module (harvest_fts).</p>
+
+  <LI><p>A "full text search version 2" module
+  (harvest_fts2).</p>
+
+</OL>
+
+<p>The idea is to use the "RenderObjects" module for retrieving the objects
+from an Emdros database.  These objects are then rendered into a document by
+the "RenderObjects" module, according to a pre-defined model, and driven by a
+user-supplied "stylesheet" telling the "RenderObjects" engine what to do.  The
+output of this process is a document, i.e., a string containing a
+representation of the objects read.  This document may or may not be XML, but
+if it is, then the "RenderXML" module may be used to transform the document to
+something else.</p>
+
+<p>The idea of the "RenderXML" module is to take the XML produced by
+"RenderObjects" and produce something else -- probably HTML, but it could be
+any other format.  The output is, again, a document in the form of a string.
+Again, a "stylesheet" is used to tell the "RenderXML" what to do.</p>
+
+<h2>JSON stylesheets</h2>
+
+<p>As mentioned, both of the above modules use user-supplied "stylesheets" in
+order to know what to do.  These "stylesheets" are based on the JSON data
+interchange language.</p>
+
+<p>For more information about JSON, please visit:</p>
+
+<p>http://www.json.org</p>
+
+<p>JSON is a very simple language, and should be easy to learn.  An
+implementation of JSON is provided in the libemdf library, so no
+external dependencies are needed for this.</p>
+
+
+
+</page>
+
+
+
+<page ID="1420">
+
+<h2>JSON</h2>
+
+<p>JSON is a simple data interchange language.  It is easy for humands to read
+and write.  It is also easy for machines to parse and generate.</p>
+
+<p>JSON builds on three kinds of data structures:</p>
+
+<UL>
+
+  <LI><strong>Objects</strong>: An <em>object</em> in JSON is an unordered set
+  of key/value pairs.
+
+  <LI><strong>Arrays</strong>: An <em>array</em> in JSON is an ordered list of
+  values.
+
+  <LI><strong>Values</strong>: A <em>value</em> in JSON is one of the
+  following kinds:
+
+  <UL>
+
+        <LI><strong>null</strong>: A JSON value which is used to mean "no
+        value".
+
+        <LI><strong>true</strong>: A JSON value which is used to mean "the
+        Boolean value 'true'".
+
+        <LI><strong>false</strong>: A JSON value which is used to mean "the
+        Boolean value 'false'".
+
+        <LI><strong>string</strong>: A JSON value which denotes a string.  It
+        is enclosed in "double quotes", and may contain "escape characters".
+        For a full list of escape characters, please see below.
+
+        <LI><strong>number</strong>: A JSON value which denotes a
+        number.  In real JSON, these numbers can be both integers and
+        floating-point numbers.  In the implementation present in
+        Emdros, they can only be the integers (positive and negative,
+        as well as 0).  Thus, floating-point numbers cannot be
+        represented in the JSON implementation in Emdros.
+
+        <LI><strong>object</strong>: A JSON object.  Note that this entails
+        that JSON objects may contain JSON objects, just as JSON arrays may
+        contain JSON objects.
+
+        <LI><strong>array</strong>: A JSON array.  Note that this entails that
+        JSON arrays may contain JSON arrays, just as JSON objects may contain
+        JSON arrays.
+
+  </UL>
+
+</UL>
+
+<h2>Escape codes</h2>
+
+<p>In JSON, strings are surrounded by "double quotes".  Inside the
+double quotes, one may place "escape characters", which map to other
+characters.  The ones present in Emdros's JSON are:</p>
+
+<UL>
+
+  <LI><strong>\"</strong>: maps to "
+
+  <LI><strong>\\</strong>: maps to \
+
+  <LI><strong>\b</strong>: maps to "bell" (control character 0x07)
+
+  <LI><strong>\f</strong>: maps to "form feed" (control character 0x0c)
+
+  <LI><strong>\n</strong>: maps to "newline" (control character 0x0a)
+
+  <LI><strong>\r</strong>: maps to "carriage return" (control character 0x0d)
+
+  <LI><strong>\t</strong>: maps to "horizontal tab" (control character 0x09)
+
+  <LI><strong>\x[A-Fa-f0-9][A-Fa-f0-9]</strong>: Maps to the 8-bit
+  number expressed by the hexadecimal number after the \x.  Note that
+  this is a departure from "real" JSON, where 8-bit characters are not
+  supported.
+
+  <LI><strong>\u[A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9][A-Fa-f0-9]</strong>:
+  Maps to the 16-bit Unicode code point expressed by the hexadecimal
+  number after the \u.
+
+</UL>
+
+<h2>More information</h2>
+
+<p>For more information about JSON, please visit:</p>
+
+<p>http://www.json.org</p>
+
+
+</page>
+
+
+
+<page ID="1430">
+
+<h2>Input to RenderObjects</h2>
+
+<p>The "RenderObjects" class constructor takes as input:</p>
+
+<UL>
+
+  <LI>An EmdrosEnv object, already connected to a database.  The
+  EmdrosEnv must return true when calling connectionOk().
+
+  <LI>A database name. This is just a way of identifying the database
+  within the engine, and need not have anything to do with the actual
+  database name connected to by the EmdrosEnv.
+
+  <LI>A JSONValue called "pFetchInfo" which must be a JSON object which
+  contains the stylesheet or stylesheets to use.
+
+  <LI>A string containing the name of the stylesheet to use from the
+  pFetchInfo JSON object.
+
+</UL>
+
+<p>The "process" method of the RenderObjects class takes as input a starting
+monad and an ending monad.  The stretch of monads specified here is used to
+retrieve the objects, so all objects to be retrieved must be found within the
+confines of this stretch of monads.</p>
+
+<h2>Output</h2>
+
+<p>The output from RenderObjects is a document in the form a string.  The
+document can be retrieved with the "getDocument()" method of a RenderObjects
+object.</p>
+
+</page>
+
+<page ID="1431">
+
+
+<h2>Stylesheet structure</h2>
+
+<p>The "pFetchInfo" JSONValue object passed to the constructor must
+contain at least one "fetch stylesheet".  It may also contain at most
+one "dictionaries" key.</p>
+
+<p>The "dictionaries" key, when present, must point to a JSON object
+which maps strings to JSON objects, which in turn map strings to
+strings (only).  It is used for looking up things in a dictionary with
+a special template tag called "dictlookup".</p>
+
+<p>Moreover, the name of the stylesheet passed in the last parameter
+to the constructor must be present in the pFetchInfo JSON object as a
+key, which names a "fetch stylesheet". The value of this key must, in
+turn, be a JSON object.  This JSON object must, in turn, contain at
+least the key, "object_types". It may also contain the keys
+"priority_list", "postprocess", and "prepend_XML_declaration".</p>
+
+<p>The "object_types" key must point to a JSON object.</p>
+
+<p>The "priority_list" key, when present, must point to a list of JSON
+strings.</p>
+
+<p>The "postprocess" key, when present, must point to a list of JSON
+objects. It is used for doing any post-processing after the
+renderobjects process proper has finished.</p>
+
+<p>The "prepend_XML_declaration" key, when present, must point to a
+JSON Boolean.  Unless this is present, and false, the following string
+is prepended to the output: "<strong>&lt;?xml version='1.0'
+encoding='utf-8'?&gt;</strong>". Thus you can turn off this "feature"
+by having this key/value pair in your stylesheet:</p>
+
+<pre class="code">
+       "prepend{PREUNDERSCORE}XML{PREUNDERSCORE}declaration" : false,
+</pre><!-- widthincm : 12 -->
+
+<p>For examle, the following would be the beginnings of a "fetch
+stylesheet", with one stylesheet called "base":</p>
+
+<pre class="code">
+{PREOPENBRACE}
+   "fetchinfo" : {PREOPENBRACE}
+      "base" : {PREOPENBRACE}
+         "object_types" : {PREOPENBRACE}
+         {PRECLOSEBRACE},
+         "priority_list" : [
+         ],
+         "postprocess" : [
+         ],
+         "prepend{PREUNDERSCORE}XML{PREUNDERSCORE}declaration" : true,
+      {PRECLOSEBRACE}
+   {PRECLOSEBRACE}
+{PRECLOSEBRACE}
+</pre><!-- widthincm : 12 -->
+
+<h2>priority_list</h2>
+
+<p>There are two ways of telling Emdros in which order to process the
+objects retrieved.  One is by means of a "document index feature".
+Here we describe the priority list.  The document index feature will
+be described later.</p>
+
+<p>The "priority_list" must contain a list of JSON strings, each of
+which is the name of an object type.  If an object type name occurs in
+the "priority_list", it <em>must</em> occur in the "object_types" JSON
+object.</p>
+
+<p>The purpose of the "priority_list" is to indicate the order in
+which the object types must be processed. (See below for the
+processing model.)</p>
+
+<h2>object_types</h2>
+
+<p>The "object_types" JSON object must contain key/value pairs as follows:</p>
+
+<UL>
+   <li>Keys: object type names
+
+   <li>Values: A JSON object with the following keys: "start", "end",
+   "get", and "docindexfeature".  All of these are optional, but if
+   anything is to happen with the objects from the object type, then
+   at least one of "start" and "end" must be present.  They are
+   explained below.
+
+</UL>
+
+<h2>Example</h2>
+
+<p>Thus, a simple but complete example of a stylesheet with one "fetch
+stylesheet" and the "dictinoaries" key may look like this:</p>
+
+<pre class="code">
+{PREOPENBRACE}
+   "fetchinfo" : {PREOPENBRACE}
+   {PREOPENBRACE}
+      "base : {PREOPENBRACE}
+         "object_types" : {PREOPENBRACE}
+             "document" : {PREOPENBRACE}
+                  "start" : "<document id=\"{PREOPENBRACE}{PREOPENBRACE} feature 0 {PRECLOSEBRACE}{PRECLOSEBRACE}\"><docname>{PREOPENBRACE}{PREOPENBRACE} dictlookup 'documentname' feature 0 'Unknown document' {PRECLOSEBRACE}{PRECLOSEBRACE}</docname>",
+	          "get" : [
+	             "documentid"
+	          ] 
+                  "end" : "</document>"
+              {PRECLOSEBRACE},
+              "token" : {PREOPENBRACE}
+                   "get" : [ "surface" ],
+                   "start" : "<token>{PREOPENBRACE}{PREOPENBRACE} feature 0 {PRECLOSEBRACE}{PRECLOSEBRACE}</token>"
+              {PRECLOSEBRACE},
+         {PRECLOSEBRACE},
+         "priority_list" : [
+            "document",
+            "token"
+         ],
+     {PRECLOSEBRACE},
+  {PRECLOSEBRACE}
+  "dictionaries" : {PREOPENBRACE}
+     "documentname" : {PREOPENBRACE}
+         "id123" : "Alice's adventures in wonderland",
+         "id456" : "Moby Dick",
+     {PRECLOSEBRACE}
+  {PRECLOSEBRACE}
+{PRECLOSEBRACE}
+</pre><!-- widthincm : 12 -->
+
+</page>
+
+<page ID="1432">
+
+
+<h2>Processing model</h2>
+
+<p>The processing model works with objects of all range-types, i.e.,
+objects which are either "SINGLE RANGE OBJECTS", "SINGLE MONAD
+OBJECTS", or "MULTIPLE RANGE OBJECTS".</p>
+
+<p>The algorithm is as follows:</p>
+
+<OL>
+
+  <LI><p>Start the process by calling RenderObjects::startDocument().
+  The default implementation of startDocument() just adds the XML
+  declaration to the document.  The user is free to subclass the
+  RenderObjects class and reimplement startDocument, thus starting in
+  a different way.</p>
+
+  <LI><p>Based on the starting and ending monads given in the
+  parameters to the RenderObejcts::process() call, all objects from
+  the object types present in the "object_types" JSON object of the
+  given "fetch style sheet" are read into memory.  This is done with a
+  GET OBJECTS HAVING MONADS IN {OPENBRACE} <em>first_monad</em> -
+  <em>last_monad</em> {CLOSEBRACE} MQL statement.</p>
+
+  <LI><p>The objects read into memory are then processed as follows:</p>
+
+      <p>For all monads <em>m</em> between the first monad and the
+      last monad:</p>
+
+     <OL>
+
+        <LI><p>Get a list of objects which start at the monad
+        <em>m</em>, or which have a monad set element which starts at
+        <em>m</em>.  Sort it according to the methods specified below.
+        For each object in this sorted list, call the "template"
+        specified in the "start" value in the "object_types" JSON
+        object for this object type.</p>
+
+        <LI><p>Get a list of objects which end at monad <em>m</em>, or
+        which have a monad set element which ends at <em>m</em>.  Sort
+        it according to the methods specified below.  For each object
+        in this list, call the "template" specified in the "end" value
+        in the "object_types" JSON object for this object type.</p>
+
+     </OL>
+
+
+</OL>
+
+<h2>Sorting methods</h2>
+
+<p>When sorting the lists of objects to start or end at a given monad,
+the following two methods can be used:</p>
+
+<OL>
+
+  <LI><strong>priority_list:</strong> <p>If the stylesheet JSON object
+  contains a "priority_list" key (as described above), then the list
+  is sorted by two keys: First, by the last monad of the Monad Set
+  Element which starts at the current monad (in reverse order). And
+  second, by the position of the object type in the priority_list JSON
+  array.  The effect of this is that objects which start at the same
+  monad are opened first if they end later, and, if they end at the
+  same monad, are opened first if they are first in the priority_list.
+  Thus, if you have a DTD that you want to follow, and element X
+  contains element Y in the DTD, you can safely place X before Y in
+  the priority_list and assume that everything is printed in the right
+  order.</p>
+
+  <p>This is reversed when doing the end-of-Monad-set-element monad.
+  That is, the first monad of the monad set element at hand is used as
+  the first sorting key, and the length of the priority list MINUS the
+  position of the object type in the priority list is used as the
+  second sorting key.  Thus, objects which start after other objects
+  are closed first, and objects which start at the same monad, but are
+  further down in the priority_list are closed first. Again, this is
+  so as to ensure that a DTD is followed if element X contains element
+  Y, and element X is before element Y in the priority list.</p>
+
+  <LI><strong>document index feature:</strong> <p>The other method
+  that can be used to sort the list is to use a "document index
+  feature".  The concrete expression of this in the stylesheet is
+  given below, under "Object type information".  For now, it is enough
+  to know that a document index feature is an integer feature on an
+  object which gives, for that object, the priority to be used.  Thus
+  it replaces the priority_list.  Indeed, if there is no
+  priority_list, then all objects in the object_types JSON object MUST
+  have a "docindexfeature" key.  Conversely, if there is a
+  "priority_list", then that will be used, regardless of whether any
+  object type JSON object has a "docindexfeature" key.</p>
+
+  <p>The "document index feature" must be generated (when you generate
+  the database) in such a way that objects with <em>lower</em>
+  document index feature values are to be "started" <em>before</em>
+  objects with higher document index feature values, and ended
+  <em>after</em> objects with higher document index feature
+  values.</p>
+
+  <p>Note that the algorithm completely disregards the first and last
+  monads of the monad set element in the sorting of those that start
+  or end a monad set element at a given monad.  This is because the
+  algorithm needs to trust the docindexfeature value completely.</p>
+
+  <p>Note also that this can usefully implemented by "parents": If an
+  object has a parent, then that parent's docindexfeature should
+  always be lower than any of its children. That way, if it is a tree,
+  then the objects will be started and ended in a cleanly nested
+  way.</p>
+
+  <p>Note also that if this is a tree (and not a forest of connecected
+  trees with a common root), then the parent need not have a globally
+  unique docindexfeature.  Instead, the docindexfeature values must be
+  locally unique within the tree.</p>
+
+ </OL>
+
+<h2>Object type information</h2>
+
+<p>For each object type in the "object_types" JSON object, the
+following four keys may be present:</p>
+
+<UL>
+
+  <LI><strong>get</strong>: If present, this must map to a JSON list of JSON
+  strings.  The strings must be features present on the given object type.
+
+  <LI><strong>start</strong>: If present, this must map to a JSON string which
+  gives the "template" to be used when starting objects of this object type.
+
+  <LI><strong>end</strong>: If present, this must map to a JSON string which
+  gives the "template" to be used when ending objects of this object type.
+
+  <LI><strong>docindexfeature</strong>: If present, the the feature
+  named by the value must be an integer, suitable for being used by
+  the "document index feature" algorithm described above for
+  prioritizing objects.
+
+</UL>
+
+<h2>Templates</h2>
+
+<p>As stated, the "start" and "end" keys must map to JSON strings
+which contain "templates".  In the next Section, we describe these
+templates.</p>
+
+</page>
+
+
+
+<page ID="1440">
+
+<h2>Introduction</h2>
+
+<p>The template language for RenderObjects can be described as
+follows.  It is a list of the following kinds of string:</p>
+
+<h2>Basic emitting commands</h2>
+
+<UL>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} id_d
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the id_d of the object under
+  consideration.<br/><b>Only available in
+  RenderObjects, not RenderXML.</b></p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} firstmonad
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the first monad of the
+  object under consideration.  This is done in base-10, so that if an
+  object has a set of objects with first monad "3", then "3" is
+  emitted (without the quotes).<br/><b>Only available in
+  RenderObjects, not RenderXML.</b></p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} dbname
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the database name under
+  consideration.  This is the database name given to the constructor
+  of the RenderObjects class.<br/><b>Only available in
+  RenderObjects, not RenderXML.</b></p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} feature <em>integer</em>
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the value of the object's
+  feature given by the <em>integer</em>'s 0-based index into the list
+  of features in the "get" part of the stylesheet for this object
+  type.  Thus if the "get" part says '"get" : [ "surface", "suffix"
+  ]', and the "start" part says: '"start" : "{OPENBRACE}{OPENBRACE}
+  feature 1 {CLOSEBRACE}{CLOSEBRACE}"', then the value of the object's
+  "suffix" feature is emitted.  The feature value is escaped (mangled)
+  according to XML rules, such that less-than becomes "&amp;lt;",
+  greater-than becomes "&amp;gt;", ampersand becomes "&amp;amp;", and
+  "double tuote" becomes "&amp;quot;".<br/><b>Only available in
+  RenderObjects, not RenderXML.</b></p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} featurenomangle
+  <em>integer</em> {CLOSEBRACE}{CLOSEBRACE}</strong>: Just like the
+  "feature" counterpart just described, except that no XML mangling
+  takes place.<br/><b>Only available in RenderObjects, not
+  RenderXML.</b></p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} counter <em>string</em>
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the contents of the
+  "counter" within the template execution environment, named by the
+  given string.  A counter is simply an integer which has a name, and
+  which can be incremented and emitted.  It always starts at 0, so the
+  first time you use this, 0 will be emitted, unless you have used
+  "inccounter", "deccounter" or "setcounter" first.</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} counter <em>string</em> format
+  <em>format-string</em> {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the
+  contents of the "counter" within the template execution environment,
+  named by the first string, formatted using the format-string.<br/>
+  <br/> The format-string is currently limited to the following
+  cases. For example:
+  
+  <UL>
+	<LI><p><b>Empty</b> No formatting is done on the integer. It is just printed as a base-10 number.</p>
+	
+	<LI><p><b>017</b> I.e., a 0-prefixed integer (e.g., 17).
+	This makes sure that the number string is at least as long as
+	the given integer (e.g., 17 characters long), and padded with
+	'0', ASCII 48=0x32.</p>
+	
+	<LI><p><b>17</b> I.e., a non-0-prefixed integer.  Same as 017,
+        except that the padding charater is a space: ASCII 32=0x20.</p>
+
+ 	</UL>
+  </UL>
+
+<h2>Document control commands</h2>
+
+<UL>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} setnixing doc
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Starts "nixing" the output to the
+  document, i.e., no strings are emitted at all to the output. Strings
+  are emitted to variables and lists, however. But variables and lists
+  are not emitted to the document. This state continues until you use
+  "setnixing off" or "setnixing all".</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} setnixing all
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Starts "nixing" ALL output to the
+  document and to lists and variables, i.e., no strings are emitted at
+  all to the output, lists, or variables. This state continues until
+  you use "setnixing off" or "setnixing doc".</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} setnixing off
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Stops "nixing" (see "setnixing
+  doc" and "setnixing all" just above).</p>
+
+</UL>
+
+<h2>Counter manipulation commands</h2>
+
+<UL>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} inccounter <em>string</em>
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Increments the "counter" within
+  the template execution environment which is named by the given
+  string, adding 1. If the counter does not exist when this template
+  is called, it will be created, and will start at 0. It will then be
+  incremented to 1.</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} inccounter <em>string</em>
+  <em>integer</em> {CLOSEBRACE}{CLOSEBRACE}</strong>: Increments the
+  "counter" within the template execution environment which is named
+  by the given string, adding the integer given. If the counter does
+  not exist when this template is called, it will be created, and will
+  start at 0. It will then be incremented to the integer given.</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} inccounter <em>string</em> var
+  <em>string</em> {CLOSEBRACE}{CLOSEBRACE}</strong>: Increments the
+  "counter" within the template execution environment which is named
+  by the given string, adding the integer value contained in the
+  variable named by the string after "var". If the counter does not
+  exist when this template is called, it will be created, and will
+  start at 0. It will then be incremented to the integer given in the
+  variable.</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} deccounter <em>string</em>
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Decrements the "counter" within
+  the template execution environment which is named by the given
+  string, subtracting 1. If the counter does not exist when this template
+  is called, it will be created, and will start at 0. It will then be
+  decremented to -1.</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} deccounter <em>string</em>
+  <em>integer</em> {CLOSEBRACE}{CLOSEBRACE}</strong>: Decrements the
+  "counter" within the template execution environment which is named
+  by the given string, subtracting the integer given. If the counter does
+  not exist when this template is called, it will be created, and will
+  start at 0. It will then be decremented to the integer given.</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} deccounter <em>string</em> var
+  <em>string</em> {CLOSEBRACE}{CLOSEBRACE}</strong>: Decrements the
+  "counter" within the template execution environment which is named
+  by the given string, subtracting the integer value contained in the
+  variable named by the string after "var". If the counter does not
+  exist when this template is called, it will be created, and will
+  start at 0. It will then be decremented to the integer given in the
+  variable.</p>
+
+
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} setcounter <em>string</em>
+  <em>integer</em> {CLOSEBRACE}{CLOSEBRACE}</strong>: Sets the
+  "counter" within the template execution environment which is named
+  by the given string, setting it to the integer given. If the counter
+  does not exist when this template is called, it will be created, and
+  will be set to the integer given.</p>
+
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} setcounter <em>string</em> var
+  <em>string</em> {CLOSEBRACE}{CLOSEBRACE}</strong>: Sets the
+  "counter" within the template execution environment which is named
+  by the first string, setting it to the integer value obtained from
+  base-10 decoding the variable named in the second string. If the
+  counter does not exist when this template is called, it will be
+  created, and will be set to the integer given.</p>
+
+</UL>
+
+<h2>Variable manipulation commands</h2>
+
+<UL>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} setvar
+  <em>variable-name-as-string</em> <em>new-value-as-string</em>
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Sets the string contents of a
+  variable with the name given to the value given. If the variable
+  does not exist, it is created.</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} setvar
+  <em>variable-name-as-string</em> {CLOSEBRACE}{CLOSEBRACE}
+  <em>variable contents...</em> {OPENBRACE}{OPENBRACE} setvarend
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Sets the string contents of a
+  variable with the name given. If the variable does not exist, it is
+  created. The contents of the variable are set to whatever appears
+  until <strong>setvarend</strong> is met. This may include other
+  templates, but may not include listappendbegin ... listappendend,
+  nor may it include setvar. The setvarend template need not be in the
+  same template string as the setvar template, i.e., the first
+  setvarend met during execution will end the current (and only)
+  setvar.</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} emitvar
+  <em>variable-name-as-string</em> {CLOSEBRACE}{CLOSEBRACE}</strong>:
+  Emits the contents of the variable with the name given. If the
+  variable does not exist, it is initialized to be the empty
+  string. </p>
+
+</UL>
+
+
+<h2>List manipulation commands</h2>
+
+<UL>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} listappendbegin
+  <em>string</em> {CLOSEBRACE}{CLOSEBRACE} <em>list contents...</em>
+  {OPENBRACE}{OPENBRACE} listappendend {CLOSEBRACE}{CLOSEBRACE}
+  </strong>: Appends the contents up to the <em>listappendend</em>
+  template tag to the list named by <em>string</em>.  The contents may
+  contain other templates, including listappendbegin
+  ... listappendend.  If the list does not exist, it is created.  The
+  contents will not be emitted until a <em>listemit</em> template tag
+  which uses the name of the list is met in the processing. The
+  listappendend need not appear in the same string as the
+  corresponding listappendbegin. The listappendend ends the most
+  recently begun list, i.e., a stack of list names is at work.
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} listemit <em>string</em>
+  <em>string</em> {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the
+  elements of the list named by the first <em>string</em>. The second
+  <em>string</em> is placed in between each list item.
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} listclear <em>string</em>
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Clears the list named by
+  <em>string</em> (i.e., makes it empty).
+
+</UL>
+
+<h2>Dictionary manipulation commands</h2>
+
+<UL>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} dictlookup
+  <em>dictname-as-string</em> feature
+  <em>feature-index-as-integer</em> <em>default-as-string</em>
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Can only be used with fetchinfo,
+  not renderinfo, since the features are only available in the
+  fetchinfo stage. Looks up the dictionary with the given name under
+  the "dictionaries" key of the fetchinfo stylesheet at hand, and then
+  looks up the key given by the feature of the current object with
+  feature index as given, and the emits the value, if found, or the
+  default given, if not found.</p>
+
+  <p>The feature value is mangled according to XML rules. See the
+  <strong>feature</strong> template tag on this page for an
+  explanation.</p>
+
+  <p>Example: {OPENBRACE}{OPENBRACE} dictlookup 'booknames' feature 0
+  'Unknown book ID' {CLOSEBRACE}{CLOSEBRACE}</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} dictlookup
+  <em>dictname-as-string</em> featurenomangle
+  <em>feature-index-as-integer</em> <em>default-as-string</em>
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: This behaves just like the
+  dictlookup ... feature ... counterpart, but does not XML-mangle the
+  feature value before looking the feature value up. This can also
+  only be used with fetchinfo, not renderinfo.</p>
+
+  <p>Example: {OPENBRACE}{OPENBRACE} dictlookup 'booknames'
+  featurenomangle 0 'Unknown book ID' {CLOSEBRACE}{CLOSEBRACE}</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} dictlookup
+  <em>dictname-as-string</em> var <em>variable-name-as-string</em>
+  <em>default-as-string</em> {CLOSEBRACE}{CLOSEBRACE}</strong>: This
+  behaves just like the dictlookup ... feature ... counterpart, but
+  uses the contents of the given variable as the key into the
+  dictionary. Additionally, it can be used both in fetchinfo and in
+  renderinfo.</p>
+
+  <p>The contens of the variable are XML-mangled before the
+  lookup.  See the <strong>feature</strong> template tag for an
+  explanation of XML-mangling.</p>
+
+  <p>Example: {OPENBRACE}{OPENBRACE} dictlookup 'booknames'
+  var 'bookID' 'Unknown book id' {CLOSEBRACE}{CLOSEBRACE}</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} dictlookup
+  <em>dictname-as-string</em> varnomangle
+  <em>variable-name-as-string</em> <em>default-as-string</em>
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: This behaves just like the
+  dictlookup ... var ... counterpart, but does not mangle the variable
+  contents before looking up in the dictionary.
+
+  <p>Example: {OPENBRACE}{OPENBRACE} dictlookup 'booknames'
+  var 'bookID' 'Unknown book id' {CLOSEBRACE}{CLOSEBRACE}</p>
+
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} dictlookup
+  <em>dictname-as-string</em> counter <em>counter-name-as-string</em>
+  <em>default-as-string</em> {CLOSEBRACE}{CLOSEBRACE}</strong>: This
+  first sees if the given counter exists. If it does not, it is
+  initialized to 0. Then, its value is converted to string in
+  base-10. Then, the dictionary lookup is performed as for var and
+  feature, but with the counter-value as the lookup key.</p>
+
+  <p>Example: {OPENBRACE}{OPENBRACE} dictlookup 'number2letter_dict'
+  counter 'footnotenumber' 'Unknown number' {CLOSEBRACE}{CLOSEBRACE}</p>
+
+</UL>
+
+<h2>Named set manipulation commands</h2>
+
+<p>The template language supports "named sets" of strings.  The
+following template actions manipulate these.</p>
+
+<UL>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} namedsetaddbegin
+  <em>string</em> <em>string</em> {CLOSEBRACE}{CLOSEBRACE} <em>named
+  set contents...</em> {OPENBRACE}{OPENBRACE} namedsetaddend
+  {CLOSEBRACE}{CLOSEBRACE} </strong>: Adds the string(s) up to the
+  <em>namedsetaddend</em> template tag to the set named by first
+  <em>string</em>.  If the named set does not exist, it is created
+  before any string is added.  The contents will not be emitted until
+  a <em>namedsetemit</em> template tag which uses the name of the set
+  is met in the processing.</p>
+
+  <p>The second string is a delimiter string
+  which, if non-empty, is used to cut up the content string into
+  substrings, which are then added one by one.</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} namedsetremovebegin
+  <em>string</em> <em>string</em> {CLOSEBRACE}{CLOSEBRACE} <em>named
+  set contents to remove...</em> {OPENBRACE}{OPENBRACE}
+  namedsetremoveend {CLOSEBRACE}{CLOSEBRACE} </strong>: Removes the
+  string(s) up to the <em>namedsetremoveend</em> template tag from the
+  set named by first <em>string</em>.  If the named set does not exist,
+  nothing happends.</p>
+
+  <p>The second string is a delimiter string
+  which, if non-empty, is used to cut up the content string into
+  substrings, which are then removed one by one.</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} namedsetemit <em>string</em>
+  <em>string</em> {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the
+  elements of the set named by the first <em>string</em>, in memcmp
+  lexicographic order. The second <em>string</em> is placed in between
+  each set item, and may be empty.
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} namedsetclear <em>string</em>
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Clears the set named by
+  <em>string</em> (i.e., makes it empty).
+
+</UL>
+
+
+<h2>if-then-else flow control</h2>
+
+<UL>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} if featureequal
+  <em>integer</em> "<em>string-in-quotes</em>"
+  {CLOSEBRACE}{CLOSEBRACE}<em>if-true-template</em>{OPENBRACE}{OPENBRACE}
+  endif {CLOSEBRACE}{CLOSEBRACE}</strong>: Checks whether the string
+  representation of the feature given by the 0-based index
+  <em>integer</em> into the "get" list of features is equal to the
+  "<em>string-in-quotes</em>".  If it is, then the template
+  <em>if-true-template</em> is executed.  Otherwise, nothing is
+  emitted.</p>
+
+  <p>This also has a different variant:</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} if featureequal <em>integer</em>
+  "<em>string-in-quotes</em>"
+  {CLOSEBRACE}{CLOSEBRACE}<em>if-true-template</em>{OPENBRACE}{OPENBRACE} else
+  {CLOSEBRACE}{CLOSEBRACE}<em>if-false-template</em>{OPENBRACE}{OPENBRACE}
+  endif {CLOSEBRACE}{CLOSEBRACE}</strong>: Checks whether the string
+  representation of the feature given by the 0-based index <em>integer</em>
+  into the "get" list of features is equal to the "<em>string-in-quotes</em>".
+  If it is, then the template <em>if-true-template</em> is executed.
+  Otherwise, the <em>if-false-template</em> is executed.
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} if varequal
+  <em>varname-as-string</em> '<em>string-in-quotes</em>'
+  {CLOSEBRACE}{CLOSEBRACE}<em>if-true-template</em>{OPENBRACE}{OPENBRACE}
+  endif {CLOSEBRACE}{CLOSEBRACE}</strong>: Checks whether the variable
+  given is equal to the "<em>string-in-quotes</em>".  If it is, then
+  the template <em>if-true-template</em> is executed.  Otherwise,
+  nothing is emitted.</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} if varequal
+  <em>varname-as-string</em> '<em>string-in-quotes</em>'
+  {CLOSEBRACE}{CLOSEBRACE}<em>if-true-template</em>{OPENBRACE}{OPENBRACE}
+  else
+  {CLOSEBRACE}{CLOSEBRACE}<em>if-false-template</em>{OPENBRACE}{OPENBRACE}
+  endif {CLOSEBRACE}{CLOSEBRACE}</strong>: Checks whether the variable
+  given is equal to the "<em>string-in-quotes</em>".  If it is, then
+  the template <em>if-true-template</em> is executed.  Otherwise, the
+  <em>if-false-template</em> is executed.
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} if varequal
+  <em>varname-1-as-string</em> var <em>varname-2-as-string</em>
+  {CLOSEBRACE}{CLOSEBRACE}<em>if-true-template</em>{OPENBRACE}{OPENBRACE}
+  endif {CLOSEBRACE}{CLOSEBRACE}</strong>: Checks whether the variable
+  <em>varname-1-as-string</em> equal to the
+  variable <em>varname-2-as-string</em>.  If it is, then the template
+  <em>if-true-template</em> is executed.  Otherwise, nothing is
+  emitted.</p>
+
+<LI><p><strong>{OPENBRACE}{OPENBRACE} if varequal
+  <em>varname-1-as-string</em> var <em>varname-2-as-string</em>
+  {CLOSEBRACE}{CLOSEBRACE}<em>if-true-template</em>{OPENBRACE}{OPENBRACE}
+  endif {CLOSEBRACE}{CLOSEBRACE}</strong>: Checks whether the variable
+  <em>varname-1-as-string</em> equal to the
+  variable <em>varname-2-as-string</em>.  If it is, then the template
+  <em>if-true-template</em> is executed.    Otherwise, the
+  <em>if-false-template</em> is executed.</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} if listempty
+  <em>listname-as-string</em>
+  {CLOSEBRACE}{CLOSEBRACE}<em>if-true-template</em>{OPENBRACE}{OPENBRACE}
+  endif {CLOSEBRACE}{CLOSEBRACE}</strong>: Checks whether the list by
+  the name given is empty, or does not exist. If either of these is
+  true, then the template <em>if-true-template</em> is executed.
+  Otherwise, nothing is emitted.</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} if namedsetempty
+  <em>named-set-name-as-string</em>
+  {CLOSEBRACE}{CLOSEBRACE}<em>if-true-template</em>{OPENBRACE}{OPENBRACE}
+  endif {CLOSEBRACE}{CLOSEBRACE}</strong>: Checks whether the set
+  named by the given name is empty, or does not exist. If either of
+  these is true, then the template <em>if-true-template</em> is
+  executed.  Otherwise, nothing is emitted.</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} if listempty
+  <em>listname-as-string</em>
+  {CLOSEBRACE}{CLOSEBRACE}<em>if-true-template</em>{OPENBRACE}{OPENBRACE}
+  else
+  {CLOSEBRACE}{CLOSEBRACE}<em>if-false-template</em>{OPENBRACE}{OPENBRACE}
+  endif {CLOSEBRACE}{CLOSEBRACE}</strong>: Checks whether the list by
+  the given name is empty, or does not exist. If either of these
+  conditions hold, then the template <em>if-true-template</em> is
+  executed.  Otherwise, the <em>if-false-template</em> is executed.
+
+</UL>
+
+
+<h2>Note about XML mangling</h2>
+
+<UL>
+
+  <LI><p><strong>All other strings</strong>: Are emitted verbatim,
+  except that they are escaped for the XML entities '&amp;', '&lt;',
+  '&gt;', and '&quot;', which map as follows:</p>
+
+  <UL>
+        <li>&amp; --&gt; &amp;amp;
+        <li>&lt; --&gt; &amp;lt;
+        <li>&gt; --&gt; &amp;gt;
+        <li>&quot; --&gt; &amp;quot;
+  </UL>
+
+</UL>
+
+
+</page>
+
+
+
+<page ID="1500">
+
+<p></p>
+
+
+</page>
+
+
+
+<page ID="1510">
+
+<h2>Introduction</h2>
+
+<p>In this section, we describe some commands that are available only
+in RenderXML mode.</p>
+
+<h2>Basic emitting commands</h2>
+
+<UL>
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} attrib <em>identifier</em>
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the contents of the
+  attribute named by the "identifier", within a "renderinfo"
+  stylesheet, mangling any characters that need XML mangling.</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} attribnomangle <em>identifier</em>
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the contents of the
+  attribute named by the "identifier", within a "renderinfo"
+  stylesheet, without XML mangling.</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} copyattribs
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Copy all attribute names and
+  their values into the output, as though copying the element's
+  attributes into a new XML document.  That is, each copied attribute
+  follows the pattern ' <em>attribname</em>="<em>attribvalue</em>"',
+  mangling any characters in the attribvalue that need XML
+  mangling. This can only be used in a renderinfo stylesheet, not a
+  fetchinfo stylesheet.</p>
+</UL>
+
+
+<p></p>
+
+
+</page>
+
+
+<page ID="1520">
+
+<p></p>
+
+
+</page>
+
+

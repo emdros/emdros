@@ -1,0 +1,104 @@
+Before 3.4.0 release
+====================
+
+- [ ] Code
+      - [X] Mac OS X instructions: Update them.
+      - [X] win32/README.txt: Update for wxWidgets 3.0.
+      - [X] Emdros Import Tool: Make it wxFrame-based.
+      - [ ] Test
+            - [ ] Add penn treebank importer test, based on Matthew 5
+                  from the KJV, with renderobjects rendering
+                  afterwards.
+            - [X] Harvest FTS test, based on (and in the same
+                  directory as) the asv example
+      - [X] Examples
+            - [X] Add Chunking Tool configuration to KJVParsed
+
+- [ ] Website:
+      - [ ] Add Google Analytics, also to DBDG and Programmer's
+            Reference Guide (AFTER release)
+      - [ ] NEWS about the upgrade
+      - [ ] Download page
+      - [ ] Check the FAQ page
+      - [ ] 
+
+- [ ] Testing
+      - [ ] Windows
+            - [ ] emdftry, mqltry, mqllingtry, also on MySQL
+            - [ ] Emdros Query Tool on the KJVParsed data
+            - [ ] Emdros Chunking Tool on the KJVParsed data
+            - [ ] Emdros Import Tool on a text file
+      - [ ] Mac
+            - [ ] emdftry, mqltry, mqllingtry
+            - [ ] Emdros Query Tool on the KJVParsed data
+            - [ ] Emdros Chunking Tool on the KJVParsed data
+            - [ ] Emdros Import Tool on a text file
+      - [ ] Fedora
+            - [X] On wihebrew test suite.
+      	    - [X] make test
+      	    - [X] emdftry, mqltry, mqllingtry, also on PostgreSQL and MySQL
+      	    - [X] valgrind on emdftry, mqltry, mqllingtry
+      	    - [X] bpttry
+      	    - [X] valgrind on bpttry
+            - [X] Emdros Query Tool on the KJVParsed data
+            - [X] Emdros Chunking Tool on the KJVParsed data
+            - [X] Emdros Import Tool on a text file
+      - [ ] Ubuntu
+            - [ ] Check that it is able to make a .deb
+
+
+Monads-as-features implementation
+=================================
+
+- [X] Check all usages of eType
+- [X] Check all usages of MQLType
+- [X] Check all usages of Expression (especially: remember to weed it!)
+- [X] Check all usages of eExprType
+- [X] Check all usages of FEATURE_TYPE_XXX (add FEATURE_TYPE_SET_OF_MONADS)
+- [X] Check all usages of featureTypeIDIs (add featureTypeIdIsSOM)
+- [X] Check all usages of kEV* (EMdFValue)
+- [X] Check all usages of EMdFValue
+- [X] Do EMdF creation & retrieval implementation (EMdFDB and descendants, 
+      and the Conn connections)
+- [X] Do EMdF Table stuff
+- [X] Do basic MQL implementation
+- [ ] Do substrate := monad-set in object_block (and in R_object_block_inst)
+- [ ] Do the following for GET OBJECTS HAVING MONADS IN:
+      - RESULT MONAD SET = "monads" | <monad-set-feature-name>
+      - GET OBJECTS HAVING MONADS IN <monad-set> USING MONAD SET FEATURE <monad-set-feature-name> 
+- [ ] Update documentation
+      - [ ] Relational implementation of EMdF
+      - [ ] MQL Programmer's Guide
+      - [-] MQL Query Guide (wait until the syntax has stabilized)
+
+- [ ] Merge into trunk
+- [ ] Upgrade BPT
+
+
+Before 3.2.1
+============
+(It should probably be 3.3.0, since we are adding major new
+functionality!)
+
+- [X] Change the Chunking Tool to use centered boxes.
+
+- [X] Change the Emdros Query Tool to use the new
+      BorderedStackedLayoutBox, and the centered StackedLatinLayoutBox
+      below each word-level node.
+
+- [X] Document fts_harvester.cpp in a man page (use fts_indexer.1 as a
+      model).
+
+- [X] Add fts_harvester.exe to Win32 build.
+
+- [X] Add harvesting library and json_classes to all other SWIG
+      backends than Python (where it has already been added).
+
+- [ ] Doxygen-document the new harvest_fts.cpp classes.
+
+- [ ] Write sections in Programmer's Reference Guide on the new
+      harvesting library (Full Text Search).
+
+- [ ] Complete sections in Programmer's Reference Guide on the new
+      aspects of the RenderObjects / RenderXML(?) classes.
+

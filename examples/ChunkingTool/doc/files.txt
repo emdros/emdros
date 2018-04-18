@@ -1,0 +1,17 @@
+1000	Table of contents	1001	-1	Indhold
+1001	Introduction	1005	1000	Part
+1005	Two versions	1010	1001	P
+1010	Getting started	1100	1001	P
+1100	Using the program	1110	1000	Part
+1110	Starting the program	1115	1100	P
+1115	SQLite version	1118	1110	P
+1118	MySQL/PostgreSQL version	1120	1110	P
+1120	The main screen	1130	1100	P
+1130	Toolbar	1140	1120	P
+1140	Menus	1145	1120	P
+1145	File menu	1150	1140	P
+1150	Edit menu	1155	1140	P
+1155	Tools menu	1160	1140	P
+1160	Help menu	1300	1140	P
+1300	Chunking Area	2000	1120	P
+2000	Configuring the program	-1	1000	Part

@@ -1,0 +1,66 @@
+1000	Table of contents	1001	-1	Indhold
+1001	Introduction	1010	1000	Part
+1010	Part I: Foundations	1020	1000	Part
+1020	Emdros architecture	1030	1010	P
+1030	Your application	1031	1010	P
+1031	Ways of calling Emdros	1032	1030	P
+1032	Via C++	1035	1031	P
+1035	Via SWIG	1033	1031	P
+1033	Via mql(1) as a command	1034	1031	P
+1034	Via a Web-API	1040	1031	P
+1040	How to call Emdros	1041	1030	P
+1041	Via mql(1)	1042	1040	P
+1042	Method of interaction	1043	1041	P
+1043	Output formats	1047	1041	P
+1047	XML output	1049	1043	P
+1049	JSON output	1048	1043	P
+1048	Console output	1044	1043	P
+1044	Exit status codes	1050	1041	P
+1050	Via C++	1051	1040	P
+1051	Example	1060	1050	P
+1060	Via SWIG	1070	1040	P
+1070	Libraries	1071	1010	P
+1071	Which libraries to use	1072	1070	P
+1072	Unix/Linux	1073	1071	P
+1073	Windows	1075	1071	P
+1075	How to configure Linux for Emdros use	1080	1070	P
+1080	How to build shared libraries	1100	1070	P
+1100	Part II: APIs	1160	1000	Part
+1160	EmdrosEnv	1101	1100	P
+1101	EMdFOutput	1110	1100	P
+1110	EMdF database	1115	1100	P
+1115	Transactions	1120	1110	P
+1120	MQL execution environment	1125	1100	P
+1125	MQL Error	1130	1100	P
+1130	MQL language	1135	1100	P
+1135	Monads	1136	1100	P
+1136	Statement	1137	1100	P
+1137	Table	1138	1100	P
+1138	Sheaf	1140	1100	P
+1140	EMdFValue	1139	1100	P
+1139	MQLResult	1141	1100	P
+1141	StringList	1143	1100	P
+1143	IntegerList	1150	1100	P
+1150	XML output	1200	1100	P
+1200	Part III: Tips	1210	1000	Part
+1210	Your application	1220	1200	P
+1220	Loading a database	1222	1200	P
+1222	Speeding up population	1224	1220	P
+1224	General	1225	1222	P
+1225	PostgreSQL	1230	1222	P
+1230	A query-application	1235	1200	P
+1235	An in-memory EMdF database	1236	1230	P
+1236	An example application	1237	1235	P
+1237	An implementation strategy	1238	1235	P
+1238	Please contribute	1240	1235	P
+1240	A display-application	1400	1200	P
+1400	Part IV: Harvest library	1410	1000	Part
+1410	Introduction	1420	1400	P
+1420	Emdros's JSON implementation	1430	1400	P
+1430	RenderObjects	1431	1400	P
+1431	RenderObjects stylesheet structure 	1432	1430	P
+1432	RenderObjects processing model 	1440	1430	P
+1440	RenderObjects templates	1500	1430	P
+1500	RenderXML	1510	1400	P
+1510	RenderXML templates	1520	1500	P
+1520	RenderXML stylesheet inheritance	-1	1500	P

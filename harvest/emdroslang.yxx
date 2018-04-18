@@ -1,0 +1,546 @@
+%include{
+
+/*
+ * emdroslang.yxx
+ *
+ * Emdros language parser
+ *
+ * Ulrik Sandborg-Petersen
+ * Created: 11/11-2016
+ * Last update: 5/22-2017
+ *
+ */
+/************************************************************************
+ *
+ *   Emdros - the database engine for analyzed or annotated text
+ *   Copyright (C) 2016-2017  Ulrik Sandborg-Petersen
+ *
+ *   This program is free software; you can redistribute it and/or
+ *   modify it under the terms of the GNU General Public License as
+ *   published by the Free Software Foundation, license version 2.  
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *   General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *   02111-1307 USA
+ *
+ *
+ *   Special exception
+ *   =================
+ * 
+ *   In addition, as a special exception, Ulrik Petersen, the
+ *   copyright holder of Emdros, gives permission to link Emdros, in
+ *   whole or in part, with the libraries which are normally
+ *   distributed with:
+ *   
+ *   a) Sun's Java platform,
+ *   b) Python, 
+ *   c) Jython,
+ *   d) Ruby, and/or 
+ *   e) Perl 
+ *   f) PostgreSQL
+ *   g) OpenSSL
+ *
+ *   (or with modified versions of these), and to distribute linked
+ *   combinations including both Emdros, in whole or in part, and one
+ *   or more of the libraries normally distributed with (a)-(g) above.
+ *
+ *   Please note: This gives you special rights concerning the
+ *   libraries which normally accompany the above pieces of software.
+ *   It gives you no special rights concerning software that you write
+ *   yourself.  You must obey the GNU General Public License in all
+ *   respects for all of the code used other than the libraries
+ *   normally distributed with (a)-(g) above.
+ *
+ *   If you modify this file, you may extend this exception to your
+ *   version of the file, but you are not obligated to do so. If you
+ *   do not wish to do so, delete this exception statement from your
+ *   version.
+ *
+ *
+ *   Other licensing forms
+ *   =====================
+ *
+ *   If you wish to negotiate commercial licensing, please contact
+ *   Ulrik Petersen at ulrikp[at]users.sourceforge.net.
+ *
+ *   Licensing can also be negotiated if your organization is an
+ *   educational, non-profit, charity, missionary or similar
+ *   organization.
+ *
+ *
+ *   Website
+ *   =======
+ *
+ *   Emdros has a website here:
+ *
+ *   http://emdros.org
+ *
+ *
+ *
+ **************************************************************************/
+
+
+#include "emdroslang_classes.h"
+#include "json_classes.h"
+#include "mql_enums.h"
+#include "mql_yylex.h"
+
+#include <cstdlib>
+#include <string>
+#include <cassert>
+
+#undef TOKEN
+
+} // end include
+
+
+%token_destructor { $$->clear(); delete($$); }
+%token_prefix T_EMDROSLANG_
+%token_type   {Token*}
+%extra_argument {EmdroslangExecEnv *pEE}
+%syntax_error {
+  pEE->bCompilerError = true;
+  std::string errMsg = "syntax error near " + TOKEN->getTokenName();
+  pEE->appendCompilerError(errMsg);
+}
+%name EmdroslangParser
+
+%parse_failure {
+  pEE->bCompilerError = true;
+}
+
+%type top_value {ELCompilationUnitPart*}
+%destructor top_value { delete($$); }
+top_value ::= compilation_unit .
+
+%type compilation_unit {ELCompilationUnitPart*}
+%destructor compilation_unit { delete($$); }
+compilation_unit(U) ::= compilation_unit_part(P) .
+{ U = P; }
+compilation_unit(U) ::= compilation_unit(F) compilation_unit_part(P) .
+{ U = F; U->setNext(P); }
+
+%type compilation_unit_part {ELCompilationUnitPart*}
+%destructor compilation_unit_part { delete($$); }
+compilation_unit_part(P) ::= stylesheet(S) .
+{ P = S; }
+compilation_unit_part(P) ::= function_def(F) .
+{ P = F; }
+
+%type stylesheet {ELStylesheet*}
+%destructor stylesheet { delete($$); }
+stylesheet(S) ::= stylesheet_kind(K) KEY_STYLESHEET stylesheet_name(N) opt_extends(E) json_object(B) .
+{
+   S = new ELStylesheet(*(K->pString), *(N->pString), *(E->pString), B);
+   delete K; delete N; delete E;
+}
+
+%type stylesheet_kind {Token*}
+%destructor stylesheet_kind { deleteToken($$); }
+stylesheet_kind(K) ::= KEY_FETCHINFO .
+{ K = newToken(); K->setString(new std::string("fetchinfo")); }
+stylesheet_kind(K) ::= KEY_XMLRENDERINFO .
+{ K = newToken(); K->setString(new std::string("renderxml")); }
+
+%type stylesheet_name {Token*}
+%destructor stylesheet_name { deleteToken($$); }
+stylesheet_name(N) ::= IDENTIFIER(I) .
+{ N = I; }
+
+%type opt_extends {Token*}
+%destructor opt_extends { deleteToken($$); }
+opt_extends(E) ::= /* empty */ .
+{ E = newToken(); E->setString(new std::string("")); }
+opt_extends(E) ::= KEY_EXTENDS stylesheet_name(S) .
+{ E = S; }
+
+
+%type json_value {JSONValue*}
+%destructor json_value { delete($$); }
+json_value(V) ::= KEY_NULL .
+{ V = new JSONValue(); }
+json_value(V) ::= KEY_FALSE .
+{ V = new JSONValue(false); } 
+json_value(V) ::= KEY_TRUE .
+{ V = new JSONValue(true); }
+json_value(V) ::= KEY_MINUS INTEGER(I) .
+{ V = new JSONValue(-(I->integer)); }
+json_value(V) ::= INTEGER(I) .
+{ V = new JSONValue(I->integer); }
+json_value(V) ::= STRING(S) .
+{ V = new JSONValue(S->extractString()); deleteToken(S); }
+json_value(V) ::= json_object(O) .
+{ V = O; }
+json_value(V) ::= json_list(L) .
+{ V = L; }
+
+%type json_object {JSONValue*}
+%destructor json_object { delete($$); }
+json_object(O) ::= KEY_LBRACE json_object_key_value_list(L) KEY_RBRACE .
+{ O = new JSONValue(L); }
+
+%type json_object_key_value_list {JSONKeyValuePair*}
+%destructor json_object_key_value_list {delete($$); }
+json_object_key_value_list(R) ::= json_object_key_value_pair(P) .
+{ R = P; }
+json_object_key_value_list(R) ::= json_object_key_value_pair(P) KEY_COMMA json_object_key_value_list(L) .
+{ R = P; P->setNext(L); }
+
+%type json_object_key_value_pair {JSONKeyValuePair*}
+%destructor json_object_key_value_pair {delete($$); }
+json_object_key_value_pair(R) ::= STRING(K) KEY_COLON json_value(V) .
+{ R = new JSONKeyValuePair(K->extractString(), V, NULL); deleteToken(K); }
+
+%type json_list {JSONValue*}
+%destructor json_list { delete($$); }
+json_list(V) ::= KEY_LSQUARE_BRACKET json_value_list(L) KEY_RSQARE_BRACKET .
+{ V = new JSONValue(L); }
+
+%type json_value_list {JSONListElement*}
+%destructor json_value_list { delete($$); }
+json_value_list(R) ::= json_value(V) .
+{ R = new JSONListElement(V); }
+json_value_list(R) ::= json_value(V) KEY_COMMA json_value_list(L) .
+{ R = new JSONListElement(V); R->setNext(L); }
+
+%type function_def {ELFunctionDef*}
+%destructor function_def {delete($$);}
+function_def(D) ::= function_signature(S) function_body(B) .
+{ D = new ELFunctionDef(S, B); }
+
+%type function_signature {ELFunctionSignature*}
+%destructor function_signature {delete($$);}
+function_signature(S) ::= KEY_FUNCTION fully_qualified_function_name(N) KEY_LPAREN opt_formal_parameter_list(P) KEY_RPAREN .
+{ S = new ELFunctionSignature(N, P); }
+
+%type fully_qualified_function_name {ELFullyQualifiedFunctionName*}
+%destructor fully_qualified_function_name {delete($$);}
+fully_qualified_function_name(F) ::= IDENTIFIER(S) KEY_COLON_COLON IDENTIFIER(O) KEY_COLON_COLON IDENTIFIER(N) .
+{ F = new ELFullyQualifiedFunctionName(*(S->pString), *(O->pString), *(N->pString));
+  deleteToken(S);
+  deleteToken(O);
+  deleteToken(N);
+}
+fully_qualified_function_name(F) ::= IDENTIFIER(S) KEY_COLON_COLON IDENTIFIER(N) .
+{ F = new ELFullyQualifiedFunctionName(*(S->pString), "", *(N->pString));
+  deleteToken(S);
+  deleteToken(N);
+}
+
+fully_qualified_function_name(F) ::= IDENTIFIER(N) .
+{ F = new ELFullyQualifiedFunctionName("", "", *(N->pString));
+  deleteToken(N);
+}
+
+
+%type opt_formal_parameter_list {ELParameterName*}
+%destructor opt_formal_parameter_list {delete($$);}
+opt_formal_parameter_list(R) ::= /* empty */ .
+{ R = 0; }
+opt_formal_parameter_list(R) ::= formal_parameter_list(L) .
+{ R = L; }
+
+%type formal_parameter_list {ELParameterName*}
+%destructor formal_parameter_list {delete($$);}
+formal_parameter_list(R) ::= formal_parameter_name(N) .
+{ R = N; }
+formal_parameter_list(R) ::= formal_parameter_list(L) KEY_COMMA formal_parameter_name(N) .
+{ R = L; R->setNext(N); }
+
+%type formal_parameter_name {ELParameterName*}
+%destructor formal_parameter_name {delete($$);}
+formal_parameter_name(R) ::= IDENTIFIER(N) .
+{ R = new ELParameterName(*(N->pString)); deleteToken(N); }
+
+%type function_body {ELStatement*}
+%destructor function_body {delete($$);}
+function_body(B) ::= KEY_LBRACE opt_statement_list(L) KEY_RBRACE .
+{ B = new ELNewScopeStatement(L); }
+
+%type opt_statement_list {ELStatement*}
+%destructor opt_statement_list {delete($$);}
+opt_statement_list(S) ::= /* empty */ .
+{ S = new ELNoopStatement(); }
+opt_statement_list(S) ::= statement_list(L) .
+{ S = L; }
+
+%type statement_list {ELStatement*}
+%destructor statement_list {delete($$);}
+statement_list(R) ::= statement(S) .
+{ R = S; }
+statement_list(R) ::= statement(S) statement_list(L) .
+{ R = S; S->setNext(L); }
+
+%type statement {ELStatement*}
+%destructor statement {delete($$);}
+statement(R) ::= simple_statement(S) .
+{ R = S; }
+statement(R) ::= compound_statement(S) .
+{ R = S; }
+
+%type suite {ELStatement*}
+%destructor suite {delete($$);}
+suite(R) ::= simple_statement(S) .
+{ R = S; }
+suite(R) ::= KEY_LBRACE KEY_RBRACE .
+{ R = new ELNewScopeStatement(new ELNoopStatement()); }
+suite(R) ::= KEY_LBRACE statement_list(L) KEY_RBRACE .
+{ R = new ELNewScopeStatement(L); }
+
+%type simple_statement {ELStatement*}
+%destructor simple_statement {delete($$);}
+simple_statement(R) ::= var_decl_statement(S) .
+{ R = S; }
+simple_statement(R) ::= assignment_statement(S) .
+{ R = S; }
+simple_statement(R) ::= function_call_statement(S) .
+{ R = S; }
+simple_statement(R) ::= noop_statement(S) .
+{ R = S; }
+
+%type compound_statement {ELStatement*}
+%destructor compound_statement {delete($$);}
+compound_statement(R) ::= while_statement(S) .
+{ R = S; }
+compound_statement(R) ::= do_while_statement(S) .
+{ R = S; }
+compound_statement(R) ::= for_statement(S) .
+{ R = S; }
+compound_statement(R) ::= if_statement(S) .
+{ R = S; }
+
+%type var_decl_statement {ELStatement*}
+%destructor simple_statement {delete($$);}
+var_decl_statement(V) ::= KEY_VAR var_decl_list(L) KEY_SEMICOLON .
+{ V = L; }
+
+%type var_decl_list {ELStatement*}
+%destructor var_decl_list {delete($$);}
+var_decl_list(R) ::= var_decl(V) .
+{ R = V; }
+var_decl_list(R) ::= var_decl_list(L) KEY_COMMA var_decl(V) .
+{ R = L; R->setNext(V); }
+
+%type var_decl {ELStatement*}
+%destructor var_decl {delete($$);}
+var_decl(S) ::= var_name(N) .
+{ S = new ELVarDeclStatement(*(N->pString), 0); deleteToken(N); }
+var_decl(S) ::= var_name(N) KEY_ASSIGN expression(E) .
+{ S = new ELVarDeclStatement(*(N->pString), E); deleteToken(N); }
+
+%type assignment_statement {ELStatement*}
+%destructor assignment_statement {delete($$);}
+assignment_statement(S) ::= var_name(N) KEY_ASSIGN expression(E) KEY_SEMICOLON .
+{ S = new ELAssignmentStatement(*(N->pString), E); deleteToken(N); }
+
+%type function_call_statement {ELStatement*}
+%destructor function_call_statement {delete($$);}
+function_call_statement(S) ::= function_call_expression(E) KEY_SEMICOLON .
+{ S = new ELFunctionCallStatement(E); }
+
+
+%type noop_statement {ELStatement*}
+%destructor noop_statement {delete($$);}
+noop_statement(S) ::= KEY_SEMICOLON .
+{ S = new ELNoopStatement(); }
+
+%type while_statement {ELStatement*}
+%destructor while_statement {delete($$);}
+while_statement(R) ::= KEY_WHILE KEY_LPAREN expression(E) KEY_RPAREN statement(S) .
+{ R = new ELWhileStatement(E, S, true); }
+
+
+%type do_while_statement {ELStatement*}
+%destructor do_while_statement {delete($$);}
+do_while_statement(R) ::= KEY_DO statement(S) KEY_WHILE KEY_LPAREN expression(E) KEY_RPAREN .
+{ R = new ELWhileStatement(E, S, false); }
+
+%type for_statement {ELStatement*}
+%destructor for_statement {delete($$);}
+for_statement(R) ::= KEY_FOR KEY_LPAREN var_name(N) KEY_IN expression(E) KEY_RPAREN statement(S) .
+{ R = new ELForStatement(*(N->pString), E, S); deleteToken(N); }
+
+
+%type if_statement {ELStatement*}
+%destructor if_statement {delete($$);}
+if_statement(R) ::= KEY_IF KEY_LPAREN expression(C) KEY_RPAREN suite(T) opt_elif_list(L) opt_else_part(E) .
+{
+  R = new ELIfStatement(C, T);
+
+  if (L == 0 && E == 0) {
+     ; // nothing to do
+  } else if (L == 0 && E != 0) {
+     R->setNext(E);
+  } else if (L != 0 && E == 0) {
+     R->setNext(L);
+  } else {
+     // L != 0 && E != 0
+     L->getTail()->setNext(E);
+     R->setNext(L);
+  }
+}
+
+%type opt_elif_list {ELStatement*}
+%destructor opt_elif_list {delete($$);}
+opt_elif_list(R) ::= /* empty */ .
+{ R = 0; }
+opt_elif_list(R) ::= elif_part(I) opt_elif_list(L) .
+{ R = I; I->setNext(L); }
+
+%type elif_part {ELStatement*}
+%destructor elif_part {delete($$);}
+elif_part(R) ::= KEY_ELIF KEY_LPAREN expression(C) KEY_RPAREN suite(T) .
+{ R = new ELIfStatement(C, T); }
+
+%type opt_else_part {ELStatement*}
+%destructor opt_else_part {delete($$);}
+opt_else_part(R) ::= /* empty */.
+{ R = 0; }
+opt_else_part(R) ::= KEY_ELSE suite(S) .
+{ R = S; }
+
+
+
+%type var_name {Token*}
+%destructor var_name { deleteToken($$); }
+var_name(R) ::= IDENTIFIER(I) .
+{ R = I; }
+
+%type expression {ELExpression*}
+%destructor expression { delete($$); }
+expression(R) ::= literal_expression(E) .
+{ R = E; }
+expression(R) ::= varname_expression(E) .
+{ R = E; }
+expression(R) ::= lookup_expression(E) .
+{ R = E; }
+expression(R) ::= expression1(E) .
+{ R = E; }
+
+%type literal_expression {ELExpression*}
+%destructor literal_expression { delete($$); }
+literal_expression(E) ::= json_value(V) .
+{ E = new ELExpression(V); }
+
+
+%type varname_expression {ELExpression*}
+%destructor varname_expression { delete($$); }
+varname_expression(E) ::= IDENTIFIER(I) .
+{ E = new ELExpression(*(I->pString)); deleteToken(I); }
+
+%left KEY_AND_AND .
+%left KEY_PIPE_PIPE .
+%nonassoc KEY_EQEQ  KEY_NEQ  KEY_GT  KEY_GEQ  KEY_LT  KEY_LEQ .
+%left KEY_PLUS KEY_MINUS .
+%left KEY_STAR KEY_SLASH KEY_PERCENT .
+%right KEY_NOT .
+
+
+%type expression1 {ELExpression*}
+%destructor expression1 { delete($$); }
+expression1(E) ::= expression2(T) .
+{ E = T; }
+expression1(E) ::= expression1(L) KEY_AND_AND expression2(R) .
+{ E = new ELExpression(L, kOpAnd, R); }
+
+%type expression2 {ELExpression*}
+%destructor expression2 { delete($$); }
+expression2(E) ::= expression3(T) .
+{ E = T; }
+expression2(E) ::= expression2(L) KEY_PIPE_PIPE expression3(R) .
+{ E = new ELExpression(L, kOpOr, R); }
+
+%type expression3 {ELExpression*}
+%destructor expression3 { delete($$); }
+expression3(E) ::= expression4(T) .
+{ E = T; }
+expression3(E) ::= expression3(L) comparison_op(O) expression4(R) .
+{ E = new ELExpression(L, O, R); }
+
+%type expression4 {ELExpression*}
+%destructor expression4 { delete($$); }
+expression4(E) ::= expression5(T) .
+{ E = T; }
+expression4(E) ::= expression4(L) KEY_PLUS expression5(R) .
+{ E = new ELExpression(L, kOpPlus, R); }
+expression4(E) ::= expression4(L) KEY_MINUS expression5(R) .
+{ E = new ELExpression(L, kOpMinus, R); }
+
+%type expression5 {ELExpression*}
+%destructor expression5 { delete($$); }
+expression5(E) ::= expression6(T) .
+{ E = T; }
+
+expression5(E) ::= expression5(L) KEY_STAR expression6(R) .
+{ E = new ELExpression(L, kOpStar, R); }
+expression5(E) ::= expression5(L) KEY_SLASH expression6(R) .
+{ E = new ELExpression(L, kOpSlash, R); }
+expression5(E) ::= expression5(L) KEY_PERCENT expression6(R) .
+{ E = new ELExpression(L, kOpPercent, R); }
+
+%type expression6 {ELExpression*}
+%destructor expression6 { delete($$); }
+expression6(E) ::= expression7(T) .
+{ E = T; }
+expression6(E) ::= KEY_NOT expression7(T) .
+{ E = new ELExpression(kOpNot, T); }
+
+%type expression7 {ELExpression*}
+%destructor expression7 { delete($$); }
+expression7(E) ::= KEY_LPAREN expression(M) KEY_RPAREN .
+{ E = M; }
+
+%type comparison_op {eELOperation}
+%destructor expression2 {}
+comparison_op(R) ::= KEY_EQEQ .
+{ R = kOpEqEq; }
+comparison_op(R) ::= KEY_NEQ .
+{ R = kOpNeq; }
+comparison_op(R) ::= KEY_LT .
+{ R = kOpLt; }
+comparison_op(R) ::= KEY_LEQ .
+{ R = kOpLeq; }
+comparison_op(R) ::= KEY_GT .
+{ R = kOpGt; }
+comparison_op(R) ::= KEY_GEQ .
+{ R = kOpGeq; }
+
+%type lookup_expression {ELExpression*}
+%destructor lookup_expression { delete($$); }
+lookup_expression(E) ::= expression(L) KEY_LSQUARE_BRACKET lookup_index(R) KEY_RSQUARE_BRACKET .
+{ E = new ELExpression(L, kOpLookup, R); }
+
+%type lookup_index {ELExpression*}
+%destructor lookup_index { delete($$); }
+lookup_index(E) ::= expression(T) .
+{ E = T; }
+lookup_index(E) ::= expression(L) KEY_COLON expression(R) .
+{ E = new ELExpression(L, kOpSlice, R); }
+
+%type function_call_expression {ELExpression*}
+%destructor function_call_expression { delete($$); }
+function_call_expression(E) ::= fully_qualified_function_name(N)
+                             KEY_LPAREN opt_actual_parameter_list(L) KEY_RPAREN .
+{ E = new ELExpression(N, L); }
+
+%type opt_actual_parameter_list {ELExpression*}
+%destructor opt_actual_parameter_list { delete($$); }
+opt_actual_parameter_list(L) ::= /* empty */ .
+{ L = 0; }
+opt_actual_parameter_list(L) ::= actual_parameter_list(A) .
+{ L = A; }
+
+%type actual_parameter_list {ELExpression*}
+%destructor actual_parameter_list { delete($$); }
+actual_parameter_list(E) ::= expression(T) .
+{ E = T; }
+actual_parameter_list(E) ::= expression(L) KEY_COMMA actual_parameter_list(R) .
+{ E = L; E->setNext(R); }
+
+

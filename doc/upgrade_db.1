@@ -1,0 +1,111 @@
+.\" Man page for upgrade_db.1
+.\" Use the following command to view man page:
+.\"
+.\"  tbl upgrade_db.1 | nroff -man | less
+.\"
+.TH UPGRADE_DB 1 "January 20, 2007"
+.SH NAME
+upgrade_db \- A tool to upgrade Emdros databases
+.SH SYNOPSIS
+\fBupgrade_db\fR [options] database-name
+.br
+.SH DESCRIPTION
+
+\fBupgrade_db\fR is a tool for upgrading Emdros databases created with
+Emdros version 1.1.7 or earlier to databases that work with Emdros
+version 1.1.8 and later.
+
+.br
+For databases created with Emdros prior to version 1.1.0, the program
+does the following: For each object type OT in the database, it:
+
+1) Adds a new column, \fIis_first\fR, to the \fIOT_monad_ms\fR table.
+
+2) Adds some indices on \fIOT_monad_ms\fR and \fIOT_objects\fR (see EMdFDB::createIndicesOnOTObjects and 
+EMdFDB::CreateIndicesOnOTMonadMs).
+
+3) If using PostgreSQL, sets all \fIis_first\fR values in \fIOT_monad_ms\fR to 'N'.
+
+4) Finds out which \fIis_first\fR values should be set to 'Y'.
+
+5) Sets these to 'Y'.  Each dot represents 500 rows.
+
+6) Drops table \fIOT_monad_ds\fR.
+
+After having dealt with all object types, the program creates two new
+tables, `sequence_0' and `sequence_1', and moves the values from the
+old `sequences' table into these new tables.  It then drops the old
+`sequences' table.
+
+For databases created with Emdros versions 1.1.0 to 1.1.4, the program
+does the following:
+
+1) Creates the table \fImax_m\fR
+
+2) Sets the values in this table to the maximum monad found in the
+database.
+
+For databases created with Emdros versions 1.1.5 to 1.1.7, the program
+does the following:
+
+1) Creates the tables/sequences \fIsequence_118_0\fR and
+\fIsequence_118_1\fR (tables on MySQL, sequences on PostgreSQL).
+
+2) Moves the values from the old \fIsequence_0\fR and \fIsequence_1\fR
+tables to the new tables/sequences.
+
+3) Drops the old \fIsequence_0\fR and \fIsequence_1\fR tables.
+
+See the source in EMdF/emdfdb.cpp:EMdFDB::upgradeDatabase for the full
+story.
+
+.SH OPTIONS
+\fBupgrade_db\fR supports the following command-line switches:
+.TP 6
+.BI \-\-help
+show help
+.TP
+.BI \-V\ ,\ \-\-version
+show version
+.TP
+.BI \-h\ ,\ \-\-host \ hostname 
+set db back-end hostname to connect to (default is 'localhost'). Has
+no effect on SQLite.
+.TP
+.BI \-u\ ,\ \-\-user \ user
+set database user to connect as (default is 'emdf'). Has no effect on
+SQLite.
+.TP
+.BI \-p\ ,\ \-\-password \ password
+set password to use for the database user.  Has no effect on SQLite,
+unless you have an encryption-enabled SQLite, in which case this gets
+passed as the key.
+.TP
+.BI \-b\ ,\ \-\-backend \ backend
+set database backend to `backend'. Valid values are: For PostgreSQL:
+"p", "pg", "postgres", and "postgresql". For MySQL: "m", "my", and
+"mysql". For SQLite 2.X.X: "2", "s", "l", "lt", "sqlite", and
+"sqlite2". For SQLite 3.X.X: "3", "s3", "lt3", and "sqlite3".
+
+
+
+
+.SH RETURN VALUES
+.TP
+.BR 0 " Success"
+.TP
+.BR 1 " Wrong usage"
+.TP
+.BR 2 " Connection to backend server could not be established"
+.TP
+.BR 3 " An exception occurred (the type is printed on stderr)"
+.TP
+.BR 4 " Could not upgrade"
+.TP
+.BR 5 " Database error"
+.SH AUTHORS
+Copyright
+.Cr
+2001-2006 by Ulrik Petersen (ulrikp@users.sourceforge.net).  Note that this
+software is distributed under the GNU GPL.  See the sources for
+details.

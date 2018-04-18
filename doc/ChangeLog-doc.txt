@@ -1,0 +1,694 @@
+=========== 1.2.0.pre234 ===========
+
+	* MQL Programmer's Guide: SELECT OBJECTS AT was incorrectly
+	  documented as retrieving those which HAD the given monad.
+	  Instead, it has all along been those that STARTED AT the given
+	  monad.
+
+	* MQL Query Guide: Touched it up a bit, corrected a few minor
+	  factural and typographical errors.
+
+	* Updated a lot of the man pages to be more current.
+
+=========== 1.2.0.pre217 ===========
+
+	* Added slashedtextimport.1.
+
+=========== 1.2.0.pre216 ===========
+
+	* Added plaintextimport.1.
+
+=========== 1.2.0.pre212 ===========
+
+        * Updated all pertinent man-pages with info on [-b|--backend].
+
+	* Updated emdros.1.
+
+=========== 1.2.0.pre198 ===========
+
+        * Added negraimport.1.
+
+=========== 1.2.0.pre192 ===========
+
+        * Added agexport.1, ubimport.1, and pennimport.1.
+
+=========== 1.2.0.pre172 ===========
+
+	* Updated MQL Query Guide and MQL Programmer's Guide to say
+	  that you can have OR between strings of blocks, and also
+	  added restrictions on export barriers OR, NOTEXIST, and
+	  Kleene Star on object reference declarations.
+
+=========== 1.2.0.pre169 ===========
+
+	* Updated MQL Query Guide and MQL Programmer's Guide to say
+          that you can now use equality between LIST_FEATURE and
+          Object_Reference.LIST_FEATURE.
+
+=========== 1.2.0.pre167 ===========
+
+	* Added INITIALIZE DATABASE to MQL Programmer's Guide.
+
+=========== 1.2.0.pre164 ===========
+
+	* Added MQL-Query-Guide.lyx.
+
+	* Removed MQL-User.lyx
+
+	* Added MQL-Programmers-Guide.lyx instead of MQL-User.lyx.
+
+	* Removed MQL-Query-subset.lyx from distribution, since it is now
+	  outdated.
+
+=========== 1.2.0.pre152 ===========
+
+	* Added new lists and new sequence_1 and sequence_2 to
+          Rel-EMdF.
+
+	* Added new info on lists to MQL-User.
+
+=========== 1.2.0.pre149 ===========
+
+	* Added GET SET FROM FEATURE to MQL User's Guide.
+
+=========== 1.2.0.pre147 ===========
+
+        * Added TheDoor.fig, which was missing in three LyX files.
+
+        * Updated MQL User's guide to talk about the SQLite
+          "encryption".
+
+        * Gave the man-pages a slight overhaul.
+
+=========== 1.2.0.pre145 ===========
+
+	* Updated textfiles to delete stuff about default password.
+
+=========== 1.2.0.pre143 ===========
+
+        * Updated MQL User's guide to say that you can use
+          {<lower-bound>-} to mean "from lower bound to (practical)
+          infinity."
+ 
+=========== 1.2.0.pre142 ===========
+
+	* Added the following LyX files to the doc/ directory:
+
+	  - Monad-Sets.lyx
+	  - MQL-Query-subset.lyx
+	  - MQL-User.lyx
+	  - New-EMdF.lyx
+	  - Rel-EMdF.lyx
+	  - Standard-MdF.lyx
+
+          They are automatically compiled to PDF for distribution.
+
+=========== 1.2.0.pre123 ===========
+
+	* Added mqlqt.1.in and mqlqtwx.1.in
+
+=========== 1.2.0.pre122 ===========
+
+2005-04-16  Ulrik Petersen  <ulrikp@ulrikp-2>
+
+	* Added README.MySQL.Win32.txt.
+
+2005-04-15  Ulrik Petersen  <ulrikp@ulrikp-2>
+
+	* Added halblddb.1 and mqlhal.1.in.
+
+=========== 1.2.0.pre120 ===========
+
+2005-04-09  Ulrik Petersen  <ulrikp@ulrikp-2>
+
+	* Added "GET OBJECTS HAVING MONADS IN" to MQL User's Guide.
+
+=========== 1.2.0.pre117 ===========
+
+2005-04-04  Ulrik Petersen  <ulrikp@ulrikp-2>
+
+	* Updated MQL User's Guide to reflect Kleene Star and "NOTEXIST"
+	  rather than "NOT", and removed "feature"/"features" before
+	  feature-constraints.
+
+=========== 1.2.0.pre105 ===========
+
+2005-03-30  Ulrik Petersen  <ulrikp@ulrikp-2>
+
+	* Added "NOT" object block, and "feature"/"features" before
+	  feature-constraints, to MQL User's Guide.
+
+=========== 1.2.0.pre105 ===========
+
+2005-03-24  Ulrik Petersen  <ulrikp@ulrikp-2>
+
+	* Updated bootstrapping.txt to reflect how to quit MySQL 4.1.
+
+=========== 1.2.0.pre97 ===========
+
+2005-02-22  Ulrik Petersen  <ulrikp@ulrikp-2>
+
+	* Updated Rel-EMdF.lyx to reflect now way way of storing monads.
+
+	* Updated MQL User's Guide to reflect new way of storing
+          strings.
+	
+	* Removed PostgreSQL-on-Win98.txt, since it was obsolete.
+
+=========== 1.2.0.pre91 ===========
+
+2005-02-10  Ulrik Petersen  <ulrikp@ulrikp-2>
+
+	* Added WITH INDEX and FROM SET to MQL User's Guide and Rel-EMdF.
+	
+=========== 1.2.0.pre86 ===========
+
+2005-01-28  Ulrik Petersen  <ulrikp@ulrikp-2>
+	
+	* MQL User's Guide: Added "WITH SINGLE MONAD OBJECTS" to CREATE
+	  OBJECT TYPE.
+
+	* MQL User's Guide: Added WHI acknowledgement.
+
+	* Rel-EMdF: Added new OT_objects structure without last_monad.
+
+=========== 1.2.0.pre81 ===========
+
+	* MQL User's Guide: "BETWEEN X AND Y" restrictor described.
+
+=========== 1.2.0.pre78 ===========
+
+2004-08-09  Ulrik Petersen  <ulrikp@ulrikp-2>
+
+	* MQL User's Guide: Changed year of MQL-Query-subset.
+
+	* Added note to MQL-Query-subset and New-MQL to say that they are
+	  ancient stuff.
+	
+2004-06-18  Ulrik Petersen  <ulrikp@ulrikp-2>
+
+	* MQL User's Guide: Added feature_name IN (enum_const_1,
+	  enum_const_2, ..., enum_const_n) to Chapter 4.
+
+=========== 1.2.0.pre59 ===========
+
+2004-06-10  Ulrik Petersen  <ulrikp@ulrikp-2>
+
+	* Progref: TableRow::size() now returns unsigned int.
+	
+	* MQL User's Guide: Updated bibliography to cite Rel-EMdF from
+	  2004.
+
+2004-06-03  Ulrik Petersen  <ulrikp@ulrikp-2>
+
+	* MQL User's Guide: Added WITH SINGLE|MULTIPLE RANGE OBJECTS to
+	  CREATE OBJECT TYPE.
+
+	* MQL User's Guide: Added comment that you shouldn't use CREATE
+	  OBJECT WITH ID_D concurrently with other CREATE OBJECT
+	  statements.
+
+2004-06-02  Ulrik Petersen  <ulrikp@ulrikp-2>
+
+	* Rel-EMdF: Added OT_gut and schema_version.
+
+=========== 1.2.0.pre56 ===========
+	
+2004-05-01  Ulrik Petersen  <ulrikp@ulrikp-2>
+
+	* Added --batch-create-objects, --batch-size, --start, --end to
+	  mqldump's man page.
+
+=========== 1.2.0.pre55 ===========
+2004-05-01  Ulrik Petersen  <ulrikp@ulrikp-2>
+
+	* MQL User's Guide: Added comment to CREATE OBJECTS WITH OBJECT
+	  TYPE statement that one can't get the object id_ds of the new
+	  objects in the return value of the statement.
+
+2004-04-24  Ulrik Petersen  <ulrikp@ulrikp-2>
+
+	* MQL User's Guide: Added CREATE OBJECTS WITH OBJECT TYPE
+	  statement.
+
+=========== 1.2.0.pre52 ===========
+	
+2004-04-07  Ulrik Petersen  <ulrikp@ulrikp-2>
+
+	* Changed bootstrapping.txt and HOW-TO-USE: emdf database no
+	  longer necessary, emdf user optional.
+
+	* HOW-TO-USE: Docs for moving dbs between backends updated to use
+	  mqldump.
+
+	* Removed drop-metadata.sql.
+
+	* Updated README-doc.
+
+	
+=========== Emdros 1.2.0.pre01 to 1.2.0.pre51 ===========
+
+        - added emdros.1 manpage and index.html page.
+
+	- mqldump man page: Added -m option.
+
+	- MQL User's Guide: Added comments on SQLite where
+          appropriate.
+
+	- MQL User's Guide: Added T_STRING to database_name in
+	  CREATE/USE/DROP DATABASE .
+
+	- MQL User's Guide: Enumerations are now bijections.
+
+	- Relational implementation: Removed covered_by and
+	  buildable_from.  Removed "objects" table.  Reformulated to have
+	  "sequence_0" and "sequence_1" instead of "sequences".
+	
+	- MQL User's Guide, Relational implementation, Towards a new MQL,
+	  and The Extended EMdF Model: Removed segments.
+
+	- MQL User's Guide: Added flat sheaf.
+
+	- MQL User's Guide: Added feature_retrieval.
+
+	- bootstrapping.txt updated so that MySQL comes first.
+
+	- bootstrapping.txt updated to say that user emdf should be given
+	  the privilege to create users as well as DBs.
+
+	- bootstrapping.txt prefaced with note to say it does not apply to
+	  SQLite.
+
+	- HOW-TO-USE updated for SQLite.
+
+        - MQL User's Guide: PCRE is a modified PCRE.
+	
+        - MQL User's Guide: Regexes are no longer anchored.
+	
+        - MQL User's Guide: Chris Wilson is a contributor.
+	
+        - MQL User's Guide: SQLite is in the Public Domain.
+
+        - bootstrapping.txt and HOW-TO-USE updated with better
+          explanation of how to bootstrap PostgreSQL.
+	
+=========== Emdros 1.1.12 ===========
+
+	- MQL User's Guide: Enumeration constants are now case-sensitive.
+
+=========== Emdros 1.1.11 ===========
+
+	- MQL User's Guide: Added a reference to feature_name to section
+	  4.3.3.
+
+	- MQL User's Guide: Expanded on SELECT FEATURES.
+
+	- All man-pages now describe the (-V|--version) options.
+
+	- MQL User's Guide: grammar for CREATE OBJECT TYPE has been
+	  updated to say that default string length is MAX_STRING_LENGTH,
+	  not 255.
+
+	- MQL User's Guide: Return type of SELECT ENUMERATION
+	  CONSTANTS is now correctly described.
+
+	- mql.1 manpage: New -n/--nop switch documented.
+
+	- HOW-TO-USE reflects new aspects of how to configure PostgreSQL
+	  7.3 and later.
+
+	- Added mqldump.1 manpage.
+
+	- mqltry.1 and emdftry.1 manpage: Added SUCCESS/FAILURE on last
+	  line of output.
+	
+	
+=========== Emdros 1.1.10 ===========
+
+	- Updated bootstrapping.txt to reflect the fact that the emdf user
+	is no longer necessary.
+	
+	- Updated bootstrapping.txt to reflect the new way of setting the
+	default password.
+
+	- Updated mqltry.1 manpage to reflect the fact that mqltry no
+	longer displays two expected error messages at the start.
+
+	- Updated all man-pages to reflect new --user option.
+
+	- Updated upgrade_db.1 to reflect new "Could not upgrade"
+        return status.
+
+=========== Emdros 1.1.9 ===========
+
+	- Changed MQL User's Guide to reflect the fact that Emdros is now
+	covered by the GNU GPL.
+
+	- Updated all man-pages to reflect the change to the GNU GPL.
+	
+	- Changed all documents that mentioned
+	http://emdros.sourceforge.net/ to http://emdros.org/.
+
+	- Spell-checked "The Standard MdF model" and "MQL User's
+	Guide".
+
+=========== Emdros 1.1.8 ===========
+
+	- Changes to HOW-TO-USE and README because of new Programmer's
+	Reference Guide.
+
+	- Added Kirk E. Lowery as a contributor in Appendix A of MQL
+	User's Guide.
+
+	- Renamed ChangeLog, README, and NEWS to ChangeLog-doc,
+	README-doc, and NEWS-doc respectively.
+
+	- Added drop-metadata.sql.
+
+	- Updated upgrade_db.1 man-page, since this program now upgrades
+	to 1.1.8 and beyond.
+
+=========== Docs-only release 12 October, 2002 ============
+
+- *** 12 October, 2002 ***
+
+	- HOW-TO-USE:
+
+	  - Changed URLs to http://emdros.org/.
+	
+	- MQL User's GUide:
+
+	  - Added section (2.7.10) on consecutiveness with respect to a set
+	    of monads.
+
+	  - Added section (4.6) on Consecutiveness and embedding.
+
+	  - Added section (4.4.3) on topographic nature of MQL.
+	
+	  - Proof-reading finished for the whole document.
+	
+	
+=========== Docs-only release 14 September, 2002 ============
+
+- *** 14 September, 2002 ***
+
+	- Changes to MQL User's Guide:
+
+	  - Added appendix B on sheaf console grammar.
+
+	  - Expanded index a bit.
+
+	  - Changed section "3.1 Preliminaries".
+
+	  - Changed section 3.2.1, 3.2.2, and 3.2.5.
+
+	  - Changed section 3.3.1.3: CREATE DATABASE - Explanation.
+
+	  - Changed section "3.4.1 CREATE OBJECT TYPE".
+
+	  - Changed section "3.4.3 DROP OBJECT TYPE".
+
+	  - Changed section "3.5.1 CREATE ENUMERATION"
+	
+	  - Changed section "3.5.2 UPDATE ENUMERATION"
+	
+	  - Changed section "3.5.3.3 DROP ENUMERATION - Explanation"
+	
+	  - Changed section "3.6.1 CREATE SEGMENT"
+	
+	  - Changed section "3.6.2 DROP SEGMENT"
+	
+	  - Changed section "3.7.1 SELECT (ALL|FOCUS) OBJECTS".  Took out
+	    RETURNING (FULL|FLAT) SHEAF", as well as doing a few small
+	    edits.
+	
+	  - Changed section "3.7.2 SELECT OBJECTS AT"
+	
+	  - Changed section "3.7.3 SELECT OBJECTS HAVING MONADS IN"
+	
+	  - Changed section 3.7.5.3 - "SELECT FEATURES - Explanation".
+	
+	  - Changed section 3.7.7.3 - "SELECT ENUMERATION CONSTANTS -
+	    Explanation"
+	
+	  - Changed section 3.7.8.3 - "SELECT OBJECT TYPES USING
+	    ENUMERATION - Explanation"
+	
+	  - Changed section 3.7.10.3 "SELECT MIN_M - Explanation"
+	
+	  - Changed section 3.7.11.3 "SELECT MAX_M - Explanation"
+
+	  - Changed section 3.7.12.4 "GET MONADS - Explanation"
+	
+	  - Changed section "3.8.1 CREATE OBJECT FROM MONADS"
+	
+	  - Changed section 3.8.2.4 - "CREATE OBJECTS FROM ID_DS -
+	    Explanation"
+	
+	  - Changed section "3.8.3 UPDATE OBJECTS BY MONADS"
+	
+	  - Changed section "3.8.4 UPDATE OBJECTS BY ID_DS"
+	
+	  - Changed section 3.8.6.4 - "DELETE OBJECTS BY ID_S -
+	    Explanation"
+	
+	  - Moved section "3.9.1 GET FEATURES" to within the
+	    Querying-section, to 3.7.13.
+	
+	  - Changed section "3.10.1 MONAD SET CALCULATION", which is now
+	    3.9.1.
+	
+- *** 10 September, 2002 ***
+
+	- Changed "Rel-EMdF" so that Figure 1 actually displays the figure
+	as intended.
+	
+- *** 7 September, 2002 ***
+
+	- Added VACUUM DATABASE section to MQL User's Guide.
+	
+- *** 6 September, 2002 ***
+
+	- Added section to HOW-TO-USE on how to configure your back-end.
+
+	
+================ Emdros 1.1.7 ================
+
+- *** 14 August, 2002 ***
+
+	- Added the following sections to doc/HOW-TO-USE:
+	  
+	  - Minimize the number of queries
+	  - A strategy for display of query results
+	  - An in-memory EMdF database
+	
+	
+- *** 13 August, 2002 ***
+
+	- Moved the GET MONADS section of MQL User's Guide into the
+	Querying section.  Removed superfluous id_ds_specification from
+	grammar for this statement.  Added reference to "Monad Sets --
+	Implementation and Mathematical Foundations."
+
+	
+- *** 5 August, 2002 ***
+
+	- Enhanced the index of the MQL User's Guide.
+
+
+	
+- *** 3 August, 2002 ***
+	
+	- Added "Namespaces" section to chapter 3 of MQL User's Guide.
+
+	- MQL User's Guide used to state that, when creating an
+	enumeration, the first constant gets the value 0 if its value is
+	not specified.  This should have said it gets the value 1.  "Bug"
+	fixed.
+
+	- Added more entries to the index, particularly for enumerations.
+	
+================ Emdros 1.1.6 ================
+	
+- *** 31 July, 2002 ***
+
+	- Added "Monad Sets -- Implementation and Mathematical
+	Foundations" document.
+
+	- Updated "Relational Implementation of EMdF and MQL" so that the
+	figure on page ~34 is now within the margins of the page.
+
+	- Updated "The Standard MdF Model" so that it has a table of
+	contents.
+
+	
+- *** 30 July, 2002 ***
+
+	- Updated MQL User's Guide so that it no longer misleadingly
+	states that XML output has not been implemented.
+
+	- Added section to MQL User's Guide on the new SELECT OBJECTS
+	HAVING MONADS IN statement.
+
+	
+- *** 29 July, 2002 ***
+
+	- Updated chapters 1 and 2 of MQL User's Guide with proof-reading
+	changes.
+
+================ Emdros 1.1.5 ================
+- *** 21 July, 2002 ***
+
+	- Added README to doc/ directory.
+
+	- Updated emdftry.1 to reflect the fact that the program now stops
+	at the first failure.
+	
+- *** 11 July, 2002 ***
+
+	- Changed the MQL User's Guide:
+
+	  - Added the beginnings of an index.
+
+	  - Added sections on min_m and max_m.
+
+	  - Added sections on SELECT MIN_M and SELECT MAX_M.
+
+	  - Cleaned up various things.
+	
+	- Took out section CREATE OBJECTS WITH OBJECT TYPE from MQL User's
+	Guide since it hasn't been implemented yet.
+
+	- Updated upgrade_db.1.
+
+	- Updated "The Extended MdF model" to include information on
+	min_m.
+
+	- Updated "Relational implementation of EMdF and MQL" to reflect
+	min_m and max_m.
+	
+- *** 1 July, 2002 ***
+
+	- Updated "The Standard MdF model", removing a reference to "later
+	treatment" of universes (a leftover from its days as part of
+	another document), and fixed two bugs in the treatment of gaps.
+
+	- Updated "The Extended MdF model -- a Redefinition", to become
+	"The Extended MdF model":
+
+	  - Deleted the distinction between monad_m and monad_d.
+
+	  - Added max_m.
+
+	  - Removed requirement from inst(T,U) that U be contiguous.
+
+	- Updated "Relational implementation of EMdF and MQL":
+
+	  - Split "sequences" table into "sequence_0" and "sequence_1".
+
+	- Added comment to HOW-TO-USE on speeding up population of
+	database by setting fsync=false.
+	
+- *** 15 June, 2002 ***
+
+	- Added CREATE OBJECTS WITH OBJECT TYPE section to MQL User's
+	Guide.
+
+	- Added section to doc/HOW-TO-USE on populating a database.
+	
+================ Emdros 1.1.4 ================
+- *** 4 June, 2002 ***
+
+	- Updated bootstrapping.txt to make it work with postgresql on
+	Mandrake 8.2.
+	
+- *** 24 May, 2002 ***
+
+	- Added emdftry.1 and mqltry.1 man pages.
+
+	- Updated man-pages for mql(1), upgrade_db(1), and
+	manage_indices(1) to reflect options -h and -p.
+
+	- Updated bootstrapping.txt to make it readable for Windows users.
+
+	- Added description of new MONAD SET CALCULATION statement to MQL
+	User's Guide.
+
+- *** 23 May, 2002 ***
+
+	- Added description of comments to MQL User's Guide.
+	
+- *** 15 March, 2002 ***
+
+	- Fleshed out the following sections in MQL User's Guide: "Blocks:
+	Object references", "Blocks: block", "Strings of blocks:
+	topograph", "Strings of blocks:blocks", "Strings of blocks:
+	block_string", "Strings of blocks: block_str".
+	
+- *** 14 March, 2002 ***
+
+	- Added "Universe and Substrate" section to MQL User's Guide.
+
+	- Fleshed out the following sections in MQL User's Guide:
+	"Blocks:Introduction", "Blocks:Object blocks", "Blocks:Gap
+	blocks", "Blocks:Retrieval", "Blocks:First and last", "Blocks:
+	Feature constraints".
+	
+- *** 13 March, 2002 ***
+
+	- Made skeleton for rest of chapter 4 of MQL User's guide.
+	Provided some of the contents.  Added Appendix with licenses.
+
+================ Emdros 1.1.2 ================
+
+- *** 15 May, 2002 ***
+
+	- Added HOW-TO-USE document.
+
+- *** 14 May, 2002 ***
+
+	- Added HTML versions of man pages.
+	
+================ Emdros 1.1.1 ================
+
+- *** 12 March, 2002 ***
+
+	- Updated GET MONADS statement in MQL User's Guide.
+	
+- *** 8 March, 2002 ***
+	- Added GET MONADS statement to MQL User's Guide and Towards a New
+	MQL.
+
+	- Updated mql(1) man-page to reflect new options (see source
+	Changelog for details).
+
+================ Emdros 1.1.0 ================
+	
+- *** 19 January, 2002 ***
+	- Added QUIT statement to MQL User's Guide.
+
+- *** 18 January, 2002 ***
+	- Added upgrade_db.1 man-page.
+
+- *** 14 November, 2001 *** 
+	- Updated mql.1 man-page to reflect new --xml and --console
+	  options.
+	
+- *** 13 November, 2001 ***
+	- Added manage_indices.1 man-page.
+	
+- *** 19 October, 2001 ***
+	- Added a note to the Lexical conventions-section of Chapter 3 of
+	  the MQL User's Guide saying that identifiers are
+	  case-insensitive.
+	
+- *** 15 October, 2001 ***
+	- Added MQL User's Guide (NOT FINISHED!)
+
+================ Emdros 1.0.4 ================
+	
+- *** 14 October, 2001 ***
+	- Changed MQL-Query-Subset so that gap_block and opt_gap_block can
+	have an inner opt_blocks.
+
+	- Changed the font to a Times font for all documents.

@@ -1,0 +1,172 @@
+.\" Man page for mqlhal
+.\" Use the following command to view man page:
+.\"
+.\"  tbl mqlhal.1 | nroff -man | less
+.\"
+.TH MQLHAL 1 "January 20, 2007"
+.SH NAME
+mqlhal \- The second stage in building a HAL database with Emdros
+.SH SYNOPSIS
+\fBmqlhal\fR [ options ] 
+.br
+.SH DESCRIPTION
+\fBmqlhal\fR is the second stage in building a HAL database with
+Emdros.  It builds a HAL matrix as explained below, according to a
+configuration file whose format is explained further down.
+
+HAL is a method for measuring proximity and word-frequency in a text.
+The basic idea is to slide a "sliding window" over the text, then
+count how many times a given word-form appears within a given distance
+of the word at the front of the window.  This is stored in an m x m
+matrix, where m is the number of unique word-forms in the text.
+
+For example, if the word A occurs 1 place before word B, and word B is
+currently at the head of a sliding window of width 5, then the matrix'
+(B,A) entry will get 4 added to it, since 5-1 = 4.  Similarly, if A
+occurs 2 places before B, then the (B,A) entry will get 3 added to it.
+The sliding window is "slid" across the text until the text has been
+exhausted.
+
+After the matrix has been calculated, mqlhal can calculate so-called
+"word-vectors".  A "word vector" for a given word C is a sorted list
+of the biggest values from the matrix that involve C, i.e., for any
+given non-zero value at word D in either the row for C or the column
+for C, the values (C,D) and (D,C) are summed up and shown in the
+word-vector.  Afterwards, the word-vector is sorted, and only the
+maximum number requested are given (see the section on the
+configuration file format below).
+
+\fBmqlhal\fR assumes that you have run halblddb(1) on your text.  It
+takes as input a configuration file which specifies certain
+parameters, explained below.
+
+Typical usage would be:
+
+mqlhal -c myconfigfile.cfg
+
+If built to use MySQL or PostgreSQL, then you may need additional
+options such as "-u username", "-p password" and "-h hostname".
+
+.SH OPTIONS
+\fBmqlhal\fR supports the following command-line switches:
+.TP 6
+.BI \-\-help
+show help
+.TP
+.BI \-V\ ,\ \-\-version
+show version
+.TP
+.BI \-b\ ,\ \-\-backend \ backend
+set database backend to `backend'. Valid values are: For PostgreSQL:
+"p", "pg", "postgres", and "postgresql". For MySQL: "m", "my", and
+"mysql". For SQLite 2.X.X: "2", "s", "l", "lt", "sqlite", and
+"sqlite2". For SQLite 3.X.X: "3", "s3", "lt3", and "sqlite3".
+.TP
+.BI \-c\ configfile
+set the name of the ocnfiguration file
+.TP
+.BI \-d\ ,\ \-\-dbname \ dbname 
+set database name (overrides what is in the config file)
+.TP
+.BI \-h\ ,\ \-\-host \ hostname 
+set db back-end hostname to connect to (default is 'localhost') (has no effect on SQLite)
+.TP
+.BI \-u\ ,\ \-\-user \ user
+set database user to connect as (default is 'emdf') (has no effect on SQLite)
+.TP
+.BI \-p\ ,\ \-\-password \ password
+set password to use for the database user.  Has no effect on SQLite,
+unless you have an encryption-enabled SQLite, in which case this gets
+passed as the key.
+
+.SH CONFIGURATION FILE FORMAT
+
+\fBmqlhal\fR must be given the name of a configuration file (with the
+-c option).  This configuration file tells mqlhal the basic parameters
+which it needs in order to work.
+
+The configuration file has a very standard format: a) Everything from
+a hash-mark (#) to the end of the line is ignored. b) blank lines are
+ignored. c) All other lines should be in the form "key = value" where
+both key and value consist of non-whitespace.
+
+A sample configuration file called "hal.cfg" is provided.  It is
+probably located in @prefix@/share/emdros/HAL/ (if on Unix/Linux/Mac
+OS X), while on Windows it is probably in INSTALLPREFIX\etc\.  The
+configuration file should be fairly self-explanatory, so only a few
+comments will be added here:
+
+The "database" key can be overridden on the command line with the -d
+option.
+
+The "factor" key specifies a factor with which to multiply each matrix
+value in the output, before dividing by the length of the text.  If
+you have two texts which you wish to compare, say, of length 72,000
+and 98,000, then a good value here would be 100,000.
+
+The "n" key specifies the window width.  You can more than one matrix
+in the same database, each of a different window width.  Any
+previously calculated matrix with the same window width will be reused
+rather than recalculated, which should be faster than recalculating
+it.
+
+The "csv" key gives the name of the "comma-separated value" file on
+which the matrix will be printed.
+
+The "output" key gives the name of the output file in which the
+results will be printed.
+
+The "max_values" key gives the maximum number of values to print in
+each vector for a given word.
+
+The "word" key can occur multiple times, once for each word you wish
+to examine and for which you want a word-vector output.
+
+
+
+
+.SH RETURN VALUES
+.TP
+.BR 0 " Success"
+.TP
+.BR 1 " Wrong usage"
+.TP
+.BR 2 " Connection to backend server could not be established"
+.TP
+.BR 3 " An exception occurred (the type is printed on stderr)"
+.TP
+.BR 4 " Could not open file"
+.TP
+.BR 5 " Database error"
+.TP
+.BR 6 " Compiler error (error in MQL input)"
+
+.SH AUTHORS
+Copyright
+.Cr
+2005-2006 by Ulrik Petersen (ulrikp@users.sourceforge.net).  Note that
+this software is distributed under the GNU GPL.  See the sources for
+details.
+
+.SH REFERENCES
+
+Burgess, C., K. Livesay, and K. Lund (1998). "Explorations in Context
+Space: Words, Sentences, Discourse", Discourse
+Processes, Volume 25, pp. 211 - 257.
+
+See <http://locutus.ucr.edu/abstracts/97-bll-expl.html> from where you
+can also download the paper.
+
+Burgess, C. and K. Lund. (1997). "Modelling parsing constraints with
+high-dimensional context space." Language and Cognitive Processes,
+Volume 12, pp. 1-34.
+
+See <http://citeseer.nj.nec.com/context/398051/0>.
+
+Lund, Kevin and Curt Burgess. (1996) "Producing
+high-dimensional semantic spaces from lexical co-occurrence",
+Behavior Research Methods, Instruments and Computers, Volume 28,
+number 2, pp. 203--208.
+
+See http://locutus.ucr.edu/abstracts/96-lb-prod.html from where you
+can also download the paper.

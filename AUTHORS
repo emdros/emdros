@@ -1,0 +1,44 @@
+Emdros
+======
+
+Emdros was originally created by Ulrik Sandborg-Petersen,
+ulrikp@users.sourceforge.net, and he is the current maintainer.
+
+Copyright (c) 2001-2017 Ulrik Sandborg-Petersen
+
+
+PCRE
+====
+
+Regular Expression-support is provided through the PCRE library,
+written by: Philip Hazel <ph10@cam.ac.uk>
+
+University of Cambridge Computing Service,
+Cambridge, England. Phone: +44 1223 334714.
+
+Copyright (c) 1997-2005 University of Cambridge
+
+
+SWIG support
+============
+
+Kirk E. Lowery contributed SWIG support for Ruby.  Kirk can be
+contacted at <KirkELowery@gmail.com>.
+
+Chris Wilson did the groundwork on a previous version of the SWIG
+support for Perl.  Chris can be contacted at <emdros@qwirx.com>.
+
+
+Other Contributions
+===================
+
+Martin Korshoej Petersen wrote most of the ImportToolWizard machinery.
+
+
+SQLite
+======
+
+SQLite (versions 2 and 3) is the work of D. Richard Hipp.  He has
+websites at <http://www.hwaci.com/> and <http://www.sqlite.org/>.
+
+

@@ -1,0 +1,613 @@
+Overview
+========
+
+This document contains the following sections:
+
+- Requirements
+  - Platforms supported
+  - In general
+  - Fedora
+  - Ubuntu
+- Building RPMs
+- Building .debs
+- Installing from sources
+- Environment variables specific to emdros compilation
+- Other environment variables
+- configure options
+- Building on Mac OS X
+- What happens after building Emdros?
+
+
+
+-----------------------------
+--- NOTE for Win32 users  ---
+-----------------------------
+
+These instructions are not for Win32 users, but for Unix/Linux users.
+For instructions on how to install on Win32 platforms, please see the
+file INSTALL.Win32.txt.
+
+-----------------------------
+
+Requirements
+============
+
+Platforms supported
+-------------------
+
+The following *nix platforms are supported by Emdros, and thus are
+known to work:
+
+- Linux x86, x86_64 and ARMv7
+- Solaris 10 on SPARC hardware
+- Mac OS X 10.5 and later (see INSTALL.Mac.txt)
+- iOS (any version; see README-Emdros-on-iOS.txt)
+- Android (see README-Emdros-on-Android.txt)
+
+In addition, Emdros releases are regularly compiled and tested on
+Windows.  It should work on:
+
+- Windows XP, Vista, 7, 8, and 8.1 (see INSTALL.Win32.txt)
+
+There have been reports of Emdros compiling and running on *BSD,
+including NetBSD and FreeBSD.  These platforms are not regularly
+tested, however.
+
+
+
+
+In general
+----------
+
+The emdros package needs the following software:
+
+- If you wish to use PostgreSQL as a backend:
+  - PostgreSQL plus development headers and libraries.
+- If you wish to use MySQL as a backend:
+  - MySQL plus development headers and libraries
+- For SWIG'ified interfaces:
+  - SWIG version 2.0.12 or later.
+
+PostgreSQL versions prior to 8.2.0 will not work with Emdros.  For
+best results, use the latest stable version of PostgreSQL.  On Win32,
+PostgreSQL 8.3 or later is required.
+
+It is unknown how far back the versions of MySQL will work.  For best
+results, use the latest stable MySQL.
+
+The specific PostgreSQL library needed by Emdros is:
+
+- libpq.a
+
+The specific MySQL library needed by Emdros is:
+
+- libmysqlclient.a
+
+CentOS
+------
+
+On CentOS 7.0 (and presumably RHEL 7.0), installing the following
+packages will pull in the minimal set required for building Emdros as
+an RPM with support for MariaDB (MySQL), PostgreSQL, and Python.
+
+yum install gcc-c++ make binutils groff gcc glibc-devel glibc-headers kernel-headers groff libgomp libstdc++-devel python-devel mariadb mariadb-server mariadb-devel postgresql postgresql-server postgresql-devel rpm-build
+
+
+Fedora
+------
+
+On Fedora 26-27, the following packages are required to build the full
+gamut of Emdros programs and libraries, even after a "make distclean"
+or a "make clean":
+
+gcc-c++ make binutils groff gcc glibc-devel glibc-headers kernel-headers groff libgomp libstdc++-devel re2c transfig lyx latex2html swig autoconf automake libtool wxGTK3 wxGTK3-devel ImageMagick texlive-a4wide texlive-times texlive-courier texlive-ulem texlive-epstopdf-bin texlive-latex
+
+The following packages are optional on Fedora:
+
+tcl java-1.8.0-openjdk java-1.8.0-openjdk-devel python-devel python3-devel php-devel mono-core ruby ruby-devel perl-devel nodejs-devel node-gyp mysql mysql-server mysql mysql-devel postgresql postgresql-server postgresql-devel 
+
+Ubuntu
+------
+
+There are two cases:
+
+i) You want to build a .deb for Emdros from a tarball.
+
+ii) You want to be able to do a "make distclean" and build from there.
+
+Building a .deb from an Emdros tarball
+::::::::::::::::::::::::::::::::::::::
+
+For case number (i) and (ii), the minimum you need is pulled in with:
+
+sudo apt-get install g++ make binutils zlib1g zlib1g-dev build-essential fakeroot debhelper
+
+The following are all optional for cases (i) and (ii).
+
+GUI support:
+sudo apt install libwxgtk-webview3.0-dev libwxgtk3.0-dev libwxgtk-media3.0-dev xdg-utils 
+
+MySQL support:
+sudo apt install libmysqlclient-dev mysql-client mysql-server
+
+MariaDB support (drop-in replacement for, and mutually exclusive with, MySQL):
+sudo apt install libmariadbclient-dev libmariadbclient-dev-compat mariadb-client mariadb-server
+
+PostgreSQL support:
+sudo apt install postgresql libpq-dev postgresql-client
+
+SWIG bindings support:
+Tcl:     sudo apt install tcl tcl-dev
+Java:    sudo apt install openjdk-8-jdk
+Python2: sudo apt install python-dev
+Python3: sudo apt install python3-dev
+Mono/C#: sudo apt install mono-devel mono-mcs mono-tools-devel
+Ruby:    sudo apt install ruby ruby-dev
+PHP5:    sudo apt install php5.6-dev
+PHP7:    sudo apt install php-dev
+Perl:    sudo apt install perl
+Node.JS: sudo apt install nodejs-dev node-gyp 
+
+To bring all language bindings in:
+sudo apt install tcl tcl-dev openjdk-8-jdk python-dev python3-dev mono-devel mono-mcs mono-tools-devel ruby ruby-dev php5.6-dev php-dev perl nodejs-dev node-gyp
+
+To build a .deb:
+
+$ tar xfzv emdros-x.y.z.tar.gz
+$ cd emdros-x.y.z
+$ dpkg-buildpackage -rfakeroot -d
+
+To install the .deb:
+
+$ cd ..
+$ sudo dpkg -i emdros_x.y.x*.deb
+
+
+
+For case number (ii), you need to read on.
+
+
+Building after make distclean
+:::::::::::::::::::::::::::::
+
+On Ubuntu 16.04 LTS (xenial), you will need a PPA for LyX:
+
+https://launchpad.net/~lyx-devel/+archive/ubuntu/release
+
+In short:
+
+1. sudo apt-get remove lyx
+2. sudo apt-get autoremove
+3. sudo add-apt-repository ppa:lyx-devel/release
+4. sudo apt-get update
+5. sudo apt-get install lyx
+6. lyx
+[i.e, run LyX]
+
+After this, the following command will bring in everything needed to
+build after make distclean:
+
+sudo apt-get install transfig lyx latex2html swig3.0 autoconf automake libtool groff imagemagick autotools-dev
+
+If SWIG support for PHP 5.6 is required, you need to install the
+following PPA, with the following commands:
+
+sudo LC_ALL=C.UTF-8 add-apt-repository ppa:ondrej/php
+sudo apt-get update
+
+Do this _before_ installing the php5.6-dev package.
+
+
+The following packages are optional, but add more functionality if
+installed before building:
+
+tcl tcl-dev openjdk-8-jdk python-dev python3-dev mono-devel mono-mcs mono-tools-devel ruby ruby-dev php5.6-dev php-dev perl libmysqlclient-dev mysql-client mysql-server postgresql libpq-dev postgresql-client nodejs-dev node-gyp 
+
+SWIG version 3.0.11 or higher is required if you wish to do a "make
+distclean" and still have support for PHP7.
+
+
+
+Older versions of Ubuntu
+::::::::::::::::::::::::
+
+On Ubuntu 14.10 (Utopic Unicorn), the following command will bring in
+everything needed to build a .deb:
+
+sudo apt-get install g++ make binutils tcl tcl-dev re2c transfig lyx latex2html swig3.0 autoconf automake libtool libwxgtk3.0-dev libwxgtk-media3.0-dev openjdk-7-jdk python-dev mono-devel mono-gmcs mono-tools-devel ruby ruby-dev php5-dev perl libmysqlclient-dev mysql-client mysql-server postgresql libpq-dev postgresql-client groff imagemagick xdg-utils zlib1g-dev build-essential fakeroot debhelper autotools-dev libwxgtk-webview3.0-dev
+
+On Ubuntu 14.04 LTS (Trusty Tahr), the following command will bring in
+everything needed to build a .deb:
+
+sudo apt-get install g++ make binutils tcl tcl-dev re2c transfig lyx latex2html swig autoconf automake libtool libwxgtk3.0-dev libwxgtk-media3.0-dev openjdk-7-jdk python-dev mono-devel mono-gmcs mono-tools-devel ruby ruby-dev php5-dev perl libmysqlclient-dev mysql-client mysql-server postgresql libpq-dev postgresql-client groff imagemagick xdg-utils zlib1g-dev build-essential fakeroot debhelper autotools-dev 
+
+On Ubuntu Server 14.04 LTS, and possibly others, the minimum packages
+needed to build a .deb of Emdros from an Emdros release tarball will
+be pulled in with the following.
+
+sudo apt-get install make g++ libwxgtk3.0-0 libwxgtk3.0-dev libwxgtk-media3.0-dev zlib1g-dev build-essential fakeroot debhelper autotools-dev 
+
+Note that this does not pull in PostgreSQL or MySQL, so unless their
+development packages are installed, support for these will not be
+compiled in.
+
+
+
+Building RPMs
+=============
+
+If you wish to build RPMs of emdros, try this:
+
+$ rpmbuild -ta emdros-X.Y.Z.tar.gz
+
+On Fedora, you can do this:
+
+$ rpmbuild -ta --target i686-redhat-linux emdros-X.Y.Z.tar.gz
+
+in order to build it for the i686.
+
+The RPMs build will be in ~/rpmbuild/RPMS/$(arch)/, e.g.:
+~/rpmbuild/RPMS/x86_64/
+
+
+CentOS: Installing the built RPMs
+---------------------------------
+
+On CentOS 7 (and presumably RHEL 7), you can do:
+
+sudo yum localinstall ~/rpmbuild/RPMS/x86_64/emdros-*X.Y.Z*.rpm
+
+... where "X.Y.Z" is the version you have just compiled (e.g.,
+"3.5.15").
+
+
+Fedora: Installing the built RPMs
+---------------------------------
+
+On Fedora 21 and up, you can do:
+
+sudo dnf install ~/rpmbuild/RPMS/emdros-*X.Y.Z*.rpm
+
+... where "X.Y.Z" is the version you have just compiled (e.g.,
+"3.5.15").
+
+
+Building the BPT engine inside of an RPM
+----------------------------------------
+
+1) Get the source code for Emdros and unpack it.
+
+2) Go to the root of the Emdros sources, and unzip the ZIP file
+containing the BPT source code, overwriting all files.
+
+3) ./configure
+
+4) make dist
+
+   This  produces  a  new  tarball  (given that  you  have  everything
+   installed  as directed  in  the INSTALL  file).   This tarball  now
+   includes the BPT sources.
+
+5) rpmbuild -ta <path/to/new/emdros/tarball.tar.gz>
+
+
+
+
+
+
+Building .debs
+==============
+
+1) First, you should install packages so as to be able to build
+Emdros.  See above under "Requirements -> Ubuntu".
+
+2) Second, you should install any packages needed for building the
+.debs, mentioned above.
+
+3) Build the .debs.
+
+3a) Place the tarball in a directory, such as $HOME/build.  We'll
+assume you have placed them there for the remainder of this tutorial.
+
+3b) cd ~/build
+
+3c) tar xfvz emdros-x.y.z.tar.gz (where x.y.z is the version number of
+your Emdros tarball).
+
+3d) cd emdros-x.y.z (where, again, x.y.z is the version number of your
+Emdros).
+
+3e) If you have any special configure switches you need to supply to
+configure, edit the file "debian/rules".  DO NOT run configure
+manually.  It is run from debian/rules as part of dpkg-buildpackage
+-rfakeroot command (the next step).
+
+3f) dpkg-buildpackage -rfakeroot -d
+
+This should build the .debs in $HOME/build/.  If this fails with an
+error, or it builds a .deb with a wrong version, _please_ get in touch
+with the Emdros author, Ulrik Sandborg-Petersen, by email:
+ulrikp<at>emdros|dot|org.  Thanks in advance for your help!
+
+4) Install the .debs
+
+cd ~/build
+
+dpkg -i emdros_x.y.z*.deb
+
+
+
+Building the BPT engine inside of a .deb
+----------------------------------------
+
+1) Get the source code for Emdros and unpack it.
+
+$ tar xfzv /path/to/emdros/sources/emdros-a.b.c.tar.gz
+
+
+2) Go to the root of the Emdros sources, and unzip the ZIP file
+containing the BPT source code, overwriting all files.
+
+$ unzip /path/to/bpt/sources/bpt-x.y.z.zip
+
+
+3) Run ./configure
+
+$./configure
+
+At this point, any options you give to configure will be carried over
+into the debian/rules file, meaning they will also be effective after
+you run make dist.  For example, you could do the following instead of
+merely configure:
+
+./configure  --with-swig-language-nodejs=no --with-swig-language-java=no  --with-swig-language-perl=no --with-swig-language-python2=yes  --with-swig-language-python3=yes --with-swig-language-ruby=yes  --with-swig-language-php7=no --with-swig-language-php=no --with-wx=maybe  --with-sqlite=no  --with-sqlite3=yes  --with-mysql=no  --with-bpt=maybe  --with-bpt2=maybe --enable-shared=yes  --disable-debug  
+
+Then these options will be carried over into debian/rules, via
+debian/rules.in.
+
+4) make dist
+
+   This  produces  a  new  tarball  (given that  you  have  everything
+   installed  as directed  in  the INSTALL  file).   This tarball  now
+   includes the BPT sources.
+
+5) Follow the instructions above, using the Emdros tarball made in
+step (4).
+
+
+
+
+
+
+Installing from sources
+=======================
+
+The basic procedure is as follows (but *please* read what follows
+these steps):
+
+1. ./configure
+2. make
+3. make install
+
+You may need to use GNU make.  But try your native make first.  It
+should work.
+
+Options
+-------
+
+Unless you explicitly tell the configure-script using command-line
+switches, it will try to detect what's available on your system, and
+then allow you to build everything that is possible to build on your
+system.
+
+In particular, the configure-script looks for the following:
+
+- SQLite 2.x.x
+- SQLite 3.x.x
+- PostgreSQL
+- MySQL
+- wxWidgets
+- A mono/C# compiler (for SWIG)
+- Java (for SWIG)
+- Perl (for SWIG)
+- Python (for SWIG)
+- Ruby (for SWIG)
+
+These are controlled from the configure command line with
+switches starting with --with.  For example:
+
+--with-postgresql=[yes|no|maybe]
+
+All of the switches (given below) at a minimum recognize these three
+values.
+
+- The value "yes" means, "yes, I do want this, and if it is not
+possible to build on my system, then display an error message to that
+effect, and do not complete the configure process."
+
+- The value "no" means "No, I do not want to build Emdros with this
+  enabled."
+
+- The value "maybe" means "Let the configure script figure out whether
+  it is possible to build it.  If it is possible, then build it, if
+  not, then do not do so, and continue with the configure script."
+
+
+The switches are as follows:
+
+- SQLite 2.x.x        --with-sqlite=[yes|no|maybe|local|system]
+- SQLite 3.x.x        --with-sqlite3=[yes|no|maybe|local|system]
+- PostgreSQL          --with-postgresql=[yes|no|maybe]
+- MySQL               --with-mysql=[yes|no|maybe]
+- wxWidgets           --with-wx=[yes|no|maybe]
+- .Net (for SWIG)     --with-swig-language-csharp=[yes|no|maybe]
+- Node.JS (for SWIG)  --with-swig-language-nodejs=[yes|no|maybe]
+- Java (for SWIG)     --with-swig-language-java=[yes|no|maybe]
+- Perl (for SWIG)     --with-swig-language-perl=[yes|no|maybe]
+- Python 2 (for SWIG) --with-swig-language-python=[yes|no|maybe]
+- Python 3 (for SWIG) --with-swig-language-python3=[yes|no|maybe]
+- Ruby (for SWIG)     --with-swig-language-ruby=[yes|no|maybe]
+- PHP5 (for SWIG)     --with-swig-language-php=[yes|no|maybe]
+- PHP7 (for SWIG)     --with-swig-language-php7=[yes|no|maybe]
+
+
+--with-sqlite and --with-sqlite3
+--------------------------------
+
+The SQLite switches are a little special, in that, in addition to the
+[yes|no|maybe] values, they also take the two values "local" and
+"system".
+
+The value "local" means "yes, use SQLite (2/3), but use the locally 
+present (i.e., in the Emdros sources) SQLite".
+
+The value "system" means "yes, use SQLite, but use the one installed
+on the system", of the appropriate version.
+
+The value "maybe" means "yes, use SQLite, and let the configure-script
+choose whether to use the one on the system (if present) or the one in
+the Emdros sources (if not present on the system)."
+
+The value "yes" means the same as "maybe".
+
+The value "no" means "do not build with SQLite".
+
+
+--with-bpt
+----------
+
+A backend exists, called BPT, which is much faster than SQLite, and
+whose databases are much smaller than even SQLite 3's databases for
+the same data.
+
+The BPT backend is proprietary, and not part of the Open Source
+version of Emdros.
+
+The BPT backend comes with built-in, optional encryption.
+
+If you are interested in licensing the BPT backend, please get in
+touch with Ulrik Sandborg-Petersen, the author of Emdros, via email:
+ulrikp@emergence.dk
+
+The BPT engine is turned off by default, given that it is not part of
+the Open Source version of Emdros.  In case you have the source code
+and a license to it, you can enable it by:
+
+1) Unpacking the source code for the BPT engine inside the Emdros
+sources, overwriting all files.
+
+2) Run configure:
+
+  2a) If you are running Emdros < 3.3.1.pre21, run configure with the
+  --with-bpt switch.
+
+  2b) If you are running Emdros >= 3.3.1.pre21, merely running
+  configure will pick up the fact that the BPT engine is present,
+  provided you have unpacked the BPT sources correctly.
+
+
+--with-bpt2
+-----------
+
+A backend exists, called BPT2, or BPT engine version 2.  BPT2 is much
+faster than the BPT engine version 1, and the databases are much
+smaller than even BPT version 1's databases for the same data.
+
+The BPT2 backend is proprietary, and not part of the Open Source
+version of Emdros.
+
+The BPT2 backend comes with built-in, optional encryption.
+
+If you are interested in licensing the BPT2 backend, please get in
+touch with Ulrik Sandborg-Petersen, the author of Emdros, via email:
+ulrikp@emergence.dk
+
+The BPT2 engine is turned off by default, given that it is not part of
+the Open Source version of Emdros.  In case you have the source code
+and a license to it, you can enable it by:
+
+1) Unpacking the source code for the BPT2 engine inside the Emdros
+sources, overwriting all files.
+
+2) Run configure.  Merely running configure will pick up the fact that
+   the BPT2 engine is present, provided you have unpacked the BPT2
+   sources correctly.
+
+
+
+
+Building a package
+------------------
+
+If you need to build a package (e.g., on Solaris), here is the
+procedure.  The following assumes that you want to install in
+/opt/Emdros and build the package in /var/tmp/Emdros before
+installing.  This is just an example.
+
+1. ./configure --prefix=/opt/Emdros
+2. make
+3. mkdir /var/tmp/Emdros
+4. make DESTDIR=/var/tmp/Emdros install
+5. build package in /var/tmp/Emdros
+
+This actually installs the Emdros files in /var/tmp/Emdros/opt/Emdros,
+but builds the package in such a way that it assumes it is installed
+in /opt/Emdros.
+
+
+
+
+
+
+
+configure options 
+=================
+
+The most important ones are:
+
+- --prefix=                  (defaults to /usr/local)
+- --with-mysql=[yes|no|maybe]
+- --with-postgresql=[yes|no|maybe]
+- --with-sqlite=[yes|no|maybe|system|local]
+- --with-sqlite3=[yes|no|maybe|system|local]
+- --with-sqlite-no-fsync=[yes|no]    (on by default)
+- --with-sqlite3-no-fsync=[yes|no]   (on by default)
+- --with-bpt=[yes|no|maybe]          (off by default)
+- --with-bpt2=[yes|no|maybe]         (off by default)
+- --with-wx=[yes|no|maybe]   (enables wxWidgets programs -- on by default if present on system)
+- --enable-debug             (on by default)
+- --disable-debug
+- --enable-shared            (on by default)
+- --disable-shared
+- --enable-static            (on by default)
+- --disable-static
+- --enable-local-pcre        (on by default)
+- --disable-local-pcre
+- --with-swig-language-nodejs=[yes|no|maybe]
+- --with-swig-language-java=[yes|no|maybe]
+- --with-swig-language-perl=[yes|no|maybe]
+- --with-swig-language-python=[yes|no|maybe]
+- --with-swig-language-python3=[yes|no|maybe]
+- --with-swig-language-ruby=[yes|no|maybe]
+- --with-swig-language-php=[yes|no|maybe]
+- --with-swig-language-php7=[yes|no|maybe]
+- --with-default-backend=[sqlite|sqlite3|mysql|postgresql]
+
+For descriptions of these and other options, you can run the following
+command:
+
+  $ ./configure --help 
+
+
+Building on Mac OS X
+====================
+
+Please see INSTALL.Mac.txt.
+
+
+What happens after building Emdros?
+===================================
+
+Please see the doc/HOW-TO-USE file.
+
+Please also see the rest of the documentation.

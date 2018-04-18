@@ -1,0 +1,161 @@
+.\" Man page for pennimport
+.\" Use the following command to view man page:
+.\"
+.\"  tbl pennimport.1 | nroff -man | less
+.\"
+.TH PENNIMPORT 1 "December 31, 2013"
+.SH NAME
+pennimport \- A tool to convert Penn Treebank format to Emdros MQL
+.SH SYNOPSIS
+\fBpennimport\fR [ options ] [input_filename ...]
+.br
+.SH DESCRIPTION
+\fBpennimport\fR is a command-line tool to convert Penn Treebank
+format to Emdros MQL for later importing into Emdros.
+
+.SH OPTIONS
+\fBpennimport\fR supports the following command-line switches:
+.TP 6
+.BI \-\-help
+show help, then quit
+.TP
+.BI \-V\ ,\ \-\-version
+show version, then quit
+.TP
+.BI \-b\ ,\ \-\-backend \ backend
+set database backend to `backend'. Valid values are: For PostgreSQL:
+"p", "pg", "postgres", and "postgresql". For MySQL: "m", "my", and
+"mysql". For SQLite 2.X.X: "2", "s", "l", "lt", "sqlite", and
+"sqlite2". For SQLite 3.X.X: "3", "s3", "lt3", and "sqlite3".
+.TP
+.BI \-d\ ,\ \-\-dbname \ dbname 
+set database name. If used with -s, the string "CREATE DATABASE
+'dbname' GO USE DATABASE 'dbname' GO" will be issued before the schema.  If used when importing, "USE DATABASE 'dbname' GO" will be issued before anything else.
+.BI \-o\ ,\ \-\-output \ filename
+dump to file filename. The default is "-", which means "standard
+output".
+.TP
+.BI \-\-distinct\-nt\-otns
+Emit nonterminals as distinct object types. The object types are named
+after the 'node type'. Node types which are C identifiers are used as
+is for the object type name.  Node types which have characters which
+are outside the ranges A-Z, a-z, and 0-9, and which are not the
+underscore, have these characters converted to "x" + the hex value of
+the character.
+.TP
+.BI \-\-doc\-ids
+Use separate INTEGER features for docids rather than the default ID_D
+features.  This affects both schema output and object creation output.
+If you use this feature when creating objects, you must also use it
+when emitting the schema.
+.TP
+.BI \-s\ ,\ \-\-schema
+Emit the schema. Note that this does not print distinct nonterminal
+object types when --distinct-nt-otns is in effect.  Those object types
+are created "on the fly".  This also means that the MQL, when
+imported, may seem to fail, if only because the same object types are
+created even though they have been created before.
+.TP
+.BI \-\-start-monad \ monad
+The start monad to use. Must be >= 1.  The default is 1.
+.TP
+.BI \-\-start-id_d \ id_d
+The start id_d to use. Must be >= 1.  The default is 1.
+.TP
+
+.SH OPERATION
+
+\fBpennimport\fR reads corpus data in Penn Treebank format and
+converts the data to MQL statements for later importing into Emdros.
+
+The filenames given after the options on the command line are
+interpreted as if each of them contains one Penn Treebank document,
+each containing one or more trees.  If no filenames are given, the
+input is read from stdin, and the whole of the stream is interpreted
+as being one document.
+
+If no \fB-o\fR switch is given, the output is printed on stdout.
+
+If an error occurs, the string "FAILURE" or the string "ERROR" is
+printed on stderr, along with an error message.
+
+If no error occurs, a string of the form "SUCCESS: next_monad is X
+next_id_d is Y" is printed on stderr, where X and Y are positive
+integers denoting the next monad and the next id_d to be used by the
+next invocation of the program, respectively.  This is useful if
+you've got several directories' worth of documents to import.
+
+Coreference links are assumed to be unique within a document, but not
+across documents.  Thus you should exercise care if you choose to use
+stdin as the input method -- all of the data on stdin will be treated
+as a single document, and coreference links will be assumed to be
+unique within the entire stream.  If this is not the case, then use
+the method of putting files on the command line rather than using
+stdin.
+
+Support for importing the BLIPP corpus is implemented.  In particular,
+the "hash" sign (number sign) as a delimiter for coreference relations
+is supported.
+
+
+.SH SCHEMA
+
+The schema can be seen by giving the program \fB-s\fR switch, with an
+optional \fB-d\fR switch.
+
+Briefly, a "Document" corresponds to one file given on the command
+line (or, in the case of using stdin, to the entire stream on stdin).
+
+A "DocumentRoot" is one stand-alone tree.  Its "parent" feature points
+ to the "Document" which is its parent.
+
+A "Nonterminal" is a nonterminal in the tree which is not a
+ DocumentRoot.  Its "parent" feature points to its parent.  Its
+ "coref" feature gives a list of id_ds of other objects which are
+ coreferent with this nonterminal.  Its "nttype" feature gives the
+ first part of the nonterminal name.  Its "function" feature gives the
+ rest of the nonterminal name, apart from any coreference pointer.
+ For example, "NP-SUBJ-1036" would have "NP" for the "mytype" feature,
+ "SUBJ" for the "function" feature, and the 1036 coreference link
+ would be translated to the id_d(s) of the other object(s) with the
+ same coreference link.
+
+When the option --distinct-nt-otns is in effect, no Nonterminal
+objects are emitted; instead, the nonterminals are divided into
+distinct object types, whose names are based on the "nttype" feature
+of the "Nonterminal" object type.  Also, these object types lack the
+"nttype" feature, but have all of the features of the "Nonterminal"
+object type otherwise.  See the --distinct-nt-otns option above under
+OPTIONS for a description of how the nttype nonterminal types are
+converted to object type names.
+
+A "Token" is a terminal node in the tree.  Its "parent" feature points
+to its parent.  Its "coref" feature gives a list of id_ds of other
+objects which are coreferent with this terminal (only for traces).
+Its "surface" feature gives the string associated with the terminal.
+For traces, any coreference link will have been stripped off.  Its
+"mytype" feature gives its part-of-speech tag, and its "function" is
+defined analogously to "function" on "Nonterminal".
+
+
+.SH RETURN VALUES
+.TP
+.BR 0 " Success"
+.TP
+.BR 1 " Wrong usage"
+.TP
+.BR 2 " Connection to backend server could not be established"
+.TP
+.BR 3 " An exception occurred (the type is printed on stderr)"
+.TP
+.BR 4 " Could not open file"
+.TP
+.BR 5 " Database error"
+.TP
+.BR 6 " Compiler error (internal error)
+.SH AUTHORS
+Copyright
+.Cr
+2001-2011 by Ulrik Sandborg-Petersen (ulrikp@users.sourceforge.net).
+Note that this software is distributed under the GNU GPL.  See the
+sources for details.

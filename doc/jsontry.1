@@ -1,0 +1,54 @@
+.\" Man page for jsontry.1
+.\" Use the following command to view man page:
+.\"
+.\"  tbl jsontry.1 | nroff -man | less
+.\"
+.TH JSONTRY 1 "June 18, 2016"
+.SH NAME
+jsontry \- A tool to test JSON parsing in Emdros
+.SH SYNOPSIS
+\fBjsontry\fR [-d|-c|-u] json-filename
+.br
+.SH DESCRIPTION
+
+\fBjsontry\fR is a tool for testing the JSON parser in Emdros.  It
+takes one argument, namely a filename.  The file is opened and read,
+and parsed with the JSON parser embedded in Emdros.  If an error
+occurs, the particulars of the error are written to stderr, the word
+"FAILURE" is written to stderr, and 2 is returned.  If no parsing
+error occurs, the JSON is pretty-printed on stdout, the word
+"SUCCESS" is printed on stderr, and 0 is returned.
+
+.SH OPTIONS
+\fBjsontry\fR supports the following command-line switches:
+.TP 6
+.BI \-d
+For debugging: Upon parsing failure, print the input consumed by the
+lexer up until the syntax error occurred.  The output is printed on
+stderr, just before the error message given by the parser is printed
+on stderr.  Note that the lexer may have consumed the input further
+than the point at which the syntax error occurred.
+.TP 6
+.BI \-c
+For minifying: Upon parsing success, prints the result as compacted,
+i.e., minified JSON.  Implies -d.
+.BI \-u
+For Unicode-escaping: Upon parsing success, prints the result as
+compacted, i.e., minified JSON, which is also Unicode-escaped with
+\\uxxxxxx for Unicode code points above 0x7F.  Assumes the input is
+UTF-8 encoded.  Implies -d.
+
+.SH RETURN VALUES
+.TP
+.BR 0 " Success"
+.TP
+.BR 1 " Wrong usage"
+.TP
+.BR 2 " Error in parsing the JSON input"
+
+.SH AUTHORS
+Copyright
+.Cr
+2008-2016 by Ulrik Sandborg-Petersen (ulrikp@users.sourceforge.net).
+Note that this software is distributed under the GNU GPL.  See the
+sources for details.

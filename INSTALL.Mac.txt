@@ -1,0 +1,258 @@
+HOWTO Install Emdros on a Mac OS X
+Last update: 10/20-2016
+
+Overview:
+
+  - Installing from .dmg
+
+  - Installing from source
+
+
+Installing from .dmg
+====================
+
+DMG images are sometimes made available via:
+
+http://emdros.org/download.html
+
+To install Emdros from a .dmg:
+
+1) Open the .dmg by double-clicking it
+
+2) Drag the applications inside of the .dmg to your Application folder.
+
+The rest is only needed if you wish to use Emdros from the command
+line, and/or you wish to develop software using Emdros.
+
+3) Open a shell
+
+4) cd to /Volumes/whatever-the-dmg-was-loaded-as/development/
+
+5) Run ./install_mac.sh
+
+   This takes an optional argument, which is the install prefix.  If
+   no argument is given, then Emdros is installed in
+   ${HOME}/opt/Emdros@VERSION@, where "@VERSION@" is the current Emdros
+   version.
+
+   Examples of usage:
+
+   $ ./install_mac.sh
+   $ sudo ./install_mac.sh /usr/local
+   $ sudo ./install_mac.sh /usr
+   $ sudo ./install_mac.sh /opt/Emdros
+
+   Note that any of the above installs Emdros in the specified
+   location; thus you only need to do it once!
+
+6) If you wish to use SWIG, then you must manually copy the
+   appropriate files in development/SWIG/*/ to the place where you
+   wish to use the files.
+
+The binaries provided by the author have support only for SQLite 2 and
+SQLite 3.  No support for MySQL or PostgreSQL is provided.  In case
+you want to have support for these backends, please follow the
+instructions in the next section.
+
+
+Installing from source
+======================
+
+In order to install from source, you should first install Xcode from
+Apple's developer site.  You should also compile and install wxWidgets
+2.8.12 or later, or wxWidgets 3.0.3 or later (available from
+www.wxwidgets.org).
+
+Prerequisites
+-------------
+
+1) Install Xcode from Apple Developer Connection:
+http://developer.apple.com ... or from the App Store.
+
+2) Install the latest Xcode command line tools by opening a Terminal,
+then issuing this command:
+
+xcode-select --install
+
+Then follow the prompts to install the latest command line tools.
+
+
+
+
+Obtaining wxWidgets
+-------------------
+
+You have two options for obtaining wxWidgets.
+
+1) Install using HomeBrew.
+
+2) Compile it yourself from the sources.
+
+Each is detailed below.
+
+Install wxWidgets using HomeBrew
+--------------------------------
+
+$ brew install wxwidgets --universal
+
+The --universal switch is important.  Leaving it off will give you a
+lot of linking errors later, when compiling Emdros.
+
+
+Compiling wxWidgets from source code
+------------------------------------
+
+Download the latest sources from: http://www.wxwidgets.org/ 
+
+
+When installing wxWidgets, you should install it, e.g., in
+$HOME/opt/wxWidgets-3.0.3, then add $HOME/opt/wxWidgets-3.0.3/bin to
+the beginning of your path.  That way, the wx-config program picked up
+by the Emdros configure script will be the newly installed wx-config
+program rather than the native Mac OS X wx-config.
+
+1) Install wxWidgets 3.0.3 or later in $HOME/opt/wxWidgets-3.0.3
+
+   1a) mkdir -p ~/build/wxWidgets && cd ~/build/wxWidgets
+
+   1b) tar xfvz /path/to/wxWidgets-Sources-tarball/wxWidgets-3.0.3.tar.gz
+
+       (Note: Please replace this with whatever is true on your system).
+
+   1c) Enter into the thusly created sources directory.  E.g.:
+
+       cd wxWidgets-3.0.3
+
+   1d) mkdir osxbuild && cd osxbuild
+
+   1e) When running wxWidget's configure-script, do this:
+
+       If on Mac OS X 10.6:
+
+       ../configure --prefix=${HOME}/opt/wxWidgets-3.0.3 --with-macosx-version-min=10.6 --with-osx_cocoa --enable-macosx_arch=i386,x86_64 --disable-shared --with-macosx-sdk=/Developer/SDKs/MacOSX10.6.sdk --disable-dependency-tracking --with-expat=builtin --with-zlib=builtin
+
+       If on Mac OS X 10.7 or 10.8:
+
+       ../configure --prefix=${HOME}/opt/wxWidgets-3.0.3 --with-osx_cocoa --enable-macosx_arch=i386,x86_64 --disable-shared --disable-dependency-tracking --with-expat=builtin --with-zlib=builtin
+
+       If on Mac OS X 10.9
+
+       CXX="g++ -std=c++11 --stdlib=libc++" ../configure --prefix=${HOME}/opt/wxWidgets-3.0.3 --with-osx_cocoa --enable-macosx_arch=i386,x86_64 --disable-shared --disable-dependency-tracking --with-expat=builtin --with-zlib=builtin --with-macosx-version-min=10.8
+
+       If on Mac OS X 10.10 or later:
+
+       CXX="g++ -std=c++11 --stdlib=libc++" ../configure --prefix=${HOME}/opt/wxWidgets-3.0.3 --with-osx_cocoa --enable-macosx_arch=i386,x86_64 --disable-shared --disable-dependency-tracking --with-expat=builtin --with-zlib=builtin --with-macosx-version-min=10.10
+
+   1f) make && make install
+
+
+Compiling Emdros from sources
+-----------------------------
+
+First, make sure you've installed Universal binaries of wxWidgets as
+detailed above.
+
+However, please note that building Emdros with
+--enable-universal_binary is is not supported when compiling with
+PostgreSQL and MySQL backends included.
+
+
+In order to compile with MySQL, you should install the latest official
+binaries for Mac OS X from www.mysql.com, although the author probably
+has not tested this combination.  You might have luck with the fink or
+macports versions  of MySQL, but  this configuration has  probably not
+been tested  either.  Please contact the  author via the email  in the
+AUTHORS file if you run into problems.
+
+PostgreSQL is not supported on Mac OS X by the author of Emdros.  You
+may have luck, though, if you install PostgreSQL via fink or macports.
+This is, however, not supported by the author of Emdros.
+
+
+1) If you installed wxWidgets from HomeBrew, you can skip this step.
+
+   Otherwise, if you installed wxWidgets by compiling it from source,
+   you need to put wx-config in your PATH:
+
+   Put ${HOME}/opt/wxWidgets-3.0.2 at the BEGINNING of your PATH, so
+   that ${HOME}/opt/wxWidgets-3.0.2/bin/wx-config from your fresh
+   installation of wxWidgets will be used, rather than the native Mac
+   OS X wx-config.  This is best done by putting the following line at
+   the bottom of your ~/.bash_profile or ~/.bashrc file:
+
+   export PATH=${HOME}/opt/wxWidgets-3.0.2/bin:$PATH
+
+   It does not matter if, say, /sw/bin (from fink) is in front... what
+   matters is that ${HOME}/opt/wxWidgets-3.0.2/bin comes *before* /usr/bin,
+   where the normal wx-config resides.
+
+2) Unpack the emdros sources (e.g., in ~/build/emdros):
+
+   tar xfz /path/to/Emdros-sources/emdros-3.X.X.tar.gz
+
+   then cd to the root of the sources, and do
+
+   export CFLAGS="-O3" CXXFLAGS="-O3" && ./configure --disable-debug --with-wx --enable-universal_binary --disable-dependency-tracking --with-sqlite3=local
+
+   Please see the INSTALL file in the root of the sources for other
+   switches you can give to configure.
+
+3) Run make
+
+   make
+
+
+4) If you wish to make a .dmg image, you can do as follows:
+
+   4a) Copy the Emdros source code to the directory one step upwards
+       from the root of the source code.
+
+       cp /path/to/Emdros-sources/emdros-3.X.X.tar.gz ..
+
+   4b) make macdist
+
+   This should build a .dmg image, and you can then proceed as in the
+   instructions above for using a .dmg image.
+
+
+5) You can, however, also opt for installing using "make install":
+
+   sudo make install
+
+
+Step number (4) should build a .dmg image.  If it doesn't, PLEASE let
+the author know via ulrikp<write-the-sign>emergence<dot>dk.
+Thanks.
+
+
+
+Building bindings for Node.JS on Mac OS X
+=========================================
+
+It is possible to build Emdros bindings for Node.JS.  To do so, follow
+these steps:
+
+1) Ensure that Node version  0.10.X is installed.  Currently, the SWIG
+   bindings do not build with Node version 0.12.X or higher.
+
+2) Install node-gyp:
+
+   sudo npm install -g node-gyp
+
+3) Install node-gyp's development dependencies:
+
+   sudo node-gyp install
+
+4) Compile Emdros as described above.  It should compile Node.JS
+   bindings, provided you:
+
+   a) Did not give --disable-shared as a switch to configure.
+
+   b) Did not disable the amalgamation with the --disable-amalgamation
+      switch to configure.
+
+
+Enjoy!
+
+
+Ulrik Sandborg-Petersen

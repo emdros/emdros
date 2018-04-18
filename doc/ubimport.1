@@ -1,0 +1,64 @@
+.\" Man page for ubimport
+.\" Use the following command to view man page:
+.\"
+.\"  tbl ubimport.1 | nroff -man | less
+.\"
+.TH UBIMPORT 1 "January 20, 2007"
+.SH NAME
+ubimport \- A tool to convert bibles in Unbound Bible format to MQL for importing into Emdros
+.SH SYNOPSIS
+\fBubimport\fR [ options ]
+.br
+.SH DESCRIPTION
+\fBubimport\fR is a command-line tool to convert bibles in Unbound
+Bible format (http://unbound.biola.edu) to MQL, for easy importing
+into Emdros.
+
+.SH OPTIONS
+\fBubimport\fR supports the following command-line switches:
+.TP 6
+.BI \-\-help
+show help
+.TP
+.BI \-V\ ,\ \-\-version
+show version
+.TP
+.BI \-d\ ,\ \-\-dbname \ dbname 
+set database name to use at the top of the MQL.  If not set, the
+"CREATE DATABASE ... USE DATABASE" incantation won't be issued.
+.TP
+.BI \-i\ ,\ \-\-input \ filename
+read from file filename. This must be a bible in valid Unbound Bible
+format.  The default filename is "-", which means "standard input".
+.TP
+.BI \-o\ ,\ \-\-output \ filename
+dump to file filename. The default is "-", which means "standard output".
+.TP
+.BI \-b\ ,\ \-\-backend \ backend
+set database backend to `backend'. Valid values are: For PostgreSQL:
+"p", "pg", "postgres", and "postgresql". For MySQL: "m", "my", and
+"mysql". For SQLite 2.X.X: "2", "s", "l", "lt", "sqlite", and
+"sqlite2". For SQLite 3.X.X: "3", "s3", "lt3", and "sqlite3".
+
+
+.SH RETURN VALUES
+.TP
+.BR 0 " Success"
+.TP
+.BR 1 " Wrong usage"
+.TP
+.BR 2 " Connection to backend server could not be established"
+.TP
+.BR 3 " An exception occurred (the type is printed on stderr)"
+.TP
+.BR 4 " Could not open file"
+.TP
+.BR 5 " Database error"
+.TP
+.BR 6 " Compiler error (internal error)
+.SH AUTHORS
+Copyright
+.Cr
+2001-2006 by Ulrik Petersen (ulrikp@users.sourceforge.net).  Note that
+this software is distributed under the GNU GPL.  See the sources for
+details.

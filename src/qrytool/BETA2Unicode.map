@@ -1,0 +1,297 @@
+; BETA2Unicode.map
+; first draft UP June 17 2005
+; second version UP 2006-01-01
+
+EncodingName	"BETA"
+DescriptiveName	"BETA to Unicode"
+Contact	"mailto: ulrikp@users.sourceforge.net"
+
+pass (Byte)
+
+ByteClass [breath] 	= ( '(' ')' )
+ByteClass [accent] = ( '/' '\' '=' )
+ByteClass [diarhesis] = ( '+' )
+ByteClass [capital] = ( '*' )
+ByteClass [vowel] = ( 'A' 'E' 'H' 'I' 'O' 'U' 'W' )
+ByteClass [subscript] = ( '|' )
+ByteClass [letter] = ( 'A' .. 'Z' )
+
+[capital]=a [letter]=b [breath]=c [accent]=d <> @a @c @d @b
+
+[breath]=a [accent]=b [capital]=c [letter]=d <> @c @a @b @d
+
+[capital]=a [letter]=b [breath]=c <> @a @c @b
+
+[vowel]=a [subscript]=b [accent]=c <> @a @c @b
+
+[vowel]=a [breath]=b [subscript]=c [accent]=d <> @a @b @d @c
+
+[vowel]=a [subscript]=b [breath]=c [accent]=d <> @a @c @d @b
+
+[vowel]=a [subscript]=b [accent]=d [breath]=c <> @a @c @d @b
+
+[vowel]=a [accent]=d [subscript]=b [breath]=c <> @a @c @d @b
+
+
+pass(Byte_Unicode)
+
+'*A' <> U+0391
+'*B' <> U+0392
+'*G' <> U+0393
+'*D' <> U+0394
+'*E' <> U+0395
+'*Z' <> U+0396
+'*H' <> U+0397
+'*Q' <> U+0398
+'*I' <> U+0399
+'*K' <> U+039A
+'*L' <> U+039B
+'*M' <> U+039C
+'*N' <> U+039D
+'*C' <> U+039E
+'*O' <> U+039F
+'*P' <> U+03A0
+'*R' <> U+03A1
+'*S' <> U+03A3
+'*T' <> U+03A4
+'*U' <> U+03A5
+'*F' <> U+03A6
+'*X' <> U+03A7
+'*Y' <> U+03A8
+'*W' <> U+03A9
+
+'A' <> U+03B1
+'B' <> U+03B2
+'G' <> U+03B3
+'D' <> U+03B4
+'E' <> U+03B5
+'Z' <> U+03B6
+'H' <> U+03B7
+'Q' <> U+03B8
+'I' <> U+03B9
+'K' <> U+03BA
+'L' <> U+03BB
+'M' <> U+03BC
+'N' <> U+03BD
+'C' <> U+03BE
+'O' <> U+03BF
+'P' <> U+03C0
+'R' <> U+03C1
+
+'S' 0x0a <> U+03C2 U+000a
+'S,'  <> U+03C2 U+002C
+"S'"  <> U+03C2 U+2019
+'S.'  <> U+03C2 U+002E
+'S:'  <> U+03C2 U+0387
+'S;'  <> U+03C2 U+037E
+'S]'  <> U+03C2 U+005D
+'S@'  <> U+03C2 U+0040
+'S_'  <> U+03C2 U+005F
+'S'   <> U+03C3
+
+'T' <> U+03C4
+'U' <> U+03C5
+'F' <> U+03C6
+'X' <> U+03C7
+'Y' <> U+03C8
+'W' <> U+03C9
+
+'I+' <> U+03CA
+'U+' <> U+03CB
+
+'A)' <>   U+1F00
+'A(' <>   U+1F01
+'A)\' <>  U+1F02
+'A(\' <>  U+1F03
+'A)/' <>  U+1F04
+'A(/' <>  U+1F05
+'E)' <>   U+1F10
+'E(' <>   U+1F11
+'E)\' <>  U+1F12
+'E(\' <>  U+1F13
+'E)/' <>  U+1F14
+'E(/' <>  U+1F15
+'H)' <>   U+1F20
+'H(' <>   U+1F21
+'H)\' <>  U+1F22
+'H(\' <>  U+1F23
+'H)/' <>  U+1F24
+'H(/' <>  U+1F25
+'I)' <>   U+1F30
+'I(' <>   U+1F31
+'I)\' <>  U+1F32
+'I(\' <>  U+1F33
+'I)/' <>  U+1F34
+'I(/' <>  U+1F35
+'O)' <>   U+1F40
+'O(' <>   U+1F41
+'O)\' <>  U+1F42
+'O(\' <>  U+1F43
+'O)/' <>  U+1F44
+'O(/' <>  U+1F45
+'U)' <>   U+1F50
+'U(' <>   U+1F51
+'U)\' <>  U+1F52
+'U(\' <>  U+1F53
+'U)/' <>  U+1F54
+'U(/' <>  U+1F55
+'W)' <>   U+1F60
+'W(' <>   U+1F61
+'W)\' <>  U+1F62
+'W(\' <>  U+1F63
+'W)/' <>  U+1F64
+'W(/' <>  U+1F65
+
+'A)=' <>     U+1F06
+'A(=' <>     U+1F07
+'H)=' <>     U+1F26
+'H(=' <>     U+1F27
+'I)=' <>     U+1F36
+'I(=' <>     U+1F37
+'U)=' <>     U+1F56
+'U(=' <>     U+1F57
+'W)=' <>     U+1F66
+'W(=' <>     U+1F67
+
+'*)A' <>      U+1F08
+'*(A' <>      U+1F09
+
+'*(\A' <>     U+1F0B
+'*)/A' <>     U+1F0C
+'*(/A' <>     U+1F0D
+'*(=A' <>     U+1F0F
+'*)E' <>      U+1F18
+'*(E' <>      U+1F19
+'*)\E' <>     U+1F1A
+'*(\E' <>     U+1F1B
+'*)/E' <>     U+1F1C
+'*(/E' <>     U+1F1D
+
+'*)H' <>      U+1F28
+'*(H' <>      U+1F29
+'*)\H' <>     U+1F2A
+'*(\H' <>     U+1F2B
+
+'*)/H' <>     U+1F2C
+'*(/H' <>     U+1F2D
+
+'*)=H' <>     U+1F2E
+'*(/H' <>     U+1F2F
+'*)I' <>      U+1F38
+'*(I' <>      U+1F39
+'*)\I' <>     U+1F3A
+'*(\I' <>     U+1F3B
+'*)/I' <>     U+1F3C
+'*(/I' <>     U+1F3D
+'*)=I' <>     U+1F3E
+'*(=I' <>     U+1F3F
+
+
+'*)O' <>      U+1F48
+'*(O' <>      U+1F49
+'*)\O' <>     U+1F4A
+'*(\O' <>     U+1F4B
+'*)/O' <>     U+1F4C
+'*(/O' <>     U+1F4D
+
+'*(U' <>      U+1F59
+
+'*(/U' <>     U+1F5D
+
+'*(=U' <>     U+1F5F
+
+'*)W' <>      U+1F68
+'*(W' <>      U+1F69
+
+
+'*)/W' <>     U+1F6C
+'*(/W' <>     U+1F6F
+
+'*)=A' <>     U+1F0E
+'*(=A' <>     U+1F0F
+'*)=W' <>     U+1F6E
+'*(=W' <>     U+1F6F
+
+'A\' <>      U+1F70
+'A/' <>      U+1F71
+'E\' <>      U+1F72
+'E/' <>      U+1F73
+'H\' <>      U+1F74
+'H/' <>      U+1F75
+'I\' <>      U+1F76
+'I/' <>      U+1F77
+'O\' <>      U+1F78
+'O/' <>      U+1F79
+'U\' <>      U+1F7A
+'U/' <>      U+1F7B
+'W\' <>      U+1F7C
+'W/' <>      U+1F7D
+
+'A)/|' <>    U+1F84
+'A(/|' <>    U+1F85
+'H)|' <>     U+1F90
+'H(|' <>     U+1F91
+'H)/|' <>    U+1F94
+'H)=|' <>    U+1F96
+'H(=|' <>    U+1F97
+'W)|' <>     U+1FA0
+'W(=|' <>    U+1FA7
+
+'A=' <>      U+1FB6
+'H=' <>      U+1FC6
+'I=' <>      U+1FD6
+'U=' <>      U+1FE6
+'W=' <>      U+1FF6
+
+'I\+' <>    U+1FD2
+'I/+' <>     U+1FD3
+'I+/' <>     U+1FD3
+'U\+' <>    U+1FE2
+'U/+' <>     U+1FE3
+
+'A|' <>      U+1FB3
+'A/|' <>     U+1FB4
+'H|' <>      U+1FC3
+'H/|' <>     U+1FC4
+'W|' <>      U+1FF3
+'W|/' <>     U+1FF4
+'W/|' <>     U+1FF4
+
+'A=|' <>     U+1FB7
+'H=|' <>     U+1FC7
+'W=|' <>     U+1FF7
+
+'R(' <>      U+1FE5
+'*(R' <>     U+1FEC
+
+'R)' <>      U+1FE4
+'*)R' <>     U+03A1 U+0313
+
+'0' <>  U+0030 ; 0
+'1' <>  U+0031 ; 1
+'2' <>  U+0032 ; 2
+'3' <>  U+0033 ; 3
+'4' <>  U+0034 ; 4
+'5' <>  U+0035 ; 5
+'6' <>  U+0036 ; 6
+'7' <>  U+0037 ; 7
+'8' <>  U+0038 ; 8
+'9' <>  U+0039 ; 9
+
+'@' <>  U+0040 ; at-sign
+'$' <>  U+0024 ; dollar
+
+' ' <>  U+0020 ; space
+0x0a <> U+000a ; newline
+
+'.' <>  U+002E ; period FIXME: Should be Greek period?
+',' <>  U+002C ; comma  FIXME: Should be Greek comma?
+"'" <>  U+2019 ; apostrophe
+':' <>  U+0387 ;
+';' <>  U+037E ; Greek question mark
+'_' <>  U+005F ; Underscore
+
+'[' <>  U+005B ; Opening bracket
+']' <>  U+005D ; Closing bracket
+'[1' <>  U+0028 ; Opening parenthesis
+']1' <>  U+0029 ; Closing parenthesis

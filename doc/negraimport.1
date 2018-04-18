@@ -1,0 +1,112 @@
+.\" Man page for negraimport
+.\" Use the following command to view man page:
+.\"
+.\"  tbl negraimport.1 | nroff -man | less
+.\"
+.TH NEGRAIMPORT 1 "January 20, 2007"
+.SH NAME
+negraimport \- A tool to convert NEGRA format to Emdros MQL
+.SH SYNOPSIS
+\fBnegraimport\fR [ options ] [input_filename ...]
+.br
+.SH DESCRIPTION
+\fBnegraimport\fR is a command-line tool to convert NEGRA
+format to Emdros MQL for later importing into Emdros.
+
+.SH OPTIONS
+\fBnegraimport\fR supports the following command-line switches:
+.TP 6
+.BI \-\-help
+show help, then quit
+.TP
+.BI \-V\ ,\ \-\-version
+show version, then quit
+.TP
+.BI \-b\ ,\ \-\-backend \ backend
+set database backend to `backend'. Valid values are: For PostgreSQL:
+"p", "pg", "postgres", and "postgresql". For MySQL: "m", "my", and
+"mysql". For SQLite 2.X.X: "2", "s", "l", "lt", "sqlite", and
+"sqlite2". For SQLite 3.X.X: "3", "s3", "lt3", and "sqlite3".
+.TP
+.BI \-s\ ,\ \-\-schema
+show MQL schema on stdout, then quit (can be used with -d)
+.TP
+.BI \-d\ ,\ \-\-dbname \ dbname 
+set database name. If used with -s, the string "CREATE DATABASE
+'dbname' GO USE DATABASE 'dbname' GO" will be issued before the schema.  If used when importing, "USE DATABASE 'dbname' GO" will be issued before anything else.
+.TP
+.BI \-o\ ,\ \-\-output \ filename
+dump to file filename. The default is "-", which means "standard
+output".
+.TP
+.BI \-\-start-monad \ monad
+The start monad to use. Must be >= 1.  The default is 1.
+.TP
+.BI \-\-start-id_d \ id_d
+The start id_d to use. Must be >= 1.  The default is 1.
+.TP
+
+.SH OPERATION
+
+\fBnegraimport\fR reads corpus data in NEGRA format and converts the
+data to MQL statements for later importing into Emdros.
+
+The filenames given after the options on the command line are
+interpreted as if each of them contains one NEGRA document, each
+containing one or more trees.  If no filenames are given, the input is
+read from stdin.
+
+If no \fB-o\fR switch is given, the output is printed on stdout.
+
+If an error occurs, the string "FAILURE" or the string "ERROR" is
+printed on stderr, along with an error message.
+
+If no error occurs, a string of the form "SUCCESS: next_monad is X
+next_id_d is Y" is printed on stderr, where X and Y are positive
+integers denoting the next monad and the next id_d to be used by the
+next invocation of the program, respectively.  This is useful if
+you've got several directories' worth of documents to import.
+
+.SH SCHEMA
+
+The schema can be seen by giving the program \fB-s\fR switch, with an
+optional \fB-d\fR switch.
+
+A "Sentence" corresponds to one top-level sentence.
+
+A "Phrase" is a nonterminal in the tree which is not a top-level
+sentence.  Note that this encompasses clauses ("S") as well as
+phrases.  Its "parent" feature points to its parent.  Its parents
+feature feature gives a list of id_ds of all its parents, right up to
+the "Sentence" node.  Its "tag", "morphtag", and "edge" features are
+what you think they are.  There are five pairs of features "secedgeX"
+and "secparentX", for X in the range 1 to 5 (inclusive).  These
+features show secondary edges.
+
+A "Word" is a terminal node in the tree (i.e., a token). Its features
+are largely the same as for "Phrase", except that it has a "surface"
+feature which gives the surface of the token, as well as a "postag"
+instead of a "tag".
+
+
+.SH RETURN VALUES
+.TP
+.BR 0 " Success"
+.TP
+.BR 1 " Wrong usage"
+.TP
+.BR 2 " Connection to backend server could not be established"
+.TP
+.BR 3 " An exception occurred (the type is printed on stderr)"
+.TP
+.BR 4 " Could not open file"
+.TP
+.BR 5 " Database error"
+.TP
+.BR 6 " Compiler error (internal error)"
+.SH AUTHORS
+Copyright
+.Cr
+2001-2006 by Ulrik Petersen (ulrikp@users.sourceforge.net).  Note that
+this software is distributed under the GNU GPL.  See the sources for
+details.

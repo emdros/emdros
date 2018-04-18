@@ -1,0 +1,144 @@
+BODY {
+	FONT-FAMILY: Verdana, Arial, Helvetica; FONT-SIZE: 11pt
+}
+A.menu:hover {
+   COLOR: #009900;
+}
+A.menu {
+   COLOR: #2F54A4;
+   text-decoration: none;
+}
+TABLE {
+	FONT-FAMILY: Verdana, Arial, Helvetica; ; 
+        FONT-SIZE: 11pt
+}
+TABLE.page {
+	FONT-FAMILY: Verdana, Arial, Helvetica; ; 
+        FONT-SIZE: 11pt
+}
+TH {
+	FONT-FAMILY: Verdana, Arial, Helvetica; FONT-SIZE: 11pt
+}
+TD {
+	FONT-FAMILY: Verdana, Arial, Helvetica; FONT-SIZE: 11pt
+}
+TD.menu {
+        width: 200px;
+        color: #2F54A4;
+        background-color: #DDDDDD;
+        border-left: 2px solid #000099;
+        border-right: 2px solid #000099;
+        border-top: 2px solid #000099;
+        border-bottom: 2px solid #000099;
+        padding: 5pt 5pt 5pt 5pt;
+	FONT-FAMILY: Verdana, Arial, Helvetica; FONT-SIZE: 10pt;
+        vertical-align: top;
+}
+TD.main {
+	FONT-FAMILY: Verdana, Arial, Helvetica; FONT-SIZE: 10pt;
+        vertical-align: top;
+        background-color: #FFFFF;
+        padding: 0px 0px 0px 10px;
+}
+H1 {
+	FONT-FAMILY: Verdana, Arial, Helvetica; FONT-SIZE: 20pt;
+        font-weight: normal
+}
+H2 {
+	FONT-FAMILY: Verdana, Arial, Helvetica; FONT-SIZE: 16pt;
+        font-weight: normal
+}
+H3 {
+	FONT-FAMILY: Verdana, Arial, Helvetica; FONT-SIZE: 12pt;
+        font-weight: bold;
+}
+
+H4 {
+	FONT-FAMILY: Verdana, Arial, Helvetica; FONT-SIZE: 10pt;
+        font-weight: bold;
+}
+DT {
+	FONT-FAMILY: Verdana, Arial, Helvetica; FONT-SIZE: 11pt;
+        font-weight: bold;
+}
+
+DIV.regel {
+        border-left: 2px solid #000099;
+        border-right: 2px solid #000099;
+        border-top: 2px solid #000099;
+        border-bottom: 2px solid #000099;
+        padding: 5pt 5pt 5pt 5pt;
+}
+
+
+
+DIV.hjem {
+	FONT-FAMILY: Verdana, Arial, Helvetica; FONT-SIZE: 11pt;
+        font-weight: bold;
+}
+
+DIV.PDF {
+	FONT-FAMILY: Verdana, Arial, Helvetica; FONT-SIZE: 11pt;
+        font-weight: bold;
+}
+
+DIV.indhold {
+	FONT-FAMILY: Verdana, Arial, Helvetica; FONT-SIZE: 11pt;
+        font-weight: bold;
+}
+
+DIV.search {
+	FONT-FAMILY: Verdana, Arial, Helvetica; FONT-SIZE: 11pt;
+        font-weight: bold;
+}
+
+DIV.menu {
+        margin-left : 10pt;
+}
+
+DIV.menu-item {
+        text-indent : -10pt;
+} 
+DIV.part {
+        font-weight: bold;
+} 
+
+DIV.figur {
+        text-align: center;
+        border-left: 2px solid #000099;
+        border-right: 2px solid #000099;
+        border-top: 2px solid #000099;
+        border-bottom: 2px solid #000099;
+        padding: 5pt 5pt 5pt 5pt;
+}
+
+DIV.figure-name {
+        font-weight: bold;
+        font-size: 12pt;
+}
+
+DIV.figure-text {
+}
+
+DIV.sflogo {
+}
+
+DIV.stats {
+        text-align: right;
+        padding: 5pt 5pt 5pt 5pt;
+}
+
+
+PRE.interface {
+	background-color: #DDDDDD;
+}
+
+PRE.code {
+	background-color: #DDDDDD;
+}
+
+A:link { color: #525252}
+
+V:link { color: #525252}
+
+A:hover { color: #333399}

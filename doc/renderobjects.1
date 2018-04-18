@@ -1,0 +1,88 @@
+.\" Man page for renderobjects
+.\" Use the following command to view man page:
+.\"
+.\"  tbl renderobjects.1 | nroff -man | less
+.\"
+.TH RENDEROBJECTS 1 "January 13, 2009"
+.SH NAME
+renderobjects \- A tool to render part of an Emdros database as a document
+.SH SYNOPSIS
+\fBrenderobjects\fR [ options ] stylesheet-filename database-name
+.br
+\fBrenderobjects\fR (--help|--version|-V)
+.br
+.SH DESCRIPTION
+\fBrenderobjects\fR is a tool to render a part of an Emdros database
+as a document.  It uses the "RenderObjects" module and/or the
+"RenderXML" module, described in the Emdros Programmer's Reference
+Guide.  Please see that document for more information on the
+stylesheet language and method used.
+
+.SH OPTIONS
+\fBrenderobjects\fR supports the following command-line switches:
+.TP 6
+.BI \-\-help
+show help
+.TP
+.BI \-V\ ,\ \-\-version
+show version
+.TP
+.BI \-\-fm \ first_monad
+first monad to use
+.TP
+.BI \-\-lm \ last_monad
+last monad to use
+.TP
+.BI \-\-renderxml
+render the XML from the objects; don't stop after rendering the objects
+.TP
+.BI \-o\ ,\ \-\-output \ output-filename
+name of output file; if "-" or absent, use stdout
+.TP
+.BI \-s\ ,\ \-\-stylesheet \ stylesheet-name
+name of stylesheet to use.  If --renderxml has been given, this is the
+stylesheet inside the "renderinfo" part of the stylesheet to use.  In
+this case, the "fetchinfo" stylesheet is given by the
+"fetch_stylesheet" entry in the "renderinfo" stylesheet.  If
+--renderxml has not been given, this is the stylsheet inside the
+"fetchinfo" part of the stylesheet to be read.  The filename of the
+stylesheet to be read is specified as the first non-option argument on
+the command line.
+.TP
+.BI \-h\ ,\ \-\-host \ hostname 
+set db back-end hostname to connect to (default is 'localhost').  Has
+no effect on SQLite.
+.TP
+.BI \-u\ ,\ \-\-user \ user
+set database user to connect as (default is 'emdf').  Has no effect on
+SQLite.
+.TP
+.BI \-p\ ,\ \-\-password \ password
+set password to use for the database user.  Has no effect on SQLite,
+unless you have an encryption-enabled SQLite, in which case this gets
+passed as the key.
+.TP
+.BI \-b\ ,\ \-\-backend \ backend
+set database backend to `backend'. Valid values are: For PostgreSQL:
+"p", "pg", "postgres", and "postgresql". For MySQL: "m", "my", and
+"mysql". For SQLite 2.X.X: "2", "s", "l", "lt", "sqlite", and
+"sqlite2". For SQLite 3.X.X: "3", "s3", "lt3", and "sqlite3".
+.TP
+
+
+.SH RETURN VALUES
+.TP
+.BR 0 " Success"
+.TP
+.BR 1 " Wrong usage"
+.TP
+.BR 2 " Connection to backend server could not be established"
+.TP
+.BR 3 " An exception occurred (the type is printed on stderr)"
+.TP
+.BR 4 " Could not open file"
+.SH AUTHORS
+Copyright
+.Cr
+2008 by Ulrik Sandborg-Petersen (ulrikp@users.sourceforge.net).  Note that
+this software is distributed under the GNU GPL.  See the sources for details.

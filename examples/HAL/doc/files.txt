@@ -1,0 +1,13 @@
+1000	Table of contents	1001	-1	Indhold
+1001	Introduction	1010	1000	Part
+1010	Part I: Preliminaries	1020	1000	Part
+1020	What is a HAL space?	1030	1010	P
+1030	What does the example do?	1100	1010	P
+1100	Part II: Running	1110	1000	Part
+1110	Building the database	1120	1100	P
+1120	Querying the database	1130	1100	P
+1130	Writing the input file	1140	1120	P
+1140	Running the example	1200	1120	P
+1200	Part III: References	1210	1000	Part
+1210	Bibliography	1220	1200	P
+1220	Links	-1	1200	P

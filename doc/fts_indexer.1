@@ -1,0 +1,220 @@
+.\" Man page for fts_indexer
+.\" Use the following command to view man page:
+.\"
+.\"  tbl fts_indexer.1 | nroff -man | less
+.\"
+.TH FTS_INDEXER 1 "December 28, 2013"
+.SH NAME
+fts_indexer \- A tool to index Emdros databases for Full Text Search
+.SH SYNOPSIS
+\fBfts_indexer\fR [ options ] [filters]
+.br
+.SH DESCRIPTION
+\fBfts_indexer\fR is a command-line tool to prepare an Emdros database
+for Full Text Search using the techniques of the fts_search tool (or
+the libharvest library).
+
+The \fBfts_indexer\fR tool needs a source database to read from, an
+optional target database to write to (which by default is the same as
+the source database), and an optional output file name to (also) dump
+the MQL to.
+
+The program also needs a "bookcase object type", which must consist of
+objects that are somehow "larger" than the "indexed object type".
+That is, the "indexed object type" (for example, "Word") must have
+objects which are wholly contained within the "bookcase object type"
+(for example, "document").  In effect, the "bookcase object type"
+provides the frames of monads within which to index the "indexed
+object type".  In addition, the "indexed object type" must have a
+concomitant "indexed feature", which is the feature on which to index.
+For example, "surface" could be a feature on "Word" which could be
+ideal to index on.
+
+The program will issue a series of "CREATE OBJECT TYPE" and "CREATE
+OBJECTS WITH OBJECT TYPE" statements on the target database.
+Optionally, with the --nodb switch, one can skip the actual creation
+of the data in the database.  This is usually used with the -o switch,
+which dumps the MQL statements to a file.  It is possible both to dump
+the MQL statements to a file, and to create the data in the database
+on-the-fly at the same time.
+
+
+.SH OPTIONS
+\fBfts_indexer\fR supports the following command-line switches:
+.TP 6
+.BI \-\-help
+show help
+.TP
+.BI \-V\ ,\ \-\-version
+show version
+.TP
+.BI \-fe\ ,\ \-\-fts\-engine \ fts\-engine\-version
+Use the given version of the FTS engine. Currently, versions 1 and 2
+are supported. Version 1 is the current default.
+.TP
+.BI \-\-nodb
+Do not create objects or object types in the target database.  In
+fact, do not connect to the target database at all for creation of
+objects or object types.
+.TP
+.BI \-\-no\-vacuum
+Do not emit a VACUUM DATABASE ANLYZE GO statement at the end of the
+indexing.  This can be useful if more than one invocation is needed on
+a particular database, and one intends to run VACUUM DATABASE ANALYZE
+only on the last invocation.  This can save some time otherwise
+wasted.
+.TP
+.BI \-d\ ,\ \-\-dbname \ dbname 
+set database from which to read, and to which to write (unless -td or
+--nodb is given).
+.TP
+.BI \-td\ ,\ \-\-target-dbname \ dbname 
+set target database to which to write.  Normally, the target database
+name is the same as the source database, but this switch allows you to
+override that behavior and choose another database.  The database
+should exist.
+.TP
+.BI \-\-bookcase\-otn \ object\-type\-name
+Use object-type-name as the object type which surrounds the "indexed
+object type".
+.TP
+.BI \-\-indexed\-otn \ object\-type\-name
+Use object-type-name as the object type which must be indexed.
+.TP
+.BI \-\-indexed\-feature \ feature\-name\[, ...]
+Use feature-names in the comma-separated list as the feature(s) on the
+indexed object type for which to generate the index.  That is, if the
+indexed object type is, for example, "Word", then the indexed feature
+could be "surface", and then "Word" must have a feature called
+"surface".  Alternatively, the feature-name list could be
+"surface,stemmed_surface", meaning that the two features "surface" and
+"stemmed_surface" would both be indexed in the same index.
+.TP
+.BI \-o\ ,\ \-\-output \ filename
+dump MQL statements to file filename. If this switch is not given,
+then the MQL is just executed within the target database.
+.TP
+.BI \-h\ ,\ \-\-host \ hostname 
+set source db back-end hostname to connect to (default
+is 'localhost').  Has no effect on SQLite or SQLite 3.  If --nodb is
+not given, and if -th or --target-host is not given, then the target
+database host will be the same as the source database host.
+.TP
+.BI \-th\ ,\ \-\-target\-host \ hostname 
+set target db back-end hostname to connect to (default
+is 'localhost').  Has no effect on SQLite or SQLite 3.  Has no effect
+it --nodb is given.  If -th and --target-host are not given, then the
+target database host will be the same as the source database host.
+.TP
+.BI \-u\ ,\ \-\-user \ user
+set source database user to connect as (default is 'emdf').  Has no
+effect on SQLite or SQLite 3.  Will be used for the target database
+user as well, unless --nodb, -tu, or --target-user is given.
+.TP
+.BI \-tu\ ,\ \-\-target\-user \ user
+set target database user to connect as (default is 'emdf').  Has no
+effect on SQLite or SQLite 3.  Will override the source database user
+if given.  Has no effect if --nodb is given.
+.TP
+.BI \-p\ ,\ \-\-password \ password
+set source database password to use for the source database user.  Has
+no effect on SQLite or SQLite 3, unless you have an encryption-enabled
+SQLite (3), in which case this gets passed as the key.  Will be used
+for the target database password, unless one of --nodb, -tp or
+--target-password is given.
+.TP
+.BI \-tp\ ,\ \-\-target\-password \ password
+set target password to use for the target database user.  Has no
+effect on SQLite (3), unless you have an encryption-enabled SQLite
+(3), in which case this gets passed as the key.  Will override the
+source database user for the target database.  Has no effect if --nodb
+is given.
+.BI \-b\ ,\ \-\-backend \ backend
+set source database backend to `backend'. The target database backend
+is also given with this switch, unless provided by the -tb switch.
+Valid values are: For PostgreSQL: "p", "pg", "postgres", and
+"postgresql". For MySQL: "m", "my", and "mysql". For SQLite 2.X.X:
+"2", "s", "l", "lt", "sqlite", and "sqlite2". For SQLite 3.X.X: "3",
+"s3", "lt3", and "sqlite3".
+.TP
+.BI \-tb\ ,\ \-\-target\-backend \ backend
+set target database backend to `backend'. The target database backend
+is usually the same as the source database backend, but this switch
+makes it possible to use another database backend for the
+target. Valid values are the same as for -b.
+.TP
+.BI \-sf\ ,\ \-\-stylesheet-filename \ stylesheet-filename
+Gives the name of the file containing the JSON stylesheet to use. See
+the man-page fts_filters(5) to learn the syntax of that file.
+
+This option must be used in conjunction with the -s option.  If it is
+used, you cannot also use filters at the end of the command line.
+.TP
+.BI \-s\ ,\ \-\-stylesheet \ stylesheet-name
+This option tells the program which stylesheet within the stylesheet
+file provided with the -sf option must be used.
+
+This option must be used in conjunction with the -sf option.  If it is
+used, you cannot also use filters at the end of the command line. 
+
+.SH FILTERS
+After the last option, you have the possibility to specify any number
+of filters through which the indexed feature string must be passed
+before being stored.
+
+Some filters take an argument, in which case the argument must come
+directly after the filter name, separated by whitespace on the command
+line.
+
+You cannot use both filters on the command line and the -s and -sf
+options.
+
+The following filters are available:
+
+.TP 6
+.BI strip\-whitespace
+Takes no parameter; just strips whitespace from either end of the
+string.
+.TP
+.BI strip\-chars \ chars\-to\-strip
+Takes 1 parameter; strips all characters in the parameter from either
+end of the string.
+.TP
+.BI lowercase
+Takes no parameter; makes the string lower-case. Only works with ASCII
+letters.
+.TP
+.BI uppercase
+Takes no parameter; makes the string upper-case. Only works with ASCII
+letters.
+
+For example, the following chain:
+
+strip-whitespace lowercase strip-chars '.,;:?!'
+
+will first strip whitespace from either end, then make all ASCII
+letters lower-case, then strip any of the punctuation chars '.,;:?!'
+from either end of the string.
+
+
+.SH RETURN VALUES
+.TP
+.BR 0 " Success"
+.TP
+.BR 1 " Wrong usage"
+.TP
+.BR 2 " Connection to backend server could not be established"
+.TP
+.BR 3 " An exception occurred (the type is printed on stderr)"
+.TP
+.BR 4 " Could not open file"
+.TP
+.BR 5 " Database error"
+.TP
+.BR 6 " Compiler error (internal error)
+.SH AUTHORS
+Copyright
+.Cr
+2010 by Ulrik Sandborg-Petersen (ulrikp@users.sourceforge.net).  Note
+that this software is distributed under the GNU GPL.  See the sources
+for details.

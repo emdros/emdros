@@ -1,0 +1,31 @@
+require '@prefix@/lib/emdros/EmdrosRuby.so'
+
+env = EmdrosRuby::EmdrosEnv.new(EmdrosRuby::KOKConsole, EmdrosRuby::KCSISO_8859_1, "localhost", "emdf", "changeme", "emdf")
+
+env.out("string\n")
+
+som = EmdrosRuby::SetOfMonads.new
+som.add(1,5)
+som.add(7,10)
+
+env.out(som)
+env.out("\n")
+
+print "ConnectionOK is: ", env.connectionOk(), "\n"
+
+# Create database
+bResult = false
+result_array = env.executeString("CREATE DATABASE EMdF5 GO", bResult, true, true)
+print "Query returned: No database error: ", result_array[0], " Compiler OK: ", result_array[1], "\n"
+
+
+
+# Getting max_m
+max_m = 1
+max_m_array = env.getMax_m(max_m)
+print "getMax_m returned:", max_m_array[0], "\n"
+print "max_m = ", max_m_array[1], "\n"
+
+
+result_array = env.executeString("DROP DATABASE EMdF5 GO", bResult, true, true)
+print "Query returned: No database error: ", result_array[0], " Compiler OK: ", result_array[1], "\n"

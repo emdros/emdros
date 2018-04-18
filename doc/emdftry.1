@@ -1,0 +1,58 @@
+.\" Man page for emdftry.1
+.\" Use the following command to view man page:
+.\"
+.\"  tbl emdftry.1 | nroff -man | less
+.\"
+.TH EMDFTRY 1 "September 23, 2006"
+.SH NAME
+emdftry \- A tool to test basic Emdros functionality
+.SH SYNOPSIS
+\fBemdftry\fR [options] 
+.br
+.SH DESCRIPTION
+
+\fBemdftry\fR is a tool for testing basic Emdros functionality.  In
+particular, it exercises the EMdF layer.  It should run with no
+errors, emitting a lot of messages.  Most of them will start with the
+word SUCCESS.  If any error occurs, a FAILURE message will appear, and
+the program will not run any further tests.
+
+If all tests completed successfully, the last line of output will be
+"SUCCESS: All tests completed successfully."
+
+If at least one test failed, the last line of output will be "FAILURE:
+At least one test failed."
+
+
+.SH OPTIONS
+\fBemdftry\fR supports the following command-line switches:
+.TP 6
+.BI \-\-help
+show help
+.TP
+.BI \-V\ ,\ \-\-version
+show version
+.TP
+.BI \-b\ ,\ \-\-backend \ backend
+set database backend to `backend'. Valid values are: For PostgreSQL:
+"p", "pg", "postgres", and "postgresql". For MySQL: "m", "my", and
+"mysql". For SQLite 2.X.X: "s", "l", "lt", "sqlite", and
+"sqlite2". For SQLite 3.X.X: "3", "s3", "lt3", and "sqlite3".
+.TP
+.BI \-h\ ,\ \-\-host \ hostname 
+set db back-end hostname to connect to (default is 'localhost')
+.TP
+.BI \-u\ ,\ \-\-user \ user
+set database user to connect as (default is 'emdf')
+.TP
+.BI \-p\ ,\ \-\-password \ password
+set password to use for the database user
+
+
+
+.SH AUTHORS
+Copyright
+.Cr
+2001-2006 by Ulrik Petersen (ulrikp@users.sourceforge.net).  Note that
+this software is distributed under the GNU GPL.  See the sources for
+details.

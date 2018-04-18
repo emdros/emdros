@@ -1,0 +1,83 @@
+.\" Man page for fts_filters
+.\" Use the following command to view man page:
+.\"
+.\"  tbl fts_filters.5 | nroff -man | less
+.\"
+.TH FTS_FILTERS 5 "October 4, 2010"
+.SH NAME
+fts_filters.json \- A JSON notation for Full Text Search with Emdros
+.SH DESCRIPTION
+\fBfts_filters\fR is a JSON notation for specifying filters for Full
+Text Search with the Emdros library "libharvest".
+
+The basic idea is to use a JSON object to specify what should be done
+to a token in order to transform it into something that can be used as
+a value for the full text search in the "libharvest" library.  This
+JSON object can then be used both when indexing and later when
+searching.  Because it is a JSON object, it can be stored together
+with the database (in a feature on some special object type), and
+therefore it can be retrieved by an application and used both for
+indexing and for searching.
+
+The structure of the JSON object is such that it contains one or more
+"filter names" as keys, each pointing to a JSON list as its value.
+The filter name must be used by the application when calling the token
+filtering mechanism within the libharvest library.  The JSON list
+species what filters to apply, and their order.
+
+The JSON list must contain zero or more filters.  A filter is given by
+a JSON string giving the name of the filter, followed by zero or more
+arguments, depending on the filter.  Which arguments a filter takes
+(if any) is described below.
+
+.SH FILTERS
+Each filter is characterized by: a) A filter name, b) What arguments
+it takes, if any, and c) Whether it has the ability to specify that a
+given token should be blocked and therefore not be indexed at all
+(saying that the token is a "stop word").
+.TP 6
+.BI strip\-whitespace
+Takes no parameter; just strips whitespace from either end of the
+string. Never blocks the token.
+.TP
+.BI strip\-chars \ chars\-to\-strip
+Takes 1 parameter, which must be a JSON String; strips all characters
+in the parameter from either end of the string. Never blocks the
+token.
+.TP
+.BI replace-string \ substring-to-replace \ replacement-string
+Takes 2 parameters, both of which must be JSON Strings (both of which
+may be empty; however, if the first is empty, the filter is a no-op).
+Replaces all substrings in the token corresponding to the first
+parameter with the second parameter.  Never blocks the token.
+.TP
+.BI lowercase
+Takes no parameter; makes the string lower-case. Only works with ASCII
+letters. Never blocks the token.
+.TP
+.BI uppercase
+Takes no parameter; makes the string upper-case. Only works with ASCII
+letters. Never blocks the token.
+.TP
+.BI block-empty
+Takes no parameter; Does not alter the token, but blocks the token if
+and only if the token is empty.
+.TP
+.BI stop-words
+Takes 1 parameter, which must be a JSON list of JSON Strings.  Does
+not alter the token, but blocks the token if and only if the token is
+a member of the JSON list.
+
+
+.SH EXAMPLES
+{ 
+  "myfilterlist" : [
+     "strip-whitespace",
+     "strip-chars", ".,;:?!",
+     "lowercase",
+     "block-empty",
+     "stop-words", [
+	"a", "an", "the", "in", "of"
+	]
+  ]
+}

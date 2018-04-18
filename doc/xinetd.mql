@@ -1,0 +1,17 @@
+# description: An mql server
+# Either include this in "/etc/xinetd.conf",
+# Or place it in "/etc/xinetd.d/".
+
+service mql
+{
+	type		= UNLISTED
+	id		= mql
+	disable		= no
+	socket_type	= stream
+	protocol	= tcp
+	user		= ulrikp
+	wait		= no
+	port		= 6535
+        server          = /projects/EMdF/emdros/src/mql
+        server_args     = --xml
+}                                                                               

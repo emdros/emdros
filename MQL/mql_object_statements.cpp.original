@@ -1,0 +1,1383 @@
+/*
+ * mql_object_statements.cpp
+ *
+ * MQL OBJECT statements
+ *
+ * Ulrik Petersen
+ * Created: 3/6-2001 (March 6, 2001)
+ * Last update: 11/20-2001
+ *
+ */
+/*********************************************************************
+ *  
+ *  Copyright (c) 2001, Ulrik Petersen
+ *  All rights reserved.
+ *  
+ *  Redistribution and use in source and binary forms, with or without
+ *  modification, are permitted provided that the following conditions
+ *  are met:
+ *  
+ *  - Redistributions of source code must retain the above copyright
+ *    notice, this list of conditions and the following disclaimer.
+ *  
+ *  - Redistributions in binary form must reproduce the above copyright
+ *    notice, this list of conditions and the following disclaimer in
+ *    the documentation and/or other materials provided with the
+ *    distribution.
+ *  
+ *  - Neither the name "Ulrik Petersen" nor the names of any
+ *    contributors may be used to endorse or promote products derived
+ *    from this software without specific prior written permission.
+ *  
+ *  THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS
+ *  "AS IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT
+ *  LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+ *  FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE
+ *  COPYRIGHT HOLDERS OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ *  INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ *  (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ *  SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ *  HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ *  STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ *  ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ *  OF THE POSSIBILITY OF SUCH DAMAGE
+ *
+ **********************************************************************/
+
+#include <mql_types.h>
+#include <emdfdb.h>
+#include <mql_error.h>
+#include <string_func.h>
+#include <mql_execution_environment.h>
+
+////////////////////////////////////////////////////////////
+//
+// CCreateObjectStatement
+//
+// Base class for all CREATE OBJECT statements
+//
+////////////////////////////////////////////////////////////
+CCreateObjectStatement::CCreateObjectStatement(CMQL_execution_environment *pEE, 
+					       id_d_t with_id_d, 
+					       CObjectSpec* object_creation_spec)
+  : CStatement(pEE),
+    m_with_id_d(with_id_d),
+    m_object_creation_spec(object_creation_spec)
+    
+{
+}
+
+CCreateObjectStatement::~CCreateObjectStatement()
+{
+  delete m_object_creation_spec;
+}
+
+//
+// - Check that the feature "self" is not assigned a value
+//
+// - Check that "object_type_name" is not all_m, pow_m, or any_m
+// 
+void CCreateObjectStatement::Weed(bool& bResult)
+{
+  //
+  // - Check that the feature "self" is not assigned a value
+  // 
+  m_object_creation_spec->WeedSelfNotAssigned(m_pEE, bResult);
+  if (!bResult)
+    return;
+
+  // 
+  // - Check that "object_type_name" is not all_m, pow_m, or any_m
+  // 
+  m_object_creation_spec->WeedObjectTypeNameNotSpecial(m_pEE, bResult);
+  if (!bResult)
+    return;
+
+  // If we got this far, it means there were no errors
+  bResult = true;
+  return;
+}
+
+//
+// - If the user specified an id, check that the id is 
+//   not in use already.
+//
+// - Check that the object type exists.  In doing so, store its 
+//   object type_id in the AST.
+//
+// - All features must be exist.
+//
+// - Make sure that all features are given a value.  If a feature 
+//   is not given an explicit value, then use the default value.
+//   If a feature exists for the object type, but is not in the list
+//   of feature assignments, then add it to the list of feature 
+//   assignments.
+//
+bool CCreateObjectStatement::Symbol(bool& bResult)
+{
+  //
+  // - If the user specified an id, check that the id is 
+  //   not in use already.
+  //
+  if (m_with_id_d != NIL) {
+    bool bID_DExists;
+    id_d_t dummy_type_id;
+    if (!m_pEE->pDB->ObjectID_DExists(m_with_id_d, bID_DExists, dummy_type_id))
+      return false;
+    if (bID_DExists) {
+      m_pEE->pError->mql_append_error(std::string("Object with id_d ") + id_d2string(m_with_id_d) + " exists already.  Cannot create new object with same id_d.\n");
+      bResult = false;
+      return true;
+    }
+  }
+
+  //
+  // - Check that the object type exists.  In doing so, store its 
+  //   object type_id in the AST.
+  //
+  if (!m_object_creation_spec->SymbolObjectTypeExists(m_pEE, bResult))
+    return false;
+  if (!bResult) {
+    m_pEE->pError->mql_append_error(std::string("Object type ") + m_object_creation_spec->get_object_type_name() + " does not exist.  Cannot create objects of non-existing object type.\n");
+    return true;
+  }
+
+  //
+  // - All features must be exist.
+  //
+  if (!m_object_creation_spec->SymbolAllFeaturesMustExist(m_pEE, bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  //
+  // - Make sure that all features are given a value.  If a feature 
+  //   is not given an explicit value, then use the default value.
+  //   If a feature exists for the object type, but is not in the list
+  //   of feature assignments, then add it to the list of feature 
+  //   assignments.
+  //
+  if (!m_object_creation_spec->SymbolAllFeaturesMustBeAssigned(m_pEE))
+    return false;
+
+  // If we got this far, there were no compiler errors and not db errors
+  bResult = true;
+  return true;
+}
+
+
+//
+// - Assign a type to each feature assignment
+//
+// - Check for type compatibility between feature and expression
+//
+bool CCreateObjectStatement::Type(bool& bResult)
+{
+  //
+  // - Assign a type to each feature assignment
+  //
+  if (!m_object_creation_spec->TypeAssignTypes(m_pEE))
+    return false;
+
+  //
+  // - Check for type compatibility between feature and expression
+  //
+  if (!m_object_creation_spec->TypeTypeCompatibility(m_pEE, bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  // If we got this far, there were no DB errors and no compiler errors
+  bResult = true;
+  return true;
+}
+
+//
+// - If there are segments, check that all the monads
+//   fit in exactly one segment.
+// 
+bool CCreateObjectStatement::Monads(bool& bResult)
+{
+  //
+  // - If there are segments, check that all the monads
+  //   fit in exactly one segment.
+  // 
+  if (!m_pEE->pDB->MonadsFitInSegment(m_monads.first(), m_monads.last(), bResult))
+    return false;
+
+  return true;
+}
+
+
+bool CCreateObjectStatement::Exec()
+{
+  // Make object type name
+  std::string object_type_name;
+  object_type_name = m_object_creation_spec->get_object_type_name();
+
+  // Make list of features
+  std::list<feature_info> l;
+  if (!m_object_creation_spec->ExecMakeFeatureList(m_pEE, l))
+    return false;
+
+  // Create object
+  if (!m_pEE->pDB->CreateObject(m_with_id_d, object_type_name, m_monads, l))
+    return false;
+
+  // Make result:  The id_d of the newly created object
+  m_result = new CMQLResult();
+  m_result->append(id_d2string(m_with_id_d));
+  m_result->append_header("id_d", kTCID_D);
+
+  // If we got this far, there were no database errors
+  return true;
+}
+
+
+
+////////////////////////////////////////////////////////////
+//
+// CREATE OBJECT FROM MONADS
+//
+// CCreateObjectFromMonadsStatement
+//
+////////////////////////////////////////////////////////////
+CCreateObjectFromMonadsStatement::CCreateObjectFromMonadsStatement(
+    CMQL_execution_environment *pEE, 
+    CMonadSetElement* monad_set,
+    id_d_t with_id_d,
+    CObjectSpec* object_creation_spec)
+  : CCreateObjectStatement(pEE, with_id_d, object_creation_spec),
+    m_monad_set(monad_set)
+{
+}
+
+CCreateObjectFromMonadsStatement::~CCreateObjectFromMonadsStatement()
+{
+  delete m_monad_set;
+}
+
+//
+// - Check that the feature "self" is not declared 
+//   (assigned a value)
+//
+// - Check that "object_type_name" is not all_m, pow_m, or any_m
+// 
+// - Check that all the ranges of monads are positive and monotonic
+//
+void CCreateObjectFromMonadsStatement::Weed(bool& bResult)
+{
+  // Call base class
+  CCreateObjectStatement::Weed(bResult);
+  if (!bResult)
+    return;
+
+  // Monad-ranges should be monotonic
+  m_monad_set->WeedMonotonic(m_pEE, bResult);
+  if (!bResult)
+    return;
+
+  // Monad-ranges should be positive
+  m_monad_set->WeedPositive(m_pEE, bResult);
+  if (!bResult)
+    return;
+
+  // If we got this far, there were no DB errors and no compiler errors
+  bResult = true;
+  return;
+}
+
+bool CCreateObjectFromMonadsStatement::Symbol(bool& bResult)
+{
+  // Call base class
+  if (!CCreateObjectStatement::Symbol(bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  // If we got this far, there were no DB errors and no compiler errors
+  bResult = true;
+  return true;
+}
+
+//
+// - Build the set of monads
+//
+// - If there are segments, check that all the monads
+//   fit in exactly one segment.
+// 
+bool CCreateObjectFromMonadsStatement::Monads(bool& bResult)
+{
+  //
+  // - Build the set of monads
+  //
+  m_monad_set->MonadsBuildSet(m_monads);
+  
+  //
+  // - If there are segments, check that all the monads
+  //   fit in exactly one segment.
+  // 
+  if (!CCreateObjectStatement::Monads(bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  // If we got this far, we had no database errors and no compiler errors
+  bResult = true;
+  return true;
+}
+
+bool CCreateObjectFromMonadsStatement::Exec()
+{
+  // If the user did not specify an id_d, autogenerate one
+  if (m_with_id_d == NIL) {
+    if (!m_pEE->pDB->GetNextObjectID_D(m_with_id_d))
+      return false;
+  }
+
+  // Call base class
+  if (!CCreateObjectStatement::Exec())
+    return false;
+
+  // If we got this far, there were no DB errors
+  return true;
+}
+
+
+
+
+
+////////////////////////////////////////////////////////////
+//
+// CREATE OBJECT FROM ID_DS
+//
+// CCreateObjectFromID_DsStatement
+//
+////////////////////////////////////////////////////////////
+CCreateObjectFromID_DsStatement::CCreateObjectFromID_DsStatement(
+    CMQL_execution_environment *pEE, 
+    CID_D* id_d_specification,
+    id_d_t with_id_d,
+    CObjectSpec* object_creation_spec)
+  : CCreateObjectStatement(pEE, with_id_d, object_creation_spec),
+    m_id_d_list(id_d_specification)
+{
+
+}
+
+CCreateObjectFromID_DsStatement::~CCreateObjectFromID_DsStatement()
+{
+  delete m_id_d_list;
+}
+
+//
+// - Check that the feature "self" is not declared 
+//   (assigned a value)
+//
+// - Check that "object_type_name" is not all_m, pow_m, or any_m
+// 
+// - Check that none of the id_ds is NIL
+//
+void CCreateObjectFromID_DsStatement::Weed(bool& bResult)
+{
+  // Call base class
+  CCreateObjectStatement::Weed(bResult);
+  if (!bResult)
+    return;
+
+  // None of the id_ds may be NIL
+  m_id_d_list->WeedNoneIsNIL(m_pEE, bResult);
+  if (!bResult)
+    return;
+
+  // If we got this far, there were no compiler errors and no DB errors
+  bResult = true;
+  return;
+}
+
+//
+// - Check everything from base class
+//
+// - Check that the objects exist for all the id_ds
+//
+bool CCreateObjectFromID_DsStatement::Symbol(bool& bResult)
+{
+  // Check base-class
+  if (!CCreateObjectStatement::Symbol(bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  // Check that all the objects exist
+  if (!m_id_d_list->SymbolObjectsExist(m_pEE, bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  // If we got this far, there were no compiler-errors and no DB-errors
+  bResult = true;
+  return true;
+}
+
+//
+// - Build the set of monads from the id_ds
+//
+// - If there are segments, check that all the monads
+//   fit in exactly one segment.
+// 
+bool CCreateObjectFromID_DsStatement::Monads(bool& bResult)
+{
+  // Iterate through id_ds
+  CID_D* pID_D;
+  pID_D = m_id_d_list;
+  while (pID_D != 0) {
+    // Get monads from DB
+    CSet_of_monad_ms id_d_monads;
+    if (!m_pEE->pDB->GetMonadsFromID_D(pID_D->get_id_d(), pID_D->get_object_type_id(), id_d_monads))
+      return false;
+
+    // Add id_d_monads to local monads
+    m_monads.union_with(id_d_monads);
+
+    // Advance iterator
+    pID_D = pID_D->Next();
+  }
+
+  //
+  // - If there are segments, check that all the monads
+  //   fit in exactly one segment.
+  // 
+  if (!CCreateObjectStatement::Monads(bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  // If we got this far, then there were no compile-errors and no DB errors
+  bResult = true;
+  return true;
+}
+
+// Simply call base-class
+bool CCreateObjectFromID_DsStatement::Exec()
+{
+  // If the user did not specify an id_d, autogenerate one
+  if (m_with_id_d == NIL) {
+    if (!m_pEE->pDB->GetNextObjectID_D(m_with_id_d))
+      return false;
+  }
+
+  // Call base class
+  if (!CCreateObjectStatement::Exec())
+    return false;
+
+  // If we got this far, there were no DB errors
+  return true;
+}
+
+
+
+////////////////////////////////////////////////////////////
+//
+// CREATE OBJECT FROM (focus|all|) QUERY
+//
+// CCreateObjectFromQueryStatement
+//
+////////////////////////////////////////////////////////////
+CCreateObjectFromQueryStatement::CCreateObjectFromQueryStatement(
+    CMQL_execution_environment *pEE, 
+    eFocusSpec focus, 
+    id_d_t with_id_d,
+    CObjectSpec* object_creation_spec,
+    CMonadSetElement* in_spec, 
+    std::string* using_segment,
+    sheaf_return_type_t sheaf_return_type,
+    CTopograph* query)
+  : CCreateObjectStatement(pEE, with_id_d, object_creation_spec),
+    CQueryBase(focus, in_spec, using_segment, sheaf_return_type, query)
+{
+
+}
+
+CCreateObjectFromQueryStatement::~CCreateObjectFromQueryStatement()
+{
+
+}
+void CCreateObjectFromQueryStatement::Weed(bool& bResult)
+{
+  // Call base class
+  CCreateObjectStatement::Weed(bResult);
+  if (!bResult)
+    return;
+
+  // Call base class
+  CQueryBase::Weed(m_pEE, bResult);
+  if (!bResult)
+    return;
+
+  // If we got this far, there were no compiler errors
+  bResult = true;
+  return;
+}
+
+bool CCreateObjectFromQueryStatement::Symbol(bool& bResult)
+{
+  // Call base class
+  if (!CCreateObjectStatement::Symbol(bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  // Call base class
+  if (!CQueryBase::Symbol(m_pEE, bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+
+  // TODO: Implement
+  m_pEE->pError->mql_append_error("Not implemented yet.\n");
+  return false;
+}
+
+bool CCreateObjectFromQueryStatement::Type(bool& bResult)
+{
+  // Call base class
+  CQueryBase::Type(m_pEE, bResult);
+  if (!bResult)
+    return true;
+
+  // TODO: Implement
+  m_pEE->pError->mql_append_error("Not implemented yet.\n");
+  return false;
+}
+
+bool CCreateObjectFromQueryStatement::Exec()
+{
+  // TODO: Implement
+  m_pEE->pError->mql_append_error("Not implemented yet.\n");
+  return false;
+}
+
+
+
+
+////////////////////////////////////////////////////////////
+//
+// CUpdateObjectsStatement
+//
+// Base class for all UPDATE OBJECTS statements
+//
+////////////////////////////////////////////////////////////
+CUpdateObjectsStatement::CUpdateObjectsStatement(CMQL_execution_environment *pEE, CObjectSpec* update_spec)
+  : CStatement(pEE), m_update_spec(update_spec)
+{
+}
+
+CUpdateObjectsStatement::~CUpdateObjectsStatement()
+{
+  delete m_update_spec;
+}
+
+//
+// - Check that the feature "self" is not assigned a value
+// 
+// - Check that "object_type_name" is not all_m, pow_m, or any_m
+// 
+void CUpdateObjectsStatement::Weed(bool& bResult)
+{
+  //
+  // - Check that the feature "self" is not assigned a value
+  // 
+  m_update_spec->WeedSelfNotAssigned(m_pEE, bResult);
+  if (!bResult)
+    return;
+
+  // 
+  // - Check that "object_type_name" is not all_m, pow_m, or any_m
+  // 
+  m_update_spec->WeedObjectTypeNameNotSpecial(m_pEE, bResult);
+  if (!bResult)
+    return;
+
+  // If we got this far, it means there were no compiler errors
+  bResult = true;
+  return;
+}
+
+//
+// - Check that the object type actually exists
+//
+// - Check that all the features exist
+//
+// - Check that none of the features are computed features
+//
+bool CUpdateObjectsStatement::Symbol(bool& bResult)
+{
+  if (m_update_spec != 0) {
+    //
+    // - Check that the object type actually exists
+    //
+    if (!m_update_spec->SymbolObjectTypeExists(m_pEE, bResult))
+      return false;
+    if (!bResult)
+      return true;
+
+    //
+    // - Check that all the features exist
+    //
+    if (!m_update_spec->SymbolAllFeaturesMustExist(m_pEE, bResult))
+      return false;
+    if (!bResult)
+      return true;
+
+    //
+    // - Check that none of the features are computed features
+    //
+    if (!m_update_spec->SymbolNoFeatureMayBeComputed(m_pEE, bResult))
+      return false;
+    if (!bResult)
+      return true;
+  }
+
+  // If we got this far, there were no DB errors and no compiler errors
+  bResult = true;
+  return true;
+}
+
+//
+// - Assign a type to each feature assignment
+//
+// - Check for type compatibility between feature and expression
+//
+bool CUpdateObjectsStatement::Type(bool& bResult)
+{
+  //
+  // - Assign a type to each feature assignment
+  //
+  if (!m_update_spec->TypeAssignTypes(m_pEE))
+    return false;
+
+  //
+  // - Check for type compatibility between feature and expression
+  //
+  if (!m_update_spec->TypeTypeCompatibility(m_pEE, bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  // If we got this far, there were no DB errors and no compiler errors
+  bResult = true;
+  return true;
+}
+
+bool CUpdateObjectsStatement::Exec()
+{
+  // Get feature infos
+  std::list<feature_info> features;
+  if (!m_update_spec->ExecMakeFeatureList(m_pEE, features))
+    return false;
+
+  // Iterate through candidates, making result along the way
+  std::list<id_d_t>::const_iterator ci;
+  ci = m_update_candidates.begin();
+  m_result = new CMQLResult();
+  m_result->append_header("id_d", kTCID_D);
+  while (ci != m_update_candidates.end()) {
+    // Update object
+    if (!m_pEE->pDB->UpdateObject(*ci, m_update_spec->get_object_type_name(), features))
+      return false;
+
+    // Add newline to result if this is not the first
+    m_result->start_new_row();
+
+    // Add id_d to result
+    m_result->append(id_d2string(*ci));
+
+    // Advance iterator
+    ci++;
+  }
+
+  // If we got this far, there were no DB errors
+  return true;
+}
+
+
+////////////////////////////////////////////////////////////
+//
+// UPDATE OBJECTS BY MONADS
+//
+// CUpdateObjectsByMonadsStatement
+//
+////////////////////////////////////////////////////////////
+CUpdateObjectsByMonadsStatement::CUpdateObjectsByMonadsStatement(
+    CMQL_execution_environment *pEE, 
+    CMonadSetElement* monad_set,
+    CObjectSpec* update_spec)
+  : CUpdateObjectsStatement(pEE, update_spec),
+    CByMonads(monad_set)
+{
+}
+
+CUpdateObjectsByMonadsStatement::~CUpdateObjectsByMonadsStatement()
+{
+}
+
+//
+// - Check base class
+//
+// - Check that all monad ranges and monotonic
+//
+// - Check that all monad ranges are positive 
+//
+void CUpdateObjectsByMonadsStatement::Weed(bool& bResult)
+{
+  //
+  // Check base class
+  //
+  CUpdateObjectsStatement::Weed(bResult);
+  if (!bResult)
+    return;
+
+  //
+  // Check that all monad ranges are positive and monotonic
+  //
+  CByMonads::Weed(m_pEE, bResult);
+  if (!bResult)
+    return;
+
+  // If we got this far, there were no compiler errors
+  bResult = true;
+  return;
+}
+
+bool CUpdateObjectsByMonadsStatement::Symbol(bool& bResult)
+{
+  //
+  // - Check base class
+  //
+  if (!CUpdateObjectsStatement::Symbol(bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  // If we got this far, there were no DB errors and no compiler errors
+  bResult = true;
+  return true;
+}
+
+//
+// - Check base class
+//
+bool CUpdateObjectsByMonadsStatement::Type(bool& bResult)
+{
+  //
+  // - Check base class
+  //
+  if (!CUpdateObjectsStatement::Type(bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  // If we got this far, there were no DB errors and no compiler errors
+  bResult = true;
+  return true;
+}
+
+//
+// - Build the set of monads
+//
+bool CUpdateObjectsByMonadsStatement::Monads(bool& bResult)
+{
+  //
+  // - Build the set of monads
+  //
+  if (!CByMonads::Monads(m_pEE, bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  // If we got this far, there were no compiler errors and no DB errors
+  bResult = true;
+  return true;
+} 
+
+
+//
+// - Get the objects which are part_of m_monads
+//
+// - Call base class to execute
+//
+bool CUpdateObjectsByMonadsStatement::Exec()
+{
+  // Get the objects which are part_of m_monads
+  if (!GetObjectsByMonads(m_pEE, m_update_spec->get_object_type_name(), 
+			  m_update_candidates))
+    return false;
+
+  // Call base class to execute
+  if (!CUpdateObjectsStatement::Exec())
+    return false;
+
+  // If we got this far, there were no DB errors
+  return true;
+}
+
+
+
+////////////////////////////////////////////////////////////
+//
+// UPDATE OBJECTS BY ID_DS
+//
+// CUpdateObjectsByID_DsStatement
+//
+////////////////////////////////////////////////////////////
+CUpdateObjectsByID_DsStatement::CUpdateObjectsByID_DsStatement(
+    CMQL_execution_environment *pEE, 
+    CID_D* id_d_specification,
+    CObjectSpec* update_spec)
+  : CUpdateObjectsStatement(pEE, update_spec),
+    m_id_d_list(id_d_specification)
+{
+}
+
+CUpdateObjectsByID_DsStatement::~CUpdateObjectsByID_DsStatement()
+{
+  delete m_id_d_list;
+}
+
+//
+// - Call base class
+//
+// - Check that none of the elements in the list are NIL
+//
+void CUpdateObjectsByID_DsStatement::Weed(bool& bResult)
+{
+  //
+  // - Call base class
+  //
+  CUpdateObjectsStatement::Weed(bResult);
+  if (!bResult)
+    return;
+
+  //
+  // - Check that none of the elements in the list are NIL
+  //
+  m_id_d_list->WeedNoneIsNIL(m_pEE, bResult);
+  if (!bResult)
+    return;
+
+  // If we got this far, there were no compiler errors
+  bResult = true;
+  return;
+}
+
+//
+// - Call base class
+//
+// - Check that all the objects exist
+//
+bool CUpdateObjectsByID_DsStatement::Symbol(bool& bResult)
+{
+  //
+  // - Call base class
+  //
+  if (!CUpdateObjectsStatement::Symbol(bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  // Get object type name and object type id
+  std::string object_type_name = m_update_spec->get_object_type_name();
+  id_d_t object_type_id = m_update_spec->get_object_type_id();
+
+  //
+  // - Check that all the id_ds refer to objects that exist in the given type.
+  //
+  if (!m_id_d_list->SymbolObjectsExistInType(m_pEE, object_type_name, 
+					     object_type_id, bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  // If we got this far, there were no compiler errors and no DB errors
+  bResult = true;
+  return true;
+}
+
+//
+// - Call base class
+//
+// - Check that all the objects are of the specified type
+//
+bool CUpdateObjectsByID_DsStatement::Type(bool& bResult)
+{
+  //
+  // - Call base class
+  //
+  if (!CUpdateObjectsStatement::Type(bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  //
+  // - Check that all the objects are of the specified type
+  //
+  id_d_t object_type_id = m_update_spec->get_object_type_id();
+  if (!m_id_d_list->SymbolAllAreOfSameType(m_pEE, object_type_id, bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  // If we got this far, there were no compiler errors and no DB errors
+  bResult = true;
+  return true;
+}
+
+bool CUpdateObjectsByID_DsStatement::Exec()
+{
+  // Get id_ds
+  m_id_d_list->ExecMakeList(m_update_candidates);
+
+  // Call base class to execute
+  if (!CUpdateObjectsStatement::Exec())
+    return false;
+
+  // If we got this far, there were no DB errors
+  return true;
+}
+
+
+
+////////////////////////////////////////////////////////////
+//
+// UPDATE OBJECTS BY (focus|all|) QUERY
+//
+// CUpdateObjectsByQueryStatement
+//
+////////////////////////////////////////////////////////////
+CUpdateObjectsByQueryStatement::CUpdateObjectsByQueryStatement(
+    CMQL_execution_environment *pEE, 
+    eFocusSpec focus, 
+    CObjectSpec* update_spec,
+    CMonadSetElement* in_spec, 
+    std::string* using_segment,
+    sheaf_return_type_t sheaf_return_type,
+    CTopograph* query)
+  : CUpdateObjectsStatement(pEE, update_spec),
+    CQueryBase(focus, in_spec, using_segment, sheaf_return_type, query)
+{
+}
+
+CUpdateObjectsByQueryStatement::~CUpdateObjectsByQueryStatement()
+{
+}
+
+void CUpdateObjectsByQueryStatement::Weed(bool& bResult)
+{
+  // TODO: Implement
+  bResult = false;
+  m_pEE->pError->mql_append_error("Not implemented yet.\n");
+  return;
+}
+
+bool CUpdateObjectsByQueryStatement::Symbol(bool& bResult)
+{
+  // TODO: Implement
+  m_pEE->pError->mql_append_error("Not implemented yet.\n");
+  return false;
+}
+
+bool CUpdateObjectsByQueryStatement::Type(bool& bResult)
+{
+  // TODO: Implement
+  m_pEE->pError->mql_append_error("Not implemented yet.\n");
+  return false;
+}
+
+bool CUpdateObjectsByQueryStatement::Exec()
+{
+  // TODO: Implement
+  m_pEE->pError->mql_append_error("Not implemented yet.\n");
+  return false;
+}
+
+
+
+
+////////////////////////////////////////////////////////////
+//
+// CDeleteObjectsStatement
+//
+// Base class for all DELETE OBJECTS statements
+//
+////////////////////////////////////////////////////////////
+CDeleteObjectsStatement::CDeleteObjectsStatement(CMQL_execution_environment *pEE, std::string* object_type_name)
+  :  CStatement(pEE), m_object_type_name(object_type_name)
+{
+}
+
+CDeleteObjectsStatement::~CDeleteObjectsStatement()
+{
+  delete m_object_type_name;
+}
+
+//
+// - Check that object type exists.
+// 
+bool CDeleteObjectsStatement::Symbol(bool& bResult)
+{ 
+  if (strcmp_nocase(*m_object_type_name, "all") == 0) {
+    bResult = true;
+    return true;
+  }
+
+  //
+  // - Check that object type exists.
+  //
+  if (!m_pEE->pDB->ObjectTypeExists(*m_object_type_name, bResult, m_object_type_id))
+    return false;
+  if (!bResult)
+    return true;
+
+  // If we got this far, there were no DB errors and no compiler-errors
+  bResult = true;
+  return true;
+}
+
+bool CDeleteObjectsStatement::Exec()
+{
+  // Iterate through candidates, making result along the way
+  std::list<id_d_t>::const_iterator ci;
+  ci = m_delete_candidates.begin();
+  m_result = new CMQLResult();
+  m_result->append_header("id_d", kTCID_D);
+  while (ci != m_delete_candidates.end()) {
+    // Update object
+    if (!m_pEE->pDB->DropObject(*ci, *m_object_type_name))
+      return false;
+
+    // Add newline to result if this is not the first
+    m_result->start_new_row();
+
+    // Add id_d to result
+    m_result->append(id_d2string(*ci));
+
+    // Advance iterator
+    ci++;
+  }
+
+  // If we got this far, there were no DB errors
+  return true;
+}
+
+
+
+////////////////////////////////////////////////////////////
+//
+// DELETE OBJECTS BY MONADS
+//
+// CDeleteObjectsByMonadsStatement
+//
+////////////////////////////////////////////////////////////
+CDeleteObjectsByMonadsStatement::CDeleteObjectsByMonadsStatement(
+    CMQL_execution_environment *pEE, 
+    CMonadSetElement* monad_set,
+    std::string* object_type_name)
+  : CDeleteObjectsStatement(pEE, object_type_name),
+    CByMonads(monad_set)
+{
+}
+
+CDeleteObjectsByMonadsStatement::~CDeleteObjectsByMonadsStatement()
+{
+}
+
+//
+// Check that all monad ranges are positive and monotonic
+//
+void CDeleteObjectsByMonadsStatement::Weed(bool& bResult)
+{
+  //
+  // Check that all monad ranges are positive and monotonic
+  //
+  CByMonads::Weed(m_pEE, bResult);
+  if (!bResult)
+    return;
+
+  // If we got this far, there were no compiler errors
+  bResult = true;
+  return;
+}
+
+//
+// - Check base class
+// 
+bool CDeleteObjectsByMonadsStatement::Symbol(bool& bResult)
+{
+  //
+  // - Check base class
+  //
+  if (!CDeleteObjectsStatement::Symbol(bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  // If we got this far, there were no DB errors and no compiler errors
+  bResult = true;
+  return true;
+}
+
+//
+// - Build the set of monads
+//
+bool CDeleteObjectsByMonadsStatement::Monads(bool& bResult)
+{
+  //
+  // - Build the set of monads
+  //
+  if (!CByMonads::Monads(m_pEE, bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  // If we got this far, there were no compiler errors and no DB errors
+  bResult = true;
+  return true;
+} 
+
+bool CDeleteObjectsByMonadsStatement::ExecOneObjectType() 
+{
+  // Make sure we are pristine
+  m_delete_candidates.clear();
+
+  // Delete
+  if (!m_pEE->pDB->DropObjectsInMonads(m_monads, *m_object_type_name, m_object_type_id, m_delete_candidates)) {
+    return false;
+  }
+
+  // Make m_result if not done already
+  if (m_result == 0) {
+    m_result = new CMQLResult();
+    m_result->append_header("id_d", kTCID_D);
+  }
+
+  // Iterate through candidates, making result along the way
+  std::list<id_d_t>::const_iterator ci;
+  ci = m_delete_candidates.begin();
+  while (ci != m_delete_candidates.end()) {
+    // Start new row
+    m_result->start_new_row();
+
+    // Add id_d to result
+    m_result->append(id_d2string(*ci));
+
+    // Advance iterator
+    ci++;
+  }
+
+  std::cerr << "Done!" << std::endl;
+
+  // If we got this far, there were no DB errors
+  return true;
+}
+
+bool CDeleteObjectsByMonadsStatement::Exec()
+{
+  if (strcmp_nocase(*m_object_type_name, "all") == 0) {
+    // Begin transaction
+    bool bDoCommit;
+    bDoCommit = m_pEE->pDB->BeginTransaction();
+
+    // Get object types
+    std::list<std::string> object_types;
+    if (!m_pEE->pDB->GetObjectTypes(object_types)) {
+      if (bDoCommit)
+	m_pEE->pDB->AbortTransaction();
+      return false;
+    }
+
+    // Iterate through object types
+    std::list<std::string>::const_iterator ci;
+    ci = object_types.begin();
+    while (ci != object_types.end()) {
+      // Set object type name
+      *m_object_type_name = *ci;
+
+      // Set object type id
+      bool bDummy;
+      if (!m_pEE->pDB->ObjectTypeExists(*m_object_type_name,
+					bDummy,
+					m_object_type_id)) {
+	if (bDoCommit)
+	  m_pEE->pDB->AbortTransaction();
+	if (m_result != 0) {
+	  m_result->clear();
+	}
+	return false;
+      }
+				       
+
+      // Exec for this object type
+      if (!ExecOneObjectType()) {
+	if (bDoCommit)
+	  m_pEE->pDB->AbortTransaction();
+	if (m_result != 0) {
+	  m_result->clear();
+	}
+	return false;
+      }
+
+      // Advance iterator
+      ci++;
+    }
+
+    // Commit transaction
+    if (bDoCommit)
+      m_pEE->pDB->CommitTransaction();
+
+    // If we got this far, there were no DB errors
+    return true;
+  } else {
+    return ExecOneObjectType();
+  }
+}
+
+
+
+////////////////////////////////////////////////////////////
+//
+// DELETE OBJECTS BY ID_DS
+//
+// CDeleteObjectsByID_DsStatement
+//
+////////////////////////////////////////////////////////////
+CDeleteObjectsByID_DsStatement::CDeleteObjectsByID_DsStatement(
+    CMQL_execution_environment *pEE,
+    CID_D* id_d_specification,
+    std::string* object_type_name)
+  : CDeleteObjectsStatement(pEE, object_type_name),
+    m_id_d_list(id_d_specification)
+{
+}
+
+CDeleteObjectsByID_DsStatement::~CDeleteObjectsByID_DsStatement()
+{
+  delete m_id_d_list;
+}
+
+
+//
+// Check that object type name is not "all"
+void CDeleteObjectsByID_DsStatement::Weed(bool& bResult)
+{
+  if (strcmp_nocase(*m_object_type_name, "all") == 0) {
+    m_pEE->pError->mql_append_error("Cannot use 'all' as object type in DELETE OBJECTS BY ID_DS statement.\n");
+    bResult = false;
+  } else {
+    bResult = true;
+  }
+  return;
+}
+
+
+//
+// - Check base class
+//
+// - Check that all the id_ds refer to objects that exist.
+//
+// - Check that all the objects are of the given type.
+//
+bool CDeleteObjectsByID_DsStatement::Symbol(bool& bResult)
+{
+  //
+  //
+  // - Check base class
+  //
+  if (!CDeleteObjectsStatement::Symbol(bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  //
+  // - Check that all the id_ds refer to objects that exist in the given type.
+  //
+  if (!m_id_d_list->SymbolObjectsExistInType(m_pEE, *m_object_type_name, m_object_type_id, bResult))
+    return false;
+  if (!bResult)
+    return true;
+
+  // If we got this far, there were no DB errors and no compiler errors
+  bResult = true;
+  return true;
+}
+
+bool CDeleteObjectsByID_DsStatement::Exec()
+{
+  // Get id_ds
+  m_id_d_list->ExecMakeList(m_delete_candidates);
+
+  // Call base class to execute
+  if (!CDeleteObjectsStatement::Exec())
+    return false;
+
+  // If we got this far, there were no DB errors
+  return true;
+}
+
+
+
+////////////////////////////////////////////////////////////
+//
+// DELETE OBJECTS BY (focus|all|) QUERY
+//
+// CDeleteObjectsByQueryStatement
+//
+////////////////////////////////////////////////////////////
+CDeleteObjectsByQueryStatement::CDeleteObjectsByQueryStatement(
+    CMQL_execution_environment *pEE,
+    eFocusSpec focus, 
+    std::string* object_type_name,
+    CMonadSetElement* in_spec, 
+    std::string* using_segment,
+    sheaf_return_type_t sheaf_return_type,
+    CTopograph* query)
+  : CDeleteObjectsStatement(pEE, object_type_name),
+    CQueryBase(focus, in_spec, using_segment, sheaf_return_type, query)
+{
+}
+
+CDeleteObjectsByQueryStatement::~CDeleteObjectsByQueryStatement()
+{
+}
+
+void CDeleteObjectsByQueryStatement::Weed(bool& bResult)
+{
+  // TODO: Implement
+  bResult = false;
+  m_pEE->pError->mql_append_error("Not implemented yet.\n");
+  return;
+}
+
+bool CDeleteObjectsByQueryStatement::Symbol(bool& bResult)
+{
+  // TODO: Implement
+  m_pEE->pError->mql_append_error("Not implemented yet.\n");
+  return false;
+}
+
+bool CDeleteObjectsByQueryStatement::Type(bool& bResult)
+{
+  // TODO: Implement
+  m_pEE->pError->mql_append_error("Not implemented yet.\n");
+  return false;
+}
+
+bool CDeleteObjectsByQueryStatement::Exec()
+{
+  // TODO: Implement
+  m_pEE->pError->mql_append_error("Not implemented yet.\n");
+  return false;
+}
+
+
+

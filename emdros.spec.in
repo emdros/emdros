@@ -1,0 +1,232 @@
+#
+# emdros.spec made from emdros.spec.in 
+# via the configure script
+#
+%define ver          @VERSION@
+%define rel          1%{?dist}
+%define prefix       /usr
+%define home_page    http://emdros.org/
+
+######################################################################
+# Usually, nothing needs to be changed below here between releases
+######################################################################
+Summary: The database engine for analyzed or annotated text
+Name: emdros
+Version: %{ver}
+Release: %{rel}
+URL: %{home_page}
+Source0: emdros-@VERSION@.tar.gz
+License: GPLv2
+Group: Applications/Databases
+Prefix: %{prefix}
+#BuildRoot: %{_tmppath}/%{name}-root
+
+%description 
+
+Emdros is a text database engine for storage and retrieval of
+annotated or analyzed text. Application domains include linguistics,
+publishing, and text processing, with corpus linguistics being the
+main target domain. Emdros has a powerful query-language for
+query/create/update/delete operations.
+
+
+%prep
+
+%autosetup 
+
+#%setup -q -n emdros-%{version}
+
+%build
+
+CFLAGS="$RPM_OPT_FLAGS $CFLAGS"
+CXXFLAGS="$RPM_OPT_FLAGS $CXXFLAGS"
+export CFLAGS CXXFLAGS
+./configure @WITH_SWIG_JAVA@ @WITH_SWIG_PERL@ @WITH_SWIG_PHP@ @WITH_SWIG_PYTHON@ @WITH_SWIG_PYTHON3@ @WITH_SWIG_RUBY@ --disable-static --disable-dependency-tracking --enable-debug @WITH_WXWIDGETS@ @WITH_SQLITE2@ @WITH_SQLITE3@ @WITH_POSTGRESQL@ @WITH_MYSQL@ @WITH_BPT@ @WITH_BPT2@ @ENABLE_AMALGAMATION@ --prefix=%{prefix}
+%make_build
+
+
+%check
+
+make test
+
+%install
+
+make install DESTDIR=%{buildroot}
+
+%post
+/sbin/ldconfig
+
+XDG_ICON_RESOURCE=`which xdg-icon-resource`
+XDG_DESKTOP_MENU=`which xdg-desktop-menu`
+
+if test "x$XDG_ICON_RESOURCE" != "x" -a "x$XDG_DESKTOP_MENU" != "x"; then
+   if test -x $XDG_ICON_RESOURCE -a -x $XDG_DESKTOP_MENU -a -x ${prefix}/bin/eqtu; then
+      $XDG_ICON_RESOURCE install --size 16 %{prefix}/share/emdros/blue-E-16x16.png emergence-blue-E || true
+      $XDG_ICON_RESOURCE install --size 22 %{prefix}/share/emdros/blue-E-22x22.png emergence-blue-E || true
+      $XDG_ICON_RESOURCE install --size 32 %{prefix}/share/emdros/blue-E-32x32.png emergence-blue-E || true
+      $XDG_ICON_RESOURCE install --size 48 %{prefix}/share/emdros/blue-E-48x48.png emergence-blue-E || true
+      $XDG_ICON_RESOURCE install --size 64 %{prefix}/share/emdros/blue-E-64x64.png emergence-blue-E || true
+
+      $XDG_DESKTOP_MENU install %{prefix}/share/emdros/emergence-eqtu.desktop || true
+      $XDG_DESKTOP_MENU install %{prefix}/share/emdros/emergence-importtool.desktop || true
+      $XDG_DESKTOP_MENU install %{prefix}/share/emdros/emergence-chunkingtool.desktop || true
+   fi
+fi
+
+#
+# This is preun rather than postun because we need to be able 
+# to refer to the .desktop file, which would have been erased
+# at postun.
+#
+%preun
+
+#
+# We need to check the argument to the script, which shows the
+# number of packages of emdros installed.  Only when we reach 0
+# can we erase emdros from the menu.
+#
+if test "x$1" == "x0"; then
+   
+   XDG_ICON_RESOURCE=`which xdg-icon-resource`
+   XDG_DESKTOP_MENU=`which xdg-desktop-menu`
+
+   if test "x$XDG_ICON_RESOURCE" != "x" -a "x$XDG_DESKTOP_MENU" != "x"; then
+      if test -x $XDG_ICON_RESOURCE -a -x $XDG_DESKTOP_MENU -a -x ${prefix}/bin/eqtu; then
+      	 $XDG_ICON_RESOURCE uninstall --size 16 emergence-blue-E || true
+         $XDG_ICON_RESOURCE uninstall --size 22 emergence-blue-E || true
+         $XDG_ICON_RESOURCE uninstall --size 32 emergence-blue-E || true
+         $XDG_ICON_RESOURCE uninstall --size 48 emergence-blue-E || true
+         $XDG_ICON_RESOURCE uninstall --size 64 emergence-blue-E || true
+
+         $XDG_DESKTOP_MENU uninstall %{prefix}/share/emdros/emergence-eqtu.desktop || true
+         $XDG_DESKTOP_MENU uninstall %{prefix}/share/emdros/emergence-importtool.desktop || true
+         $XDG_DESKTOP_MENU uninstall %{prefix}/share/emdros/emergence-chunkingtool.desktop || true
+
+      fi
+   fi
+fi
+
+
+
+%postun
+/sbin/ldconfig
+
+
+%clean
+rm -rf %{buildroot}
+
+
+%package devel
+Requires: emdros = @VERSION@
+
+Summary: Development files for Emdros - The database engine for analyzed or annotated text 
+
+%description devel
+
+Emdros is a text database engine for storage and retrieval of
+annotated or analyzed text. Application domains include linguistics,
+publishing, and text processing, with corpus linguistics being the
+main target domain. Emdros has a powerful query-language for
+query/create/update/delete operations.
+
+This package contains development files.
+
+
+
+
+%files devel -f %{_builddir}/emdros-%{ver}/extrafiles-emdros-devel.txt
+%{prefix}/lib/*.so
+%{prefix}/lib/*.la
+%{_includedir}/emdros/
+
+%files  -f %{_builddir}/emdros-%{ver}/extrafiles-emdros.txt
+%{_bindir}/*
+%{prefix}/share/emdros/
+%{prefix}/lib/*.so.*
+%doc %{prefix}/share/doc/emdros/emdros-progref-guide.html/*
+%doc %{prefix}/share/doc/emdros/*.pdf
+%doc doc/progref/emdros-progref-guide-@VERSION@.zip
+%doc SWIG/java/README-Java
+%doc SWIG/java/TestEmdros.java
+%doc SWIG/python/README-Python
+%doc SWIG/python/test.py
+%doc SWIG/python/dir.py
+%doc SWIG/python3/README-Python3
+%doc SWIG/python3/test3.py
+%doc SWIG/ruby/README-Ruby
+%doc SWIG/ruby/test.rb
+%doc SWIG/ruby/dir.sh
+%doc SWIG/php/README-PHP
+%doc SWIG/php/test.php
+%doc SWIG/php7/README-PHP7
+%doc SWIG/php7/test7.php
+%doc SWIG/perl/README-Perl
+%doc SWIG/perl/test.pl
+%doc %{_mandir}/man1/*.1*
+%doc %{_mandir}/man5/*.5*
+%doc README NEWS ChangeLog COPYING AUTHORS INSTALL
+%doc doc/ChangeLog-doc.txt
+%doc doc/HOW-TO-USE.txt
+%doc doc/MQL-README.txt
+%doc doc/NEWS-doc.txt
+%doc doc/README-doc.txt
+%doc doc/bootstrapping.txt
+%doc doc/emdftry.html
+%doc doc/jsontry.html
+%doc doc/emdros.html
+%doc doc/eqtc.html
+%doc doc/hal_build_db.html
+%doc doc/index.html
+%doc doc/renderobjects.html
+%doc doc/fts_indexer.html
+%doc doc/manage_indices.html
+%doc doc/mqldump.html
+%doc doc/mqlhal.html
+%doc doc/mql.html
+%doc doc/mqllingtry.html
+%doc doc/mqltry.html
+%doc doc/upgrade_db.html
+%doc doc/Monad-Sets.lyx
+%doc doc/MQL-Programmers-Guide.lyx
+%doc doc/MQL-Query-Guide.lyx
+%doc doc/New-EMdF.lyx
+%doc doc/Rel-EMdF.lyx
+%doc doc/Standard-MdF.lyx
+%doc examples/ChunkingTool/doc/ChunkingToolGuide.pdf
+%doc src/qrytool/doc/EQTUsersGuide.pdf
+%doc doc/progref/EmdrosProgRefGuide.pdf
+%doc examples/HAL/doc/HALGuide.pdf
+
+
+
+#%defattr(-,root,root)
+
+%changelog
+
+* Wed Jul 19 2017 Ulrik Sandborg-Petersen <ulrikp@users.sf.net> Update
+  doc section to work with the newly distributed PDF and HTML files from
+  version 3.5.15.
+
+* Thu Jun 22 2017 Ulrik Sandborg-Petersen <ulrikp@users.sf.net> Update
+  to work with CentOS 7.  Put SWIG files previously in emdros-devel
+  into the emdros package.  Make rpmlint more happy.
+
+* Wed Nov 23 2016 Ulrik Sandborg-Petersen <ulrikp@users.sf.net>
+  3.4.1.pre37-1.fc25 In files section, do glob %{prefix}/lib/* instead
+  of .../lib/*.*, and don't do %{prefix}/lib/emdros/*, so as to be
+  able to compile without any SWIG backends.
+
+* Sat Dec 20 2014 Ulrik Sandborg-Petersen <ulrikp@users.sf.net> 3.4.1.pre07-1.fc21
+  In files section, do glob %{prefix}/lib/*.* instead of .../lib/*.so
+  and .../lib/*.a, so as to be able to rpmbuild on Fedora 21, where .a
+  files are no longer generated.
+
+* Sat Sep 27 2014 Ulrik Sandborg-Petersen <ulrikp@users.sf.net> 3.4.1.pre05-1.fc20
+  Added @WITH_SQLITE3@, @WITH_BPT@, and @WITH_BPT2@ to the call to configure.
+
+* Sun Sep 28 2008 Ulrik Sandborg-Petersen <ulrikp@users.sf.net> 3.0.2-1.fc9
+  Updated to 3.0.2.
+
+* Sat Jan 20 2007 Ulrik Petersen <ulrikp@users.sf.net> 1.2.0.pre234-1.fc6
+  Added changelog for the first time. This spec file has sat around
+  for a number of years without a changelong entry.

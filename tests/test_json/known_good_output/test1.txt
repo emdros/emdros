@@ -1,0 +1,66 @@
+{
+   "json_version" : 1,
+   "mainwindow" : {
+         "bible_tabs" : {
+            "bible_tab_list" : [
+               {
+                  "history" : {
+                     "history_pos" : 2,
+                     "urllist" : [
+                           "instructions://",
+                           "intro:John",
+                           "bible:John.16"
+                        ]
+                  },
+                  "strings" : {
+                        "cur_bible_ref" : "John.16",
+                        "cur_bible_url" : "bible:John.16",
+                        "cur_url" : "bible:John.16",
+                        "current_commentary_db_name" : "JFB",
+                        "db_list" : [
+                              "Bibelen på Hverdagsdansk"
+                           ],
+                        "human_readable_OSIS_ref" : "Joh 16",
+                        "info_tab_urls" : {
+                              "kCommentaryTab" : "commentary:blah/JFB/John.16",
+                              "kInfoTab" : "home://",
+                              "kSearchTab" : "home://"
+                           }
+                     }
+               },
+               {
+                  "history" : {
+                     "history_pos" : 3,
+                     "urllist" : [
+                           "instructions://",
+                           "intro:Prov",
+                           "bible:Prov.6",
+                           "bible:Lev.10"
+                        ]
+                  },
+                  "strings" : {
+                        "cur_bible_ref" : "Lev.10",
+                        "cur_bible_url" : "bible:Lev.10",
+                        "cur_url" : "bible:Lev.10",
+                        "current_commentary_db_name" : "JFB",
+                        "db_list" : [
+                              "Bibelen på Hverdagsdansk"
+                           ],
+                        "human_readable_OSIS_ref" : "3 Mos 10",
+                        "info_tab_urls" : {
+                              "kCommentaryTab" : "commentary:blah/JFB/Lev.10",
+                              "kInfoTab" : "home://",
+                              "kSearchTab" : "home://"
+                           }
+                     }
+               }
+            ],
+            "current_bible_tab" : 1
+         },
+         "mainwindow_strings" : {
+               "font_size_index" : 5
+            }
+      }
+}
+
+SUCCESS!

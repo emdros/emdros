@@ -1,0 +1,225 @@
+README for Emdros SWIG-Python
+Created: 2/11-2003 (February 11, 2003)
+Last update: 7/27-2006
+
+Introduction
+============
+
+This document explains how to use the SWIG Python bindings for Emdros.
+
+This document is still sketchy.
+
+
+Test program
+============
+
+There is a test program, test.py, which shows how to use the EmdrosPy
+module.  Use it for inspiration.
+
+
+Compilation
+===========
+
+Linux
+-----
+
+When running ./configure, just give the `--with-swig-language-python'
+switch.  This will schedule the Python module for compilation.
+
+
+Win32
+-----
+
+In win32\config.mak:
+
+1) uncomment the line that says "WITH_SWIG_PYTHON=yes",
+
+2) Edit the PYTHON_INCLUDE and PYTHON_LIB variables to point to your
+   equivalent Python directories.
+
+Then just proceed as described in win32\README.txt.
+
+Note that this has only been tested with ActiveState Python See
+<http://www.activestate.com/>.
+
+
+Installation
+============
+
+No installation
+---------------
+
+You needn't install the module in order to use it.  Just do the
+following before importing the module:
+
+On Linux:
+
+   import sys
+   sys.path += ['/usr/local/lib/emdros']
+
+On Win32:
+
+   import sys
+   sys.path += ['C:\\Emdros\\lib']
+
+Replace these paths with the ones that apply to your system.
+
+
+
+From RPM (Linux only)
+---------------------
+
+Currently, RPMs are not provided for download.  You can build them
+yourself, though.  You will need a basic knowledge of how to use
+rpmbuild and how to edit spec files.
+
+To make the spec files, you can issue a "make spec2" command after
+running ./configure in the top-level directory of the sources.  This
+produces two spec files, one for MySQL and one for PostgreSQL, which
+have support for SWIG RPMs.  You will need to edit the spec file if
+you don't want support for the other languages (Java, Ruby, etc.).
+
+The RPMs produced will install the Python-related files in the same
+directory as the rest of the Emdros libraries, by default
+/usr/local/lib/emdros/.
+
+After installation, you can use the module straightaway by following
+the instructions above.  Alternatively, you can "install it" in the
+Python distribution by making symbolic links to the following files,
+all located in the Emdros library directory mentioned above, from the
+Python site-packages directory (see below).
+
+- _EmdrosPy.so  (NOTE the leading underscore)
+- EmdrosPy.py
+- EmdrosPy.pyc
+- EmdrosPy.pyo
+
+You can run the following python program to find out which is the
+Python site-packages directory:
+
+------------- find_site_packages.py begins ----------------
+import sys
+print sys.prefix + "/lib/python" + sys.version[:3] + "/site-packages"
+------------- find_site_packages.py ends-- ----------------
+
+For example, on RedHat Linux 8.0, this directory is
+
+/usr/lib/python2.2/site-packages
+
+This little python script can also be found in the SWIG/python source
+directory as
+
+dir.py
+
+or in the documentation directory if installed via RPM, e.g., 
+
+/usr/share/doc/emdros-mysql-swig-python-1.1.10
+
+
+
+Here is an example of how to do it:
+
+% ln -s /usr/local/lib/emdros/_EmdrosPy.so /usr/lib/python2.2/site-packages/
+% ln -s /usr/local/lib/emdros/EmdrosPy.py /usr/lib/python2.2/site-packages/
+% ln -s /usr/local/lib/emdros/EmdrosPy.pyc /usr/lib/python2.2/site-packages/
+% ln -s /usr/local/lib/emdros/EmdrosPy.pyo /usr/lib/python2.2/site-packages/
+
+
+Note that you must normally be root in order to do this.
+
+
+
+From sources
+------------
+
+Before running "make" in the top-level directory, you must configure
+Emdros to compile with Python support.  Use the 
+
+  --with-swig-language-python
+
+option to ./configure in the top-level directory.
+
+The EmdrosPy module is automatically installed by the 
+
+   make install-python-lib  # in SWIG/python directory
+
+process.  Issue this command in the SWIG/python source directory after
+any "make install" process.
+
+There is a complementary
+
+   make uninstall-python-lib
+
+process which undoes this.
+
+When running the "make install" process, the _EmdrosPy.so library is
+placed in the same directory as the other Emdros libraries, e.g.,
+/usr/local/lib/emdros.
+
+When running the "make install-python-lib" make process, a symbolic
+link is made to the _EmdrosPy.so library in the Python library
+directory, e.g., /usr/lib/python2.2/site-packages/.  In addition, the
+three files EmdrosPy.py, EmdrosPy.pyc, and EmdrosPy.pyo are copied to
+the same directory.
+
+
+Using the module
+================
+
+Import the module
+-----------------
+
+In order to use the module, do the following:
+
+import EmdrosPy
+
+This assumes that you have either installed the module or you have
+done the sys.path += ['/path/to/module/directory'] incantation
+described above.
+
+
+General naming
+--------------
+
+Generally, C++ classes map directly to Python classes.  For example,
+the C++ class "EmdrosEnv" is called the same in Python.  The methods
+have not been renamed either.  So the C++ method
+EmdrosEnv::connectionOk() is called connectionOk in Python as well.
+
+
+Method arguments
+----------------
+
+Method arguments are handled as follows:
+
+- If it is a pass-by-value parameter, not a pointer or reference,
+  (e.g., const std::string&, std::string, long, int, bool), then the
+  corresponding Python value may be passed.  Note that 
+
+  const std::string& 
+
+  is considered as pass-by-value, as is
+
+  std::string&
+
+  even though it is a reference parameter.
+
+- If it is a pass-by-reference parameter (e.g., bool&), then the
+  method does not return a simple Python object, but rather a tuple of
+  Python objects where the first object is the return value from the
+  method call, the second is the first pass-by-reference parameters's
+  value after having returned from executing the C++ code.  The third
+  object is the second pass-by-reference parameters' value, and so on.
+
+  Note that std::string&, even though it is pass-by-reference in C++,
+  is pass-by-value in the SWIG Python implementation.  Therefore, you
+  cannot get at the value of such a parameter after the call, nor does
+  it get appended to the above-mentioned tuple.  This is not a serious
+  limitation, however, as none of the methods you would want to call
+  from Python use std::string& for returning anything.
+
+
+Exceptions
+----------
+
+You can try...except any Emdros exception.

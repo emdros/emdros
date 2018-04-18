@@ -1,0 +1,3 @@
+PDF_PREFIX="EmdrosProgRefGuide"
+DOC_TITLE="Emdros Programmer's Reference Guide -- Version @VERSION@"
+DOC_DATE="December 21, 2017"

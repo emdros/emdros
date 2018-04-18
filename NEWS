@@ -1,0 +1,3538 @@
+This file is for release-notes for Emdros.
+
+- *** Version 3.5.0 *** 
+
+Release notes for Emdros 3.5.0
+==============================
+
+The focus-areas of this release include:
+
+- Enhancements to the core MQL
+- Bugfixes to the core MQL.
+- Enhancements to the render library
+- Enhancements to the Full Text Search subsystem
+- Enhancements to SWIG bindings
+- Enhancements to the build system
+
+Please consult the ChangeLog (going back to version 3.4.1.pre01) for
+the specifics.  You can also consult the MQL Programmer's Guide for
+the enhancements to the core MQL, and the Programmer's Reference Guide
+for the enhancements to the Render library and the FTS subsystem.
+
+Briefly, the core MQL has been enhanced as follows:
+
+- SELECT ALL OBJECTS has a new WITH MAX RANGE clause, helping to limit
+  otherwise runaway queries such as [Word]..[Word].
+
+- SELECT ALL OBJECTS now sports an [UnorderedGroup] block.
+
+- GET AGGREGATE FEAUTURES is a new statement, similar to SQL's MIN(),
+  MAX(), SUM(), and COUNT() aggregate functions.
+
+
+- *** Version 3.4.0 *** 
+
+Release notes for Emdros 3.4.0
+==============================
+
+The focus-areas of this release include:
+
+- Support for iOS and Android
+- A smoother user experience for the GUI applications
+- Enhancements to the MQL query language
+- Documentation improvements
+- Build improvements on all platforms
+- Speed improvements
+
+
+Binaries for Windows(R) and Mac OS X(R)
+---------------------------------------
+
+As usual, binaries are available for Mac OS X and Windows(R).
+
+The Windows binaries are available in both x86 and x64 versions.  They
+have built-in support for MySQL, SQLite 2, and SQLite 3.  The x86
+binaries are built with Visual Studio Express 2010.  The x64 binaries
+are built with Windows SDK 6.0A.
+
+The Mac OS X binaries are Universal binaries (i386 and x86_64) running
+on Mac OS X 10.6 (Snow Leopard), 10.7 (Lion), and 10.8 (Mountain
+Lion), 10.9 (Mavericks), and possibly later versions of Mac OS X.
+They do not have support for either MySQL or PostgreSQL; Only SQLite 2
+and SQLite 3 are supported in the Mac OS X binaries.  You might be
+able to compile the sources with support for MySQL yourself, and
+possibly also PostgreSQL.
+
+Linux binaries
+--------------
+
+For this release, we do not provide Linux binaries.  Instead, we have
+ensured that it is easy to build .rpms and .debs from the sources.
+
+
+To build an RPM or .deb, first install the dependencies mentioned in
+the text file called "INSTALL" in the root of the sources.
+
+
+A) To build an RPM:
+
+rpmbuild -ta emdros-3.4.0.tar.gz
+
+
+B) To build a .deb:
+
+1) cp /path/to/Emdros/sources/emdros-3.4.0.tar.gz .
+
+2) tar xfvz emdros-3.4.0.tar.gz
+
+3) cd emdros-3.4.0
+
+4) dpkg-buildpackage -rfakeroot
+
+This will build the .deb in ../.
+
+
+Changes in more detail
+----------------------
+
+Release 3.4.0 has the following changes over 3.3.0:
+
+- Build changes:
+
+  - Support for compilation on Android and iOS were added.
+
+  - Non-Unicode (ANSI) builds of the programs are no longer available
+    on Windows.
+
+  - On Linux / Unix / Mac OS X, wx/libemdrosguiu is now a static
+    library.
+
+  - Out-of-the-box support for building on Debian / Ubuntu /
+    derivatives was added:
+
+	$ tar xfzv emdros-x.y.z.tar.gz
+	$ cd emdros-x.y.z
+	$ dpkg-buildpackage -rfakeroot
+	$ cd .. # The .deb package is in this directory
+	$ sudo dpkg -i emdros_*.deb # This should install it.
+
+  - The .pro build files for Qt have been updated to Qt 4.8.0, which
+    entails dropping support for everything below Mac OS X 10.6 on Qt.
+
+  - It is now possible to do Win64 builds on Windows.  See
+    the very top of win32\config.mak for how to do it.
+
+  - It is now possible to build Emdros on Windows with MinGW32,
+    including support for wxWidgets.
+
+  - Add a test suite which is run with "make test" in the root
+    directory of the sources.
+
+  - Much better configure.ac support for wxWidgets 2.8, 2.9, and 3.0,
+    especially on Mac OS X.
+
+
+- Harvest library changes:
+
+  - Bugs were fixed
+  - Speeds were increased
+  - The template language was enhanced (see the docs)
+  - A new Full Text Search engine, FTS2, was added.
+
+- PHP was added as a supported SWIG binding.
+
+- More support for feature-type "SET OF MONADS" was added:
+
+  - Bugs were fixed
+  - In topographic queries, it is now possible to say:
+
+    SELECT ALL OBJECTS WHERE 
+    [Clause 
+        [Phrase
+           // Could also be universe instead of substrate.
+           // Could also be part_of instead of overlap.
+           // part_of(monads, substrate) is still the default.
+           overlap(mymonadsetfeature, substrate)
+        ]
+    ]
+
+- The GET OBJECTS HAVING MONADS IN statement now supports using a
+  different monad set than the default "monads" feature:
+
+  GET OBJECTS HAVING MONADS IN
+  { 2-40201, 40203-50000 }
+  USING MONAD FEATURE described_SOM
+  [Describer]
+  GO
+
+- Assorted speed increases in the EMdF / MQL libraries.
+
+- The Penn Treebank converter output was improved.
+
+- SQLite 3 was updated to version 3.8.4.3.
+
+- Fixed a few documentation glitches
+
+
+Enjoy!
+
+
+Ulrik Sandborg-Petersen
+
+
+- *** Version 3.3.0 *** 
+
+As usual, binaries are available for Mac OS X, Windows(R), and Fedora
+(15).  
+
+The Windows binaries have support for MySQL, SQLite 2, and SQLite 3.
+They are built with Visual Studio Express 2008.
+
+The Mac OS X binaries are Universal binaries running on Mac OS X 10.4
+(Tiger), 10.5 (Leopard), and 10.6 (Snow Leopard).  They do not have
+support for either MySQL or PostgreSQL; Only SQLite 2 and SQLite 3 are
+supported in the Mac OS X binaries.  You can compile the sources with
+support for MySQL yourself, though, and possibly also PostgreSQL.
+
+The Fedora binaries come with support for PostgreSQL, MySQL, SQLite 2,
+and SQLite 3.
+
+Release 3.3.0 has the following changes over 3.2.0:
+
+- Experimental support for full text search was added (see manual
+  pages fts_indexer(1) and fts_harvester(1)).
+
+- The RenderObjects and RenderXML features of the harvest library were
+  extended.
+
+- General speed improvements were obtained.
+
+- Support for building on recent Linux distributions was added.
+
+- Support for building with Qt's qmake system was added.
+
+
+The user should be advised that this is the last release which will
+support Windows 98/ME.  In the next release, support for these
+versions of Windws(R) will be dropped.
+
+Enjoy!
+
+Ulrik Sandborg-Petersen
+
+
+
+     
+- *** Version 3.2.0 *** 
+
+As usual, binaries are available for Mac OS X, Windows(R), and Fedora
+(13).  
+
+The Windows binaries have support for MySQL, SQLite 2, and SQLite 3.
+They are built with Visual Studio Express 2010.
+
+The Mac OS X binaries are Universal binaries running on Mac OS X 10.4
+(Tiger), 10.5 (Leopard), and 10.6 (Snow Leopard).  They do not have
+support for either MySQL or PostgreSQL; Only SQLite 2 and SQLite 3 are
+supported in the Mac OS X binaries.  You can compile the sources with
+support for MySQL yourself, though, and possibly also PostgreSQL.
+
+The Fedora binaries come with support for PostgreSQL, MySQL, SQLite 2,
+and SQLite 3.
+
+
+This release has the following changes over 3.1.1:
+
+- A new backend was created, called the BPT engine.  It is
+  proprietary, and thus not Open Source, at the moment (sorry).
+  Interested licensors can contact me at ulrikp - at - emdros |dot|
+  org for questions about this new engine.
+
+- SQLite3 was upgraded to version 3.6.17
+
+- PCRE was upgraded to version 8.01. The license is still BSD.
+
+- The TIGERXML importer is now more lenient towards the XML being
+  imported.
+
+- The Emdros Query Tool now implements an XML_Output_Style.  See the
+  User's Guide for the Emdros Query Tool for how to use it.  WARNING:
+  The output is still subject to change!
+
+- The Emdros Query Tool (GUI version) can now create PNG files right
+  from the command line.  See the man page for eqtu.
+
+- Assorted changes to the harvest library.  Note that the harvest
+  library is not stable yet; all APIs are subject to change as I
+  experiment with the best way of doing this important task.
+
+- A topographic query can be stopped by setting the following bool to
+  false:
+
+  MQLExecEnv::m_bContinueExecution.
+
+- Assorted changes to the horizontal tree and vertical tree layout
+  engines.
+
+Enjoy!
+
+Ulrik Sandborg-Petersen
+
+
+- *** Version 3.1.1 *** 
+
+This release has the following changes over 3.1.0:
+
+Bugfixes
+--------
+
+- PHP bindings were removed, since they were broken.  If anyone needs
+  them, please email the author.
+
+- The Mac distribution now installs eqtc in bin/ rather than
+  development/bin.
+
+- When printing sheaves as "kOKConsole" (console output), feature
+  values that are lists of either integers or enums are now printed as
+  "(X,Y,Z)" rather than "(,X,Y,Z,)".
+
+- Bugfixes were made to the -- still unofficial! -- libharvest.
+
+- SWIG was told to free the memory returned by the following:
+
+	  - EmdrosEnv::takeOverResult
+	  - EmdrosEnv::takeOverSheaf
+	  - EmdrosEnv::takeOverFlatSheaf
+	  - EmdrosEnv::takeOverTable
+	  - EmdrosEnv::takeOverStatement
+
+	  The lack of this might have caused memory leaks before, when
+	  using Emdros via one of the SWIG bindings.
+
+
+Build changes
+-------------
+
+- Added support for gcc 4.4 (e.g., Fedora 11, Ubuntu 9.04).
+
+- Added support for wxWidgets 2.9.X (wxWidgets testing).
+
+- Removed support for wxWidgets 2.6.
+
+
+Enhancements
+------------
+
+- SQLite was upgraded to 3.6.12.
+
+- TECkit was upgraded to version 2.5.1.
+
+- The default behavior of SQLite2 and SQLite3 is now to use in-memory
+  storage for temp storage.
+
+- EQT now shows the full pathname to the current query in the title
+  bar.
+
+- StringList now has a new API: std::vector<std::string>
+  StringList::getAsVector(void) const.
+
+- All SWIG bindings now wrap std::vector<std::string> as StringVector.
+  This can be used in conjunction with the above API addition to
+  StringList.
+
+- IntegerList now has a new API: std::vector<long> getAsVector(void)
+  const;
+
+- All SWIG bindings now wrap std::vector<int> as IntVector.
+
+- The libharvest library continues to move forward.  If anyone is
+  interested in using it, please let the author know.
+
+
+Enjoy!
+
+
+Ulrik Sandborg-Petersen
+
+
+
+
+- *** Version 3.1.0 *** 
+
+This release has the following changes over 3.0.1:
+
+Bug fixes
+---------
+
+- The long-standing bug, #1217003 on SourceForge.Net's Emdros bug
+  tracker, has been fixed.  Basically, there was a design error in the
+  way object references were handled in topographic MQL.  This could
+  sometimes lead to misleading and/or incomplete results.
+
+- Bug #2021303 has been fixed.  It said that in the Emdros Query Tool,
+  setting "option = quiet" in the config file would entail that one
+  had to resize the window to get any output displayed at all.
+
+
+
+Feature enhancements
+--------------------
+
+- The Emdros Query Tool is now able to save its output to HTML.  When
+  the output contains trees, they are saved as PNGs.
+
+- Added an unofficial libharvest, which is a library for "harvesting"
+  Emdros objects.  The documentation is currently incomplete, and the
+  API and template language are still subject to change.  Please
+  contact the author if you are interested in using this.
+
+- Added a JSON parser, used in libharvest.
+
+- The Emdros Query Tool now doesn't display any tool tips, which users
+  wanted turned off.
+
+- Object reference usages can now reference its own block.  For
+  example, this is now possible:
+
+  [Word as w1 
+      // Note how this references the same object for both features.
+      phrase_dependent_part_of_speech = w1.part_of_speech
+  ]
+
+- On Linux desktops, menu entries are added for the Emdros Query Tool,
+  the Emdros Chunking Tool, and the Emdros Import Tool.
+
+- The Emdros Query Tool and the Emdros Chunking Tool are both
+  significantly faster at displaying results.
+
+- The Emdros Query Tool is now able to display horizontal trees in its
+  output.
+
+- The Emdros Query Tool is now able to output results as a KWIC
+  concordance (KWIC = Keywords In Context).
+
+- MatchedObject::getFeatureAsString() now returns a list of enum
+  labels rather than a list of integers when the feature is a list of
+  enums.
+
+- The speed of GET OBJECTS HAVING MONADS IN has been improved.
+
+- The TigerXML importer now is able to import *.ltcx files from
+  Linguistic Tree Constructor.
+
+
+
+Build changes
+-------------
+
+- gcc 4.3 is now supported.
+
+- PostgreSQL version 8.3 is now the only supported version, on all
+  platforms.
+
+- Emdros can now be rpm-built on 64-bit Fedora 10.
+
+- Emdros can now be built on x86 Solaris.
+
+- RPMs now get the distribution identifier (e.g., fc9) in the RPM name
+  automatically.
+
+- Python SWIG DLL on Win32 is now called _Emdros.pyd rather than
+  _Emdros.dll.
+
+- On Mac OS X, both 10.4 and 10.5 are supported by the same binaries.
+
+- wxWidgets 2.4 and 2.6 are no longer supported; only 2.8 and 2.9.X
+  are.
+
+- On Mac OS X and Linux/Unix, non-Unicode builds of Emdros are no
+  longer supported.
+
+- SWIG csharp is now able to use GMCS for .Net bindings.
+
+
+
+
+Enjoy!
+
+Ulrik Sandborg-Petersen
+
+
+
+This release has the following changes over 3.0.0:
+
+- *** Version 3.0.1 *** 
+
+This release has the following changes over 3.0.0:
+
+- It now compiles on Solaris again.
+
+- Compilation with Visual Studio (Express) 2005 is now made possible.
+
+- TECkit was upgraded to the latest TRUNK in TECkit's svn repository.
+
+- LayoutCanvas can now ChangeMagnification on the fly.  This isn't
+  actually used in either the Chunking Tool or the Query Tool yet.
+
+
+- *** Version 3.0.0 ***  (27 January, 2008)
+
+The release-notes for this release show the differences between the
+1.1-branch and version 3.0.0.
+
+
+News in brief:
+
+1) You should upgrade your databases
+
+2) Big name change
+
+3) Segment support removed
+
+4) Arbitrary monad sets
+
+5) Enum changes
+
+6) EMdF value changes
+
+7) Statement changes
+
+8) Topographic changes
+
+9) Features in the sheaf
+
+10) Monads of a sheaf
+
+11) Regexes
+
+12) Functions with new interfaces
+
+13) SWIG changes
+
+14) PostgreSQL privileges of the emdf user
+
+15) emdf database no longer needed
+
+16) Required PostgreSQL version
+
+17) Build procedure changes
+
+18) Missing #include's?
+
+19) Support for DJGPP
+
+
+1) You should upgrade your databases
+====================================
+
+The current version of Emdros uses a more efficient way of storing
+object and monad data, leading to speed improvements when creating
+objects.  Also, a new way of storing strings has been introduced, and
+a new way of obtaining SEQUENCE_OTHER id_ds has been made.
+
+These changes lead to incompatibility between older versions of Emdros
+and this version.  Old versions cannot read this version's databases,
+and this version can't read old databases.
+
+This means, you should upgrade any old databases.
+
+NOTE that this CANNOT be done with the upgrade_db tool.  Instead, you
+must dump your databases with the mqldump tool and reload it using the
+mql program of the current version.  For example (on Linux):
+
+$ mqldump --no-create-db --verbose --password changeme -o mydb.mql mydb
+$ echo "CREATE DATABASE mydbnew" | mql --password changeme
+$ mql --dbname mydbnew --password changeme mydb.mql
+
+Note that this cannot be done with the mqldump of the present version,
+since it cannot read old databases.  Therefore, you must use mqldump
+from whatever version you are presently running to dump the data, and
+then use mql from this version to reload.
+
+
+2) Big name change
+==================
+
+There has been a big namechange (as of 1.2.0.pre78), where many class
+names, method names, constant names, and other identifiers have been
+renamed.  This was done automatically with a sed script, which you
+will find in the ChangeLog for September 11, 2004.  You will need to
+run this sed script on your sources before you can compile your
+application against this version of Emdros.
+
+The reason for this big name change was that I had long wished for a
+harmonization into Java-style conventions, and for a simplification of
+certain long identifiers.  Now seemed as good a time as any.  I posted
+a question to the Emdros Open Discussion Forum about it, asking for
+people's comments.  No-one said they didn't like it, and lots of
+people said they did.
+
+If you need help with converting your sources, please write to me:
+
+http://emdros.org/contact.html
+
+and I will try to point you in the right direction.
+
+
+3) Segment support removed
+==========================
+
+Support for segments have been removed.  This is because segments were
+a broken concept all along, and I have long wished to remove it.  I
+have replaced segments with the new notion of "arbitrary monad sets."
+
+Changes:
+
+- The CREATE SEGMENT statement now creates a monad set instead of a
+  segment.
+
+- The SELECT SEGMENTS and DROP SEGMENT statements have been removed.
+
+- The USING SEGMENTS clause has been removed from statements that do
+  topographic queries.
+
+- mqldump can no longer dump segments, and the appropriate
+  command-line switches have been removed.
+
+
+4) Arbitrary monad sets
+=======================
+
+Segments have been replaced with "arbitrary monad sets".  An arbitrary
+monad set is a set of monads that does not have any associated object
+(that is, it has no object type, and no features).
+
+The new statements associated with arbitrary monad sets are:
+
+- CREATE MONAD SET
+- UPDATE MONAD SET
+- DROP MONAD SET
+- SELECT MONAD SETS
+- GET MONAD SETS
+
+The SELECT (ALL|FOCUS) OBJECTS statement now has new syntax so that
+the IN clause can use arbitrary monad sets:
+
+CREATE MONAD SET My_book_collection
+WITH MONADS = { 1-23500, 24400-27900 }
+GO
+
+SELECT ALL OBJECTS
+IN My_book_collection
+WHERE
+[blah blah blah]
+GO
+
+
+5) Enum changes
+===============
+
+Changes have occurred in how enumerations are handled.
+
+a) Enumeration constants must now be unique in their values as well as
+   their labels.  Before, you could have two labels with the same
+   value.  Now values must be distinct within an enumeration.  This
+   effectively makes an enumeration a bijection (or one-to-one
+   correspondence) between a set of labels and a set (having the same
+   size) of values.
+
+   The rationale for this change was that it was desirable to return
+   labels rather than values from, e.g., GET FEATURES.  For this to
+   happen, there must be a one-to-one correspondence between labels
+   and values.
+
+b) GET FEATURES now returns labels rather than values for enumeration
+   features.
+
+
+6) EMdF value changes
+=====================
+
+Support has been added (as of 1.2.0.pre152) for:
+
+- lists of INTEGER
+- lists of ID_D
+- lists of enumeration constants
+
+
+This is reflected in the following statements:
+
+- CREATE OBJECT TYPE
+- UPDATE OBJECT TYPE
+- CREATE OBJECT
+- UPDATE OBJECT
+- CREATE OBJECTS WITH OBJECT TYPE
+- GET OBJECTS HAVING MONADS IN
+- GET FEATURES
+- SELECT FEATURES
+- SELECT (ALL|FOCUS) OBJECTS
+
+
+7) Statement changes
+====================
+
+A number of new statements were added:
+
+- BEGIN TRANSACTION
+- COMMIT TRANSACTION
+- ABORT TRANSACTION
+- DROP INDEXES
+- CREATE INDEXES
+- CREATE MONAD SET
+- UPDATE MONAD SET
+- DROP MONAD SET
+- SELECT MONAD SETS
+- GET MONAD SETS
+- CREATE OBJECTS WITH OBJECT TYPE
+- GET SET FROM FEATURE
+
+These are all described in the MQL User's Guide in chapter 3.  The
+transaction statements have a section of their own, while the index
+statements are under "database manipulation".
+
+The VACUUM DATABASE statement now works on MySQL as well.
+
+CREATE OBJECTS WITH OBJECT TYPE is a convenient and speedy way of
+batch-importing large numbers of objects.
+
+These statements were removed:
+
+- SELECT SEGMENTS
+- DROP SEGMENT
+
+USING SEGMENTS has been removed from SELECT (ALL|FOCUS) OBJECTS.
+
+CREATE/USE/DROP DATABASE can now take a T_STRING in addition to a
+T_IDENTIFIER for its database name. On MySQL and PostgreSQL, it must
+still be a valid identifier, even when a string is given.  However, on
+SQLite, this means you can give the full path to the database
+filename, as well as non-identifier database names.
+
+
+8) Topographic changes
+======================
+
+Introduction
+------------
+
+The SELECT (ALL|FOCUS) OBJECTS statement now has the following new
+features:
+
+- You can GET features into the sheaf (see the next section).
+- feature-constraints support a new IN comparison operator.
+- There is a new "BETWEEN X AND Y" restrictor for power blocks.
+- There is now a NOTEXIST operator before object blocks
+- There is now a "Kleene Star" operator after object blocks
+- There is a new IN comparison operator for feature comparisons
+- There is a new HAS comparison operator for feature comparisons
+
+
+GET in object blocks
+--------------------
+
+You can now place a GET clause inside of an object_block(_first),
+between the feature constraints and the optional inner blocks.  E.g.:
+
+SELECT ALL OBJECTS
+WHERE
+[Phrase
+  phrase_type = NP
+  GET function
+  [Word
+    psp = noun and number = singular
+    GET lexeme, gender
+  ]
+]
+
+
+The list after GET is a comma-separated list of feature names from the
+object type of the object block.  As can be seen, the list is not
+terminated by any explicit token.
+
+The values will get into the sheaf, from where you can obtain them
+with the API provided on the MatchedObject.  See the Emdros
+Programmer's Reference Guide on the Emdros website for more
+information:
+
+http://emdros.org/docs.html
+
+
+New IN comparator
+-----------------
+
+The IN-comparison operator compares an enumeration-feature with a list
+of enumeration constants, an integer-feature with a list of integers,
+or an id_d feature with a list of id_ds.
+
+For enumeration constants, it looks like this:
+
+SELECT ALL OBJECTS
+WHERE
+[Word part_of_speech IN (verb, participle, infinitive)]
+GO
+
+It has the same effect as:
+
+SELECT ALL OBJECTS
+WHERE
+[Word part_of_speech = verb
+   OR part_of_speech = participle
+   OR part_of_speech = infinitive]
+GO
+
+Thus the effect is the same as a string of "=" comparisons with OR in
+between.
+
+The right-hand-side can also be a list of integers or id_ds, or even
+an object reference usage:
+
+SELECT ALL OBJECTS
+WHERE
+[Clause AS c1
+   [Phrase 
+      number IN (1,2,3)
+      OR self IN (1,2,3)
+      OR self IN c1.descendants
+   ]
+]
+
+See Chapter 4 of the MQL User's Guide for more information.
+
+
+New HAS operator
+----------------
+
+This is used like this:
+
+SELECT ALL OBJECTS
+WHERE
+[Clause AS c1
+   [Phrase // Phrase.parents is a list of id_ds
+           parents HAS c1.self 
+
+           // Phrase.functions is a list of enum constants
+           OR functions HAS Subject 
+
+           // numbers is a list of integers
+           OR numbers HAS 37
+   ] 
+]
+
+in other words, the left-hand-side must be a list-of-something, and
+the right-hand-side must either be an atomic value (but not a string
+or ascii value), or an object reference usage that resolves to an
+atomic value (but not a string or ascii value).
+
+
+New way of doing power restrictors
+----------------------------------
+
+A new way of doing restrictions on power blocks ("..") has been added.
+You can now do:
+
+[foo]
+.. BETWEEN 1 AND 3
+[bar]
+
+to get bars that are separated by from 1 to 3 monads (inclusive).
+Thus if you have five "bar" objects, one at each of the monads 1, 2,
+3, 4, and 5, and one foo object at monad 1, then the above query would
+return three straws with two objects: The first object in each straw
+would be the foo object at monad 1.  The second would be one of the
+bar objects at monad 3, 4, or 5.  This is because there is 1 monad
+between the foo object at monad 1 and the bar object at monad 3, and
+three monads between the foo object at monad 1 and the bar object at
+monad 5.  Thus there are from 1 to three monads in between the two
+objects.
+
+Note that this means that
+
+[foo]
+.. <= 3
+[bar]
+
+is equivalent to
+
+[foo]
+.. BETWEEN 0 AND 3
+[bar]
+
+whereas
+
+[foo]
+.. < 3
+[bar]
+
+is equivalent to
+
+[foo]
+.. BETWEEN 0 AND 2
+[bar]
+
+This is what the interpretation of ".. < integer" and ".. <= integer"
+has been for quite a while.
+
+Thus what is counted is monads that can separate the two, or monads in
+bewteen.  This is not counting the monad that starts the bar object.
+
+
+NOTEXIST operator
+-----------------
+
+A new NOTEXIST operator was introduced (in 1.2.0.pre106) which allows
+searching for things that do not exist:
+
+SELECT ALL OBJECTS
+WHERE
+[Sentence
+   NOTEXIST [Word lexeme="see"]
+]
+GO
+
+This finds all sentences in which a word with the lexeme "see" does
+not exist.
+
+
+Kleene Star operator
+--------------------
+
+A new Kleene Star operator was introduced (in 1.2.0.pre117) which
+allows searching for object blocks that are repeated.  It has two
+forms: One with and one without a trailing set of integers (with the
+same syntax as a set of monads).  For example:
+
+SELECT ALL OBJECTS
+WHERE
+[Sentence
+  [Phrase FIRST phrase_type = NP]
+  [Phrase phrase_type IN (VP, NP, AP)]*
+  [Phrase function = adjunct]* {1-3}
+]
+GO
+
+This finds sentences whose first phrase is an NP, followed by
+arbitrarily many phrases which can either be VPs, NPs, or APs (or any
+combination of those), followed by between 1 and 3 phrases whose
+function is adjunct.
+
+A less contrived example:
+
+SELECT ALL OBJECTS
+WHERE
+[Sentence
+  [Word psp=verb]
+  [Word psp=article or psp=noun or psp=adjective or psp=conjunction]*{1-5}
+]
+GO
+
+This finds sentences where there exists a word whose part of speech is
+verb, followed by 1 to 5 words whose parts of speech may be article,
+noun, adjective, or conjunction (or any combination of those).
+Presumably this would (in English) be a VP with (parts of) the object
+NP after the verb.
+
+The Kleene-Star without a trailing set of integers means "from 0 to
+MAX_MONADS".  Note, however, that there is no performance penalty
+involved in such a large end: The algorithm stops looking when getting
+getting one more fails.
+
+If 0 is in the set of integers, then this means that the object need
+not be there. This means that the following:
+
+SELECT ALL OBJECTS
+WHERE
+[Sentence
+  [Word psp=verb]
+  [Word psp=article]*{0-1}
+  [Word psp=noun]
+]
+GO
+
+would find sentences where there exists a verb followed by 0 or 1
+articles followed by a noun.  Thus the case of "verb immediately
+followed by noun" would also be found by this query.  Thus the
+"*{0-1}" is equivalent to "?" in regular expressions.
+
+The following restrictions apply:
+
+- You cannot have the Kleene star on the first object block in a
+string of blocks, nor can you have it on the first after a power block
+("..").
+
+- You cannot have a Kleene Star on an object block which also has the
+  NOTEXIST keyword in front.
+
+- You cannot have a Kleene Star on an object block which has the
+  "noretrieve" keyword.
+
+
+
+9) Features in the sheaf
+========================
+
+You can now get features into the sheaf.  For example:
+
+SELECT ALL OBJECTS
+WHERE
+[verse
+   book = Genesis chapter = 2 and verse = 1
+   GET verse_label
+   [word 
+      GET surface_consonants, old_lexeme, psp
+   ]
+]
+go
+
+As can be seen, the GET clause occurs inside of an object block after
+all feature comparisons.  It is followed by a comma-separated list of
+feature-names to be gotten.  Their values are then put in the
+matched_object.
+
+See the MatchedObject API for how to get them out again.
+
+The XML DTD for sheaves has changed to accomodate the new addition.
+Also, console output will have additional information if there is a
+GET clause.
+
+
+10) Monads of a sheaf
+====================
+
+The Sheaf class now has two new methods, both called getSOM, which
+extract the monads of a sheaf.  This is done recursively.  A boolean
+says whether to only use matched_objects whose focus boolean is true,
+or all matched_objects.
+
+
+11) Regexes
+===========
+
+Regexes are no longer anchored.  This means that, e.g.,
+
+  [Object_type feature ~ "H"]
+
+will now find values for feature such as "!H!", "ALOHA" and "THE".
+Before, it would only have found "H".
+
+
+12) Functions with new interfaces
+=================================
+
+A number of functions have new signatures.  If you use any of these
+functions, you should update your program to use the new signatures.
+
+The functions whose signatures have changed are:
+
+- CMQLResult::Print()
+- All of the put_XML/put_Console members of the sheaf family of
+  classes.
+- CMatched_object::getObjectTypeName()
+
+You can look these up in the Programmer's Reference Guide, available online:
+
+http://emdros.org/progref/current/
+
+or you can see the code itself.
+
+
+13) SWIG changes
+================
+
+- You no longer need SWIG installed if you simply wish to compile from
+  source.  This is both on Windows and on Unix/Linux.  This is
+  possible because the SWIG'ified Emdros sources are pre-built and
+  shipped with the Emdros sources.  Then at compile-time, the right
+  version is selected based on your choice of database backend(s).
+
+- If you wish to develop Emdros, you must now use SWIG 1.3.31 or
+  later.
+
+- The SWIG Java wrappers are now in a package called jemdros.  This
+  means that you must "import jemdros.*" or the like in your Java
+  programs.  See the TestEmdros.java program for an example.
+
+- Support has been added for PHP.
+
+- Support has been added for C#.
+
+
+14) PostgreSQL privileges of the emdf user
+==========================================
+
+In previous releases, the doc/bootstrapping.txt file said that the
+PostgreSQL emdf user should be given permission to create databases,
+but need not be given permission to create users.
+
+I have since found that this creates problems when vacuuming a
+database from within Emdros.  The specific warning message is:
+
+WARNING:  Skipping "pg_group" --- only table or database owner can VACUUM it
+WARNING:  Skipping "pg_shadow" --- only table or database owner can VACUUM it
+WARNING:  Skipping "pg_database" --- only table or database owner can VACUUM it
+
+This is because the emdf user is not a superuser.  To be a PostgreSQL
+superuser, it must be given both the privilege to create databases and
+the privilege to create users.  If it has not, I recommend that you
+start the psql program as the postgres user (or any other superuser),
+and issue the following command:
+
+alter user emdf with createdb createuser;
+
+
+15) emdf database no longer needed
+==================================
+
+As of 1.2.0.pre52, the emdf database is no longer needed on PostgreSQL
+and MySQL.  The bootstrapping.txt document has been updated to reflect
+this.
+
+SQLite has never needed an emdf database.
+
+
+16) Required PostgreSQL version
+===============================
+
+As of 1.2.0.pre142, Emdros requires PostgreSQL 7.3 or later on
+Linux/Unix, while PostgreSQL 8.0 or later is required on Win32.
+
+
+17) Build procedure changes
+===========================
+
+More than one backend in a single binary
+----------------------------------------
+
+As of 1.2.0.pre212, it is possible to have support for more than one
+database backend in the same binary.  This means that command-line
+programs now have a new switch [-b backend|--backend backend] for
+selecting the right backend.
+
+
+No pgemdf and mysqlemdf libraries
+---------------------------------
+
+The backend-specific emdf libraries have been moved into the emdf
+library.  Therefore, you should not specify the pgemdf or mysqlemdf
+libraries in your build procedure.
+
+
+Specifying the backend
+----------------------
+
+If building from source on Linux/Solaris, the configure script must
+now be given one (or more) of the following switches:
+
+  --with-postgresql
+  --with-mysql
+  --with-sqlite
+  --with-sqlite3
+
+If building on Win32, please see the new the instructions for
+selecting the right backend (see win32/README.txt).
+
+
+Solaris changes
+---------------
+
+As of 1.2.0.pre76, the algorithm in configure.in to find SUNWSPRO_PATH
+has been changed.  It is now found as follows:
+
+      SUNWSPRO_PATH=`which $CXX | sed -e 's:/bin/CC::'`
+
+If this does not work for you, please contact me via:
+
+http://emdros.org/contact.html
+
+
+
+18) Missing #include's?
+=======================
+
+The #include-structure has been changed somewhat.  This means that you
+may need to #include more files than you usually do.
+
+Here are some files you may need to #include *before*
+<emdros_environment.h>:
+
+#include <emdf_output.h>
+#include <monads.h>
+#include <emdfdb.h>
+#include <mql_symboltable.h>
+
+If you #included <emdros-version.h> (you shouldn't; it's #included in
+emdf.h), you should either #include <emdf.h> or #include
+<version-emdros.h>.
+
+
+19) Support for DJGPP
+=====================
+
+As of 1.2.0.pre74, UNOFFICIAL support has been added for DJGPP.  Only
+SQLite is implemented as a backend.  That the support is UNOFFICIAL
+means that I may not maintain it across releases, and only update when
+I need it myself after things get broken.  
+
+However, if you need support for DJGPP in a particular release, feel
+free to contact me through one of the means provided at:
+
+http://emdros.org/contact.html
+
+And I *may* provide what you need.  No promises, though.
+
+Patches are welcome as always.
+
+
+
+Enjoy!
+
+Ulrik Petersen
+
+
+- *** Version 1.1.23 *** Released 2006-08-16
+
+1) Introduction
+===============
+
+This is a bugfix release.  It fixes bugs 1285197 and 1122024.
+
+
+2) Bug 1285197
+==============
+
+Title: Can have object ref. usage on same object block (1.1)
+
+It was possible to have an object reference usage which references the
+same object block as that in which it is found.
+
+SELECT ALL OBJECTS 
+WHERE
+[Clause AS c1 self = c1.self]
+
+This has been fixed at the Symbol stage.
+
+
+3) Bug 1122024 
+==============
+
+Title: Empty database will throw BadMonadsException on SELECT
+
+The following script would trigger the error:
+
+CREATE DATABASE testemdf5 GO
+USE DATABASE testemdf5 GO
+CREATE OBJECT TYPE [Word surface : ASCII;] GO
+SELECT ALL OBJECTS WHERE [Word surface = "bob"]GO
+DROP DATABASE testemdf5 GO
+
+The problem was in mql_select_statements.cpp when getting All_m_1, if
+the database was empty, a BadMonadsException was thrown because MIN_M
+was MAX_MONADS, and MAX_M was 0, thus a monad set was attempted
+generated which had MAX_MONADS (around 2 billion) as its first monad
+and 0 as its last monad.
+
+This has been fixed.
+
+
+4) Documentation
+================
+
+The documentation which used to be packaged separately is now included
+in the doc/ directory, as well as in the RPMs.
+
+
+
+- *** Version 1.1.22 *** Released February 8, 2005
+
+1) Introduction
+===============
+
+This is a security-related bugfix release.  It fixes bug 1116935,
+available in the bugtracker on http://sf.net/projects/emdros, as well
+as below.
+
+Basically, if you fed the MQL parser some malformed MQL, then it
+would, in many cases, leak memory.  This could lead to a Denial of
+Service (DoS) attack if a user with local access fed the mql(1) binary
+large quantities of malformed MQL.  The machine would consume more and
+more memory, until it slowed almost to a grinding halt.
+
+This has been fixed by substituting the bison parser for a lemon-based
+parser.  Lemon is part of the SQLite package, available from
+http://www.sqlite.org/.  Lemon has the distinct advantage of having
+the concept of a "destructor" on both terminals and non-terminals.
+This has been employed so that the new parser automatically takes care
+of cleaning up after a syntax error.
+
+
+2) Bug 1116935
+==============
+
+http://sourceforge.net/tracker/index.php?func=detail&aid=1116935&group_id=37219&atid=419458
+
+The MQL parser will leak memory if given certain kinds of malformed
+MQL statements. This can lead to a DoS attack with more and more
+memory being consumed. The vulnerability is normally only exploitable
+if a user has local access. However, if MQL is run as a service
+through xinetd or similar, it is also exploitable remotely.
+
+All platforms are affected: Windows, Linux, Solaris.
+
+However, I have confirmed that the fixed version leaks no
+memory on any of these systems.
+
+
+Enjoy!
+
+Ulrik Petersen
+Emdros maintainer
+
+
+
+- *** Version 1.1.21 *** Released September 23, 2004
+
+1) Introduction
+===============
+
+This release adds compatibility with AMD64-platforms (and probably
+other 64-bit platforms as well).
+
+Only Perl and Java bindings are affected.
+
+
+Enjoy!
+
+Ulrik Petersen
+Emdros maintainer
+
+
+
+- *** Version 1.1.20 *** Released September 7, 2004
+
+1) Introduction
+===============
+
+This is a bugfix release.  It fixes bugs 965756, 973796, 981648,
+981653, and 981660, all available in the bugtracker on
+SourceForge.net:
+
+http://sourceforge.net/tracker/index.php?func=detail&aid=965756&group_id=37219&atid=419458
+
+http://sourceforge.net/tracker/index.php?func=detail&aid=973796&group_id=37219&atid=419458
+
+http://sourceforge.net/tracker/index.php?func=detail&aid=981648&group_id=37219&atid=419458
+
+http://sourceforge.net/tracker/index.php?func=detail&aid=981653&group_id=37219&atid=419458
+
+http://sourceforge.net/tracker/index.php?func=detail&aid=981660&group_id=37219&atid=419458
+
+
+Also, this release sees better support for compiling on Solaris, and
+slightly better handling of PostgreSQL.  See the ChangeLog for
+details.
+
+
+Following are summaries of the reported bugs.
+
+
+2) Bug 965756
+=============
+
+Subj: CREATE OBJECT WITH ID_D fails on PostgreSQL
+
+There is a bug in 1.1.19 which causes CREATE OBJECT WITH ID_D to fail
+under some circumstances on PostgreSQL. The problem is that the
+function
+
+PgEMdFDB::SetNextObjectID_DIfNotHigher(id_d_t next_id_d)
+
+uses currval('sequence_118_0') when the current session has no value
+defined, because nextval has not been called. See the PostgreSQL
+documentation:
+
+file:///usr/share/doc/postgresql/html/functions-sequence.html
+
+
+
+3) Bug 973796
+=============
+
+Subj: Invalid monad-range in SELECT ALL OBJECTS throws exception
+
+If one uses a monad range in a SELECT ALL OBJECTS query which is
+outside of the monads in the database, a BadMonadsException is thrown.
+
+For example, if a database only has objects with monads 1-4, the
+following would throw the exception:
+
+SELECT ALL OBJECTS
+IN {10-15}
+[OT]
+GO
+
+Expected behavior: To return a failed sheaf.
+
+
+
+4) Bug 981648
+=============
+
+Subj: UPDATE OBJECT TYPE segfaults if no CBBFList
+
+
+UPDATE OBJECT TYPE segfaults if the list of Covered By / Buildable
+From additions/removals is empty.
+
+For example
+
+UPDATE OBJECT TYPE
+[Word
+  ADD lemma : STRING;
+]
+
+would segfault.  I guess that functionality hasn't been tested in
+years.  The mqltry(1) program tests it, but until this bug was found
+had a CBBFList at the end.
+
+
+
+5) Bug 981653
+=============
+
+Subj: UPDATE OBJECT TYPE fails to set default value
+
+UPDATE OBJECT TYPE doesn't set the new feature-column's default value
+when ADDing a feature. For example:
+
+UPDATE OBJECT TYPE
+[Word
+  ADD lemma : STRING DEFAULT "<lemma not set>";
+  ADD psp : psp_t DEFAULT psp_NotAppliccable;
+  ADD word_index : INTEGER DEFAULT 0;
+  ADD id_up : ID_D DEFAULT NIL;
+]
+
+In all of these additions, the new column in OT_objects should be set
+to the default value. This does not happen on PostgreSQL and
+MySQL. What is even worse, on MySQL, NULL is inserted if the feature
+is a STRING or an ASCII.
+
+
+6) Bug 981660
+=============
+
+Subj: Malformed CREATE/UPDATE OBJECT TYPE code could lead to DOS
+
+There is a memory leak in CFeatureDeclaration::TypeTypeCompatibility()
+which could lead to a Denial of Service (DOS) attack if mql were run
+as a service/xinitd service, by issuing enough malformed CREATE OBJECT
+TYPE or UPDATE OBJECT TYPE statements.
+
+
+
+Enjoy!
+
+
+Ulrik Petersen
+Emdros maintainer
+
+
+
+- *** Version 1.1.19 *** Released May 29, 2004
+
+1) Introduction
+===============
+
+This is a bugfix release.  It fixes bugs 939028, 941033, 941076, and
+945820, all available in the bugtracker on SourceForge.Net:
+
+http://sourceforge.net/tracker/index.php?func=detail&aid=939028&group_id=37219&atid=419458
+
+http://sourceforge.net/tracker/index.php?func=detail&aid=941033&group_id=37219&atid=419458
+
+http://sourceforge.net/tracker/index.php?func=detail&aid=941076&group_id=37219&atid=419458
+
+http://sourceforge.net/tracker/index.php?func=detail&aid=945820&group_id=37219&atid=419458
+
+There are also assorted other bugfixes, but these are the most
+important ones.  The others were so inconsequential as not to warrant
+bug reports.  See the ChangeLog for details.
+
+Following are summaries of the reported bugs.
+
+
+2) Bug 939028
+=============
+
+Subj: DELETE OBJECTS BY MONADS can cause monad corruption
+
+The statement
+
+DELETE OBJECT BY MONADS = { ... } [OT]
+
+can cause objects' monads to be partially deleted, even if the object
+itself is not deleted.
+
+The problem is that rows are deleted from the OT_monad_ms table based
+on mse_first/mse_last. This is not reliable because an object could
+have some MSEs inside the monad set to be deleted, while also having
+some MSEs outside of the set. Then the MSEs inside the set would get
+erronerously deleted, whereas the MSES outside the set would not. The
+object itself would not get deleted, because the
+first_monad/last_monad columns are used to delete the objects from
+OT_objects.
+
+This all happens in EMdFDB::DropObjectsInMonads().
+
+
+3) Bug 941033
+=============
+
+Subj: DELETE OBJECTS BY MONADS can cause min_m to be 0
+
+There is a bug in EMdFDB::Set_min_max_m_from_object_type() which can
+cause min_m to be set to 0 if the object type in question has no
+objects.
+
+This is a problem, e.g., when calling DELETE OBJECTS BY MONADS, or
+DELETE OBJECTS BY ID_DS and there is at least one object type which
+does not contain any objects.
+
+This is on PostgreSQL. MySQL is not affected.
+
+
+4) Bug 941076
+=============
+
+Subj: Feature cache not used
+
+There is a bug in EMdFDB::add_feature_to_cache_if_not_already_there():
+The logic only adds if it is there already, not if it is not there.
+
+This means that the cache is never filled, since this function is the
+only entry point used for adding features to the cache.
+
+Note that this is not a correctness problem, since the cache always
+remains empty.  It is only a performance problem, as the cache cannot
+be used.
+
+
+
+5) Bug 945820
+=============
+
+Subj: CREATE OBJECT WITH ID_D doesn't update sequence
+
+If one issues a
+
+CREATE OBJECT
+FROM MONADS = {...}
+WITH ID_D = 10200 // this is not NIL or absent
+[blah blah]
+
+then sequence_118_0 doesn't get updated.
+
+This means, e.g., that if one uses mqldump to dump a database, and
+then loads that database again, then sequence_118_0 will still be at
+10000. Thus, when attempting to create a new object, a sequence number
+will be drawn which exists already, and the object cannot be created.
+
+This is quite serious.
+
+Note that this bug also exists prior to 1.1.18, although it is unknown
+how far back.
+
+
+
+Enjoy!
+
+
+Ulrik Petersen
+Emdros maintainer
+
+
+
+
+
+
+
+- *** Version 1.1.18 *** Released April 17, 2004
+
+1) Introduction
+
+This is a bugfix release.  It fixes a memory leak in the lexer. The
+bug was fixed by reverting back from Flex 2.5.31 to Flex 2.5.4.  
+
+The only functional change is that manage_indices and upgrade_db now
+don't connect to the "emdf" database before connecting to the database
+to be managed or upgraded.  This is useful if, for some reason, you
+don't have the emdf database, or can't create it.
+
+
+Enjoy!
+
+
+Ulrik Petersen
+Emdros maintainer
+
+
+
+- *** Version 1.1.17 *** Released April 5, 2004
+
+1) Introduction
+
+This is a bugfix release.  It fixes a bug whereby SheafIterator and
+SheafConstIterator would segfault when created from a failed
+sheaf. 
+
+Also, the iterators' hasNext() methods now play nice with iterators
+which are from a failed sheaf, returning false unconditionally if the
+mother sheaf was a failed sheaf.
+
+This means that you can now always create a (const) iterator from a
+sheaf, then test with hasNext() whether there are any straws to get.
+Simple as that.
+
+
+Enjoy!
+
+Ulrik Petersen
+
+
+
+
+- *** Version 1.1.16 *** Released March 24, 2004
+
+1) Introduction
+
+This is a compatibility release.  It adds support for:
+
+- Debian woody (i.e., gcc 2.95)
+- Debian sid (i.e., flex after 2.5.4a)
+- SWIG 1.3.21
+
+The only functionality change is that regexes are no longer anchored.
+This means that regexes no longer match only from the beginning of the
+string, but from anywhere in the string.
+
+
+Enjoy!
+
+Ulrik Petersen
+
+
+
+- *** Version 1.1.15 *** Released March 6, 2004
+
+1) Introduction
+
+This is a bugfix release. It fixes a nasty bug whereby topographic
+query results would potentially not be correct if the query involved
+at least one standard SQL comparison (=, <>, >, <, >=, <=) on an
+atomic value, AND either a regexp comparison or a comparison on an
+object reference.  For example, the following two queries did not
+retrieve the correct results before:
+
+
+SELECT ALL OBJECTS
+IN { 1-11 }
+WHERE
+[Word as w1 psp = preposition]
+.. < 5
+[Word psp = conjunction or psp = w1.psp ]
+GO
+
+
+SELECT ALL OBJECTS
+IN { 1-11 }
+WHERE
+[Word NOT (psp <> conjunction AND lexeme !~ ">T") ]
+GO
+
+
+Enjoy!
+
+Ulrik Petersen
+Emdros maintainer
+
+
+
+
+
+
+
+- *** Version 1.1.14 *** Released March 2, 2004
+
+News in brief:
+
+1) Introduction
+
+2) Feedback
+
+
+1) Introduction
+===============
+
+This is a bugfix release with small feature enhancements.  
+
+Bugs fixed:
+
+B1) A minor bug was fixed whereby a query would not be executed if it
+    started with whitespace and had no GO at the end.
+
+B2) The hexadecimal and octal conversions in the MQL lexer for
+    "double-quoted strings" (like "\xa0" and "\377") did not
+    work. This has been fixed.
+
+B3) The UPDATE OBJECT TYPE statement did not commit the transaction it
+    started.  It does now.
+
+
+And the enhancements:
+
+E1) GET FEATURES is now faster, especially with many ID_Ds, since the
+    symbol stage no longer checks whether the ID_Ds exist.
+
+E2) SELECT OBJECTS HAVING MONADS IN is now faster if there are more
+    than 100 monad-ranges.
+
+
+
+2) Feedback
+===========
+
+Are you using Emdros?  Or considering doing it?  Any bugs you need
+fixed?  Any feature-requests?
+
+Feedback would be appreciated in the forums:
+
+http://sourceforge.net/forum/?group_id=37219
+
+
+Or at my email address:
+
+ulrikp{a-t}users dot sourceforge dot net
+
+
+Enjoy!
+
+Ulrik Petersen
+
+
+
+- *** Version 1.1.13 *** Released November 17, 2003
+
+News in brief:
+
+1) Introduction
+
+2) Feedback
+
+
+1) Introduction
+===============
+
+This is a bugfix release.  It fixes one major bug whereby one couldn't
+search for STRING features with =, <, >, <=, >=, or <> in a SELECT ALL
+OBJECTS query.  ASCII features worked fine, but not STRINGS.
+
+
+2) Feedback
+===========
+
+Are you using Emdros?  Or considering doing it?  Any bugs you need
+fixed?  What about feature-requests?
+
+Feedback would be appreciated in the forums:
+
+http://sourceforge.net/forum/?group_id=37219
+
+
+Or at my email address:
+
+ulrikp{a-t}users dot sourceforge dot net
+
+
+Enjoy!
+
+Ulrik Petersen
+
+
+
+
+- *** Version 1.1.12 *** Released 7/7-2003
+
+News in brief:
+
+1) Introduction
+
+2) Enumeration constants are now case-sensitive
+
+3) Less memory consumption and other speed improvements
+
+4) You may need to #include <iostream>
+
+5) Feedback
+
+
+1) Introduction
+===============
+
+This release is mostly about enumerations and speed improvements.
+More on both below.
+
+
+2) Enumeration constants are now case-sensitive
+===============================================
+
+Before release 1.1.12, enumeration constants were not case-sensitive.
+This should come as no surprise, since the MQL User's Guide plainly
+said so.  However, this proved to be a problem for one of my users.
+Therefore, this release brings full case-sensitivity to enumeration
+constants.  
+
+In addition, a number of bugs concerning enumerations have been fixed.
+See the ChangeLog for details.
+
+
+3) Less memory consumption and other speed improvements
+=======================================================
+
+This release sees about 7% speed increase on MySQL and 14% speed
+increase on PostgreSQL (at least on my machine).  This is mainly due
+to Emdros now using less memory.
+
+In addition, several other speedups were made.  See the ChangeLog for
+details.
+
+
+4) You may need to #include <iostream>
+======================================
+
+This release rearranges the way <iostream> is #include'd.  It is no
+longer #include'ed in any Emdros .h files.  Therefore, if you
+previously relied on it being #include'ed in an Emdros .h file, you
+may need to add it to your C++ source file.
+
+
+5) Feedback
+===========
+
+Please send comments, suggestions, criticism, etc. to
+
+ulrikp at users.sourceforge.net
+
+or via the forums:
+
+http://emdros.org/contact.html
+
+
+
+- *** Version 1.1.11 *** Released June 10, 2003
+
+News in brief:
+
+1) Introduction
+
+2) No more SWIG RPMs
+
+3) Enhancements
+
+4) SWIG changes
+
+5) Changes to the build procedure
+
+6) Questions? Problems? Success-stories?
+
+
+
+
+1) Introduction
+===============
+
+This release brings a lot of bugfixes and enhancements, as well as
+other changes.  Below we detail some of these.  The full list can be
+found in the ChangeLog.
+
+
+2) No more SWIG RPMs
+====================
+
+SWIG is the "Simplified Wrapper Interface Generator", for wrapping C
+and C++ for use with scripting languages.  SWIG is available from
+www.swig.org.  Emdros supports SWIG bindings for Java, Perl, Python,
+and Ruby.
+
+There hasn't been much interest in the SWIG RPMs for Linux.
+Therefore, they will not be made available for download until further
+notice.  
+
+If you need SWIG RPMs, you can try and build them yourself.  Try "make
+spec2" after configure, which produces .spec files with support for
+SWIG RPMs.  You may need to edit the .spec file if you don't want RPMs
+for all of the four supported languages.
+
+Alternatively, you can write me and complain :-).  I can be reached
+via:
+
+http://emdros.org/contact.html
+
+
+3) Enhancements
+===============
+
+The enhancements come in three categories:
+
+- Speed improvements
+- API improvements
+- program improvements
+
+
+Speed improvements
+------------------
+
+A lot of speed improvements have surfaced in this release.  
+
+- One dramatic one was an improvement in the way PgEMdFConnection and
+  MySQLEMdFConnection fetched data from the backend.  This resulted in
+  an across-the-board speed increase of about 30% on PostgreSQL and
+  50% on MySQL.
+
+- Topographic queries using object references will see speed
+  improvements.
+
+- SELECT OBJECTS HAVING MONADS IN now scales well to thousands of
+  object id_ds.  This was slow on PostgreSQL before.
+
+
+API improvements
+----------------
+
+a) CEmdrosEnv:
+
+There is a new CEmdrosEnv (Emdros environment) class which makes life
+easier for application-programmers who use Emdros to build their
+application.  See the API description online in the Emdros
+Programmer's Reference Guide:
+
+http://emdros.org/progref/page.php?pid=1160
+
+or view the sources:
+
+- include/emdros_environment.h
+- MQL/emdros_environment.cpp
+
+
+b) Iterators
+
+The following classes now have Java-style iterators:
+
+- CTable
+- CSheaf
+- CStraw
+- CMatched_object
+- CSet_of_monad_ms
+
+These iterators are written in C++, but are accessible from the SWIG'ified
+Java interface, as well as the other SWIG'ified interfaces.
+
+
+c) New methods:
+
+- EMdFDB::GetEnumConstNameFromValue() finds the first enum constant
+  name with a given value in a given enumeration.  Use this to
+  translate between the enum value returned by the "GET FEATURES" MQL
+  statement and the textual form of the constant.  
+
+- CEmdrosEnv::GetEnumConstFromValue is a proxy-function calling the
+  EMdFDB method of the same name.
+
+
+program improvements
+--------------------
+
+a) [-V | --version] on all programs
+
+All programs (mql, manage_indices, etc.) now support a -V switch which
+shows the current Emdros version along with the name of the backend.
+
+b) [-n | --nop] on mql
+
+The mql program has a new -n switch which causes it not to produce any
+output.  This is useful for benchmarking the search-part of the MQL
+engine, since outputting megabytes of results takes a long time
+compared to the time it takes to produce the results.
+
+c) New mqldump program
+
+There is a new program, mqldump(1) for dumping an Emdros database in
+MQL.  This generates an MQL script which can later be imported via the
+mql(1) program.  See the manual page (or doc/mqldump.html) for more
+information.
+
+
+4) SWIG changes
+===============
+
+Renaming of modules
+-------------------
+
+The following SWIG modules have been renamed:
+
+- Perl module is now called EmdrosPerl
+- Python module is now called EmdrosPy
+- Ruby module is now called EmdrosRb
+
+
+Java test program
+-----------------
+
+There is a full-featured test program for Java in the SWIG/java
+directory.  It shows not only how to use most of the Emdros API, it
+also shows good Emdros application design (even if it does not show
+good Java design).
+
+
+Python support on Windows
+-------------------------
+
+Python support has been added for Win32.  The binaries include the
+relevant files.
+
+
+
+5) Changes to the build procedure
+=================================
+
+All platforms
+-------------
+
+The dependency on bison, flex, sed, awk, and grep has been removed by
+including the relevant derived sources in the distribution.
+
+
+Win32
+-----
+
+Because there is no longer a dependency on the tools mentioned above,
+the gnuwin32 package, which was available from the Emdros download
+page, is also no longer needed.  
+
+SWIG support for ActiveState Python has been added to Win32.  In order
+to use it, download the win32-emdros-buildtools package and follow the
+instructions in win32/README.txt
+
+
+Solaris
+-------
+
+Better support for the Sun Forte C++ compiler has been added in
+configure.in.  In particular, there were problems with libtool and the
+way it forced the compiler to handle templates.
+
+Also, nawk is now supported in configure.in as well as gawk.
+
+
+Linux
+-----
+
+- The RPM .spec files are no longer created just by running make.
+  Instead, you have to run "make spec".
+
+- A new target has been created in the top-level Makefile.am: spec2.
+  It creates, from emdros.spec2.in, two spec files which create RPMs
+  with the SWIG machinery.  At the same time, emdros.spec.in now
+  reverts to not creating SWIG RPMs.
+
+
+6) Questions? Problems? Success-stories?
+========================================
+
+Got any questions?  Is Emdros not working?  Or is Emdros working for
+you?  Please let us know:
+
+ulrikp ta users.sourceforge.net
+
+Or visit the forums:
+
+http://sourceforge.net/forum/?group_id=37219
+
+
+Enjoy!
+
+Ulrik Petersen
+Emdros maintainer
+
+
+- *** Version 1.1.10.fix1 *** Released Monday, March 17, 2003
+
+News in brief:
+
+1) Introduction
+
+2) Bugfixes
+
+3) If something isn't working
+
+4) Emdros mailinglist
+
+
+
+News in full:
+
+1) Introduction
+===============
+
+This is a bugfix release.  It fixes one trivial but major bug, as well
+as a number of other bugs.
+
+
+2) Bugfixes
+===========
+
+The following bugs were fixed:
+
+a) libpcre_emdros.a was not installed on Linux/SunOS.  This caused
+   inability to link against libmql.
+
+b) A minor bug was fixed which caused GET FEATURES to fail if an enum
+   had been created as the first thing when the database was first
+   initialized, and then that enum was used with GET FEATURES.
+
+c) Some topographic queries would fail with database errors
+   complaining about malformed SQL.
+
+d) A problem was fixed which caused MQL to return incorrect results
+   when object blocks happened to return the same features, but in
+   different orders.
+
+
+3) If something isn't working
+=============================
+
+If something isn't working, please let me know.  I can be reached
+either through e-mail (ulrikp{at}users.sourceforgePARIS.net -- remove
+French city and convert {at} to @), or through the trackers/forums
+available from:
+
+<http://emdros.org/>
+
+
+4) Emdros mailinglist
+=====================
+
+There is an Emdros mailinglist where I announce new releases and other
+bits of information important to Emdros users.  You can
+subscribe/unsubscribe online at:
+
+<http://sourceforge.net/mail/?group_id=37219>
+
+This page also has an archive of past messages.
+
+You don't need to have a SourceForge username to be on the list.  Just
+use your regular e-mail address.
+
+
+Enjoy!
+
+Ulrik Petersen
+
+
+
+- *** Version 1.1.10 *** Released Tuesday, February 25, 2003
+
+News in brief:
+
+1) Introduction
+
+2) Security enhancements
+
+3) Speed improvements
+
+4) Win32 packages more complete
+
+5) RPMs have no debug information
+
+6) Deleting your CEMdFOutput object
+
+7) libpq++ not needed
+
+8) Bugfixes
+
+9) SWIG interfaces for Ruby, Python, and Java
+
+10) Run manage_indices again
+
+11) Mailing list
+
+12) Comments?  Suggestions?  Patches?
+
+
+
+1) Introduction
+===============
+
+This release has three foci:
+
+- Security enhancements
+- Feature enhancements
+- Bugfixes
+
+You can read more about each below, as well as news that is important
+if you have used Emdros before.
+
+
+2) Security enhancements
+========================
+
+This release sees a number of security enhancements:
+
+- All programs now let you choose a database user to connect as with
+  the -u option.  This means you have as much control over access to
+  your Emdros databases as your backend allows.  That is, you can use
+  your backend's user/permissions settings to control access to your
+  Emdros databases.  The default user is still 'emdf'.
+
+- The default password mechanism has been removed, and you cannot turn
+  it back on again.  Use -p on the Emdros programs (such as mql) to 
+  give the password.
+
+- If you do enable the default password, it will be obfuscated in the
+  binary, not stored as cleartext.
+
+- The PostgreSQL connection-abstraction now encrypts the password it
+  holds, so it is not stored as cleartext.
+
+- The MySQL connection-abstraction now doesn't store the password at
+  all.
+
+- Plus a few other security enhancements.  See the ChangeLog for
+  details.
+
+
+3) Speed improvements
+=====================
+
+A lot of changes were made which mostly resulted in speed
+improvements.  A number of benchmark queries were run against our
+testbed database with 440,000 monads and 1.4 million syntactic
+objects.  These tests were run both on MySQL and on PostgreSQL, and
+with 1.1.10pre1 and 1.1.10 for Emdros.  Here are the results:
+
+
+
+              pre1    1.1.10            pre1    1.1.10     
+Query         my      my      %decr     pg      pg      %decr
+------------  ------  ------  -----     ------  ------  -----
+q8.txt:       44.92   25.11   44.1      48.87   32.91   32.7
+revabs.mql:   75.86   47.44   37.5      120.04  106.89  11.0
+ri5.mql:      69.85   30.83   55.9      65.65   46.04   29.9
+ps67.mql:     54.46   15.48   71.6      43.36   22.57   47.9
+quest3-2.mql: 10.39   5.75    44.7      10.00   11.95   -19.5
+quest3-3.mql: 10.28   5.26    48.8      9.30    12.59   -35.4
+q26.txt:      67.35   28.42   57.8      66.32   45.28   31.7
+hapf.mql:     36.03   13.75   61.8      25.66   18.28   28.8
+nimtza.mql:   95.10   46.86   50.7      91.09   61.56   32.4
+nimtza2.mql:  101.05  53.05   47.5      102.46  71.86   29.9
+------------                  ----                      ----
+Average                       52.0                      18.9
+                              ====                      ====
+
+These are times in seconds.
+
+As can be seen, MySQL had consistent speed-improvements of on average
+52%, whereas PostgreSQL generally had speed improvements in the region
+of 30%, with a few queries taking longer than before (though not
+significantly longer; note the small difference in execution times for
+the two queries that took longer).
+
+
+4) Win32 packages more complete
+===============================
+
+As of this release, the win32 "binary" packages include libraries and
+header files as well as binary executables.
+
+Also, the libpcre.lib library on win32 has been renamed to
+"libpcre_emdros.lib".  See the ChangeLog for a rationale.
+
+
+5) RPMs have no debug information
+=================================
+
+As from this release onwards, the RPMs on Linux will have no debug
+information.  When constructing your own application, you will most
+often not want to debug Emdros itself (although any bugreports and
+especially bugfixes would be appreciated ;-) ).  But most users will
+not want the extra bytes.  If you feel like debugging Emdros, you can
+compile it from source, configuring it with --enable-debug, or simply
+remove --disable-debug from the emdros.spec.in file and make your own
+RPMs.
+
+
+6) Deleting your CEMdFOutput object
+===================================
+
+The CMQL_execution_environment destructor used to delete the
+CEMdFOutput object that was handed to the constructor.  It no longer
+does that, meaning that you must delete the CEMdFOutput object
+yourself.
+
+The reasons for this change include:
+
+1) It is more consistent.  The EMdFDB object is not deleted, so the
+   CEMdFOutput object (which is also handed to the constructor, along
+   with the EMdFDB object) should not be deleted either.
+
+2) It may give rise to problems with garbage collection from
+   SWIG'ified interfaces.
+
+The src/mql.cpp program shows an example of How To Do It(TM), and the
+programmer's reference guide has been updated.
+
+
+7) libpq++ not needed
+=====================
+
+Emdros no longer needs libpq++ when using PostgreSQL.  You can leave
+it out of your Makefiles and/or configure scripts.  
+
+This allows easy compilation against PostgreSQL 7.3.x and later, which
+don't include libpq++ by default.
+
+
+8) Bugfixes
+===========
+
+This release also fixes a number of bugs.  Two salient bugs which have
+been fixed are:
+
+- Topographic queries used to not be able to compare 8-bit strings.
+  This has been fixed.
+
+- Comparisons in topographic queries used to work on
+  string-representations of everything, rather than the underlying
+  datatype.  This meant, for example, that 200 < 30, which was clearly
+  not the intention.  This has been fixed.
+
+
+9) SWIG interfaces for Ruby, Python, and Java
+=============================================
+
+This release sees the addition of SWIG support for Python and Java,
+and cleanups of the Ruby SWIG interface.  They are also included as
+RPM binaries for Linux.  This ONLY works on Linux/Sun, not Windows!
+
+Support for Perl bindings is preliminary and experimental, and may not
+work!  You have been warned.
+
+
+10) Run manage_indices again
+============================
+
+This release changes a few indices.  Therefore, it is a good idea to
+issue the following sequence of commands for all your databases:
+
+manage_indices --drop -p <default password> <database name>
+manage_indices --create -p <default password> <database name>
+
+
+11) Emdros mailinglist
+======================
+
+There is an Emdros mailinglist where I announce new releases and other
+bits of information important to Emdros users.  You can
+subscribe/unsubscribe online at:
+
+<http://sourceforge.net/mail/?group_id=37219>
+
+This page also has an archive of past messages.
+
+You don't need to have a SourceForge username to be on the list.  Just
+use your regular e-mail address.
+
+
+12) Comments?  Suggestions?  Patches?
+=====================================
+
+As always, I would be glad to hear from you.  If you use Emdros, or
+have any specific questions or requests, please drop me a line.  The
+e-mail address is:
+
+ulrikp[at]users.sourceforge.net
+
+If you fix a bug in Emdros, or develop new functionality, please share
+your bugfixes/enhancements with the Open Source community by sending
+me the patches.
+
+
+Enjoy!
+
+Ulrik Petersen
+Emdros maintainer
+
+
+
+- *** Version 1.1.10pre1 ***  Released December 19, 2002
+
+This is an interim bugfix release.  It fixes a bug whereby Emdros
+would link against PostgreSQL libraries even when doing a MySQL
+compile on Linux/Solaris.
+
+Win32 users are encouraged to download version 1.1.9 if they need
+binaries.  The changes in this version are Unix-specific, except for
+one minor, unimportant change (see the ChangeLog).  As a result, only
+Linux binaries are provided.
+
+
+Ulrik Petersen
+
+
+- *** Version 1.1.9 ***
+
+News in brief:
+
+1) Introduction
+
+2) License change
+
+3) Bugfixes
+
+4) Examples
+
+
+Introduction
+============
+
+This release is a bugfix release.  In addition, we have taken the
+opportunity to change the license from the BSD License to the GNU GPL.
+See below for more information.
+
+
+License change
+==============
+
+From this release onwards, Emdros is being released under the GNU GPL
+rather than the BSD License.  If the change brings any problems for
+you, please write to me at ulrikp[at]users.sourceforge.net and we may
+be able to negotiate other licensing terms.
+
+If you wish to negotiate commercial licensing, please write to me at
+the address given above.
+
+Licensing can also be negotiated if your organization is an
+educational, non-profit, charity, missionary or similar organization.
+
+
+Bugfixes
+========
+
+This release fixes a number of bugs.  The full details are in the
+ChangeLog, but here are some highlights:
+
+- If parts of a query had nothing to return because there were no
+  objects in the database that matched its criteria, the mql program
+  would exit with a BadMonadsException.  Now Emdros does what it is
+  supposed to in such circumstances -- i.e., return empty results for
+  that part of the query -- instead of exiting with an exception.
+
+- A number of potential buffer overflows have been fixed.  It is
+  unknown whether they posed any security risk, but better safe than
+  sorry.
+
+
+Examples
+========
+
+There is a new examples/ directory, giving a number of examples of how
+to use Emdros.  There isn't much there yet, and no code to compile.
+Just some queries and database schemas to study.
+
+
+- *** Version 1.1.8 ***
+
+News in brief:
+
+1) Introduction
+
+2) Speed improvements
+
+3) Shared libraries on Unix
+
+4) RPMs
+
+5) Concurrent Emdros
+
+6) VACUUM statement
+
+7) Emdros (not) on Cygwin
+
+8) Bugfixes
+
+9) Minor improvements
+
+10) Emdros announcement list
+
+11) Feedback appreciated
+
+
+News in full:
+
+
+1) Introduction
+===============
+
+This release has both feature-enhancements and bugfixes.  The
+feature-enhancements are more important than the bugfixes, so they
+will be treated at more length here.
+
+NOTE that you have to run the upgrade_db tool on any existing Emdros
+databases.  Please see the section "Concurrent Emdros" below.
+
+
+2) Speed improvements
+=====================
+
+One of the algorithms for querying has been improved, resulting in
+fewer SQL queries sent to the backend, resulting in higher performance
+on most classes of queries.
+
+The performance increase is most noticeable where you have queries
+such as the following:
+
+[Phrase
+    function = Predicate
+    [Word
+       psp = Verb and number = singular
+    ]
+]
+
+where the outer block, Phrase, incurs a sparse set of hits (not all
+phrases are predicates), which is then used as the basis for finding
+the inner Words.  The old algorithm for this issued far too many SQL
+queries.  The new algorithm issues very few SQL queries, which on the
+other hand may have to look through more data.
+
+One query, which took 2 hours 29 minutes to run without the speed
+improvement, now takes 1 minutes 30 seconds to run.  See the ChangeLog
+for the hardware specs behind this.
+
+
+
+3) Shared libraries on Unix
+===========================
+
+This release sees the advent of shared libraries on Unix.  They are
+installed in ${prefix}/lib/emdros, where ${prefix} is what you gave to
+./configure with the --prefix=DIR option.  By default, this is
+/usr/local, so the libraries are installed in /usr/local/lib/emdros by
+default.
+
+In order to use them in your own programs, do the following:
+
+- Either:
+
+  - Set the LD_LIBRARY_PATH environment variable to include
+    ${prefix}/lib/emdros, or
+
+  - Add ${prefix}/lib/emdros to /etc/ld.so.conf and run
+    /sbin/ldconfig.
+
+- Link your programs against the libraries.  You will need the
+  following libaries:
+
+  - libemdf.so
+  - libmql.so
+  - Either:
+    - For PostgreSQL support:
+      - libpgemdf.so 
+      - libpq.a           (included with PostgreSQL)
+      - libpq++.a         (included with PostgreSQL)
+    - For MySQL support:
+      - libmysqlemdf.so 
+      - libmysqlclient.a  (included with MySQL)
+
+Note that you do NOT need to link against the libpcre.a any more.  It
+is now included in the libmql.* libraries.
+
+
+4) RPMs
+=======
+
+This release sees the possibility of building RPMs on Linux, and
+possibly on other operating systems (e.g., FreeBSD).  The two files
+emdros-postgresql-${version}.spec and emdros-mysql-${version}.spec are
+built when running make in the top-level source directory (${version}
+is replaced with the actual version, such as 1.1.8).
+
+These .spec files will create two packages, emdros-postgresql and
+emdros-mysql.  You cannot have both installed on a single machine at
+the same time.  This is because the programs must be linked against
+either the MySQL libraries or the PostgreSQL libraries, and they
+cannot be linked against both at the same time.
+
+Both packages include the libraries and header files necessary for
+development.
+
+The binary RPMs released are for RedHat 8.0.  If you use another
+system, maybe you should try the source RPM instead:
+
+% rpmbuild --rebuild emdros-${emdros-version}-${package-release}.src.rpm
+% rpm -ivh /path/to/rpms/emdros-${back-end}-${emdros-version}-${package-release}.i386.rpm
+
+"/path/to/rpms" is "/usr/src/redhat/RPMS/i386" on RedHat.
+
+
+5) Concurrent Emdros
+====================
+
+This release makes Emdros concurrent.  Up to and including 1.1.7,
+there were issues with concurrently issuing CREATE OBJECT statements,
+though all other aspects of Emdros were able to run concurrently.
+This release fixes this bug, but it does mean that you have to run the
+upgrade_db tool on already-existing databases.  The changes made to
+the database are really small, and no data are lost.
+
+
+6) VACUUM statement
+===================
+
+There is a new MQL statement:
+
+VACUUM [DATABASE] [ANALYZE]
+GO
+
+This will issue an SQL VACUUM query on PostgreSQL and will be ignored
+on MySQL.
+
+The DATABASE and ANALYZE keywords are both optional.  The DATABASE
+keyword doesn't do anything.  The ANALYZE keyword specifies that
+PostgreSQL must ANALYZE as well as VACUUM.  See the PostgreSQL
+documentation for what this does.
+
+The significance of this statement is that while populating a
+database, it is a good idea to run a VACUUM statement periodically,
+since this increases performance.  This could be done, e.g., after
+every 1000 objects that have been added.
+
+
+7) Emdros (not) on Cygwin
+=========================
+
+As of 1.1.8, Emdros no longer supports compilation on Cygwin.  Use
+Visual C++ for compilation on Win32.
+
+
+8) Bugfixes
+===========
+
+This release also sees some bugfixes.
+
+The most glaring one was that before 1.1.8, XML output had a serious
+problem with text which contained either "<" or "&".  These were
+supposed to have been replaced by "&lt;" and "&amp;" respectively, but
+they were replaced by "&amp;" and "&lt;" respectively, thus
+effectively switching the two around in the output.  The replacement
+is now done correctly.
+
+Before this release, Emdros was not really meant to be installed on a
+machine.  The author used it by linking his programs against the
+libraries as they were built in the sourcetree, and used the include/
+directory of the sourcetree.
+
+With this release, Emdros is fully able to be installed and used from
+the install location.  This is also true for the headers to be
+included in C++ development.
+
+The following headers are now installed in addition to the ones that
+were installed before:
+
+- mql_error.h
+- mql_execute.h
+- mql_types.h
+- mql_extern.h
+- emdros-config.h
+- emdros-lconfig.h
+
+The following headers are not installed as from this release onwards:
+
+- pcre.h
+- utils.h
+- emdf_wstring.h
+
+If you have installed Emdros before, be sure to clean out the
+${prefix}/include/emdros directory by removing all files, before
+installing Emdros again.
+
+Note that emdros-config.h and emdros-lconfig.h were called config.h
+and lconfig.h respectively before.
+
+
+9) Minor improvements
+=====================
+
+- Emdros now supports all iso-8859-X encodings.  Just pass the right
+constant, defined in <emdf_output.h>, to the CEMdFOutput constructor.
+
+
+10) Emdros announcement list
+============================
+
+There is an announcement mailing list on which I announce major events
+related to Emdros.  The mailing list is very low-volume.  
+
+To subscribe, send an empty e-mail to:
+emdros-announce-request@lists.sourceforge.net with the subject
+'subscribe' (without the quotes).  Or alternatively, visit
+<URL:https://lists.sourceforge.net/lists/listinfo/emdros-announce>.
+
+Note that you can only subscribe to this list with a SourceForge.Net
+e-mail address.  If you aren't yet a user at sourceforge.net, you can
+quickly become one by visiting <URL:http://sourceforge.net>.  It's
+free.
+
+
+11) Feedback appreciated
+========================
+
+I would appreciate feedback from users.
+
+If you are using Emdros for anything, please drop me a line saying so.
+On the other hand, if you would have liked to use Emdros, but can't or
+won't because something is missing or broken, I would also welcome
+hearing about it.
+
+If you have any requests or questions or bugreports or other feedback,
+please don't hesitate to send me an e-mail:
+
+ulrikp@users.sourceforge.net
+
+
+
+
+- *** Version 1.1.7 ***
+
+News in brief:
+
+1) Bugfixes
+
+2) Speed improvements
+
+3) Enumerations are now namespaces
+
+4) Additions to "HOW-TO-USE" document
+
+
+1) Bugfixes
+===========
+
+Introduction
+------------
+
+This release has bugfixes in three major areas: Feature comparisons,
+the power construct, and memory leaks.  Below, we look at each of
+these.
+
+
+Feature comparisons
+-------------------
+
+This release fixes a bug which caused many queries of the "SELECT
+(ALL|FOCUS) OBJECTS"-kind not to return any results.  This bug
+manifested itself when feature comparisons did not mention the
+features in alphabetical order.  For example, the following query did
+return results:
+
+select all objects where
+[word
+   gender = masculine
+   and
+   psp = proper_noun
+]
+go
+
+whereas the following didn't:
+
+select all objects where
+[word
+   psp = proper_noun
+   and
+   gender = masculine
+]
+go
+
+Thanks to Hendrik Jan Bosman (hjb at th dot vu dot nl) for finding and
+reporting this bug.
+
+
+Power construct
+---------------
+
+Also, two bugs relating to the power construct in "SELECT (ALL|FOCUS)
+OBJECTS" queries have been fixed.  Take, for example, the following
+query:
+
+SELECT ALL OBJECTS
+WHERE
+[Sentence
+  [Clause as c]
+  ..
+  [Clause mother = c.self]
+]
+
+This query is supposed to find, within the context of a sentence, two
+clauses where the second has the first as its mother, with arbitrary
+space in between.
+
+A bug was fixed that caused the .. to include at least 1 monad of
+space in between the first and the second clause.  Now the space can
+be 0 monads as well, meaning that it will find adjacent objects as
+well as those separated by 1 or more monads.
+
+The second bug related to restrictors or limits on the number of
+monads in between.  Take, for example, the above query with an added
+restrictor:
+
+SELECT ALL OBJECTS
+WHERE
+[Sentence
+  [Clause as c]
+  .. <= 5
+  [Clause mother = c.self]
+]
+
+This simply did not work.  It would find clauses that were separated
+by _more_ than 5 monads, not less than or equal to five monads.  This
+bug has been fixed so that things now work as designed.
+
+
+
+Memory leaks
+------------
+
+This release sees the fixing of some minor memory leaks. See the
+ChangeLog for details.  For this bugfixing, valgrind was
+used. Valgrind is a superb tool for detecting memory-problems on
+x86-Linux platforms.  See <http://developer.kde.org/~sewardj/> for
+more information.
+
+
+
+2) Speed improvements
+=====================
+
+This release sees major speed improvements for certain classes of
+queries.  If a query involves nested objects with a high degree of
+monad-fragmentation (i.e., the inner object(s) are to be found in many
+different monad-segments, because, e.g., the outer objects have some
+sort of restriction on their features), then this release speeds up
+those queries.  For example, take the following query:
+
+select all objects 
+where
+[clause_atom
+   clause_atom_type = ct_WayX
+   [phrase focus
+      function = Subj
+   ]
+]
+go
+
+On previous releases, this query would take 96.45 minutes to complete
+on a 700MHz Pentium III.  This was due to an inefficient strategy,
+where the backend database was queried thousands of times. With this
+release, those thousands of queries have been gathered together in a
+few large queries.  As a result, this query now takes 3.70 minutes to
+complete on the same hardware.
+
+This illustrates a principle that is general to application design on
+top of Emdros as well as being appliccable to internal Emdros design:
+Minimize the number of queries to maximize throughput.  A section
+expounding this principle has been added to the doc/HOW-TO-USE
+document (see below).
+
+
+
+3) Enumerations are now namespaces
+==================================
+
+With this release, it becomes possible to have enumeration constants
+with the same name in different enumerations.  Before this release,
+enumerations had to be globally unique.  With this release, the only
+restriction on uniqueness is that the constants be unique _within_ an
+enumeration.
+
+A section has been added to the MQL User's Guide, at the beginning of
+Chapter 3, detailing the various namespaces that exist in the MQL
+language.
+
+
+
+4) Additions to "HOW-TO-USE" document
+=====================================
+
+This release adds three useful sections to the doc/HOW-TO-USE
+document:
+
+- Minimize the number of queries (to maximize throughput)
+- A strategy for display of query results
+- An in-memory EMdF database
+
+
+
+- *** Version 1.1.6 ***
+
+News in brief:
+
+1) New statement
+2) MQL User's Guide changes (XML output has been implemented)
+3) Monad sets document
+
+
+News in full:
+
+
+1) New statement
+================
+
+This release sees the addition of a new statement, "SELECT OBJECTS
+HAVING MONADS IN" some monad set.  This statement is much like the
+existing SELECT OBJECTS AT statement, but instead of selecting the
+objects that have a given monad, it selects the objects that have at
+least one monad in a specified monad set.  This can be done for just
+one specified object type, or it can be done for "ALL" object types.
+The latter is useful for finding out exactly what objects are at a
+given monad, even if one does not know their object type.
+
+This is major news, especially if you are currently using Emdros for
+an application that displays the results of queries.  In that case,
+you are most likely relying on the SELECT OBJECTS AT statement to
+return the id_ds of objects that are necessary for the display of the
+query results, but which weren't in the query results.  This can be
+slow, especially if the query result contains many monads, since one
+must invoke the MQL query engine a lot of times, each time generating
+at least one SQL statement.
+
+With this new statement, you can get all of the necessary objects for
+a particular object type with one query.  This should be significantly
+faster.
+
+
+2) MQL User's Guide changes (XML output has been implemented)
+=============================================================
+
+Up until this release, the MQL User's Guide erroneously stated that
+XML output had not yet been implemented.  XML output was implemented
+quite some time ago.  We apologize for any inconvenience caused by the
+erroneous statement.
+
+Also, chapters 1 and 2 have been proof-read and accordingly updated.
+
+
+3) Monad sets document
+======================
+
+This release also sees the advent of a new document, entitled "Monad
+Sets -- Implementation and Mathematical Foundations".  It gives an
+introduction to an efficient way of implementing monad sets.  Use this
+if you wish to implement monad sets in a language other than C++, or
+if you want to find out what underlies the C++ implementation in
+Emdros.
+
+
+
+
+- *** Version 1.1.5 ***
+
+News in brief:
+
+1) This is a bugfix release
+
+2) You must upgrade your databases
+
+
+
+
+News in full:
+
+
+1) This is a bugfix release
+===========================
+
+The focus of this release is bugfixes, although there are a few minor
+feature-enhancements.  
+
+Bugfixes:
+
+- A major memory leak was fixed, which caused the mql subsystem to
+  crash on particularly large queries.
+
+- SELECT (FOCUS|ALL) OBJECTS now actually obeys restriction of Su
+  with the USING SEGMENT clause.
+
+- SELECT (FOCUS|ALL) OBJECTS now actually works within the
+  confines of all_m-1, as advertised in the User's Guide.
+
+- A minor bug in weeding object blocks for first/last usage was
+  squashed.
+
+
+Enhancements:
+
+- Emdros databases now keep track of the smallest monad and the
+  largest monad in use in the database.  These monads are called min_m
+  and max_m respectively.  This is useful when querying databases with
+  certain types of queries, since this will now occur within the
+  confines of the actual monads in the databases (also called
+  all_m-1), and won't just go on indefinitely into the monad sequence.
+
+- Two new MQL statements return min_m and max_m (SELECT MIN_M and
+  SELECT MAX_M respectively).
+
+- One minor enhancement relating to the feature "self".  See the
+  ChangeLog for details.
+
+- The tests/emdftry program now stops after the first error.  It also
+  tests retrieval of min_m and max_m, as does tests/mqltry.
+
+
+2) You must upgrade your databases
+==================================
+
+Because of the new min_m/max_m capabilities, you must upgrade your
+Emdros databases to include the new tables for min_m/max_m.  You can
+safely and without loss of information do this using the upgrade_db(1)
+tool found in the src/ directory.  See the manual page (in doc/) for
+details.
+
+The upgrade_db tool also upgrades databases created with Emdros prior
+to version 1.1.0.  Such an upgrade is more drastic and takes more
+time, and something could go wrong if, e.g., your computer has a power
+outage in the middle of the operation.
+
+It is, of course, recommended that you backup your databases before
+running the upgrade_db tool, but the transition from 1.1.0-compatible
+databases to 1.1.5-compatible is really minor.  Again, see the manual
+page for details.
+
+
+
+
+
+- *** Version 1.1.4 ***
+
+1) MQL User's Guide almost finished
+
+2) Feature-enhancements
+
+3) Comments in MQL queries
+
+3) Bugs fixed
+
+4) Binaries for Windows
+
+
+1) MQL User's Guide almost finished
+===================================
+
+This release adds an MQL User's Guide that is almost finished!  It
+still has the comment in the abstract about it not being finished, but
+it really is almost done.
+
+
+2) Feature enhancements
+=======================
+
+This release has the following feature-enhancements:
+
+- MQL can now have comments (see below).
+- New MQL statement: MONAD SET CALCULATION.  See the MQL User's Guide
+  for details.
+- All programs now accept --host and --password command-line switches.
+- Added man pages for emdftry(1) and mqltry(1).
+- Now builds with Visual C++ under Win32.  See INSTALL.Win32.
+
+
+3) Comments in MQL queries
+==========================
+
+This release adds support for comments in MQL queries.  In particular,
+both C-style and C++-style comments are supported.  C-style comments
+look like this:
+
+/* This is a C-style comment.  It starts with a slash-star.
+   It may extend over several lines, and ends with star-slash. */
+
+C++ style comments look like this:
+
+// This is a C++ style comment. It starts with slash-slash.
+
+// This is another C++ style comment.  It ends at newline.
+
+
+4) Bugs fixed
+=============
+
+Bugs fixed:
+
+- "first" and "last" specifiers on object blocks now actually work.
+
+
+
+5) Binaries for Windows
+=======================
+
+This release also provides binaries for Windows.  Please see
+INSTALL.Win32 for details.
+
+The binaries have been tested with the following versions of the
+backends:
+
+- PostgreSQL 7.2.1
+- MySQL 3.23.49
+
+Other versions may or may not work.
+
+Unlike the binaries released with Emdros version 1.1.3, these binaries
+do not require CygWin to be present.
+
+
+Please note that provision of binaries is an experiment.  We may or
+may not provide binaries in the future.
+
+
+
+- *** Version 1.1.3 ***
+
+News in brief:
+
+1) This is a bugfix release
+
+2) Binaries for Windows
+
+3) Enabling or disabling debugging information
+
+
+1) This is a bugfix release
+===========================
+
+This release fixes a nuber of small bugs, one of which caused the
+mql(1) program not to work with stdin when compiled with some versions
+of gcc.  See the ChangeLog for details.
+
+
+2) Binaries for Windows
+=======================
+
+This release also provides binaries for Windows.  Please see
+INSTALL.Win32 for details.
+
+The compiled binaries use the following software, available for free
+from: http://www.cygwin.com/:
+
+- PostgreSQL 7.2.1
+- CygWin 1.3.10
+
+other versions may or may not work.
+
+You need to download this in order to use Emdros on Windows, as well
+as possibly a number of other packages from the CygWin distribution.
+
+Please note that provision of binaries is an experiment.  We may or
+may not provide binaries in the future.
+
+
+3) Enabling or disabling debugging information
+==============================================
+
+This release enables you to turn debugging on or off by using the
+--enable-debug or --disable-debug switch with the ./configure script.
+This release also honors any CXXFLAGS or CFLAGS environment variable
+you may have set.
+
+
+
+- *** Version 1.1.2 ***
+
+News in brief:
+
+1) This is a bugfix release
+
+2) Binaries for Windows
+
+3) How to use Emdros
+
+4) Feedback appreciated
+
+
+1) This is a bugfix release
+===========================
+
+This is a bugfix release which makes it easier to compile on various
+platforms, including Cygwin on Windows.  Support for bison version
+1.35 has been added.  Also, PCRE has been upgraded to version 3.9.
+There are one or two feature-enhancements.  See the ChangeLog for full
+details.
+
+
+2) Binaries for Windows
+=======================
+
+This release is also released as binaries for Windows.  The binaries
+make use the following software:
+
+- Cygwin 1.3.10
+- PostgreSQL 7.2.1
+
+Both are freely available from www.cygwin.com.
+
+Other versions may or may not work.
+
+Be sure to follow the instructions in doc/bootstrapping.txt, as well
+as some of the instructions in INSTALL and INSTALL.Win32.  Even though
+you don't need to compile Emdros yourself with this binary release,
+you will need to follow some of the instructions in those files.
+
+This release is an experiment.  We may or may not release
+Windows-binaries for future versions of Emdros.
+
+
+3) How to use Emdros
+====================
+
+There's a new file in the doc/ directory, HOW-TO-USE for your reading
+pleasure.
+
+
+4) Feedback appreciated
+=======================
+
+Something doesn't work?  You'd like to see some new feature?  You'd
+like to know how to use Emdros?  Send the author an e-mail at
+ulrikp@users.sourceforge.net, or ask questions in the fora at:
+
+http://sourceforge.net/projects/emdros
+
+
+
+- *** Version 1.1.1 ***
+
+News in brief:
+
+1) New MQL statement: GET MONADS
+
+2) New command-line switches for mql(1)
+
+3) If upgrading from a prior version
+
+4) Tips for importing data on PostgreSQL
+
+5) Join the emdros-announce list
+
+
+
+1) New MQL statement: GET MONADS
+================================
+
+This release adds a new MQL statement to the MQL language.  For
+example:
+
+GET MONADS
+FROM OBJECTS
+WITH ID_DS = 82854, 82950, 85021
+[Clause]
+
+This will return a table with the monad-sets making up the objects of
+the object-type "Clause" which have the id_ds specified.  See the MQL
+User's Guide for details.
+
+
+
+2) New command-line switches for mql(1)
+=======================================
+
+The mql(1) program now has three new command-line options:
+
+ --help                (which shows a help summary on stdout)
+ -d , --dbname dbname  (which sets the initial database)
+ -h , --host hostname  (which specifies which db back-end host to
+                        connect to)
+
+See the man page for details, or do
+
+  $ mql --help
+
+
+3) If upgrading from a prior version
+====================================
+
+If upgrading from a version prior to 1.1.0, please see the NEWS for
+1.1.0, below.
+
+
+4) Tips for importing data
+==========================
+
+We have imported a large corpus of syntactically analyze text into a
+local Emdros database.  The database consists of about 425000 words
+(and so about 425000 monads), and about 1.4 million syntactic objects
+(phrases, clauses, etc.).  
+
+We have naturally gathered some experience importing large amounts of
+data.  Here are the most important insights.  Most of them pertain to
+PostgreSQL only, but the first ones apply equally to MySQL.
+
+1) Create an MQL "schema" file, which contains all the CREATE ENUM and
+   CREATE OBJECT TYPE statements needed to bootstrap the database.
+   Then run this schema file through the mql(1) program.
+
+2) Use MQL's features for importing, such as CREATE OBJECT.  This is
+   far easier than using the EMdFDB interface.
+
+3) On PostgreSQL, it is a good idea to import within transactions.
+   This is also mentioned in the PostgreSQL manual: It allows
+   PostgreSQL not to commit after every INSERT.  Use
+   EMdFDB::BeginTransaction and its brethren to accomplish this.
+
+4) On PostgreSQL, it is a _very_ good idea to do a VACUUM on the
+   database periodically, say after every 2000 objects.  There is now
+   a function, EMdFDB::Vacuum(bool bAnalyze) which accomplishes this.
+   We found that this speeded import-times by about a factor 10 if it
+   was done regularly.
+
+
+
+5) Join the emdros-announce list
+================================
+
+An announce-mailinglist for Emdros exists.  By joining this list, you
+will be among the first to hear about new Emdros releases and new
+documentation-releases, and possibly other pertinent news.  This
+mailinglist won't be high-volume, and it is easy to get off the list
+again.
+
+To subscribe, send an empty e-mail to:
+emdros-announce-request@lists.sourceforge.net with the subject
+'subscribe' (without the quotes).  Or alternatively, visit
+<URL:https://lists.sourceforge.net/lists/listinfo/emdros-announce>.
+
+Note that you can only subscribe to this list with a SourceForge.Net
+e-mail address.  If you aren't yet a user at sourceforge.net, you can
+quickly become one by visiting <URL:http://sourceforge.net>.
+
+
+
+
+- *** Version 1.1.0 ***
+
+News in brief:
+
+1) You must *upgrade* databases created with a previous version of
+   Emdros for use with this release.
+
+2) New tool for managing indices
+
+3) Emdros now supports XML output.
+
+4) PgEMdFDB has a new constructor-interface.
+
+5) mql(1) can now be used as a daemon.
+
+6) EMdFDB has a changed interface.
+
+7) PostgreSQL users should give the user 'emdf' a password.
+
+8) New tool for changing the default password.
+
+9) Join the Emdros-announce list.
+
+10) Feedback would be appreciated!
+
+
+
+1) Upgrading old databases
+==========================
+
+NOTE: YOU MUST UPGRADE ANY DATABASES CREATED WITH A PREVIOUS VERSION
+      OF EMDROS IN ORDER TO USE THEM WITH THIS RELEASE.
+
+This release brings some news which affect database structure.
+Specifically:
+
+- The objects table is now no longer needed.
+
+- The OT_monad_ds tables are no longer needed.
+
+- The OT_monad_ms tables have gotten a new attribute, namely
+  'is_first', taking over the job of the attribute 'starts_here' in
+  the old OT_monad_ds tables.
+
+- Indices are created on OT_objects and OT_monad_ms.
+
+- The sequences table has been split into two tables, sequence_0 and
+  sequence_1, which hold the object id_ds and other ids respectively.
+  This is a HUGE performance-increase for inserting objects on
+  PostgreSQL, on the order of 1300%!
+
+- When creating new databases, the OT_monad_ms table now no longer has
+  a PRIMARY KEY of (monad_ms_id, mse_first, mse_last), but only
+  (monad_ms_id).  This should give a slight performance increase on
+  new databases.
+
+This means that you must *upgrade* any databases you have created with
+previous versions of Emdros, or alternatively start from scratch.  A
+utility to upgrade safely is provided ('upgrade_db') in the src/
+directory.  Usage:
+
+$ src/upgrade_db database-name
+
+where database-name is the name of the database you want to upgrade.
+
+It is suggested that you make a BACKUP of your data before attempting
+the upgrade.  See the PostgreSQL/MySQL documentation for how to do
+this.
+
+If running PostgreSQL, it is suggested that you "VACUUM" the database
+after the upgrade.  See the PostgreSQL documentation for how to do
+this.
+
+
+2) New tool for managing indices
+================================
+
+There is a new tool, manage_indices, in src/, for creating and
+dropping indices on the object types of an Emdros database.  Please
+see the manage_indices(1) man-page for details.  The upgrade_db tool
+puts the indices on the tables belonging to all of the object types.
+
+The manage_indices utility can be used for dropping indices before a
+long database-population job, and then to recreate the indices after
+the database has been populated.
+
+
+3) Emdros now supports XML output
+=================================
+
+The subsystem that has to do with output has been revamped so that it
+now supports XML-output.  
+
+The XML output is self-documenting, with a standalone DTD.
+
+The mql(1) front-end to the MQL language now has a new interface which
+allows selection of XML or console-output.  Please see the mql(1)
+man-page for details.
+
+The MQL/mql_execution_environment.cpp constructor has a new interface.
+It no longer takes a stream as an argument, but a pointer to a
+CEMdFOutput object.  This means you should bring any program using
+this interface up to date.
+
+
+4) PgEMdFDB has a new constructor-interface
+===========================================
+
+This release brings a change in how the PgEMdFDB object is
+constructed.  Please see EMdF/pgemdfdb.h for the signature, and
+src/mql.cpp for an example of how to use it.
+
+This means that you will have to change your sources that use the
+PgEMdFDB::PgEMdFDB constructor.  The upgrade is easy -- no big deal --
+it just needs to be done.
+
+
+5) mql(1) can now be used as a daemon
+=====================================
+
+There is now rudmentary support for using the mql(1) program as a
+daemon in conjunction with xinetd or inetd.  The doc/ directory
+contains a samle xinetd.conf snippet, xinetd.mql.  Note that you will
+need to edit this file, before using it, to suit your local system.
+
+There is now a new MQL statement, QUIT.  Any statements after this
+statement will be ignored.  The mql(1) program stops executing its
+input stream after it has executed this command.  Thus this can be
+used as a means of shutting down the connection to the MQL daemon.
+
+Also, when the output-type is XML, there will be an
+<mql_progress>...</mql_progress> element whose contents are dots.  The
+dots show the progress of executing a statement that takes long.
+However, this is only shown for SELECT OBJECTS statements, and there
+is no guarantee of when the next dot will arrive.  Thus this cannot be
+used as a timeout measurement means.  See the emitted standalone DTD
+for where in the XML stream the <mql_progress> element is emitted.
+
+
+6) EMdFDB has a changed interface
+=================================
+
+EMdFDB now uses const std::string& instead of const char* for all of
+its interface functions.  This is important if you have written
+something that uses the raw EMdFDB interface.
+
+
+7) PostgreSQL users should give user 'emdf' a password
+======================================================
+
+PotsgreSQL users are advised that the programs now by default assume
+that the PostgreSQL user 'emdf' has password 'changeme'.
+
+You can give an already-existing emdf user a password by issuing this
+command from within psql:
+
+# ALTER USER emdf WITH PASSWORD 'changeme';
+
+I suggest you choose something other than 'changeme' and likewise
+change the passwords in the program files:
+
+src/mql.cpp
+src/upgrade_db.cpp
+src/manage_indices.cpp
+tests/emdftry.cpp
+tests/mqltry.cpp
+
+
+8) New tool for changing the default password
+=============================================
+
+There is now a small shellscript in the root directory of the
+distribution for automatically changing the default password to
+something of your choice.  See the shellscript './change_password.sh'
+for how to use this.
+
+
+9) Join the emdros-announce list
+================================
+
+A new announce-mailinglist for Emdros has been set up.  By joining
+this list, you will be among the first to hear about new Emdros
+releases and new documentation-releases, and possibly other pertinent
+news.  This mailinglist won't be high-volume, and it is easy to get
+off the list again.
+
+To subscribe, send an empty e-mail to:
+emdros-announce-request@lists.sourceforge.net with the subject
+'subscribe' (without the quotes).  Or alternatively, visit
+<URL:https://lists.sourceforge.net/lists/listinfo/emdros-announce>.
+
+Note that you can only subscribe to this list with a SourceForge.Net
+e-mail address.  If you aren't yet a user at sourceforge.net, you can
+quickly become so by visiting <URL:http://sourceforge.net>.
+
+
+10) Feedback would be appreciated!
+==================================
+
+If you are using Emdros for anything, we would like to know about it.
+On the other hand, if you would have liked to use Emdros, but can't or
+won't because something is missing or broken, we would also like to
+know about it.
+
+If you have any requests or questions or bugreports or other feedback,
+please drop us a line at
+
+ulrikp@users.sourceforge.net
+
+
+- *** 13 July 2001 ***
+
+No news at this time
+

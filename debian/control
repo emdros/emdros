@@ -1,0 +1,19 @@
+Source: emdros
+Section: Text
+Priority: extra
+Maintainer: Ulrik Sandborg-Petersen <ulrikp@emdros.org>
+Build-Depends: debhelper (>= 9), autotools-dev, libwxgtk2.8-dev | libwxgtk3.0-dev, libwxgtk2.8-dev | libwxgtk-media3.0-dev
+Standards-Version: 3.9.2
+Homepage: http://emdros.org/
+#Vcs-Git: git://git.debian.org/collab-maint/emdros.git
+#Vcs-Browser: http://git.debian.org/?p=collab-maint/emdros.git;a=summary
+
+Package: emdros
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Emdros is a text database engine for analyzed or annotated text
+  Emdros is a text database engine for storage and retrieval of
+  annotated or analyzed text. Application domains include linguistics,
+  publishing, and text processing, with corpus linguistics being the
+  main target domain. Emdros has a powerful query-language for
+  create/retrieve/update/delete operations.

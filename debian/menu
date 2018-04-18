@@ -1,0 +1,6 @@
+?package(emdros):\
+  needs="X11" section="Applications/Office"\
+  title="Emdros Query Tool" command="/usr/bin/eqtu"
+?package(emdros):\
+  needs="X11" section="Applications/Office"\
+  title="Emdros Import Tool" command="/usr/bin/importtoolu"

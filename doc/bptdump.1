@@ -1,0 +1,118 @@
+.\" Man page for bptdump
+.\" Use the following command to view man page:
+.\"
+.\"  tbl bptdump.1 | nroff -man | less
+.\"
+.TH BPTDUMP 1 "July 22, 2012"
+.SH NAME
+bptdump \- A utility to dump an Emdros database as a Bit Packed Table
+.SH SYNOPSIS
+\fBbptdump\fR [ options ] -d database-to-dump bptfilename
+.br
+\fBbptdump\fR [ options ] 
+.br
+.SH DESCRIPTION
+\fBbptdump\fR is a utility to dump an Emdros database created with one
+of the "other" backends as a BPT (Bit Packed Table) database, suitable
+for the BPT engine.
+.TP
+The BPT engine is a lightweight backend database engine that is
+tailored to the EMdF model which Emdros implements.  It is much faster
+than the other backends, and creates databases that are smaller than
+the other backends.  It is proprietary, not Open Source.
+.TP
+Please contact Ulrik Sandborg-Petersen, the author of Emdros, for more
+information about the BPT engine, including licensing options.  You
+may reach him via: <ulrikp{at}emergence[dot]dk> (address obfuscated to
+avoid spammers; sorry to everyone else...).
+.TP
+In the Open Source version of Emdros, the \fBbptdump\fR utility does
+nothing beyond report an error.  The program only does something
+useful in the proprietary version.
+.TP
+The BPT engine has the ability to have, within the same file, two BPT
+databases: One which is the "main" database, and one which is a
+"payload", i.e., a compressed version of a secondary database.  The
+payload cannot be read as part of the main database, but it can be
+dumped into another file, using on-the-fly encryption if need be,
+using the method BPTEMdFDB::dumpPayload().
+
+.SH OPTIONS
+\fBbptdump\fR supports the following command-line switches:
+.TP 6
+.BI \-\-help
+show help
+.TP
+.BI \-V\ ,\ \-\-version
+show version
+.TP
+.BI \-d\ ,\ \-\-dbname \ dbname 
+set name of the database to dump.  
+.TP
+.BI \--key\ key
+set the key with which to encrypt the BPT database
+.TP
+.BI \-pd\ ,\ \-\-payload\-db \ dbname 
+set name of any payload database to compress and add to the end
+.TP
+.BI \-pk\ ,\ \-\⨪payload\-key \ key
+set the key with which to decrypt the payload before compressing
+.TP
+.BI \--schema\ (1|3)
+Use the specified BPT schema. Schema version 1 is a row-store. Schema
+version 3 is a column-store. The default is 3. Version 2 of the schema
+is a variant of version 1, and is used automatically. It is only used
+if the database to be dumped has at least one feature whose type is
+SET OF MONADS. It is not possible to specify that version 2 must be
+used.
+.TP
+.BI \-h\ ,\ \-\-host \ hostname 
+set db back-end hostname to connect to (default is 'localhost').  Has
+no effect on SQLite.
+.TP
+.BI \-u\ ,\ \-\-user \ user
+set database user to connect as (default is 'emdf').  Has no effect on
+SQLite.
+.TP
+.BI \-p\ ,\ \-\-password \ password
+set password to use for the database user.  Has no effect on SQLite,
+unless you have an encryption-enabled SQLite, in which case this gets
+passed as the key.
+.TP
+.BI \-b\ ,\ \-\-backend \ backend
+set database backend to `backend'. Valid values are: For PostgreSQL:
+"p", "pg", "postgres", and "postgresql". For MySQL: "m", "my", and
+"mysql". For SQLite 2.X.X: "2", "s", "l", "lt", "sqlite", and
+"sqlite2". For SQLite 3.X.X: "3", "s3", "lt3", and "sqlite3".
+
+.SH EXAMPLES
+
+The following would dump a PostgreSQL database (-b p) with the
+PostgreSQL username "mike", mike's password being "sicrit", from the
+host "other.host.mydomain.net", and dumping the PostgreSQL database
+mydbtodump into the BPT file /home/mike/bptoutputfilename.
+.TP
+bptdump -b p -u mike -p sicrit -h other.host.mydomain.net -d mydbtodump /home/mike/bptoutputfilename
+.TP
+Another example, this time dumping an SQLite 3 database called
+"/home/mike/db/mydbtodump", and dumping it into /home/mike/db/bptdb.
+.TP
+bptdump -b 3 -d /home/mike/db/mydbtodump /home/mike/db/bptdb
+
+
+.SH RETURN VALUES
+.TP
+.BR 0 " Success"
+.TP
+.BR 1 " Wrong usage"
+.TP
+.BR 2 " Connection to backend server could not be established"
+.TP
+.BR 3 " An exception occurred (the type is printed on stderr)"
+.TP
+.BR 4 " Something else went wrong."
+.TP
+.SH AUTHORS
+Copyright
+.Cr
+2001-2012 by Ulrik Petersen (ulrikp@users.sourceforge.net).

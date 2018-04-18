@@ -1,0 +1,1644 @@
+%include{
+
+/*
+ * mql.yxx
+ *
+ * MQL parser
+ *
+ * Ulrik Petersen
+ * Created: 2/27-2001
+ * Last update: 3/1-2017
+ *
+ */
+/************************************************************************
+ *
+ *   Emdros - the database engine for analyzed or annotated text
+ *   Copyright (C) 2001-2016  Ulrik Sandborg-Petersen
+ *
+ *   This program is free software; you can redistribute it and/or
+ *   modify it under the terms of the GNU General Public License as
+ *   published by the Free Software Foundation, license version 2.  
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *   General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *   02111-1307 USA
+ *
+ *
+ *   Special exception
+ *   =================
+ * 
+ *   In addition, as a special exception, Ulrik Petersen, the
+ *   copyright holder of Emdros, gives permission to link Emdros, in
+ *   whole or in part, with the libraries which are normally
+ *   distributed with:
+ *   
+ *   a) Sun's Java platform,
+ *   b) Python, 
+ *   c) Jython,
+ *   d) Ruby, and/or 
+ *   e) Perl 
+ *   f) PostgreSQL
+ *   g) OpenSSL
+ *
+ *   (or with modified versions of these), and to distribute linked
+ *   combinations including both Emdros, in whole or in part, and one
+ *   or more of the libraries normally distributed with (a)-(g) above.
+ *
+ *   Please note: This gives you special rights concerning the
+ *   libraries which normally accompany the above pieces of software.
+ *   It gives you no special rights concerning software that you write
+ *   yourself.  You must obey the GNU General Public License in all
+ *   respects for all of the code used other than the libraries
+ *   normally distributed with (a)-(g) above.
+ *
+ *   If you modify this file, you may extend this exception to your
+ *   version of the file, but you are not obligated to do so. If you
+ *   do not wish to do so, delete this exception statement from your
+ *   version.
+ *
+ *
+ *   Other licensing forms
+ *   =====================
+ *
+ *   If you wish to negotiate commercial licensing, please contact
+ *   Ulrik Petersen at ulrikp[at]users.sourceforge.net.
+ *
+ *   Licensing can also be negotiated if your organization is an
+ *   educational, non-profit, charity, missionary or similar
+ *   organization.
+ *
+ *
+ *   Website
+ *   =======
+ *
+ *   Emdros has a website here:
+ *
+ *   http://emdros.org
+ *
+ *
+ *
+ **************************************************************************/
+
+
+
+#include <cassert>
+#include <string_list.h>
+#include <cstdlib>
+#include <string>
+#include <mql_error.h>
+#include <mql_types.h>
+#include <mql_database_statements.h>
+#include <mql_enumeration_statements.h>
+#include <mql_features_statements.h>
+#include <mql_meta_statements.h>
+#include <mql_monads_statements.h>
+#include <mql_object_statements.h>
+#include <mql_object_type_statements.h>
+#include <mql_segment_statements.h>
+#include <mql_select_statements.h>
+#include <mql_query.h>
+#include <mql_extern.h>
+#include <mql_execution_environment.h>
+#include <mql_yylex.h>
+
+#undef TOKEN
+
+#undef YYCODETYPE
+#undef YYNOCODE
+#undef YYACTIONTYPE
+#undef YYNSTATE
+#undef YYNRULE
+#undef YY_ACTTAB_COUNT
+#undef YY_SHIFT_COUNT
+#undef YY_SHIFT_MAX
+#undef YY_REDUCE_USE_DFLT
+#undef YY_REDUCE_COUNT
+#undef YY_REDUCE_MIN
+#undef YY_REDUCE_MAX
+#undef MYMIN
+
+
+} // end include
+
+%name MQLParser
+%token_destructor { deleteToken($$); UNUSED(pEE); }
+%token_prefix T_
+%token_type   {Token*}
+%extra_argument {MQLExecEnv *pEE}
+%stack_overflow {
+  std::string errMsg = "stack overflow. Bailing out...\n";
+  pEE->pError->appendError(errMsg);
+   }
+%stack_size 2000
+
+%parse_failure {
+  pEE->bSyntaxError = true;
+}
+%syntax_error {
+  pEE->bSyntaxError = true;
+  std::string errMsg = "syntax error near " + TOKEN->getTokenName() + '\n';
+  pEE->pError->appendError(errMsg);
+}
+
+%type statement {Statement*}
+%destructor statement {delete($$);}
+statement ::= statement_by_itself(X) KEY_GO . { pEE->pStatement = X; }
+
+%type statement_by_itself {Statement*}
+%destructor statement_by_itself {delete($$);}
+statement_by_itself(S) ::= create_database_statement(X). { S = X; }
+statement_by_itself(S) ::= initialize_database_statement(X). { S = X; }
+statement_by_itself(S) ::= use_statement(X). { S = X; }
+statement_by_itself(S) ::= drop_database_statement(X). { S = X; }
+statement_by_itself(S) ::= vacuum_database_statement(X). { S = X; }
+statement_by_itself(S) ::= create_object_type_statement(X). { S = X; }
+statement_by_itself(S) ::= update_object_type_statement(X). { S = X; }
+statement_by_itself(S) ::= drop_object_type_statement(X). { S = X; }
+statement_by_itself(S) ::= insert_monads_statement(X). { S = X; }
+statement_by_itself(S) ::= delete_monads_statement(X). { S = X; }
+statement_by_itself(S) ::= get_monads_statement(X). { S = X; }
+statement_by_itself(S) ::= monad_set_calculation_statement(X). { S = X; }
+statement_by_itself(S) ::= create_enumeration_statement(X). { S = X; }
+statement_by_itself(S) ::= update_enumeration_statement(X). { S = X; }
+statement_by_itself(S) ::= drop_enumeration_statement(X). { S = X; }
+statement_by_itself(S) ::= create_segment_statement(X). { S = X; }
+statement_by_itself(S) ::= select_statement(X). { S = X; }
+statement_by_itself(S) ::= select_objects_at_statement(X). { S = X; }
+statement_by_itself(S) ::= select_objects_having_monads_in_statement(X). { S = X; }
+statement_by_itself(S) ::= get_aggregate_features_statement(X). { S = X; }
+statement_by_itself(S) ::= get_objects_having_monads_in_statement(X). { S = X; }
+statement_by_itself(S) ::= get_set_from_feature_statement(X). { S = X; }
+statement_by_itself(S) ::= select_object_types_statement(X). { S = X; }
+statement_by_itself(S) ::= select_features_statement(X). { S = X; }
+statement_by_itself(S) ::= select_enumerations_statement(X). { S = X; }
+statement_by_itself(S) ::= select_enumeration_constants_statement(X). { S = X; }
+statement_by_itself(S) ::= select_object_types_which_use_enum_statement(X). { S = X; }
+statement_by_itself(S) ::= select_min_m_statement(X). { S = X; }
+statement_by_itself(S) ::= select_max_m_statement(X). { S = X; }
+statement_by_itself(S) ::= create_object_from_monads_statement(X). { S = X; }
+statement_by_itself(S) ::= create_object_from_id_ds_statement(X). { S = X; }
+statement_by_itself(S) ::= update_objects_by_monads_statement(X). { S = X; }
+statement_by_itself(S) ::= update_objects_by_id_ds_statement(X). { S = X; }
+statement_by_itself(S) ::= delete_objects_by_monads_statement(X). { S = X; }
+statement_by_itself(S) ::= delete_objects_by_id_ds_statement(X). { S = X; }
+statement_by_itself(S) ::= get_features_statement(X). { S = X; }
+statement_by_itself(S) ::= quit_statement(X). { S = X; }
+statement_by_itself(S) ::= create_indexes_statement(X). { S = X; }
+statement_by_itself(S) ::= drop_indexes_statement(X). { S = X; }
+statement_by_itself(S) ::= begin_transaction_statement(X). { S = X; }
+statement_by_itself(S) ::= commit_transaction_statement(X). { S = X; }
+statement_by_itself(S) ::= abort_transaction_statement(X). { S = X; }
+statement_by_itself(S) ::= select_monad_sets_statement(X). { S = X; }
+statement_by_itself(S) ::= get_monad_sets_statement(X). { S = X; }
+statement_by_itself(S) ::= create_monad_set_statement(X). { S = X; }
+statement_by_itself(S) ::= update_monad_set_statement(X). { S = X; }
+statement_by_itself(S) ::= drop_monad_set_statement(X). { S = X; }
+statement_by_itself(S) ::= create_objects_statement(X). { S = X; }
+
+
+
+%type create_database_statement {Statement*}
+%destructor create_database_statement {delete($$);}
+create_database_statement(S) ::= 
+    KEY_CREATE  KEY_DATABASE database_name(D) opt_WITH_KEY(K) 
+    opt_USING_ENCODING(E) . 
+    { S = new CreateDatabaseStatement((MQLExecEnv*) pEE, D->extractString(), K->extractString(), E->extractString()); deleteToken(D); deleteToken(K); deleteToken(E); }
+
+
+%type database_name {Token*}
+%destructor database_name { deleteToken($$); }
+database_name(D) ::= IDENTIFIER(X). { D = X; }
+database_name(D) ::= STRING(X). { D = X; }
+
+%type initialize_database_statement {Statement*}
+%destructor initialize_database_statement {delete($$);}
+initialize_database_statement(S) ::= 
+    KEY_INITIALIZE  KEY_DATABASE database_name(D) opt_WITH_KEY(K) . 
+    { S = new InitializeDatabaseStatement((MQLExecEnv*) pEE, D->extractString(), K->extractString()); deleteToken(D); deleteToken(K); }
+
+
+%type use_statement {Statement*}
+%destructor use_statement {delete($$);}
+use_statement(S) ::= KEY_USE opt_DATABASE database_name(N) opt_WITH_KEY(W) . { S = new UseStatement((MQLExecEnv*) pEE, N->extractString(), W->extractString()); deleteToken(N); deleteToken(W); }
+
+%type opt_WITH_KEY {Token*}
+%destructor opt_WITH_KEY { deleteToken($$); }
+opt_WITH_KEY(D) ::= KEY_WITH KEY_KEY STRING(X). { D = X; }
+opt_WITH_KEY(D) ::= . { D = newToken(); D->setString(new std::string("")); }
+
+
+%type opt_WITH_ENCODING {Token*}
+%destructor opt_WITH_ENCODING { deleteToken($$); }
+opt_USING_ENCODING(D) ::= KEY_USING KEY_ENCODING STRING(X). { D = X; }
+opt_USING_ENCODING(D) ::= . { D = newToken(); D->setString(new std::string("")); }
+
+
+%type opt_DATABASE {int}
+%destructor opt_DATABASE {;}
+opt_DATABASE(S) ::= KEY_DATABASE.  { S=0;}
+opt_DATABASE(S) ::= . /* empty : syntactic sugar */ { S=0;}
+
+
+%type drop_database_statement {Statement*}
+%destructor drop_database_statement {delete($$);}
+drop_database_statement(S) ::= KEY_DROP  KEY_DATABASE database_name(N). 
+   { S = new DropDatabaseStatement((MQLExecEnv*) pEE, N->extractString()); deleteToken(N); }
+
+
+%type vacuum_database_statement {Statement*}
+%destructor vacuum_database_statement {delete($$);}
+vacuum_database_statement(S) ::= KEY_VACUUM opt_DATABASE opt_ANALYZE(A). 
+   { S = new VacuumDatabaseStatement((MQLExecEnv*) pEE, A); }
+
+
+%type opt_ANALYZE {bool}
+%destructor opt_ANALYZE {;}
+opt_ANALYZE(A) ::= . /* empty */ { A = false; } 
+opt_ANALYZE(A) ::= KEY_ANALYZE . { A = true; }
+
+
+%type create_indexes_statement {Statement*}
+%destructor create_indexes_statement {delete($$);}
+create_indexes_statement(S) ::= KEY_CREATE KEY_INDEXES on_object_type(O). 
+    { S = new CreateIndexesStatement((MQLExecEnv*) pEE, *(O->pString)); deleteToken(O); }
+
+
+%type drop_indexes_statement {Statement*}
+%destructor drop_indexes_statement {delete($$);}
+drop_indexes_statement(S) ::= KEY_DROP KEY_INDEXES on_object_type(O). 
+    { S = new DropIndexesStatement((MQLExecEnv*) pEE, *(O->pString)); deleteToken(O); }
+
+
+%type on_object_type {Token*}
+%destructor on_object_type { deleteToken($$); }
+on_object_type(T) ::= KEY_ON KEY_OBJECT choice_type_types
+                      KEY_OPEN_SQUARE_BRACKET 
+                      choice_object_type_or_all(C)
+                      KEY_CLOSE_SQUARE_BRACKET.
+    { T = C; }
+
+
+
+%type choice_type_types {int}
+%destructor choice_type_types {;}
+choice_type_types(C) ::= KEY_TYPE.  { C = 0; }
+choice_type_types(C) ::= KEY_TYPES. { C = 0; }
+
+
+%type begin_transaction_statement {Statement*}
+%destructor begin_transaction_statement {delete($$);}
+begin_transaction_statement(S) ::= KEY_BEGIN KEY_TRANSACTION. 
+    { S = new BeginTransactionStatement((MQLExecEnv*) pEE); }
+
+
+%type commit_transaction_statement {Statement*}
+%destructor commit_transaction_statement {delete($$);}
+commit_transaction_statement(S) ::= KEY_COMMIT KEY_TRANSACTION. 
+    { S = new CommitTransactionStatement((MQLExecEnv*) pEE); }
+
+
+%type abort_transaction_statement {Statement*}
+%destructor abort_transaction_statement {delete($$);}
+abort_transaction_statement(S) ::= KEY_ABORT KEY_TRANSACTION. 
+    { S = new AbortTransactionStatement((MQLExecEnv*) pEE); }
+
+
+
+%type create_object_type_statement {Statement*}
+%destructor create_object_type_statement {delete($$);}
+create_object_type_statement(S) ::= KEY_CREATE opt_OBJECT KEY_TYPE
+  opt_if_not_exists(I)
+  opt_range_type(R)
+  opt_monad_uniqueness_type(U)
+  KEY_OPEN_SQUARE_BRACKET object_type_name(N)
+  opt_feature_declaration_list(F)
+  KEY_CLOSE_SQUARE_BRACKET. 
+  { S = new CreateObjectTypeStatement((MQLExecEnv*) pEE, N->extractString(), R, U, F, I); deleteToken(N); }
+
+
+%type opt_range_type {eObjectRangeType}
+%destructor opt_range_type {;}
+opt_range_type(R) ::=  /* empty */.
+    { R = kORTMultipleRange; }
+opt_range_type(R) ::= KEY_WITH  KEY_MULTIPLE  KEY_RANGE  KEY_OBJECTS.
+    { R = kORTMultipleRange; }
+opt_range_type(R) ::= KEY_WITH  KEY_SINGLE  KEY_RANGE  KEY_OBJECTS.
+    { R = kORTSingleRange; }
+opt_range_type(R) ::= KEY_WITH  KEY_SINGLE  KEY_MONAD  KEY_OBJECTS.
+    { R = kORTSingleMonad; }
+
+%type opt_monad_uniqueness_type {eMonadUniquenessType}
+%destructor opt_monad_uniqueness_type {;}
+opt_monad_uniqueness_type(U) ::=  /* empty */.
+    { U = kMUTNonUniqueMonads; }
+opt_monad_uniqueness_type(U) ::= KEY_HAVING  KEY_UNIQUE  KEY_FIRST  KEY_MONADS.
+    { U = kMUTUniqueFirstMonads; }
+opt_monad_uniqueness_type(U) ::= KEY_HAVING  KEY_UNIQUE  KEY_FIRST  KEY_AND  KEY_LAST  KEY_MONADS.
+    { U = kMUTUniqueFirstAndLastMonads; }
+opt_monad_uniqueness_type(U) ::= KEY_WITHOUT  KEY_UNIQUE  KEY_MONADS .
+    { U = kMUTNonUniqueMonads; }
+
+
+%type opt_OBJECT {int}
+%destructor opt_OBJECT {;}
+opt_OBJECT(S) ::= KEY_OBJECT. { S = 0; }
+opt_OBJECT(S) ::= . /* empty : same thing; syntactic sugar */ { S = 0; }
+
+
+%type object_type_name {Token*}
+%destructor object_type_name { deleteToken($$); }
+object_type_name(N) ::= IDENTIFIER(I). {N = I; } 
+
+%type opt_feature_declaration_list {FeatureDeclaration*}
+%destructor opt_feature_declaration_list {delete($$);}
+opt_feature_declaration_list(L) ::= feature_declaration_list(X). { L = X; }
+opt_feature_declaration_list(L) ::= . /* empty */                { L = 0; }
+
+
+%type feature_declaration_list {FeatureDeclaration*}
+%destructor feature_declaration_list {delete($$);}
+feature_declaration_list(L) ::= feature_declaration(X). { L = X; }
+feature_declaration_list(L) ::= feature_declaration_list(N) 
+                                feature_declaration(D). { L = D; L->setNext(N); }
+
+%type feature_declaration {FeatureDeclaration*}
+%destructor feature_declaration {delete($$);}
+feature_declaration(D) ::=  feature_name(N) KEY_COLON feature_type(T) 
+                      default_specification(S) opt_computed(C) KEY_SEMICOLON. 
+   { D = new FeatureDeclaration(N->extractString(), T, S, C, 0); deleteToken(N); }
+feature_declaration(D) ::=  feature_name(N) KEY_COLON KEY_LIST KEY_OF 
+                      list_feature_type(T) KEY_SEMICOLON. 
+   { D = new FeatureDeclaration(N->extractString(), T, new Expression(), false, 0); deleteToken(N); }
+
+
+%type feature_type {MQLType*}
+%destructor feature_type {delete($$);}
+feature_type(T) ::= KEY_INTEGER opt_with_index(I). 
+    { T = new MQLType(kInteger, I); }
+feature_type(T) ::= KEY_STRING opt_string_length opt_from_set(S) opt_with_index(I).
+    { T = new MQLType(kString, S, I); }
+feature_type(T) ::= KEY_ASCII opt_string_length opt_from_set(S) opt_with_index(I). 
+    { T = new MQLType(kASCII, S, I); }
+feature_type(T) ::= KEY_ID_D opt_with_index(I).
+    { T = new MQLType(kID_D, I); }
+feature_type(T) ::= IDENTIFIER(I) opt_with_index(W). /* For enumerations */
+    { T = new MQLType(I->extractString(), false, W); deleteToken(I); }
+feature_type(T) ::= KEY_SET  KEY_OF  KEY_MONADS . /* Same as MULTIPLE RANGE SET OF MONADS */
+    { T = new MQLType(kORTMultipleRange); }
+feature_type(T) ::= KEY_SINGLE  KEY_MONAD  KEY_SET  KEY_OF  KEY_MONADS . /* Same as MULTIPLE RANGE SET OF MONADS */
+    { T = new MQLType(kORTSingleMonad); }
+feature_type(T) ::= KEY_SINGLE  KEY_RANGE  KEY_SET  KEY_OF  KEY_MONADS . /* Same as MULTIPLE RANGE SET OF MONADS */
+    { T = new MQLType(kORTSingleRange); }
+feature_type(T) ::= KEY_MULTIPLE  KEY_RANGE KEY_SET  KEY_OF  KEY_MONADS . /* Same as MULTIPLE RANGE SET OF MONADS */
+    { T = new MQLType(kORTMultipleRange); }
+
+
+
+%type list_feature_type {MQLType*}
+%destructor list_feature_type {delete($$);}
+list_feature_type(T) ::= KEY_INTEGER.
+    { T = new MQLType(kListOfInteger); }
+list_feature_type(T) ::= KEY_ID_D.
+    { T = new MQLType(kListOfID_D); }
+list_feature_type(T) ::= IDENTIFIER(I). /* For enumerations */
+    { T = new MQLType(I->extractString(), true, false); deleteToken(I); }
+
+
+%type opt_with_index {bool}
+%destructor opt_with_index {;}
+opt_with_index(I) ::= KEY_WITH  KEY_INDEX. { I = true; }
+opt_with_index(I) ::= KEY_WITHOUT  KEY_INDEX. { I = false; }
+opt_with_index(I) ::= . { I = false; }
+
+%type opt_if_not_exists {bool}
+%destructor opt_if_not_exists {;}
+opt_if_not_exists(I) ::= KEY_IF  KEY_NOT  KEY_EXISTS. { I = true; }
+opt_if_not_exists(I) ::= . { I = false; }
+
+%type opt_from_set {bool}
+%destructor opt_from_set {;}
+opt_from_set(S) ::= KEY_FROM  KEY_SET. {S = true;}
+opt_from_set(S) ::= . {S = false;}
+
+
+%type opt_string_length {long}
+%destructor opt_string_length {;}
+opt_string_length(L) ::= . /* empty */ 
+    { L = 0; }
+opt_string_length(L) ::= KEY_OPEN_BRACKET INTEGER KEY_CLOSE_BRACKET.
+    { L = 0; }
+
+
+%type default_specification {Expression*}
+%destructor default_specification {delete($$);}
+default_specification(S) ::= KEY_DEFAULT expression(E).
+    { S = E; }
+default_specification(S) ::= . /* empty ::= choose type-default */
+    { S = 0; }
+
+
+%type opt_computed {bool}
+%destructor opt_computed {;}
+opt_computed(C) ::= KEY_COMPUTED.
+    { C = true; }
+opt_computed(C) ::= . /* empty: feature is not computed. */
+    { C = false; }
+
+
+%type update_object_type_statement {Statement*}
+%destructor update_object_type_statement {delete($$);}
+update_object_type_statement(S) ::= KEY_UPDATE opt_OBJECT KEY_TYPE
+                                    KEY_OPEN_SQUARE_BRACKET object_type_name(N)
+                                    feature_update_list(L)
+                                    KEY_CLOSE_SQUARE_BRACKET.
+    { S = new UpdateObjectTypeStatement((MQLExecEnv*) pEE, N->extractString(), L); deleteToken(N); }
+
+
+%type feature_update_list {FeatureUpdate*}
+%destructor feature_update_list {delete($$);}
+feature_update_list(L) ::= feature_update(U).
+    { L = U; }
+feature_update_list(L) ::= feature_update_list(R) feature_update(U).
+    { L = U; L->setNext(R); }
+
+
+%type feature_update {FeatureUpdate*}
+%destructor feature_update {delete($$);}
+feature_update(U) ::= opt_ADD feature_declaration(D).
+    { U = new FeatureUpdate(D, 0); }
+feature_update(U) ::= KEY_REMOVE feature_name(N) KEY_SEMICOLON.
+    { U = new FeatureUpdate(N->extractString(), 0); deleteToken(N); }
+
+
+%type opt_ADD {int}
+%destructor opt_ADD {;}
+opt_ADD(S) ::= KEY_ADD. { S = 0; }
+opt_ADD(S) ::= .        { S = 0; }  /* empty: same thing; syntactic sugar */
+
+%type drop_object_type_statement {Statement*}
+%destructor drop_object_type_statement {delete($$);}
+drop_object_type_statement(S) ::= KEY_DROP
+             opt_OBJECT KEY_TYPE
+             KEY_OPEN_SQUARE_BRACKET 
+             object_type_name(N) 
+             KEY_CLOSE_SQUARE_BRACKET.
+    { S = new DropObjectTypeStatement((MQLExecEnv*) pEE, N->extractString()); deleteToken(N); }
+
+
+%type insert_monads_statement {Statement*}
+%destructor insert_monads_statement {delete($$);}
+insert_monads_statement(S) ::= KEY_INSERT monad_specification(M).
+    { S = new InsertMonadsStatement((MQLExecEnv*) pEE, M); }
+
+
+%type delete_monads_statement {Statement*}
+%destructor delete_monads_statement {delete($$);}
+delete_monads_statement(S) ::= KEY_DELETE monad_specification(M).
+    { S = new DeleteMonadsStatement((MQLExecEnv*) pEE, M); }
+
+
+%type get_monads_statement {Statement*}
+%destructor get_monads_statement {delete($$);}
+get_monads_statement(S) ::= KEY_GET KEY_MONADS 
+    KEY_FROM choice_number_OBJECTS	
+    KEY_WITH id_ds_specification(I)
+    KEY_OPEN_SQUARE_BRACKET 
+    object_type_name(N) 
+    KEY_CLOSE_SQUARE_BRACKET.
+    { S = new GetMonadsStatement((MQLExecEnv*) pEE, I, N->extractString()); deleteToken(N); }
+
+
+%type monad_set_calculation_statement {Statement*}
+%destructor monad_set_calculation_statement {delete($$);}
+monad_set_calculation_statement(S) ::= KEY_MONAD  KEY_SET  KEY_CALCULATION
+   monad_set_chain(C).
+  { S = new MonadSetCalculationStatement((MQLExecEnv*) pEE, C); }
+
+
+%type monad_set_chain {MonadSetChainElement*}
+%destructor monad_set_chain {delete($$);}
+monad_set_chain(C) ::= monad_set(M).
+    { C = new MonadSetChainElement(M, kSONone, 0); }
+monad_set_chain(C) ::= monad_set_chain(R)  monad_set_operator(O)  monad_set(M).
+    { C = new MonadSetChainElement(M, O, 0); C->setNext(R); }
+
+
+%type monad_set_operator {eSetOperator}
+%destructor monad_set_operator {;}
+monad_set_operator(O) ::= KEY_UNION.      { O = kSOUnion; }
+monad_set_operator(O) ::= KEY_DIFFERENCE. { O = kSODifference; }
+monad_set_operator(O) ::= KEY_INTERSECT.  { O = kSOIntersect; }
+
+
+%type select_monad_sets_statement {Statement*}
+%destructor select_monad_sets_statement {delete($$);}
+select_monad_sets_statement(S) ::= KEY_SELECT  KEY_MONAD  KEY_SETS.
+    { S = new SelectMonadSetsStatement((MQLExecEnv*) pEE); }
+
+
+%type get_monad_sets_statement {Statement*}
+%destructor get_monad_sets_statement {delete($$);}
+get_monad_sets_statement(S) ::= KEY_GET  KEY_MONAD 
+      choice_number_SET monad_set_name_list(L).
+    { S = new GetMonadSetsStatement((MQLExecEnv*) pEE, L); }
+get_monad_sets_statement(S) ::= KEY_GET  KEY_MONAD 
+      choice_number_SET KEY_ALL.
+    { S = new GetMonadSetsStatement((MQLExecEnv*) pEE); }
+
+
+%type choice_number_SET {int}
+%destructor choice_number_SET{;}
+choice_number_SET(C) ::= KEY_SETS. {C = 0;}
+choice_number_SET(C) ::= KEY_SET.  {C = 0;}
+
+
+%type create_monad_set_statement {Statement*}
+%destructor create_monad_set_statement {delete($$);}
+create_monad_set_statement(S) ::= KEY_CREATE  KEY_MONAD  KEY_SET
+      monad_set_name(N)  KEY_WITH  monad_specification(M).
+    { S = new CreateMonadSetStatement((MQLExecEnv*) pEE, N->extractString(), M); deleteToken(N); }
+
+
+%type update_monad_set_statement {Statement*}
+%destructor update_monad_set_statement {delete($$);}
+update_monad_set_statement(S) ::= 
+    KEY_UPDATE  KEY_MONAD  KEY_SET
+     monad_set_name(N)  
+     monad_set_operator(P)  
+     monad_set_name(O).
+    { S = new UpdateMonadSetStatement((MQLExecEnv*) pEE, N->extractString(), P, O->extractString()); deleteToken(N); deleteToken(O); }
+
+update_monad_set_statement(S) ::= KEY_UPDATE  KEY_MONAD  KEY_SET
+    monad_set_name(N) 
+    KEY_REPLACE 
+    monad_set_name(O).
+    { S = new UpdateMonadSetStatement((MQLExecEnv*) pEE, N->extractString(), kSOReplace, O->extractString()); deleteToken(N); deleteToken(O); }
+
+update_monad_set_statement(S) ::= KEY_UPDATE  KEY_MONAD  KEY_SET
+    monad_set_name(N) 
+    monad_set_operator(P) 
+    monad_set(M).
+    { S = new UpdateMonadSetStatement((MQLExecEnv*) pEE, N->extractString(), P, M); deleteToken(N); }
+
+update_monad_set_statement(S) ::= KEY_UPDATE  KEY_MONAD  KEY_SET
+    monad_set_name(N) 
+    KEY_REPLACE 
+    monad_set(M).
+    { S = new UpdateMonadSetStatement((MQLExecEnv*) pEE, N->extractString(), kSOReplace, M); deleteToken(N); }
+
+
+%type drop_monad_set_statement {Statement*}
+%destructor drop_monad_set_statement {delete($$);}
+drop_monad_set_statement(S) ::= KEY_DROP  KEY_MONAD  KEY_SET
+    monad_set_name(N).
+    { S = new DropMonadSetStatement((MQLExecEnv*) pEE, N->extractString()); deleteToken(N); }
+
+
+%type monad_set_name {Token*}
+%destructor monad_set_name {deleteToken($$);}
+monad_set_name(N) ::= IDENTIFIER(I).  { N = I; }
+
+
+%type monad_set_name_list {StringListNode*}
+%destructor monad_set_name_list {delete($$);}
+monad_set_name_list(L) ::= monad_set_name(N).
+  { L = new StringListNode(*(N->pString), 0); deleteToken(N); }
+monad_set_name_list(L) ::= 
+      monad_set_name_list(R) KEY_COMMA monad_set_name(N).
+  { L = new StringListNode(*(N->pString), R); R->setNext(L); deleteToken(N); }
+
+
+
+%type create_enumeration_statement {Statement*}
+%destructor create_enumeration_statement {delete($$);}
+create_enumeration_statement(S) ::= KEY_CREATE choice_ENUM_ERATION
+            enumeration_name(N) KEY_EQUALS 
+            KEY_OPEN_BRACE ec_declaration_list(L) KEY_CLOSE_BRACE.
+    { S = new CreateEnumerationStatement((MQLExecEnv*) pEE, N->extractString(), L); deleteToken(N); }
+
+
+%type choice_ENUM_ERATION {int}
+%destructor choice_ENUM_ERATION {;}
+choice_ENUM_ERATION(S) ::= KEY_ENUMERATION. { S = 0; }
+choice_ENUM_ERATION(S) ::= KEY_ENUM.  { S = 0; }/* same thing; syntactic sugar */
+
+
+%type enumeration_name {Token*}
+%destructor enumeration_name { deleteToken($$); }
+enumeration_name(N) ::= IDENTIFIER(I). { N = I; }
+
+%type ec_declaration_list {ECDeclaration*}
+%destructor ec_declaration_list {delete($$);}
+ec_declaration_list(L) ::= ec_declaration(D).
+    { L = D; }
+ec_declaration_list(L) ::= ec_declaration_list(R) KEY_COMMA  ec_declaration(D).
+    { L = D; L->setNext(R); }
+
+%type ec_declaration {ECDeclaration*}
+%destructor ec_declaration {delete($$);}
+ec_declaration(E) ::= opt_DEFAULT(D) ec_name(N) opt_ec_initialization(I).
+    { E = new ECDeclaration(D, N->extractString(), I, 0); 
+      deleteToken(N); 
+    }
+
+
+%type opt_DEFAULT {bool}
+%destructor opt_DEFAULT {;}
+opt_DEFAULT(D) ::= KEY_DEFAULT.
+    { D = true; }
+opt_DEFAULT(D) ::= . /* empty: Ec is not explicitly default. */
+    { D = false; }
+
+
+%type ec_name {Token*}
+%destructor ec_name { deleteToken($$);  }
+ec_name(N) ::= IDENTIFIER(I). { N = I; }
+
+%type opt_ec_initialization {long*}
+%destructor opt_ec_initialization {delete($$);}
+opt_ec_initialization(O) ::= ec_initialization(I).
+    { O = new long(I); }
+opt_ec_initialization(O) ::= . /* empty : no initialization; ec gets its value from
+               the sequence of the ecs. */
+    { O = 0; }
+
+
+%type update_enumeration_statement {Statement*}
+%destructor update_enumeration_statement {delete($$);}
+update_enumeration_statement(S) ::= KEY_UPDATE choice_ENUM_ERATION
+            enumeration_name(N) KEY_EQUALS  
+            KEY_OPEN_BRACE ec_update_list(L) KEY_CLOSE_BRACE.
+    { S = new UpdateEnumerationStatement((MQLExecEnv*) pEE, N->extractString(), L); deleteToken(N); }
+
+
+%type ec_update_list {ECUpdate*}
+%destructor ec_update_list {delete($$);}
+ec_update_list(L) ::= ec_update(U).
+    { L = U; }
+ec_update_list(L) ::= ec_update_list(R) KEY_COMMA ec_update(U).
+    { L = U; L->setNext(R); }
+
+
+%type ec_update {ECUpdate*}
+%destructor ec_update {delete($$);}
+ec_update(U) ::= opt_ADD opt_DEFAULT(O) ec_name(N) ec_initialization(I).
+    { U = new ECUpdate(O, N->extractString(), I, kAdd, 0); deleteToken(N); }
+ec_update(U) ::= KEY_UPDATE opt_DEFAULT(O) ec_name(N) ec_initialization(I).
+    { U = new ECUpdate(O, N->extractString(), I, kUpdate, 0); deleteToken(N); }
+ec_update(U) ::= KEY_REMOVE ec_name(N).
+    { U = new ECUpdate(false, N->extractString(), 0, kRemove, 0); deleteToken(N); }
+
+
+%type ec_initialization {long}
+%destructor ec_initialization {;}
+ec_initialization(E) ::= KEY_EQUALS signed_integer(I). { E = I; }
+
+%type signed_integer {long}
+%destructor signed_integer {;}
+signed_integer(S) ::= INTEGER(I). { S = I->integer; deleteToken(I); }
+signed_integer(S) ::= KEY_DASH INTEGER(I). { S = -(I->integer); deleteToken(I); }
+signed_integer(S) ::= KEY_NIL. { S = NIL; }
+
+%type unsigned_integer {long}
+%destructor unsigned_integer {;}
+unsigned_integer(U) ::= INTEGER(I). { U = I->integer; deleteToken(I); }
+
+
+%type drop_enumeration_statement {Statement*}
+%destructor drop_enumeration_statement {delete($$);}
+drop_enumeration_statement(S) ::= 
+   KEY_DROP 
+   choice_ENUM_ERATION 
+   enumeration_name(N).
+    { S = new DropEnumerationStatement((MQLExecEnv*) pEE, N->extractString()); deleteToken(N); }
+
+
+
+%type create_segment_statement {Statement*}
+%destructor create_segment_statement {delete($$);}
+create_segment_statement(S) ::= 
+   KEY_CREATE KEY_SEGMENT
+   segment_name(N)
+   KEY_RANGE KEY_EQUALS segment_range(R).
+    { S = new CreateSegmentStatement((MQLExecEnv*) pEE, N->extractString(), R); deleteToken(N); }
+
+
+%type segment_name {Token*}
+%destructor segment_name { deleteToken($$); }
+segment_name(N) ::= IDENTIFIER(I).  { N = I; }
+
+%type segment_range {MQLMonadSetElement*}
+%destructor segment_range {delete($$);}
+segment_range(R) ::= INTEGER(A) KEY_DASH INTEGER(B).
+    { R = new MQLMonadSetElement(A->integer, B->integer, 0, true);  deleteToken(A); deleteToken(B); }
+
+
+%type select_statement {Statement*}
+%destructor select_statement {delete($$);}
+select_statement(S) ::= select_clause(F) 
+     in_clause(I)
+     with_max_range_clause(M)
+     returning_clause(R)
+     where_clause(W).
+    { S = new SelectStatement((MQLExecEnv*) pEE, F, I, M, R, W); }
+select_statement(S) ::= select_clause(F) 
+     KEY_IN IDENTIFIER(I)
+     with_max_range_clause(M)
+     returning_clause(R)
+     where_clause(W).
+    { S = new SelectStatement((MQLExecEnv*) pEE, F, I->extractString(), M, R, W); deleteToken(I); }
+
+
+%type select_clause {eFocusSpec}
+%destructor select_clause {;}
+select_clause(S) ::= KEY_SELECT focus_specification(X) opt_OBJECTS.
+    { S = X; }
+
+
+%type focus_specification {eFocusSpec}
+%destructor focus_specification {;}
+focus_specification(S) ::= KEY_FOCUS. { S = kFocus; }
+focus_specification(S) ::= KEY_ALL. { S = kAll; }
+
+
+%type opt_OBJECTS {int}
+%destructor opt_OBJECTS {;}
+opt_OBJECTS(S) ::= KEY_OBJECTS. { S = 0; }
+opt_OBJECTS(S) ::= . { S = 0; }/* empty: syntactic sugar */
+
+
+%type in_clause {MQLMonadSetElement*}
+%destructor in_clause {delete($$);}
+in_clause(C) ::= KEY_IN in_specification(S).
+    { C = S; C->setIsFirst(true); }
+in_clause(C) ::= . /* empty = all_m-1 */
+    { C = new MQLMonadSetElement(1L, MAX_MONAD, 0, true); } 
+
+
+%type in_specification {MQLMonadSetElement*}
+%destructor in_specification {delete($$);}
+in_specification(I) ::= monad_set(S).
+    { I = S; I->setIsFirst(true); }
+in_specification(I) ::= KEY_ALL. /* = all_m-1 */
+    { I = new MQLMonadSetElement(1L, MAX_MONAD, 0, true); }
+
+
+%type monad_set {MQLMonadSetElement*}
+%destructor monad_set {delete($$);}
+monad_set(S) ::= KEY_OPEN_BRACE monad_set_element_list(L) KEY_CLOSE_BRACE.
+    { S = L; S->setIsFirst(true); }
+
+
+%type monad_set_element_list {MQLMonadSetElement*}
+%destructor monad_set_element_list {delete($$);}
+monad_set_element_list(L) ::= monad_set_element(E).
+    { L = E; }
+monad_set_element_list(L) ::= 
+    monad_set_element_list(R) KEY_COMMA monad_set_element(E).
+    { L = E; L->setNext(R); }
+
+
+%type monad_set_element {MQLMonadSetElement*}
+%destructor monad_set_element {delete($$);}
+monad_set_element(E) ::= INTEGER(I).
+    { E = new MQLMonadSetElement(I->integer, 0, false); deleteToken(I); }
+monad_set_element(E) ::= INTEGER(A) KEY_DASH INTEGER(B).
+    { E = new MQLMonadSetElement(A->integer, B->integer, 0, false); deleteToken(A); deleteToken(B); }
+monad_set_element(E) ::= INTEGER(A) KEY_DASH .
+    { E = new MQLMonadSetElement(A->integer, MAX_MONAD, 0, false); deleteToken(A); }
+
+
+%type with_max_range_clause {MaxRange*}
+%destructor with_max_range_clause {delete($$);}
+with_max_range_clause(M) ::= . /* empty : WITH MAX RANGE MAX_M MONADS */
+    { M = new MaxRange(MAX_MONAD); }
+with_max_range_clause(M) ::= KEY_WITH KEY_MAX KEY_RANGE KEY_MAX_M KEY_MONADS .
+    { M = new MaxRange(MAX_MONAD); }
+with_max_range_clause(M) ::= KEY_WITH KEY_MAX KEY_RANGE INTEGER(I) KEY_MONADS .
+    { M = new MaxRange(I->integer); deleteToken(I); }
+with_max_range_clause(M) ::= KEY_WITH KEY_MAX KEY_RANGE KEY_FEATURE feature_name(F) KEY_FROM KEY_OPEN_SQUARE_BRACKET object_type_name(N) KEY_CLOSE_SQUARE_BRACKET .
+    { M = new MaxRange(N->extractString(), F->extractString()); deleteToken(N); deleteToken(F); }
+
+
+%type returning_clause {sheaf_return_type_pair*}
+%destructor returning_clause {delete($$);}
+returning_clause(R) ::= . /* empty : return full sheaf */
+    { R = new sheaf_return_type_pair(kFullSheaf, ((StringList*) 0)); }
+returning_clause(R) ::= KEY_RETURNING  KEY_FULL  KEY_SHEAF.
+    { R = new sheaf_return_type_pair(kFullSheaf, ((StringList*) 0)); }
+returning_clause(R) ::= KEY_RETURNING  KEY_FLAT  KEY_SHEAF.
+    { StringList *pSL = new StringList(); 
+      R = new sheaf_return_type_pair(kFlatSheaf, pSL); }
+returning_clause(R) ::= KEY_RETURNING  KEY_FLAT  KEY_SHEAF
+     KEY_ON object_type_name_list(L).
+    { StringList *pSL = new StringList(L); 
+      delete L;
+      R = new sheaf_return_type_pair(kFlatSheaf, pSL); }
+
+%type using_range_clause {UsingRange*}
+%destructor using_range_clause {delete($$);}
+using_range_clause(U) ::= . /* empty : return all */
+    { U = 0; }
+using_range_clause(U) ::= KEY_RANGE  KEY_ALL.
+    { U = 0; }
+using_range_clause(U) ::= KEY_RANGE  
+    KEY_OPEN_BRACKET 
+    unsigned_integer(F) KEY_COMMA unsigned_integer(L)
+    KEY_CLOSE_BRACKET .
+    { U = new UsingRange(F, L); }
+using_range_clause(U) ::= KEY_RANGE  
+    KEY_OPEN_BRACKET 
+    unsigned_integer(L)
+    KEY_CLOSE_BRACKET .
+    { U = new UsingRange(0, L); }
+
+%type object_type_name_list {StringListNode*}
+%destructor object_type_name_list {delete($$);}
+object_type_name_list(L) ::= object_type_name(N).
+  { L = new StringListNode(*(N->pString), 0); deleteToken(N); }
+object_type_name_list(L) ::= 
+     object_type_name_list(R)  KEY_COMMA object_type_name(N).
+  { L = new StringListNode(*(N->pString), R); R->setNext(L); deleteToken(N); }
+
+
+%type where_clause {Topograph*}
+%destructor where_clause {delete($$);}
+where_clause(W) ::= KEY_WHERE mql_query(Q). { W = Q; }
+
+%type select_objects_at_statement {Statement*}
+%destructor select_objects_at_statement {delete($$);}
+select_objects_at_statement(S) ::= 
+     KEY_SELECT opt_OBJECTS
+     KEY_AT single_monad_specification(M)
+     KEY_OPEN_SQUARE_BRACKET
+     object_type_name(N)
+     KEY_CLOSE_SQUARE_BRACKET.
+   { S = new SelectObjectsAtStatement((MQLExecEnv*) pEE, M, N->extractString()); deleteToken(N); }
+
+
+%type single_monad_specification {monad_m}
+%destructor single_monad_specification {;}
+single_monad_specification(S) ::= KEY_MONAD KEY_EQUALS INTEGER(I).
+    { S = I->integer; deleteToken(I); }
+
+
+%type select_objects_having_monads_in_statement {Statement*}
+%destructor select_objects_having_monads_in_statement {delete($$);}
+select_objects_having_monads_in_statement(S) ::= KEY_SELECT KEY_OBJECTS
+        KEY_HAVING KEY_MONADS KEY_IN
+        monad_set(M)
+        KEY_OPEN_SQUARE_BRACKET
+        object_type_to_find(N)
+        KEY_CLOSE_SQUARE_BRACKET.
+    { S = new SelectObjectsHavingMonadsInStatement((MQLExecEnv*) pEE, M, *(N->pString)); deleteToken(N); }
+
+%type object_type_to_find {Token*}
+%destructor object_type_to_find { deleteToken($$); }
+object_type_to_find(O) ::= choice_object_type_or_all(C).  { O = C; }
+
+
+%type choice_object_type_or_all {Token*}
+%destructor choice_object_type_or_all { deleteToken($$); }
+choice_object_type_or_all(O) ::= object_type_name(N). 
+    { O = N; }
+choice_object_type_or_all(O) ::= KEY_ALL .
+    { O = newToken(); O->setString(new std::string("all")); }
+
+
+%type get_aggregate_features_statement {Statement*}
+%destructor get_aggregate_features_statement {delete($$);}
+get_aggregate_features_statement(S) ::= KEY_GET KEY_AGGREGATE KEY_FEATURES
+        aggregate_feature_list(A)
+	KEY_FROM KEY_OBJECTS
+        in_clause(I)
+	using_monad_feature(F)
+        KEY_OPEN_SQUARE_BRACKET
+        object_type_name(N)
+	feature_constraints(C)
+        KEY_CLOSE_SQUARE_BRACKET.
+    { S = new GetAggregateFeaturesStatement((MQLExecEnv*) pEE, A, I, F->extractString(), N->extractString(), C); deleteToken(F); deleteToken(N); }
+
+%type aggregate_feature_list {AggregateFeature*}
+%destructor aggregate_feature_list {delete($$);}
+aggregate_feature_list(L) ::= aggregate_feature(F) .
+    { L = F; }
+aggregate_feature_list(L) ::= aggregate_feature_list(N)
+                              KEY_COMMA
+                              aggregate_feature(F) .
+    { L = F; L->setNext(N); }
+
+%type aggregate_feature {AggregateFeature*}
+%destructor aggregate_feature {delete($$);}
+aggregate_feature(F) ::= KEY_MIN  KEY_OPEN_BRACKET feature_name(N) KEY_CLOSE_BRACKET .
+    { F = new AggregateFeature(kAFMIN, N->extractString()); deleteToken(N); }
+aggregate_feature(F) ::= KEY_MAX  KEY_OPEN_BRACKET feature_name(N) KEY_CLOSE_BRACKET .
+    { F = new AggregateFeature(kAFMAX, N->extractString()); deleteToken(N); }
+aggregate_feature(F) ::= KEY_SUM  KEY_OPEN_BRACKET feature_name(N) KEY_CLOSE_BRACKET .
+    { F = new AggregateFeature(kAFSUM, N->extractString()); deleteToken(N); }
+aggregate_feature(F) ::= KEY_COUNT  KEY_OPEN_BRACKET KEY_STAR KEY_CLOSE_BRACKET .
+    { F = new AggregateFeature(kAFCOUNT_ALL); }
+
+aggregate_feature(F) ::= KEY_COUNT  KEY_OPEN_BRACKET aggregate_feature_comparison(C)  KEY_CLOSE_BRACKET .
+    { F = new AggregateFeature(kAFCOUNT_FEATURE_COMPARISON, C); }
+
+%type aggregate_feature_comparison {FeatureComparison*}
+%destructor aggregate_feature_comparison {delete($$);}
+aggregate_feature_comparison(C) ::= feature_name(N) comparison_operator(O) value(V).
+    { C = new FeatureComparison(N->extractString(), O, V); deleteToken(N); }
+aggregate_feature_comparison(C) ::= feature_name(N) KEY_IN KEY_OPEN_BRACKET list_of_identifier(S) KEY_CLOSE_BRACKET.
+    { C = new FeatureComparison(N->extractString(), S); deleteToken(N); }
+aggregate_feature_comparison(C) ::= feature_name(N) KEY_IN KEY_OPEN_BRACKET list_of_integer(S) KEY_CLOSE_BRACKET.
+    { C = new FeatureComparison(N->extractString(), S); deleteToken(N); }
+
+
+
+
+
+
+%type get_objects_having_monads_in_statement {Statement*}
+%destructor get_objects_having_monads_in_statement {delete($$);}
+get_objects_having_monads_in_statement(S) ::= KEY_GET KEY_OBJECTS
+        KEY_HAVING KEY_MONADS KEY_IN
+        in_specification(M)
+	using_monad_feature(F)
+        KEY_OPEN_SQUARE_BRACKET
+        object_type_name(N) 
+        KEY_CLOSE_SQUARE_BRACKET.
+    { S = new GetObjectsHavingMonadsInStatement((MQLExecEnv*) pEE, M, N->extractString(), F->extractString()); deleteToken(N); deleteToken(F); }
+get_objects_having_monads_in_statement(S) ::= KEY_GET KEY_OBJECTS
+        KEY_HAVING KEY_MONADS KEY_IN
+        in_specification(M)
+	using_monad_feature(F)
+        KEY_OPEN_SQUARE_BRACKET
+        object_type_name(N) KEY_GET KEY_ALL
+        KEY_CLOSE_SQUARE_BRACKET.
+    { S = new GetObjectsHavingMonadsInStatement((MQLExecEnv*) pEE, M, N->extractString(), F->extractString(), true); deleteToken(N); deleteToken(F); }
+get_objects_having_monads_in_statement(S) ::= KEY_GET KEY_OBJECTS
+        KEY_HAVING KEY_MONADS KEY_IN
+        in_specification(M)
+	using_monad_feature(F)
+        KEY_OPEN_SQUARE_BRACKET
+        object_type_name(N) KEY_GET feature_list(L)
+        KEY_CLOSE_SQUARE_BRACKET.
+    { S = new GetObjectsHavingMonadsInStatement((MQLExecEnv*) pEE, M, N->extractString(), F->extractString(), L); deleteToken(N); deleteToken(F); }
+
+%type using_monad_feature {Token*}
+%destructor using_monad_feature { deleteToken($$); }
+using_monad_feature(F) ::= KEY_USING KEY_MONAD KEY_FEATURE IDENTIFIER(I). { F = I; }
+using_monad_feature(F) ::= KEY_USING KEY_MONAD KEY_FEATURE KEY_MONADS. { F = newToken(); F->setString(new std::string("monads")); }
+using_monad_feature(F) ::= . { F = newToken(); F->setString(new std::string("monads")); }
+
+
+%type select_object_types_statement {Statement*}
+%destructor select_object_types_statement {delete($$);}
+select_object_types_statement(S) ::= KEY_SELECT opt_OBJECT
+           KEY_TYPES.
+    { S = new SelectObjectTypesStatement((MQLExecEnv*) pEE); }
+
+
+%type select_features_statement {Statement*}
+select_features_statement(S) ::= KEY_SELECT KEY_FEATURES 
+           KEY_FROM opt_OBJECTYPE
+           KEY_OPEN_SQUARE_BRACKET object_type_name(N) KEY_CLOSE_SQUARE_BRACKET.
+    { S = new SelectFeaturesStatement((MQLExecEnv*) pEE, N->extractString()); deleteToken(N); }
+
+
+%type get_set_from_feature_statement {Statement*}
+get_set_from_feature_statement(S) ::= KEY_GET  KEY_SET  
+           KEY_FROM KEY_FEATURE feature_name(F)
+           KEY_OPEN_SQUARE_BRACKET object_type_name(N) KEY_CLOSE_SQUARE_BRACKET.
+    { S = new GetSetFromFeatureStatement((MQLExecEnv*) pEE, N->extractString(), F->extractString()); deleteToken(N); deleteToken(F); }
+
+
+%type opt_OBJECTYPE {int}
+%destructor opt_OBJECTYPE {;}
+opt_OBJECTYPE(S) ::= KEY_OBJECT KEY_TYPE. { S=0; }
+opt_OBJECTYPE(S) ::= KEY_TYPE. { S=0; }
+opt_OBJECTYPE(S) ::= . { S=0; }/* empty ::= all are the same. */
+
+
+%type select_enumerations_statement {Statement*}
+%destructor select_enumerations_statement {delete($$);}
+select_enumerations_statement(S) ::= KEY_SELECT KEY_ENUMERATIONS.
+    { S = new SelectEnumerationsStatement((MQLExecEnv*) pEE); }
+
+
+%type select_enumeration_constants_statement {Statement*}
+%destructor select_enumeration_constants_statement {delete($$);}
+select_enumeration_constants_statement(S) ::= KEY_SELECT 
+           choice_ENUM_ERATION KEY_CONSTANTS
+           KEY_FROM opt_ENUM_ERATION
+           enumeration_name(N).
+    { S = new SelectEnumerationConstantsStatement((MQLExecEnv*) pEE, N->extractString()); deleteToken(N); }
+
+
+%type opt_ENUM_ERATION {int}
+%destructor opt_ENUM_ERATION {;}
+opt_ENUM_ERATION(S) ::= KEY_ENUM. {S=0;}
+opt_ENUM_ERATION(S) ::= KEY_ENUMERATION. {S=0;}
+opt_ENUM_ERATION(S) ::= . {S=0;}/* empty ::= all are the same. */
+
+
+%type select_object_types_which_use_enum_statement {Statement*}
+%destructor select_object_types_which_use_enum_statement {delete($$);}
+select_object_types_which_use_enum_statement(S) ::= KEY_SELECT 
+           opt_OBJECT KEY_TYPES
+           KEY_USING
+           choice_ENUM_ERATION enumeration_name(N).
+    { S = new SelectObjectTypesUsingEnumerationStatement((MQLExecEnv*) pEE, N->extractString()); deleteToken(N); }
+
+
+%type select_min_m_statement {Statement*}
+%destructor select_min_m_statement {delete($$);}
+select_min_m_statement(S) ::= KEY_SELECT KEY_MIN_M.
+    { S = new SelectMinMStatement((MQLExecEnv*) pEE); }
+
+
+%type select_max_m_statement {Statement*}
+%destructor select_max_m_statement {delete($$);}
+select_max_m_statement(S) ::= KEY_SELECT KEY_MAX_M.
+    { S = new SelectMaxMStatement((MQLExecEnv*) pEE); }
+
+
+%type create_object_from_monads_statement {Statement*}
+%destructor create_object_from_monads_statement {delete($$);}
+create_object_from_monads_statement(S) ::= KEY_CREATE KEY_OBJECT
+     KEY_FROM monad_specification(M)
+     with_id_d_specification(W)
+     object_creation_specification(C).
+    { S = new CreateObjectFromMonadsStatement((MQLExecEnv*) pEE, M, W, C); }
+
+
+%type monad_specification {MQLMonadSetElement*}
+%destructor monad_specification {delete($$);}
+monad_specification(M) ::= KEY_MONADS KEY_EQUALS monad_set(S). { M = S; M->setIsFirst(true); }
+
+%type with_id_d_specification {id_d_t}
+%destructor with_id_d_specification {;}
+with_id_d_specification(W) ::= KEY_WITH KEY_ID_D  KEY_EQUALS  id_d_const(C).
+    { W = C; }
+with_id_d_specification(W) ::= . /* empty: The id_d is autogenerated. */
+    { W = NIL; }
+
+
+%type id_d_const {id_d_t}
+%destructor id_d_const {;}
+id_d_const(C) ::= INTEGER(I).
+    { C = I->integer; deleteToken(I); }
+id_d_const(C) ::=  KEY_NIL.
+    { C = NIL; }
+
+%type object_creation_specification {ObjectSpec*}
+%destructor object_creation_specification {delete($$);}
+object_creation_specification(S) ::= KEY_OPEN_SQUARE_BRACKET 
+     object_type_name(N)
+     opt_list_of_feature_assignments(F)
+     KEY_CLOSE_SQUARE_BRACKET.
+    { S = new ObjectSpec(N->extractString(), F); deleteToken(N); }
+
+
+%type opt_list_of_feature_assignments {FeatureAssignment*}
+%destructor opt_list_of_feature_assignments {delete($$);}
+opt_list_of_feature_assignments(O) ::= list_of_feature_assignments(L).
+    { O = L; }
+opt_list_of_feature_assignments(O) ::= . /* empty */
+    { O = 0; }
+
+
+%type list_of_feature_assignments {FeatureAssignment*}
+%destructor list_of_feature_assignments {delete($$);}
+list_of_feature_assignments(L) ::= feature_assignment(A).
+    { L = A; }
+list_of_feature_assignments(L) ::= 
+    list_of_feature_assignments(R) feature_assignment(A).
+    { L = A; L->setNext(R); }
+
+
+%type feature_assignment {FeatureAssignment*}
+%destructor feature_assignment {delete($$);}
+feature_assignment(A) ::= feature_name(N) KEY_ASSIGN expression(E) KEY_SEMICOLON.
+    { A = new FeatureAssignment(N->extractString(), E, 0); deleteToken(N); }
+
+
+%type feature_name {Token*}
+%destructor feature_name { deleteToken($$); }
+feature_name(N) ::= IDENTIFIER(I). { N = I; }
+feature_name(N) ::= KEY_MONADS. { N = newToken(); N->setString(new std::string("monads")); }
+
+%type expression {Expression*}
+%destructor expression {delete($$);}
+expression(E) ::= signed_integer(S). /* integer and id_d */
+    { E = new Expression(S); }
+expression(E) ::= STRING(S).
+    { E = new Expression(S->extractString(), kExprString); deleteToken(S); }
+expression(E) ::= IDENTIFIER(I). /* enumeration constant */
+    { E = new Expression(I->extractString(), kExprIdentifier); deleteToken(I); }
+expression(E) ::= monad_set(M). /* set of monads */
+    { E = new Expression(M); }
+expression(E) ::= KEY_OPEN_BRACKET KEY_CLOSE_BRACKET.
+    { E = new Expression(); /* empty list */ }
+expression(E) ::= KEY_OPEN_BRACKET list_of_integer(L) KEY_CLOSE_BRACKET.
+    { E = new Expression(new IntegerList(L)); delete L; }
+expression(E) ::= KEY_OPEN_BRACKET list_of_identifier(L) KEY_CLOSE_BRACKET.
+    { E = new Expression(new StringList(L), kExprListOfIdentifier); delete L; }
+
+
+%type list_of_integer {IntegerListNode*}
+%destructor list_of_integer {delete($$);}
+list_of_integer(L) ::= signed_integer(N).
+  { L = new IntegerListNode(N, 0); }
+list_of_integer(L) ::= 
+      list_of_integer(R) KEY_COMMA signed_integer(N).
+  { L = new IntegerListNode(N, R); R->setNext(L); }
+
+%type list_of_identifier {StringListNode*}
+%destructor list_of_identifier {delete($$);}
+list_of_identifier(L) ::= IDENTIFIER(N).
+  { L = new StringListNode(*(N->pString), 0); deleteToken(N); }
+list_of_identifier(L) ::= 
+      list_of_identifier(R) KEY_COMMA IDENTIFIER(N).
+  { L = new StringListNode(*(N->pString), R); R->setNext(L); deleteToken(N); }
+
+
+
+%type create_object_from_id_ds_statement {Statement*}
+%destructor create_object_from_id_ds_statement {delete($$);}
+create_object_from_id_ds_statement(S) ::= KEY_CREATE KEY_OBJECT
+     KEY_FROM id_ds_specification(I)
+     with_id_d_specification(W)
+     object_creation_specification(C).
+    { S = new CreateObjectFromID_DsStatement((MQLExecEnv*) pEE, I, W, C); }
+
+
+%type id_ds_specification {ID_D*}
+%destructor id_ds_specification {delete($$);}
+id_ds_specification(S) ::= choice_number_ID_DS KEY_EQUALS id_d_list(L).
+    { S = L; }
+
+
+%type choice_number_ID_DS {int}
+%destructor choice_number_ID_DS {;}
+choice_number_ID_DS(S) ::= KEY_ID_D. {S=0;}
+choice_number_ID_DS(S) ::= KEY_ID_DS. {S=0;} /* No difference ::= syntactic sugar */
+
+
+%type id_d_list {ID_D*}
+%destructor id_d_list {delete($$);}
+id_d_list(L) ::= id_d(I).
+    { L = I; }
+id_d_list(L) ::= id_d_list(R) KEY_COMMA id_d(I).
+    { L = I; L->setNext(R); } 
+
+
+%type id_d {ID_D*}
+%destructor id_d {delete($$);}
+id_d(I) ::= id_d_const(C).  { I = new ID_D(C, 0); }
+
+
+%type create_objects_statement {Statement*}
+%destructor create_objects_statement {delete($$);}
+create_objects_statement(S) ::=
+     KEY_CREATE KEY_OBJECTS
+     KEY_WITH KEY_OBJECT KEY_TYPE
+     KEY_OPEN_SQUARE_BRACKET 
+     object_type_name(N)
+     KEY_CLOSE_SQUARE_BRACKET
+     object_creation_list(O).
+  { S = new CreateObjectsStatement((MQLExecEnv*) pEE, N->extractString(), O); deleteToken(N); }
+
+
+%type object_creation_list {ObjectSpecNoOT*}
+%destructor object_creation_list {delete($$);}
+object_creation_list(L) ::= 
+     object_creation_no_object_type(C).
+    { L = C; }
+object_creation_list(L) ::= 
+    object_creation_list(R) object_creation_no_object_type(C).
+    { L = C; L->setNext(R); }
+
+
+%type object_creation_no_object_type {ObjectSpecNoOT*}
+%destructor object_creation_no_object_type {delete($$);}
+object_creation_no_object_type(O) ::= 
+     KEY_CREATE KEY_OBJECT
+     KEY_FROM monad_specification(M)
+     with_id_d_specification(W)
+     KEY_OPEN_SQUARE_BRACKET 
+     opt_list_of_feature_assignments(L)
+     KEY_CLOSE_SQUARE_BRACKET.
+  { O = new ObjectSpecNoOT(M, W, L, 0); }
+	
+
+%type update_objects_by_monads_statement {Statement*}
+%destructor update_objects_by_monads_statement {delete($$);}
+update_objects_by_monads_statement(S) ::= KEY_UPDATE 
+     choice_number_OBJECTS
+     KEY_BY monad_specification(M) 
+     object_update_specification(U).
+    { S = new UpdateObjectsByMonadsStatement((MQLExecEnv*) pEE, M, U); }
+
+
+%type choice_number_OBJECTS {int}
+%destructor choice_number_OBJECTS {;}
+choice_number_OBJECTS(S) ::= KEY_OBJECT. {S=0;}
+choice_number_OBJECTS(S) ::= KEY_OBJECTS. {S=0;} /* no difference ::= syntactic sugar */
+
+
+%type object_update_specification {ObjectSpec*}
+%destructor object_update_specification {delete($$);}
+object_update_specification(O) ::= 
+     KEY_OPEN_SQUARE_BRACKET object_type_name(N) 
+     list_of_feature_assignments(L)
+     KEY_CLOSE_SQUARE_BRACKET.
+    { O = new ObjectSpec(N->extractString(), L); deleteToken(N); }
+
+
+
+%type update_objects_by_id_ds_statement {Statement*}
+%destructor update_objects_by_id_ds_statement {delete($$);}
+update_objects_by_id_ds_statement(S) ::= 
+     KEY_UPDATE 
+     choice_number_OBJECTS
+     KEY_BY id_ds_specification(I)
+     object_update_specification(O).
+    { S = new UpdateObjectsByID_DsStatement((MQLExecEnv*) pEE, I, O); }
+
+
+
+%type delete_objects_by_monads_statement {Statement*}
+%destructor delete_objects_by_monads_statement {delete($$);}
+delete_objects_by_monads_statement(S) ::= KEY_DELETE
+     choice_number_OBJECTS
+     KEY_BY monad_specification(M)
+     object_deletion_specification(D).
+    { S = new DeleteObjectsByMonadsStatement((MQLExecEnv*) pEE, M, *(D->pString)); deleteToken(D); }
+
+
+%type object_deletion_specification {Token*}
+%destructor object_deletion_specification { deleteToken($$); }
+object_deletion_specification(S) ::= 
+     KEY_OPEN_SQUARE_BRACKET 
+     object_type_name_to_delete(N)
+     KEY_CLOSE_SQUARE_BRACKET.
+    { S = N; }
+
+
+%type object_type_name_to_delete {Token*}
+%destructor object_type_name_to_delete  { deleteToken($$); }
+object_type_name_to_delete(D) ::= choice_object_type_or_all(C).
+    { D = C; }
+
+
+
+%type delete_objects_by_id_ds_statement {Statement*}
+%destructor delete_objects_by_id_ds_statement {delete($$);}
+delete_objects_by_id_ds_statement(S) ::= KEY_DELETE
+     choice_number_OBJECTS
+     KEY_BY id_ds_specification(I)
+     object_deletion_specification(D).
+    { S = new DeleteObjectsByID_DsStatement((MQLExecEnv*) pEE, I, *(D->pString)); deleteToken(D); }
+
+
+
+%type get_features_statement {Statement*}
+%destructor get_features_statement {delete($$);}
+get_features_statement(S) ::= KEY_GET choice_number_FEATURES
+     feature_list(F)
+     KEY_FROM choice_number_OBJECTS
+     KEY_WITH id_ds_specification(I)
+     KEY_OPEN_SQUARE_BRACKET object_type_name(N)
+     KEY_CLOSE_SQUARE_BRACKET.
+{ S = new GetFeaturesStatement((MQLExecEnv*) pEE, F, I, N->extractString()); deleteToken(N); }
+
+
+%type choice_number_FEATURES {int}
+%destructor choice_number_FEATURES {;}
+choice_number_FEATURES(S) ::= KEY_FEATURE. {S=0;}
+choice_number_FEATURES(S) ::= KEY_FEATURES. {S=0;} /* Same thing; syntactic sugar */
+
+%type feature_list {GrammarFeature*}
+%destructor feature_list {delete($$);}
+feature_list(L) ::= feature_name(N).
+    { L = new GrammarFeature(N->extractString(), 0); deleteToken(N); }
+feature_list(L) ::= feature_list(R) KEY_COMMA feature_name(N).
+    { L = new GrammarFeature(N->extractString(), R); deleteToken(N); }
+
+
+%type quit_statement {Statement*}
+%destructor quit_statement {delete($$);}
+quit_statement(S) ::= KEY_QUIT.
+{ S = new QuitStatement((MQLExecEnv*) pEE); }
+
+
+%type mql_query {Topograph*}
+%destructor mql_query {delete($$);}
+mql_query(Q) ::= topograph(T).
+    { Q = T; }
+ 
+
+%type topograph {Topograph*}
+%destructor topograph {delete($$);}
+topograph(T) ::= blocks(B).
+    { T = new Topograph(B); }
+
+
+%type blocks {Blocks*}
+%destructor blocks {delete($$);}
+blocks(B) ::= using_range_clause(U) block_string(S).
+    { B = new Blocks(S, U); }
+blocks(B) ::= using_range_clause(U) unordered_group(G) .
+    { B = new Blocks(G, U); }
+
+
+%type block_string0 {BlockString0*}
+%destructor block_string0 {delete($$);}
+block_string0(T) ::= block (B) .
+    { T = new BlockString0(B); }
+block_string0(T) ::= KEY_OPEN_SQUARE_BRACKET block_string(B) KEY_CLOSE_SQUARE_BRACKET .
+    { T = new BlockString0(B); }
+
+%type block_string1 {BlockString1*}
+%destructor block_string1 {delete($$);}
+block_string1(T) ::= block_string0(B) .
+    { T = new BlockString1(B); }
+block_string1(T) ::= block_string0(B) KEY_STAR star_monad_set(M).
+    { T = new BlockString1(B, M); }
+
+%type block_string2 {BlockString2*}
+%destructor block_string2 {delete($$);}
+block_string2(T) ::= block_string1(B) .
+    { T = new BlockString2(B); }
+block_string2(T) ::= block_string1(B) block_string2(S) .
+    { T = new BlockString2(B, S, false); }
+
+block_string2(T) ::= block_string1(B) KEY_EXCLAMATION block_string2(S) .
+    { T = new BlockString2(B, S, true); }
+
+%type block_string {BlockString*}
+%destructor block_string {delete($$);}
+block_string(T) ::= block_string2(B) .
+    { T = new BlockString(B); }
+block_string(T) ::= block_string2(B) KEY_OR block_string(S) .
+    { T = new BlockString(B, S); }
+
+
+%type notexist {int}
+%destructor notexist {;}
+notexist(S) ::= KEY_NOTEXIST . { S = 0; }
+notexist(S) ::= KEY_NOTEXISTS . { S = 0; }
+
+
+%type object_reference_declaration {Token*}
+%destructor object_reference_declaration { deleteToken($$); }
+object_reference_declaration(O) ::= . /* empty */ { O = newToken(); O->setString(new std::string()); }
+object_reference_declaration(O) ::= KEY_AS object_reference(R). { O = R; }
+
+
+%type mark_declaration {Token*}
+%destructor mark_declaration { deleteToken($$); }
+mark_declaration(R) ::= . /* empty */ { R = newToken(); R->setString(new std::string()); }
+mark_declaration(R) ::= MARK(M) . { R = M; }
+
+
+%type object_reference {Token*}
+%destructor object_reference { deleteToken($$); }
+object_reference(O) ::= IDENTIFIER(I). { O = I; }
+
+%type retrieval {eRetrieval}
+%destructor retrieval {;}
+retrieval(R) ::= . /* empty */    { R = kRetrieve; }
+retrieval(R) ::= KEY_NORETRIEVE. { R = kNoRetrieve; }
+retrieval(R) ::= KEY_RETRIEVE.   { R = kRetrieve; }
+retrieval(R) ::= KEY_FOCUS.      { R = kRetrieveFocus; }
+
+%type firstlast {eFirstLast}
+%destructor firstlast {;}
+firstlast(F) ::= . /* empty */                  { F = kNoFirstLast; }
+firstlast(F) ::= KEY_FIRST.                     { F = kFirst; }
+firstlast(F) ::= KEY_LAST.                      { F = kLast; }
+firstlast(F) ::= KEY_FIRST  KEY_AND  KEY_LAST.  { F = kFirstAndLast; }
+
+%type monad_set_relation_clause {MonadSetRelationClause*}
+%destructor monad_set_relation_clause {delete($$);}
+monad_set_relation_clause(MSRC) ::= monad_set_relation_operation(MSRO)  KEY_OPEN_BRACKET monad_set_name(N) KEY_COMMA universe_or_substrate(UORSU) KEY_CLOSE_BRACKET .  
+{ MSRC = new MonadSetRelationClause(MSRO, N->extractString(), UORSU); deleteToken(N); }
+monad_set_relation_clause(MSRC) ::= monad_set_relation_operation(MSRO)  KEY_OPEN_BRACKET universe_or_substrate(UORSU) KEY_CLOSE_BRACKET .  
+{ MSRC = new MonadSetRelationClause(MSRO, new std::string("monads"), UORSU); }
+monad_set_relation_clause(MSRC) ::= . /* empty */ 
+{ MSRC = new MonadSetRelationClause(kMSROPartOf, new std::string("monads"), kMSNSubstrate); }
+
+%type monad_set_relation_operation {eMonadSetRelationOperation}
+%destructor monad_set_relation_operation {}
+monad_set_relation_operation(MSRO) ::= KEY_PART_OF .
+{ MSRO = kMSROPartOf; }
+monad_set_relation_operation(MSRO) ::= KEY_STARTS_IN .
+{ MSRO = kMSROStartsIn; }
+monad_set_relation_operation(MSRO) ::= KEY_OVERLAP .
+{ MSRO = kMSROOverlap; }
+
+
+%type universe_or_substrate {eUniverseOrSubstrate}
+%destructor universe_or_substrate { }
+universe_or_substrate(UORSU) ::= KEY_UNIVERSE .
+{ UORSU = kMSNUniverse; }
+universe_or_substrate(UORSU) ::= KEY_SUBSTRATE .
+{ UORSU = kMSNSubstrate; }
+
+
+%type feature_constraints {FFeatures*}
+%destructor feature_constraints {delete($$);}
+feature_constraints(C) ::= . /* empty */  { C = 0; }
+feature_constraints(C) ::= ffeatures(F).     { C = F; }
+
+
+%type ffeatures {FFeatures*}
+%destructor ffeatures {delete($$);}
+ffeatures(F) ::= fterm(T). { F = new FFeatures(T); }
+ffeatures(F) ::= ffeatures(R) KEY_OR fterm(T). { F = new FFeatures(R, T); }
+
+
+%type fterm {FTerm*}
+%destructor fterm {delete($$);}
+fterm(T) ::= ffactor(F).                   { T = new FTerm(F); }
+fterm(T) ::= fterm(O) KEY_AND ffactor(F).  { T = new FTerm(O, F); }
+
+%type ffactor {FFactor*}
+%destructor ffactor {delete($$);}
+ffactor(F) ::=  KEY_NOT  ffactor(N). 
+    { F = new FFactor(N); }
+ffactor(F) ::= KEY_OPEN_BRACKET  ffeatures(S)  KEY_CLOSE_BRACKET.
+    { F = new FFactor(S); }
+ffactor(F) ::= feature_comparison(C).
+    { F = new FFactor(C); }
+
+
+%type feature_comparison {FeatureComparison*}
+%destructor feature_comparison {delete($$);}
+feature_comparison(C) ::= feature_name(N) comparison_operator(O) value(V).
+    { C = new FeatureComparison(N->extractString(), O, V); deleteToken(N); }
+feature_comparison(C) ::= feature_name(N) KEY_IN KEY_OPEN_BRACKET list_of_identifier(S) KEY_CLOSE_BRACKET.
+    { C = new FeatureComparison(N->extractString(), S); deleteToken(N); }
+feature_comparison(C) ::= feature_name(N) KEY_IN KEY_OPEN_BRACKET list_of_integer(S) KEY_CLOSE_BRACKET.
+    { C = new FeatureComparison(N->extractString(), S); deleteToken(N); }
+feature_comparison(C) ::= feature_name(N) KEY_IN object_reference_usage(R).
+    { C = new FeatureComparison(N->extractString(), kIn, new Value(R)); deleteToken(N); }
+
+
+%type comparison_operator {eComparisonOp}
+%destructor comparison_operator {;}
+comparison_operator(O) ::= KEY_EQUALS. { O = kEqual; }
+comparison_operator(O) ::= KEY_LESS_THAN. { O = kLessThan; }
+comparison_operator(O) ::= KEY_GREATER_THAN. { O = kGreaterThan; }
+comparison_operator(O) ::= KEY_NOT_EQUAL. { O = kNotEqual; }
+comparison_operator(O) ::= KEY_LESS_THAN_OR_EQUAL. { O = kLessThanOrEqual; }
+comparison_operator(O) ::= KEY_GREATER_THAN_OR_EQUAL.  { O = kGreaterThanOrEqual; }
+comparison_operator(O) ::= KEY_TILDE.  { O = kTilde; }
+comparison_operator(O) ::= KEY_NOT_TILDE. { O = kNotTilde; }
+comparison_operator(O) ::= KEY_HAS. { O = kHas; }
+
+ 
+
+%type value {Value*}
+%destructor value {delete($$);}
+value(V) ::= enum_const(C).
+    { V = new Value(C->extractString(), kValEnumConst); deleteToken(C); }
+value(V) ::= signed_integer(S).
+    { V = new Value(S); }
+value(V) ::= STRING(S).  
+    { V = new Value(S->extractString(), kValString); deleteToken(S); }
+value(V) ::= object_reference_usage(R).
+    { V = new Value(R); }
+
+
+%type enum_const {Token*}
+%destructor enum_const { deleteToken($$); }
+enum_const(C) ::=  IDENTIFIER(I). { C = I; }
+
+%type object_reference_usage {ObjectReferenceUsage*}
+%destructor object_reference_usage {delete($$);}
+object_reference_usage(U) ::= object_reference(R) KEY_DOT feature_name(N).
+    { U = new ObjectReferenceUsage(R->extractString(), N->extractString()); deleteToken(R); deleteToken(N); }
+
+
+%type opt_blocks {Blocks*}
+%destructor opt_blocks {delete($$);}
+opt_blocks(O) ::= . /* empty */ { O = 0; }
+opt_blocks(O) ::= blocks(B). { O = B; }
+
+
+%type block {Block*}
+%destructor block {delete($$);}
+block(B) ::= object_block(O).    { B = new Block(O); }
+block(B) ::= power(P).           { B = new Block(P); }
+block(B) ::= opt_gap_block(O).   { B = new Block(O); }
+block(B) ::= gap_block(G).       { B = new Block(G); }
+block(B) ::= notexist_object_block(O). { B = new Block(O); }
+
+
+%type unordered_group {UnorderedGroup*}
+%destructor unordered_group {delete($$);}
+unordered_group(G) ::= KEY_OPEN_SQUARE_BRACKET
+                       KEY_UNORDERED_GROUP
+                       object_block_string(S)
+                       KEY_CLOSE_SQUARE_BRACKET .
+{ G = new UnorderedGroup(S); }
+
+%type object_block_string {ObjectBlockString*}
+%destructor object_block_string {delete($$);}
+object_block_string(S) ::= object_block(B).    { S = new ObjectBlockString(NULL, B); }
+object_block_string(S) ::= object_block_string(O) object_block(B).    { S = new ObjectBlockString(O, B); }
+
+
+
+
+%type star_monad_set {MQLMonadSetElement*}
+%destructor star_monad_set {delete($$);}
+star_monad_set(M) ::= . { M = new MQLMonadSetElement(0, MAX_MONAD, 0, true); }
+star_monad_set(M) ::= monad_set(S) . { M = S; M->setIsFirst(true); }
+
+%type opt_gap_block {OptGapBlock*}
+%destructor opt_gap_block {delete($$);}
+opt_gap_block(G) ::= KEY_OPEN_SQUARE_BRACKET  KEY_OPT_GAP  mark_declaration(M) gap_retrieval(R)  opt_blocks(O) KEY_CLOSE_SQUARE_BRACKET.
+    { G = new OptGapBlock(R, M->extractString(), O); deleteToken(M); }
+
+
+%type gap_retrieval {eRetrieval}
+%destructor gap_retrieval {;}
+gap_retrieval(G) ::= . /* empty */   { G = kNoRetrieve; }
+gap_retrieval(G) ::= KEY_NORETRIEVE. { G = kNoRetrieve; }
+gap_retrieval(G) ::= KEY_RETRIEVE.   { G = kRetrieve; }
+gap_retrieval(G) ::= KEY_FOCUS.      { G = kRetrieveFocus; }
+
+
+%type gap_block {GapBlock*}
+%destructor gap_block {delete($$);}
+gap_block(G) ::= KEY_OPEN_SQUARE_BRACKET  KEY_GAP  mark_declaration(M)  gap_retrieval(R)  opt_blocks(O)  KEY_CLOSE_SQUARE_BRACKET.
+    { G = new GapBlock(R, M->extractString(), O); deleteToken(M); }
+
+
+
+
+%type feature_retrieval {GrammarFeature*}
+%destructor feature_retrieval {delete($$);}
+feature_retrieval(R) ::= KEY_GET  feature_list(L). { R = L; }
+feature_retrieval(R) ::= . /* empty */ { R = 0; }
+
+
+%type object_block {ObjectBlock*}
+%destructor object_block {delete($$);}
+object_block(B) ::=  KEY_OPEN_SQUARE_BRACKET  object_type_name(N)
+     mark_declaration(M)
+     object_reference_declaration(D)
+     retrieval(R)  firstlast(L)
+     monad_set_relation_clause(MSRC)
+     feature_constraints(C)
+     feature_retrieval(F)
+     opt_blocks(O)  KEY_CLOSE_SQUARE_BRACKET.
+    { B = new ObjectBlock(N->extractString(), M->extractString(), D->extractString(), R, L, MSRC, C, F, O, false); 
+      deleteToken(N); deleteToken(M); deleteToken(D); 
+    }
+
+%type notexist_object_block {ObjectBlock*}
+%destructor notexist_object_block {delete($$);}
+notexist_object_block(B) ::=  notexist KEY_OPEN_SQUARE_BRACKET  object_type_name(N)
+     mark_declaration(M)
+     object_reference_declaration(D)
+     retrieval(R)  firstlast(L)
+     monad_set_relation_clause(MSRC)
+     feature_constraints(C)
+     feature_retrieval(F)
+     opt_blocks(O)  KEY_CLOSE_SQUARE_BRACKET.
+    { B = new ObjectBlock(N->extractString(), M->extractString(), D->extractString(), R, L, MSRC, C, F, O, true); 
+      deleteToken(N); deleteToken(M); deleteToken(D); 
+    }
+
+
+%type power {Power*}
+%destructor power {delete($$);}
+power(P) ::=  KEY_POWER  restrictor(R).
+    { P = new Power(R); }
+power(P) ::=  KEY_POWER KEY_BETWEEN limit(L) KEY_AND limit(H).
+    { P = new Power(L, H); }
+
+%type restrictor {monad_m}
+%destructor restrictor {;}
+restrictor(R) ::= . /*  empty  */                     { R = MAX_MONAD; }
+restrictor(R) ::= KEY_LESS_THAN  limit(L).            { R = L-1; }
+restrictor(R) ::= KEY_LESS_THAN_OR_EQUAL  limit(L).   { R = L; }
+
+
+%type limit {monad_m}
+%destructor limit {;}
+limit(L)  ::=  INTEGER(I).  /* non-negative integer, may be 0. */
+    { L = I->integer; deleteToken(I); }  
+
+
+
+
+

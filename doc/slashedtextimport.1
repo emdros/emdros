@@ -1,0 +1,118 @@
+.\" Man page for slashedtextimport
+.\" Use the following command to view man page:
+.\"
+.\"  tbl slashedtextimport.1 | nroff -man | less
+.\"
+.TH SLASHEDTEXTIMPORT 1 "August 9, 2006"
+.SH NAME
+slashedtextimport \- A tool to convert slashed text to Emdros MQL
+.SH SYNOPSIS
+\fBslashedtextimport\fR [ options ] [input_filename ...]
+.br
+.SH DESCRIPTION
+\fBslashedtextimport\fR is a command-line tool to convert "slashed
+text" to Emdros MQL for later importing into Emdros.  "Slashed text"
+is here a term used to describe text that: a) has whitespace-separated
+words, abd b) has analyses of each word, appended on to the word, and
+separated by some substring, usually the character `/'.
+
+\fBslashedtextimport\fR can separate text into paragraphs if
+paragraphs are always delimited by the same string.  The default
+paragraph-delimiter is "\\n\\n", i.e., two newlines.
+
+.SH OPTIONS
+\fBslashedtextimport\fR supports the following command-line switches:
+.TP 6
+.BI \-\-help
+show help, then quit
+.TP
+.BI \-V\ ,\ \-\-version
+show version, then quit
+.TP
+.BI \-s\ ,\ \-\-schema
+show MQL schema on stdout, then quit (can be used with -d)
+.TP
+.BI \-d\ ,\ \-\-dbname \ dbname 
+set database name. If used with -s, the string "CREATE DATABASE
+'dbname' GO USE DATABASE 'dbname' GO" will be issued before the schema.  If used when importing, "USE DATABASE 'dbname' GO" will be issued before anything else.
+.TP
+.BI \-o\ ,\ \-\-output \ filename
+dump to file filename. The default is "-", which means "standard
+output".
+.TP
+.BI \-\-start-monad \ monad
+The start monad to use. Must be >= 1.  The default is 1.
+.TP
+.BI \-\-start-id_d \ id_d
+The start id_d to use. Must be >= 1.  The default is 1.
+.TP
+.BI \-\-word-sep \ string
+Use the given string as the word-internal separator.  The default
+is '/'.  All standard C escapes such as '\\n' and '\\r' can be used,
+uncluding '\\xYZ' for hexadecimal characters.
+.TP
+.BI \-\-para-sep \ string
+Use the given string as the paragraph-separator.  The default is two
+newlines ("\\n\\n").  All standard C escapes such as '\\n' and '\\r'
+can be used, uncluding '\\xYZ' for hexadecimal characters.
+.TP
+
+.SH OPERATION
+
+\fBslashedtextimport\fR reads slashed text converts the text to MQL
+statements for later importing into Emdros.
+
+The filenames given after the options on the command line are
+interpreted as if each of them contains one document, each containing
+a whitespace-separated string of words.  If no filenames are given,
+the input is read from stdin.
+
+If no \fB-o\fR switch is given, the output is printed on stdout.
+
+If an error occurs, the string "FAILURE" or the string "ERROR" is
+printed on stderr, along with an error message.
+
+If no error occurs, a string of the form "SUCCESS: next_monad is X
+next_id_d is Y" is printed on stderr, where X and Y are positive
+integers denoting the next monad and the next id_d to be used by the
+next invocation of the program, respectively.  This is useful if
+you've got several directories' worth of documents to import.
+
+.SH SCHEMA
+
+The schema can be seen by giving the program \fB-s\fR switch, with an
+optional \fB-d\fR switch.
+
+A "Document" corresponds to one top-level file.
+
+A "Paragraph" corresponds to a contiguous stretch of words delimited
+from other paragraphs by the argument of --para-sep.
+
+A "Word" is a single whitespace-separated "string" in a document,
+separated into "surface", "tag", and "lemma" (in that order) by the
+"word-internal separator" (`/' by default; see the --word-sep option
+above).  If the lemma is not present, it is set to the empty string.
+If the tag is not present, it is set to the empty string.
+
+
+.SH RETURN VALUES
+.TP
+.BR 0 " Success"
+.TP
+.BR 1 " Wrong usage"
+.TP
+.BR 2 " Connection to backend server could not be established"
+.TP
+.BR 3 " An exception occurred (the type is printed on stderr)"
+.TP
+.BR 4 " Could not open file"
+.TP
+.BR 5 " Database error"
+.TP
+.BR 6 " Compiler error (internal error)"
+.SH AUTHORS
+Copyright
+.Cr
+2001-2006 by Ulrik Petersen (ulrikp@users.sourceforge.net).  Note that
+this software is distributed under the GNU GPL.  See the sources for
+details.

@@ -1,0 +1,30 @@
+#!/bin/bash
+#
+# Usage:
+#
+# install_mac.sh [install-prefix]
+#
+# If no install prefix is given, then ~/opt/Emdros@VERSION@ is used
+#
+# 
+#
+
+if test "x$1" = "x"; then
+   PREFIX="`cd ~ ; pwd`/opt/Emdros@VERSION@"
+else
+   PREFIX=$1
+fi
+
+mkdir -pv $PREFIX/bin
+mkdir -pv $PREFIX/include/emdros
+mkdir -pv $PREFIX/lib/emdros
+mkdir -pv $PREFIX/man/1
+mkdir -pv $PREFIX/share/emdros/hal
+
+cp -Rfp bin/* $PREFIX/bin/
+cp -Rfp man/* $PREFIX/man/
+cp -Rfp include/* $PREFIX/include/emdros
+cp -Rfp lib/* $PREFIX/lib/emdros
+cp -Rfp share/* $PREFIX/share/
+
+echo "Emdros successfully installed with prefix $PREFIX"

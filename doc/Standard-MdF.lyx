@@ -1,0 +1,2554 @@
+#LyX 1.4.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 245
+\begin_document
+\begin_header
+\textclass article
+\begin_preamble
+\usepackage{a4}
+\usepackage{times}
+\end_preamble
+\language english
+\inputencoding auto
+\fontscheme default
+\graphics default
+\paperfontsize 12
+\spacing single
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\cite_engine basic
+\use_bibtopic false
+\paperorientation portrait
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\defskip medskip
+\quotes_language english
+\papercolumns 1
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes true
+\end_header
+
+\begin_body
+
+\begin_layout Title
+The Standard MdF Model
+\end_layout
+
+\begin_layout Author
+Ulrik Petersen
+\end_layout
+
+\begin_layout Date
+December 3, 2002
+\end_layout
+
+\begin_layout Standard
+\begin_inset LatexCommand \tableofcontents{}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+The MdF model was developed by Crist-Jan Doedens in his 1994 PhD dissertation.
+ It is a database model which is exceptionally well suited to storing linguistic
+ analyzes of text.
+ The MdF model gives a high-level view of text databases, where a text database
+ is viewed as text plus information about that text.
+ The MdF model is mathematically clean, simple, intuitive, and elegant,
+ which makes it well suited to conceptualization of solutions to problems
+ which can be solved by a text database.
+\end_layout
+
+\begin_layout Standard
+This article gives an introduction to the standard MdF model.
+ The introduction is based heavily on Chapters 2 and 3 in Doedens' book,
+ and follows the same structure.
+ 
+\end_layout
+
+\begin_layout Standard
+The bibliographic information for Doedens' PhD dissertation is:
+\end_layout
+
+\begin_layout Quote
+Doedens, Crist-Jan [Christianus Franciscus Joannes].
+ 
+\emph on
+Text Databases.
+ One Database Model and Several Retrieval Languages.
+
+\emph default
+ Language and Computers, Number 14.
+ Amsterdam and Atlanta, GA: Editions Rodopi Amsterdam, 1994.
+ Extent: xii + 314 pages.
+ ISBN: 90-5183-729-1.
+\end_layout
+
+\begin_layout Section
+On text-databases generally
+\end_layout
+
+\begin_layout Subsection
+Text-dominated databases, expounded text
+\end_layout
+
+\begin_layout Standard
+Two concepts are a key in understanding the state of the art in text databases.
+ I here give two quotes from Doedens:
+\end_layout
+
+\begin_layout Standard
+Text-dominated\InsetSpace ~
+databases are 
+\begin_inset Quotes eld
+\end_inset
+
+collections of data, predominantly composed of characters, in which we can
+ perceive structure
+\begin_inset Quotes erd
+\end_inset
+
+ (p.\InsetSpace ~
+18).
+ This is the current viewpoint on databases of text.
+ 
+\end_layout
+
+\begin_layout Standard
+Expounded\InsetSpace ~
+text is 
+\begin_inset Quotes eld
+\end_inset
+
+An interpreted text, i.e.\InsetSpace ~
+a combination of text and information about this
+ text, stored in a computer, and structured for easy update and access
+\begin_inset Quotes erd
+\end_inset
+
+ (p.\InsetSpace ~
+19).
+ The MdF model embodies the idea of expounded text.
+ 
+\end_layout
+
+\begin_layout Subsection
+What is a database model?
+\end_layout
+
+\begin_layout Standard
+Doedens defines a 
+\series bold
+data model
+\series default
+ or 
+\series bold
+database model
+\series default
+ as 
+\end_layout
+
+\begin_layout Quote
+\begin_inset Quotes eld
+\end_inset
+
+a toolbox of concepts which can be used to describe the handling by the
+ computer of data in certain domain(s).
+ The concepts should allow easy formulation by humans of the structuring
+ and handling of the data in the domain(s).
+ The concepts can be grouped as follows: 
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+The data structures supported by the model 
+\end_layout
+
+\begin_layout Itemize
+The access language.
+ This language, or set of languages should allow the definition of the structure
+ and types of the data and allow creation, insertion, change, deletion and
+ retrieval of the data.
+\begin_inset Quotes erd
+\end_inset
+
+ (p.\InsetSpace ~
+23)
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+The MdF model is not a full database model, in that it does not specify
+ an access language, but only the data structures supported by the model.
+ This, a database model without its access language component, is what Doedens
+ calls a 
+\series bold
+static database model
+\series default
+.
+\end_layout
+
+\begin_layout Subsection
+Demands on a text database model
+\end_layout
+
+\begin_layout Standard
+Doedens says: 
+\end_layout
+
+\begin_layout Quote
+\begin_inset Quotes eld
+\end_inset
+
+The fundamental requirement for a text database model is that it should
+ be able to support the structural description of a text and its associated
+ annotations.
+\begin_inset Quotes erd
+\end_inset
+
+ (p.\InsetSpace ~
+25)
+\end_layout
+
+\begin_layout Standard
+He then lists thirteen demands which he perceives should be set on text
+ database models:
+\end_layout
+
+\begin_layout Description
+D1.
+ 
+\series bold
+Objects: We should be able to identify separate parts of the text.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+This can be realized with instances of the concept of objects.
+\end_layout
+
+\end_deeper
+\begin_layout Description
+D2.
+ 
+\series bold
+Objects are unique: Each object should be uniquely identifiable.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+Otherwise, we may not know what we are talking about.
+\end_layout
+
+\end_deeper
+\begin_layout Description
+D3.
+ 
+\series bold
+Objects are independent: Each object in the database should exist without
+ direct reference to other objects.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+The advantage of having this is that we can have the best of two worlds:
+ Independence and dependence, isolation and referentiality.
+ The independence comes from D3 being met, and the dependence can arise
+ through D4-D7 being met.
+\end_layout
+
+\end_deeper
+\begin_layout Description
+D4.
+ 
+\series bold
+Object types:
+\series default
+ 
+\series bold
+We need `object types': we should be able to assign the same generic name
+ to like objects.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+For example, we would like to be able to identify certain parts of a book
+ stored in a text database as 
+\begin_inset Quotes eld
+\end_inset
+
+paragraphs
+\begin_inset Quotes erd
+\end_inset
+
+, other parts of a book as 
+\begin_inset Quotes eld
+\end_inset
+
+chapters
+\begin_inset Quotes erd
+\end_inset
+
+, and other parts as 
+\begin_inset Quotes eld
+\end_inset
+
+pages
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\end_deeper
+\begin_layout Description
+D5.
+ 
+\series bold
+Multiple hierarchies: It should be possible to have different hierarchies
+ of types.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+For example, we might have a hierarchy of types which form a textual hierarchy
+ (`character', `word', `line', `page', `book'), and a hierarchy of types
+ which form a logical hierarchy (`word', `sentence', `paragraph', `chapter').
+\end_layout
+
+\end_deeper
+\begin_layout Description
+D6.
+ 
+\series bold
+Hierarchies can share types: 
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+See D5 for a useful example.
+\end_layout
+
+\end_deeper
+\begin_layout Description
+D7.
+ 
+\series bold
+Object features: We should be able to assign features and values for these
+ features to objects
+\series default
+.
+\end_layout
+
+\begin_layout Description
+D8.
+ 
+\series bold
+Accommodation for variations in the surface text: E.g.\InsetSpace ~
+variations in spelling
+ should be attributable to the same words in the surface text.
+\end_layout
+
+\begin_layout Description
+D9.
+ 
+\series bold
+Overlapping objects:
+\series default
+ 
+\series bold
+We need objects of the same type to be able to overlap.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+For example, to describe recursivity in linguistic phenomena.
+ Take for example the string of words, `A noun phrase and a conjunction
+ phrase': How do we analyze this? As two noun phrases (
+\begin_inset Quotes eld
+\end_inset
+
+A noun phrase
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+a conjunction phrase
+\begin_inset Quotes erd
+\end_inset
+
+) conjoined by a conjunction (
+\begin_inset Quotes eld
+\end_inset
+
+and
+\begin_inset Quotes erd
+\end_inset
+
+), or as one compound noun phrase (the whole thing)? We want to be able
+ to represent both choices.
+ Overlapping objects of the same type can help us in doing this.
+\end_layout
+
+\end_deeper
+\begin_layout Description
+D10.
+ 
+\series bold
+Gaps: We need objects with `gaps'.
+\end_layout
+
+\begin_deeper
+\begin_layout Standard
+For example to describe clauses which are discontiguous, as in 
+\begin_inset Quotes eld
+\end_inset
+
+John, who was having a cow, freaked out.
+\begin_inset Quotes erd
+\end_inset
+
+, where 
+\begin_inset Quotes eld
+\end_inset
+
+John ...
+ freaked out
+\begin_inset Quotes erd
+\end_inset
+
+ is a discontiguous clause.
+\end_layout
+
+\end_deeper
+\begin_layout Standard
+So far, the demands have dealt with the data-structures to support the model.
+ The following demands reflect the demands which a full model (one in which
+ there is also an access language) must meet:
+\end_layout
+
+\begin_layout Description
+D11.
+ 
+\series bold
+Type language:
+\series default
+ 
+\series bold
+We need a type language in which we can specify object types and the types
+ of their features.
+\end_layout
+
+\begin_layout Description
+D12.
+ 
+\series bold
+Data language: We need a strongly typed data language in which we can specify
+ the creation, insertion, change, deletion, and retrieval of data.
+\end_layout
+
+\begin_layout Description
+D13.
+ 
+\series bold
+Structural relations between types:
+\series default
+ 
+\series bold
+It should be possible to specify standard structural relations between objects
+ of different types.
+\end_layout
+
+\begin_layout Standard
+None of the text database models available today satisfies these 13 demands.
+ The MdF model satisfies D1-D10.
+ In contrast, SGML does not, and neither do any of its derivatives, e.g..
+ XML.
+\end_layout
+
+\begin_layout Section
+Gentle introduction to the MdF model
+\end_layout
+
+\begin_layout Subsection
+Key concepts
+\end_layout
+
+\begin_layout Standard
+The MdF model has four key concepts:
+\end_layout
+
+\begin_layout Enumerate
+Monads: These are the basic building blocks of the database.
+ They are simply integers.
+ Monads are ordered relative to each other, such that a string of monads
+ emerges.
+\end_layout
+
+\begin_layout Enumerate
+Objects: Objects are made of monads.
+ An object is a set of monads.
+\end_layout
+
+\begin_layout Enumerate
+Object types: Objects are grouped in types.
+ An object type determines what features an object has.
+\end_layout
+
+\begin_layout Enumerate
+Features: A feature is a function on objects.
+ A feature takes an object as its argument and returns some value usually
+ based on that object.
+\end_layout
+
+\begin_layout Subsection
+An example
+\end_layout
+
+\begin_layout Standard
+An example of an MdF database can be seen in figure 
+\begin_inset LatexCommand \vref{TheDoor}
+
+\end_inset
+
+.
+ It has five object types: Word, Phrase, Clause_atom, Clause, and Sentence.
+ Object type Word has two features: surface, and part_of_speech.
+ Object type Phrase has one feature: phrase_type.
+ Object types Clause_atom, Clause, and Sentence have no features.
+ The first Phrase object consists of the set of monads 
+\begin_inset Formula $\{1,2\}$
+\end_inset
+
+, the third of the set of monads 
+\begin_inset Formula $\{4\}$
+\end_inset
+
+, and the fourth of the set of monads 
+\begin_inset Formula $\{5,6,7\}$
+\end_inset
+
+.
+ The first Clause object consists of the monads 
+\begin_inset Formula $\{1,2,8,9\}$
+\end_inset
+
+.
+ Note that the first Word object 
+\emph on
+consists of
+\emph default
+ the set of monads 
+\begin_inset Formula $\{1\}$
+\end_inset
+
+, and 
+\emph on
+is
+\emph default
+ not monad 1, and likewise with the rest of the Word objects.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement htbp
+wide false
+sideways false
+status open
+
+\begin_layout Standard
+\align center
+\begin_inset Graphics
+	filename TheDoor.eps
+	display color
+	width 50page%
+	keepAspectRatio
+	rotateOrigin center
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Caption
+\begin_inset LatexCommand \label{TheDoor}
+
+\end_inset
+
+MdF example
+\end_layout
+
+\end_inset
+
+
+\begin_inset VSpace 0.3cm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Monads
+\end_layout
+
+\begin_layout Subsection
+General
+\end_layout
+
+\begin_layout Standard
+The MdF model was developed for text databases, but can be used for storing
+ anything that is linear in nature, e.g., DNA sequences.
+ The backbone of an MdF database is a linear string of minimal, indivisible
+ elements, called monads.
+ The precise nature of the entities which the monads represent is of no
+ importance to the model.
+ The only thing that matters is the relative ordering of the monads.
+\end_layout
+
+\begin_layout Standard
+A monad is simply an integer.
+ It represents the rank number in the string of monads, starting from 1.
+ Since monads are integers, we can apply all the usual relational and arithmetic
+ operators to them.
+ For example, if we have monads 
+\begin_inset Formula $a$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+, we can test whether 
+\begin_inset Formula $a<b$
+\end_inset
+
+, 
+\begin_inset Formula $a=b$
+\end_inset
+
+, or 
+\begin_inset Formula $a>b$
+\end_inset
+
+.
+ Or we can test whether 
+\begin_inset Formula $a+3=b$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Application of monads to text flows
+\end_layout
+
+\begin_layout Standard
+In everyday thinking about text, any given text is conceptualized as a one-dimen
+sional string.
+ The text may be laid out on a two-dimensional medium, e.g., paper, but there
+ is still only one string.
+ The elements in this string have an ordering called the 
+\series bold
+reading order
+\series default
+.
+ For example, the English reading-order is left-to-right, line-by-line,
+ downwards.
+ The Arabic reading-order is different, and the Japanese reading-order is
+ different yet again.
+ From the point of view of the MdF model, the reading-order is dictated
+ by the monads.
+\end_layout
+
+\begin_layout Standard
+The MdF model has no concept of parallel or unrelated text flows, e.g., footnotes
+ or margin notes vs.\InsetSpace ~
+the main text.
+ Fortunately, this is not a problem, since the object types allow us to
+ direct attention to any text flow at will.
+ For example, the implementer of an MdF database might decide to intertwine
+ the main text and the footnotes.
+ The text is then called 
+\begin_inset Quotes eld
+\end_inset
+
+footnote
+\begin_inset Quotes erd
+\end_inset
+
+ or 
+\begin_inset Quotes eld
+\end_inset
+
+main text
+\begin_inset Quotes erd
+\end_inset
+
+ simply by defining appropriate object types and defining its objects appropriat
+ely.
+ For an MdF database with several books, it might be more intuitive to place
+ each book after the other, defining an object type called 
+\begin_inset Quotes eld
+\end_inset
+
+book
+\begin_inset Quotes erd
+\end_inset
+
+ and defining its objects appropriately.
+\end_layout
+
+\begin_layout Section
+Objects, object types
+\end_layout
+
+\begin_layout Standard
+An MdF object is a set of monads.
+ The monads in this set need not be contiguous.
+ This is a great advantage, since it allows us to have objects with gaps.
+\end_layout
+
+\begin_layout Standard
+Objects are grouped in types.
+ For a sample list of object types which might occur in an MdF database,
+ look at table 
+\begin_inset LatexCommand \ref{ObjectTypes}
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement htbp
+wide false
+sideways false
+status open
+
+\begin_layout Itemize
+testament
+\end_layout
+
+\begin_layout Itemize
+book
+\end_layout
+
+\begin_layout Itemize
+chapter
+\end_layout
+
+\begin_layout Itemize
+verse
+\end_layout
+
+\begin_layout Itemize
+word
+\end_layout
+
+\begin_layout Itemize
+phrase
+\end_layout
+
+\begin_layout Itemize
+clause
+\end_layout
+
+\begin_layout Itemize
+sentence
+\end_layout
+
+\begin_layout Caption
+\begin_inset LatexCommand \label{ObjectTypes}
+
+\end_inset
+
+Sample Object types
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It is an important characteristic of objects that no two objects of the
+ same object type may consist of the same monads, i.e., there must not be
+ two objects of the same object type for which there is set equality between
+ the two sets of monads.
+ The reason for this restriction is that it gives us a simple and clear
+ criterion for what different objects are: An object is unique in its set
+ of monads.
+ On the other hand, two objects of different types may consist of the same
+ monads.
+ And two objects of the same type may share monads, so long as their sets
+ of monads are not identical.
+\end_layout
+
+\begin_layout Standard
+Note that objects do not consist of other objects.
+ Instead, objects consist of monads.
+ This is a great advantage, since it allows us to specify multiple hierarchies.
+ 
+\end_layout
+
+\begin_layout Standard
+The fact that objects are sets of monads gives rise to a rich set of descriptive
+ terms, which can all be formulated in terms of the basic operators on sets,
+ such as set equality, the subset relation, set intersection, set union,
+ and the 
+\begin_inset Quotes eld
+\end_inset
+
+member of
+\begin_inset Quotes erd
+\end_inset
+
+ relation.
+ Also, the fact that there is an ordering, 
+\begin_inset Formula $<$
+\end_inset
+
+, on the monads gives rise to a number of interesting properties.
+ We shall return to these properties in section 
+\begin_inset LatexCommand \ref{ExtendingTheBasicFramework}
+
+\end_inset
+
+ when discussing concepts related to the MdF model.
+\end_layout
+
+\begin_layout Section
+Features
+\end_layout
+
+\begin_layout Standard
+A feature is a function taking one argument: An object.
+ The object type of an object determines what features the object has.
+ The domain (type of argument) of a feature function is the set of objects
+ of a given object type.
+ The codomain (type of return value) of a feature function can be anything:
+ The MdF model puts no restrictions on the codomain.
+ This allows the implementor to implement anything at all which he or she
+ might feel should be a feature.
+ For a list of sample features which might be present in an MdF database,
+ look at table 
+\begin_inset LatexCommand \ref{FeaturesSample}
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement htbp
+wide false
+sideways false
+status open
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="16" columns="3">
+<features>
+<column alignment="left" valignment="top" leftline="true" width="0pt">
+<column alignment="left" valignment="top" leftline="true" width="0pt">
+<column alignment="left" valignment="top" leftline="true" rightline="true" width="0pt">
+<row topline="true" bottomline="true">
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Object type
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Feature name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="left" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Feature function
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+book
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+book_name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+maps a book object to its name
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+book
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+book_number
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+maps a book object to its number
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+chapter
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+chapter_number
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+maps a chapter to its number
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+word 
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+lemma
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+maps a word to its lemma
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+word
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+Friberg_tag
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+maps a word to its Friberg grammar tag
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+word
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+part_of_speech
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+maps a word to its part of speech
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+word
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+case
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+maps a word to its case (if applicable)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+word
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+gender
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+maps a word to its gender (if applicable)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+word
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+number
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+maps a word to its number (if applicable)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+phrase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+phrase_type
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+maps a phrase to its type (e.g., VP, NP)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+phrase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+arthricity
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+maps a phrase to its status as being arthrous
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+phrase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+function
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+maps a phrase to its function (e.g., Subj, Obj)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+phrase
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+determinedness
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+maps a phrase to its status as determined or not
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+clause
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+clause_type
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+maps a clause to its clause type
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row topline="true" bottomline="true">
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+clause
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+function
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Standard
+maps a clause to its function
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Caption
+Sample features
+\begin_inset LatexCommand \label{FeaturesSample}
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In particular, the codomain of a feature can be another function taking
+ other arguments, thereby in effect producing a feature with arguments.
+ 
+\end_layout
+
+\begin_layout Standard
+Features can be partial functions, i.e., there can be objects for which a
+ feature's value is not defined.
+\end_layout
+
+\begin_layout Standard
+There is no such thing as a 
+\begin_inset Quotes eld
+\end_inset
+
+genuine
+\begin_inset Quotes erd
+\end_inset
+
+ feature.
+ All features are considered to have equal status from the point of view
+ of the MdF database.
+ For example, the feature returning the surface of a word has the same status
+ as a feature that returns the sum of the monads in its argument object.
+\end_layout
+
+\begin_layout Section
+Extending the basic framework
+\end_layout
+
+\begin_layout Standard
+\begin_inset LatexCommand \label{ExtendingTheBasicFramework}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Introduction
+\end_layout
+
+\begin_layout Standard
+This section is almost a duplicate of section 3.6 in Doedens' book, but leaving
+ out some explanations, examples, justifications, and a few concepts which
+ are irrelevant to the understanding of EMdF.
+ 
+\end_layout
+
+\begin_layout Standard
+Throughout this section, we will refer to figure 
+\begin_inset LatexCommand \ref{TheDoor}
+
+\end_inset
+
+ on page 
+\begin_inset LatexCommand \pageref{TheDoor}
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Some special types: all_m, any_m, pow_m
+\end_layout
+
+\begin_layout Standard
+Any MdF database implicitly defines the object types all_m, any_m, and pow_m.
+ The reason for this is that it is convenient when talking about MdF databases.
+ 
+\end_layout
+
+\begin_layout Standard
+All_m is the object type which has just one object: The one consisting of
+ all monads in the database.
+\end_layout
+
+\begin_layout Standard
+Any_m is the object type which has for each monad one object consisting
+ of that monad.
+ 
+\end_layout
+
+\begin_layout Standard
+Pow_m is the object type which has a member for each member of the power-set
+ of the monads.
+ 
+\end_layout
+
+\begin_layout Standard
+None of these three special object types has any application-specific features.
+\end_layout
+
+\begin_layout Subsection
+Linear ordering of objects per type
+\end_layout
+
+\begin_layout Standard
+\begin_inset LatexCommand \label{LinearOrderingPerType}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The linear ordering of objects per type is based on a `lexicographic' ordering
+ of the monads.
+ This is done using the smallest monad as sort key.
+ If this gives a tie, we go on to the next smallest, the next smallest,
+ and so on.
+ If at any point object 
+\begin_inset Formula $O_{2}$
+\end_inset
+
+ has a monad which object 
+\begin_inset Formula $O_{1}$
+\end_inset
+
+ does not, then object 
+\begin_inset Formula $O_{1}$
+\end_inset
+
+ is stipulated to have the smaller ordinal of the two.
+ For any object type 
+\begin_inset Formula $T$
+\end_inset
+
+, the ordering relation within the type is denoted 
+\begin_inset Formula $<_{T}$
+\end_inset
+
+.
+ Thus, for example, if we have an object type 
+\begin_inset Formula $T$
+\end_inset
+
+ , then these relations hold:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\{1\}<_{T}\:\{1,2\}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\{1,3\}<_{T}\:\{1,2\}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\{1,3,4,5\}<_{T}\:\{1,3,4,5,6\}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\{1,2,3,4,5,6,7\}<_{T}\:\{2\}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula $\{3,4\}<_{T}\:\{5,6\}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Ordinal of an object, object id
+\end_layout
+
+\begin_layout Standard
+\begin_inset LatexCommand \label{object_ordinal_object_id}
+
+\end_inset
+
+The linear ordering of objects per type can be used to assign ordinals to
+ objects of a given type.
+ We just assign the ordinal 1 to the first object in the linear ordering,
+ and go on from there.
+\end_layout
+
+\begin_layout Standard
+This means that objects can be identified by their type plus their ordinal.
+ Alternatively, since objects are unique in their monads, they can be identified
+ by their type plus their monads.
+ Both ways of identifying an object can be useful.
+\end_layout
+
+\begin_layout Standard
+When identifying objects by their type plus their ordinal, the resulting
+ id is called an 
+\series bold
+object id_o
+\series default
+.
+ For example, objects of type 
+\begin_inset Formula $T$
+\end_inset
+
+ might be called 
+\begin_inset Formula $T$
+\end_inset
+
+-1, 
+\begin_inset Formula $T$
+\end_inset
+
+-2, 
+\begin_inset Formula $T$
+\end_inset
+
+-45, etc.
+\end_layout
+
+\begin_layout Standard
+When identifying objects by their type plus their monads, the resulting
+ id is called an 
+\series bold
+object id_m
+\series default
+.
+ For example, objects of type 
+\begin_inset Formula $T$
+\end_inset
+
+ might be called 
+\begin_inset Formula $T$
+\end_inset
+
+-{1,2,3,5}, 
+\begin_inset Formula $T$
+\end_inset
+
+-{4}, etc.
+ Object id_m's are most useful for the three special object types, all_m,
+ any_m, and pow_m, since they are specifically defined in terms of monads.
+ There is also a practical reason for the usefulness of object id_m's: If
+ we have a database of 138,019
+\begin_inset Foot
+status open
+
+\begin_layout Standard
+The number of words in the Greek New Testament as published in the Nestle-Aland
+ 
+\begin_inset Formula $27^{th}$
+\end_inset
+
+ edition is 138,019.
+\end_layout
+
+\end_inset
+
+ monads, the object id_o's of the pow_m object type range from 1 to 
+\begin_inset Formula $2^{138,019}$
+\end_inset
+
+, which would take on the order of 
+\begin_inset Formula $138,019$
+\end_inset
+
+ bits to implement - something which is clearly intractable.
+\end_layout
+
+\begin_layout Subsection
+Part_of, overlap
+\end_layout
+
+\begin_layout Subsubsection
+Part_of
+\end_layout
+
+\begin_layout Standard
+The subset relation gives rise to a relation between objects which is quite
+ crucial in building hierarchies.
+ Take two objects, 
+\begin_inset Formula $O_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $O_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\begin_inset Formula $O_{1}$
+\end_inset
+
+ part_of 
+\begin_inset Formula $O_{2}\quad\Longleftrightarrow\quad O_{1}\subseteq O_{2}$
+\end_inset
+
+
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Thus if the monads of 
+\begin_inset Formula $O_{1}$
+\end_inset
+
+ are all in the set of monads comprising 
+\begin_inset Formula $O_{2}$
+\end_inset
+
+, then 
+\begin_inset Formula $O_{1}$
+\end_inset
+
+ is part_of 
+\begin_inset Formula $O_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In our example figure on page 
+\begin_inset LatexCommand \pageref{TheDoor}
+
+\end_inset
+
+, Phrase-5 is part_of Phrase-4.
+ Phrase-2 is part_of Clause_atom-2.
+\end_layout
+
+\begin_layout Subsubsection
+Overlap
+\end_layout
+
+\begin_layout Standard
+Objects can share monads.
+ The notion of overlap formalizes this idea.
+ This notion is expressed in terms of the set intersection operator.
+ If the intersection of the monads of two objects is non-empty, then they
+ share monads, and are thus overlapping.
+ Take two objects, 
+\begin_inset Formula $O_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $O_{2}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace medskip
+\end_inset
+
+
+\begin_inset Formula $O_{1}$
+\end_inset
+
+ overlaps with 
+\begin_inset Formula $O_{2}\quad\Longleftrightarrow\quad O_{1}\cap O_{2}\neq\emptyset$
+\end_inset
+
+ 
+\begin_inset VSpace medskip
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In our example figure on page 
+\begin_inset LatexCommand \pageref{TheDoor}
+
+\end_inset
+
+, Phrase-5 overlaps with Phrase-4.
+ Phrase-5 does not overlap with Phrase-6.
+ Clause_atom_2 overlaps with Sentence-1.
+\end_layout
+
+\begin_layout Standard
+Object types can also said to be overlapping or non-overlapping:
+\end_layout
+
+\begin_layout Standard
+An
+\series bold
+ object type is overlapping
+\series default
+ if and only if some of its objects overlap.
+\end_layout
+
+\begin_layout Standard
+An 
+\series bold
+object type is non-overlapping
+\series default
+ if and only if it is not overlapping.
+\end_layout
+
+\begin_layout Standard
+In our example figure on page 
+\begin_inset LatexCommand \pageref{TheDoor}
+
+\end_inset
+
+, only the Phrase object type is overlapping.
+ The rest of the object types are non-overlapping.
+\end_layout
+
+\begin_layout Standard
+It could be made part of the type-system of a full database model based
+ on the MdF model that one could specify that a given object type was overlappin
+g or non-overlapping, and, in the latter case, uphold this constraint automatica
+lly when attempting to add objects of this type.
+\end_layout
+
+\begin_layout Subsection
+Covered by and buildable from
+\end_layout
+
+\begin_layout Standard
+In some applications, we want certain object types to form a hierarchy.
+ For example, sentences may be formed from words, and paragraphs may be
+ formed from sentences.
+ 
+\end_layout
+
+\begin_layout Standard
+Since objects are made of monads, not other objects, we need some way of
+ specifying hierarchies.
+ This is done using the notions covered_by and buildable_from.
+ These notions are, in the MdF model, only extensional in nature, i.e., only
+ by inspection can we decide whether an object type is covered_by or buildable_f
+rom another.
+ It could, however, be made part of the type system in a full database model
+ based on the MdF model, such that constraints could be upheld when adding
+ or deleting objects.
+\end_layout
+
+\begin_layout Standard
+Despite their names, these two notions are not opposites of each other.
+ Rather, buildable_from expresses the same as covered_by, only with an additiona
+l constraint.
+\end_layout
+
+\begin_layout Subsubsection
+Covered by
+\end_layout
+
+\begin_layout Standard
+An 
+\series bold
+object type 
+\begin_inset Formula $T_{\mathrm{high}}$
+\end_inset
+
+ is covered_by object type 
+\begin_inset Formula $T_{\mathrm{low}}$
+\end_inset
+
+
+\series default
+ if and only if the union of all the monads in all the objects of the set
+ of objects of 
+\begin_inset Formula $T_{\mathrm{high}}$
+\end_inset
+
+ has set equality with the union of all the monads in all the objects of
+ the set of objects of 
+\begin_inset Formula $T_{\mathrm{low}}$
+\end_inset
+
+, AND for all objects 
+\begin_inset Formula $O_{\mathrm{high}}$
+\end_inset
+
+ of 
+\begin_inset Formula $T_{\mathrm{high}}$
+\end_inset
+
+ there exists a set of objects 
+\begin_inset Formula $S$
+\end_inset
+
+ of 
+\begin_inset Formula $T_{\mathrm{low}}$
+\end_inset
+
+ such that the monads of the union of all the objects in 
+\begin_inset Formula $S$
+\end_inset
+
+ are the same as the monads of 
+\begin_inset Formula $O_{\mathrm{high}}$
+\end_inset
+
+, AND for all objects 
+\begin_inset Formula $O_{\mathrm{low}}$
+\end_inset
+
+ of 
+\begin_inset Formula $T_{\mathrm{low}}$
+\end_inset
+
+, it is the case that there exists exactly one object 
+\begin_inset Formula $O_{\mathrm{hg}}$
+\end_inset
+
+ of 
+\begin_inset Formula $T_{\mathrm{high}}$
+\end_inset
+
+ such that 
+\begin_inset Formula $O_{\mathrm{low}}\,\,\mathrm{part}\_\mathrm{of}\,\, O_{\mathrm{hg}}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Note that the name `covered_by' is slightly counter-intuitive: It is the
+ larger that is covered by the smaller, not the smaller that has the larger
+ as a canopy over it.
+\end_layout
+
+\begin_layout Standard
+Doedens says in his book (p.\InsetSpace ~
+70) that covered_by induces a partial ordering
+ on objects types.
+ This is not true: As a counterexample, the following setup makes covered_by
+ fail to be antisymmetric: Suppose that we have an MdF database with just
+ three monads and just two object-types, 
+\begin_inset Formula $T_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $T_{2}$
+\end_inset
+
+, and suppose that both 
+\begin_inset Formula $T_{1}$
+\end_inset
+
+ and 
+\begin_inset Formula $T_{2}$
+\end_inset
+
+ have only one object: The one consisting of the monads 
+\begin_inset Formula $\{1,2,3\}$
+\end_inset
+
+.
+ Then 
+\begin_inset Formula $T_{1}$
+\end_inset
+
+ is clearly covered_by 
+\begin_inset Formula $T_{2}$
+\end_inset
+
+, and 
+\begin_inset Formula $T_{2}$
+\end_inset
+
+ is clearly covered_by 
+\begin_inset Formula $T_{1}$
+\end_inset
+
+, yet 
+\begin_inset Formula $T_{1}\neq T_{2}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+In our example figure on page 
+\begin_inset LatexCommand \pageref{TheDoor}
+
+\end_inset
+
+, Phrase is covered_by Phrase and Word, Clause_atom is covered_by Clause_atom,
+ Phrase and Word, and Clause is covered_by Clause, Clause_atom, Phrase,
+ and Word.
+ Sentence is covered_by everything.
+\end_layout
+
+\begin_layout Subsubsection
+Buildable from
+\end_layout
+
+\begin_layout Standard
+We sometimes want to say something that is a little stronger than that two
+ object types are in a covered_by relationship.
+ We sometimes want to specify that the two object types are non-overlapping
+ as well.
+\end_layout
+
+\begin_layout Standard
+An 
+\series bold
+object type 
+\begin_inset Formula $T_{\mathrm{high}}$
+\end_inset
+
+ is buildable_from object type 
+\begin_inset Formula $T_{\mathrm{low}}$
+\end_inset
+
+
+\series default
+ if and only if 
+\begin_inset Formula $T_{\mathrm{high}}$
+\end_inset
+
+ is covered_by 
+\begin_inset Formula $T_{\mathrm{low}}$
+\end_inset
+
+, AND both 
+\begin_inset Formula $T_{\mathrm{high}}$
+\end_inset
+
+ and 
+\begin_inset Formula $T_{\mathrm{low}}$
+\end_inset
+
+ are non-overlapping.
+\end_layout
+
+\begin_layout Standard
+Doedens notes in his book that buildable_from induces a partial ordering
+ on object types that are non-overlapping.
+ This is, of course, not true, since covered_by is not a partial order.
+\end_layout
+
+\begin_layout Standard
+In our example figure on page 
+\begin_inset LatexCommand \pageref{TheDoor}
+
+\end_inset
+
+, the only object type that is not buildable_from something is Phrase, since
+ it is overlapping.
+\end_layout
+
+\begin_layout Subsection
+Consecutive, gaps
+\end_layout
+
+\begin_layout Subsubsection
+Consecutive
+\end_layout
+
+\begin_layout Standard
+Basically, two objects are consecutive if they follow each other in a neat
+ row without any gaps in between.
+ This is the heart and soul of text representation.
+\end_layout
+
+\begin_layout Standard
+However, sometimes it is handy to exclude certain parts of the database
+ from consideration.
+ For example, in our example figure on page 
+\begin_inset LatexCommand \pageref{TheDoor}
+
+\end_inset
+
+, we may wish to concentrate on 
+\begin_inset Quotes eld
+\end_inset
+
+The door, ..., was blue
+\begin_inset Quotes erd
+\end_inset
+
+ as embodied in Clause-1.
+ We say that 
+\begin_inset Quotes eld
+\end_inset
+
+was blue
+\begin_inset Quotes erd
+\end_inset
+
+ is consecutive to 
+\begin_inset Quotes eld
+\end_inset
+
+The door,
+\begin_inset Quotes erd
+\end_inset
+
+ with respect to the set of objects constituting Clause-1.
+ We call Clause-1 the 
+\begin_inset Quotes eld
+\end_inset
+
+Universe
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In order to formally define the notion of consecutive, we first need a definitio
+n of a range:
+\end_layout
+
+\begin_layout Description
+Definition: A range of monads is denoted by 
+\begin_inset Formula $a$
+\end_inset
+
+ ..
+ 
+\begin_inset Formula $b$
+\end_inset
+
+, and has the following meaning: If 
+\begin_inset Formula $b$
+\end_inset
+
+ < 
+\begin_inset Formula $a$
+\end_inset
+
+, then the range is empty.
+ If 
+\begin_inset Formula $b\geq a$
+\end_inset
+
+, then the range denotes the set of monads starting at 
+\begin_inset Formula $a$
+\end_inset
+
+ and including all monads up to and including 
+\begin_inset Formula $b$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+For example, 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $1..3$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ denotes the set 
+\begin_inset Formula $\{1,2,3\}$
+\end_inset
+
+, while 
+\begin_inset Quotes eld
+\end_inset
+
+
+\begin_inset Formula $3..2$
+\end_inset
+
+
+\begin_inset Quotes erd
+\end_inset
+
+ denotes 
+\begin_inset Formula $\emptyset$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+Definition: A set of 
+\begin_inset Formula $n$
+\end_inset
+
+ monads, 
+\begin_inset Formula $M,$
+\end_inset
+
+ where 
+\begin_inset Formula $n\geq2$
+\end_inset
+
+, is consecutive with respect to a set of monads, 
+\begin_inset Formula $U$
+\end_inset
+
+, if, when ordering the elements of 
+\begin_inset Formula $M$
+\end_inset
+
+ according to `
+\begin_inset Formula $<$
+\end_inset
+
+', such that 
+\begin_inset Formula $m_{1}<\ldots<m_{n}$
+\end_inset
+
+, for all 
+\begin_inset Formula $i$
+\end_inset
+
+, 
+\begin_inset Formula $1\leq i\leq n-1$
+\end_inset
+
+, it holds that 
+\begin_inset Formula $(m_{i}+1..m_{i+1}-1)\cap U=\emptyset$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Description
+Definition: A set of 
+\begin_inset Formula $n$
+\end_inset
+
+ objects, 
+\begin_inset Formula $S$
+\end_inset
+
+, where 
+\begin_inset Formula $n\geq2$
+\end_inset
+
+, is consecutive with respect to a set of monads, 
+\begin_inset Formula $U$
+\end_inset
+
+, if the objects can be ordered as 
+\begin_inset Formula $O_{1},\ldots,O_{n}$
+\end_inset
+
+ such that for all 
+\begin_inset Formula $i$
+\end_inset
+
+, 
+\begin_inset Formula $1\leq i\leq n-1$
+\end_inset
+
+, it holds either that 
+\begin_inset Formula $(O_{i}=\emptyset\vee\, O_{i+1}=\emptyset)$
+\end_inset
+
+ or (i.e., exclusive or) the set consisting of the last monad of 
+\begin_inset Formula $O_{i}$
+\end_inset
+
+ and the first monad of 
+\begin_inset Formula $O_{i+1}$
+\end_inset
+
+ is consecutive with respect to 
+\begin_inset Formula $U$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsubsection
+Gaps
+\end_layout
+
+\begin_layout Standard
+As we have seen, objects need not consist of a contiguous string of monads.
+ For example, in our example figure 
+\begin_inset LatexCommand \vref{TheDoor}
+
+\end_inset
+
+, Clause-1 consists of 
+\begin_inset Quotes eld
+\end_inset
+
+The door, was blue.
+\begin_inset Quotes erd
+\end_inset
+
+.
+ There is a gap in Clause-1 with respect to 
+\begin_inset Quotes eld
+\end_inset
+
+The door, which opened towards the East, was blue.
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+An object is said to have gaps if its monads are not consecutive.
+ The monads of a gap in an object are not part_of the object.
+ Furthermore, they are not outside of the object, i.e., all of the monads
+ in a gap in an object 
+\begin_inset Formula $O$
+\end_inset
+
+ are both 
+\begin_inset Formula $\geq$
+\end_inset
+
+ the first monad of 
+\begin_inset Formula $O$
+\end_inset
+
+ and 
+\begin_inset Formula $\leq$
+\end_inset
+
+ the last monad of 
+\begin_inset Formula $O$
+\end_inset
+
+.
+ Gaps are always 
+\begin_inset Quotes eld
+\end_inset
+
+maximal
+\begin_inset Quotes erd
+\end_inset
+
+, i.e., we group as many monads as possible into a gap.
+\end_layout
+
+\begin_layout Description
+Definition: A gap in an object 
+\begin_inset Formula $O$
+\end_inset
+
+ relative to a set of monads 
+\begin_inset Formula $U$
+\end_inset
+
+ is a set of monads, 
+\begin_inset Formula $H$
+\end_inset
+
+, such that:
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $H\neq\emptyset$
+\end_inset
+
+ AND
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $H$
+\end_inset
+
+ is consecutive with respect to 
+\begin_inset Formula $U$
+\end_inset
+
+ AND
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\neg$
+\end_inset
+
+ (
+\begin_inset Formula $H$
+\end_inset
+
+ overlaps with 
+\begin_inset Formula $O$
+\end_inset
+
+) AND
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\forall h_{i}\in H.h_{i}\geq O.first()\wedge h_{i}\leq O.last()$
+\end_inset
+
+ AND
+\end_layout
+
+\begin_layout Enumerate
+\begin_inset Formula $\neg\exists H'.H'\neq H\wedge H\subset H'\wedge H'$
+\end_inset
+
+ gap in 
+\begin_inset Formula $O$
+\end_inset
+
+ relative to 
+\begin_inset Formula $U$
+\end_inset
+
+ (i.e., H is maximal)
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $O.first()$
+\end_inset
+
+ and 
+\begin_inset Formula $O.last()$
+\end_inset
+
+ refer to the first and last monad of 
+\begin_inset Formula $O$
+\end_inset
+
+, respectively.
+\end_layout
+
+\begin_layout Subsection
+Border, separated, inside
+\end_layout
+
+\begin_layout Subsubsection
+Border
+\end_layout
+
+\begin_layout Standard
+An object always has a first and a last monad (which is a consequence of
+ the well-formedness axiom for natural numbers).
+ The first monad of an object is called its 
+\series bold
+left border
+\series default
+, and the last monad of an object is called its 
+\series bold
+right border
+\series default
+.
+ Together, the left border and the right border of an object constitute
+ its 
+\series bold
+borders
+\series default
+.
+ Two notions that can be defined in terms of the borders of objects are
+ 
+\begin_inset Quotes eld
+\end_inset
+
+separated
+\begin_inset Quotes erd
+\end_inset
+
+ and 
+\begin_inset Quotes eld
+\end_inset
+
+inside
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+In our example figure on page 
+\begin_inset LatexCommand \pageref{TheDoor}
+
+\end_inset
+
+, the left border of Phrase-4 is 5, and its right border is 7.
+ The left border of Phrase-2 is the same as its right border, namely 3.
+ The left border of Clause-1 is 1, and its right border is 9.
+\end_layout
+
+\begin_layout Subsubsection
+Separated
+\end_layout
+
+\begin_layout Standard
+Two objects are separated if and only if the right border of one of the
+ objects is < the left border of the other.
+ Thus even if we add the gaps in the objects to the objects, they still
+ do not overlap.
+\end_layout
+
+\begin_layout Standard
+In our example figure on page 
+\begin_inset LatexCommand \pageref{TheDoor}
+
+\end_inset
+
+, Word-3 and Phrase-3 are separated.
+ Phrase-3 and Phrase-4 are separated.
+ Clause-1 and Clause-2 are 
+\emph on
+not
+\emph default
+ separated.
+\end_layout
+
+\begin_layout Subsubsection
+Inside
+\end_layout
+
+\begin_layout Standard
+An object 
+\begin_inset Formula $O_{1}$
+\end_inset
+
+ is inside 
+\begin_inset Formula $O_{2}$
+\end_inset
+
+ if and only if the left border of 
+\begin_inset Formula $O_{2}$
+\end_inset
+
+ is 
+\begin_inset Formula $\leq$
+\end_inset
+
+ the left border of 
+\begin_inset Formula $O_{1}$
+\end_inset
+
+ and the right border of 
+\begin_inset Formula $O_{2}$
+\end_inset
+
+ is 
+\begin_inset Formula $\geq$
+\end_inset
+
+ the right border of 
+\begin_inset Formula $O_{1}$
+\end_inset
+
+.
+ Note that, even though an object is inside another object, they need not
+ overlap, since objects may have gaps.
+\end_layout
+
+\begin_layout Standard
+In our example figure on page 
+\begin_inset LatexCommand \pageref{TheDoor}
+
+\end_inset
+
+, Phrase-5 is inside Phrase-4.
+ Clause-2 is inside Clause-1.
+ Word-4 is inside Clause-2.
+\end_layout
+
+\begin_layout Section
+Conclusion
+\end_layout
+
+\begin_layout Standard
+In this article, we have presented, in condensed and abridged form, Doedens'
+ work as it applies to demands on text databases and to the MdF model itself.
+ Not much has been original in this article.
+ We have touched upon text-dominated databases and expounded text, upon
+ what constitutes a database model, and upon Doedens' thirteen demands on
+ a text database model.
+ We have given a gentle introduction to the MdF model, followed by in-depth
+ discussions of the four key concepts of the MdF model.
+ We have then defined a lot of useful concepts in relation to the four basic
+ concepts in the MdF model.
+\end_layout
+
+\end_body
+\end_document

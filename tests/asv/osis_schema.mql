@@ -1,0 +1,189 @@
+CREATE OBJECT TYPE
+WITH SINGLE RANGE OBJECTS
+HAVING UNIQUE FIRST MONADS
+[Book
+    osisID : STRING;
+    xmlindex : INTEGER;
+]
+GO
+
+
+CREATE OBJECT TYPE
+WITH SINGLE RANGE OBJECTS
+HAVING UNIQUE FIRST MONADS
+[Chapter
+    osisID : STRING;
+    osisBook : STRING FROM SET;
+    chapter : INTEGER;
+    xmlindex : INTEGER;
+]
+GO
+
+
+CREATE OBJECT TYPE
+WITH SINGLE RANGE OBJECTS
+HAVING UNIQUE FIRST MONADS
+[verse
+    osisID : STRING;
+    osisBook : STRING FROM SET;
+    chapter : INTEGER;
+    verse : INTEGER;
+    xmlindex : INTEGER;
+]
+GO
+
+CREATE OBJECT TYPE
+WITH SINGLE RANGE OBJECTS
+HAVING UNIQUE FIRST MONADS
+[bold
+    xmlindex : INTEGER;
+]
+GO
+
+CREATE OBJECT TYPE
+WITH SINGLE RANGE OBJECTS
+HAVING UNIQUE FIRST MONADS
+[italics
+    xmlindex : INTEGER;
+]
+GO
+
+CREATE OBJECT TYPE
+WITH SINGLE MONAD OBJECTS
+HAVING UNIQUE FIRST MONADS
+[Token
+	wholesurface : STRING; // prefix + surface + suffix
+	//prefix : STRING;
+	//surface : STRING;
+	//suffix : STRING;
+	// surface_lowcase : STRING;
+	surface_stripped_lowcase : STRING;
+        xmlindex : INTEGER;
+]
+GO
+
+CREATE OBJECT TYPE
+WITH SINGLE RANGE OBJECTS
+HAVING UNIQUE FIRST MONADS
+[note
+    xmlindex : INTEGER;
+]
+GO
+
+// Something added to the translation
+// (italics in ASV/KJV)
+CREATE OBJECT TYPE
+WITH SINGLE RANGE OBJECTS
+HAVING UNIQUE FIRST MONADS
+[transadd
+    xmlindex : INTEGER;
+]
+GO
+
+CREATE OBJECT TYPE
+WITH SINGLE RANGE OBJECTS
+HAVING UNIQUE FIRST MONADS
+[linegroup
+    xmlindex : INTEGER;
+]
+GO
+
+CREATE OBJECT TYPE
+WITH SINGLE RANGE OBJECTS
+HAVING UNIQUE FIRST MONADS
+[line
+    xmlindex : INTEGER;
+]
+GO
+
+CREATE OBJECT TYPE
+WITH SINGLE MONAD OBJECTS
+[br
+    xmlindex : INTEGER;
+]
+GO
+
+CREATE OBJECT TYPE
+WITH SINGLE RANGE OBJECTS
+HAVING UNIQUE FIRST MONADS
+[paragraph
+    xmlindex : INTEGER;
+]
+GO
+
+CREATE ENUMERATION divtype_e = {
+       bookGroup,
+       book,
+       chapter
+}
+GO
+
+CREATE OBJECT TYPE
+WITH SINGLE RANGE OBJECTS
+[title
+	divtype : divtype_e;
+        xmlindex : INTEGER;
+]
+GO
+
+
+CREATE ENUMERATION bible_part_e = {
+       OT,
+       Apocrypha,
+       NT,
+       None
+}
+GO
+
+
+CREATE ENUMERATION boolean_t = {
+       false = 0,
+       true
+}
+GO
+
+CREATE ENUMERATION language_e = {
+       hebrew,
+       greek,
+       english,
+       german,
+       danish,
+       swedish,
+       norwegian,
+       latin
+}
+GO
+
+
+CREATE ENUMERATION dbtype_e = {
+       bible,
+       commentary,
+       dictionary,
+       readingplan,
+       map
+}
+GO
+
+
+//
+// The "db" object type is given to every database that must be
+// recognized as belonging to the eBibel.
+// 
+// There must only be one db object in any given database,
+// and it must have a "dbname" string which uniquely identifies this
+// database by that name in the entire set of resources.
+//
+// The "dbname" ends up in the DBEnv::m_env_map in the desktop app.
+//
+CREATE OBJECT TYPE
+WITH SINGLE RANGE OBJECTS
+[db
+     dbname : STRING;
+     friendly_dbname : STRING;
+     bible_parts : LIST OF bible_part_e;
+     priority : INTEGER; // When displaying more than one at a time.
+     fts_search : boolean_t;
+     language : language_e;
+     dbtype : dbtype_e;
+]
+GO

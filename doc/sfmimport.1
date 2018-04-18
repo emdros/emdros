@@ -1,0 +1,383 @@
+.\" Man page for sfmimport
+.\" Use the following command to view man page:
+.\"
+.\"  tbl sfmimport.1 | nroff -man | less
+.\"
+.TH SFMIMPORT 1 "September 4, 2006"
+.SH NAME
+sfmimport \- A tool to convert SFM (Standard Format Marker) markup to Emdros MQL
+.SH SYNOPSIS
+\fBsfmimport\fR -i schema-filename [ options ] [input_filename ...]
+.br
+.SH DESCRIPTION
+\fBsfmimport\fR is a command-line tool to convert SFM (Standard Format
+Marker) text to Emdros MQL for later importing into Emdros.  SFMs are
+widely used within the organisation "SIL International" as a means of
+storing linguistic data.  Especially the ToolBox program and its
+predecessor, ShoeBox, have been used for storing and manipulating SFM
+text.
+
+SFM is a simple, line-based form of markup, where each meaningful line
+starts with a backslash followed immediately by the "tag" for that
+line, followed by a space, followed by the content of the "tag".
+Blank lines are ignored.  For example:
+
+\\form women
+.br 
+\\lemma woman
+
+The -
+
+.SH
+
+
+.SH OPTIONS
+\fBsfmimport\fR supports the following command-line switches:
+.TP 6
+.BI \-\-help
+show help, then quit
+.TP
+.BI \-V\ ,\ \-\-version
+show version, then quit
+.TP
+.BI \-s\ ,\ \-\-schema
+show MQL schema on stdout, then quit (can be used with -d)
+.TP
+.BI \-i\ ,\ \-\-schema\-filename
+Take schema from the file with the given name. See below for how to
+write this schema.  \fBThis switch is required!\fR
+.BI \-d\ ,\ \-\-dbname \ dbname 
+set database name. If used with -s, the string "CREATE DATABASE
+'dbname' GO USE DATABASE 'dbname' GO" will be issued before the schema.  If used when importing, "USE DATABASE 'dbname' GO" will be issued before anything else.
+.TP
+.BI \-o\ ,\ \-\-output \ filename
+dump to file filename. The default is "-", which means "standard
+output".
+.TP
+.BI \-\-start-monad \ monad
+The start monad to use. Must be >= 1.  The default is 1.
+.TP
+.BI \-\-start-id_d \ id_d
+The start id_d to use. Must be >= 1.  The default is 1.
+.TP
+
+.SH OPERATION
+
+\fBsfmimport\fR reads SFM files and converts the text to MQL
+statements for later importing into Emdros.
+
+The filenames given after the options on the command line are
+interpreted as if each of them contains one document, each containing
+an SFM document which conforms to the schema given with the -i switch.
+If no filenames are given, the input is read from stdin.
+
+If no \fB-o\fR switch is given, the output is printed on stdout.
+
+If an error occurs, the string "FAILURE" or the string "ERROR" is
+printed on stderr, along with an error message.
+
+If no error occurs, a string of the form "SUCCESS: next_monad is X
+next_id_d is Y" is printed on stderr, where X and Y are positive
+integers denoting the next monad and the next id_d to be used by the
+next invocation of the program, respectively.  This is useful if
+you've got several directories' worth of documents to import.
+
+.SH SCHEMA FILE
+
+The schema for both the SFM file and the MQL output must be given in
+an SFM file, designated with the \fB\-i\fR switch.
+
+The contents of the schema SFM file must conform to the following
+conventions:
+
+.TP
+1) Object types must start with the \fB\\otn\fR (Object Type Name)
+tag, indicating the object type name of the object type.
+.TP
+2) The \\otn tag is optionally followed by the \\otm tag, which
+specifies a string to be placed between the "CREATE OBJECT TYPE"
+string and the "[" which starts out the object type declaration.
+This is useful, e.g., for specifying things like "with single monad
+objects" or even "with single monad objects having unique first
+monads".
+.TP
+3) Following these two tags, zero or more feature-declarations follow:
+
+3a) Each feature-declaration starts with the \\otfn (Object Type
+Feature Name) tag, indicating the name of the feature.
+
+3b) After the \\otfn tag, there may optionally be one of either
+"\\integer" or "\\string", with "\\string" being the default.  If
+"\\integer" is present after \\otfn, then the type of the feature will
+be "integer", and all data will be cast to an integer (with 0 being
+the default if absent or not an integer).  If "\\string" is present
+after \\otfn, then the type of the feature will be "STRING FROM SET
+WITH INDEX".
+
+3c) The "\\otfm" (Object Type Format Marker) tag is then required to
+follow.  This gives the standard format marker which is used for
+specifying this feature in the document to be loaded.  The backslash
+is optional on the sfm; that is, both "\\otfm \\gloss" and "\\otfm
+gloss" are valid and mean the same.
+.TP
+
+4) The "\\otrb" (Object Type Record Beginning) tag may optionally be
+specified.  If it is, then any standard format marker which matches
+the value given for "\\otrb" will mean that the current object of the
+given kind will be ended at that sfm, and a new one started.  For
+example: "\\otrb \\form" will mean, in the context of a "\\otn word"
+tag, that the current word will be added to the database, and a new
+one started.  The backslash is optional on the sfm; that is, both
+"\\otfm \\form" and "\\otfm form" are valid and mean the same.  If
+omitted for a given object type, then it defaults to the first
+"\\otfm" in the object type declaration.
+
+Tags which are not specified in the schema-file, but which are present
+in the document file, are ignored.
+
+The latest value for any given tag is always used as the value for the
+given feature.  This means that if a tag is omitted in a record, the
+default value will be the value that was used "last time" the tag
+appeared.  This is useful for inheriting feature-values across objects
+that span several other objects.
+
+Monads are assigned as follows.  The last \\otn to be specified in the
+schema file will be assumed to be the "base" object type, whose
+objects will consist of one monad each.  When creating such an object
+(based on the \\otrb tag or its default), if there are object of the
+given type already, then the current monad is incremented by 1.  If
+there are no objects of the given type already, the current monad is
+not incremented.
+
+
+.SH SCHEMA EXAMPLE
+
+The following schema matches the file example below.
+
+\\otn Book
+.br
+\\otm with single range objects having unique first monads
+.br
+\\otfn book_name
+.br
+\\otfm \\id
+.br
+
+.br
+\\otn Chapter
+.br
+\\otm with single range objects having unique first monads
+.br
+\\otfn book_name
+.br
+\\otfm \\id
+.br
+\\otfn chapter
+.br
+\\integer
+.br
+\\otfm \\c
+.br
+\\otrb \\c
+.br
+
+.br
+\\otn Verse
+.br
+\\otm with single range objects having unique first monads
+.br
+\\otfn book_name
+.br
+\\otfm \\id
+.br
+\\otfn chapter
+.br
+\\integer
+.br
+\\otfm \\c
+.br
+\\otfn verse
+.br
+\\integer
+.br
+\\otfm \\v
+.br
+\\otrb \\v
+.br
+
+.br
+\\otn word
+.br
+\\otm with single monad objects having unique first monads
+.br
+\\otfn form
+.br
+\\otfm \\frm
+.br
+\\otfn lemma
+.br
+\\otfm \\lem
+.br
+\\otfn morf
+.br
+\\otfm \\mrf
+.br
+\\otfn gloss
+.br
+\\otfm \\glo
+.br
+
+.PP
+This is a sample of a file that it matches:
+
+.PP
+\\id Genesis
+.br
+\\c 1
+.br
+\\v 1
+.br
+\\frm In
+.br
+\\lem in
+.br
+\\mrf PREP
+.br
+\\glo i
+.br
+\\frm the
+.br
+\\lem the
+.br
+\\mrf ART
+.br
+\\glo *
+.br
+\\frm beginning
+.br
+\\lem beginning
+.br
+\\mrf NOUN
+.br
+\\glo begyndelsen
+.br
+
+.br
+...
+.br
+
+.br
+\\frm Earth
+.br
+\\lem Earth
+.br
+\\mrf PROPER_NOUN
+.br
+\\glo Jorden
+.br
+\\v 2
+.br
+\\frm And
+.br
+\\lem and
+.br
+\\mrf CONJ
+.br
+\\glo og
+.br
+
+
+.PP
+The MQL schema looks like this:
+
+CREATE OBJECT TYPE
+.br
+with single range objects having unique first monads  
+.br
+[Book
+.br
+   book_name : STRING FROM SET;
+.br
+]
+.br
+GO
+.br
+
+.br
+CREATE OBJECT TYPE
+.br
+with single range objects having unique first monads  
+.br
+[Chapter
+.br
+   book_name : STRING FROM SET;
+.br
+   chapter : integer;
+.br
+]
+.br
+GO
+.br
+
+.br
+CREATE OBJECT TYPE
+.br
+with single range objects having unique first monads  
+.br
+[Verse
+.br
+   book_name : STRING FROM SET;
+.br
+   chapter : integer;
+.br
+   verse : integer;
+.br
+]
+.br
+GO
+.br
+
+.br
+CREATE OBJECT TYPE
+.br
+with single monad objects having unique first monads
+.br
+[word
+.br
+   form : STRING FROM SET;
+.br
+   lemma : STRING FROM SET;
+.br
+   morf : STRING FROM SET;
+.br
+   gloss : STRING FROM SET;
+.br
+]
+.br
+GO
+.br
+
+
+
+
+.SH RETURN VALUES
+.TP
+.BR 0 " Success"
+.TP
+.BR 1 " Wrong usage"
+.TP
+.BR 2 " Connection to backend server could not be established"
+.TP
+.BR 3 " An exception occurred (the type is printed on stderr)"
+.TP
+.BR 4 " Could not open file"
+.TP
+.BR 5 " Database error"
+.TP
+.BR 6 " Compiler error (internal error)"
+.SH AUTHORS
+Copyright
+.Cr
+2001-2006 by Ulrik Petersen (ulrikp@users.sourceforge.net).  Note that
+this software is distributed under the GNU GPL.  See the sources for
+details.

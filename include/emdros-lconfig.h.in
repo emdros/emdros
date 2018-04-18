@@ -1,0 +1,189 @@
+/*
+ * emdros-lconfig.h.in
+ *
+ * Local configuration
+ *
+ * Ulrik Petersen
+ * Created: 10/21-2001
+ * Last update: 4/7-2018
+ *
+ */
+/************************************************************************
+ *
+ *   Emdros - the database engine for analyzed or annotated text
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
+ *
+ *   This program is free software; you can redistribute it and/or
+ *   modify it under the terms of the GNU General Public License as
+ *   published by the Free Software Foundation, license version 2.  
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *   General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *   02111-1307 USA
+ *
+ *
+ *   Special exception
+ *   =================
+ * 
+ *   In addition, as a special exception, Ulrik Petersen, the
+ *   copyright holder of Emdros, gives permission to link Emdros, in
+ *   whole or in part, with the libraries which are normally
+ *   distributed with:
+ *   
+ *   a) Sun's Java platform,
+ *   b) Python, 
+ *   c) Jython,
+ *   d) Ruby, and/or 
+ *   e) Perl 
+ *   f) PostgreSQL
+ *   g) OpenSSL
+ *
+ *   (or with modified versions of these), and to distribute linked
+ *   combinations including both Emdros, in whole or in part, and one
+ *   or more of the libraries normally distributed with (a)-(g) above.
+ *
+ *   Please note: This gives you special rights concerning the
+ *   libraries which normally accompany the above pieces of software.
+ *   It gives you no special rights concerning software that you write
+ *   yourself.  You must obey the GNU General Public License in all
+ *   respects for all of the code used other than the libraries
+ *   normally distributed with (a)-(g) above.
+ *
+ *   If you modify this file, you may extend this exception to your
+ *   version of the file, but you are not obligated to do so. If you
+ *   do not wish to do so, delete this exception statement from your
+ *   version.
+ *
+ *
+ *   Other licensing forms
+ *   =====================
+ *
+ *   If you wish to negotiate commercial licensing, please contact
+ *   Ulrik Petersen at ulrikp[at]users.sourceforge.net.
+ *
+ *   Licensing can also be negotiated if your organization is an
+ *   educational, non-profit, charity, missionary or similar
+ *   organization.
+ *
+ *
+ *   Website
+ *   =======
+ *
+ *   Emdros has a website here:
+ *
+ *   http://emdros.org
+ *
+ *
+ *
+ **************************************************************************/
+
+
+/*
+ * This file is to be run through configure's AC_OUTPUT line.
+ *
+ */
+
+
+#ifndef LCONFIG__H__
+#define LCONFIG__H__
+
+#if defined(_WIN32) || defined(WIN32)
+#include "win32-lconfig.h"
+#endif
+
+#ifndef USE_POSTGRESQL
+#define USE_POSTGRESQL @USE_POSTGRESQL@
+#endif
+
+#ifndef USE_MYSQL
+#define USE_MYSQL @USE_MYSQL@
+#endif
+
+#ifndef USE_SQLITE3
+#define USE_SQLITE3 @USE_SQLITE3@
+#endif
+
+#ifndef USE_BPT
+#define USE_BPT @USE_BPT@
+#endif
+
+#ifndef USE_BPT2
+#define USE_BPT2 @USE_BPT2@
+#endif
+
+#ifndef LINUX
+#define LINUX @LINUX@
+#endif
+
+#ifndef SUN
+#define SUN @SUN@
+#endif
+
+#ifndef HAVE_ISTREAM
+#define HAVE_ISTREAM @HAVE_ISTREAM@
+#endif
+
+#ifndef HAVE_OSTREAM
+#define HAVE_OSTREAM @HAVE_OSTREAM@
+#endif
+
+#ifndef DEFAULT_BACKEND_ENUM
+
+#if @USE_CONFIGURE_DEFAULT_BACKEND_ENUM@
+
+#define DEFAULT_BACKEND_ENUM @DEFAULT_BACKEND_ENUM@
+
+#else
+
+#if USE_SQLITE3
+#define DEFAULT_BACKEND_ENUM kSQLite3
+#elif USE_MYSQL
+#define DEFAULT_BACKEND_ENUM kMySQL
+#elif USE_POSTGRESQL
+#define DEFAULT_BACKEND_ENUM kPostgreSQL
+#else
+#define DEFAULT_BACKEND_ENUM kBackendNone
+#endif 
+
+#endif /* @USE_CONFIGURE_DEFAULT_BACKEND_ENUM@ */
+
+#endif /* !defined(DEFAULT_BACKEND_ENUM) */
+
+
+#ifndef USE_SYSTEM_SQLITE3
+/** USE_SYSTEM_SQLITE3 must be zero if we are using the local SQLite3,
+ * otherwise, it must be non-zero.
+ *@internal
+ */
+#define USE_SYSTEM_SQLITE3 (@USE_SYSTEM_SQLITE3@)
+#endif
+
+#ifndef USE_SYSTEM_ZLIB
+/** USE_SYSTEM_ZLIB must be zero if we are using the local zlib,
+ * otherwise, it must be non-zero.
+ *@internal
+ */
+#define USE_SYSTEM_ZLIB (@USE_SYSTEM_ZLIB@)
+#endif
+
+#define EMDROS_VERSION_MAJOR (@EMDROS_VERSION_MAJOR@)
+#define EMDROS_VERSION_MINOR (@EMDROS_VERSION_MINOR@)
+#define EMDROS_VERSION_RELEASE (@EMDROS_VERSION_RELEASE@)
+
+/* Is current version at least (<=) MAJOR.MINOR.RELEASE ? */
+#define EMDROS_CHECK_VERSION(MAJOR, MINOR, RELEASE) \
+  (((MAJOR)>EMDROS_VERSION_MAJOR) ? 0 :	    \
+   (((MAJOR)<EMDROS_VERSION_MAJOR) ? 1 :    \
+    (((MINOR)>EMDROS_VERSION_MINOR) ? 0 :   \
+     (((MINOR)<EMDROS_VERSION_MINOR) ? 1 :  \
+      (((RELEASE)>EMDROS_VERSION_RELEASE) ? 0 : \
+       1)))))
+
+
+#endif /* LCONFIG__H__ */

@@ -1,0 +1,106 @@
+.\" Man page for eqtc
+.\" Use the following command to view man page:
+.\"
+.\"  tbl eqtc.1 | nroff -man | less
+.\"
+.TH EQTC 1 "January 20, 2007"
+.SH NAME
+eqtc \- Query arbitrary Emdros databases
+.SH SYNOPSIS
+\fBeqtc\fR [ options ] 
+.br
+.SH DESCRIPTION
+\fBeqtc\fR is a generic query tool for Emdros databases.  It shows
+the results in a way that is more meaningful than the output from
+mql(1).  See the homepage for more information:
+
+http://emdros.org/qrytool/
+
+Typical usage would be:
+
+eqtc -c myconfigfile.cfg
+
+If built to use MySQL or PostgreSQL, then you may need additional
+options such as "-u username", "-p password" and "-h hostname".
+
+.SH OPTIONS
+\fBeqtc\fR supports the following command-line switches:
+.TP 6
+.BI \-\-help
+show help
+.TP
+.BI \-V\ ,\ \-\-version
+show version
+.TP
+.BI \-b\ ,\ \-\-backend \ backend
+set database backend to `backend'. Valid values are: For PostgreSQL:
+"p", "pg", "postgres", and "postgresql". For MySQL: "m", "my", and
+"mysql". For SQLite 2.X.X: "2", "s", "l", "lt", "sqlite", and
+"sqlite2". For SQLite 3.X.X: "3", "s3", "lt3", and "sqlite3".
+.TP
+.BI \-c\ configfile
+set the name of the ocnfiguration file
+.TP
+.BI \-d\ ,\ \-\-dbname \ dbname 
+set database name (overrides what is in the config file)
+.TP
+.BI \-h\ ,\ \-\-host \ hostname 
+set db back-end hostname to connect to (default is 'localhost') (has no effect on SQLite)
+.TP
+.BI \-u\ ,\ \-\-user \ user
+set database user to connect as (default is 'emdf') (has no effect on SQLite)
+.TP
+.BI \-p\ ,\ \-\-password \ password
+set password to use for the database user.  Has no effect on SQLite,
+unless you have an encryption-enabled SQLite, in which case this gets
+passed as the key.
+
+
+.SH CONFIGURATION FILE FORMAT
+
+\fBeqtc\fR must be given the name of a configuration file (with the
+-c option).  This configuration file tells eqtc the basic parameters
+which it needs in order to work.
+
+The configuration file has a very standard format: a) Everything from
+a hash-mark (#) to the end of the line is ignored. b) blank lines are
+ignored. c) All other lines should be in the form "key = value" where
+both key and value consist of non-whitespace.
+
+A number of sample configuration files are provided (one is
+"default.cfg").  They are probably located in
+@prefix@/share/emdros/qrytool/ (if on Unix/Linux/Mac OS X), while on
+Windows they are probably in INSTALLPREFIX\etc\.  The configuration
+file is explained at the following URL:
+
+http://emdros.org/qrytool/
+
+
+.SH SEE ALSO
+
+mql(1), eqt(1), eqtu(1)
+
+
+.SH RETURN VALUES
+.TP
+.BR 0 " Success"
+.TP
+.BR 1 " Wrong usage"
+.TP
+.BR 2 " Connection to backend server could not be established"
+.TP
+.BR 3 " An exception occurred (the type is printed on stderr)"
+.TP
+.BR 4 " Could not open file"
+.TP
+.BR 5 " Database error"
+.TP
+.BR 6 " Compiler error (error in MQL input)"
+
+.SH AUTHORS
+Copyright
+.Cr
+2005-2006 by Ulrik Petersen (ulrikp@users.sourceforge.net).  Note that
+this software is distributed under the GNU GPL.  It comes with
+ABSOLUTELY NO WARRANTY!. See the sources for details.
+

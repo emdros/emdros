@@ -1,0 +1,351 @@
+{
+   "fetchinfo" : {
+      "context" : {
+         "object_types" : {
+            "chapter" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "",
+                  "get" : [
+                        "osisBook",
+			"chapter"
+                     ],
+                  "start" : "<chapterstart book=\"{{ feature 0 }}\" chapter=\"{{ feature 1 }}\"/>"
+               },
+            "title" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "{{ if featureequal 0 'bookGroup' }}</bookgroup-title>{{ endif }}{{ if featureequal 0 'book' }}</book-title>{{ endif }}{{ if featureequal 0 'chapter' }}</chapter-title>{{ endif }}",
+                  "get" : [
+                        "divtype",
+                     ],
+                  "start" : "{{ if featureequal 0 'bookGroup' }}<bookgroup-title>{{ endif }}{{ if featureequal 0 'book' }}<book-title>{{ endif }}{{ if featureequal 0 'chapter' }}<chapter-title>{{ endif }}"
+               },
+            "line" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "<br/>",
+                  "start" : ""
+               },
+            "transadd" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "</transadd>",
+                  "start" : "<transadd>"
+               },
+            "br" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "",
+                  "start" : "<br/>"
+               },
+            "paragraph" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "",
+                  "start" : "<paragraphstart/>"
+               },
+            "verse" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "",
+		  "get" : [
+		  	"chapter",
+			"verse"
+                     ],
+                  "start" : "<versestart chapter=\"{{ feature 0 }}\" verse=\"{{ feature 1 }}\"/>"
+               },
+            "token" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "",
+                  "get" : [
+                        "wholesurface"
+                     ],
+                  "kind" : "base",
+                  "start" : "<m m=\"{{ firstmonad }}\" t=\"{{ feature 0 }}\"/>"
+               },
+            "note" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "</notecontent></note>",
+                  "start" : "<note db=\"{{ dbname }}\" id_d=\"{{ id_d }}\"><notecontent>"
+               },
+            "bold" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "</b>",
+                  "start" : "<b>"
+               },
+            "italics" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "</em>",
+                  "start" : "<em>"
+               },
+         },
+        "postprocess" : [
+                     {
+                          "prefix" : "<biblexml>"
+                     },
+                     {
+                          "suffix" : "</biblexml>"
+                     },
+               ],
+
+      },
+      "parallel" : {
+         "object_types" : {
+            "verse" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "",
+		  "get" : [
+		  	"chapter",
+			"verse",
+                        "osisID"
+                     ],
+                  "start" : "<versestart chapter=\"{{ feature 0 }}\" verse=\"{{ feature 1 }}\" osisID=\"{{ feature 2 }}\"/>"
+               },
+            "title" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "{{ if featureequal 0 'bookGroup' }}</bookgroup-title>{{ endif }}{{ if featureequal 0 'book' }}</book-title>{{ endif }}{{ if featureequal 0 'chapter' }}</chapter-title>{{ endif }}",
+                  "get" : [
+                        "divtype",
+                     ],
+                  "start" : "{{ if featureequal 0 'bookGroup' }}<bookgroup-title>{{ endif }}{{ if featureequal 0 'book' }}<book-title>{{ endif }}{{ if featureequal 0 'chapter' }}<chapter-title>{{ endif }}"
+               },
+            "transadd" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "</transadd>",
+                  "start" : "<transadd>"
+               },
+            "token" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "",
+                  "get" : [
+                        "wholesurface"
+                     ],
+                  "kind" : "base",
+                  "start" : "<m m=\"{{ firstmonad }}\" t=\"{{ feature 0 }}\"/>"
+               },
+            "note" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "</notecontent></note>",
+                  "start" : "<note db=\"{{ dbname }}\" id_d=\"{{ id_d }}\"><notecontent>"
+               },
+            "bold" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "</b>",
+                  "start" : "<b>"
+               },
+            "italics" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "</em>",
+                  "start" : "<em>"
+               },
+         },
+        "postprocess" : [
+                     {
+                          "prefix" : "<biblexml db=\"{{ dbname }}\">"
+                     },
+                     {
+                          "suffix" : "</biblexml>"
+                     },
+               ],
+
+      },
+      "footnote" : {
+         "object_types" : {
+            "note" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "</note>",
+                  "get" : [
+                     ],
+                  "start" : "<note>"
+               },
+            "token" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "",
+                  "get" : [
+                        "wholesurface"
+                     ],
+                  "kind" : "base",
+                  "start" : "<m m=\"{{ firstmonad }}\" t=\"{{ feature 0 }}\"/>"
+               },
+            "bold" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "</b>",
+                  "start" : "<b>"
+               },
+            "italics" : {
+                  "docindexfeature" : "xmlindex",
+                  "end" : "</em>",
+                  "start" : "<em>"
+               },
+         },
+        "postprocess" : [
+                     {
+                          "prefix" : "<footnotexml>"
+                     },
+                     {
+                          "suffix" : "</footnotexml>"
+                     },
+               ],
+
+      },
+   },
+   "renderinfo" : {
+         "context" : {
+               "elements" : {
+	          "biblexml" : {
+		       "end" : "</p>",
+		       "start" : "<p>",
+                  },
+		  "book-title" : {
+		       "end" : "",
+		       "start" : "",
+		       "nix" : true,
+                  },
+		  "bookgroup-title" : {
+		       "end" : "",
+		       "start" : "",
+		       "nix" : true,
+                  },
+		  "chapter-title" : {
+		       "end" : "</h3><p>",
+		       "start" : "</p><h3>",
+                  },
+                  "chapterstart" : {
+                        "end" : "",
+                        "start" : "</p><h1 color=\"#2b55a4\">Kapitel {{ attrib chapter }}</h1><p>"
+                     },
+		  "br" : {
+                        "end" : "",
+                        "start" : "<br/>"
+                     },
+		  "transadd" : {
+                        "end" : "</em>",
+                        "start" : "<em>"
+                     },
+		  "paragraphstart" : {
+                        "end" : "",
+                        "start" : "</p>\n<p>"
+                     },
+		  "b" : {
+                        "end" : "</b>",
+                        "start" : "<b>"
+                     },
+		  "em" : {
+                        "end" : "</em>",
+                        "start" : "<em>"
+                     },
+                  "versestart" : {
+                        "end" : "",
+                        "start" : " <sup><font size=\"+2\" color=\"#ce4105\" face=\"Arial\">{{ attrib verse }}</font></sup>"
+                     },
+                  "m" : {
+                        "start" : "{{ attrib t }}"
+                     },
+                  "note" : {
+                        "end" : "",
+                        "start" : "<sup><a visible=\"false\" href=\"footnote:{{ attrib db }}/{{ attrib id_d }}/F.htm\"><font size=\"+2\" color=\"#ce4105\" face=\"Arial\">[*]</font></a></sup> ",
+			"nix" : false,
+                     },
+                  "notecontent" : {
+                        "end" : "",
+                        "start" : "",
+			"nix" : true,
+                     },
+               },
+               "extends" : null,
+               "fetch_stylesheet" : "context",
+            },
+         "parallel" : {
+               "elements" : {
+	          "biblexml" : {
+		       "end" : "\"},",
+		       "start" : "\"{{ attrib db }}\" : { \"dummy\" : \"",
+                  },
+		  "book-title" : {
+		       "end" : "",
+		       "start" : "",
+		       "nix" : true,
+                  },
+		  "bookgroup-title" : {
+		       "end" : "",
+		       "start" : "",
+		       "nix" : true,
+                  },
+		  "chapter-title" : {
+		       "end" : "",
+		       "start" : "",
+		       "nix" : true,
+                  },
+                  "versestart" : {
+                        "end" : "",
+                        "start" : "\",\n\"{{ attrib osisID }}\" : \"",
+                     },
+                  "m" : {
+                        "start" : "{{ attrib t }}"
+                     },
+		  "br" : {
+                        "end" : "",
+                        "start" : "<br/>"
+                     },
+		  "transadd" : {
+                        "end" : "</em>",
+                        "start" : "<em>"
+                     },
+                  "note" : {
+                        "end" : "",
+                        "start" : "",
+			"nix" : true,
+                     },
+                  "notecontent" : {
+                        "end" : "",
+                        "start" : "",
+			"nix" : true,
+                     },
+		  "b" : {
+                        "end" : "</b>",
+                        "start" : "<b>"
+                     },
+		  "em" : {
+                        "end" : "</em>",
+                        "start" : "<em>"
+                     },
+               },
+               "extends" : null,
+               "fetch_stylesheet" : "parallel",
+            },
+         "footnote" : {
+               "elements" : {
+	          "footnotexml" : {
+		       "end" : "</p>",
+		       "start" : "<p>",
+                  },
+                  "m" : {
+                        "start" : "{{ attrib t }}"
+                     },
+		  "note" : {
+			"end" : "",
+			"start" : "",   
+		  },
+		  "b" : {
+                        "end" : "</b>",
+                        "start" : "<b>"
+                     },
+		  "em" : {
+                        "end" : "</em>",
+                        "start" : "<em>"
+                     },
+               },
+               "extends" : null,
+               "fetch_stylesheet" : "footnote",
+            },
+      },
+  "searchfilterlist" : [
+     "strip-whitespace",
+     "replace-string", "“", "",
+     "strip-chars", ".,;:?!()[]{}",
+     "replace-string", "“", "",
+     "lowercase",
+     "replace-string", "Æ", "æ",
+     "replace-string", "Ø", "æ",
+     "replace-string", "Å", "å",
+     "replace-string", "É", "é",
+     "block-empty",
+     "stop-words", [
+	"en", "et", "den", "det",
+	],
+  ],
+}

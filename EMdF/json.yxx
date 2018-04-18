@@ -1,0 +1,227 @@
+%include{
+
+/*
+ * json.yxx
+ *
+ * JSON parser
+ *
+ * Ulrik Sandborg-Petersen
+ * Created: 7/28-2008
+ * Last update: 4/16-2015
+ *
+ */
+/************************************************************************
+ *
+ *   Emdros - the database engine for analyzed or annotated text
+ *   Copyright (C) 2008-2015  Ulrik Sandborg-Petersen
+ *
+ *   This program is free software; you can redistribute it and/or
+ *   modify it under the terms of the GNU General Public License as
+ *   published by the Free Software Foundation, license version 2.  
+ *
+ *   This program is distributed in the hope that it will be useful,
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *   General Public License for more details.
+ *
+ *   You should have received a copy of the GNU General Public License
+ *   along with this program; if not, write to the Free Software
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
+ *   02111-1307 USA
+ *
+ *
+ *   Special exception
+ *   =================
+ * 
+ *   In addition, as a special exception, Ulrik Petersen, the
+ *   copyright holder of Emdros, gives permission to link Emdros, in
+ *   whole or in part, with the libraries which are normally
+ *   distributed with:
+ *   
+ *   a) Sun's Java platform,
+ *   b) Python, 
+ *   c) Jython,
+ *   d) Ruby, and/or 
+ *   e) Perl 
+ *   f) PostgreSQL
+ *   g) OpenSSL
+ *
+ *   (or with modified versions of these), and to distribute linked
+ *   combinations including both Emdros, in whole or in part, and one
+ *   or more of the libraries normally distributed with (a)-(g) above.
+ *
+ *   Please note: This gives you special rights concerning the
+ *   libraries which normally accompany the above pieces of software.
+ *   It gives you no special rights concerning software that you write
+ *   yourself.  You must obey the GNU General Public License in all
+ *   respects for all of the code used other than the libraries
+ *   normally distributed with (a)-(g) above.
+ *
+ *   If you modify this file, you may extend this exception to your
+ *   version of the file, but you are not obligated to do so. If you
+ *   do not wish to do so, delete this exception statement from your
+ *   version.
+ *
+ *
+ *   Other licensing forms
+ *   =====================
+ *
+ *   If you wish to negotiate commercial licensing, please contact
+ *   Ulrik Petersen at ulrikp[at]users.sourceforge.net.
+ *
+ *   Licensing can also be negotiated if your organization is an
+ *   educational, non-profit, charity, missionary or similar
+ *   organization.
+ *
+ *
+ *   Website
+ *   =======
+ *
+ *   Emdros has a website here:
+ *
+ *   http://emdros.org
+ *
+ *
+ *
+ **************************************************************************/
+
+#include <cassert>
+#include <json_classes.h>
+#include <mql_yylex.h>
+#include <cstdlib>
+#include <string>
+
+#undef TOKEN
+
+#undef YYCODETYPE
+#undef YYNOCODE
+#undef YYACTIONTYPE
+#undef YYNSTATE
+#undef YYNRULE
+#undef YY_ACTTAB_COUNT
+#undef YY_SHIFT_USE_DFLT
+#undef YY_SHIFT_COUNT
+#undef YY_SHIFT_MIN
+#undef YY_SHIFT_MAX
+#undef YY_REDUCE_USE_DFLT
+#undef YY_REDUCE_COUNT
+#undef YY_REDUCE_MIN
+#undef YY_REDUCE_MAX
+
+} // end include
+
+
+%token_destructor { 
+	if (!pEE->pLexer->isLocallyAllocatedToken($$)) {
+		deleteToken($$); 
+	}
+}
+%token_prefix T_JSON_
+%token_type   {Token*}
+%extra_argument {JSONExecEnv *pEE}
+%syntax_error {
+  pEE->bSyntaxError = true;
+  std::string errMsg;
+  if (TOKEN == 0) {
+     errMsg = "syntax error near <<EOF>>";
+  } else {
+     errMsg = "syntax error near " + TOKEN->getTokenName();
+  }
+  pEE->addToError(errMsg);
+}
+%name JSONParser
+
+%parse_failure {
+  pEE->bSyntaxError = true;
+}
+
+%type top_value {JSONValue*}
+%destructor top_value { delete($$); }
+top_value ::= json_value(X) . { pEE->setTopValue(X); }
+
+%type json_value {JSONValue*}
+%destructor json_value { delete($$); }
+json_value(V) ::= json_object(X) . { V = X; }
+json_value(V) ::= json_list(X) . { V = X; }
+json_value(V) ::= json_boolean(X) . { V = X; }
+json_value(V) ::= json_string(X) . { V = X; }
+json_value(V) ::= json_integer(X) . { V = X; }
+json_value(V) ::= json_null(X) . { V = X; }
+
+%type json_object {JSONValue*}
+%destructor json_object {delete($$); }
+json_object(V) ::= KEY_BRACE_OPEN(O) json_key_value_list(X) opt_comma KEY_BRACE_CLOSE(C) .
+{ V = new JSONValue(X); O = 0; C = 0;}
+json_object(V) ::= KEY_BRACE_OPEN(O) KEY_BRACE_CLOSE(C) .
+{ V = new JSONValue((JSONKeyValuePair*) 0); O = 0; C = 0;}
+
+%type opt_comma {int}
+%destructor opt_comma {;}
+opt_comma(V) ::= KEY_COMMA(C) . { V = 0; C = 0;}
+opt_comma(V) ::= /* empty */ . { V = 0; }
+
+
+%type json_key_value_list {JSONKeyValuePair*}
+%destructor json_key_value_list {delete($$);}
+json_key_value_list(V) ::= json_key_value_list_element(E) .
+{ V = E; }
+json_key_value_list(V) ::= json_key_value_list(L) 
+                           KEY_COMMA(C)
+                           json_key_value_list_element(E) .
+{ V = E; V->setNext(L); C = 0; }
+
+
+%type json_key_value_list_element {JSONKeyValuePair*}
+%destructor json_key_value_list_element {delete($$);}
+json_key_value_list_element(V) ::= STRING(S) KEY_COLON(C) json_value(X) .
+{ V = new JSONKeyValuePair(S->extractString(),X,0); delete S; C = 0; }
+
+
+%type json_list {JSONValue*}
+%destructor json_list {delete($$); }
+json_list(V) ::= KEY_BRACKET_OPEN(O) KEY_BRACKET_CLOSE(C) .
+{ V = new JSONValue((JSONListElement*) 0); O = 0; C = 0; }
+json_list(V) ::= KEY_BRACKET_OPEN(O) json_value_list(X) opt_comma KEY_BRACKET_CLOSE(C) .
+{ V = new JSONValue(X); O = 0; C = 0; }
+
+
+%type json_value_list {JSONListElement*}
+%destructor json_value_list {delete($$); }
+json_value_list(V) ::= json_value(E) .
+{ V = new JSONListElement(E); }
+json_value_list(V) ::= json_value_list(L) 
+                       KEY_COMMA(C)
+		       json_value(E) .
+{ V = new JSONListElement(E); V->setNext(L); C = 0; }
+
+
+
+
+
+
+%type json_string {JSONValue*}
+%destructor json_string {delete($$);}
+json_string(E) ::= STRING(S).
+    { E = new JSONValue(S->extractString()); S->clear(); delete S; }
+
+
+%type json_boolean {JSONValue*}
+%destructor json_boolean {delete($$);}
+json_boolean(E) ::= KEY_TRUE(T) .
+    { E = new JSONValue(true); T = 0;}
+json_boolean(E) ::= KEY_FALSE(F) .
+    { E = new JSONValue(false); F = 0;}
+
+
+%type json_null {JSONValue*}
+%destructor json_null {delete($$);}
+json_null(E) ::= KEY_NULL(N) .
+    { E = new JSONValue(); N = 0; }
+
+
+%type json_integer {JSONValue*}
+%destructor json_integer {delete($$);}
+json_integer(E) ::= INTEGER(S).
+    { E = new JSONValue(S->integer); delete S; }
+
+

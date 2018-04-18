@@ -1,0 +1,15 @@
+SELECT ALL OBJECTS
+WHERE
+[NP as np1 FOCUS
+   [NP AS np2 parent=np1.self
+     [Token surface="the" and parent=np2.self]
+     [Token surface="grace" and parent=np2.self]
+   ]
+   [PP as pp1 parent=np1.self
+     [Token surface="of" and parent=pp1.self]
+     [NP as np3 parent=pp1.self
+       [Token parent=np3.self]*{3-}
+     ]
+   ]
+]
+GO
