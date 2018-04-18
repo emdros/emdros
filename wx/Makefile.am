@@ -58,6 +58,7 @@ dist_pkgdata_DATA = \
 
 
 EXTRA_DIST = win32.mak mingw.mak blue-E.xpm blue-E.ico blue-E.icns \
+             blue-E-512x512.png blue-E-256x256.png \
              blue-E-128x128.png blue-E-64x64.png blue-E-48x48.png \
              blue-E-32x32.png blue-E-22x22.png blue-E-16x16.png \
              EmdrosSplashScreen.xpm \

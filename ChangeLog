@@ -36,6 +36,12 @@
 	* debian/emdros.postinst.in, debian/emdros.postrm.in: Only do the
 	blue-E icon rigmarole iff "x@DO_WXWIDGETS@" = "xyes".
 
+	* wx/blue-E-512x512.png, wx/blue-E-256x256.png: Initial
+	addition. Made with The GIMP from wx/blue-E-big.xcf.
+
+	* wx/Makefile.am: Add blue-E-512x512.png and blue-E-256x256.png to
+	EXTRA_DIST.
+
 2018-04-17 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.6.0.
