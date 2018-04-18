@@ -15,7 +15,6 @@ EXTRA_DIST = README INSTALL.Win32.txt INSTALL.Mac.txt \
              install_mac.sh.in signthis.bat \
              Android.mk README-Emdros-on-Android.txt \
              README-Emdros-on-iOS.txt \
-             RPM-GPG-KEY-ulrikp_emdros_org \
              valgrind.sh callgrind.sh \
              Emdros.pro \
              debian/changelog \

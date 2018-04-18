@@ -42,6 +42,9 @@
 	* wx/Makefile.am: Add blue-E-512x512.png and blue-E-256x256.png to
 	EXTRA_DIST.
 
+	* Remove RPM-GPG-KEY-ulrikp_emdros_org from the source
+	distribution.  It was an ancient, expired GPG key.
+
 2018-04-17 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.6.0.
