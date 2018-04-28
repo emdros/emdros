@@ -1,5 +1,9 @@
 ============ 3.6.0 ============
 
+2018-04-28 Ulrik Sandborg-Petersen
+
+	* INSTALL: Mention the need for the re2c package on Ubuntu.
+
 2018-04-18 Ulrik Sandborg-Petersen
 
 	* EMdF/mysqlconn.cpp: In beginTransaction(), report error if
