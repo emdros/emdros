@@ -4,6 +4,9 @@
 
 	* Makefile.am: Remove Android.mk, since it is no longer present.
 
+	* emdros.spec.in: Remove @WITH_SQLITE2@, since SQLite2 support was
+	removed in 3.6.0.
+
 2018-04-28 Ulrik Sandborg-Petersen
 
 	* INSTALL: Mention the need for the re2c package on Ubuntu.

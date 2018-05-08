@@ -41,7 +41,7 @@ query/create/update/delete operations.
 CFLAGS="$RPM_OPT_FLAGS $CFLAGS"
 CXXFLAGS="$RPM_OPT_FLAGS $CXXFLAGS"
 export CFLAGS CXXFLAGS
-./configure @WITH_SWIG_JAVA@ @WITH_SWIG_PERL@ @WITH_SWIG_PHP@ @WITH_SWIG_PYTHON@ @WITH_SWIG_PYTHON3@ @WITH_SWIG_RUBY@ --disable-static --disable-dependency-tracking --enable-debug @WITH_WXWIDGETS@ @WITH_SQLITE2@ @WITH_SQLITE3@ @WITH_POSTGRESQL@ @WITH_MYSQL@ @WITH_BPT@ @WITH_BPT2@ @ENABLE_AMALGAMATION@ --prefix=%{prefix}
+./configure @WITH_SWIG_JAVA@ @WITH_SWIG_PERL@ @WITH_SWIG_PHP@ @WITH_SWIG_PYTHON@ @WITH_SWIG_PYTHON3@ @WITH_SWIG_RUBY@ --disable-static --disable-dependency-tracking --enable-debug @WITH_WXWIDGETS@ @WITH_SQLITE3@ @WITH_POSTGRESQL@ @WITH_MYSQL@ @WITH_BPT@ @WITH_BPT2@ @ENABLE_AMALGAMATION@ --prefix=%{prefix}
 %make_build
 
 
@@ -202,6 +202,9 @@ This package contains development files.
 #%defattr(-,root,root)
 
 %changelog
+
+* Tue May 8 2018 Ulrik Sandborg-Petersen <ulrikp@users.sf.net> Remove
+  SQLite2 support in 3.6.0.
 
 * Wed Jul 19 2017 Ulrik Sandborg-Petersen <ulrikp@users.sf.net> Update
   doc section to work with the newly distributed PDF and HTML files from
