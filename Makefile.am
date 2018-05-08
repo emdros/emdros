@@ -13,7 +13,7 @@ EXTRA_DIST = README INSTALL.Win32.txt INSTALL.Mac.txt \
              emdros.spec.in $(EMDROS_SPEC_FILE) \
              generate_extrafiles.py.in \
              install_mac.sh.in signthis.bat \
-             Android.mk README-Emdros-on-Android.txt \
+             README-Emdros-on-Android.txt \
              README-Emdros-on-iOS.txt \
              valgrind.sh callgrind.sh \
              Emdros.pro \

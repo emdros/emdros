@@ -1,5 +1,9 @@
 ============ 3.6.0 ============
 
+2018-05-08 Ulrik Sandborg-Petersen
+
+	* Makefile.am: Remove Android.mk, since it is no longer present.
+
 2018-04-28 Ulrik Sandborg-Petersen
 
 	* INSTALL: Mention the need for the re2c package on Ubuntu.
