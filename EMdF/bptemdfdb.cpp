@@ -12,13 +12,13 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 4/10-2017
+ * Last update: 5/10-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -1648,6 +1648,7 @@ bool BPTEMdFDB::getObjectsHavingMonadsIn(const std::string object_type_name,
 					 eObjectRangeType objectRangeType,	
 					 const SetOfMonads& monad_ms,
 					 const SetOfMonads& all_m_1,
+					 const std::string& pre_query_string,
 					 const std::list<FeatureInfo>& features_to_get,
 					 const std::string& monad_set_name,
 					 /* Out */ Inst *pInst)
@@ -1657,6 +1658,7 @@ bool BPTEMdFDB::getObjectsHavingMonadsIn(const std::string object_type_name,
 	UNUSED(objectRangeType);
 	UNUSED(monad_ms);
 	UNUSED(all_m_1);
+	UNUSED(pre_query_string);
 	UNUSED(features_to_get);
 	UNUSED(monad_set_name);
 	UNUSED(pInst);

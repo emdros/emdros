@@ -41,6 +41,21 @@
 	* emdros.spec.in: Remove @WITH_SQLITE2@, since SQLite2 support was
 	removed in 3.6.0.
 
+	* EMdF/emdfdb.cpp, include/emdfdb.h: Change the signature of
+	getObjectsHavingMonadsIn() and related methods such that they take
+	a new parameter: pre_query_string.
+
+	* EMdF/bptemdfdb.cpp, EMdF/bpt2emdfdb.cpp: Also do
+	pre_query_string in the signature of getObjectsHavingMonadsIn for
+	these dummy classes.
+
+	* MQL/mql_R.cpp: In R_inst(), pass the pre_query_string to the
+	getObjectsHavingMonadsIn() call.
+
+	* MQL/mql_select_statements.cpp: In GET OBJECTS HAVING MONADS IN,
+	Pass an empty pre_query_string to
+	EMdFDB::getObjectsHavingMonadsIn().
+
 2018-04-28 Ulrik Sandborg-Petersen
 
 	* INSTALL: Mention the need for the re2c package on Ubuntu.

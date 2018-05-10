@@ -3669,7 +3669,7 @@ bool EMdFDB::getFeatures(const std::string& object_type_name,
 				       string_set_caches_vec,
 				       join_string,
 				       from_string)) {
-			DEBUG_X_FAILED("getObjectsHavingMonadsInFromSingleUniqueMonadOT", "getting feature vectors");
+			DEBUG_X_FAILED("getFeatures", "getting feature vectors");
 			return false;
 		}
 
@@ -5943,17 +5943,21 @@ bool EMdFDB::getObjectsHavingMonadsInExec(const std::string& OTN,
  */
 void EMdFDB::local_get_getObjectsHavingMonadsInSQLQuery(eObjectRangeType objectRangeType,
 						
-						const std::string& str_features_to_get,
-						const std::vector<id_d_t>& feature_types_vec,
-						const std::vector<std::string>& feature_names_vec,
-						const std::string& from_string,
-						const std::string& join_string,
-						bool bHasMonadConstraints,
-						const std::string& monad_set_name,
-						/* out */ std::string& result)
+							const std::string& str_features_to_get,
+							const std::vector<id_d_t>& feature_types_vec,
+							const std::vector<std::string>& feature_names_vec,
+							const std::string& pre_query_string,
+							const std::string& from_string,
+							const std::string& join_string,
+							bool bHasMonadConstraints,
+							const std::string& monad_set_name,
+							/* out */ std::string& result)
 {
 	UNUSED(feature_types_vec);
 	UNUSED(feature_names_vec);
+
+	bool bUsePreQueryString = !pre_query_string.empty();
+	bool bUseJoinString = !join_string.empty();
 	
 	bool bMonadSetIsFeature = strcmp_nocase(monad_set_name, "monads") != 0;
 
@@ -5965,17 +5969,6 @@ void EMdFDB::local_get_getObjectsHavingMonadsInSQLQuery(eObjectRangeType objectR
 			<< "SELECT "
 			<< "OS.object_id_d, OS." << encodeFeatureName(monad_set_name) << str_features_to_get << "\n"
 			<< "FROM " << from_string << "\n";
-		if (join_string.length() > 0
-		    || bHasMonadConstraints) {
-			query_stream << "WHERE ";
-		}
-
-		if (join_string.length() > 0) {
-			query_stream << join_string;
-			if (bHasMonadConstraints) {
-				query_stream << " AND ";
-			}
-		}
 	} else if (objectRangeType == kORTSingleRange
 	    || objectRangeType == kORTSingleMonad) {
 		// It WAS a WITH SINGLE RANGE OBJECTS object type
@@ -5989,35 +5982,34 @@ void EMdFDB::local_get_getObjectsHavingMonadsInSQLQuery(eObjectRangeType objectR
 		query_stream << str_features_to_get 
 			     << "\n"
 			     << "FROM " << from_string << "\n";
-		if (join_string.length() > 0
-		    || bHasMonadConstraints) {
-			query_stream << "WHERE ";
-		}
-		if (join_string.length() > 0) {
-			query_stream << join_string;
-			if (bHasMonadConstraints) {
-				query_stream << " AND ";
-			}
-		}
 	} else {
 		// It was a WITH MULTIPLE RANGE OBJECTS object type
 		query_stream
 			<< "SELECT "
 			<< "OS.object_id_d, OS.monads" << str_features_to_get << "\n"
 			<< "FROM " << from_string << "\n";
-		if (join_string.length() > 0
-		    || bHasMonadConstraints) {
-			query_stream << "WHERE ";
-		}
-
-		if (join_string.length() > 0) {
-			query_stream << join_string;
-			if (bHasMonadConstraints) {
-				query_stream << " AND ";
-			}
-		}
 	}
 
+	if (bUseJoinString
+	    || bHasMonadConstraints
+	    || bUsePreQueryString) {
+		query_stream << "WHERE ";
+	}
+	
+	if (bUseJoinString) {
+		query_stream << join_string;
+	}
+	if (bUsePreQueryString) {
+		if (bUseJoinString) {
+			query_stream << " AND (" << pre_query_string << ")";
+		}
+	}
+	if ((bUseJoinString
+	     || bUsePreQueryString)
+	    && bHasMonadConstraints) {
+		query_stream << " AND ";
+	}
+	
 	result = query_stream.str();
 }
 
@@ -6080,6 +6072,7 @@ bool EMdFDB::getObjectsHavingMonadsIn(const std::string OTN,
 				      monad_m mse_last_monad,
 				      const FastSetOfMonads& original_som,
 				      const SetOfMonads& all_m_1,
+				      const std::string& pre_query_string,
 				      const std::string& str_features_to_get,
 				      const std::vector<id_d_t>& feature_types_vec,
 				      const std::vector<std::string>& feature_names_vec,
@@ -6114,6 +6107,7 @@ bool EMdFDB::getObjectsHavingMonadsIn(const std::string OTN,
 						   str_features_to_get,
 						   feature_types_vec,
 						   feature_names_vec,
+						   pre_query_string,
 						   from_string,
 						   join_string,
 						   bUseMonadConstraints, // There is a monad constraint!
@@ -6321,6 +6315,7 @@ bool EMdFDB::getObjectsHavingMonadsInFromSingleUniqueMonadOT(const std::string o
 							     id_d_t object_type_id,
 							     const SetOfMonads& monad_ms,
 							     const SetOfMonads& all_m_1,
+							     const std::string& pre_query_string,
 							     const std::list<FeatureInfo>& features_to_get,
 							     /* Out */ Inst *pInst)
 {
@@ -6364,6 +6359,7 @@ bool EMdFDB::getObjectsHavingMonadsInFromSingleUniqueMonadOT(const std::string o
 						   str_features_to_get,
 						   feature_types_vec,
 						   feature_names_vec,
+						   pre_query_string,
 						   from_string,
 						   join_string,
 						   true, //bUseMonadConstraints,
@@ -6451,6 +6447,7 @@ bool EMdFDB::getObjectsHavingMonadsIn(const std::string object_type_name,
 				      eObjectRangeType objectRangeType,	
 				      const SetOfMonads& monad_ms,
 				      const SetOfMonads& all_m_1,
+				      const std::string& pre_query_string,
 				      const std::list<FeatureInfo>& features_to_get,
 				      const std::string& monad_set_name,
 				      /* Out */ Inst *pInst)
@@ -6483,6 +6480,8 @@ bool EMdFDB::getObjectsHavingMonadsIn(const std::string object_type_name,
 									       object_type_id,
 									       monad_ms,
 									       all_m_1,
+									       pre_query_string,
+									       
 									       features_to_get,
 									       /* Out */ pInst);
 			
@@ -6530,8 +6529,6 @@ bool EMdFDB::getObjectsHavingMonadsIn(const std::string object_type_name,
 			return false;
 		}
 
-
-
 		/** The minimum gap (of monads) to leave in the set of monads to use 
 		 * as a basis for querying. 
 		 *@internal
@@ -6577,6 +6574,7 @@ bool EMdFDB::getObjectsHavingMonadsIn(const std::string object_type_name,
 						      mse.last(),
 						      fast_monad_ms,
 						      all_m_1,
+						      pre_query_string,
 						      str_features_to_get,
 						      feature_types_vec,
 						      feature_names_vec,

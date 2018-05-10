@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 4/7-2018
+ * Last update: 5/10-2018
  *
  */
 /************************************************************************
@@ -384,6 +384,7 @@ class BPTEMdFDB : public EMdFDB {
 					      eObjectRangeType objectRangeType,
 					      const SetOfMonads& monad_ms,
 					      const SetOfMonads& all_m_1,
+					      const std::string& pre_query_string,
 					      const std::list<FeatureInfo>& features_to_get,
 					      const std::string& monad_set_name,
 					      /* out */ Inst *pInst);

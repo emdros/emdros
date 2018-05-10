@@ -336,6 +336,7 @@ Inst* R_inst(MQLExecEnv *pEE, const SetOfMonads& Su, ObjectBlock *object_block, 
                                                         object_block->getObjectRangeType(),
                                                         characteristic_set, 
                                                         pEE->m_all_m_1,
+							pre_query_string,
                                                         FeatureInfos,
                                                         object_block->getMSRC()->getOurMonadSet(),
                                                         pInst)) {

@@ -553,6 +553,7 @@ class EMdFDB {
 							     id_d_t object_type_id,
 							     const SetOfMonads& monad_ms,
 							     const SetOfMonads& all_m_1,
+							     const std::string& pre_query_string,
 							     const std::list<FeatureInfo>& features_to_get,
 							     /* Out */ Inst *pInst);
 
@@ -587,6 +588,7 @@ class EMdFDB {
 							const std::string& str_features_to_get,
 							const std::vector<id_d_t>& feature_types_vec,
 							const std::vector<std::string>& feature_names_vec,
+							const std::string& pre_query_string,
 							const std::string& from_string,
 							const std::string& join_string,
 							bool bHasMonadConstraints,
@@ -599,6 +601,7 @@ class EMdFDB {
 				      monad_m last_monad,
 				      const FastSetOfMonads& original_som,
 				      const SetOfMonads& all_m_1,
+				      const std::string& pre_query_string,
 				      const std::string& str_features_to_get,
 				      const std::vector<id_d_t>& feature_types_vec,
 				      const std::vector<std::string>& feature_names_vec,
@@ -618,6 +621,7 @@ class EMdFDB {
 					      eObjectRangeType objectRangeType,
 					      const SetOfMonads& monad_ms,
 					      const SetOfMonads& all_m_1,
+					      const std::string& pre_query_string,
 					      const std::list<FeatureInfo>& features_to_get,
 					      const std::string& monad_set_name,
 					      /* out */ Inst *pInst);
@@ -1070,6 +1074,7 @@ extern void local_get_getObjectsHavingMonadsInSQLQuery(eObjectRangeType objectRa
 						       const std::string& str_features_to_get,
 						       const std::vector<id_d_t>& feature_types_vec,
 						       const std::vector<std::string>& feature_names_vec,
+						       const std::string& pre_query_string,
 						       const std::string& from_string,
 						       const std::string& join_string,
 						       bool bHasMonadConstraints,

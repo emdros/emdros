@@ -331,8 +331,10 @@ bool QueryBase::myExec(MQLExecEnv *pEE, MQLResult **ppMQLResult)
 		
 		if (bCanChooseInnermostFirstStrategy) {
 			strategy = kAQSInnermostFirst;
+			std::cerr << "UP201: Strategy chosen: Innermost first." << std::endl;
 		} else {
 			strategy = kAQSOutermostFirst;
+			std::cerr << "UP201: Strategy chosen: Outermost first." << std::endl;
 		}
 
 			
@@ -867,11 +869,16 @@ bool GetObjectsHavingMonadsInStatement::exec()
 		return true;
 	}
 
+	// We currently don't have the grammar support for doing pre
+	// query strings.
+	std::string pre_query_string = "";
+
 	if (!m_pEE->pDB->getObjectsHavingMonadsIn(*m_object_type_name,
 						  m_object_type_id,
 						  m_objectRangeType,
 						  m_monads,
 						  m_pEE->m_all_m_1,
+						  pre_query_string,
 						  FeatureInfos,
 						  *m_monads_feature,
 						  pInst)) {
