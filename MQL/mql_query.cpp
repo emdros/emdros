@@ -4906,11 +4906,8 @@ bool BlockString2::hasObjectBlockInBlockString()
 	if (isBlockString1()) {
 		return m_block_string1->hasObjectBlockInBlockString();
 	} else {
-		bool bBS1HOB = m_block_string1->hasObjectBlockInBlockString();
-		if (!bBS1HOB) {
-			return false;
-		}
-		return m_block_string2->hasObjectBlockInBlockString();
+		return m_block_string1->hasObjectBlockInBlockString()
+			|| m_block_string2->hasObjectBlockInBlockString();
 	}
 }
 

@@ -25,6 +25,11 @@
 	* MQL/mql_query.cpp: In method Block::aggregateQuery(): Remove
 	redundant local variables.
 
+	* MQL/mql_query.cpp: Fix bug in
+	BlockString2::hasObjectBlockInBlockString() which caused it not to
+	consider m_block_string2 if m_block_string1 did not have an
+	ObjectBlock.
+
 2018-05-08 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Remove Android.mk, since it is no longer present.
