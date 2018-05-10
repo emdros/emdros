@@ -6,6 +6,12 @@
 	FastSetOfMonads::fillGaps() resulting in crash when "this" set of
 	monads is empty.
 
+	* MQL/mql_select_statements.cpp: Always use 'Innermost' aggregate
+	query strategy if the query allows it.  Until now, we have been
+	overriding this if the all_m_1 SetOfMonads was less than 2 million
+	monads long.  Now we want to obey the query planner even in the
+	face of "small" databases.
+
 2018-05-08 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Remove Android.mk, since it is no longer present.
