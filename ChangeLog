@@ -19,6 +19,9 @@
 	* include/mql_query.h, MQL/mql_query.cpp: Use a FastSetOfMonads
 	for all aggregate querying functions.
 
+	* MQL/mql_select_statements.cpp: Use a FastSetOfMonads for
+	aggregate querying.
+
 2018-05-08 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Remove Android.mk, since it is no longer present.

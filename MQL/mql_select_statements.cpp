@@ -336,7 +336,7 @@ bool QueryBase::myExec(MQLExecEnv *pEE, MQLResult **ppMQLResult)
 		}
 
 			
-		SetOfMonads outermostSOM;
+		FastSetOfMonads outermostSOM;
 		if (strategy == kAQSOutermostFirst) {
 			outermostSOM = m_Su;
 		} else {
