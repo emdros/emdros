@@ -30,6 +30,10 @@
 	consider m_block_string2 if m_block_string1 did not have an
 	ObjectBlock.
 
+	* EMdF/emdfdb.cpp: Fix some error messages which misleadingly
+	reported that they came from EMdFDB::getInst, when in fact they
+	came from other methods.
+
 2018-05-08 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Remove Android.mk, since it is no longer present.

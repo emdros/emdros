@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 4/18-2018
+ * Last update: 5/10-2018
  *
  */
 /************************************************************************
@@ -3923,7 +3923,7 @@ bool EMdFDB::getFeaturesByQuery(const std::string& object_type_name,
 			       string_set_caches_vec,
 			       join_string,
 			       from_string)) {
-		DEBUG_X_FAILED("EMdFDB::getInst", "getting feature vectors");
+		DEBUG_X_FAILED("EMdFDB::getFeaturesByQuery", "getting feature vectors");
 		return false;
 	}
 
@@ -5847,7 +5847,7 @@ bool EMdFDB::getObjectsHavingMonadsInExec(const std::string& OTN,
 							      feature_names_vec,
 							      string_set_caches_vec,
 							      pFeature_values)) {
-						DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::getInst");
+						DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::getObjectsHavingMonadsInExec");
 						pConn->finalize();
 						delete pSom;
 						return false;
@@ -6277,7 +6277,7 @@ bool EMdFDB::getObjectsHavingMonadsInFromSingleUniqueMonadExec(const std::string
 						      feature_names_vec,
 						      string_set_caches_vec,
 						      pFeature_values)) {
-					DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::getInst");
+					DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::getObjectsHavingMonadsInFromSingleUniqueMonadExec");
 					pConn->finalize();
 					return false;
 				}
@@ -6671,7 +6671,7 @@ bool EMdFDB::getFeatureVectors(const std::list<FeatureInfo>& features_to_get,
 					if (!loadStringSetIntoCache(normalized_OTN,
 								    object_type_id,
 								    locase_name)) {
-						DEBUG_X_FAILED("EMdFDB::getInst", ("getting string set cache for " + normalized_OTN + "." + locase_name));
+						DEBUG_X_FAILED("EMdFDB::getFeatureVectors", ("getting string set cache for " + normalized_OTN + "." + locase_name));
 						return false;
 					}
 						
