@@ -34,6 +34,10 @@
 	reported that they came from EMdFDB::getInst, when in fact they
 	came from other methods.
 
+	* MQL/mql_query.cpp: In ObjectBlock::symbol(), don't set
+	m_bDoCalculatePreQueryString to false when m_pMSRC->getOperation()
+	== kMSROOverlap.  This used to be necessary, until today.
+
 2018-05-08 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Remove Android.mk, since it is no longer present.

@@ -3655,12 +3655,17 @@ bool ObjectBlock::symbol(MQLExecEnv *pEE, bool bCalculatePreQueryString, bool& b
 {
         m_bDoCalculatePreQueryString = bCalculatePreQueryString;
 
+	//
+	// Well, now we can...
+	//
+	/*
 	// Currently, we cannot use pre query strings when doing an
 	// overlap, since we cannot use it when calling
 	// EMdFDB::getObjectsHavingMonadsIn in R_inst().
 	if (m_pMSRC->getOperation() == kMSROOverlap) {
 		m_bDoCalculatePreQueryString = false;
 	}
+	*/
 
 	// - Check base
 	//
