@@ -5958,7 +5958,6 @@ void EMdFDB::local_get_getObjectsHavingMonadsInSQLQuery(eObjectRangeType objectR
 
 	bool bUsePreQueryString = !pre_query_string.empty();
 	bool bUseJoinString = !join_string.empty();
-	
 	bool bMonadSetIsFeature = strcmp_nocase(monad_set_name, "monads") != 0;
 
 	std::ostringstream query_stream;
@@ -6002,6 +6001,8 @@ void EMdFDB::local_get_getObjectsHavingMonadsInSQLQuery(eObjectRangeType objectR
 	if (bUsePreQueryString) {
 		if (bUseJoinString) {
 			query_stream << " AND (" << pre_query_string << ")";
+		} else {
+			query_stream << "(" << pre_query_string << ")";
 		}
 	}
 	if ((bUseJoinString
