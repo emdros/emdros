@@ -13,8 +13,8 @@
 	face of "small" databases.
 
 	* include/inst.h, EMdF/inst.cpp: Use a FastSetOfMonads for
-	Inst::bigUnion() and Inst::almostBigUnion().  Do the same for the
-	InstContents.
+	Inst::bigUnion() and Inst::almostRealBigUnion().  Do the same for
+	the InstContents.
 
 2018-05-08 Ulrik Sandborg-Petersen
 
