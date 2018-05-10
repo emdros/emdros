@@ -4,13 +4,13 @@
 // monads and sets of monads
 // Ulrik Petersen
 // Created: 7/16-1999
-// Last update: 8/17-2013
+// Last update: 5/10-2018
 //
 //
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 1999-2013  Ulrik Sandborg-Petersen
+ *   Copyright (C) 1999-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -2067,6 +2067,10 @@ SetOfMonads SetOfMonads::fillGaps(monad_m min_gap) const
 
 	// Add first MSE and advance iterator
 	ci = monad_ms.const_iterator();
+	// we are empty
+	if (!ci.hasNext()) {
+		return result;
+	}
 	MonadSetElement curmse(ci.next());
 	result.addMSE(curmse);
 
@@ -2771,6 +2775,9 @@ bool FastSetOfMonads::subsumesRange(const MonadSetElement& range) const
 FastSetOfMonads FastSetOfMonads::fillGaps(monad_m min_gap) const
 {
 	FastSetOfMonads result;
+	if (isEmpty()) {
+		return result;
+	}
 
 	// Create iterator and previous monad
 	monad_m prev_last;

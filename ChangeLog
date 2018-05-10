@@ -1,5 +1,11 @@
 ============ 3.6.0 ============
 
+2018-05-10 Ulrik Sandborg-Petersen
+
+	* EMdF/monads.cpp: Fix bugs in SetOfMonads::fillGaps() and
+	FastSetOfMonads::fillGaps() resulting in crash when "this" set of
+	monads is empty.
+
 2018-05-08 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Remove Android.mk, since it is no longer present.
