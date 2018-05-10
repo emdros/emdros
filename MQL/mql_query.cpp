@@ -932,9 +932,6 @@ void Block::calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EM
 
 bool Block::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
 {
-	std::string characteristic_string;
-	std::pair<String2COBPtrMMap::iterator,String2COBPtrMMap::iterator> mypair;
-	String2COBPtrMMap::iterator p;
 	switch(m_kind) {
 	case kOptGapBlock:
 		m_opt_gap_block->aggregateQuery(pEE, characteristic_set, Su, strategy, largest_object_length_above, mmap);
