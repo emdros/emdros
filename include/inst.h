@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 2/26-2001
- * Last update: 1/6-2014
+ * Last update: 5/10-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2014  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -306,8 +306,8 @@ class InstContents {
 	~InstContents();
 	void addObject(InstObject *pObj, monad_m first_monad, monad_m last_monad);
 	void objectsAtSm(monad_m Sm, InstContents::const_iterator& ci1);
-	void bigUnion(SetOfMonads& result);
-	void almostRealBigUnion(SetOfMonads& result);
+	void bigUnion(FastSetOfMonads& result);
+	void almostRealBigUnion(FastSetOfMonads& result);
 	bool hasObject(monad_m key, id_d_t object_id_d) { return m_sl_by_monad_m.hasObject(key, object_id_d); };
 	void setIsAggregate(bool isAggregate);
 	bool isAggregate(void) const { return m_is_aggregate; };
@@ -395,11 +395,11 @@ class Inst {
 
 	/** Get the "big union" of all the member sets of monads.
 	 */
-	void bigUnion(SetOfMonads& result) { m_pContents->bigUnion(result); };
+	void bigUnion(FastSetOfMonads& result) { m_pContents->bigUnion(result); };
 
 	/** Get the "almost real big union" of all the member sets of monads.
 	 */
-	void almostRealBigUnion(SetOfMonads& result) { m_pContents->almostRealBigUnion(result); };
+	void almostRealBigUnion(FastSetOfMonads& result) { m_pContents->almostRealBigUnion(result); };
 
 	/** Set the "aggregate" bool of this Inst.
 	 *

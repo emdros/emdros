@@ -213,7 +213,7 @@ void InstContents::addObject(InstObject *pObj, monad_m first_monad, monad_m last
  *
  * @param result The resulting SetOfMonads.
  */
-void InstContents::bigUnion(SetOfMonads& result)
+void InstContents::bigUnion(FastSetOfMonads& result)
 {
 	// Write to log
 	LOG_WRITE_TIME("InstContents::bigUnion", "Starting big-union.");
@@ -263,7 +263,7 @@ void InstContents::bigUnion(SetOfMonads& result)
  *
  * @param result The resulting SetOfMonads.
  */
-void InstContents::almostRealBigUnion(SetOfMonads& result)
+void InstContents::almostRealBigUnion(FastSetOfMonads& result)
 {
 	// Write to log
 	LOG_WRITE_TIME("InstContents::almostRealBigUnion", "Starting almost real big-union.");

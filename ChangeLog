@@ -12,6 +12,10 @@
 	monads long.  Now we want to obey the query planner even in the
 	face of "small" databases.
 
+	* include/inst.h, EMdF/inst.cpp: Use a FastSetOfMonads for
+	Inst::bigUnion() and Inst::almostBigUnion().  Do the same for the
+	InstContents.
+
 2018-05-08 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Remove Android.mk, since it is no longer present.
