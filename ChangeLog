@@ -38,6 +38,13 @@
 	m_bDoCalculatePreQueryString to false when m_pMSRC->getOperation()
 	== kMSROOverlap.  This used to be necessary, until today.
 
+	* MQL/mql_query.cpp: In
+	ObjectBlock::canChooseAQStrategyInnermostFirst(), don't deny that
+	we can choose the InnermostFirst strategy, even if the
+	ObjectBlock's operation is kMSROOverlap.  Also just recurse down
+	into the m_opt_blocks -- don't check m_feature_constraints on the
+	grounds that we can't do R_inst() on kMSROOverlap.
+
 2018-05-08 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Remove Android.mk, since it is no longer present.

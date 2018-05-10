@@ -4242,9 +4242,11 @@ StartMonadIterator* ObjectBlock::getSMI(MQLExecEnv *pEE, const SetOfMonads& U, c
 
 void ObjectBlock::canChooseAQStrategyInnermostFirst(bool &bResult)
 {
+	/*
 	if (m_pMSRC->getOperation() == kMSROOverlap) {
 		bResult = false;
 	}
+	*/
 
 	if (bResult) {
 		if (m_feature_constraints != 0
@@ -4255,15 +4257,7 @@ void ObjectBlock::canChooseAQStrategyInnermostFirst(bool &bResult)
 
 	if (bResult) {
 		if (m_opt_blocks != 0) {
-			if (m_feature_constraints != 0) {
-				// Currently, we don't know to how to
-				// do an Overlap query if there are
-				// feature constraints, since we can't
-				// do them in the backend.
-				bResult = false;
-			} else {
-				m_opt_blocks->canChooseAQStrategyInnermostFirst(bResult);
-			}
+			m_opt_blocks->canChooseAQStrategyInnermostFirst(bResult);
 		}
 	}
 }
