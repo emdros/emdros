@@ -45,6 +45,14 @@
 	into the m_opt_blocks -- don't check m_feature_constraints on the
 	grounds that we can't do R_inst() on kMSROOverlap.
 
+	* MQL/mql_query.cpp: Make many improvements to the
+	'InnermostFirst' part of the aggregate querying machinery.
+
+	* MQL/mql_query.cpp: In ObjectBlock::makeInst(), don't use the
+	mmap if we are doing the innermost first strategy (for now).  This
+	is because the characteristic string is right now built with the
+	assumption that we always use the outermost first strategy.
+
 2018-05-08 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Remove Android.mk, since it is no longer present.

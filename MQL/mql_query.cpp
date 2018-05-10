@@ -3863,25 +3863,40 @@ bool ObjectBlock::type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool&
 	return true;
 }
 
-bool ObjectBlock::makeInst(MQLExecEnv *pEE, const SetOfMonads& Su, eMonadSetRelationOperation *pMonadSetOperation, String2COBPtrMMap& mmap)
+bool ObjectBlock::makeInst(MQLExecEnv *pEE, const SetOfMonads& Su, eMonadSetRelationOperation *pMonadSetOperation, String2COBPtrMMap& mmap, eAggregateQueryStrategy strategy)
 {
-	// Get characteristic string
-	std::string characteristic_string = getCharacteristicString();
-
-	// See if we can find it already
-	std::pair<String2COBPtrMMap::iterator,String2COBPtrMMap::iterator> mypair = mmap.equal_range(characteristic_string);
-	String2COBPtrMMap::iterator p;
-	bool bDoContinue = true;
-	for (p = mypair.first; bDoContinue && p != mypair.second; ++p) {
-		Inst *pInst = (p->second)->m_inst;
-		if (pInst != 0) {
-			m_inst = new Inst(pInst);
-			bDoContinue = false;
+	switch (strategy) {
+	case kAQSOutermostFirst: {
+		// Get characteristic string
+		std::string characteristic_string = getCharacteristicString();
+		
+		// See if we can find it already
+		std::pair<String2COBPtrMMap::iterator,String2COBPtrMMap::iterator> mypair = mmap.equal_range(characteristic_string);
+		String2COBPtrMMap::iterator p;
+		bool bDoContinue = true;
+		for (p = mypair.first; bDoContinue && p != mypair.second; ++p) {
+			Inst *pInst = (p->second)->m_inst;
+			if (pInst != 0) {
+				m_inst = new Inst(pInst);
+				bDoContinue = false;
+			}
+		}
+		
+		if (m_inst == 0) {
+			// We didn't find it.  Calculate it.
+			try {
+				m_inst = R_inst(pEE, Su, this, pMonadSetOperation);
+				m_inst->setIsAggregate(true);
+			} catch (EMdFDBException e) {
+				return false;
+			}
 		}
 	}
-
-	if (m_inst == 0) {
-		// We didn't find it.  Calculate it.
+		break;
+		
+	case kAQSInnermostFirst: {
+		// If we are doing InnermostFirst, we cannot rely on mmap.
+		// This is because mmap assumes OutermostFirst.
 		try {
 			m_inst = R_inst(pEE, Su, this, pMonadSetOperation);
 			m_inst->setIsAggregate(true);
@@ -3889,6 +3904,13 @@ bool ObjectBlock::makeInst(MQLExecEnv *pEE, const SetOfMonads& Su, eMonadSetRela
 			return false;
 		}
 	}
+		break;
+	default:
+		ASSERT_THROW(false,
+			     "Unknown aggregate query strategy");
+		break;
+	}
+		
 	return true;
 }
 
@@ -3985,7 +4007,7 @@ bool ObjectBlock::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristi
 	switch (strategy) {
 	case kAQSOutermostFirst: {
 		// Do it for this
-		if (!makeInst(pEE, characteristic_set, 0, mmap))
+		if (!makeInst(pEE, characteristic_set, 0, mmap, strategy))
 			return false;
 		// LOG_WRITE_TIME("ObjectBlock::aggregateQuery", *m_object_type_name + " Inst-making finished.");
 		
@@ -4015,19 +4037,23 @@ bool ObjectBlock::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristi
 		break;
 	case kAQSInnermostFirst: {
 		if (m_opt_blocks == 0) {
-			SetOfMonads local_characteristic_set = Su;
+			SetOfMonads local_characteristic_set;
 
 			// We fill the gaps because we must.
-			local_characteristic_set.fillGaps(largest_object_length_above);
+			local_characteristic_set = Su.fillGaps(largest_object_length_above);
 
-			eMonadSetRelationOperation msr_op = kMSROPartOf;
+			eMonadSetRelationOperation msr_op = kMSROOverlap;
 
 			// Do it for this
-			if (!makeInst(pEE, local_characteristic_set, &msr_op, mmap))
+			if (!makeInst(pEE, local_characteristic_set, &msr_op, mmap, strategy))
 				return false;
 
+
 			// Get big-union of inst into characteristic set
-			m_inst->almostRealBigUnion(characteristic_set);
+			FastSetOfMonads CS1;
+			m_inst->almostRealBigUnion(CS1);
+
+			characteristic_set.unionWith(CS1.fillGaps(largest_object_length_above));
 		} else {
 			FastSetOfMonads CS;
 
@@ -4046,19 +4072,23 @@ bool ObjectBlock::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristi
 				// the query. If we don' we'll delete
 				// it twice.
 				m_inst->setIsAggregate(true);
+
 			} else {
 				eMonadSetRelationOperation msr_op = kMSROOverlap;
 
 				// We fill the gaps because we must.
-				CS.fillGaps(largest_object_length_above);
-
+				CS = CS.fillGaps(largest_object_length_above);
 
 				// Do it for this
-				if (!makeInst(pEE, CS, &msr_op, mmap))
+				if (!makeInst(pEE, CS, &msr_op, mmap, strategy))
 					return false;
 				
 				// Get big-union of inst into characteristic set
-				m_inst->almostRealBigUnion(characteristic_set);
+				FastSetOfMonads CS1;
+				m_inst->almostRealBigUnion(CS1);
+				
+				characteristic_set.unionWith(CS);
+				characteristic_set.unionWith(CS1.fillGaps(largest_object_length_above));
 			} 
 		}
 	}
@@ -4258,6 +4288,10 @@ void ObjectBlock::canChooseAQStrategyInnermostFirst(bool &bResult)
 	if (bResult) {
 		if (m_opt_blocks != 0) {
 			m_opt_blocks->canChooseAQStrategyInnermostFirst(bResult);
+		} else {
+			if (m_feature_constraints == 0) {
+				bResult = false;
+			}
 		}
 	}
 }
@@ -4867,21 +4901,14 @@ bool BlockString2::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characterist
 	}
 		break;
 	case kAQSInnermostFirst: {
-		if (m_block_string2 == 0) {
-			FastSetOfMonads CS1;
-			// Do it for this object
-			if (!m_block_string1->aggregateQuery(pEE, CS1, Su, strategy, largest_object_length_above, mmap))
-				return false;
+		FastSetOfMonads CS1;
+		// Do it for this object
+		if (!m_block_string1->aggregateQuery(pEE, CS1, Su, strategy, largest_object_length_above, mmap))
+			return false;
+		
+		characteristic_set.unionWith(CS1);
 
-			characteristic_set = CS1;
-		} else {
-			FastSetOfMonads CS1;
-			// Do it for this object
-			if (!m_block_string1->aggregateQuery(pEE, CS1, Su, strategy, largest_object_length_above, mmap))
-				return false;
-
-			characteristic_set = CS1;
-
+		if (m_block_string2 != 0) {
 			FastSetOfMonads CS2;
 			
 			// Recurse down through the rest_of_block_str
@@ -4927,9 +4954,7 @@ void BlockString2::canChooseAQStrategyInnermostFirst(bool &bResult)
 		} else {
 			// Recurse
 			m_block_string1->canChooseAQStrategyInnermostFirst(bResult);
-			
 			if (bResult) {
-				// Recurse
 				m_block_string2->canChooseAQStrategyInnermostFirst(bResult);
 			}
 		}
@@ -5212,15 +5237,18 @@ bool BlockString::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristi
 	}
 		break;
 	case kAQSInnermostFirst: {
+		FastSetOfMonads CS;
+		if (!m_block_string2->aggregateQuery(pEE, CS, Su, strategy, largest_object_length_above, mmap))
+			return false;
+		
+		characteristic_set.unionWith(CS);
+		
 		if (m_block_string != 0) {
-			ASSERT_THROW(false,
-				     "Error: We should not have chosen the Innermost First strategy, since there is an OR");
-		} else {
-			FastSetOfMonads CS;
-			if (!m_block_string2->aggregateQuery(pEE, CS, Su, strategy, largest_object_length_above, mmap))
+			FastSetOfMonads CS1;
+			if (!m_block_string->aggregateQuery(pEE, CS1, Su, strategy, largest_object_length_above, mmap))
 				return false;
-			
-			characteristic_set = CS;
+
+			characteristic_set.unionWith(CS1);
 		}
 	}
 		break;
@@ -5238,8 +5266,10 @@ void BlockString::canChooseAQStrategyInnermostFirst(bool &bResult)
 		// Recurse
 		m_block_string2->canChooseAQStrategyInnermostFirst(bResult);
 	} else {
-		// We currently don't know how to choose an overall strategy of InnermostFirst if OR is involved
-		bResult = false;
+		m_block_string2->canChooseAQStrategyInnermostFirst(bResult);
+		if (bResult) {
+			m_block_string->canChooseAQStrategyInnermostFirst(bResult);
+		}
 	}
 }
 
@@ -5472,16 +5502,39 @@ void ObjectBlockString::addOBBToVec(OBBVec *pOBBVec)
 
 bool ObjectBlockString::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
 {
-	if (m_object_block_string != 0) {
-		if (!m_object_block_string->aggregateQuery(pEE, characteristic_set, Su, strategy, largest_object_length_above, mmap)) {
-			return false;
+	switch (strategy) {
+	case kAQSOutermostFirst: {
+		if (m_object_block_string != 0) {
+			if (!m_object_block_string->aggregateQuery(pEE, characteristic_set, Su, strategy, largest_object_length_above, mmap)) {
+				return false;
+			}
+		}
+		
+		if (!m_object_block->aggregateQuery(pEE, characteristic_set, Su, strategy, largest_object_length_above, mmap)) {
+				return false;
 		}
 	}
-						
-	if (!m_object_block->aggregateQuery(pEE, characteristic_set, Su, strategy, largest_object_length_above, mmap)) {
-		return false;
+		break;
+	case kAQSInnermostFirst: {
+		FastSetOfMonads CS1;
+		if (m_object_block_string != 0) {
+			if (!m_object_block_string->aggregateQuery(pEE, CS1, Su, strategy, largest_object_length_above, mmap)) {
+				return false;
+			}
+		}
+		
+		FastSetOfMonads CS2;
+		if (!m_object_block->aggregateQuery(pEE, CS2, Su, strategy, largest_object_length_above, mmap)) {
+			return false;
+		}
+		characteristic_set.unionWith(CS1);
+		characteristic_set.unionWith(CS2);
 	}
-
+		break;
+	default:
+		ASSERT_THROW(false,
+			     "Unknown aggregate query strategy");
+	}			
 	return true;
 }
 
