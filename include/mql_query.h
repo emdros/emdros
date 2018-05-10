@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 3/1-2017
+ * Last update: 5/10-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -370,7 +370,7 @@ class GapBlock {
 	bool type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool& bResult);
 	Blocks* getOptBlocks() { return m_opt_blocks; };
 	void calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
-	bool aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
+	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool isFocus(void) { return m_retrieval == kRetrieveFocus; };
 	void addOBBToVec(OBBVec *pOBBVec);
@@ -810,7 +810,7 @@ class ObjectBlock : public ObjectBlockBase {
 	MQLObject* getObject() { return m_object; };
 	const MQLObject* getObject() const { return m_object; };
 	bool makeInst(MQLExecEnv *pEE, const SetOfMonads& Su, eMonadSetRelationOperation *pMonadSetOperation, String2COBPtrMMap& mmap);
-	bool aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
+	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool hasFirstLast() const;
 	void calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
@@ -850,7 +850,7 @@ class Block : public ByMonads {
 	ObjectBlock* getObjectBlock(void) { return m_object_block; };
 	Power *getPowerBlock(void) { return m_power_block; };
 	bool isStar(void) const { return m_monad_set != 0; };
-	bool aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
+	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool hasFirstLast() const;
 	void calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
@@ -897,7 +897,7 @@ public:
 	bool type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool& bResult);
 	Block* getBlock() { return m_block; };
 	BlockString *getBlockString() { return m_block_string; }
-	bool aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
+	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool hasFirstLast() const;
 	bool firstBlockIsPower();
@@ -931,7 +931,7 @@ public:
 	bool type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool& bResult);
 	BlockString0* getBlockString0() { return m_block_string0; };
 	const SetOfMonads *getStarSOM() const { return m_pStarSOM; }
-	bool aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
+	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool hasFirstLast() const;
 	bool firstBlockIsPower();
@@ -967,7 +967,7 @@ public:
 	bool type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool& bResult);
 	BlockString1* getBlockString1() { return m_block_string1; };
 	BlockString2 *getBlockString2() { return m_block_string2; }
-	bool aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
+	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool hasFirstLast() const;
 	bool firstBlockIsPower();
@@ -1018,7 +1018,7 @@ public:
 	bool type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool& bResult);
 	BlockString2* getBlockString2() { return m_block_string2; };
 	BlockString *getBlockString() { return m_block_string; }
-	bool aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
+	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool hasFirstLast() const;
 	bool firstBlockIsPower();
@@ -1051,7 +1051,7 @@ class ObjectBlockString {
 	bool symbolObjectReferences(MQLExecEnv *pEE, bool& bResult, std::set<std::string>& ORD_set);
 	bool symbolObjectReferences2(MQLExecEnv *pEE);
 
-	bool aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);	
+	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);	
 };
 
 class UnorderedGroup {
@@ -1071,7 +1071,7 @@ class UnorderedGroup {
 	long getObjectBlockCount() { return m_object_block_string->getObjectBlockCount(); };
 	
 	bool type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool& bResult);
-	bool aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
+	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool hasFirstLast() const;
 	bool firstBlockIsPower();
@@ -1107,7 +1107,7 @@ class Blocks {
 	UsingRange* getUsingRange() { return m_using_range; };
 	UnorderedGroup* getUnorderedGroup() { return m_unordered_group; };
 	void calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
-	bool aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
+	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool hasFirstLast() const;
 	void addOBBToVec(OBBVec *pOBBVec);
@@ -1125,7 +1125,7 @@ class Topograph {
 	bool symbol(MQLExecEnv *pEE, bool& bResult);
 	bool type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool& bResult);
 	Blocks* getBlocks() { return m_blocks; };
-	bool aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy);
+	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy);
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool hasFirstLast() const;
 	void calculateMMap(EMdFDB *pDB);

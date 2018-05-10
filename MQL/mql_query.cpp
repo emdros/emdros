@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 3/1-2017
+ * Last update: 5/10-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2016  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -545,7 +545,7 @@ bool GapBlock::type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool& bR
 	return true;
 }
 
-bool GapBlock::aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
+bool GapBlock::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
 {
 	// Write to log
 	// LOG_WRITE_TIME("GapBlock::aggregateQuery", *m_object_type_name + " Making inst.");
@@ -930,7 +930,7 @@ void Block::calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EM
 	}
 }
 
-bool Block::aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
+bool Block::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
 {
 	std::string characteristic_string;
 	std::pair<String2COBPtrMMap::iterator,String2COBPtrMMap::iterator> mypair;
@@ -3970,7 +3970,7 @@ void ObjectBlock::calculateCharacteristicString(const std::string& prefix)
 	}
 }
 
-bool ObjectBlock::aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
+bool ObjectBlock::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
 {
 	// Write to log
 	// LOG_WRITE_TIME("ObjectBlock::aggregateQuery", *m_object_type_name + " Making inst.");
@@ -3990,7 +3990,7 @@ bool ObjectBlock::aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_se
 		// Recurse down through the opt_blocks
 		if (m_opt_blocks != 0) {
 			// Get big-union of inst.
-			SetOfMonads CS;
+			FastSetOfMonads CS;
 			m_inst->bigUnion(CS);
 			
 			// Recurse downwards.
@@ -4027,7 +4027,7 @@ bool ObjectBlock::aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_se
 			// Get big-union of inst into characteristic set
 			m_inst->almostRealBigUnion(characteristic_set);
 		} else {
-			SetOfMonads CS;
+			FastSetOfMonads CS;
 
 			// LOG_WRITE_TIME("ObjectBlock::aggregateQuery ", *m_object_type_name + " Recursing down through opt_blocks.");
 			if (!m_opt_blocks->aggregateQuery(pEE, CS, Su, strategy, largest_object_length_above, mmap))
@@ -4422,7 +4422,7 @@ void BlockString0::calculateMMap(String2COBPtrMMap& mmap, const std::string& pre
 	}
 }
 
-bool BlockString0::aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
+bool BlockString0::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
 {
 	// Do it for this object
 	if (isBlock()) {
@@ -4604,7 +4604,7 @@ void BlockString1::calculateMMap(String2COBPtrMMap& mmap, const std::string& pre
 	m_block_string0->calculateMMap(mmap, prefix, pDB);
 }
 
-bool BlockString1::aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
+bool BlockString1::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
 {
 	// Do it for this object
 	if (!m_block_string0->aggregateQuery(pEE, characteristic_set, Su, strategy, largest_object_length_above, mmap))
@@ -4855,7 +4855,7 @@ void BlockString2::calculateMMap(String2COBPtrMMap& mmap, const std::string& pre
 	}
 }
 
-bool BlockString2::aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
+bool BlockString2::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
 {
 	switch (strategy) {
 	case kAQSOutermostFirst: {
@@ -4872,21 +4872,21 @@ bool BlockString2::aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_s
 		break;
 	case kAQSInnermostFirst: {
 		if (m_block_string2 == 0) {
-			SetOfMonads CS1;
+			FastSetOfMonads CS1;
 			// Do it for this object
 			if (!m_block_string1->aggregateQuery(pEE, CS1, Su, strategy, largest_object_length_above, mmap))
 				return false;
 
 			characteristic_set = CS1;
 		} else {
-			SetOfMonads CS1;
+			FastSetOfMonads CS1;
 			// Do it for this object
 			if (!m_block_string1->aggregateQuery(pEE, CS1, Su, strategy, largest_object_length_above, mmap))
 				return false;
 
 			characteristic_set = CS1;
 
-			SetOfMonads CS2;
+			FastSetOfMonads CS2;
 			
 			// Recurse down through the rest_of_block_str
 			if (!m_block_string2->aggregateQuery(pEE, CS2, Su, strategy, largest_object_length_above, mmap))
@@ -5202,7 +5202,7 @@ void BlockString::calculateMMap(String2COBPtrMMap& mmap, const std::string& pref
 	}
 }
 
-bool BlockString::aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
+bool BlockString::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
 {
 	// Do it for this object
 	switch (strategy) {
@@ -5223,7 +5223,7 @@ bool BlockString::aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_se
 			ASSERT_THROW(false,
 				     "Error: We should not have chosen the Innermost First strategy, since there is an OR");
 		} else {
-			SetOfMonads CS;
+			FastSetOfMonads CS;
 			if (!m_block_string2->aggregateQuery(pEE, CS, Su, strategy, largest_object_length_above, mmap))
 				return false;
 			
@@ -5477,7 +5477,7 @@ void ObjectBlockString::addOBBToVec(OBBVec *pOBBVec)
 	m_object_block->addOBBToVec(pOBBVec);
 }
 
-bool ObjectBlockString::aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
+bool ObjectBlockString::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
 {
 	if (m_object_block_string != 0) {
 		if (!m_object_block_string->aggregateQuery(pEE, characteristic_set, Su, strategy, largest_object_length_above, mmap)) {
@@ -5546,7 +5546,7 @@ bool UnorderedGroup::type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bo
 }
 
 
-bool UnorderedGroup::aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
+bool UnorderedGroup::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
 {
 	return m_object_block_string->aggregateQuery(pEE, characteristic_set, Su, strategy, largest_object_length_above, mmap);
 }
@@ -5669,7 +5669,7 @@ bool Blocks::type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool& bRes
 	}
 }
 
-bool Blocks::aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
+bool Blocks::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
 {
 	if (isBlockString()) {
 		return m_block_string->aggregateQuery(pEE, characteristic_set, Su, strategy, largest_object_length_above, mmap);
@@ -5763,7 +5763,7 @@ bool Topograph::type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool& b
 	return m_blocks->type(pEE, contextRangeType, bResult);
 }
 
-bool Topograph::aggregateQuery(MQLExecEnv *pEE, SetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy)
+bool Topograph::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy)
 {
 	return m_blocks->aggregateQuery(pEE, characteristic_set, Su, strategy, 0, m_mmap);
 }

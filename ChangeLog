@@ -16,6 +16,9 @@
 	Inst::bigUnion() and Inst::almostRealBigUnion().  Do the same for
 	the InstContents.
 
+	* include/mql_query.h, MQL/mql_query.cpp: Use a FastSetOfMonads
+	for all aggregate querying functions.
+
 2018-05-08 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Remove Android.mk, since it is no longer present.
