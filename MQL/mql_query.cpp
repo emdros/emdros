@@ -5685,6 +5685,15 @@ bool ObjectBlockString::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& charact
 	return true;
 }
 
+void ObjectBlockString::canChooseAQStrategyInnermostFirst(bool &bResult)
+{
+	m_object_block->canChooseAQStrategyInnermostFirst(bResult);
+	if (bResult) {
+		if (m_object_block_string != 0) {
+			m_object_block_string->canChooseAQStrategyInnermostFirst(bResult);
+		}
+	}
+}
 
 ////////////////////////////////////////////////////////////
 //
@@ -5747,9 +5756,7 @@ bool UnorderedGroup::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteri
 
 void UnorderedGroup::canChooseAQStrategyInnermostFirst(bool &bResult)
 {
-	// We don't yet know how to choose innermost as an
-	// AggregateQuery strategy when using an UnorderedGroup.
-	bResult = false;
+	m_object_block_string->canChooseAQStrategyInnermostFirst(bResult);
 }
 
 

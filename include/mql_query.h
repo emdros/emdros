@@ -1062,7 +1062,8 @@ class ObjectBlockString {
 	bool symbolObjectReferences(MQLExecEnv *pEE, bool& bResult, std::set<std::string>& ORD_set);
 	bool symbolObjectReferences2(MQLExecEnv *pEE);
 
-	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);	
+	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
+	void canChooseAQStrategyInnermostFirst(bool &bResult);
 };
 
 class UnorderedGroup {

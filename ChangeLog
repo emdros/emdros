@@ -90,6 +90,12 @@
 	- amalgamation/mkamalgamation.cpp
 	- wx/layout.cpp
 
+	* MQL/mql_query.cpp, include/mql_query.h: Implement
+	ObjectBlockString::canChooseAQStrategyInnermostFirst(), and use it
+	in UnorderedGroup::canChooseAQStrategyInnermostFirst().  The
+	corresponding ObjectBlockString::aggregateQuery() method was
+	already implemented.
+
 2018-05-10 Ulrik Sandborg-Petersen
 
 	* EMdF/monads.cpp: Fix bugs in SetOfMonads::fillGaps() and
