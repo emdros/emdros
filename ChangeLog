@@ -8,6 +8,9 @@
 	Reinstate using mmap when using InnermostStrategy.  This gives a
 	performance gain.
 
+	* INSTALL: Mention that the same set of packages also works on
+	Fedora 28.
+
 2018-05-10 Ulrik Sandborg-Petersen
 
 	* EMdF/monads.cpp: Fix bugs in SetOfMonads::fillGaps() and

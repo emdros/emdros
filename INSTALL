@@ -96,7 +96,7 @@ yum install gcc-c++ make binutils groff gcc glibc-devel glibc-headers kernel-hea
 Fedora
 ------
 
-On Fedora 26-27, the following packages are required to build the full
+On Fedora 26-28, the following packages are required to build the full
 gamut of Emdros programs and libraries, even after a "make distclean"
 or a "make clean":
 
