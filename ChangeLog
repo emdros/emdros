@@ -25,6 +25,14 @@
 	used by the BPT engine, which in turn doesn't use the
 	pre_query_string SQL fragment.
 
+	* MQL/mql_R.cpp: In R_inst(), pass the pre_query_constraints to
+	the EMdFDB::getObjectsHavingMonadsIn() method.
+
+	* MQL/mql_select_statements.cpp: In GET OBJECTS HAVING MONADS IN,
+	in the exec() phase, pass a nil (0) pointer to the
+	EMdFDB::getObjectsHavingMonadsIn() method for the
+	pre_query_constraints parameter.
+
 2018-05-10 Ulrik Sandborg-Petersen
 
 	* EMdF/monads.cpp: Fix bugs in SetOfMonads::fillGaps() and

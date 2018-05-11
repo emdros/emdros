@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/6-2001 (March 6, 2001)
- * Last update: 5/10-2018
+ * Last update: 5/11-2018
  *
  */
 /************************************************************************
@@ -872,6 +872,7 @@ bool GetObjectsHavingMonadsInStatement::exec()
 	// We currently don't have the grammar support for doing pre
 	// query strings.
 	std::string pre_query_string = "";
+	EMdFFFeatures *pre_query_constraints = 0;
 
 	if (!m_pEE->pDB->getObjectsHavingMonadsIn(*m_object_type_name,
 						  m_object_type_id,
@@ -879,6 +880,7 @@ bool GetObjectsHavingMonadsInStatement::exec()
 						  m_monads,
 						  m_pEE->m_all_m_1,
 						  pre_query_string,
+						  pre_query_constraints,
 						  FeatureInfos,
 						  *m_monads_feature,
 						  pInst)) {
