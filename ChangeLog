@@ -11,6 +11,9 @@
 	* INSTALL: Mention that the same set of packages also works on
 	Fedora 28.
 
+	* SWIG/csharp/Makefile.am: Add $(SWIG_GENERATED_CSHARPFILES) to
+	DISTCLEANFILES.
+
 2018-05-10 Ulrik Sandborg-Petersen
 
 	* EMdF/monads.cpp: Fix bugs in SetOfMonads::fillGaps() and

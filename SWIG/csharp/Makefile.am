@@ -37,7 +37,8 @@ test: TestEmdros.cs EmdrosDotNet.dll
 	@echo "     mono TestEmdros.exe"
 
 DISTCLEANFILES =  $(SWIG_CSHARP_SRC) \
-                  TestEmdros.cs 
+                  TestEmdros.cs \
+                  $(SWIG_GENERATED_CSHARPFILES)
 
 
 AM_CXXFLAGS = @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ @ADDITIONAL_CXXFLAGS@ @DEBUGFLAG@
