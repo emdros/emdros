@@ -7,13 +7,13 @@
  *
  * Ulrik Petersen
  * Created: 2/17-2006
- * Last update: 3/21-2013
+ * Last update: 5/11-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2006-2007  Ulrik Petersen
+ *   Copyright (C) 2006-2018  Ulrik Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -97,11 +97,13 @@
 
 } // end include
 
-%token_destructor { deletePennToken($$); }
+%token_destructor { UNUSED(pEE); deletePennToken($$); }
 %token_prefix T_
 %token_type   {PennToken* }
 %extra_argument {PennImporterEnv *pEE}
 %syntax_error {
+  UNUSED(yymajor);
+  UNUSED(yyminor);
   pEE->bSyntaxError = true;
   std::string errMsg = "syntax error near " + TOKEN->getTokenName() + ' ';
   pEE->strErrorMessage += errMsg;

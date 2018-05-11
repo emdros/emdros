@@ -36,6 +36,13 @@
 	* EMdF/json.yxx, MQL/mql.yxx: In a campaign to remove all
 	warnings, remove some warnings in the syntax_error function.
 
+	* harvest/templatelang.yxx: In a campaign to remove all warnings,
+	remove some warnings in the syntax_error function
+
+	* util/pennparser.yxx: In a campaign to remove all warnings,
+	remove some warnings in the syntax_error function, and in the
+	yy_destructor() function.
+
 2018-05-10 Ulrik Sandborg-Petersen
 
 	* EMdF/monads.cpp: Fix bugs in SetOfMonads::fillGaps() and
