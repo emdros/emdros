@@ -11,7 +11,7 @@
 // November 11, 2003.
 //
 // Created: 7/17-2005
-// Last update: 3/1-2018
+// Last update: 5/11-2018
 //
 /************************************************************************
  *
@@ -3092,7 +3092,7 @@ bool HTMLCanvas::SetPage(const std::string& strHTML, /* out */ std::string& erro
 	
 
 
-	} catch (QDException e) {
+	} catch (QDException& e) {
 		bResult = false;
 		error_message = e.what();
 	} catch (...) {
