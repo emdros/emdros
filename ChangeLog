@@ -43,6 +43,51 @@
 	remove some warnings in the syntax_error function, and in the
 	yy_destructor() function.
 
+	* Continuing the campaign to remove warnings, the following files
+	had warnings removed.  Most of the warnings were about GCC 8.0's
+	new "catching polymorphic exception 'class XYZ' by value" warning.
+	The recommended way is to throw by value and catch by reference,
+	according to the book by Herb Sutter and Alexei Alexandrescu.
+
+	- EMdF/emdfdb.cpp
+	- EMdF/mysqlemdfdb.cpp
+	- EMdF/pgemdfdb.cpp
+	- EMdF/sqlite3emdfdb.cpp
+	- MQL/mql_R.cpp
+	- MQL/mql_query.cpp
+	- MQL/mql_select_statements.cpp
+	- harvest/harvest_fts.cpp
+	- harvest/harvest_fts2.cpp
+	- harvest/harvest_fts3.cpp
+	- harvest/renderobjects.cpp
+	- harvest/renderxml.cpp
+	- include/mql_query.h
+	- src/agexport.cpp
+	- src/bptdetach.cpp
+	- src/bptdump.cpp
+	- src/fts_harvester.cpp
+	- src/fts_indexer.cpp
+	- src/manage_indices.cpp
+	- src/mql.cpp
+	- src/mqldump.cpp
+	- src/negraimport.cpp
+	- src/pennimport.cpp
+	- src/plaintextimport.cpp
+	- src/qrytool/exec.cpp
+	- src/renderobjectstool.cpp
+	- src/sfmimport.cpp
+	- src/slashedtextimport.cpp
+	- src/tigerxmlimport.cpp
+	- src/ubimport.cpp
+	- src/upgrade_db.cpp
+	- tests/bpttry.cpp
+	- tests/emdftry.cpp
+	- tests/erwtry.cpp
+	- tests/mqllingtry.cpp
+	- tests/mqltry.cpp
+	- tests/qdtry.cpp
+	- util/bpt2dumper.cpp
+
 2018-05-10 Ulrik Sandborg-Petersen
 
 	* EMdF/monads.cpp: Fix bugs in SetOfMonads::fillGaps() and

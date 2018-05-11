@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 5/10-2018
+ * Last update: 5/11-2018
  *
  */
 /************************************************************************
@@ -3915,80 +3915,32 @@ bool ObjectBlock::type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool&
 	return true;
 }
 
-bool ObjectBlock::makeInst(MQLExecEnv *pEE, const SetOfMonads& Su, eMonadSetRelationOperation *pMonadSetOperation, String2COBPtrMMap& mmap, eAggregateQueryStrategy strategy)
+bool ObjectBlock::makeInst(MQLExecEnv *pEE, const SetOfMonads& Su, eMonadSetRelationOperation *pMonadSetOperation, String2COBPtrMMap& mmap)
 {
-		// Get characteristic string
-		std::string characteristic_string = getCharacteristicString();
-		
-		// See if we can find it already
-		std::pair<String2COBPtrMMap::iterator,String2COBPtrMMap::iterator> mypair = mmap.equal_range(characteristic_string);
-		String2COBPtrMMap::iterator p;
-		bool bDoContinue = true;
-		for (p = mypair.first; bDoContinue && p != mypair.second; ++p) {
-			Inst *pInst = (p->second)->m_inst;
-			if (pInst != 0) {
-				m_inst = new Inst(pInst);
-				bDoContinue = false;
-			}
-		}
-		
-		if (m_inst == 0) {
-			// We didn't find it.  Calculate it.
-			try {
-				m_inst = R_inst(pEE, Su, this, pMonadSetOperation);
-				m_inst->setIsAggregate(true);
-			} catch (EMdFDBException e) {
-				return false;
-			}
-		}
-
-		/*
-	switch (strategy) {
-	case kAQSOutermostFirst: {
-		// Get characteristic string
-		std::string characteristic_string = getCharacteristicString();
-		
-		// See if we can find it already
-		std::pair<String2COBPtrMMap::iterator,String2COBPtrMMap::iterator> mypair = mmap.equal_range(characteristic_string);
-		String2COBPtrMMap::iterator p;
-		bool bDoContinue = true;
-		for (p = mypair.first; bDoContinue && p != mypair.second; ++p) {
-			Inst *pInst = (p->second)->m_inst;
-			if (pInst != 0) {
-				m_inst = new Inst(pInst);
-				bDoContinue = false;
-			}
-		}
-		
-		if (m_inst == 0) {
-			// We didn't find it.  Calculate it.
-			try {
-				m_inst = R_inst(pEE, Su, this, pMonadSetOperation);
-				m_inst->setIsAggregate(true);
-			} catch (EMdFDBException e) {
-				return false;
-			}
+	// Get characteristic string
+	std::string characteristic_string = getCharacteristicString();
+	
+	// See if we can find it already
+	std::pair<String2COBPtrMMap::iterator,String2COBPtrMMap::iterator> mypair = mmap.equal_range(characteristic_string);
+	String2COBPtrMMap::iterator p;
+	bool bDoContinue = true;
+	for (p = mypair.first; bDoContinue && p != mypair.second; ++p) {
+		Inst *pInst = (p->second)->m_inst;
+		if (pInst != 0) {
+			m_inst = new Inst(pInst);
+			bDoContinue = false;
 		}
 	}
-		break;
-		
-	case kAQSInnermostFirst: {
-		// If we are doing InnermostFirst, we cannot rely on mmap.
-		// This is because mmap assumes OutermostFirst.
+	
+	if (m_inst == 0) {
+		// We didn't find it.  Calculate it.
 		try {
 			m_inst = R_inst(pEE, Su, this, pMonadSetOperation);
 			m_inst->setIsAggregate(true);
-		} catch (EMdFDBException e) {
+		} catch (EMdFDBException& e) {
 			return false;
 		}
 	}
-		break;
-	default:
-		ASSERT_THROW(false,
-			     "Unknown aggregate query strategy");
-		break;
-	}
-		*/
 		
 	return true;
 }
@@ -4049,7 +4001,7 @@ EMdFFFeatures *ObjectBlock::getEMdFConstraints(EMdFDB *pDB)
 		} else {
 			return m_feature_constraints->getEMdFConstraints(pDB);
 		}
-	} catch (EMdFDBDBError e) {
+	} catch (EMdFDBDBError& e) {
 		// If we come here, there was a DB error.
 		return 0;
 	}
@@ -4067,7 +4019,7 @@ bool ObjectBlock::calculatePreQueryString(EMdFDB *pDB)
     
 		// If we came this far, there were no DB errors
 		return true;
-	} catch (EMdFDBDBError e) {
+	} catch (EMdFDBDBError& e) {
 		// If we come here, there was a DB error.
 		return false;
 	}
@@ -4141,7 +4093,7 @@ bool ObjectBlock::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristi
 	switch (strategy) {
 	case kAQSOutermostFirst: {
 		// Do it for this
-		if (!makeInst(pEE, characteristic_set, 0, mmap, strategy))
+		if (!makeInst(pEE, characteristic_set, 0, mmap))
 			return false;
 		// LOG_WRITE_TIME("ObjectBlock::aggregateQuery", *m_object_type_name + " Inst-making finished.");
 		
@@ -4179,7 +4131,7 @@ bool ObjectBlock::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristi
 			eMonadSetRelationOperation msr_op = kMSROOverlap;
 
 			// Do it for this
-			if (!makeInst(pEE, local_characteristic_set, &msr_op, mmap, strategy))
+			if (!makeInst(pEE, local_characteristic_set, &msr_op, mmap))
 				return false;
 
 
@@ -4214,7 +4166,7 @@ bool ObjectBlock::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristi
 				CS = CS.fillGaps(largest_object_length_above);
 
 				// Do it for this
-				if (!makeInst(pEE, CS, &msr_op, mmap, strategy))
+				if (!makeInst(pEE, CS, &msr_op, mmap))
 					return false;
 				
 				// Get big-union of inst into characteristic set

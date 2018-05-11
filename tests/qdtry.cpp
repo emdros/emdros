@@ -3,13 +3,13 @@
  *
  * Trial of QDXML framework
  * Created: 1/27-2001
- * Last update: 3/2-2017
+ * Last update: 5/11-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -125,7 +125,7 @@ bool test_MiniDOM_parse(std::istream *pIn)
 	MiniDOMDocument *pDoc = 0;
 	try {
 		pDoc = MiniDOMParseStream(pIn);
-	} catch (QDException e) {
+	} catch (QDException& e) {
 		std::cerr << "FAILURE: test_MiniDOM_parse: Calling MiniDOMParseStream threw a QDException: '" << e.what() << "'" << std::endl;
 		return false;
 	}
@@ -144,7 +144,7 @@ bool test_MiniDOM_parse(std::istream *pIn)
 	try {
 		std::istringstream istr(ostr1.str());
 		pDoc2 = MiniDOMParseStream(&istr);
-	} catch (QDException e) {
+	} catch (QDException& e) {
 		std::cerr << "FAILURE: test_MiniDOM_parse: 2nd time: Calling MiniDOMParseStream threw a QDException: '" << e.what() << "'" << std::endl;
 		delete pDoc;
 		return false;
@@ -168,7 +168,7 @@ bool test_MiniDOM_parse(std::istream *pIn)
 	try {
 		std::istringstream istr(ostr1.str());
 		pDoc3 = MiniDOMParseStream(&istr);
-	} catch (QDException e) {
+	} catch (QDException& e) {
 		std::cerr << "FAILURE: test_MiniDOM_parse: 3rd time: Calling MiniDOMParseStream threw a QDException: '" << e.what() << "'" << std::endl;
 		delete pDoc3;
 		return false;
@@ -199,7 +199,7 @@ bool test_MiniDOM_parse(std::istream *pIn)
 		try {
 			std::istringstream istr(ostr1.str());
 			pDoc4 = MiniDOMParseStream(&istr);
-		} catch (QDException e) {
+		} catch (QDException& e) {
 			std::cerr << "FAILURE: test_MiniDOM_parse: nth time: Calling MiniDOMParseStream threw a QDException: '" << e.what() << "'" << std::endl;
 			delete pDoc4;
 			return false;
@@ -256,10 +256,10 @@ int main(int argc, char* argv[])
 		}
 		
 		return result;
-	} catch (EmdrosException e) {
+	} catch (EmdrosException& e) {
 		std::cerr << "ERROR: Exception thrown: " << e.what() << std::endl;
 		return 1;
-	} catch (std::exception e) {
+	} catch (std::exception& e) {
 		std::cerr << "ERROR: std::exception thrown: " << e.what() << std::endl;
 		return 1;
 	} catch (...) {

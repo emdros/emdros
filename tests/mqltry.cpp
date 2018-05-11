@@ -3,7 +3,7 @@
  *
  * Trial of MQL and EMdF framework
  * Created: 3/6-2001 (March 6, 2001)
- * Last update: 4/18-2018
+ * Last update: 5/11-2018
  *
  */
 /************************************************************************
@@ -1521,7 +1521,7 @@ int testall(EmdrosEnv *pEE, eBackendKind backend_kind, const std::string& passwo
 			bAllOK = false;
 			delete pMySheaf;
 			goto end;
-		} catch (EmdrosException e) {
+		} catch (EmdrosException& e) {
 			// This is what it should do!
 			std::cout << "SUCCESS: SheafConstIterator::next() threw an exception, which it should!" << std::endl;
 		}
@@ -2646,7 +2646,7 @@ int test_backend(eBackendKind backend_kind,
 
 	try {
 		result = testall(pEE, backend_kind, password);
-	} catch (EMdFDBException e) {
+	} catch (EMdFDBException& e) {
 		std::cerr << "ERROR: EMdFDBException (Database error)..." << std::endl;
 		std::cerr << "message:\n"
 			  << e.what()
@@ -2654,7 +2654,7 @@ int test_backend(eBackendKind backend_kind,
 		std::cerr << pEE->getDBError() << std::endl; 
 		std::cerr << pEE->getCompilerError() << std::endl;
 		bAllOK = false;
-	} catch (EmdrosException e) {
+	} catch (EmdrosException& e) {
 		std::cerr << "EmdrosException thrown:\n"
 			  << e.what()
 			  << std::endl;

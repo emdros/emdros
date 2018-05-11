@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 4/17-2018
+ * Last update: 5/11-2018
  *
  */
 /************************************************************************
@@ -422,7 +422,7 @@ bool PgEMdFDB::getNextID(int sequence, id_d_t& out)
 					return false;
 				}
 			}
-		} catch (EMdFNULLValueException e) {
+		} catch (EMdFNULLValueException& e) {
 			// Abort transaction if in progress
 			if (bDoCommit) {
 				pConn->finalize();
@@ -510,7 +510,7 @@ bool PgEMdFDB::setNextObjectID_DIfNotHigher(id_d_t next_id_d)
 				// Clean up
 				pConn->finalize();
 			}
-		} catch (EMdFNULLValueException e) {
+		} catch (EMdFNULLValueException& e) {
 			DEBUG_NULL_VALUE_EXCEPTION("PgEMdFDB::setNextObjectID_DIfNotHigher");
 
 			// There was a NULL value exception, hence we return an error
@@ -738,7 +738,7 @@ void PgEMdFDB::createObjectsOT_objects_data(const std::string object_type_name,
 				} else {
 					OT_objects_data += escapeStringForCOPY(pValue->getString());
 				}
-			} catch (EmdrosException e) {
+			} catch (EmdrosException& e) {
 				DEBUG_X_IS_WRONG("PgEMdFDB::createObjectsOT_objects_data", "getting string-value from set for ASCII feature failed.\nException thrown.  Exception message:\n" + e.what());
 				throw e;
 			}
@@ -754,7 +754,7 @@ void PgEMdFDB::createObjectsOT_objects_data(const std::string object_type_name,
 				} else {
 					OT_objects_data += escapeStringForCOPY(pValue->getString());
 				}
-			} catch (EmdrosException e) {
+			} catch (EmdrosException& e) {
 				DEBUG_X_IS_WRONG("PgEMdFDB::createObjectsOT_objects_data", "getting string-value from set for STRING feature failed.\nException thrown.  Exception message:\n" + e.what());
 				throw e;
 			}

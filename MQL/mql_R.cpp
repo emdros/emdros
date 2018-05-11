@@ -1026,7 +1026,7 @@ MatchedObject *R_gap(MQLExecEnv *pEE,
 			// Compute the inner blocks
 			try {
 				pInner = R_opt_blocks(pEE, somn, somn, MAX_MONAD, pOptBlocks);
-			} catch (EMdFDBException e) {
+			} catch (EMdFDBException& e) {
 				throw e;
 			}
 		}
@@ -1297,7 +1297,7 @@ void R_object_block_inst(MQLExecEnv *pEE, const SetOfMonads& U, const SetOfMonad
 				// Compute the inner blocks
 				try {
 					pInner = R_opt_blocks(pEE, Uping, som, MAX_MONAD, pOptBlocks);
-				} catch (EMdFDBException e) {
+				} catch (EMdFDBException& e) {
 					throw e;
 				}
 			}

@@ -3,7 +3,7 @@
  *
  * Linguistic trial of MQL and EMdF framework
  * Created: 3/30-2005
- * Last update: 4/18-2018
+ * Last update: 5/11-2018
  *
  */
 /************************************************************************
@@ -137,35 +137,35 @@ bool execute_query(EmdrosEnv *pEnv,
 	bool bDBResult;
 	try {
 		bDBResult = pEnv->executeString(query, bCompilerResult, showResult, false);
-	} catch (EMdFDBDBError e){
+	} catch (EMdFDBDBError& e){
 		std::cerr << e.what() << std::endl;
 		show_DB_error(pEnv);
 		return false;
-	} catch (EMdFDBException e){
+	} catch (EMdFDBException& e){
 		std::cerr << e.what() << std::endl;
 		show_DB_error(pEnv);
 		return false;
-	} catch (TableColumnException e){
+	} catch (TableColumnException& e){
 		std::cerr << e.what() << std::endl;
 		show_DB_error(pEnv);
 		return false;
-	} catch (TableRowException e){
+	} catch (TableRowException& e){
 		std::cerr << e.what() << std::endl;
 		show_DB_error(pEnv);
 		return false;
-	} catch (TableException e){
+	} catch (TableException& e){
 		std::cerr << e.what() << std::endl;
 		show_DB_error(pEnv);
 		return false;
-	} catch (WrongCharacterSetException e){
+	} catch (WrongCharacterSetException& e){
 		std::cerr << e.what() << std::endl;
 		show_DB_error(pEnv);
 		return false;
-	} catch (EMdFOutputException e){
+	} catch (EMdFOutputException& e){
 		std::cerr << e.what() << std::endl;
 		show_DB_error(pEnv);
 		return false;
-	} catch (BadMonadsException e){
+	} catch (BadMonadsException& e){
 		std::cerr << e.what() << std::endl;
 		show_DB_error(pEnv);
 		return false;
@@ -638,7 +638,7 @@ bool fillPhrases(EmdrosEnv *pEnv, MyMap& phraseHM) {
 			// Advance iterator
 			it.next();
 		}
-	} catch (TableException e) {
+	} catch (TableException& e) {
 		std::cerr << e.what() << std::endl;
 		delete pResult;
 		return false;
@@ -702,7 +702,7 @@ bool fillWords(EmdrosEnv *pEnv, MyMap& wordHM) {
 			// Advance iterator
 			it.next();
 		}
-	} catch (TableException e) {
+	} catch (TableException& e) {
 		std::cerr << e.what() << std::endl;
 		delete pResult;
 		return false;

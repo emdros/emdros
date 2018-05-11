@@ -5,7 +5,7 @@
  * another BPT database.
  *
  * Created: 5/1-2001 (1st of May, 2001)
- * Last update: 4/3-2018
+ * Last update: 5/11-2018
  *
  * Return codes:
  * 
@@ -276,34 +276,34 @@ int main(int argc, char* argv[])
 		} else {
 			nResult = 4;
 		}
-	} catch (EMdFNULLValueException e) {
+	} catch (EMdFNULLValueException& e) {
 		std::cerr << "ERROR: EMdFNULLValueException (Database error)..." << std::endl;
 		std::cerr << pEE->getDBError() << std::endl; 
 		std::cerr << pEE->getCompilerError() << std::endl;
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (EMdFDBDBError e) {
+	} catch (EMdFDBDBError& e) {
 		std::cerr << "ERROR: EMdFDBDBError (Database error)..." << std::endl;
 		std::cerr << pEE->getDBError() << std::endl; 
 		std::cerr << pEE->getCompilerError() << std::endl;
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (EMdFDBException e) {
+	} catch (EMdFDBException& e) {
 		std::cerr << "ERROR: EMdFDBException (Database error)..." << std::endl;
 		std::cerr << pEE->getDBError() << std::endl; 
 		std::cerr << pEE->getCompilerError() << std::endl;
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (TableColumnException e) {
+	} catch (TableColumnException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (TableRowException e) {
+	} catch (TableRowException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (TableException e) {
+	} catch (TableException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (BadMonadsException e) {
+	} catch (BadMonadsException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (WrongCharacterSetException e) {
+	} catch (WrongCharacterSetException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (EMdFOutputException e) {
+	} catch (EMdFOutputException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (EmdrosException e) {
+	} catch (EmdrosException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
 	} catch (...) {
 		std::cerr << "Unknown exception occurred.  Program aborted." << std::endl;

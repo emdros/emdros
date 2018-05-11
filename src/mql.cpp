@@ -3,7 +3,7 @@
  *
  * A front-end to the MQL parser
  * Created: 5/1-2001 (1st of May, 2001)
- * Last update: 11/23-2016
+ * Last update: 5/11-2018
  *
  * Return codes:
  * 
@@ -19,7 +19,7 @@
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2016  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -340,34 +340,34 @@ int main(int argc, char* argv[])
 		} else {
 			nResult = exec_file(pEE, filename, bPrintOutput, bCallerAcceptsIncompleteOutput, pCallback);
 		}
-	} catch (EMdFNULLValueException e) {
+	} catch (EMdFNULLValueException& e) {
 		std::cerr << "ERROR: EMdFNULLValueException (Database error)..." << std::endl;
 		std::cerr << pEE->getDBError() << std::endl; 
 		std::cerr << pEE->getCompilerError() << std::endl;
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (EMdFDBDBError e) {
+	} catch (EMdFDBDBError& e) {
 		std::cerr << "ERROR: EMdFDBDBError (Database error)..." << std::endl;
 		std::cerr << pEE->getDBError() << std::endl; 
 		std::cerr << pEE->getCompilerError() << std::endl;
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (EMdFDBException e) {
+	} catch (EMdFDBException& e) {
 		std::cerr << "ERROR: EMdFDBException (Database error)..." << std::endl;
 		std::cerr << pEE->getDBError() << std::endl; 
 		std::cerr << pEE->getCompilerError() << std::endl;
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (TableColumnException e) {
+	} catch (TableColumnException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (TableRowException e) {
+	} catch (TableRowException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (TableException e) {
+	} catch (TableException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (BadMonadsException e) {
+	} catch (BadMonadsException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (WrongCharacterSetException e) {
+	} catch (WrongCharacterSetException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (EMdFOutputException e) {
+	} catch (EMdFOutputException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (EmdrosException e) {
+	} catch (EmdrosException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
 	} catch (...) {
 		std::cerr << "Unknown exception occurred.  Program aborted." << std::endl;

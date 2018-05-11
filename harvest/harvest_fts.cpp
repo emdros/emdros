@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 8/25-2010
- * Last update: 2/13-2018
+ * Last update: 5/11-2018
  *
  */
 /************************************************************************
@@ -865,7 +865,7 @@ bool BookcaseIndexer::process(const SetOfMonads& substrate, bool bEmitVacuum)
 				}
 			}
 		}
-	} catch (EmdrosException e) {
+	} catch (EmdrosException& e) {
 		std::cerr << e.what() << std::endl;
 	} catch (...) {
 		
@@ -2199,7 +2199,7 @@ bool harvestFTS_with_version(EmdrosEnv *pEnv, int fts_engine_version, const std:
 			if (bReduceToSingleHitsWithinBookcases) {
 				result = result.removeAllButFirstHitInEachBookcase();
 			}
-		} catch (EmdrosException e) {
+		} catch (EmdrosException& e) {
 			delete pHarvester;
 			error_message += e.what();
 			return false;
@@ -2220,7 +2220,7 @@ bool harvestFTS_with_version(EmdrosEnv *pEnv, int fts_engine_version, const std:
 			}
 			bool bUseGoogleSyntax = true; // FIXME: Pass it as a parameter!
 			bResult = harvestFTS3(pEnv, bUseGoogleSyntax, bookcase_OTN, indexed_OTN, indexed_feature_name_list, substrate, query, largest_proximity, bReduceToSingleHitsWithinBookcases, error_message, result);
-		} catch (EmdrosException e) {
+		} catch (EmdrosException& e) {
 			error_message += e.what();
 			return false;
 		}

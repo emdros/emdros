@@ -654,7 +654,7 @@ std::string RenderXML(const std::string& xml, const JSONValue *pTopStyleSheet, c
 		QDParser parser;
 		parser.parse(&dh, &istr);
 		output_string = dh.getOutput();
-	} catch (QDException e) {
+	} catch (QDException& e) {
 		strError += e.what() + "\n";
 		bProcessOK = false;
 	}

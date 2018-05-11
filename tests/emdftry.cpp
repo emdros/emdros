@@ -3,7 +3,7 @@
  *
  * Trial of EMdF framework
  * Created: 1/27-2001
- * Last update: 4/18-2018
+ * Last update: 5/11-2018
  *
  */
 /************************************************************************
@@ -587,7 +587,7 @@ bool test_MiniDOM_parse(std::string instring, std::string expectedresult)
 	MiniDOMDocument *pDoc = 0;
 	try {
 		pDoc = MiniDOMParseString(instring);
-	} catch (QDException e) {
+	} catch (QDException& e) {
 		std::cerr << "FAILURE: test_MiniDOM_parse: Calling MiniDOMParseString threw a QDException: '" << e.what() << "'" << std::endl;
 		return false;
 	}
@@ -599,7 +599,7 @@ bool test_MiniDOM_parse(std::string instring, std::string expectedresult)
 		std::ostringstream ostr;
 		try {
 			pDoc->pretty(ostr);
-		} catch (QDException e) {
+		} catch (QDException& e) {
 			delete pDoc;
 			std::cerr << "FAILURE: test_MiniDOM_parse: Calling pDoc->pretty() threw a QDException: '" << e.what() << "'" << std::endl;
 			return false;
@@ -700,7 +700,7 @@ int test_backend(eBackendKind backend_kind,
 			evID_D.getString();
 			bContinue = false;
 			std::cerr << "FAILURE: evID_D.getString() didn't throw an exception, which it should!" << std::endl;
-		} catch (EmdrosException e) {
+		} catch (EmdrosException& e) {
 			// This is what it should do.
 		}
 		if (bContinue && evInt1.getInt() != 1) {
@@ -766,7 +766,7 @@ int test_backend(eBackendKind backend_kind,
 			mytable.getColumn(myiterator, 3);
 			bContinue = false;
 			std::cerr << "FAILURE: Getting row 1, column 3 of the table did NOT fail, as it should!" << std::endl;
-		} catch (TableColumnException e) {
+		} catch (TableColumnException& e) {
 			// This is what it should do!
 		}
 
@@ -774,7 +774,7 @@ int test_backend(eBackendKind backend_kind,
 			mytable.getColumn(myiterator, 0);
 			bContinue = false;
 			std::cerr << "FAILURE: Getting row 1, column 0 of the table did NOT fail, as it should!" << std::endl;
-		} catch (TableColumnException e) {
+		} catch (TableColumnException& e) {
 			// This is what it should do!
 		}
 
@@ -1606,7 +1606,7 @@ int test_backend(eBackendKind backend_kind,
 			fsom.removeMSE(MonadSetElement(0,1));
 			fsom.addMSE(MonadSetElement(0,1));
 			std::cout << "SUCCESS: FastSetOfMonads: removeMSE() followed by addMSE() succeeded!\n";
-		} catch (EmdrosException e) {
+		} catch (EmdrosException& e) {
 			bContinue = false;
 			std::cerr << "FAILURE: FastSetOfMonads: removeMSE() followed by addMSE() failed!" << std::endl;
 		}

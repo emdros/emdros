@@ -3,7 +3,7 @@
  *
  * A tool to dump Emdros databases in MQL
  * Created: 5/1-2001 (1st of May, 2001)
- * Last update: 1/7-2009
+ * Last update: 5/11-2018
  *
  * Return codes:
  * 
@@ -19,7 +19,7 @@
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2009  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -393,18 +393,18 @@ int main(int argc, char* argv[])
 			std::cerr << pEE->getCompilerError() << std::endl;
 			std::cerr << message << std::endl;
 		}
-	} catch (EMdFDBException e) {
+	} catch (EMdFDBException& e) {
 		std::cerr << "ERROR: EMdFDBException (Database error)..." << std::endl;
 		std::cerr << pEE->getDBError() << std::endl; 
 		std::cerr << pEE->getCompilerError() << std::endl;
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (BadMonadsException e) {
+	} catch (BadMonadsException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (WrongCharacterSetException e) {
+	} catch (WrongCharacterSetException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (EMdFOutputException e) {
+	} catch (EMdFOutputException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (EmdrosException e) {
+	} catch (EmdrosException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
 	} catch (...) {
 		std::cerr << "Unknown exception occurred.  Program aborted." << std::endl;

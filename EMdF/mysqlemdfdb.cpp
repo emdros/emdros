@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 4/10-2017
+ * Last update: 5/11-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -414,7 +414,7 @@ bool MySQLEMdFDB::getNextID(int sequence, id_d_t& out)
 					return false;
 				}
 			}
-		} catch (EMdFNULLValueException e) {
+		} catch (EMdFNULLValueException& e) {
 			// Abort transaction if in progress
 			if (bDoCommit) {
 				pConn->finalize();
@@ -503,7 +503,7 @@ bool MySQLEMdFDB::setNextObjectID_DIfNotHigher(id_d_t next_id_d)
 					return false;
 				}
 			}
-		} catch (EMdFNULLValueException e) {
+		} catch (EMdFNULLValueException& e) {
 			// Abort transaction if in progress
 			if (bDoCommit)
 				pConn->abortTransaction();

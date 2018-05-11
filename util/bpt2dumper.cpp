@@ -6,13 +6,13 @@
  *
  * Ulrik Petersen
  * Created: 3/2-2010
- * Last update: 9/19-2014
+ * Last update: 5/11-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2010-2014  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2010-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -90,6 +90,12 @@
 
 bool BPT2dumpAsBPT2(EmdrosEnv *pSourceEE, const std::string& bptfilename, const std::string& bptkey, std::string& /* out */ error_message, long schema_version, const std::string& payload_filename, const std::string& payload_inkey)
 {
+	UNUSED(pSourceEE);
+	UNUSED(bptfilename);
+	UNUSED(bptkey);
+	UNUSED(schema_version);
+	UNUSED(payload_filename);
+	UNUSED(payload_inkey);
 	error_message = "Sorry, the BPT engine version 2 is not available as Open Source.\n"
 		"Please contact Ulrik Sandborg-Petersen, <ulrikp{at}emergence[dot]dk>,\n"
 		"for inquiries concerning licensing.\nThank you.\n\n";

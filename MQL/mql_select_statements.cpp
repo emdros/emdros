@@ -241,7 +241,7 @@ bool QueryBase::myMonads(MQLExecEnv *pEE, bool& bResult)
 		if (!pEE->updateAll_m_1()) {
 			return false;
 		}
-	} catch (BadMonadsException e) {
+	} catch (BadMonadsException& e) {
 		bAllM1IsEmptyDatabase = true;
 	}
 
@@ -368,7 +368,7 @@ bool QueryBase::myExec(MQLExecEnv *pEE, MQLResult **ppMQLResult)
 		// Execute query
 		try {
 			pSheaf = R_topograph(pEE, U, m_Su, m_max_range->getMaxRange(), m_query);
-		} catch (EMdFDBException e) {
+		} catch (EMdFDBException& e) {
 			return false;
 		}
 
@@ -854,7 +854,7 @@ bool GetObjectsHavingMonadsInStatement::exec()
 		if (!m_pEE->pDB->getAll_m_1(m_pEE->m_all_m_1)) {
 			return false;
 		}
-	} catch (BadMonadsException e) {
+	} catch (BadMonadsException& e) {
 		bAllM1IsEmptyDatabase = true;
 	}
   
@@ -1283,7 +1283,7 @@ bool GetAggregateFeaturesStatement::exec()
 		if (!m_pEE->pDB->getAll_m_1(m_pEE->m_all_m_1)) {
 			return false;
 		}
-	} catch (BadMonadsException e) {
+	} catch (BadMonadsException& e) {
 		bAllM1IsEmptyDatabase = true;
 	}
   
@@ -1361,7 +1361,6 @@ bool GetAggregateFeaturesStatement::exec()
 	//
 	pInst->set_current_universe(m_pEE->m_all_m_1);
 
-	std::vector<AggregateFeature*>::size_type index_end = aggregate_features_vec.size();
 	Inst::const_iterator inst_it = pInst->begin();
 	if (feature_constraints == 0) {
 		while (inst_it.hasNext()) {

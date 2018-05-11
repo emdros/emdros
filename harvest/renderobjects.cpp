@@ -6,13 +6,13 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 22/4-2007
- * Last update: 3/1-2017
+ * Last update: 5/11-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2007-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2007-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -1166,7 +1166,7 @@ std::string render_objects(EmdrosEnv *pEnv, const std::string& db_name, const JS
 			delete pRO;
 			return result;
 		}
-	} catch (EmdrosException e) {
+	} catch (EmdrosException& e) {
 		delete pRO;
 		bResult = false;
 		return e.what();

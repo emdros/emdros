@@ -19,7 +19,7 @@
  *
  *
  * Created: 11/13-2001
- * Last update: 4/18-2018
+ * Last update: 5/11-2018
  *
  * Return codes:
  * 
@@ -321,17 +321,17 @@ int main(int argc, char* argv[])
 			std::cerr << "ERROR: Database error..." << std::endl;
 			std::cerr << pDB->errorMessage() << std::endl; 
 		}
-	} catch (EMdFDBException e) {
+	} catch (EMdFDBException& e) {
 		std::cerr << "ERROR: EMdFDBException (Database error)..." << std::endl;
 		std::cerr << pDB->errorMessage() << std::endl; 
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (BadMonadsException e) {
+	} catch (BadMonadsException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (WrongCharacterSetException e) {
+	} catch (WrongCharacterSetException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (EMdFOutputException e) {
+	} catch (EMdFOutputException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
-	} catch (EmdrosException e) {
+	} catch (EmdrosException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
 	} catch (...) {
 		std::cerr << "Unknown exception occurred.  Program aborted." << std::endl;

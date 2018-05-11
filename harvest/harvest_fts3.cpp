@@ -6,7 +6,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 3/19-2016
- * Last update: 2/13-2018
+ * Last update: 5/11-2018
  *
  */
 /************************************************************************
@@ -899,7 +899,7 @@ bool harvestFTS3(EmdrosEnv *pEnv, bool bUseGoogleSyntax, const std::string& book
 				result = result.removeAllButFirstHitInEachBookcase();
 			} 
 		}
-	} catch (EmdrosException e) {
+	} catch (EmdrosException& e) {
 		error_message += e.what();
 		return false;
 	}

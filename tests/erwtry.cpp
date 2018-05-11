@@ -140,35 +140,35 @@ bool execute_query(EmdrosEnv& env,
 	bool bDBResult;
 	try {
 		bDBResult = env.executeString(query, bCompilerResult, showResult, false);
-	} catch (EMdFDBDBError e) {
+	} catch (EMdFDBDBError& e) {
 		cerr << e.what() << endl;
 		show_DB_error(env);
 		return false;
-	} catch (EMdFDBException e) {
+	} catch (EMdFDBException& e) {
 		cerr << e.what() << endl;
 		show_DB_error(env);
 		return false;
-	} catch (TableColumnException e) {
+	} catch (TableColumnException& e) {
 		cerr << e.what() << endl;
 		show_DB_error(env);
 		return false;
-	} catch (TableRowException e) {
+	} catch (TableRowException& e) {
 		cerr << e.what() << endl;
 		show_DB_error(env);
 		return false;
-	} catch (TableException e) {
+	} catch (TableException& e) {
 		cerr << e.what() << endl;
 		show_DB_error(env);
 		return false;
-	} catch (WrongCharacterSetException e) {
+	} catch (WrongCharacterSetException& e) {
 		cerr << e.what() << endl;
 		show_DB_error(env);
 		return false;
-	} catch (EMdFOutputException e) {
+	} catch (EMdFOutputException& e) {
 		cerr << e.what() << endl;
 		show_DB_error(env);
 		return false;
-	} catch (BadMonadsException e) {
+	} catch (BadMonadsException& e) {
 		cerr << e.what() << endl;
 		show_DB_error(env);
 		return false;

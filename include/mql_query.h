@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 5/10-2018
+ * Last update: 5/11-2018
  *
  */
 /************************************************************************
@@ -813,7 +813,7 @@ class ObjectBlock : public ObjectBlockBase {
 	Blocks* getOptBlocks() { return m_opt_blocks; };
 	MQLObject* getObject() { return m_object; };
 	const MQLObject* getObject() const { return m_object; };
-	bool makeInst(MQLExecEnv *pEE, const SetOfMonads& Su, eMonadSetRelationOperation *pMonadSetOperation, String2COBPtrMMap& mmap, eAggregateQueryStrategy strategy);
+	bool makeInst(MQLExecEnv *pEE, const SetOfMonads& Su, eMonadSetRelationOperation *pMonadSetOperation, String2COBPtrMMap& mmap);
 	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool hasFirstLast() const;

@@ -6,13 +6,13 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 8/25-2010
- * Last update: 3/1-2017
+ * Last update: 5/11-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2010-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2010-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -259,7 +259,7 @@ bool BookcaseIndexer2::process(const SetOfMonads& substrate, bool bEmitVacuum)
 
 			}
 		}
-	} catch (EmdrosException e) {
+	} catch (EmdrosException& e) {
 		std::cerr << e.what() << std::endl;
 	} catch (...) {
 		
