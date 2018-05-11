@@ -622,6 +622,7 @@ class EMdFDB {
 					      const SetOfMonads& monad_ms,
 					      const SetOfMonads& all_m_1,
 					      const std::string& pre_query_string,
+					      EMdFFFeatures *pre_query_constraints,
 					      const std::list<FeatureInfo>& features_to_get,
 					      const std::string& monad_set_name,
 					      /* out */ Inst *pInst);

@@ -16,6 +16,15 @@
 
 	* include/emdfdb.h: Bump 'Last changed' date to 5/11-2018.
 
+	* EMdF/emdfdb.cpp, include/emdfdb.h: Add a new parameter to
+	EMdFDB::getObjectsHavingMonadsIn() main entry point, namely:
+
+	EMdFFFeatures *pre_query_constraints,
+
+	This is not used in the SQL implementations of EMdF, but it is
+	used by the BPT engine, which in turn doesn't use the
+	pre_query_string SQL fragment.
+
 2018-05-10 Ulrik Sandborg-Petersen
 
 	* EMdF/monads.cpp: Fix bugs in SetOfMonads::fillGaps() and

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 5/10-2018
+ * Last update: 5/11-2018
  *
  */
 /************************************************************************
@@ -6449,10 +6449,13 @@ bool EMdFDB::getObjectsHavingMonadsIn(const std::string object_type_name,
 				      const SetOfMonads& monad_ms,
 				      const SetOfMonads& all_m_1,
 				      const std::string& pre_query_string,
+				      EMdFFFeatures *pre_query_constraints, /* ignored in EMdFDB. Used by BPTEMdFDB */
 				      const std::list<FeatureInfo>& features_to_get,
 				      const std::string& monad_set_name,
 				      /* Out */ Inst *pInst)
 {
+	UNUSED(pre_query_constraints);
+	
 	if (pConn == 0)
 		return false;
 	else {
@@ -6887,7 +6890,7 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 		     const SetOfMonads& Su,
 		     const SetOfMonads& all_m_1,
 		     const std::string& pre_query_string,
-		     EMdFFFeatures *pre_query_constraints, /* ignored in EMdFDB */
+		     EMdFFFeatures *pre_query_constraints, /* ignored in EMdFDB. Used by BPTEMdFDB */
 		     const std::list<FeatureInfo>& features_to_get,
 		     const std::string& monad_set_name,
 		     eMonadSetRelationOperation ms_operation,
