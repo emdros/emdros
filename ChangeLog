@@ -87,6 +87,7 @@
 	- tests/mqltry.cpp
 	- tests/qdtry.cpp
 	- util/bpt2dumper.cpp
+	- amalgamation/mkamalgamation.cpp
 
 2018-05-10 Ulrik Sandborg-Petersen
 

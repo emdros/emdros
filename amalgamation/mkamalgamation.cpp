@@ -4,7 +4,7 @@
  * A program to create the Emdros amalgamation.
  *
  * Created: 4/12-2016 
- * Last update: 4/13-2017
+ * Last update: 5/11-2018
  *
  * Return codes:
  * 
@@ -17,7 +17,7 @@
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2016-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2016-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -629,7 +629,7 @@ int main(int argc, char* argv[])
 		} else {
 			nResult = 0;
 		}
-	} catch (EmdrosException e) {
+	} catch (EmdrosException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
 	} catch (...) {
 		std::cerr << "Unknown exception occurred.  Program aborted." << std::endl;
