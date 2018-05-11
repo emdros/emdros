@@ -96,6 +96,8 @@
 	corresponding ObjectBlockString::aggregateQuery() method was
 	already implemented.
 
+	* MQL/mql_select_statements.cpp: Remove some debugging output.
+
 2018-05-10 Ulrik Sandborg-Petersen
 
 	* EMdF/monads.cpp: Fix bugs in SetOfMonads::fillGaps() and

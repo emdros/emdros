@@ -328,10 +328,8 @@ bool QueryBase::myExec(MQLExecEnv *pEE, MQLResult **ppMQLResult)
 		
 		if (bCanChooseInnermostFirstStrategy) {
 			strategy = kAQSInnermostFirst;
-			std::cerr << "UP201: Strategy chosen: Innermost first." << std::endl;
 		} else {
 			strategy = kAQSOutermostFirst;
-			std::cerr << "UP201: Strategy chosen: Outermost first." << std::endl;
 		}
 
 		// Calculate multi-maps
