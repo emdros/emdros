@@ -1,5 +1,13 @@
 ============ 3.6.0 ============
 
+2018-05-11 Ulrik Sandborg-Petersen
+
+	* MQL/mql_query.cpp, include/mql_query.h,
+	MQL/mql_select_statements.cpp: Differentiate calculateMMap by
+	aggregate querying strategy: InnermostFirst and OutermostFirst.
+	Reinstate using mmap when using InnermostStrategy.  This gives a
+	performance gain.
+
 2018-05-10 Ulrik Sandborg-Petersen
 
 	* EMdF/monads.cpp: Fix bugs in SetOfMonads::fillGaps() and

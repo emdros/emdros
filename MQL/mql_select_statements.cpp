@@ -312,9 +312,6 @@ bool QueryBase::myExec(MQLExecEnv *pEE, MQLResult **ppMQLResult)
 	} else {
 		pEE->pOBBVec = new OBBVec;
 
-		// Calculate multi-maps
-		m_query->calculateMMap(pEE->pDB);
-
 		eAggregateQueryStrategy strategy;
 
 		bool bCanChooseInnermostFirstStrategy = true;
@@ -337,6 +334,9 @@ bool QueryBase::myExec(MQLExecEnv *pEE, MQLResult **ppMQLResult)
 			std::cerr << "UP201: Strategy chosen: Outermost first." << std::endl;
 		}
 
+		// Calculate multi-maps
+		m_query->calculateMMap(pEE->pDB, strategy);
+		
 			
 		FastSetOfMonads outermostSOM;
 		if (strategy == kAQSOutermostFirst) {

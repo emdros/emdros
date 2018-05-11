@@ -151,9 +151,11 @@ class MonadSetRelationClause {
 	MonadSetRelationClause(eMonadSetRelationOperation operation,
 			       std::string* ourMonadSet,
 			       eUniverseOrSubstrate universeOrSubstrate);
+	MonadSetRelationClause(const MonadSetRelationClause& other);
 	~MonadSetRelationClause();
 	eMonadSetRelationOperation getOperation() const { return m_operation; };
 	eUniverseOrSubstrate getUniverseOrSubstrate() const { return m_universe_or_substrate; };
+	void setOperation(eMonadSetRelationOperation operation) { m_operation = operation; };
 	std::string getOurMonadSet() const { return m_our_monad_set; };
 	void weed(MQLExecEnv *pEE, bool& bResult);
 	bool symbol(MQLExecEnv *pEE, id_d_t object_type_id, bool& bResult);
@@ -369,7 +371,8 @@ class GapBlock {
 	bool symbolObjectReferences2(MQLExecEnv *pEE);
 	bool type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool& bResult);
 	Blocks* getOptBlocks() { return m_opt_blocks; };
-	void calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB);
 	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool isFocus(void) { return m_retrieval == kRetrieveFocus; };
@@ -804,7 +807,8 @@ class ObjectBlock : public ObjectBlockBase {
 
 	const std::string& getCharacteristicString(void) const { return m_characteristic_string; }
 	bool calculatePreQueryString(EMdFDB *pDB);
-	void calculateCharacteristicString(const std::string& prefix);
+	void calculateCharacteristicStringOutermost(const std::string& prefix);
+	void calculateCharacteristicStringInnermost(const std::string& prefix);
 	FFeatures* getFeatureConstraints() { return m_feature_constraints; };
 	Blocks* getOptBlocks() { return m_opt_blocks; };
 	MQLObject* getObject() { return m_object; };
@@ -813,7 +817,8 @@ class ObjectBlock : public ObjectBlockBase {
 	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool hasFirstLast() const;
-	void calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB);
 	StartMonadIterator* getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const SetOfMonads& Su, monad_m Sm);
 	void addOBBToVec(OBBVec *pOBBVec);
 };
@@ -853,7 +858,8 @@ class Block : public ByMonads {
 	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool hasFirstLast() const;
-	void calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB);
 	void addOBBToVec(OBBVec *pOBBVec);
 	StartMonadIterator* getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const SetOfMonads& Su, monad_m Sm);
 };
@@ -901,7 +907,8 @@ public:
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool hasFirstLast() const;
 	bool firstBlockIsPower();
-	void calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB);
 	void addOBBToVec(OBBVec *pOBBVec);
 	StartMonadIterator* getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const SetOfMonads& Su, monad_m Sm);
 };
@@ -935,7 +942,8 @@ public:
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool hasFirstLast() const;
 	bool firstBlockIsPower();
-	void calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB);
 	void addOBBToVec(OBBVec *pOBBVec);
 	StartMonadIterator* getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const SetOfMonads& Su, monad_m Sm);
 };
@@ -971,7 +979,8 @@ public:
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool hasFirstLast() const;
 	bool firstBlockIsPower();
-	void calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB);
 	void addOBBToVec(OBBVec *pOBBVec);
 	bool nextIsPowerBlock();
 	Power *getPowerBlock();
@@ -1022,7 +1031,8 @@ public:
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool hasFirstLast() const;
 	bool firstBlockIsPower();
-	void calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB);
 	void addOBBToVec(OBBVec *pOBBVec);
 	StartMonadIterator* getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const SetOfMonads& Su, monad_m Sm);
 };
@@ -1046,7 +1056,8 @@ class ObjectBlockString {
 	void getOutermostSetOfMonadsFeatureSet(std::set<std::string>& som_name_set);
 	StartMonadIterator* getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const SetOfMonads& Su, monad_m Sm);
 
-	void calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB);
 	void addOBBToVec(OBBVec *pOBBVec);
 	bool symbolObjectReferences(MQLExecEnv *pEE, bool& bResult, std::set<std::string>& ORD_set);
 	bool symbolObjectReferences2(MQLExecEnv *pEE);
@@ -1075,7 +1086,8 @@ class UnorderedGroup {
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool hasFirstLast() const;
 	bool firstBlockIsPower();
-	void calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB);
 	void addOBBToVec(OBBVec *pOBBVec);
 
 };
@@ -1106,7 +1118,8 @@ class Blocks {
 	BlockString* getBlockString() { return m_block_string; };
 	UsingRange* getUsingRange() { return m_using_range; };
 	UnorderedGroup* getUnorderedGroup() { return m_unordered_group; };
-	void calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
+	void calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB);
 	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool hasFirstLast() const;
@@ -1128,7 +1141,7 @@ class Topograph {
 	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy);
 	void canChooseAQStrategyInnermostFirst(bool &bResult);
 	bool hasFirstLast() const;
-	void calculateMMap(EMdFDB *pDB);
+	void calculateMMap(EMdFDB *pDB, eAggregateQueryStrategy strategy);
 	void addOBBToVec(OBBVec *pOBBVec);
 };
 

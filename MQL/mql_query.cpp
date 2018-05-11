@@ -134,6 +134,17 @@ MonadSetRelationClause::MonadSetRelationClause(eMonadSetRelationOperation operat
 	m_universe_or_substrate = universeOrSubstrate;
 }
 
+MonadSetRelationClause::MonadSetRelationClause(const MonadSetRelationClause& other)
+{
+	m_feature_type_id = other.m_feature_type_id;
+
+	m_operation = other.m_operation;
+
+	m_our_monad_set = other.m_our_monad_set;
+
+	m_universe_or_substrate = other.m_universe_or_substrate;
+}
+
 MonadSetRelationClause::~MonadSetRelationClause()
 {
 }
@@ -598,7 +609,7 @@ void GapBlock::canChooseAQStrategyInnermostFirst(bool &bResult)
 	}
 }
 
-void GapBlock::calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB)
+void GapBlock::calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB)
 {
 	// Get characteristic string
 	std::string characteristic_string = prefix + "gap,";
@@ -609,11 +620,29 @@ void GapBlock::calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix,
 	// Recurse down through inner blocks
 	if (m_opt_blocks != 0) {
 		std::string prefix_opt_blocks = characteristic_string + ";";
-		m_opt_blocks->calculateMMap(mmap, 
+		m_opt_blocks->calculateMMapOutermost(mmap, 
 					    prefix_opt_blocks,
 					    pDB);
 	}
 }
+
+void GapBlock::calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB)
+{
+	// Recurse down through inner blocks
+	std::string opt_blocks_charstring;
+	if (m_opt_blocks != 0) {
+		m_opt_blocks->calculateMMapInnermost(mmap, 
+						     opt_blocks_charstring,
+						     pDB);
+	}
+	// Get characteristic string
+	inner_charstring = "gap," + opt_blocks_charstring;
+
+	// Don't add this to the mmap; it is not necessary.
+	// mmap.insert(String2COBPtrMMap::value_type(characteristic_string, this));
+ 
+}
+      
 
 
 void GapBlock::addOBBToVec(OBBVec *pOBBVec)
@@ -908,20 +937,20 @@ bool Block::isGapOrOptGapBlock(void)
 	return m_kind == kOptGapBlock || m_kind == kGapBlock;
 }
 
-void Block::calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB)
+void Block::calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB)
 {
 	switch(m_kind) {
 	case kOptGapBlock:
-		m_opt_gap_block->calculateMMap(mmap, prefix, pDB);
+		m_opt_gap_block->calculateMMapOutermost(mmap, prefix, pDB);
 		break;
 	case kGapBlock:
-		m_gap_block->calculateMMap(mmap, prefix, pDB);
+		m_gap_block->calculateMMapOutermost(mmap, prefix, pDB);
 		break;
 	case kPowerBlock:
 		break;
 	case kObjectBlock:
 	case kObjectBlockNOTEXIST:
-		m_object_block->calculateMMap(mmap, prefix, pDB);
+		m_object_block->calculateMMapOutermost(mmap, prefix, pDB);
 		break;
 	default:
 		ASSERT_THROW(false,
@@ -929,6 +958,29 @@ void Block::calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EM
 		break;
 	}
 }
+
+void Block::calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB)
+{
+	switch(m_kind) {
+	case kOptGapBlock:
+		m_opt_gap_block->calculateMMapInnermost(mmap, inner_charstring, pDB);
+		break;
+	case kGapBlock:
+		m_gap_block->calculateMMapInnermost(mmap, inner_charstring, pDB);
+		break;
+	case kPowerBlock:
+		break;
+	case kObjectBlock:
+	case kObjectBlockNOTEXIST:
+		m_object_block->calculateMMapInnermost(mmap, inner_charstring, pDB);
+		break;
+	default:
+		ASSERT_THROW(false,
+			     "Unknown block type"); // In case we ever invent more labels...
+		break;
+	}
+}
+      
 
 bool Block::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
 {
@@ -3865,6 +3917,32 @@ bool ObjectBlock::type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool&
 
 bool ObjectBlock::makeInst(MQLExecEnv *pEE, const SetOfMonads& Su, eMonadSetRelationOperation *pMonadSetOperation, String2COBPtrMMap& mmap, eAggregateQueryStrategy strategy)
 {
+		// Get characteristic string
+		std::string characteristic_string = getCharacteristicString();
+		
+		// See if we can find it already
+		std::pair<String2COBPtrMMap::iterator,String2COBPtrMMap::iterator> mypair = mmap.equal_range(characteristic_string);
+		String2COBPtrMMap::iterator p;
+		bool bDoContinue = true;
+		for (p = mypair.first; bDoContinue && p != mypair.second; ++p) {
+			Inst *pInst = (p->second)->m_inst;
+			if (pInst != 0) {
+				m_inst = new Inst(pInst);
+				bDoContinue = false;
+			}
+		}
+		
+		if (m_inst == 0) {
+			// We didn't find it.  Calculate it.
+			try {
+				m_inst = R_inst(pEE, Su, this, pMonadSetOperation);
+				m_inst->setIsAggregate(true);
+			} catch (EMdFDBException e) {
+				return false;
+			}
+		}
+
+		/*
 	switch (strategy) {
 	case kAQSOutermostFirst: {
 		// Get characteristic string
@@ -3910,18 +3988,19 @@ bool ObjectBlock::makeInst(MQLExecEnv *pEE, const SetOfMonads& Su, eMonadSetRela
 			     "Unknown aggregate query strategy");
 		break;
 	}
+		*/
 		
 	return true;
 }
 
-void ObjectBlock::calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB)
+void ObjectBlock::calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB)
 {
 	// Calculate pre-query string
 	calculatePreQueryString(pDB);
 
 	// Get characteristic string
 	std::string characteristic_string;
-	calculateCharacteristicString(prefix);
+	calculateCharacteristicStringOutermost(prefix);
 	characteristic_string = getCharacteristicString();
 
 	// Add this to the mmap
@@ -3930,11 +4009,36 @@ void ObjectBlock::calculateMMap(String2COBPtrMMap& mmap, const std::string& pref
 	// Recurse down through inner blocks
 	if (m_opt_blocks != 0) {
 		std::string prefix_opt_blocks = characteristic_string + ";";
-		m_opt_blocks->calculateMMap(mmap, 
+		m_opt_blocks->calculateMMapOutermost(mmap, 
 					    prefix_opt_blocks,
 					    pDB);
 	}
 }
+
+void ObjectBlock::calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB)
+{
+	// Recurse down through inner blocks
+	std::string opt_blocks_inner_charstring;
+	if (m_opt_blocks != 0) {
+		m_opt_blocks->calculateMMapInnermost(mmap, 
+						     opt_blocks_inner_charstring,
+						     pDB);
+	}
+	
+	// Calculate pre-query string
+	calculatePreQueryString(pDB);
+
+	// Get characteristic string
+	std::string characteristic_string;
+	calculateCharacteristicStringInnermost(opt_blocks_inner_charstring + ";");
+	characteristic_string = getCharacteristicString();
+
+	// Add this to the mmap
+	mmap.insert(String2COBPtrMMap::value_type(characteristic_string, this));
+
+	inner_charstring = characteristic_string;
+}
+      
 
 EMdFFFeatures *ObjectBlock::getEMdFConstraints(EMdFDB *pDB)
 {
@@ -3969,7 +4073,7 @@ bool ObjectBlock::calculatePreQueryString(EMdFDB *pDB)
 	}
 }
 
-void ObjectBlock::calculateCharacteristicString(const std::string& prefix)
+void ObjectBlock::calculateCharacteristicStringOutermost(const std::string& prefix)
 {
 	// Get object type name
 	m_characteristic_string = prefix + *m_object_type_name + ",";
@@ -3980,6 +4084,36 @@ void ObjectBlock::calculateCharacteristicString(const std::string& prefix)
 	m_characteristic_string += "#MSRC#";
 
 	m_characteristic_string += m_pMSRC->calculateCharacteristicString();
+
+	m_characteristic_string += "#FEAT#";
+
+	// Get vector of feature names
+	const std::vector<std::string>& feature_name_vector_inst = m_object->getFeatureNames();
+
+	// Add feature names to set
+	std::vector<std::string>::const_iterator civ;
+	std::vector<std::string>::const_iterator civend(feature_name_vector_inst.end());
+	for (civ = feature_name_vector_inst.begin(); civ != civend; ++civ) {
+		m_characteristic_string += "," + *civ;
+	}
+}
+
+void ObjectBlock::calculateCharacteristicStringInnermost(const std::string& prefix)
+{
+	// Get object type name
+	m_characteristic_string = prefix + *m_object_type_name + ",";
+
+	// Get pre_query_string
+	m_characteristic_string += getPreQueryString();
+
+	m_characteristic_string += "#MSRC#";
+
+	// We always use kMSROOverlap for the InnermostFirst strategy.
+	// So make a local copy, and set its operation to kMSROOverlap
+	MonadSetRelationClause myMSRC(*m_pMSRC);
+	myMSRC.setOperation(kMSROOverlap);
+
+	m_characteristic_string += myMSRC.calculateCharacteristicString();
 
 	m_characteristic_string += "#FEAT#";
 
@@ -4442,15 +4576,26 @@ bool BlockString0::type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool
 	}
 }
 
-void BlockString0::calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB) 
+void BlockString0::calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB) 
 {
 	if (isBlock()) {
-		m_block->calculateMMap(mmap, prefix, pDB);
+		m_block->calculateMMapOutermost(mmap, prefix, pDB);
  
 	} else {
-		m_block_string->calculateMMap(mmap, prefix, pDB);
+		m_block_string->calculateMMapOutermost(mmap, prefix, pDB);
 	}
 }
+
+void BlockString0::calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB)
+{
+	if (isBlock()) {
+		m_block->calculateMMapInnermost(mmap, inner_charstring, pDB);
+ 
+	} else {
+		m_block_string->calculateMMapInnermost(mmap, inner_charstring, pDB);
+	}
+}
+      
 
 bool BlockString0::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
 {
@@ -4629,10 +4774,17 @@ bool BlockString1::type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool
 	return m_block_string0->type(pEE, contextRangeType, bResult);
 }
 
-void BlockString1::calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB) 
+void BlockString1::calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB) 
 {
-	m_block_string0->calculateMMap(mmap, prefix, pDB);
+	m_block_string0->calculateMMapOutermost(mmap, prefix, pDB);
 }
+
+void BlockString1::calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB)
+{
+	m_block_string0->calculateMMapInnermost(mmap, inner_charstring, pDB);
+}
+      
+
 
 bool BlockString1::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
 {
@@ -4877,13 +5029,28 @@ bool BlockString2::type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool
 	}
 }
 
-void BlockString2::calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB) 
+void BlockString2::calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB) 
 {
-	m_block_string1->calculateMMap(mmap, prefix, pDB);
+	m_block_string1->calculateMMapOutermost(mmap, prefix, pDB);
 	if (m_block_string2 != 0) {
-		m_block_string2->calculateMMap(mmap, prefix, pDB);
+		m_block_string2->calculateMMapOutermost(mmap, prefix, pDB);
 	}
 }
+
+void BlockString2::calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB)
+{
+	std::string block_string1_inner_charstring;
+	m_block_string1->calculateMMapInnermost(mmap, block_string1_inner_charstring, pDB);
+	if (m_block_string2 != 0) {
+		std::string block_string2_inner_charstring;
+		m_block_string2->calculateMMapInnermost(mmap, block_string2_inner_charstring, pDB);
+		inner_charstring = block_string1_inner_charstring + ";" + block_string2_inner_charstring;
+	} else {
+		inner_charstring = block_string1_inner_charstring;
+	}
+}
+      
+
 
 bool BlockString2::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
 {
@@ -5212,13 +5379,28 @@ bool BlockString::type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool&
 	}
 }
 
-void BlockString::calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB) 
+void BlockString::calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB) 
 {
-	m_block_string2->calculateMMap(mmap, prefix, pDB);
+	m_block_string2->calculateMMapOutermost(mmap, prefix, pDB);
 	if (m_block_string != 0) {
-		m_block_string->calculateMMap(mmap, prefix, pDB);
+		m_block_string->calculateMMapOutermost(mmap, prefix, pDB);
 	}
 }
+
+void BlockString::calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB)
+{
+	std::string block_string2_inner_charstring;
+	m_block_string2->calculateMMapInnermost(mmap, block_string2_inner_charstring, pDB);
+	if (m_block_string != 0) {
+		std::string block_string_inner_charstring;
+		m_block_string->calculateMMapInnermost(mmap, block_string_inner_charstring, pDB);
+		inner_charstring = block_string2_inner_charstring + ";" + block_string_inner_charstring;
+	} else {
+		inner_charstring = block_string2_inner_charstring;
+	}
+}
+      
+
 
 bool BlockString::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap)
 {
@@ -5482,14 +5664,27 @@ StartMonadIterator* ObjectBlockString::getSMI(MQLExecEnv *pEE, const SetOfMonads
 	return m_object_block->getSMI(pEE, U, Su, Sm);
 }
 
-void ObjectBlockString::calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB)
+void ObjectBlockString::calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB)
 {
 	std::string localprefix = prefix + "unorderedgroup,";
 	if (m_object_block_string != 0) {
-		m_object_block_string->calculateMMap(mmap, localprefix, pDB);
+		m_object_block_string->calculateMMapOutermost(mmap, localprefix, pDB);
 	}
-	m_object_block->calculateMMap(mmap, localprefix, pDB);
+	m_object_block->calculateMMapOutermost(mmap, localprefix, pDB);
 }
+
+void ObjectBlockString::calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB)
+{
+	std::string object_block_string_inner_charstring;
+	if (m_object_block_string != 0) {
+		m_object_block_string->calculateMMapInnermost(mmap, object_block_string_inner_charstring, pDB);
+	}
+	std::string object_block_inner_charstring;
+	m_object_block->calculateMMapInnermost(mmap, object_block_inner_charstring, pDB);
+	inner_charstring = object_block_inner_charstring + ";" + object_block_string_inner_charstring;
+}
+      
+
 
 void ObjectBlockString::addOBBToVec(OBBVec *pOBBVec)
 {
@@ -5613,10 +5808,19 @@ bool UnorderedGroup::firstBlockIsPower()
 }
 
 
-void UnorderedGroup::calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB)
+void UnorderedGroup::calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB)
 {
-	m_object_block_string->calculateMMap(mmap, prefix, pDB);
+	m_object_block_string->calculateMMapOutermost(mmap, prefix, pDB);
 }
+
+void UnorderedGroup::calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB)
+{
+	std::string object_block_string_inner_charstring;
+	m_object_block_string->calculateMMapInnermost(mmap, object_block_string_inner_charstring, pDB);
+	inner_charstring = "unorderedgroup," + object_block_string_inner_charstring;
+}
+      
+
 
 
 void UnorderedGroup::addOBBToVec(OBBVec *pOBBVec)
@@ -5736,14 +5940,25 @@ void Blocks::canChooseAQStrategyInnermostFirst(bool &bResult)
 
 
 
-void Blocks::calculateMMap(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB) 
+void Blocks::calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB) 
 {
 	if (isBlockString()) {
-		m_block_string->calculateMMap(mmap, prefix, pDB);
+		m_block_string->calculateMMapOutermost(mmap, prefix, pDB);
 	} else {
-		m_unordered_group->calculateMMap(mmap, prefix, pDB);
+		m_unordered_group->calculateMMapOutermost(mmap, prefix, pDB);
 	}
 }
+
+void Blocks::calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB)
+{
+	if (isBlockString()) {
+		m_block_string->calculateMMapInnermost(mmap, inner_charstring, pDB);
+	} else {
+		m_unordered_group->calculateMMapInnermost(mmap, inner_charstring, pDB);
+	}
+}
+      
+
 
 void Blocks::addOBBToVec(OBBVec *pOBBVec)
 {
@@ -5823,9 +6038,21 @@ void Topograph::canChooseAQStrategyInnermostFirst(bool &bResult)
 	m_blocks->canChooseAQStrategyInnermostFirst(bResult);
 }
 
-void Topograph::calculateMMap(EMdFDB *pDB)
+void Topograph::calculateMMap(EMdFDB *pDB, eAggregateQueryStrategy strategy)
 {
-	m_blocks->calculateMMap(m_mmap, "", pDB);
+	std::string inner_charstr;
+	switch (strategy) {
+	case kAQSOutermostFirst:
+		m_blocks->calculateMMapOutermost(m_mmap, "", pDB);
+		break;
+	case kAQSInnermostFirst: 
+		m_blocks->calculateMMapInnermost(m_mmap, inner_charstr, pDB);
+		break;
+	default:
+		ASSERT_THROW(false,
+			     "Unknown aggregate query strategy");
+		break;
+	}
 }
 
 void Topograph::addOBBToVec(OBBVec *pOBBVec)
