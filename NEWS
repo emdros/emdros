@@ -1,5 +1,74 @@
 This file is for release-notes for Emdros.
 
+- *** Version 3.6.0 *** 
+
+Release notes for Emdros 3.6.0
+==============================
+
+The release notes below cover some of the important changes in Emdros
+since 3.5.0.
+
+- SQLite2 support has been removed, as this version of SQLite has not
+  been updated by the SQLite authors for many, many years.  Also,
+  SQLite2 support in Emdros has been been deprecated for some time.
+
+- The MQL subsystem has a better query planner, which is able to
+  choose the "Innermost First" strategy, rather than the default
+  "Outermost First" strategy, under many more circumstances.
+
+- The Emdros MySQL backend now has support for transactions, if
+  available in the MySQL server.
+
+- Assorted performance improvements to the following subsystems:
+
+  - XML parsing (renderobjects, for example)
+  - MQL
+
+- PCRE has been upgraded.
+
+- SQLite3 has been upgraded.
+
+- JSON output now escapes string characters correctly.
+
+- Compiling Linux .rpm packages works on recent systems (CentOS 7,
+  Fedora 28).
+
+- Compiling Linux .deb packages works on recent systems (Ubuntu 16.04,
+  Ubuntu 18.04, Debian 9.4).
+
+- Building on Windows supports the latest Visual Studio.
+
+- Lots of compiler warnings have been removed.
+
+- the harvest template language has new constructs:
+
+  - {{ inccounter <string> var <string> }}
+  - {{ deccounter <string> var <string> }}
+
+- The Full Text Search FTS3 subsystem is now able to obey
+  largest_proximity, and to use * and ? in the query terms.
+
+- A new program was added, bptdetach(1), which enables detaching
+  "payloads" from BPT databases.
+
+- The BPT backend (if available -- ask Ulrik for the source code
+  licensing terms if you are interested) now supports LZMA compression
+  of payloads.
+
+- Source code using wxWidgets has been updated to support wxWidgets
+  2.8, 3.0, and 3.1.
+
+- The Emdros PostgreSQL backend now adds "TEMPLATE template0" when
+  doing CREATE DATABASE.  This is so as to avoid using template1,
+  which may conflict with the encoding used (and does so on Debian
+  9.4).
+
+- The amalgamation output has been split into several files.  This is
+  because the Android NDK MIPS target cannot compile the old,
+  monolithic amalgamation files.
+
+
+
 - *** Version 3.5.0 *** 
 
 Release notes for Emdros 3.5.0
