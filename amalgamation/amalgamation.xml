@@ -204,7 +204,6 @@
         <header_file name="include/emdf_output.h" />
         <header_file name="include/emdf_primes.h" />
         <header_file name="include/emdf_value.h" />
-        <header_file name="include/emdf_wstring.h" />
         <header_file name="include/enum_const_cache.h" />
         <header_file name="include/infos.h" />
         <header_file name="include/inst.h" />
