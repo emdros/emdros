@@ -1,5 +1,5 @@
 AM_CXXFLAGS = @CXXFLAGS@ @DEBUGFLAG@ @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@  \
-              @ADDITIONAL_CXXFLAGS@ -DTARGET_RT_BIG_ENDIAN=@BIG_ENDIAN@ 
+              @ADDITIONAL_CXXFLAGS@ 
 
 ARFLAGS = @ARFLAGS@
 
@@ -51,16 +51,11 @@ noinst_LIBRARIES = libquerytool.a
 
 
 ALWAYSLDADD = -L$(top_builddir)/src/qrytool -lquerytool \
-              $(top_builddir)/src/qrytool/TECkit/libteckit.la \
-              $(top_builddir)/util/libutil_emdros.la \
-              @EMDROS_LDADD_SWIG@ \
-              @ZLIB_LIBADD_SWIG@ \
+              -L$(top_builddir)/wx -lemdrosguiu \
+              @EMDROS_LDADD_BACKBACK@ \
               @SUN_LDFLAGS@  @DARWIN_LDFLAGS@
 
-ALWAYSDEPS = libquerytool.a  \
-             $(top_builddir)/src/qrytool/TECkit/libteckit.la \
-             $(top_builddir)/util/libutil_emdros.la \
-             @EMDROS_DEPS_SWIG@ @ZLIB_DEP_SWIG@
+ALWAYSDEPS = libquerytool.a  @EMDROS_DEPS_BACKBACK@
 
 
 eqtc_LDADD = $(ALWAYSLDADD)
@@ -98,7 +93,11 @@ noinst_HEADERS = solution.h mytable.h exec.h \
                  mainframe.h mqlqtwx.h \
                  qtoutput.h consout.h wxilqtout.h qtconnwizard.h
 
-AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/wx
+AM_CPPFLAGS = -I$(top_srcdir)/amalgamation \
+              -I$(top_srcdir)/wx \
+              -I$(top-srcdir)/include \
+              -I$(top_srcdir)/ 
+
 CLEANFILES = *~ core config.log EQTUsersGuide.log
 
 QRYTOOLDATA = av.cfg default.cfg penn.cfg \
