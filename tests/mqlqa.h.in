@@ -3146,7 +3146,7 @@ WHERE
 [Word surface ~'[Th']
 ++++ answer failcompiler
 Weeding failed with compiler error
-Error compiling regular expression.  PCRE reported:
+Error compiling regular expression.  PCRE2 reported:
 missing terminating ] for character class
 Error occured at characterposition 3 in the pattern.
 ---- answer
@@ -3494,7 +3494,7 @@ WHERE
 ]
 ++++ answer failcompiler
 Weeding failed with compiler error
-Error compiling regular expression.  PCRE reported:
+Error compiling regular expression.  PCRE2 reported:
 missing terminating ] for character class
 Error occured at characterposition 3 in the pattern.
 ---- answer
@@ -3506,7 +3506,7 @@ WHERE
 ]
 ++++ answer failcompiler
 Weeding failed with compiler error
-Error compiling regular expression.  PCRE reported:
+Error compiling regular expression.  PCRE2 reported:
 missing terminating ] for character class
 Error occured at characterposition 3 in the pattern.
 ---- answer

@@ -138,6 +138,9 @@
 	* tests/emdftry.cpp: Update MAX_MONAD test so that it works with
 	the new 1 << 60 MAX_MONAD.
 
+	* tests/mqlqa.h.in: Update with PCRE2, not PCRE, in the error
+	messages.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).
