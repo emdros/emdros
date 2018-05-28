@@ -69,7 +69,6 @@ if test "x$XDG_ICON_RESOURCE" != "x" -a "x$XDG_DESKTOP_MENU" != "x"; then
 
       $XDG_DESKTOP_MENU install %{prefix}/share/emdros/emergence-eqtu.desktop || true
       $XDG_DESKTOP_MENU install %{prefix}/share/emdros/emergence-importtool.desktop || true
-      $XDG_DESKTOP_MENU install %{prefix}/share/emdros/emergence-chunkingtool.desktop || true
    fi
 fi
 
@@ -100,7 +99,6 @@ if test "x$1" == "x0"; then
 
          $XDG_DESKTOP_MENU uninstall %{prefix}/share/emdros/emergence-eqtu.desktop || true
          $XDG_DESKTOP_MENU uninstall %{prefix}/share/emdros/emergence-importtool.desktop || true
-         $XDG_DESKTOP_MENU uninstall %{prefix}/share/emdros/emergence-chunkingtool.desktop || true
 
       fi
    fi
@@ -154,15 +152,10 @@ This package contains development files.
 %doc SWIG/python/dir.py
 %doc SWIG/python3/README-Python3
 %doc SWIG/python3/test3.py
-%doc SWIG/ruby/README-Ruby
-%doc SWIG/ruby/test.rb
-%doc SWIG/ruby/dir.sh
-%doc SWIG/php/README-PHP
-%doc SWIG/php/test.php
+%doc SWIG/php5/README-PHP
+%doc SWIG/php5/test.php
 %doc SWIG/php7/README-PHP7
 %doc SWIG/php7/test7.php
-%doc SWIG/perl/README-Perl
-%doc SWIG/perl/test.pl
 %doc %{_mandir}/man1/*.1*
 %doc %{_mandir}/man5/*.5*
 %doc README NEWS ChangeLog COPYING AUTHORS INSTALL
@@ -176,13 +169,11 @@ This package contains development files.
 %doc doc/jsontry.html
 %doc doc/emdros.html
 %doc doc/eqtc.html
-%doc doc/hal_build_db.html
 %doc doc/index.html
 %doc doc/renderobjects.html
 %doc doc/fts_indexer.html
 %doc doc/manage_indices.html
 %doc doc/mqldump.html
-%doc doc/mqlhal.html
 %doc doc/mql.html
 %doc doc/mqllingtry.html
 %doc doc/mqltry.html
@@ -193,10 +184,8 @@ This package contains development files.
 %doc doc/New-EMdF.lyx
 %doc doc/Rel-EMdF.lyx
 %doc doc/Standard-MdF.lyx
-%doc examples/ChunkingTool/doc/ChunkingToolGuide.pdf
 %doc src/qrytool/doc/EQTUsersGuide.pdf
 %doc doc/progref/EmdrosProgRefGuide.pdf
-%doc examples/HAL/doc/HALGuide.pdf
 
 
 
