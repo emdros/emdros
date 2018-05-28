@@ -96,7 +96,7 @@ ORIGINAL_DO_SWIG_PYTHON2=$DO_SWIG_PYTHON2
 
 dnl If we can't do SWIG, don't do SWIG Python bindings.
 if test x$CAN_DO_SWIG == xno; then
-   if test -f bindings/SWIG/python2/pyemdros_wrap.cxx -a -f bindings/SWIG/python2/EmdrosPy.py; then
+   if test -f SWIG/python2/pyemdros_wrap.cxx -a -f SWIG/python2/EmdrosPy.py; then
      DO_SWIG_PYTHON2=yes;
    else
      DO_SWIG_PYTHON2=no;
@@ -253,7 +253,7 @@ ORIGINAL_DO_SWIG_PYTHON3=$DO_SWIG_PYTHON3
 
 dnl If we can't do SWIG, don't do SWIG Python3 bindings.
 if test x$CAN_DO_SWIG == xno; then
-   if test -f bindings/SWIG/python3/py3emdros_wrap.cxx -a -f bindings/SWIG/python3/EmdrosPy3.py; then
+   if test -f SWIG/python3/py3emdros_wrap.cxx -a -f SWIG/python3/EmdrosPy3.py; then
      DO_SWIG_PYTHON3=yes;
    else
      DO_SWIG_PYTHON3=no;
@@ -408,7 +408,7 @@ ORIGINAL_DO_SWIG_JAVA=$DO_SWIG_JAVA
 
 dnl If we can't do SWIG, don't do SWIG Java bindings.
 if test x$CAN_DO_SWIG == xno; then
-   if test -f bindings/SWIG/java/libjemdros_wrap.cxx -a -f bindings/SWIG/java/jemdros.jar; then
+   if test -f SWIG/java/libjemdros_wrap.cxx -a -f SWIG/java/jemdros.jar; then
      DO_SWIG_JAVA=yes;
    else
      DO_SWIG_JAVA=no;
@@ -647,7 +647,7 @@ fi
 
 
 dnl
-dnl We need jar to build dist (see bindings/SWIG/java/Makefile.am)
+dnl We need jar to build dist (see SWIG/java/Makefile.am)
 dnl but not for normal building.
 dnl Hence, if not set above, we just choose one that fits 
 dnl the author's system, since he is the one who normally 
@@ -660,7 +660,7 @@ fi
 AC_SUBST(JAR)
 
 dnl
-dnl We need javac to build dist (see bindings/SWIG/java/Makefile.am)
+dnl We need javac to build dist (see SWIG/java/Makefile.am)
 dnl but not for normal building, except when doing
 dnl --with-swig-language-java.
 dnl Hence, if not set above, we just choose one that fits 
@@ -721,7 +721,7 @@ ORIGINAL_DO_SWIG_CSHARP=$DO_SWIG_CSHARP
 
 dnl If we can't do SWIG, don't do SWIG C-Sharp bindings.
 if test x$CAN_DO_SWIG == xno; then
-   if test -f bindings/SWIG/csharp/libcsemdros_wrap.cxx -a -f bindings/SWIG/csharp/CSharpSources.zip; then
+   if test -f SWIG/csharp/libcsemdros_wrap.cxx -a -f SWIG/csharp/CSharpSources.zip; then
      DO_SWIG_CSHARP=yes;
    else
      DO_SWIG_CSHARP=no;
