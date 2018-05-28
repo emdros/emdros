@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 6/22-2015
+ * Last update: 12/31-2017
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2015  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2017  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -199,6 +199,7 @@ public:
     m_current_tuple++;
     return bResult;
 #else
+    UNUSED(bMoreTuples);
     return false;
 #endif
   };
@@ -231,12 +232,14 @@ public:
       return true;
     }
 #else
+    UNUSED(field_no);
+    UNUSED(result);
     return false;
 #endif
   };
 
   virtual bool accessTuple(int field_no, 
-			   long& result) {
+			   emdros_int64& result) {
 #if USE_POSTGRESQL
     const char *szTemp = PQgetvalue((PGresult*) m_pResult, m_current_tuple, field_no); 
 
@@ -252,12 +255,14 @@ public:
     } else {
       // Convert result
       // result = strtol(szTemp, (char **)NULL, 10);
-      result = atol(szTemp);
+      result = sz2longlong(szTemp);
 
       // Return success
       return true;
     }
 #else
+    UNUSED(field_no);
+    UNUSED(result);
     return false;
 #endif
   };
@@ -278,6 +283,8 @@ public:
       return true;
     }
 #else
+    UNUSED(field_no);
+    UNUSED(result);
     return false;
 #endif
   };

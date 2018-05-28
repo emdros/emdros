@@ -39,6 +39,9 @@ $(srcdir)/lemon: $(srcdir)/lemon.c
 #
 emdflib_src = arena.cpp \
        conn.cpp \
+       pgconn.cpp \
+       mysqlconn.cpp \
+       sqlite3conn.cpp \
        emdf_primes.cpp \
        bptemdfdb.cpp \
        bpt2emdfdb.cpp \
@@ -74,29 +77,23 @@ emdflib_src = arena.cpp \
 
 noinst_HEADERS = jsonpars.h
 
-pgemdflib_src = pgconn.cpp
 
-mysqlemdflib_src = mysqlconn.cpp
-
-sqlite3emdflib_src = sqlite3conn.cpp
 
 #
 # Targets
 #
 
-if POSTGRESQL
-emdflib_pg_backend_src = $(pgemdflib_src)
+
+if DO_DEVEL
+MAYBE_LIBS_EMDF = libemdf.la
+else
+MAYBE_LIBS_EMDF = 
 endif
 
-if MYSQL
-emdflib_my_backend_src = $(mysqlemdflib_src)
-endif 
 
-if SQLITE3
-emdflib_sqlite3_backend_src = $(sqlite3emdflib_src)
-endif
+lib_LTLIBRARIES = $(MAYBE_LIBS_EMDF)
 
-lib_LTLIBRARIES = libemdf.la 
+
 
 
 #
@@ -112,16 +109,10 @@ EXTRA_DIST = win32.mak mingw.mak \
 #
 # libemdf.la
 #
-EXTRA_libemdf_la_SOURCES = $(pgemdflib_src) \
-                           $(mysqlemdflib_src) \
-                           $(sqlite3emdflib_src)
-libemdf_la_SOURCES = $(emdflib_src) \
-                     $(emdflib_pg_backend_src) \
-                     $(emdflib_my_backend_src) \
-                     $(emdflib_sqlite3_backend_src) 
-libemdf_la_LIBADD = @BACKENDLDADD@ 
+libemdf_la_SOURCES = $(emdflib_src) 
+libemdf_la_LIBADD = @BACKEND_LDADD_BACKBACK@ 
 libemdf_la_LDFLAGS = $(MACLDFLAGS) -version-info \
-                     @LIB_EMDF_CURRENT@:@LIB_EMDF_REVISION@:@LIB_EMDF_AGE@ \
+                     @LIB_EMDROS_CURRENT@:@LIB_EMDROS_REVISION@:@LIB_EMDROS_AGE@ \
                      @SUN_LDFLAGS@ \
                      @DARWIN_LDFLAGS@
 

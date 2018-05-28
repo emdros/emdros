@@ -77,6 +77,10 @@
 	* examples/: This has been removed, and moved into its own repo on
 	GitHub.
 
+	* EMdF/Makefile.am: Unconditionally compile pgconn.cpp,
+	mysqlconn.cpp, and sqlite3conn.cpp.  Update these (and their .h
+	files in include/) to be able to do this.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).

@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 6/22-2015
+ * Last update: 7/28-2017
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2015  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2017  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -240,13 +240,13 @@ class SQLite3EMdFConnection : public EMdFConnection {
 	};
 
 	virtual bool accessTuple(int field_no, 
-				 long& result) {
+				 emdros_int64& result) {
 #if USE_SQLITE3
 		if (!m_bHasRow) {
 			// Return failure
 			return false;
 		} else {
-			result = (long) sqlite3_column_int(m_pVM, field_no); // FIXME: Should we use long long int and sqlite3_column_int64?
+			result = sqlite3_column_int64(m_pVM, field_no); 
 			if (result == 0) {
 				if (sqlite3_column_type(m_pVM, field_no) == SQLITE_NULL) {
 					throw EMdFNULLValueException();
@@ -308,7 +308,7 @@ class SQLite3EMdFConnection : public EMdFConnection {
 	// UseDatabase
 	virtual bool useDatabaseSQLite3(const std::string& database_name, const std::string& key, bool bIsCreating);
 
-	void get_last_insert_rowid(long& result /* out */);
+	void get_last_insert_rowid(emdros_int64& result /* out */);
 
 	// Vacuum
 	bool vacuum(bool bAnalyze);

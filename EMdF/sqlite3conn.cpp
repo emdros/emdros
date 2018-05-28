@@ -559,10 +559,10 @@ bool SQLite3EMdFConnection::useDatabaseSQLite3(const std::string& database_name,
 #endif /* USE_SQLITE3 */
 }
 
-void SQLite3EMdFConnection::get_last_insert_rowid(long& result /* out */)
+void SQLite3EMdFConnection::get_last_insert_rowid(emdros_int64& result /* out */)
 {
 #if USE_SQLITE3
-	result = (long) sqlite3_last_insert_rowid(m_pDB);
+	result = (emdros_int64) sqlite3_last_insert_rowid(m_pDB);
 #else
 	result = 0;
 #endif

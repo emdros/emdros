@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 4/17-2018
+ * Last update: 4/18-2018
  *
  */
 /************************************************************************
@@ -104,6 +104,7 @@
 #include "utils.h"
 
 #if USE_MYSQL
+#include <string_func.h>
 #include <mysql.h>
 #endif
 
@@ -182,6 +183,7 @@ public:
     // Return success      
     return true;
 #else
+    UNUSED(bMoreTuples);
     return false;
 #endif
   };
@@ -212,12 +214,14 @@ public:
       return true;
     }
 #else
+    UNUSED(field_no);
+    UNUSED(result);
     return false;
 #endif
   };
 
   virtual bool accessTuple(int field_no, 
-			   long& result) {
+			   emdros_int64& result) {
 #if USE_MYSQL
     if (m_Row == NULL) {
       // Return failure
@@ -236,13 +240,15 @@ public:
 	throw EMdFNULLValueException();
       } else {
 	// It wasn't NULL.  Convert result
-	result = atol(pField);
+	result = sz2longlong(pField);
       }
 	
       // Return success      
       return true;
     }
 #else
+    UNUSED(field_no);
+    UNUSED(result);
     return false;
 #endif
   };
@@ -268,6 +274,8 @@ public:
       return true;
     }
 #else
+    UNUSED(field_no);
+    UNUSED(result);
     return false;
 #endif
   };

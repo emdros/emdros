@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 4/13-2016
+ * Last update: 12/31-2017
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2016  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2017  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -264,6 +264,7 @@ bool PgEMdFConnection::execSelect(const std::string& query)
     }
   }
 #else
+  UNUSED(query);
   return false;
 #endif
 }
@@ -312,6 +313,7 @@ bool PgEMdFConnection::execCommand(const std::string& query)
       || (status == PGRES_COPY_IN);
   }
 #else
+  UNUSED(query);
   return false;
 #endif
 }
@@ -409,6 +411,7 @@ bool PgEMdFConnection::execCOPY(std::string& copy_data)
     return true;
   }
 #else
+  UNUSED(copy_data);
   return false;
 #endif
 }
@@ -432,6 +435,7 @@ bool PgEMdFConnection::errorMessage(std::string& out)
       return false;
   }
 #else
+  UNUSED(out);
   return false;
 #endif
 }
@@ -503,6 +507,7 @@ bool PgEMdFConnection::vacuum(bool bAnalyze)
     return execCommand(Query);
   }
 #else
+  UNUSED(bAnalyze);
   return false;
 #endif
 }
