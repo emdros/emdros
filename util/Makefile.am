@@ -32,7 +32,7 @@ libutil_emdros_la_SOURCES = \
 
 CLEANFILES = *~ core
 
-EXTRA_DIST = windows.mak mingw.mak
+EXTRA_DIST = win32.mak mingw.mak
 
 
 AM_CPPFLAGS = -I$(srcdir)/../MQL -I$(srcdir)/../EMdF -I$(srcdir)/../base -I$(top_srcdir)

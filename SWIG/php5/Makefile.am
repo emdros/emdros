@@ -56,7 +56,7 @@ uninstall-hook:
 
 
 macdist:
-	cp -fL README-PHP5 EmdrosPHP.php .libs/EmdrosPHP.so $(MACDISTDIR)/development/SWIG/php5/
+	cp -fL README-PHP EmdrosPHP.php .libs/EmdrosPHP.so $(MACDISTDIR)/development/SWIG/php5/
 
 
 else
@@ -79,8 +79,8 @@ BUILT_SOURCES = $(MAYBE_BUILT_SRC) EmdrosPHP.ini
 EXTRA_DIST = phpemdros.i \
              libemdfphp.i libmqlphp.i \
              EmdrosPHP.ini.in \
-             test7.php \
-             README-PHP5 \
+             test.php \
+             README-PHP \
              $(MAYBE_BUILT_SRC)
 
 CLEANFILES = *~ core config.log 

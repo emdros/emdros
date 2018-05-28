@@ -141,6 +141,8 @@
 	* tests/mqlqa.h.in: Update with PCRE2, not PCRE, in the error
 	messages.
 
+	* Ensure that "make dist" works.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).

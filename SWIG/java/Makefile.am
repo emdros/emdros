@@ -140,7 +140,7 @@ BUILT_SOURCES = $(MAYBE_BUILT_SRC)
 
 EXTRA_DIST = libjemdros.i \
              TestEmdros.java.in \
-             README-Java drop_db.mql windows.mak \
+             README-Java drop_db.mql win32.mak \
              Makefile.inc $(BUILT_SOURCES) 
 
 CLEANFILES = *~ core config.log ll.txt \

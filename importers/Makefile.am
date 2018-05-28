@@ -52,7 +52,7 @@ CLEANFILES = *~ core \
 
 
 
-EXTRA_DIST = windows.mak mingw.mak \
+EXTRA_DIST = win32.mak mingw.mak \
              simplebibleschema.h simplebibleschema.mql \
              pennschema.h pennschema.mql pennschema_id_d.mql \
              pennparser.yxx pennparser.cpp pennparser.h \

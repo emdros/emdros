@@ -66,7 +66,7 @@ uninstall-python-lib:
 
 
 macdist:
-	cp -fL README-Python2 EmdrosPy.py .libs/_EmdrosPy.so test.py $(MACDISTDIR)/development/SWIG/python/
+	cp -fL README-Python EmdrosPy.py .libs/_EmdrosPy.so test.py $(MACDISTDIR)/development/SWIG/python/
 
 
 else
@@ -88,7 +88,7 @@ BUILT_SOURCES = $(MAYBE_BUILT_SRC)
 
 
 EXTRA_DIST = pyemdros.i \
-             test.py README-Python2 dir.py windows.mak  \
+             test.py README-Python dir.py win32.mak  \
              $(BUILT_SOURCES)
 
 CLEANFILES = *~ core config.log test.pyc test.pyo \
