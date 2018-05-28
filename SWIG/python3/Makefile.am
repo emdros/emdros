@@ -5,14 +5,15 @@ SWIG_PY3_SRC = \
       EmdrosPy3.py
 
 
+
 AM_CXXFLAGS = @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ @ADDITIONAL_CXXFLAGS@ @DEBUGFLAG@
 
-AM_CPPFLAGS = -I$(top_srcdir)/include -I. @PYTHON3_INCLUDES@
+AM_CPPFLAGS = -I. -I$(top_srcdir) @PYTHON3_INCLUDES@
 
 
 
-EmdrosPy3.py py3emdros_wrap.cxx: py3emdros.i libemdfpython.i libmqlpython.i 
-	cd $(srcdir) ; $(SWIG_PROGRAM) -c++ -python py3emdros.i
+EmdrosPy3.py py3emdros_wrap.cxx: py3emdros.i 
+	$(SWIG_PROGRAM) -c++ -python py3emdros.i
 
 
 
@@ -25,16 +26,12 @@ pkglib_LTLIBRARIES = _EmdrosPy3.la
 nodist__EmdrosPy3_la_SOURCES = py3emdros_wrap.cxx 
 
 
-_EmdrosPy3_la_LIBADD = $(top_builddir)/harvest/libharvest.la \
-                      $(top_builddir)/MQL/libmql.la @PCRE_LIBADD_SWIG@ \
-                      @EMDFLDADDSWIG@ @ZLIB_LIBADD_SWIG@ 
-_EmdrosPy3_la_LDFLAGS = @SWIG_EXTRA_LIBS@ -module \
+_EmdrosPy3_la_LIBADD = @EMDROS_LDADD_BACKBACK@ 
+_EmdrosPy3_la_LDFLAGS = -module \
                        -version-info \
-                       @LIB_SWIG_CURRENT@:@LIB_SWIG_REVISION@:@LIB_SWIG_AGE@ \
+                       @LIB_EMDROS_CURRENT@:@LIB_EMDROS_REVISION@:@LIB_EMDROS_AGE@ \
                        @DARWIN_LDFLAGS@ @SUN_LDFLAGS@
-_EmdrosPy3_la_DEPENDENCIES = $(top_builddir)/harvest/libharvest.la \
-                            $(top_builddir)/MQL/libmql.la @PCRE_DEP_SWIG@ \
-                            @EMDFDEPSSWIG@ @ZLIB_DEP_SWIG@ 
+_EmdrosPy3_la_DEPENDENCIES = @EMDROS_DEPS_BACKBACK@
 
 
 
@@ -56,7 +53,7 @@ macdist:
 
 
 else
-# Not SWIG_WITH_PYTHON_WRAPPERS
+# Not SWIG_WITH_PYTHON3_WRAPPERS
 
 MAYBE_BUILT_SRC = 
 
@@ -69,21 +66,19 @@ uninstall-hook:
 macdist:
 
 
-endif # end if SWIG_WITH_PYTHON_WRAPPERS
+endif # end if SWIG_WITH_PYTHON3_WRAPPERS
 
-BUILT_SOURCES = $(MAYBE_BUILT_SRC) 
 
+
+BUILT_SOURCES = $(MAYBE_BUILT_SRC)
 
 
 
 EXTRA_DIST = py3emdros.i \
-             libemdfpython.i libmqlpython.i \
-             test3.py README-Python3 dir.py \
-             $(MAYBE_BUILT_SRC)
-
-CLEANFILES = *~ core config.log test3.pyc test3.pyo \
-             EmdrosPy3.pyc EmdrosPy3.pyo _EmdrosPy3.la \
+             README-Python3 dir.py test3.py \
              $(BUILT_SOURCES)
 
+CLEANFILES = *~ core config.log test3.pyc test3.pyo \
+             EmdrosPy3.pyc EmdrosPy3.pyo _EmdrosPy3.la 
 
-DISTCLEANFILES = $(MAYBE_BUILT_SRC)
+DISTCLEANFILES = $(SWIG_PY3_SRC)
