@@ -41,19 +41,15 @@ noinst_HEADERS = mql_R.h \
        lzma_emdros.h \
        zlib_emdros.h \
        version-emdros.h prefix_emdros.h \
-       sqlite3_emdros.h \
-       emdros_reserved_words.h 
+       sqlite3_emdros.h 
 
 #
 BUILT_SOURCES = zlib_emdros.h \
                 version-emdros.h prefix_emdros.h \
-                sqlite3_emdros.h \
-                emdros_reserved_words.h 
-
+                sqlite3_emdros.h 
 CLEANFILES = *~ zlib_emdros.h \
                 version-emdros.h prefix_emdros.h \
                 sqlite3_emdros.h \
-                emdros_reserved_words.h \
                 core 
 
 DISTCLEANFILES = emdros-config.h.in
@@ -121,14 +117,4 @@ prefix_emdros.h: prefix_emdros.h.in
 
 macdist:
 	cp -f $(PACKAGE_INCLUDE_HEADER_FILES) $(MACDISTDIR)/development/include/
-
-emdros_reserved_words.h: ../MQL/mql.re
-	rm -f $@
-	echo "#ifndef EMDROS_RESERVED_WORDS_H_" >> $@
-	echo "#define EMDROS_RESERVED_WORDS_H_" >> $@
-	echo "static const char *emdros_reserved_words[] = {" >> $@
-	grep "TOKEN_RETURN(\"[a-zA-Z_]\+\"" ../MQL/mql.re | grep -v "T_IDENTIFIER" | grep -v "T_STRING" | awk -F 'TOKEN_RETURN' '{ print $$2; }' | sed -e 's/[(",]//g' | awk '{ print "\"" $$1 "\","; }' >> $@
-	echo " NULL" >> $@
-	echo "};" >> $@
-	echo "#endif /* EMDROS_RESERVED_WORDS_H_ */" >> $@
 
