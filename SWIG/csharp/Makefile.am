@@ -9,8 +9,9 @@ SWIG_PROGRAM = @SWIG_PROGRAM@
 
 SWIG_CSHARP_SRC = \
       libcsemdros_wrap.cxx \
-      EmdrosDotNet.dll \
-      CSharpSources.zip
+      CSharpSources.zip \
+      EmdrosDotNet.dll
+
 
 TestEmdros.cs: TestEmdros.cs.in
 	$(top_builddir)/config.status --file=TestEmdros.cs
@@ -22,7 +23,7 @@ gen_files:
 	ls -l *.cs | grep -v "TableRow.cs" | grep -v "TestEmdros.cs" | awk '{ print $$9; }' | sed -e 's/^/                /' | sed -e 's/$$/ \\/' >> ll.txt
 	echo "                TableRow.cs" >> ll.txt
 	echo "" >> ll.txt ; echo "" >> ll.txt
-#	#ls -l *.cs | grep -v "TestEmdros.cs" | awk '{ print $$9 ": libcsemdros_wrap.cxx"; }' >> ll.txt
+#	ls -l *.cs | grep -v "TestEmdros.cs" | awk '{ print $$9 ": libcsemdros_wrap.cxx"; }' >> ll.txt
 	@echo "ll.txt created."
 	@echo "Now consider:"
 	@echo ""
@@ -36,16 +37,13 @@ test: TestEmdros.cs EmdrosDotNet.dll
 	@echo "If on Mono:"
 	@echo "     mono TestEmdros.exe"
 
-DISTCLEANFILES =  $(SWIG_CSHARP_SRC) \
-                  TestEmdros.cs \
-                  $(SWIG_GENERATED_CSHARPFILES)
 
 
 AM_CXXFLAGS = @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ @ADDITIONAL_CXXFLAGS@ @DEBUGFLAG@
 
-AM_CPPFLAGS = -I$(top_srcdir)/include -I.
+AM_CPPFLAGS = -I. -I$(top_srcdir)
 
-libcsemdros_wrap.cxx $(SWIG_GENERATED_CSHARPFILES): libcsemdros.i libemdf.i libmql.i 
+libcsemdros_wrap.cxx $(SWIG_GENERATED_CSHARPFILES): libcsemdros.i 
 	$(SWIG_PROGRAM) -namespace Emdros -c++ -csharp libcsemdros.i
 
 EmdrosDotNet.dll: libcsemdros_wrap.cxx
@@ -57,32 +55,29 @@ CSharpSources.zip: libcsemdros_wrap.cxx
 
 
 
-CLEANFILES = *~ core config.log libcsemdros.la
 
 
 
 if SWIG_WITH_CSHARP_WRAPPERS
 
-MAYBE_BUILT = $(SWIG_CSHARP_SRC) \
-              CSharpSources.zip \
-              TestEmdros.cs \
-              EmdrosDotNet.dll
+MAYBE_BUILT_SRC = $(SWIG_CSHARP_SRC) \
+                  TestEmdros.cs 
 
 pkglib_LTLIBRARIES = libcsemdros.la
 
 
 nodist_libcsemdros_la_SOURCES = libcsemdros_wrap.cxx 
 
-libcsemdros_la_LIBADD = $(top_builddir)/harvest/libharvest.la \
-                        $(top_builddir)/MQL/libmql.la @PCRE_LIBADD_SWIG@ \
-                        @EMDFLDADDSWIG@ @ZLIB_LIBADD_SWIG@ 
+libcsemdros_la_LIBADD = @HARVEST_LDADD_BACKBACK@ \
+                        @MQL_LDADD_BACKBACK@ @PCRE2_LDADD_BACKBACK@ \
+                        @EMDF_LDADD_BACKBACK@ @ZLIB_LDADD_BACKBACK@ 
 
-libcsemdros_la_LDFLAGS = @SWIG_EXTRA_LIBS@ \
-                        -version-info \
-                        @LIB_SWIG_CURRENT@:@LIB_SWIG_REVISION@:@LIB_SWIG_AGE@ \
-                        @DARWIN_LDFLAGS@ @SUN_LDFLAGS@
-libcsemdros_la_DEPENDENCIES = $(top_builddir)/MQL/libmql.la @PCRE_DEP_SWIG@ \
-                             @ZLIB_DEP_SWIG@ @EMDFDEPSSWIG@ $(top_builddir)/harvest/libharvest.la
+libcsemdros_la_LDFLAGS = -version-info \
+                         @LIB_EMDROS_CURRENT@:@LIB_EMDROS_REVISION@:@LIB_EMDROS_AGE@ \
+                         @DARWIN_LDFLAGS@ @SUN_LDFLAGS@
+libcsemdros_la_DEPENDENCIES = @HARVEST_DEPS_BACKBACK@ \
+                             @MQL_DEPS_BACKBACK@ @PCRE2_DEPS_BACKBACK@ \
+                             @EMDF_DEPS_BACKBACK@ @ZLIB_DEPS_BACKBACK@ 
 
 
 install-exec-hook: EmdrosDotNet.dll CSharpSources.zip
@@ -102,7 +97,7 @@ macdist: TestEmdros.cs CSharpSources.zip
 else
 
 
-MAYBE_BUILT = 
+MAYBE_BUILT_SRC = 
 
 # Not SWIG_WITH_CSHARP_WRAPPERS
 
@@ -120,10 +115,15 @@ macdist:
 
 endif # end if SWIG_WITH_CSHARP_WRAPPERS
 
-BUILT_SOURCES =  $(MAYBE_BUILT)
+BUILT_SOURCES =  $(MAYBE_BUILT_SRC)
 
 EXTRA_DIST = libcsemdros.i \
-             libemdf.i libmql.i \
-             README-csharp win32.mak \
+             README-csharp windows.mak \
              TestEmdros.cs.in \
              $(MAYBE_BUILT)
+
+CLEANFILES = *~ core config.log libcsemdros.la $(BUILT_SOURCES)
+
+DISTCLEANFILES =  $(SWIG_CSHARP_SRC) \
+                  TestEmdros.cs CSharpSources.zip \
+                  EmdrosDotNet.dll
