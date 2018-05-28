@@ -5,6 +5,8 @@
 	* m4/*.m4, configure.ac: Split the configure.ac script into
 	several m4 submodules.
 
+	* emdros.pc.in: Add pkg-config support.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).
