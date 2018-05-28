@@ -39,6 +39,13 @@
 	* util/: All of the importers have been moved into a new library,
 	libemdros_importers, in importers/.
 
+	* djgpp/: Remove DJGPP support throughout.  Ulrik hasn't had a
+	need for it for about a decade (or more), so perhaps nobody else
+	has.  If you need this back in, please let Ulrik know.
+
+	* *.pro: QMake support has been removed.  Should you need this
+	back in, please let Ulrik know.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).

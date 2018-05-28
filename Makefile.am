@@ -18,7 +18,6 @@ EXTRA_DIST = \
              README-Emdros-on-Android.txt \
              README-Emdros-on-iOS.txt \
              valgrind.sh callgrind.sh \
-             Emdros.pro \
              debian/changelog \
              debian/compat \
              debian/control \
@@ -37,7 +36,7 @@ EXTRA_DIST = \
 
 
 
-SUBDIRS = djgpp doc pcre2 zlib sqlite3 include \
+SUBDIRS = doc pcre2 zlib sqlite3 include \
           EMdF MQL harvest amalgamation util importers $(MAYBE_WX) \
           src tests examples \
 	  SWIG win32

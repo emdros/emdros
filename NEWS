@@ -80,6 +80,8 @@ since 3.5.0.
   because the Android NDK MIPS target cannot compile the old,
   monolithic amalgamation files.
 
+- DJGPP support has been removed, along with QMake (from Qt) support.
+  Should you need either of these back in, please contact Ulrik.
 
 
 - *** Version 3.5.0 *** 
