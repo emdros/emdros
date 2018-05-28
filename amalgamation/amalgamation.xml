@@ -171,6 +171,7 @@
       </unrenamed_files>
       <header_files>
         <header_file name="include/arena.h" />
+        <header_file name="include/prefix_emdros.h" />
         <header_file name="include/crc32_emdros.h" />
         <header_file name="include/debug.h" />
         <header_file name="include/emdf.h" />
