@@ -9,7 +9,7 @@ AM_CXXFLAGS = @DEBUGFLAG@ @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ \
 
 ARFLAGS = @ARFLAGS@
 
-EXTRA_DIST = win32.mak mingw.mak djgpp.mak hal.cfg hallexer.re
+EXTRA_DIST = win32.mak mingw.mak hal.cfg hallexer.re
 
 AM_CPPFLAGS = -I$(srcdir) -I$(top_srcdir)/include
 

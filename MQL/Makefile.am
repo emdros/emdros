@@ -79,7 +79,7 @@ libmql_la_LDFLAGS = $(MACLDFLAGS) -version-info \
 EXTRA_DIST = mql.re mql_lexer.cpp \
              mql_gq.re mql_get_query.cpp \
              mql.yxx mql_parser.cpp mqlpars.h \
-             win32.mak mingw.mak unistd.h.win32 djgpp.mak MQL.pro
+             win32.mak mingw.mak unistd.h.win32 
 
 BUILT_SOURCES = $(srcdir)/mql_lexer.cpp \
                 $(srcdir)/mql_parser.cpp \

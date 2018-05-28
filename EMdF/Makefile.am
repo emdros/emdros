@@ -102,7 +102,7 @@ lib_LTLIBRARIES = libemdf.la
 #
 # Misc variables
 #
-EXTRA_DIST = win32.mak mingw.mak djgpp.mak EMdF.pro \
+EXTRA_DIST = win32.mak mingw.mak \
              json.re json_lexer.cpp \
              json.yxx json_parser.cpp jsonpars.h
 

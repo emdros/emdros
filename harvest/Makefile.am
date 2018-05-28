@@ -41,7 +41,7 @@ DISTCLEANFILES = \
                  emdroslang_parser.cpp emdroslangpars.h emdroslang.out
 
 
-EXTRA_DIST = win32.mak mingw.mak djgpp.mak harvest.pro \
+EXTRA_DIST = win32.mak mingw.mak \
              templatelang.re templatelang_lexer.cpp \
              templatelang.yxx templatelang_parser.cpp templatelangpars.h \
              emdroslang.re emdroslang_lexer.cpp \
