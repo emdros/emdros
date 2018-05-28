@@ -11,7 +11,7 @@ AC_CONFIG_HEADERS([include/emdros-config.h])
 
 
 # Unix/Linux .so library versioning
-LIB_EMDROS_CURRENT=5
+LIB_EMDROS_CURRENT=6
 LIB_EMDROS_REVISION=0
 LIB_EMDROS_AGE=0
 
@@ -74,7 +74,9 @@ AC_CONFIG_FILES([Makefile
 		 zlib/Makefile
 		 pcre2/Makefile
 		 sqlite3/Makefile
-		 sqlite3/src/Makefile
+		 sqlite3/tool/Makefile
+		 sqlite3/src/Makefile	
+		 include/Makefile	 
                  include/emdros-lconfig.h
                  include/emdros-version.h
                  EMdF/Makefile

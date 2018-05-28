@@ -46,6 +46,11 @@
 	* *.pro: QMake support has been removed.  Should you need this
 	back in, please let Ulrik know.
 
+	* configure.ac: Bump LIB_EMDROS_CURRENT from 5 to 6, since we have
+	changed the libemdros_util interface drastically (moving much
+	stuff into libemdros_importers). Now we have *.so.6.0.0 instead of
+	*.so.5.0.0.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).
