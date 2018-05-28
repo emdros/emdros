@@ -114,57 +114,51 @@ dnl
 if test x$DEVEL = xyes; then
    dnl DEVEL=yes
 
-   BASE_LDADD="../lib/base/libemdros_base.la"
-   BASE_LDADD_BACKBACK="../../lib/base/libemdros_base.la"
-   BASE_LDADD_BACKBACKBACK="../../../lib/base/libemdros_base.la"
-   BASE_DEPS="../lib/base/libemdros_base.la"
-   BASE_DEPS_BACKBACK="../../lib/base/libemdros_base.la"
-   BASE_DEPS_BACKBACKBACK="../../../lib/base/libemdros_base.la"
 
-   EMDF_LDADD="../lib/EMdF/libemdf.la $BACKEND_LDADD";
-   EMDF_LDADD_BACKBACK="../../lib/EMdF/libemdf.la $BACKEND_LDADD_BACKBACK";
-   EMDF_LDADD_BACKBACKBACK="../../../lib/EMdF/libemdf.la $BACKEND_LDADD_BACKBACKBACK";
-   EMDF_DEPS="../lib/EMdF/libemdf.la";
-   EMDF_DEPS_BACKBACK="../../lib/EMdF/libemdf.la";
-   EMDF_DEPS_BACKBACKBACK="../../../lib/EMdF/libemdf.la";
+   EMDF_LDADD="../EMdF/libemdf.la $BACKEND_LDADD";
+   EMDF_LDADD_BACKBACK="../../EMdF/libemdf.la $BACKEND_LDADD_BACKBACK";
+   EMDF_LDADD_BACKBACKBACK="../../../EMdF/libemdf.la $BACKEND_LDADD_BACKBACKBACK";
+   EMDF_DEPS="../EMdF/libemdf.la";
+   EMDF_DEPS_BACKBACK="../../EMdF/libemdf.la";
+   EMDF_DEPS_BACKBACKBACK="../../../EMdF/libemdf.la";
 
    EMDF_LDADD="$EMDF_LDADD $PROGRAMLDADD"
 
-   MQL_LDADD="../lib/MQL/libmql.la"
-   MQL_LDADD_BACKBACK="../../lib/MQL/libmql.la"
-   MQL_LDADD_BACKBACKBACK="../../../lib/MQL/libmql.la"
-   MQL_DEPS="../lib/MQL/libmql.la"
-   MQL_DEPS_BACKBACK="../../lib/MQL/libmql.la"
-   MQL_DEPS_BACKBACKBACK="../../../lib/MQL/libmql.la"
+   MQL_LDADD="../MQL/libmql.la"
+   MQL_LDADD_BACKBACK="../../MQL/libmql.la"
+   MQL_LDADD_BACKBACKBACK="../../../MQL/libmql.la"
+   MQL_DEPS="../MQL/libmql.la"
+   MQL_DEPS_BACKBACK="../../MQL/libmql.la"
+   MQL_DEPS_BACKBACKBACK="../../../MQL/libmql.la"
 
-   HARVEST_LDADD="../lib/harvest/libharvest.la"
-   HARVEST_DEPS="../lib/harvest/libharvest.la"
-   HARVEST_LDADD_BACKBACK="../../lib/harvest/libharvest.la"
-   HARVEST_DEPS_BACKBACK="../../lib/harvest/libharvest.la"
-   HARVEST_LDADD_BACKBACKBACK="../../../lib/harvest/libharvest.la"
-   HARVEST_DEPS_BACKBACKBACK="../../../lib/harvest/libharvest.la"
+   HARVEST_LDADD="../harvest/libharvest.la"
+   HARVEST_DEPS="../harvest/libharvest.la"
+   HARVEST_LDADD_BACKBACK="../../harvest/libharvest.la"
+   HARVEST_DEPS_BACKBACK="../../harvest/libharvest.la"
+   HARVEST_LDADD_BACKBACKBACK="../../../harvest/libharvest.la"
+   HARVEST_DEPS_BACKBACKBACK="../../../harvest/libharvest.la"
 
-   UTIL_LDADD="../lib/util/libutil_emdros.la"
-   UTIL_DEPS="../lib/util/libutil_emdros.la"
-   UTIL_LDADD_BACKBACK="../../lib/util/libutil_emdros.la"
-   UTIL_DEPS_BACKBACK="../../lib/util/libutil_emdros.la"
-   UTIL_LDADD_BACKBACKBACK="../../../lib/util/libutil_emdros.la"
-   UTIL_DEPS_BACKBACKBACK="../../../lib/util/libutil_emdros.la"
+   UTIL_LDADD="../util/libutil_emdros.la"
+   UTIL_DEPS="../util/libutil_emdros.la"
+   UTIL_LDADD_BACKBACK="../../util/libutil_emdros.la"
+   UTIL_DEPS_BACKBACK="../../util/libutil_emdros.la"
+   UTIL_LDADD_BACKBACKBACK="../../../util/libutil_emdros.la"
+   UTIL_DEPS_BACKBACKBACK="../../../util/libutil_emdros.la"
 
-   IMPORTERS_LDADD="../lib/importers/libemdros_importers.la"
-   IMPORTERS_DEPS="../lib/importers/libemdros_importers.la"
-   IMPORTERS_LDADD_BACKBACK="../../lib/importers/libemdros_importers.la"
-   IMPORTERS_DEPS_BACKBACK="../../lib/importers/libemdros_importers.la"
-   IMPORTERS_LDADD_BACKBACKBACK="../../../lib/importers/libemdros_importers.la"
-   IMPORTERS_DEPS_BACKBACKBACK="../../../lib/importers/libemdros_importers.la"
+   IMPORTERS_LDADD="../importers/libemdros_importers.la"
+   IMPORTERS_DEPS="../importers/libemdros_importers.la"
+   IMPORTERS_LDADD_BACKBACK="../../importers/libemdros_importers.la"
+   IMPORTERS_DEPS_BACKBACK="../../importers/libemdros_importers.la"
+   IMPORTERS_LDADD_BACKBACKBACK="../../../importers/libemdros_importers.la"
+   IMPORTERS_DEPS_BACKBACKBACK="../../../importers/libemdros_importers.la"
 
-   EMDROS_LDADD="${IMPORTERS_LDADD} ${UTIL_LDADD} ${HARVEST_LDADD} ${MQL_LDADD} ${EMDF_LDADD} ${BASE_LDADD} ${SQLITE3_LDADD} ${PCRE2_LDADD} -lpthread -ldl"
-   EMDROS_LDADD_BACKBACK="${IMPORTERS_LDADD_BACKBACK} ${UTIL_LDADD_BACKBACK} ${HARVEST_LDADD_BACKBACK} ${MQL_LDADD_BACKBACK} ${EMDF_LDADD_BACKBACK} ${BASE_LDADD_BACKBACK} ${SQLITE3_LDADD_BACKBACK} ${PCRE2_LDADD_BACKBACK} -lpthread -ldl"
-   EMDROS_LDADD_BACKBACKBACK="${IMPORTERS_LDADD_BACKBACKBACK} ${UTIL_LDADD_BACKBACKBACK} ${HARVEST_LDADD_BACKBACKBACK} ${MQL_LDADD_BACKBACKBACK} ${EMDF_LDADD_BACKBACKBACK} ${BASE_LDADD_BACKBACKBACK} ${SQLITE3_LDADD_BACKBACKBACK} ${PCRE2_LDADD_BACKBACKBACK} -lpthread -ldl"
+   EMDROS_LDADD="${IMPORTERS_LDADD} ${UTIL_LDADD} ${HARVEST_LDADD} ${MQL_LDADD} ${EMDF_LDADD} ${SQLITE3_LDADD} ${PCRE2_LDADD} -lpthread -ldl"
+   EMDROS_LDADD_BACKBACK="${IMPORTERS_LDADD_BACKBACK} ${UTIL_LDADD_BACKBACK} ${HARVEST_LDADD_BACKBACK} ${MQL_LDADD_BACKBACK} ${EMDF_LDADD_BACKBACK} ${SQLITE3_LDADD_BACKBACK} ${PCRE2_LDADD_BACKBACK} -lpthread -ldl"
+   EMDROS_LDADD_BACKBACKBACK="${IMPORTERS_LDADD_BACKBACKBACK} ${UTIL_LDADD_BACKBACKBACK} ${HARVEST_LDADD_BACKBACKBACK} ${MQL_LDADD_BACKBACKBACK} ${EMDF_LDADD_BACKBACKBACK} ${SQLITE3_LDADD_BACKBACKBACK} ${PCRE2_LDADD_BACKBACKBACK} -lpthread -ldl"
 
-   EMDROS_DEPS="${IMPORTERS_DEPS} ${UTIL_DEPS} ${HARVEST_DEPS} ${MQL_DEPS} ${EMDF_DEPS} ${BASE_DEPS} ${SQLITE3_DEPS} ${PCRE2_DEPS}"
-   EMDROS_DEPS_BACKBACK="${IMPORTERS_DEPS_BACKBACK} ${UTIL_DEPS_BACKBACK} ${HARVEST_DEPS_BACKBACK} ${MQL_DEPS_BACKBACK} ${EMDF_DEPS_BACKBACK} ${BASE_DEPS_BACKBACK} ${SQLITE3_DEPS_BACKBACK} ${PCRE2_DEPS_BACKBACK}"
-   EMDROS_DEPS_BACKBACKBACK="${IMPORTERS_DEPS_BACKBACKBACK} ${UTIL_DEPS_BACKBACKBACK} ${HARVEST_DEPS_BACKBACKBACK} ${MQL_DEPS_BACKBACKBAC} ${EMDF_DEPS_BACKBACKBACK} ${BASE_DEPS_BACKBACKBACK} ${SQLITE3_DEPS_BACKBACKBACK} ${PCRE2_DEPS_BACKBACKBACK}"
+   EMDROS_DEPS="${IMPORTERS_DEPS} ${UTIL_DEPS} ${HARVEST_DEPS} ${MQL_DEPS} ${EMDF_DEPS} ${SQLITE3_DEPS} ${PCRE2_DEPS}"
+   EMDROS_DEPS_BACKBACK="${IMPORTERS_DEPS_BACKBACK} ${UTIL_DEPS_BACKBACK} ${HARVEST_DEPS_BACKBACK} ${MQL_DEPS_BACKBACK} ${EMDF_DEPS_BACKBACK} ${SQLITE3_DEPS_BACKBACK} ${PCRE2_DEPS_BACKBACK}"
+   EMDROS_DEPS_BACKBACKBACK="${IMPORTERS_DEPS_BACKBACKBACK} ${UTIL_DEPS_BACKBACKBACK} ${HARVEST_DEPS_BACKBACKBACK} ${MQL_DEPS_BACKBACKBAC} ${EMDF_DEPS_BACKBACKBACK} ${SQLITE3_DEPS_BACKBACKBACK} ${PCRE2_DEPS_BACKBACKBACK}"
 
    EMDROS_LDADD="${EMDROS_LDADD} $PG_LDADD $MY_LDADD -lpthread -ldl"
    EMDROS_LDADD_BACKBACK="${EMDROS_LDADD_BACKBACK} $PG_LDADD $MY_LDADD -lpthread -ldl"

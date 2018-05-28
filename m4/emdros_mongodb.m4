@@ -22,7 +22,7 @@ dnl
 dnl If DO_MONGODB is not "no", test whether we should, in fact, build it.
 dnl
 if test x$DO_MONGODB != xno; then
-  MONGODBNOTREAL=`grep "This is not the real thing" lib/EMdF/mongoemdfdb.cpp`;
+  MONGODBNOTREAL=`grep "This is not the real thing" EMdF/mongoemdfdb.cpp`;
   if test "x$MONGODBNOTREAL" == "x"; then
     DO_MONGODB=yes;
   else

@@ -15,7 +15,7 @@ AC_ARG_WITH(sqlite3,
 ORIGINAL_DO_SQLITE3=$DO_SQLITE3
 
 
-SQLITE3_VERSION=`cat contrib/sqlite3/VERSION`
+SQLITE3_VERSION=`cat sqlite3/VERSION`
 AC_SUBST(SQLITE3_VERSION)
 
 dnl
@@ -33,12 +33,12 @@ SQLITE3_LDADD_BACKBACKBACK=""
 
 if test "x$DO_SQLITE3" != "xno"; then
   if test "x$DEVEL" = "xyes"; then
-    SQLITE3_DEPS="../contrib/sqlite3/src/libsqlite3_emdros.la"
-    SQLITE3_DEPS_BACKBACK="../../contrib/sqlite3/src/libsqlite3_emdros.la"
-    SQLITE3_DEPS_BACKBACKBACK="../../../contrib/sqlite3/src/libsqlite3_emdros.la"
-    SQLITE3_LDADD="../contrib/sqlite3/src/libsqlite3_emdros.la"
-    SQLITE3_LDADD_BACKBACK="../../contrib/sqlite3/src/libsqlite3_emdros.la"
-    SQLITE3_LDADD_BACKBACKBACK="../../../contrib/sqlite3/src/libsqlite3_emdros.la"
+    SQLITE3_DEPS="../sqlite3/src/libsqlite3_emdros.la"
+    SQLITE3_DEPS_BACKBACK="../../sqlite3/src/libsqlite3_emdros.la"
+    SQLITE3_DEPS_BACKBACKBACK="../../../sqlite3/src/libsqlite3_emdros.la"
+    SQLITE3_LDADD="../sqlite3/src/libsqlite3_emdros.la"
+    SQLITE3_LDADD_BACKBACK="../../sqlite3/src/libsqlite3_emdros.la"
+    SQLITE3_LDADD_BACKBACKBACK="../../../sqlite3/src/libsqlite3_emdros.la"
   else
     SQLITE3_DEPS="../amalgamation/libemdros_amalgamation.la"
     SQLITE3_DEPS_BACKBACK="../../amalgamation/libemdros_amalgamation.la"

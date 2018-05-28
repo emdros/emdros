@@ -76,13 +76,13 @@ fi
 AC_SUBST(ARFLAGS)
 
 if test "x$ISHOSTSUNCC" = "xyes"; then
-  for d in lib/base lib/EMdF lib/MQL lib/harvest lib/importers lib/util src/gui src/cli
+  for d in EMdF MQL harvest importers util src 
   do
      mkdir $d/SunWS_cache $d/.libs
      ln -s ../../SunWS_cache $d/.libs
   done
   if test "x$DO_SQLITE3" != "xno"; then
-    for d in contrib/sqlite3/tool contrib/sqlite3/src 
+    for d in sqlite3/tool sqlite3/src 
     do
        mkdir $d/SunWS_cache $d/.libs
        ln -s ../SunWS_cache $d/.libs

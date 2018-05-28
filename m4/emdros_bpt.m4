@@ -25,7 +25,7 @@ dnl
 dnl If DO_BPT is maybe, test whether we should, in fact, build it.
 dnl
 if test x$DO_BPT = xmaybe; then
-  BPTNOTREAL=`grep "This is not the real thing" lib/EMdF/bptemdfdb.cpp`;
+  BPTNOTREAL=`grep "This is not the real thing" EMdF/bptemdfdb.cpp`;
   if test "x$BPTNOTREAL" == "x"; then
     DO_BPT=yes;
   else

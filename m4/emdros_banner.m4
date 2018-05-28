@@ -64,6 +64,9 @@ fi
 if test "x$DO_SWIG_JAVA" = "xyes"; then
   echo "SWIG Backend:         java"
 fi
+if test "x$DO_SWIG_PHP5" = "xyes"; then
+  echo "SWIG Backend:         php5"
+fi
 if test "x$DO_SWIG_PHP7" = "xyes"; then
   echo "SWIG Backend:         php7"
 fi
