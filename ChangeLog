@@ -11,6 +11,10 @@
 	non-functional, so we are guessing that nobody was using them.
 	They have been removed.
 
+	* SWIG/ruby/: These bindings were removed, on the suspicion that
+	nobody was using them.  If anyone wants them back, please write to
+	Ulrik.
+
 	* SWIG/python/: Rename to SWIG/python2/.
 
 	* SWIG/php/: Rename to SWIG/php5/.
