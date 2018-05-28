@@ -19,6 +19,11 @@ since 3.5.0.
 - The Emdros MySQL backend now has support for transactions, if
   available in the MySQL server.
 
+- PCRE has been upgraded to PCRE2, and UTF-8 has been enabled.  This
+  means that the long-standing bug w.r.t. regular expressions has been
+  fixed whereby a [group] with UTF-8 characters would be interpreted
+  as a group of single-byte characters.
+
 - Assorted performance improvements to the following subsystems:
 
   - XML parsing (renderobjects, for example)
