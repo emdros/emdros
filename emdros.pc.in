@@ -1,0 +1,12 @@
+prefix=@prefix@
+exec_prefix=${prefix}
+includedir=${prefix}/include
+libdir=${exec_prefix}/lib
+
+Name: emdros
+Description: The Emdros text database engine
+URL: http://emdros.org/
+Version: @VERSION@
+Requires: @PKGCONFIG_REQUIRED_AMALGAMATION@
+Cflags: -I${includedir}/emdros @MYSQL_DASH_INCLUDE@ @POSTGRESQL_DASH_INCLUDE@ @MONGODB_DASH_INCLUDE@
+Libs: -L${libdir} @PKGCONFIG_LIBS_AMALGAMATION@
