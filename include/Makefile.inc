@@ -109,7 +109,8 @@ PACKAGE_INCLUDE_HEADER_FILES_DIST = \
        minidom.h \
        qdxml.h \
        erw.h \
-       lzma_emdros.h
+       lzma_emdros.h \
+       pcre2_emdros.h
 
 
 PACKAGE_INCLUDE_HEADER_FILES = \

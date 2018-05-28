@@ -5,7 +5,7 @@ EXTRA_DIST = emdros-lconfig.h.in emdros-config.h.in \
 include Makefile.inc
 
 PACKAGE_INCLUDE_HEADER_FILES_NODIST = \
-       pcre2_emdros.h zlib_emdros.h
+       zlib_emdros.h
 
 if USE_LOCAL_PCRE2
 PACKAGE_INCLUDE_HEADER_FILES_NODIST += pcre2_config.h
@@ -39,20 +39,18 @@ noinst_HEADERS = mql_R.h \
        mysqlconn.h \
        sqlite3conn.h \
        lzma_emdros.h \
-       pcre2_emdros.h zlib_emdros.h \
+       zlib_emdros.h \
        version-emdros.h prefix_emdros.h \
        sqlite3_emdros.h \
        emdros_reserved_words.h 
 
 #
-# pcre2_emdros.h is placed here because automake doesn't support 
-# placing it in $(srcdir)/../pcre2/Makefile.am
-BUILT_SOURCES = pcre2_emdros.h zlib_emdros.h \
+BUILT_SOURCES = zlib_emdros.h \
                 version-emdros.h prefix_emdros.h \
                 sqlite3_emdros.h \
                 emdros_reserved_words.h 
 
-CLEANFILES = *~ pcre2_emdros.h zlib_emdros.h \
+CLEANFILES = *~ zlib_emdros.h \
                 version-emdros.h prefix_emdros.h \
                 sqlite3_emdros.h \
                 emdros_reserved_words.h \
@@ -60,14 +58,7 @@ CLEANFILES = *~ pcre2_emdros.h zlib_emdros.h \
 
 DISTCLEANFILES = emdros-config.h.in
 
-if USE_LOCAL_PCRE2
-pcre2_emdros.h: $(srcdir)/../pcre2/pcre2.h
-	echo '#include "pcre2_config.h"' >> ./pcre2_emdros.h
-	cat $(srcdir)/../pcre2/pcre2.h >> ./pcre2_emdros.h
-else
-pcre2_emdros.h:
-	echo "#include <pcre2.h>" > pcre2_emdros.h
-endif
+
 
 if USE_LOCAL_ZLIB
 zconf.h: $(srcdir)/../zlib/zconf.h
