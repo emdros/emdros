@@ -1,5 +1,10 @@
 ============ 4.0.0 ============
 
+2018-05-29 Ulrik Sandborg-Petersen
+
+	* py-compile: Explicitly use python2, so as to make rpm-build on
+	Fedora 28 happy.
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into

@@ -26,7 +26,7 @@
 # called as "py-compile [--basedir DIR] PY_FILES ...
 
 if [ -z "$PYTHON" ]; then
-  PYTHON=python
+  PYTHON=python2
 fi
 
 basedir=
