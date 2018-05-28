@@ -1,6 +1,3 @@
-AC_DEFUN([RUBY_RBCONFIG],
-[`$RUBY -rrbconfig -e "puts (RbConfig::CONFIG[['$1']] || '')"`])
-
 
 AC_DEFUN([EMDROS_SWIG_SUPPORT], [
 DO_AT_LEAST_ONE_SWIG=no
@@ -80,348 +77,45 @@ AC_MSG_RESULT(${CAN_SWIG_DO_PHP7});
 AC_SUBST(CAN_SWIG_DO_PHP7)
 
 
-dnl SWIG support for Node.JS
 
-AC_ARG_WITH(swig-language-nodejs,
-[  --with-swig-language-nodejs  Use swig scripting language wrappers],
+
+
+dnl support for Python2
+
+AC_ARG_WITH(swig-language-python2,
+[  --with-swig-language-python2  Use swig scripting language wrappers],
 [case "${withval}" in
-       yes) DO_SWIG_NODEJS=yes ;;
-       no)  DO_SWIG_NODEJS=no ;;
-       maybe) DO_SWIG_NODEJS=maybe ;;
-       *)   AC_MSG_ERROR(Bad value ${withval} for --with-swig-language-nodejs) ;;
+       yes) DO_SWIG_PYTHON2=yes ;;
+       no)  DO_SWIG_PYTHON2=no ;;
+       maybe) DO_SWIG_PYTHON2=maybe ;;
+       *)   AC_MSG_ERROR(Bad value ${withval} for --with-swig-language-python2) ;;
      esac],
-[DO_SWIG_NODEJS=maybe],
+[DO_SWIG_PYTHON2=maybe],
 )
-ORIGINAL_DO_SWIG_NODEJS=$DO_SWIG_NODEJS
-
-dnl If we can't do SWIG; don't do SWIG Ruby bindings
-if test x$CAN_DO_SWIG == xno; then
-   if test -f SWIG/nodejs/emdrosnode_wrap.cxx; then
-     DO_SWIG_NODEJS=yes;
-   else
-     DO_SWIG_NODEJS=no;
-   fi
-fi
-
-AC_MSG_CHECKING([Whether we are to do Node.JS...])
-if test x$enable_shared != xyes; then
-   if test x$DO_SWIG_NODEJS = xyes; then
-      AC_MSG_WARN([
-WARNING: You cannot do SWIG backends (in this case, Node.JS)
-if you are not also doing shared libraries. This means
-that you must not use --disable-shared when wishing to
-do a SWIG backend.
-])
-      DO_SWIG_NODEJS=no
-   else
-      AC_MSG_RESULT([no, since we are not doing shared libraries.
-      ])
-      DO_SWIG_NODEJS=no
-   fi
-else
-   AC_MSG_RESULT([maybe... let's check some more...
-   ])
-fi 
-
-
-if test x$DO_SWIG_NODEJS != xno; then
-  AC_MSG_CHECKING([Whether we can find node-gyp ...])
-  dnl nodejs program
-  AC_CHECK_PROGS(NODE_GYP_PROGRAM, [node-gyp], no)
-  if test x$NODE_GYP_PROGRAM = xno; then
-    if test x$DO_SWIG_NODEJS = xyes; then
-      AC_MSG_RESULT([Could not find node-gyp program in path. Not doing Node.JS bindings.])
-      DO_SWIG_NODEJS=no
-    else
-      # --with-swig-language-nodejs=maybe
-      AC_MSG_RESULT([Could not find node-gyp program in path. Not doing Node.JS bindings.])
-      DO_SWIG_NODEJS=no
-    fi
-  else
-      AC_MSG_RESULT([yes.])
-    DO_SWIG_NODEJS=yes
-  fi
-fi
-
-
-AC_SUBST(NODE_GYP_PROGRAM)
-
-AC_MSG_CHECKING([Whether to do SWIG Node.JS binding...])
-AC_MSG_RESULT($DO_SWIG_NODEJS)
-
-if test x$DO_SWIG_NODEJS = xyes; then
-  DO_AT_LEAST_ONE_SWIG=yes
-fi
-
-
-dnl SWIG support for ruby
-
-AC_ARG_WITH(swig-language-ruby,
-[  --with-swig-language-ruby  Use swig scripting language wrappers],
-[case "${withval}" in
-       yes) DO_SWIG_RUBY=yes ;;
-       no)  DO_SWIG_RUBY=no ;;
-       maybe) DO_SWIG_RUBY=maybe ;;
-       *)   AC_MSG_ERROR(Bad value ${withval} for --with-swig-language-ruby) ;;
-     esac],
-[DO_SWIG_RUBY=maybe],
-)
-ORIGINAL_DO_SWIG_RUBY=$DO_SWIG_RUBY
-
-dnl If we can't do SWIG; don't do SWIG Ruby bindings
-if test x$CAN_DO_SWIG == xno; then
-   if test -f SWIG/ruby/rbemdros_wrap.cxx; then
-     DO_SWIG_RUBY=yes;
-   else
-     DO_SWIG_RUBY=no;
-   fi
-fi
-
-AC_MSG_CHECKING([Whether we are to do ruby...])
-if test x$enable_shared != xyes; then
-   if test x$DO_SWIG_RUBY = xyes; then
-      AC_MSG_WARN([
-WARNING: You cannot do SWIG backends (in this case, Ruby)
-if you are not also doing shared libraries. This means
-that you must not use --disable-shared when wishing to
-do a SWIG backend.])
-      DO_SWIG_RUBY=no
-   else
-      AC_MSG_RESULT([no, since we are not doing shared libraries.])
-      DO_SWIG_RUBY=no
-   fi
-else
-   AC_MSG_RESULT([maybe... let's check some more...])
-fi 
-
-
-if test x$DO_SWIG_RUBY != xno; then
-  dnl ruby program
-  AC_CHECK_PROGS(RUBY, [ruby ruby2.1 ruby2.0 ruby1.9 ruby1.8 ruby1.7 ruby1.6], no)
-  if test x$RUBY = xno; then
-    if test x$DO_SWIG_RUBY = xyes; then
-      AC_MSG_RESULT([
-  Could not find ruby interpreter in path. Not doing Ruby backends.])
-    else
-      # --with-swig-language-ruby=maybe
-      DO_SWIG_RUBY=no
-    fi
-  fi
-fi
-
-
-RUBY_INCLUDES=""
-RUBY_INCLUDE_DIR=""
-if test x$DO_SWIG_RUBY != xno; then  
-  export RUBY
-  dnl Ruby include-dir
-  for d in RUBY_RBCONFIG(rubyhdrdir) `$RUBY -e '$:.join("\n")'`; do
-    if test -f $d/ruby.h; then
-      RUBY_INCLUDE_DIR=$d;
-      break;
-    fi
-  done
-
-  dnl Ruby arch header include-dir
-  for d in RUBY_RBCONFIG(rubyarchhdrdir) `$RUBY -e '$:.join("\n")'`; do
-    if test -f $d/ruby/config.h; then
-      RUBY_ARCH_INCLUDE_DIR=$d;
-      break;
-    fi
-  done
-
-
-  dnl Set RUBY_INCLUDES or report error.
-  AC_MSG_CHECKING([for ruby include directory])
-  if test -f $RUBY_INCLUDE_DIR/ruby.h; then
-    AC_MSG_RESULT($RUBY_INCLUDE_DIR);
-    RUBY_SO_DIR=RUBY_RBCONFIG(archdir)
-    RUBY_CFLAGS=RUBY_RBCONFIG(CFLAGS)
-    RUBY_CCDLFLAGS=RUBY_RBCONFIG(CCDLFLAGS)
-    archdir=RUBY_RBCONFIG(archdir)
-    arch=RUBY_RBCONFIG(arch)
-    RUBY_INCLUDES="-I$RUBY_INCLUDE_DIR -I$RUBY_INCLUDE_DIR/${arch} -I$RUBY_ARCH_INCLUDE_DIR $RUBY_CFLAGS $RUBY_CCDLFLAGS"
-    AC_SUBST(RUBY_SO_DIR)
-    DO_SWIG_RUBY=yes
-  else
-    if test x$DO_SWIG_RUBY = xyes; then
-      AC_MSG_RESULT([
-  Could not find 
-  the ruby.h include-file.
-  Please set the RUBY_INCLUDE_DIR environment variable and run ./configure
-  again.  For example, if you are running Linux, ruby.h could be in
-  RUBY_INCLUDE_DIR=/usr/lib/ruby/1.8/i386-linux.])
-      DO_SWIG_RUBY=no
-    else
-      DO_SWIG_RUBY=no
-    fi
-  fi
-fi
-AC_SUBST(RUBY_INCLUDES)
-
-AC_MSG_CHECKING([Whether to do SWIG Ruby frontend])
-AC_MSG_RESULT($DO_SWIG_RUBY)
-
-if test x$DO_SWIG_RUBY = xyes; then
-  DO_AT_LEAST_ONE_SWIG=yes
-fi
-
-
-dnl SWIG support for perl
-
-AC_ARG_WITH(swig-language-perl,
-[  --with-swig-language-perl  Use swig scripting language wrappers],
-[case "${withval}" in
-       yes) DO_SWIG_PERL=yes ;;
-       no)  DO_SWIG_PERL=no ;;
-       maybe) DO_SWIG_PERL=maybe ;;
-       *)   AC_MSG_ERROR(Bad value ${withval} for --with-swig-language-perl) ;;
-     esac],
-[DO_SWIG_PERL=maybe],
-)
-ORIGINAL_DO_SWIG_PERL=$DO_SWIG_PERL
-
-dnl If we can't do SWIG, don't do SWIG Perl bindings.
-if test x$CAN_DO_SWIG == xno; then
-   if test -f SWIG/perl/plemdros_wrap.cxx -a -f SWIG/perl/EmdrosPerl.pm; then
-     DO_SWIG_PERL=yes;
-   else
-     DO_SWIG_PERL=no;
-   fi
-fi
-
-
-AC_MSG_CHECKING([Whether we are to do perl...])
-if test x$enable_shared != xyes; then
-   if test x$DO_SWIG_PERL = xyes; then
-      AC_MSG_WARN([
-WARNING: You cannot do SWIG backends (in this case, Perl)
-if you are not also doing shared libraries. This means
-that you must not use --disable-shared when wishing to
-do a SWIG backend.])
-      DO_SWIG_PERL=no
-   else
-      AC_MSG_RESULT([no, since we are not doing shared libraries.])
-      DO_SWIG_PERL=no
-   fi
-else
-   AC_MSG_RESULT([maybe... let's check some more...])
-fi
-
-dnl We cannot do Perl on the Mac when we are doing so with
-dnl a C++11 compiler, since the Perl headers cause a compiler
-dnl error on such a compiler.
-if test x$DO_SWIG_PERL != xno; then
-   if test x$HOSTISDARWIN = xyes; then
-      if test "$HAVE_CXX11" = "1"; then
-      	 DO_SWIG_PERL=no
-	 AC_MSG_CHECKING([Whether we are to do perl...])
-      	 AC_MSG_RESULT([no, since we using C++11 on the Mac.])
-      fi
-   fi
-fi
-
-
-if test x$DO_SWIG_PERL != xno; then
-  dnl perl program
-  AC_CHECK_PROG(PERL, perl, perl, no)
-  AC_SUBST(PERL)
-  if test x$PERL = xno; then
-    if test x$DO_SWIG_PERL = xyes; then
-      AC_MSG_RESULT([
-  Could not find perl interpreter in path. Not doing Perl bindings.])
-      DO_SWIG_PERL=no
-    else
-      # --with-swig-language-perl=maybe
-      DO_SWIG_PERL=no
-    fi
-  fi    
-fi
-
-PERL_INCLUDES=""
-if test x$DO_SWIG_PERL != xno; then
-  dnl Perl include-dir
-  if test x$PERL_INCLUDE_DIR = x; then
-    PERL_INCLUDE_DIR=`perl -e 'use Config; print $Config{archlib};'`
-  fi
-
-  dnl Set PERL_INCLUDES or report error.
-  AC_MSG_CHECKING([for perl include directory])
-  perldir_found="false";
-  perldir_try_dirs="$PERL_INCLUDE_DIR $PERL_INCLUDE_DIR/CORE";
-  for d in $perldir_try_dirs; do
-    if test -f $d/perl.h; then
-      perldir_dir=$d;
-      perldir_found="true";
-      break;
-    fi;
-  done
-  if test x$perldir_found = xtrue; then
-    AC_MSG_RESULT($perldir_dir);
-    DO_SWIG_PERL=yes
-  else
-    if test x$DO_SWIG_PERL = xyes; then
-      AC_MSG_WARN([
-  Warning: Could not find 
-  the perl.h include-file.
-  Please set the PERL_INCLUDE_DIR environment variable and run ./configure
-  again.  For example, if you are running Linux, perl.h could be in
-  PERL_INCLUDE_DIR=/usr/lib/perl5/5.8.0/i386-linux-thread-multi/CORE.
-  Remember to "export" the variable if using a bourne shell.]) 
-      DO_SWIG_PERL=no
-    else
-      AC_MSG_RESULT([Not found! Not doing SWIG Perl frontend.])
-      DO_SWIG_PERL=no
-    fi
-  fi
-  PERL_INCLUDES="$PERL_INCLUDES -I$perldir_dir"
-fi
-AC_SUBST(PERL_INCLUDES)
-
-AC_MSG_CHECKING([Whether to do SWIG Perl frontend])
-AC_MSG_RESULT($DO_SWIG_PERL)
-
-if test x$DO_SWIG_PERL = xyes; then
-  DO_AT_LEAST_ONE_SWIG=yes
-fi
-
-
-dnl support for Python
-
-AC_ARG_WITH(swig-language-python,
-[  --with-swig-language-python  Use swig scripting language wrappers],
-[case "${withval}" in
-       yes) DO_SWIG_PYTHON=yes ;;
-       no)  DO_SWIG_PYTHON=no ;;
-       maybe) DO_SWIG_PYTHON=maybe ;;
-       *)   AC_MSG_ERROR(Bad value ${withval} for --with-swig-language-python) ;;
-     esac],
-[DO_SWIG_PYTHON=maybe],
-)
-ORIGINAL_DO_SWIG_PYTHON=$DO_SWIG_PYTHON
+ORIGINAL_DO_SWIG_PYTHON2=$DO_SWIG_PYTHON2
 
 dnl If we can't do SWIG, don't do SWIG Python bindings.
 if test x$CAN_DO_SWIG == xno; then
-   if test -f SWIG/python/pyemdros_wrap.cxx -a -f SWIG/python/EmdrosPy.py ; then
-     DO_SWIG_PYTHON=yes;
+   if test -f bindings/SWIG/python2/pyemdros_wrap.cxx -a -f bindings/SWIG/python2/EmdrosPy.py; then
+     DO_SWIG_PYTHON2=yes;
    else
-     DO_SWIG_PYTHON=no;
+     DO_SWIG_PYTHON2=no;
    fi
 fi
 
 
-AC_MSG_CHECKING([Whether we are to do python...])
+AC_MSG_CHECKING([Whether we are to do python2...])
 if test x$enable_shared != xyes; then
-   if test x$DO_SWIG_PYTHON = xyes; then
+   if test x$DO_SWIG_PYTHON2 = xyes; then
       AC_MSG_WARN([
-WARNING: You cannot do SWIG backends (in this case, Python)
+WARNING: You cannot do SWIG backends (in this case, Python2)
 if you are not also doing shared libraries. This means
 that you must not use --disable-shared when wishing to
 do a SWIG backend.])
-      DO_SWIG_PYTHON=no
+      DO_SWIG_PYTHON2=no
    else
       AC_MSG_RESULT([no, since we are not doing shared libraries.])
-      DO_SWIG_PYTHON=no
+      DO_SWIG_PYTHON2=no
    fi
 else
    AC_MSG_RESULT([maybe... let's check some more...])
@@ -431,94 +125,114 @@ fi
 
 
 
-if test x$DO_SWIG_PYTHON != xno; then
-  dnl python program
+if test x$DO_SWIG_PYTHON2 != xno; then
+  dnl python (2) program
   AM_PATH_PYTHON
-  AC_CHECK_PROGS(PYTHON, [python2.4 python24 python2.3 python23 python], no)
+  AC_CHECK_PROGS(PYTHON, [python2.7 python27 python2.6 python26 python2.5 python25 python2.4 python24 python2.3 python23 python], no)
   if test x$PYTHON = xno; then
-    if test x$DO_SWIG_PYTHON = xyes; then
+    if test x$DO_SWIG_PYTHON2 = xyes; then
       AC_MSG_RESULT([
-  Could not find python interpreter in path. Not doing Python bindings.]);
-      DO_SWIG_PYTHON=no;
+  Could not find python2 interpreter in path. Not doing Python2 bindings.]);
+      DO_SWIG_PYTHON2=no;
     else
-      DO_SWIG_PYTHON=no
+      DO_SWIG_PYTHON2=no
     fi
   fi    
 fi
 
-PYTHON_INCLUDES=""
-if test x$DO_SWIG_PYTHON != xno; then
+dnl Check that it really is Python 2
+if test x$DO_SWIG_PYTHON2 != xno; then
+  AC_MSG_CHECKING([Python 2 version... ])
+
+  dnl Python 2 emits the version on stderr.
+  PYTHON2_VERSION=`$PYTHON --version 2>&1`
+  AC_MSG_RESULT($PYTHON2_VERSION)
+
+  AC_MSG_CHECKING([Python 2 availability... ])
+  PYTHON2_AVAILABLE=`echo $PYTHON2_VERSION | awk '{a=2; print $a;}' | awk -F '.' '{a=1; VERNUM=$a+0; res=VERNUM == 2; print res;}'`
+
+  if test "x$PYTHON2_AVAILABLE" = "x0"; then
+     AC_MSG_WARN(["no, Python 2 not available. Can't do SWIG Python 2 bindings."])
+     DO_SWIG_PYTHON2=no
+  else
+     AC_MSG_RESULT([yes])
+  fi
+fi
+
+PYTHON2_INCLUDES=""
+if test x$DO_SWIG_PYTHON2 != xno; then
   dnl Python include-dir
-  cat >/tmp/emdros_python_include_dir.py <<EOF
+  EMDROS_PYTHON2_TMP="emdros_python_include_dir.py"
+  cat > ${EMDROS_PYTHON2_TMP} <<EOF
 from distutils import sysconfig
 print sysconfig.get_python_inc()
 EOF
-  PYTHON_INCLUDE_DIR_TMP=`$PYTHON /tmp/emdros_python_include_dir.py`
-  if test -f $PYTHON_INCLUDE_DIR_TMP/Python.h; then
-    PYTHON_INCLUDE_DIR=$PYTHON_INCLUDE_DIR_TMP;
+  PYTHON2_INCLUDE_DIR_TMP=`$PYTHON ${EMDROS_PYTHON2_TMP}`
+  if test -f $PYTHON2_INCLUDE_DIR_TMP/Python.h; then
+    PYTHON2_INCLUDE_DIR=$PYTHON2_INCLUDE_DIR_TMP;
   fi
-  rm -f /tmp/emdros_python_include_dir.py
+  rm -f ${EMDROS_PYTHON2_TMP}
 
-  dnl Set PYTHON_INCLUDES or report error.
+  dnl Set PYTHON2_INCLUDES or report error.
   AC_MSG_CHECKING([for python include directory])
-  if test -f $PYTHON_INCLUDE_DIR/Python.h; then
-    AC_MSG_RESULT($PYTHON_INCLUDE_DIR);
-    PYTHON_INCLUDES="$PYTHON_INCLUDES -I$PYTHON_INCLUDE_DIR"
+  if test -f $PYTHON2_INCLUDE_DIR/Python.h; then
+    AC_MSG_RESULT($PYTHON2_INCLUDE_DIR);
+    PYTHON2_INCLUDES="$PYTHON2_INCLUDES -I$PYTHON2_INCLUDE_DIR"
   else
-    if test x$DO_SWIG_PYTHON = xyes; then
+    if test x$DO_SWIG_PYTHON2 = xyes; then
       AC_MSG_WARN([
   Could not find the python.h include-file.
-  Please set the PYTHON_INCLUDE_DIR environment variable and run ./configure
+  Please set the PYTHON2_INCLUDE_DIR environment variable and run ./configure
   again.  For example, if you are running Linux, python.h could be in
-  PYTHON_INCLUDE_DIR=/usr/local/include/python2.2])
-      DO_SWIG_PYTHON=no
+  PYTHON2_INCLUDE_DIR=/usr/local/include/python2.2])
+      DO_SWIG_PYTHON2=no
     else
       AC_MSG_RESULT([Not found. Not doing SWIG Python backend.])
-      DO_SWIG_PYTHON=no
+      DO_SWIG_PYTHON2=no
     fi
   fi
 fi
-AC_SUBST(PYTHON_INCLUDES)
+AC_SUBST(PYTHON2_INCLUDES)
 
-if test x$DO_SWIG_PYTHON != xno; then
+if test x$DO_SWIG_PYTHON2 != xno; then
   dnl Python site-packages directory
-  cat >/tmp/emdros_python_site_packages_dir.py <<EOF
+  cat >${EMDROS_PYTHON2_TMP} <<EOF
 import sys
 print sys.prefix + "/lib/python" + sys.version[[:3]] + "/site-packages"
 EOF
-  PYTHON_SITE_PACKAGES_DIR_TMP=`$PYTHON /tmp/emdros_python_site_packages_dir.py`
-  if test -d $PYTHON_SITE_PACKAGES_DIR_TMP; then
-    PYTHON_SITE_PACKAGES_DIR=$PYTHON_SITE_PACKAGES_DIR_TMP;
+  PYTHON2_SITE_PACKAGES_DIR_TMP=`$PYTHON ${EMDROS_PYTHON2_TMP}`
+  if test -d $PYTHON2_SITE_PACKAGES_DIR_TMP; then
+    PYTHON2_SITE_PACKAGES_DIR=$PYTHON2_SITE_PACKAGES_DIR_TMP;
   fi
-  rm -f /tmp/emdros_python_site_packages_dir.py
+  rm -f ${EMDROS_PYTHON2_TMP}
 
   dnl Report and AC_SUBST or report error.
   AC_MSG_CHECKING([for python site-packages directory])
-  if test -d $PYTHON_SITE_PACKAGES_DIR; then
-    AC_MSG_RESULT($PYTHON_SITE_PACKAGES_DIR);
-    AC_SUBST(PYTHON_SITE_PACKAGES_DIR)
-    DO_SWIG_PYTHON=yes
+  if test -d $PYTHON2_SITE_PACKAGES_DIR; then
+    AC_MSG_RESULT($PYTHON2_SITE_PACKAGES_DIR);
+    AC_SUBST(PYTHON2_SITE_PACKAGES_DIR)
+    DO_SWIG_PYTHON2=yes
   else
-    if test x$DO_SWIG_PYTHON = xyes; then
+    if test x$DO_SWIG_PYTHON2 = xyes; then
       AC_MSG_WARN([
   Could not find the Python site-packages directory.
-  Please set the PYTHON_SITE_PACKAGES_DIR environment variable 
+  Please set the PYTHON2_SITE_PACKAGES_DIR environment variable 
   and rerun ./configure.  For example, if you are running Linux, 
   the Python site-packages could be in
-  PYTHON_SITE_PACKAGES_DIR=/usr/local/lib/python2.2/site-packages])
-      DO_SWIG_PYTHON=no
+  PYTHON2_SITE_PACKAGES_DIR=/usr/local/lib/python2.2/site-packages])
+      DO_SWIG_PYTHON2=no
     else
       AC_MSG_RESULT([Not found. Not doing SWIG Python frontend.])
-      DO_SWIG_PYTHON=no
+      DO_SWIG_PYTHON2=no
     fi
   fi
 fi
 
-AC_MSG_CHECKING([Whether to do SWIG Python frontend])
-AC_MSG_RESULT($DO_SWIG_PYTHON)
+AC_MSG_CHECKING([Whether to do SWIG Python2 frontend])
+AC_MSG_RESULT($DO_SWIG_PYTHON2)
 
 
-if test x$DO_SWIG_PYTHON = xyes; then
+if test x$DO_SWIG_PYTHON2 = xyes; then
   DO_AT_LEAST_ONE_SWIG=yes
 fi
 
@@ -539,7 +253,7 @@ ORIGINAL_DO_SWIG_PYTHON3=$DO_SWIG_PYTHON3
 
 dnl If we can't do SWIG, don't do SWIG Python3 bindings.
 if test x$CAN_DO_SWIG == xno; then
-   if test -f SWIG/python3/py3emdros_wrap.cxx -a -f SWIG/python3/EmdrosPy3.py; then
+   if test -f bindings/SWIG/python3/py3emdros_wrap.cxx -a -f bindings/SWIG/python3/EmdrosPy3.py; then
      DO_SWIG_PYTHON3=yes;
    else
      DO_SWIG_PYTHON3=no;
@@ -582,18 +296,37 @@ if test x$DO_SWIG_PYTHON3 != xno; then
   fi    
 fi
 
+dnl Check that it really is Python 3
+if test x$DO_SWIG_PYTHON3 != xno; then
+  AC_MSG_CHECKING([Python 3 version... ])
+
+  PYTHON3_VERSION=`$PYTHON3 --version`
+  AC_MSG_RESULT($PYTHON3_VERSION)
+
+  AC_MSG_CHECKING([Python 3 availability... ])
+  PYTHON3_AVAILABLE=`echo $PYTHON3_VERSION | awk '{a=2; print $a;}' | awk -F '.' '{a=1; VERNUM=$a+0; res= VERNUM == 3; print res;}'`
+
+  if test "x$PYTHON3_AVAILABLE" = "x0"; then
+     AC_MSG_WARN(["no, Python 3 not available. Can't do SWIG Python 3 bindings."])
+     DO_SWIG_PYTHON3=no
+  else
+     AC_MSG_RESULT([yes])
+  fi
+fi
+
 PYTHON3_INCLUDES=""
 if test x$DO_SWIG_PYTHON3 != xno; then
   dnl Python3 include-dir
-  cat >/tmp/emdros_python3_include_dir.py <<EOF
+  EMDROS_PYTHON3_TMP="emdros_python_include_dir.py"
+  cat >${EMDROS_PYTHON3_TMP} <<EOF
 from distutils import sysconfig
 print(sysconfig.get_python_inc())
 EOF
-  PYTHON3_INCLUDE_DIR_TMP=`$PYTHON3 /tmp/emdros_python3_include_dir.py`
+  PYTHON3_INCLUDE_DIR_TMP=`$PYTHON3 ${EMDROS_PYTHON3_TMP}`
   if test -f $PYTHON3_INCLUDE_DIR_TMP/Python.h; then
     PYTHON3_INCLUDE_DIR=$PYTHON3_INCLUDE_DIR_TMP;
   fi
-  rm -f /tmp/emdros_python3_include_dir.py
+  rm -f ${EMDROS_PYTHON3_TMP}
 
   dnl Set PYTHON3_INCLUDES or report error.
   AC_MSG_CHECKING([for python3 include directory])
@@ -618,15 +351,15 @@ AC_SUBST(PYTHON3_INCLUDES)
 
 if test x$DO_SWIG_PYTHON3 != xno; then
   dnl Python3 site-packages directory
-  cat >/tmp/emdros_python3_site_packages_dir.py <<EOF
+  cat >${EMDROS_PYTHON3_TMP} <<EOF
 import sys
 print(sys.prefix + "/lib/python" + sys.version[[:3]] + "/site-packages")
 EOF
-  PYTHON3_SITE_PACKAGES_DIR_TMP=`$PYTHON3 /tmp/emdros_python3_site_packages_dir.py`
+  PYTHON3_SITE_PACKAGES_DIR_TMP=`$PYTHON3 ${EMDROS_PYTHON3_TMP}`
   if test -d $PYTHON3_SITE_PACKAGES_DIR_TMP; then
     PYTHON3_SITE_PACKAGES_DIR=$PYTHON3_SITE_PACKAGES_DIR_TMP;
   fi
-  rm -f /tmp/emdros_python3_site_packages_dir.py
+  rm -f ${EMDROS_PYTHON3_TMP}
 
   dnl Report and AC_SUBST or report error.
   AC_MSG_CHECKING([for python3 site-packages directory])
@@ -675,7 +408,7 @@ ORIGINAL_DO_SWIG_JAVA=$DO_SWIG_JAVA
 
 dnl If we can't do SWIG, don't do SWIG Java bindings.
 if test x$CAN_DO_SWIG == xno; then
-   if test -f SWIG/java/libjemdros_wrap.cxx -a -f SWIG/java/jemdros.jar; then
+   if test -f bindings/SWIG/java/libjemdros_wrap.cxx -a -f bindings/SWIG/java/jemdros.jar; then
      DO_SWIG_JAVA=yes;
    else
      DO_SWIG_JAVA=no;
@@ -914,7 +647,7 @@ fi
 
 
 dnl
-dnl We need jar to build dist (see SWIG/java/Makefile.am)
+dnl We need jar to build dist (see bindings/SWIG/java/Makefile.am)
 dnl but not for normal building.
 dnl Hence, if not set above, we just choose one that fits 
 dnl the author's system, since he is the one who normally 
@@ -927,7 +660,7 @@ fi
 AC_SUBST(JAR)
 
 dnl
-dnl We need javac to build dist (see SWIG/java/Makefile.am)
+dnl We need javac to build dist (see bindings/SWIG/java/Makefile.am)
 dnl but not for normal building, except when doing
 dnl --with-swig-language-java.
 dnl Hence, if not set above, we just choose one that fits 
@@ -988,7 +721,7 @@ ORIGINAL_DO_SWIG_CSHARP=$DO_SWIG_CSHARP
 
 dnl If we can't do SWIG, don't do SWIG C-Sharp bindings.
 if test x$CAN_DO_SWIG == xno; then
-   if test -f SWIG/csharp/libcsemdros_wrap.cxx -a -f SWIG/csharp/CSharpSources.zip; then
+   if test -f bindings/SWIG/csharp/libcsemdros_wrap.cxx -a -f bindings/SWIG/csharp/CSharpSources.zip; then
      DO_SWIG_CSHARP=yes;
    else
      DO_SWIG_CSHARP=no;
@@ -1072,131 +805,6 @@ fi
 
 
 
-dnl SWIG support for php
-
-AC_ARG_WITH(swig-language-php,
-[  --with-swig-language-php  Use swig scripting language wrappers],
-[case "${withval}" in
-       yes) DO_SWIG_PHP=yes ;;
-       no)  DO_SWIG_PHP=no ;;
-       maybe) DO_SWIG_PHP=maybe ;;
-       *)   AC_MSG_ERROR(Bad value ${withval} for --with-swig-language-php) ;;
-     esac],
-[DO_SWIG_PHP=maybe],
-)
-ORIGINAL_DO_SWIG_PHP=$DO_SWIG_PHP
-
-dnl If we can't do SWIG, don't do SWIG PHP bindings.
-if test x$CAN_DO_SWIG == xno; then
-   AC_MSG_CHECKING([if we have PHP5 SWIG bindings already...])
-   if test -f SWIG/php/phpemdros_wrap.cpp -a -f SWIG/php/EmdrosPHP.php; then
-     DO_SWIG_PHP=yes;
-     AC_MSG_RESULT([yes, so we don't need swig(1).]);
-   else
-     DO_SWIG_PHP=no;
-     AC_MSG_RESULT([no, so we do need swig(1), which we don't have. Not doing SWIG PHP5 bindings.]);
-   fi
-fi
-
-
-
-AC_MSG_CHECKING([Whether we are to do php...])
-if test x$enable_shared != xyes; then
-   if test x$DO_SWIG_PHP = xyes; then
-      AC_MSG_WARN([
-WARNING: You cannot do SWIG backends (in this case, PHP)
-if you are not also doing shared libraries. This means
-that you must not use --disable-shared when wishing to
-do a SWIG backend.])
-      DO_SWIG_PHP=no
-   else
-      AC_MSG_RESULT([no, since we are not doing shared libraries.])
-      DO_SWIG_PHP=no
-   fi
-else
-   AC_MSG_RESULT([maybe... let's check some more...])
-fi
-
-
-
-
-
-
-if test x$DO_SWIG_PHP != xno; then
-  dnl php program
-
-  AC_CHECK_PROGS(PHP_CONFIG, [php-config5.6 php-config5.5 php-config5.4 php-config], [no])
-
-  AC_SUBST(PHP_CONFIG)
-  if test x$PHP_CONFIG = xno; then
-    if test x$DO_SWIG_PHP = xyes; then
-      AC_MSG_WARN([
-  Could not find php-config program in path. Not doing SWIG PHP bindings.])
-      DO_SWIG_PHP=no
-    else
-      AC_MSG_RESULT([Not found. Not doing SWIG PHP frontend.])
-      DO_SWIG_PHP=no
-    fi
-  fi    
-fi
-
-dnl Test for PHP version 5.x.  The current SWIG can't do
-dnl PHP <= 4.x or PHP >= 7.0
-if test x$DO_SWIG_PHP != xno; then
-  AC_MSG_CHECKING([PHP vernum... ])
-
-  PHP_VERNUM=`$PHP_CONFIG --vernum`
-  AC_MSG_RESULT($PHP_VERNUM)
-
-  AC_MSG_CHECKING([PHP 5 availability... ])
-  PHP5_AVAILABLE=`echo $PHP_VERNUM | awk '{a=1; VERNUM=$a+0; print VERNUM >= 50000 && VERNUM < 60000;}'`
-
-  if test "x$PHP5_AVAILABLE" = "x0"; then
-     AC_MSG_WARN(["no, PHP5 not available. Can't do SWIG PHP bindings."])
-     DO_SWIG_PHP=no
-  else
-     AC_MSG_RESULT([yes])
-  fi
-fi
-
-if test x$DO_SWIG_PHP != xno; then
-  # 
-  # If we came this far, then 'maybe' should be 'yes', unconditionally.
-  #
-  DO_SWIG_PHP=yes
-
-  dnl PHP include-dir
-  PHP_INCLUDES=`$PHP_CONFIG --includes`
-  echo "PHP_INCLUDES = $PHP_INCLUDES"
-  AC_SUBST(PHP_INCLUDES)
-
-  dnl PHP extension-dir
-  PHP_EXTENSION_DIR=`$PHP_CONFIG --extension-dir`
-  echo "PHP_EXTENSION_DIR = $PHP_EXTENSION_DIR"
-  AC_SUBST(PHP_EXTENSION_DIR)
-
-  dnl PHP libs
-  PHP_LIBS=`$PHP_CONFIG --libs`
-  echo "PHP_LIBS = $PHP_LIBS"
-  AC_SUBST(PHP_LIBS)
-
-  dnl PHP extension-dir
-  PHP_LDFLAGS=`$PHP_CONFIG --ldflags`
-  echo "PHP_LDFLAGS = $PHP_LDFLAGS"
-  AC_SUBST(PHP_LDFLAGS)
-fi
-
-AC_MSG_CHECKING([Whether to do SWIG PHP frontend])
-AC_MSG_RESULT($DO_SWIG_PHP)
-
-if test x$DO_SWIG_PHP = xyes; then
-  DO_AT_LEAST_ONE_SWIG=yes
-fi
-
-
-
-
-
 dnl SWIG support for php7
 
 AC_ARG_WITH(swig-language-php7,
@@ -1213,13 +821,10 @@ ORIGINAL_DO_SWIG_PHP7=$DO_SWIG_PHP7
 
 dnl If SWIG can't do PHP7, don't do them, unless we have the sources already.
 if test x$CAN_SWIG_DO_PHP7 == xno; then
-   AC_MSG_CHECKING([if we have PHP7 SWIG bindings already...])
    if test -f SWIG/php7/php7emdros_wrap.cxx -a -f SWIG/php7/EmdrosPHP7.php; then
      DO_SWIG_PHP7=yes;
-     AC_MSG_RESULT([yes, so we don't need swig(1).]);
    else
      DO_SWIG_PHP7=no;
-     AC_MSG_RESULT([no, so we do need swig(1), which we don't have. Not doing SWIG PHP7 bindings.]);
    fi
 fi
 
@@ -1249,7 +854,7 @@ fi
 
 if test x$DO_SWIG_PHP7 != xno; then
   dnl php7 program
-  AC_CHECK_PROGS(PHP7_CONFIG, [php-config7.2 php-config7.1 php-config7.0 php-config], no)
+  AC_CHECK_PROGS(PHP7_CONFIG, [php-config7.2 php-config7.1 php-config7.0 php-config], [no])
   AC_SUBST(PHP7_CONFIG)
   if test x$PHP7_CONFIG = xno; then
     if test x$DO_SWIG_PHP7 = xyes; then
@@ -1324,21 +929,31 @@ fi
 
 WITH_SWIG_CSHARP="--with-swig-language-csharp=$ORIGINAL_DO_SWIG_CSHARP"
 WITH_SWIG_JAVA="--with-swig-language-java=$ORIGINAL_DO_SWIG_JAVA"
-WITH_SWIG_PERL="--with-swig-language-perl=$ORIGINAL_DO_SWIG_PERL"
-WITH_SWIG_PHP="--with-swig-language-php=$ORIGINAL_DO_SWIG_PHP"
 WITH_SWIG_PHP7="--with-swig-language-php7=$ORIGINAL_DO_SWIG_PHP7"
-WITH_SWIG_PYTHON="--with-swig-language-python=$ORIGINAL_DO_SWIG_PYTHON"
+WITH_SWIG_PYTHON2="--with-swig-language-python2=$ORIGINAL_DO_SWIG_PYTHON2"
 WITH_SWIG_PYTHON3="--with-swig-language-python3=$ORIGINAL_DO_SWIG_PYTHON3"
-WITH_SWIG_RUBY="--with-swig-language-ruby=$ORIGINAL_DO_SWIG_RUBY"
 
 AC_SUBST(SWIG_PROGRAM)
 AC_SUBST(WITH_SWIG_CSHARP)
 AC_SUBST(WITH_SWIG_JAVA)
-AC_SUBST(WITH_SWIG_PERL)
-AC_SUBST(WITH_SWIG_PHP)
 AC_SUBST(WITH_SWIG_PHP7)
-AC_SUBST(WITH_SWIG_PYTHON)
+AC_SUBST(WITH_SWIG_PYTHON2)
 AC_SUBST(WITH_SWIG_PYTHON3)
-AC_SUBST(WITH_SWIG_RUBY)
+
+AM_CONDITIONAL(SWIG_WITH_CSHARP_WRAPPERS, test x$DO_SWIG_CSHARP = xyes)
+AC_SUBST(SWIG_WITH_CSHARP_WRAPPERS)
+
+AM_CONDITIONAL(SWIG_WITH_JAVA_WRAPPERS, test x$DO_SWIG_JAVA = xyes)
+AC_SUBST(SWIG_WITH_JAVA_WRAPPERS)
+
+AM_CONDITIONAL(SWIG_WITH_PHP7_WRAPPERS, test x$DO_SWIG_PHP7 = xyes)
+AC_SUBST(SWIG_WITH_PHP7_WRAPPERS)
+
+AM_CONDITIONAL(SWIG_WITH_PYTHON2_WRAPPERS, test x$DO_SWIG_PYTHON2 = xyes)
+AC_SUBST(SWIG_WITH_PYTHON2_WRAPPERS)
+
+AM_CONDITIONAL(SWIG_WITH_PYTHON3_WRAPPERS, test x$DO_SWIG_PYTHON3 = xyes)
+AC_SUBST(SWIG_WITH_PYTHON3_WRAPPERS)
+
 
 ])

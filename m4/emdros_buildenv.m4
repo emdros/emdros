@@ -1,12 +1,33 @@
 AC_DEFUN([EMDROS_BUILDENV], [
 
-EMDROS_VERSION_MAJOR=`echo $VERSION | cut -f1 -d.`
-EMDROS_VERSION_MINOR=`echo $VERSION | cut -f2 -d.`
-EMDROS_VERSION_RELEASE=`echo $VERSION | cut -f3 -d.`
- 
-AC_SUBST(EMDROS_VERSION_MAJOR)
-AC_SUBST(EMDROS_VERSION_MINOR)
-AC_SUBST(EMDROS_VERSION_RELEASE)
+dnl
+dnl Use automatically created ac variable
+dnl
+AM_CONDITIONAL(DO_SHARED_LIBS, test x$enable_shared = xyes) 
+ENABLE_SHARED=--enable-shared=$enable_shared
+
+dnl --enable-devel
+AC_ARG_ENABLE(devel, 
+[  --enable-devel          turns development on
+  --disable-devel         turns development off (default)],
+[case "$enableval" in
+       no) DEVEL=no ;;
+       *)  DEVEL=yes ;;
+ esac],
+  DEVEL=no)
+
+if test xDEVEL = xyes; then
+  ENABLE_DEVEL =--enable-devel
+  USE_AMALGAMATION="0"
+else
+  ENABLE_DEVEL=--disable-devel
+  USE_AMALGAMATION="1"
+fi
+
+AC_SUBST(USE_AMALGAMATION)
+
+AM_CONDITIONAL(DO_DEVEL, test x${DEVEL} = xyes) 
+
 
 dnl --enable-debug
 AC_ARG_ENABLE(debug, 
@@ -18,18 +39,12 @@ AC_ARG_ENABLE(debug,
  esac],
   DEBUG=yes)
 
-AX_CXX_COMPILE_STDCXX(11, noext, optional)
+if test xDEBUG = xyes; then
+  ENABLE_DEBUG=--enable-debug
+else
+  ENABLE_DEBUG=--disable-debug
+fi
 
-
-dnl --enable-universal_binary
-AC_ARG_ENABLE(universal_binary, 
-[  --enable-universal_binary     turns Mac OS X Universal Binaries on
-  --disable-universal_binary    turns Mac OS X Universal Binaries off],
-[case "$enableval" in
-       no) UNIVERSAL_BINARY=no ;;
-       *)  UNIVERSAL_BINARY=yes ;;
- esac],
-  UNIVERSAL_BINARY=no)
 
 
 
@@ -42,34 +57,7 @@ fi
 
 dnl 
 dnl Set host information
-echo "host is $host"
-SUN=0
 LINUX=0
-DARWIN=0
-BIG_ENDIAN=0
-if test "`uname -s`" = SunOS; then
-  HOSTISSUN=yes;
-  SUN=1;
-else
-  HOSTISSUN=no;
-  SUN=0;
-fi
-
-HOSTHASSPARC=`uname -p | grep "sparc"`
-if test x$HOSTHASSPARC != x; then
-  HOSTISSPARC=yes;
-  BIG_ENDIAN=1;
-else
-  HOSTISSPARC=no;
-  BIG_ENDIAN=0;
-fi
-
-HOSTHASPOWERPC=`echo $host | grep "powerpc"`
-if test x$HOSTHASPOWERPC != x; then
-  HOSTISPOWERPC=yes;
-else
-  HOSTISPOWERPC=no;
-fi
 
 HOSTHASLINUX=`echo $host | grep "linux"`
 if test x$HOSTHASLINUX != x; then
@@ -80,25 +68,7 @@ else
   LINUX=0;
 fi
 
-dnl test for Darwin
-HOSTHASDARWIN=`echo $host | grep "darwin"`
-if test x$HOSTHASDARWIN != x; then
-  HOSTISDARWIN=yes;
-  DARWIN=1;
-else
-  HOSTISDARWIN=no;
-  DARWIN=0;
-fi
-echo "HOSTISDARWIN is: $HOSTISDARWIN"
-AM_CONDITIONAL(HOSTISDARWIN, test x$HOSTISDARWIN = xyes) 
-
-dnl test Darwin major version
-if test x$HOSTISDARWIN = xyes; then
-  DARWINMAJORVERSION=`uname -r | awk -F '\\.' '{a=1; print $a;}'`
-else
-  DARWINMAJORVERSION="0"
-fi
-echo "DARWINMAJORVERSION is: $DARWINMAJORVERSION"
+AC_SUBST(LINUX)
 
 HOSTHASNETBSD=`echo $host | grep "netbsd"`
 if test x$HOSTHASNETBSD != x; then
@@ -114,41 +84,29 @@ fi
 
 
 
-dnl MACCPU and BIG_ENDIAN
-MACCPU=""
-if test x$HOSTISDARWIN = xyes; then
-  dnl BIG_ENDIAN is set to __BIG_ENDIAN__ on Darwin, 
-  dnl so as to facilitate universal compilation.
-  BIG_ENDIAN=__BIG_ENDIAN__
-  if test x$UNIVERSAL_BINARY = xyes; then
-    MACCPU=Universal
-  else
-    if test x$HOSTISPOWERPC = xyes; then
-      MACCPU=PPC
-    else
-      MACCPU=Intel
-    fi
-  fi
-fi
-AC_SUBST(MACCPU)
+
+dnl Checks for header files.
+AC_LANG([C])
+AC_HEADER_STDC
+AC_CHECK_HEADERS(limits.h malloc.h stddef.h stdlib.h string.h unistd.h)
 
 
-dnl on Darwin, the default rule in aclocal.m4 doesn't
-dnl produce the correct result, since we must not link with gcc (CC) but
-dnl with g++ (CXX).
-dnl So we hand-modify libtool.
-dnl A hack, I know, I know.
-dnl if test x$HOSTISDARWIN = xyes; then
-dnl   cat ./libtool | sed -e '/^archive_cmds/ s/CC/CXX/g;' -e '/^CC=/ a\
-dnl CXX="g++"' > ./tmplibtool;
-dnl   mv ./tmplibtool ./libtool;
-dnl   chmod 755 ./libtool;
-dnl fi
+EMDROS_VERSION_MAJOR=`echo $VERSION | cut -f1 -d.`
+EMDROS_VERSION_MINOR=`echo $VERSION | cut -f2 -d.`
+EMDROS_VERSION_RELEASE=`echo $VERSION | cut -f3 -d.`
 
-if test x$ISHOSTSUNCC = xyes; then
-  cat ./libtool | sed -e 's/CXX=\"g++\"/CXX=\"CC\"/g;' > ./tmplibtool;
-  mv ./tmplibtool ./libtool;
-  chmod 755 ./libtool;
-fi
+AC_SUBST(EMDROS_VERSION_MAJOR)
+AC_SUBST(EMDROS_VERSION_MINOR)
+AC_SUBST(EMDROS_VERSION_RELEASE)
+
+AC_SUBST(ENABLE_SHARED)
+AC_SUBST(DEBUG)
+AC_SUBST(ENABLE_DEBUG)
+AC_SUBST(DEVEL)
+AC_SUBST(ENABLE_DEVEL)
+
+dnl set make macro MAKE
+AC_PROG_MAKE_SET
+
 
 ])
