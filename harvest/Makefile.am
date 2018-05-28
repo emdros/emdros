@@ -15,8 +15,8 @@ endif
 
 lib_LTLIBRARIES = $(MAYBE_LIBS_HARVEST)
 
-libharvest_la_DEPENDENCIES = $(top_builddir)/lib/MQL/libmql.la
-libharvest_la_LIBADD = $(top_builddir)/lib/MQL/libmql.la   
+libharvest_la_DEPENDENCIES = $(top_builddir)/MQL/libmql.la
+libharvest_la_LIBADD = $(top_builddir)/MQL/libmql.la   
 libharvest_la_LDFLAGS = $(MACLDFLAGS) \
                             @SUN_LDFLAGS@ \
                             @DARWIN_LDFLAGS@
@@ -58,7 +58,7 @@ EXTRA_DIST = win32.mak mingw.mak \
 
 
 
-AM_CPPFLAGS = -I$(srcdir)
+AM_CPPFLAGS = -I$(srcdir) -I$(top_srcdir)
 
 AM_CXXFLAGS = @DEBUGFLAG@ @ADDITIONAL_CXXFLAGS@ 
 
