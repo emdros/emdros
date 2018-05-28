@@ -75,7 +75,7 @@ libemdrosguiu_a_CXXFLAGS = $(AM_CXXFLAGS) @WX_UNICODE_CXXFLAGS@
 #                          @SUN_LDFLAGS@ \
 #                          @DARWIN_LDFLAGS@ 
 
-AM_CPPFLAGS = -I$(srcdir)/../include  
+AM_CPPFLAGS = -I$(top_srcdir)/include  -I$(top_srcdir)
 
 CLEANFILES = *~ core 
 
