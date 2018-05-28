@@ -99,6 +99,9 @@
 
 	Also add emdros_amalgamation_2_importers.cpp.
 
+	* include/emdros_reserved_words.h, MQL/emdros_reserved_words.cpp:
+	Generate the latter in MQL/Makefile.am from MQL/MQL.re.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).
