@@ -30,10 +30,6 @@ EXTRA_DIST = \
 
 
 
-noinst_PROGRAMS = lemon
-
-lemon_SOURCES = lemon.c
-
 BUILT_SOURCES = $(srcdir)/../src/lempar.c 
 
 $(srcdir)/../src/lempar.c: lempar.c

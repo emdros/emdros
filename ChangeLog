@@ -106,6 +106,8 @@
 	Rename restrict() to R_restrict(), since restrict is now defined
 	in include/emdros-config.h.
 
+	* sqlite3/tool/Makefile.am: Don't build lemon here.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).
