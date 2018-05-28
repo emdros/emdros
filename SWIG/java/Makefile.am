@@ -74,7 +74,7 @@ if SWIG_WITH_JAVA_WRAPPERS
 pkglib_LTLIBRARIES = libjemdros.la
 
 
-MAYBE_BUILT_SRC += TestEmdros.java jemdros.jar 
+MAYBE_BUILT_SRC += jemdros.jar 
 
 
 TestEmdros.class: TestEmdros.java
@@ -135,7 +135,9 @@ macdist:
 
 endif # end if SWIG_WITH_JAVA_WRAPPERS
 
-BUILT_SOURCES = $(MAYBE_BUILT_SRC)
+BUILT_SOURCES = $(MAYBE_BUILT_SRC) \
+                TestEmdros.java
+
 
 
 EXTRA_DIST = libjemdros.i \

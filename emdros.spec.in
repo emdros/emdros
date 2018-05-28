@@ -145,11 +145,12 @@ This package contains development files.
 %doc %{prefix}/share/doc/emdros/emdros-progref-guide.html/*
 %doc %{prefix}/share/doc/emdros/*.pdf
 %doc doc/progref/emdros-progref-guide-@VERSION@.zip
+%doc SWIG/csharp/README-csharp
+%doc SWIG/csharp/TestEmdros.cs
 %doc SWIG/java/README-Java
 %doc SWIG/java/TestEmdros.java
-%doc SWIG/python/README-Python
-%doc SWIG/python/test.py
-%doc SWIG/python/dir.py
+%doc SWIG/python2/README-Python
+%doc SWIG/python2/test.py
 %doc SWIG/python3/README-Python3
 %doc SWIG/python3/test3.py
 %doc SWIG/php5/README-PHP

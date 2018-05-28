@@ -16,6 +16,15 @@
 	* amalgamation/Makefile.am: Use 'python2' rather than 'python', in
 	order to make rpm-build on Fedora 28 happy.
 
+	* emdros.spec.in: Include SWIG/csharp/README-csharp and
+	SWIG/csharp/TestEmdros.cs.
+
+	* SWIG/csharp/Makefile.am: Always create TestEmdros.cs, since it
+	is included in the RPM Spec file, and doesn't do any harm.
+
+	* SWIG/java/Makefile.am: Always create TestEmdros.java, since it
+	is included in the RPM Spec file, and doesn't do any harm.
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into

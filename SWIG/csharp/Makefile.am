@@ -63,8 +63,7 @@ endif
 
 if SWIG_WITH_CSHARP_WRAPPERS
 
-MAYBE_BUILT_SRC += EmdrosDotNet.dll \
-                   TestEmdros.cs 
+MAYBE_BUILT_SRC += EmdrosDotNet.dll
 
 pkglib_LTLIBRARIES = libcsemdros.la
 
@@ -110,7 +109,7 @@ macdist:
 
 endif # end if SWIG_WITH_CSHARP_WRAPPERS
 
-BUILT_SOURCES =  $(MAYBE_BUILT_SRC)
+BUILT_SOURCES =  $(MAYBE_BUILT_SRC)  TestEmdros.cs 
 
 EXTRA_DIST = libcsemdros.i \
              README-csharp win32.mak \
