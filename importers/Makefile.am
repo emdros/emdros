@@ -15,8 +15,8 @@ endif
 
 lib_LTLIBRARIES = $(MAYBE_LIBS_IMPORTERS)
 
-libemdros_importers_la_DEPENDENCIES = @UTIL_DEPS_BACKBACK@ @MQL_DEPS_BACKBACK@ @EMDF_DEPS_BACKBACK@ @BASE_DEPS_BACKBACK@ 
-libemdros_importers_la_LIBADD = @UTIL_LDADD_BACKBACK@ @MQL_LDADD_BACKBACK@ @EMDF_LDADD_BACKBACK@ @BASE_LDADD_BACKBACK@
+libemdros_importers_la_DEPENDENCIES = @UTIL_DEPS@ @MQL_DEPS@ @EMDF_DEPS@ 
+libemdros_importers_la_LIBADD = @UTIL_LDADD@ @MQL_LDADD@ @EMDF_LDADD@ 
 libemdros_importers_la_LDFLAGS = $(MACLDFLAGS) \
                             @SUN_LDFLAGS@ \
                             @DARWIN_LDFLAGS@
