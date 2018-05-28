@@ -192,7 +192,7 @@ def write_primes_h(outfilename):
 
 extern long prime_list_get_next_higher_prime(long n);
 
-#endif /* if !defined(EMDF_PRIMES_H_)
+#endif /* if !defined(EMDF_PRIMES_H_) */
 """ % {
     "boilerplate" : boilerplate,
     })

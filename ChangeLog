@@ -119,6 +119,9 @@
 
 	* include/emdf.h: #define MAX_MONAD to be 1 << 60.
 
+	* EMdF/make_primes_list.py: Finish the final "/* if
+	!defined(EMDR_PRIMES_H_)" commen twith "*/".
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).
