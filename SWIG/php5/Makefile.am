@@ -1,8 +1,8 @@
 SWIG_PROGRAM = @SWIG_PROGRAM@
 
 SWIG_PHP5_SRC = \
-      php5emdros_wrap.cxx \
-      php5emdros_wrap.h \
+      phpemdros_wrap.cpp \
+      phpemdros_wrap.h \
       php_EmdrosPHP.h \
       EmdrosPHP.php
 
@@ -11,14 +11,14 @@ SWIG_PHP5_SRC = \
 AM_CXXFLAGS = @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ @ADDITIONAL_CXXFLAGS@ @DEBUGFLAG@
 
 AM_CPPFLAGS = -I. -I$(top_srcdir) @PHP5_INCLUDES@  
-php5emdros_wrap.cxx: php5emdros.i libemdfphp.i libmqlphp.i 
-	$(SWIG_PROGRAM) -c++ -php5 php5emdros.i
+phpemdros_wrap.cpp: phpemdros.i libemdfphp.i libmqlphp.i 
+	$(SWIG_PROGRAM) -c++ -php5 phpemdros.i
 
-EmdrosPHP.php: php5emdros_wrap.cxx
+EmdrosPHP.php: phpemdros_wrap.cpp
 
-php_EmdrosPHP.h: php5emdros_wrap.cxx
+php_EmdrosPHP.h: phpemdros_wrap.cpp
 
-php5emdros_wrap.h: php5emdros_wrap.cxx
+phpemdros_wrap.h: phpemdros_wrap.cpp
 
 EmdrosPHP.ini: Makefile EmdrosPHP.ini.in
 	sed -e 's:@pkglibdir@:$(pkglibdir):g' EmdrosPHP.ini.in > $@
@@ -32,7 +32,7 @@ MAYBE_BUILT_SRC = $(SWIG_PHP5_SRC)
 
 pkglib_LTLIBRARIES = EmdrosPHP.la
 
-nodist_EmdrosPHP_la_SOURCES = php5emdros_wrap.cxx 
+nodist_EmdrosPHP_la_SOURCES = phpemdros_wrap.cpp 
 
 
 EmdrosPHP_la_LIBADD = @EMDROS_LDADD_BACKBACK@
@@ -76,7 +76,7 @@ endif # end if SWIG_WITH_PHP5_WRAPPERS
 BUILT_SOURCES = $(MAYBE_BUILT_SRC) EmdrosPHP.ini
 
 
-EXTRA_DIST = php5emdros.i \
+EXTRA_DIST = phpemdros.i \
              libemdfphp.i libmqlphp.i \
              EmdrosPHP.ini.in \
              test7.php \
@@ -86,6 +86,6 @@ EXTRA_DIST = php5emdros.i \
 CLEANFILES = *~ core config.log 
 
 DISTCLEANFILES = $(SWIG_PHP5_SRC) \
-                 php5emdros_wrap.cxx php5emdros_wrap.h \
+                 phpemdros_wrap.cpp phpemdros_wrap.h \
                  php_EmdrosPHP.h EmdrosPHP.php EmdrosPHP.ini 
 
