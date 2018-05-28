@@ -51,6 +51,26 @@
 	stuff into libemdros_importers). Now we have *.so.6.0.0 instead of
 	*.so.5.0.0.
 
+	* include/emdros-lconfig.h.in: Remove HAVE_ISTREAM and
+	HAVE_OSTREAM.  This is no longer relevant with modern compilers.
+
+	* Remove the use of HAVE_ISTREAM and HAVE_OSTREAM from the
+	following files:
+
+	EMdF/emdf_wstring.cpp
+	include/emdf_output.h
+	include/emdf_wstring.h
+	include/emdros-lconfig.h
+	include/environment_emdros.h
+	include/harvest_fts.h
+	include/layout.h
+	include/monads.h
+	include/mql_execute.h
+	include/mql_gq.h
+	include/opt.h
+	include/qdxml.h
+
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).

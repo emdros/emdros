@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 8/25-2010
- * Last update: 2/13-2018
+ * Last update: 5/28-2018
  *
  */
 /************************************************************************
@@ -90,20 +90,17 @@
 #ifndef HARVEST_FTS__H__
 #define HARVEST_FTS__H__
 
-#include "monads.h"
+#include <ostream>
 #include <string>
 #include <set>
 #include <list>
+
+#include "emdros-lconfig.h"
+#include "monads.h"
 #include "emdros_environment.h"
 #include "json_classes.h"
 #include "string_list.h"
 
-#include "emdros-lconfig.h"
-#if HAVE_OSTREAM
-#include <ostream>
-#else
-#include <ostream.h>
-#endif
 
 // "Internal" functions. Internal to the harvesting stuff anyway.
 extern void process_comma_separated_string_list(const std::string& comma_separated_string, std::list<std::string>& string_list);

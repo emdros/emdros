@@ -4,13 +4,13 @@
 // monad_ms and sets of monads
 // Ulrik Petersen
 // Created: 7/16-1999
-// Last update: 8/17-2013
+// Last update: 5/28-2018
 //
 //
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 1999-2013  Ulrik Sandborg-Petersen
+ *   Copyright (C) 1999-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -96,18 +96,16 @@
 #include "emdf_output.h"
 #include "string_func.h"
 #include "exception_emdros.h"
+#include <string>
 #include <vector>
 #include <map>
+#include <ostream>
 #endif // !defined SWIG
 #undef list
 #include "llist.h"
-#include <string>
 #include "debug.h"
-#if HAVE_OSTREAM
-#include <ostream>
-#else
-#include <ostream.h>
-#endif
+
+
 
 /**
  *\defgroup MonadSets Monad sets

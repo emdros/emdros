@@ -11,13 +11,13 @@
 // November 11, 2003.
 //
 // Created: 7/17-2005
-// Last update: 4/10-2017
+// Last update: 5/28-2018
 //
 //
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2005-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -106,14 +106,11 @@
 #include <wx/dc.h>
 #include <wx/colour.h>
 #include <wx/filesys.h>
+
+#include <ostream>
 #include <vector>
 
 #include "emdros-lconfig.h"
-#if HAVE_OSTREAM
-#include <ostream>
-#else
-#include <ostream.h>
-#endif
 
 #include "viewmetrics.h"
 

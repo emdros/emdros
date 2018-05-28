@@ -5,13 +5,13 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/19-2006
- * Last update: 23/11-2016
+ * Last update: 5/28-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2006-2016  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2006-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -89,16 +89,11 @@
 #include <string>
 #include <map>
 #include <list>
+#include <iostream>
+#include <ostream>
 #include "emdf_enums.h"
 
 #include "emdros-lconfig.h"
-#if HAVE_OSTREAM
-#include <ostream>
-#else
-#include <ostream.h>
-#endif
-
-#include <iostream>
 
 typedef struct option_t {
 	std::string short_version; /**< For options with one -. */

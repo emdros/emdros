@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 3/28-2001
- * Last update: 4/11-2017
+ * Last update: 5/28-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -92,26 +92,12 @@
 #ifndef MQL_EXECUTE__H__
 #define MQL_EXECUTE__H__
 
-#ifdef __DJGPP__
-#include "elconf.h"
-#else
-#include "emdros-lconfig.h"
-#endif
-
-#if HAVE_ISTREAM
 #include <istream>
-#else
-#include <istream.h>
-#endif
-
 #include <string>
-#ifdef __DJGPP__
-#include "mql_ex~1.h"
-#include "mql_ex~2.h"
-#include "mql_ex~3.h"
-#else
+
+#include "emdros-lconfig.h"
 #include "mql_execution_environment.h"
-#endif
+
 
 /**
  * \defgroup MQLExecute MQL Execution functions

@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 6/23-2007
- * Last update: 6/7-2011
+ * Last update: 5/28-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2011  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -94,11 +94,8 @@
 #include "emdros-lconfig.h"
 #include "arena.h"
 
-#if HAVE_ISTREAM
 #include <istream>
-#else
-#include <istream.h>
-#endif
+
 
 class MQLGQScanner {
 protected:

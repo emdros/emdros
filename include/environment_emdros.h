@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 3/14-2003
- * Last update: 8/17-2013
+ * Last update: 5/28-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2003-2013  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2003-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -96,17 +96,8 @@
 #include "emdros-lconfig.h"
 #include "emdf_enums.h"
 
-#if HAVE_ISTREAM
 #include <istream>
-#else
-#include <istream.h>
-#endif
-
-#if HAVE_OSTREAM
 #include <ostream>
-#else
-#include <ostream.h>
-#endif
 
 #include "emdfdb.h"
 #include "table.h"
