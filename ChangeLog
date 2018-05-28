@@ -8,6 +8,9 @@
 	* SWIG/csharp/libcsemdros.i: Add harvest library.  Don't include
 	libemdf.i and libmql.i, which are removed.
 
+	* SWIG/java/libjemdros.i: Add harvest library. Don't include
+	libemdf.i and libmql.i, which are removed.
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into
