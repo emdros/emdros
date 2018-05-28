@@ -6,13 +6,13 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 11/5-2017
+ * Last update: 5/28-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2005-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -864,7 +864,7 @@ void MainFrame::OnToolsConfigure(wxCommandEvent& event)
 				     wxT("Information"),
 				     wxOK|wxCENTRE|wxICON_INFORMATION);
 		}
-	} catch (EmdrosException e) {
+	} catch (EmdrosException& e) {
 		wxMessageBox(wxString(e.what().c_str(), wxConvUTF8),
 			     wxT("Information"),
 			     wxOK|wxCENTRE|wxICON_INFORMATION);

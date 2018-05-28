@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 4/9-2005
- * Last update: 11/10-2017
+ * Last update: 5/28-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2005-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -119,7 +119,7 @@ int exec_stream(std::istream *pStrin, EmdrosWrapper *pEW)
 			}
 			pEE->clean();
 		}
-	} catch (EMdFDBException e) {
+	} catch (EMdFDBException& e) {
 		nResult = 3;
 		(*pOut) << "ERROR: EMdFDBException (Database error)...";
 		pOut->newline();
@@ -131,25 +131,25 @@ int exec_stream(std::istream *pStrin, EmdrosWrapper *pEW)
 		pOut->newline();
 		(*pOut) << "Program aborted.";
 		pOut->endl();
-	} catch (BadMonadsException e) {
+	} catch (BadMonadsException& e) {
 		nResult = 3;
 		(*pOut) << e.what();
 		pOut->newline();
 		(*pOut) << "Program aborted.";
 		pOut->endl();
-	} catch (WrongCharacterSetException e) {
+	} catch (WrongCharacterSetException& e) {
 		nResult = 3;
 		(*pOut) << e.what();
 		pOut->newline();
 		(*pOut) << "Program aborted.";
 		pOut->endl();
-	} catch (EMdFOutputException e) {
+	} catch (EMdFOutputException& e) {
 		nResult = 3;
 		(*pOut) << e.what();
 		pOut->newline();
 		(*pOut) << "Program aborted.";
 		pOut->endl();
-	} catch (EmdrosException e) {
+	} catch (EmdrosException& e) {
 		nResult = 3;
 		(*pOut) << e.what();
 		pOut->newline();
