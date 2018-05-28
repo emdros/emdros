@@ -3,9 +3,9 @@
  *
  * A class to parse and hold an INI-file-like configuration file.
  *
- * Ulrik Petersen
+ * Ulrik Sandborg-Petersen
  * Created: 4/9-2005
- * Last update: 4/10-2017
+ * Last update: 11/4-2017
  *
  */
 /************************************************************************
@@ -83,14 +83,15 @@
  *
  **************************************************************************/
 
-#include <conf_ini.h>
 #include <cstring>
 #include <fstream>
 #include <algorithm>
 #include <iostream>
 #include <memory>
 
-#include <string_func.h>
+#include "conf_ini.h"
+#include "string_func.h"
+#include "pcre2_emdros.h"
 
 #define MAX_LINE (1024)
 
@@ -99,111 +100,123 @@ ConfigurationINI::ConfigurationINI(std::istream *cf)
 	// Any keys before the first section go in the section "".
 	m_cur_section = "";
 	
-	const char *error;
-	int erroffset;
+	int error;
+	PCRE2_SIZE erroffset;
 
-	// Assignment pattern section
-	pcre *assignmentpattern_section = 
-		pcre_compile("\\[([^\\]]+)\\]",  /* the pattern */
-			     0,                /* default options */
-			     &error,           /* for error message */
-			     &erroffset,       /* for error offset */
-			     NULL);            /* use default character tables */
-	pcre_extra *assignpat_section_extra = NULL;
-	assignpat_section_extra = pcre_study(assignmentpattern_section, 0, &error);
+	// Section pattern
+	#define CONF_INI_SECTION_PATTERN  "\\[([^\\]]+)\\]"
+	pcre2_code *section_pattern =
+		pcre2_compile((PCRE2_SPTR) CONF_INI_SECTION_PATTERN,  /* the pattern */
+			      sizeof(CONF_INI_SECTION_PATTERN)-1,
+			      0,                /* default options */
+			      &error,           /* for error message */
+			      &erroffset,       /* for error offset */
+			      NULL);            /* use default character tables */
+		
+	pcre2_match_data *section_match_data = pcre2_match_data_create_from_pattern(section_pattern, NULL);
 
 	// Assignment pattern
-	pcre *assignmentpattern = 
-		pcre_compile("([^ \\t\\n=]*)\\s*=\\s*([^\\r\\n]+)",  /* the pattern */
-			     0,                /* default options */
-			     &error,           /* for error message */
-			     &erroffset,       /* for error offset */
-			     NULL);            /* use default character tables */
-	pcre_extra *assignpat_extra = NULL;
-	assignpat_extra = pcre_study(assignmentpattern, 0, &error);
+#define CONF_INI_ASSIGNMENT_PATTERN "([^ \\t\\n=]*)\\s*=\\s*([^\\r\\n]+)"
+	pcre2_code *assignment_pattern =
+		pcre2_compile((PCRE2_SPTR) CONF_INI_ASSIGNMENT_PATTERN,  /* the pattern */
+			      sizeof(CONF_INI_ASSIGNMENT_PATTERN)-1,
+			      0,                /* default options */
+			      &error,           /* for error message */
+			      &erroffset,       /* for error offset */
+			      NULL);            /* use default character tables */
 
+	pcre2_match_data *assignment_match_data = pcre2_match_data_create_from_pattern(assignment_pattern, NULL);
+	
 	// Comment pattern
-	pcre *commentpattern = 
-		pcre_compile("([^#]*)#.*",  /* the pattern */
-			     0,                /* default options */
-			     &error,           /* for error message */
-			     &erroffset,       /* for error offset */
-			     NULL);            /* use default character tables */
-	pcre_extra *commentpat_extra = NULL;
-	commentpat_extra = pcre_study(commentpattern, 0, &error);
+#define CONF_INI_COMMENT_PATTERN "([^#]*)#.*"
+	pcre2_code *comment_pattern = 
+		pcre2_compile((PCRE2_SPTR) CONF_INI_COMMENT_PATTERN,  /* the pattern */
+			      sizeof(CONF_INI_COMMENT_PATTERN)-1,
+			      0,               /* default options */
+			      &error,           /* for error message */
+			      &erroffset,       /* for error offset */
+			      NULL);            /* use default character tables */
+	pcre2_match_data *comment_match_data = pcre2_match_data_create_from_pattern(comment_pattern, NULL);
+
 	while (!cf->eof()) {
 		char szLine[MAX_LINE];
 		cf->getline(szLine, MAX_LINE);
-		int ovector[30];
-		int rc = 
-			pcre_exec(commentpattern,  
-				  commentpat_extra,    
-				  szLine,  /* the subject string */
-				  strlen(szLine),  /* the length of the subject string */
-				  0,       /* start at offset 0 in the subject */
-				  0,       /* default options */
-				  ovector, /* vector of integers for substring information */
-				  30);     /* number of elements in the vector (NOT size in bytes) */
+		int rc = pcre2_match(comment_pattern,  
+				     (PCRE2_SPTR) szLine,  /* the subject string */
+				     (PCRE2_SIZE) strlen(szLine),  /* the length of the subject string */
+				     0,       /* start at offset 0 in the subject */
+				     0,       /* default options */
+				     comment_match_data,
+				     NULL);   /* use default match context. */
 		// Remove comment
 		char szLineWOutComment[MAX_LINE];
 		if (rc >= 0) {
-			pcre_copy_substring(szLine, ovector, (rc == 0) ? 10 : rc, 
-					    1, /* String number. */
-					    szLineWOutComment, MAX_LINE);
+			PCRE2_SIZE nLineLength = MAX_LINE;
+			pcre2_substring_copy_bynumber(comment_match_data,
+						       1, /* String number. */
+						       (PCRE2_UCHAR*) szLineWOutComment,
+						       &nLineLength);
 		} else {
 			strcpy(szLineWOutComment, szLine);
 		}
-
-		rc = pcre_exec(assignmentpattern_section,  
-			       assignpat_section_extra,    
-			       szLineWOutComment,  /* the subject string */
-			       strlen(szLineWOutComment),  /* the length of the subject string */
-			       0,       /* start at offset 0 in the subject */
-			       0,       /* default options */
-			       ovector, /* vector of integers for substring information */
-			       30);     /* number of elements in the vector (NOT size in bytes) */
-    
+		
+		rc = pcre2_match(section_pattern,  
+				 (PCRE2_SPTR) szLineWOutComment,  /* the subject string */
+				 strlen(szLineWOutComment),  /* the length of the subject string */
+				 0,       /* start at offset 0 in the subject */
+				 0,       /* default options */
+				 section_match_data,
+				 NULL);   /* use default match context. */
+		
 		if (rc >= 0) {
-			char szSection[MAX_LINE];
-			pcre_copy_substring(szLineWOutComment, ovector, (rc == 0) ? 10 : rc, 
-					    1, /* String number. */
-					    szSection, MAX_LINE);
-      
-			m_cur_section = std::string(szSection);
-		} else {
-			rc = pcre_exec(assignmentpattern,  
-				       assignpat_extra,    
-				       szLineWOutComment,  /* the subject string */
-				       strlen(szLineWOutComment),  /* the length of the subject string */
-				       0,       /* start at offset 0 in the subject */
-				       0,       /* default options */
-				       ovector, /* vector of integers for substring information */
-				       30);     /* number of elements in the vector (NOT size in bytes) */
+			PCRE2_UCHAR szSection[MAX_LINE];
+			PCRE2_SIZE nSectionLength = MAX_LINE;
 			
+			pcre2_substring_copy_bynumber(section_match_data,
+						      1, /* String number. */
+						      (PCRE2_UCHAR*) szSection,
+						      &nSectionLength);
+			m_cur_section = std::string((const char*) szSection);
+		} else {
+			rc = pcre2_match(assignment_pattern,  
+					 (PCRE2_SPTR) szLineWOutComment,  /* the subject string */
+					 strlen(szLineWOutComment),  /* the length of the subject string */
+					 0,       /* start at offset 0 in the subject */
+					 0,       /* default options */
+					 assignment_match_data,
+					 NULL);   /* use default match context. */
+		
 			if (rc >= 0) {
 				char szKey[MAX_LINE];
+				PCRE2_SIZE nKeyLength = MAX_LINE;
 				char szValue[MAX_LINE];
-				pcre_copy_substring(szLineWOutComment, ovector, (rc == 0) ? 10 : rc, 
-						    1, /* String number. */
-						    szKey, MAX_LINE);
-				pcre_copy_substring(szLineWOutComment, ovector, (rc == 0) ? 10 : rc, 
-						    2, /* String number. */
-						    szValue, MAX_LINE);
+				PCRE2_SIZE nValueLength = MAX_LINE;
+				pcre2_substring_copy_bynumber(assignment_match_data,
+							      1, /* String number. */
+							      (PCRE2_UCHAR*) szKey,
+							      &nKeyLength);
+				pcre2_substring_copy_bynumber(assignment_match_data,
+							      2, /* String number. */
+							      (PCRE2_UCHAR*) szValue,
+							      &nValueLength);
 				
-                std::string sValue = szValue;
-                sValue.erase(sValue.find_last_not_of(" \n\r\t")+1); // Remove trailing whitespace
+
+				std::string sValue = szValue;
+				sValue.erase(sValue.find_last_not_of(" \n\r\t")+1); // Remove trailing whitespace
 
 				addKeyValuePair(std::string(szKey), sValue);
 			}
 		}
 	}
-	pcre_free(assignmentpattern_section);
-	pcre_free(assignpat_section_extra);
-	pcre_free(assignmentpattern);
-	pcre_free(assignpat_extra);
-	pcre_free(commentpattern);
-	pcre_free(commentpat_extra);
+	pcre2_code_free(section_pattern);
+	pcre2_code_free(assignment_pattern);
+	pcre2_code_free(comment_pattern);
+	pcre2_match_data_free(section_match_data);
+	pcre2_match_data_free(assignment_match_data);
+	pcre2_match_data_free(comment_match_data);
 }
+
+#undef MAX_LINE
 
 void ConfigurationINI::addKeyValuePair(const std::string& key, const std::string& value)
 {

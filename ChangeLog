@@ -17,6 +17,21 @@
 
 	* emdros.spec.in, Makefile.am: Install emdros.pc.
 
+	* PCRE: Upgrade to PCRE2.
+
+	* The following Emdros source code files were changed as part of
+	the upgrade to PCRE2:
+
+	- Makefile.am
+	- m4/emdros_pcre.m4
+	- util/conf.cpp
+	- util/conf_ini.cpp
+	- MQL/mql_query.cpp
+	- include/Makefile.am
+	- include/conf.h
+	- include/conf_ini.h
+	- include/mql_query.h
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 5/11-2018
+ * Last update: 5/28-2018
  *
  */
 /************************************************************************
@@ -1520,7 +1520,8 @@ FeatureComparison::FeatureComparison(std::string* feature_name,
 	  m_in_enum_list(0),
 	  m_in_integer_list(0),
 	  m_in_enum_const_cache(0),
-	  m_pcre(NULL), m_pcre_extra(NULL), 
+	  m_pcre2_code(NULL),
+	  m_pcre2_match_data(NULL),
 	  m_ovector(0), m_ovectorsize(0),
 	  m_feature_index(-1), 
 	  m_bCanBePreQueried(false),
@@ -1539,7 +1540,8 @@ FeatureComparison::FeatureComparison(std::string* feature_name,
 	  m_in_enum_list(0),
 	  m_in_integer_list(0),
 	  m_in_enum_const_cache(0),
-	  m_pcre(NULL), m_pcre_extra(NULL), 
+	  m_pcre2_code(NULL),
+	  m_pcre2_match_data(NULL),
 	  m_ovector(0), m_ovectorsize(0),
 	  m_feature_index(-1), 
 	  m_bCanBePreQueried(false),
@@ -1568,7 +1570,8 @@ FeatureComparison::FeatureComparison(std::string* feature_name,
 	  m_in_enum_list(0),
 	  m_in_integer_list(0),
 	  m_in_enum_const_cache(0),
-	  m_pcre(NULL), m_pcre_extra(NULL), 
+	  m_pcre2_code(NULL),
+	  m_pcre2_match_data(NULL),
 	  m_ovector(0), m_ovectorsize(0),
 	  m_feature_index(-1), 
 	  m_bCanBePreQueried(false),
@@ -1596,10 +1599,15 @@ FeatureComparison::~FeatureComparison()
 	delete m_in_enum_const_cache;
 
 	// Regular expressions
-	if (m_pcre != NULL)
-		pcre_free(m_pcre);
-	if (m_pcre_extra != NULL)
-		pcre_free(m_pcre_extra);
+
+	// Regular expressions
+	if (m_pcre2_code != NULL) {
+		pcre2_code_free(m_pcre2_code);
+	}
+	if (m_pcre2_match_data != NULL) {
+		pcre2_match_data_free(m_pcre2_match_data);
+	}
+
 	delete[] m_ovector;
 }
 
@@ -1619,30 +1627,27 @@ void FeatureComparison::weedFeatureConstraints(MQLExecEnv *pEE, bool& bResult, n
 			//
 			// Compile
 			//
-			const char *pcre_error;
-			int error_offset;
-			int options = 0;
-			m_pcre = pcre_compile(m_value->getString().c_str(), options, &pcre_error, &error_offset, NULL);
-			if (m_pcre == NULL) {
-				pEE->pError->appendError(std::string("Error compiling regular expression.  PCRE reported:\n") + pcre_error + "\n");
-				pEE->pError->appendError(std::string("Error occured at characterposition ") + int2string(error_offset) + " in the pattern.\n");
-				bResult = false;
-				return;
-			}
-			//
-			// Study
-			//
-			options = 0;
-			m_pcre_extra = pcre_study(m_pcre, options, &pcre_error);
-			if (pcre_error != NULL) {
-				pEE->pError->appendError(std::string("Error studying regular expression.  PCRE reported:\n") + pcre_error + "\n");
+			int pcre2_error;
+			PCRE2_SIZE error_offset;
+			uint32_t options = 0;
+			m_pcre2_code = pcre2_compile((PCRE2_SPTR8) (m_value->getString().c_str()), m_value->getString().length(), options, &pcre2_error, &error_offset, NULL);
+			if (m_pcre2_code == NULL) {
+				const PCRE2_SIZE error_buffer_length = 256;
+				PCRE2_UCHAR8 pcre2_error_buffer[error_buffer_length];
+				pcre2_get_error_message(pcre2_error, &(pcre2_error_buffer[0]), error_buffer_length);
+				pEE->pError->appendError(std::string("Error compiling regular expression.  PCRE2 reported:\n") + std::string((const char*) pcre2_error_buffer) + "\n");
+				pEE->pError->appendError(std::string("Error occured at characterposition ") + long2string(error_offset) + " in the pattern.\n");
 				bResult = false;
 				return;
 			}
 
+			m_pcre2_match_data = pcre2_match_data_create_from_pattern(m_pcre2_code, NULL);
+
+			
 			// 
 			// Make ovector
 			//
+			/*
 			int capture_count;
 			int fullinfo_return_value;
 			if ((fullinfo_return_value = pcre_fullinfo(m_pcre, m_pcre_extra, PCRE_INFO_CAPTURECOUNT, &capture_count)) != 0) {
@@ -1655,6 +1660,7 @@ void FeatureComparison::weedFeatureConstraints(MQLExecEnv *pEE, bool& bResult, n
 				m_ovectorsize = (capture_count + 1)*3;
 				m_ovector = new int[m_ovectorsize];
 			}
+			*/
 
 			// If we got this far, there were no compiler errors
 			bResult = true;
@@ -2267,23 +2273,24 @@ bool FeatureComparison::compare(MQLExecEnv *pEE, const EMdFValue *left_value, No
 		}
 		break;
 	case kTilde:
+	case kNotTilde:		
 		right_value = m_value->getAsString(pEE, pNonParentORDSolution);
 		left_value_str = left_value->getString();
-		pcre_result = pcre_exec(m_pcre, m_pcre_extra, left_value_str.c_str(), left_value_str.length(), start_offset, 0, m_ovector, m_ovectorsize);
-		if (pcre_result <= 0) {
+		pcre2_result = pcre2_match(m_pcre2_code, // Compiled code
+					   (PCRE2_SPTR) left_value_str.c_str(), // Subject
+					   left_value_str.length(), // Subject length
+					   0, // Start at offset 0 in the subject
+					   0, // default options
+					   m_pcre2_match_data, // Block in which to store the result
+					   NULL); // Use default match context.
+		if (pcre2_result < 0) {
 			bResult = false;
 		} else {
 			bResult = true;
 		}
-		break;
-	case kNotTilde:
-		right_value = m_value->getAsString(pEE, pNonParentORDSolution);
-		left_value_str = left_value->getString();
-		pcre_result = pcre_exec(m_pcre, m_pcre_extra, left_value_str.c_str(), left_value_str.length(), start_offset, 0, m_ovector, m_ovectorsize);
-		if (pcre_result <= 0) {
-			bResult = true;
-		} else {
-			bResult = false;
+		// Negate the result if we are doing kNotTilde
+		if (m_comparison_op == kNotTilde) {
+			bResult = !bResult;
 		}
 		break;
 	default:

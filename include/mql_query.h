@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 5/11-2018
+ * Last update: 5/28-2018
  *
  */
 /************************************************************************
@@ -105,7 +105,7 @@
 // emdf.h also includes emdros-lconfig.h
 #include "emdf.h"
 // So that this will be defined
-#include "pcre_emdros.h"
+#include "pcre2_emdros.h"
 #include "infos.h"
 #include "emdf_enums.h"
 #include "mql_enums.h"
@@ -507,8 +507,8 @@ class FeatureComparison {
 	std::string m_in_integer_list_as_string;
 	EnumConstCache *m_in_enum_const_cache;
 	std::list<EnumConstInfo> m_in_enum_const_info_list;
-	pcre *m_pcre;
-	pcre_extra *m_pcre_extra;
+	pcre2_code *m_pcre2_code;
+	pcre2_match_data *m_pcre2_match_data;
 	int *m_ovector;
 	int m_ovectorsize;
 	int m_feature_index;

@@ -3,15 +3,15 @@
  *
  * A class to parse and hold a configuration file.
  *
- * Ulrik Petersen
+ * Ulrik Sandborg-Petersen
  * Created: 4/9-2005
- * Last update: 1/27-2007
+ * Last update: 11/4-2017
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2007  Ulrik Petersen
+ *   Copyright (C) 2005-2017  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -86,22 +86,12 @@
 #ifndef CONFIGURATION__H__
 #define CONFIGURATION__H__
 
-#include "pcre_emdros.h"
 #include <string>
 #include <map>
 #include <set>
 #include <vector>
-#include "emdros-lconfig.h"
-#if HAVE_ISTREAM
 #include <istream>
-#else
-#include <istream.h>
-#endif
-#if HAVE_OSTREAM
 #include <ostream>
-#else
-#include <ostream.h>
-#endif
 
 
 typedef std::vector<std::string> StringVec;

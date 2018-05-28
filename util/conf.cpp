@@ -3,15 +3,15 @@
  *
  * A class to parse and hold a configuration file.
  *
- * Ulrik Petersen
+ * Ulrik Sandborg-Petersen
  * Created: 4/9-2005
- * Last update: 7/16-2008
+ * Last update: 11/4-2017
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2008  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2005-2017  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -83,90 +83,103 @@
  *
  **************************************************************************/
 
-#include <conf.h>
 #include <cstring>
 #include <fstream>
 #include <algorithm>
 #include <iostream>
 //#include "myos.h"
 
+#include "conf.h"
+#include "pcre2_emdros.h"
+
+
 
 #define MAX_LINE (1024)
 
 Configuration::Configuration(std::istream *cf)
 {
-  const char *error;
-  int erroffset;
+	int error;
+	PCRE2_SIZE erroffset;
 
-  // Assignment pattern
-  pcre *assignmentpattern = 
-    pcre_compile("([^ \\t\\n=]*)\\s*=\\s*([0-9A-Za-z_\\.\\-]*(\"[^\"\\n]*\")?)",  /* the pattern */
-		   0,                /* default options */
-		   &error,           /* for error message */
-		   &erroffset,       /* for error offset */
-		   NULL);            /* use default character tables */
-  pcre_extra *assignpat_extra = NULL;
-  assignpat_extra = pcre_study(assignmentpattern, 0, &error);
+	// Assignment pattern
+#define CONF_ASSIGNMENT_PATTERN "([^ \\t\\n=]*)\\s*=\\s*([0-9A-Za-z_\\.\\-]*(\"[^\"\\n]*\")?)"
+	pcre2_code *assignmentpattern = 
+		pcre2_compile((PCRE2_SPTR) CONF_ASSIGNMENT_PATTERN,  /* the pattern */
+			      sizeof(CONF_ASSIGNMENT_PATTERN)-1,
+			      0,                /* default options */
+			      &error,           /* for error message */
+			      &erroffset,       /* for error offset */
+			      NULL);            /* use default character tables */
 
-  // Comment pattern
-  pcre *commentpattern = 
-    pcre_compile("([^#]*)#.*",  /* the pattern */
-		 0,                /* default options */
-		 &error,           /* for error message */
-		 &erroffset,       /* for error offset */
-		 NULL);            /* use default character tables */
-  pcre_extra *commentpat_extra = NULL;
-  commentpat_extra = pcre_study(commentpattern, 0, &error);
-  while (!cf->eof()) {
-    char szLine[MAX_LINE];
-    cf->getline(szLine, MAX_LINE);
-    int ovector[30];
-    int rc = 
-      pcre_exec(commentpattern,  
-		commentpat_extra,    
-		szLine,  /* the subject string */
-		strlen(szLine),  /* the length of the subject string */
-		0,       /* start at offset 0 in the subject */
-		0,       /* default options */
-		ovector, /* vector of integers for substring information */
-		30);     /* number of elements in the vector (NOT size in bytes) */
-    // Remove comment
-    char szLineWOutComment[MAX_LINE];
-    if (rc >= 0) {
-      pcre_copy_substring(szLine, ovector, (rc == 0) ? 10 : rc, 
-			  1, /* String number. */
-			  szLineWOutComment, MAX_LINE);
-    } else {
-      strcpy(szLineWOutComment, szLine);
-    }
-    
-    rc = pcre_exec(assignmentpattern,  
-		   assignpat_extra,    
-		   szLineWOutComment,  /* the subject string */
-		   strlen(szLineWOutComment),  /* the length of the subject string */
-		   0,       /* start at offset 0 in the subject */
-		   0,       /* default options */
-		   ovector, /* vector of integers for substring information */
-		   30);     /* number of elements in the vector (NOT size in bytes) */
-    
-    if (rc >= 0) {
-      char szKey[MAX_LINE];
-      char szValue[MAX_LINE];
-      pcre_copy_substring(szLineWOutComment, ovector, (rc == 0) ? 10 : rc, 
-			  1, /* String number. */
-			  szKey, MAX_LINE);
-      pcre_copy_substring(szLineWOutComment, ovector, (rc == 0) ? 10 : rc, 
-			  2, /* String number. */
-			  szValue, MAX_LINE);
-      
-      addKeyValuePair(std::string(szKey), std::string(szValue));
-    }
-  }
-  pcre_free(assignmentpattern);
-  pcre_free(assignpat_extra);
-  pcre_free(commentpattern);
-  pcre_free(commentpat_extra);
+	pcre2_match_data *assignment_match_data = pcre2_match_data_create_from_pattern(assignmentpattern, NULL);
+	
+	
+	// Comment pattern
+#define CONF_COMMENT_PATTERN "([^#]*)#.*"
+	pcre2_code *commentpattern = 
+		pcre2_compile((PCRE2_SPTR) CONF_COMMENT_PATTERN,  /* the pattern */
+			      sizeof(CONF_COMMENT_PATTERN)-1,
+			      0,               /* default options */
+			      &error,           /* for error message */
+			      &erroffset,       /* for error offset */
+			      NULL);            /* use default character tables */
+	pcre2_match_data *comment_match_data = pcre2_match_data_create_from_pattern(commentpattern, NULL);
+	
+	while (!cf->eof()) {
+		char szLine[MAX_LINE];
+		cf->getline(szLine, MAX_LINE);
+
+		int rc = pcre2_match(commentpattern,  
+				     (PCRE2_SPTR) szLine,  /* the subject string */
+				     (PCRE2_SIZE) strlen(szLine),  /* the length of the subject string */
+				     0,       /* start at offset 0 in the subject */
+				     0,       /* default options */
+				     comment_match_data,
+				     NULL);   /* use default match context. */
+		// Remove comment
+		char szLineWOutComment[MAX_LINE];
+		if (rc >= 0) {
+			PCRE2_SIZE nLineLength = MAX_LINE;
+			pcre2_substring_copy_bynumber(comment_match_data,
+						       1, /* String number. */
+						       (PCRE2_UCHAR*) szLineWOutComment,
+						       &nLineLength);
+		} else {
+			strcpy(szLineWOutComment, szLine);
+		}
+		
+		rc = pcre2_match(assignmentpattern,  
+				 (PCRE2_SPTR) szLineWOutComment,  /* the subject string */
+				 strlen(szLineWOutComment),  /* the length of the subject string */
+				 0,       /* start at offset 0 in the subject */
+				 0,       /* default options */
+				 assignment_match_data,
+				 NULL);   /* use default match context. */
+		
+		if (rc >= 0) {
+			char szKey[MAX_LINE];
+			PCRE2_SIZE nKeyLength = MAX_LINE;
+			char szValue[MAX_LINE];
+			PCRE2_SIZE nValueLength = MAX_LINE;
+			pcre2_substring_copy_bynumber(assignment_match_data,
+						       1, /* String number. */
+						       (PCRE2_UCHAR*) szKey,
+						       &nKeyLength);
+			pcre2_substring_copy_bynumber(assignment_match_data,
+						       2, /* String number. */
+						       (PCRE2_UCHAR*) szValue,
+						       &nValueLength);
+
+			addKeyValuePair(std::string(szKey), std::string(szValue));
+		}
+	}
+	pcre2_code_free(assignmentpattern);
+	pcre2_match_data_free(assignment_match_data);
+	pcre2_code_free(commentpattern);
+	pcre2_match_data_free(comment_match_data);
 }
+
+#undef MAX_LINE
 
 void Configuration::addKeyValuePair(const std::string& key, const std::string& value)
 {

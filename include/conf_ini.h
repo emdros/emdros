@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen and Claus Tøndering
  * Created: 4/9-2005
- * Last update: 4/10-2017
+ * Last update: 11/4-2017
  *
  */
 /************************************************************************

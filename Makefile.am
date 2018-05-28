@@ -37,7 +37,7 @@ EXTRA_DIST = \
 
 
 
-SUBDIRS = djgpp doc pcre zlib sqlite3 include \
+SUBDIRS = djgpp doc pcre2 zlib sqlite3 include \
           EMdF MQL harvest amalgamation util $(MAYBE_WX) \
           src tests examples \
 	  SWIG win32
@@ -178,7 +178,7 @@ endif
 	cd util ; make macdist MACDISTDIR=../$(MACDISTDIR) ; cd ..
 	cd wx ; make macdist MACDISTDIR=../$(MACDISTDIR) ; cd ..
 	cd sqlite3 ; make macdist MACDISTDIR=../$(MACDISTDIR) ; cd ..
-	cd pcre ; make macdist MACDISTDIR=../$(MACDISTDIR) ; cd ..
+	cd pcre2 ; make macdist MACDISTDIR=../$(MACDISTDIR) ; cd ..
 	cd tests ; make macdist MACDISTDIR=../$(MACDISTDIR) ; cd ..
 	cd include ; make macdist MACDISTDIR=../$(MACDISTDIR) ; cd ..
 	cp COPYING $(MACDISTDIR)/COPYING.txt
