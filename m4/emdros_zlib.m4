@@ -41,12 +41,12 @@ else
 fi
 
 if test "x$USE_LOCAL_ZLIB" = "xyes"; then
-  ZLIB_DEPS=../contrib/zlib/libz_emdros.la
-  ZLIB_DEPS_BACKBACK=../../contrib/zlib/libz_emdros.la
-  ZLIB_DEPS_BACKBACKBACK=../../../contrib/zlib/libz_emdros.la
-  ZLIB_LDADD=../contrib/zlib/libz_emdros.la
-  ZLIB_LDADD_BACKBACK=../../contrib/zlib/libz_emdros.la
-  ZLIB_LDADD_BACKBACKBACK=../../../contrib/zlib/libz_emdros.la
+  ZLIB_DEPS=../zlib/libz_emdros.la
+  ZLIB_DEPS_BACKBACK=../../zlib/libz_emdros.la
+  ZLIB_DEPS_BACKBACKBACK=../../../zlib/libz_emdros.la
+  ZLIB_LDADD=../zlib/libz_emdros.la
+  ZLIB_LDADD_BACKBACK=../../zlib/libz_emdros.la
+  ZLIB_LDADD_BACKBACKBACK=../../../zlib/libz_emdros.la
 else
   ZLIB_DEPS=
   ZLIB_DEPS_BACKBACK=
