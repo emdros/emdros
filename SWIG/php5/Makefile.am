@@ -22,7 +22,7 @@ EmdrosPHP.ini: Makefile EmdrosPHP.ini.in
 	sed -e 's:@pkglibdir@:$(pkglibdir):g' EmdrosPHP.ini.in > $@
 
 
-if SWIG_WITH_PHP_WRAPPERS
+if SWIG_WITH_PHP5_WRAPPERS
 
 SWIG_PHP_SRC = \
       phpemdros_wrap.cpp \
@@ -65,7 +65,7 @@ macdist:
 
 
 else
-# Not SWIG_WITH_PHP_WRAPPERS
+# Not SWIG_WITH_PHP5_WRAPPERS
 
 SWIG_PHP_SRC =
 
@@ -80,7 +80,7 @@ uninstall-hook:
 macdist:
 
 
-endif # end if SWIG_WITH_PHP_WRAPPERS
+endif # end if SWIG_WITH_PHP5_WRAPPERS
 
 BUILT_SOURCES = $(MAYBE_BUILT_SRC) EmdrosPHP.ini
 

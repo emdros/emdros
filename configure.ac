@@ -69,29 +69,25 @@ EMDROS_SWIG_SUPPORT
 EMDROS_BUILDENV_END
 
 AC_CONFIG_FILES([Makefile
-                 build/Makefile
-                 build/rpm/Makefile
                  doc/Makefile
-                 doc/cms/Makefile
-                 contrib/Makefile
-                 contrib/zlib/Makefile
-                 contrib/pcre2/Makefile
-                 contrib/sqlite3/Makefile
-                 contrib/sqlite3/src/Makefile
-		 lib/Makefile
+                 doc/progref/Makefile
+		 zlib/Makefile
+		 pcre2/Makefile
+		 sqlite3/Makefile
+		 sqlite3/src/Makefile
                  include/emdros-lconfig.h
-                 include/version-emdros.h
-                 lib/EMdF/Makefile
-                 lib/MQL/Makefile
-                 lib/harvest/Makefile
-                 lib/util/Makefile
-                 lib/importers/Makefile
+                 include/emdros-version.h
+                 EMdF/Makefile
+                 MQL/Makefile
+                 harvest/Makefile
+                 util/Makefile
+                 importers/Makefile
                  amalgamation/Makefile
                  src/Makefile
                  src/importtool/Makefile
 		 src/importtool/doc/Makefile
-                 src/querytool/Makefile
-                 src/querytool/doc/Makefile
+                 src/qrytool/Makefile
+                 src/qrytool/doc/Makefile
                  SWIG/Makefile
                  SWIG/csharp/Makefile
                  SWIG/java/Makefile

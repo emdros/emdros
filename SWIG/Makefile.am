@@ -1,5 +1,5 @@
 EXTRA_DIST=win32.mak mingw.mak
-SUBDIRS = csharp java php5 php7 python python3 
+SUBDIRS = csharp java php5 php7 python2 python3 
 
 
 macdist:

@@ -131,31 +131,21 @@ macdist: all
 	mkdir -p $(MACDISTDIR)/doc/html
 if SWIG_WITH_CSHARP_WRAPPERS
 	mkdir -p $(MACDISTDIR)/development/SWIG/csharp
-	mkdir -p $(MACDISTDIR)/development/SWIG/csharp
 endif
 if SWIG_WITH_JAVA_WRAPPERS
 	mkdir -p $(MACDISTDIR)/development/SWIG/java
 endif
-if SWIG_WITH_NODEJS_WRAPPERS
-	mkdir -p $(MACDISTDIR)/development/SWIG/nodejs
-endif
-if SWIG_WITH_PERL_WRAPPERS
-	mkdir -p $(MACDISTDIR)/development/SWIG/perl
-endif
-if SWIG_WITH_PYTHON_WRAPPERS
-	mkdir -p $(MACDISTDIR)/development/SWIG/python
+if SWIG_WITH_PYTHON2_WRAPPERS
+	mkdir -p $(MACDISTDIR)/development/SWIG/python2
 endif
 if SWIG_WITH_PYTHON3_WRAPPERS
 	mkdir -p $(MACDISTDIR)/development/SWIG/python3
 endif
-if SWIG_WITH_PHP_WRAPPERS
+if SWIG_WITH_PHP5_WRAPPERS
 	mkdir -p $(MACDISTDIR)/development/SWIG/php5
 endif
 if SWIG_WITH_PHP7_WRAPPERS
 	mkdir -p $(MACDISTDIR)/development/SWIG/php7
-endif
-if SWIG_WITH_RUBY_WRAPPERS
-	mkdir -p $(MACDISTDIR)/development/SWIG/ruby
 endif
 	mkdir -p $(MACDISTDIR)/development/sourcecode
 if WX_DO_UNICODE
