@@ -170,7 +170,6 @@ include/emdros-lconfig.h
 include/emdros_reserved_words.h
 include/mqlpars.h
 include/pcre2_config.h
-include/pcre2_emdros.h
 include/prefix_emdros.h
 include/sqlite3_emdros.h
 include/sqlite_emdros.h
