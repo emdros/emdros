@@ -1,60 +1,67 @@
-DEFINE_SQLITE3_EMDFDB_NO_FSYNC = -DSQLITE3_EMDFDB_NO_FSYNC
 
 
 if HOSTISDARWIN
 MACLDFLAGS = -static
 endif
 
-noinst_PROGRAMS = mkamalgamation
-mkamalgamation_SOURCES = mkamalgamation.cpp
-mkamalgamation_CPPFLAGS = -I../include
-mkamalgamation_LDADD = @EMDROS_LDADD@ @SUN_LDFLAGS@ @DARWIN_LDFLAGS@ @ZLIB_LIBADD@ 
-
 
 lib_LTLIBRARIES = libemdros_amalgamation.la
 DO_MACDIST = cp -f .libs/libemdros_amalgamation.a $(MACDISTDIR)/development/lib/
 
-mysourcecode = emdros_amalgamation_1.cpp \
-               emdros_amalgamation_2.cpp \
+mysourcecode = emdros_amalgamation_1_emdros.cpp \
+               emdros_amalgamation_2_importer.cpp \
                emdros_c_amalgamation_1.c \
                emdros_c_amalgamation_2.c
 
-myheaders = emdros.h emdros-lconfig.h emdros-config.h
+myheaders = emdros.h emdros_c.h emdros-lconfig.h emdros-config.h
 
 
 nodist_libemdros_amalgamation_la_SOURCES =  $(mysourcecode)
 
 
 libemdros_amalgamation_la_LDFLAGS = $(MACLDFLAGS) -version-info \
-                     @LIB_EMDF_CURRENT@:@LIB_EMDF_REVISION@:@LIB_EMDF_AGE@ \
-                     @SUN_LDFLAGS@
+                     @LIB_EMDROS_CURRENT@:@LIB_EMDROS_REVISION@:@LIB_EMDROS_AGE@
+
 
 BUILT_SOURCES = $(mysourcecode) \
+                emdros.h \
+                emdros_c.h \
                 emdros-lconfig.h \
                 emdros-config.h 
 
-nodist_noinst_HEADERS = $(myheaders)
+nodist_pkginclude_HEADERS = $(myheaders)
 
 
-CLEANFILES = $(mysourcecode) $(myheaders) *~ core $(noinst_PROGRAMS)
+CLEANFILES = $(mysourcecode) $(myheaders) *~ core amalgamation_made.txt
 
-EXTRA_DIST = mkamalgamation.cpp amalgamation.json win32.mak mingw.mak
+EXTRA_DIST = mkamalgamation.py \
+             amalgamation.xml \
+             windows.mak mingw.mak 
 
 AM_CPPFLAGS = 
 AM_CFLAGS = @DEBUGFLAG@ @ADDITIONAL_CFLAGS@
 
-AM_CXXFLAGS = $(DEFINE_SQLITE3_EMDFDB_NO_FSYNC)
+AM_CXXFLAGS = \
+              @DEBUGFLAG@ @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ \
+              $(DEFINE_SQLITE3_EMDFDB_NO_FSYNC) \
+              @ADDITIONAL_CXXFLAGS@ 
 
 
+$(mysourcecode): amalgamation_made.txt
 
-emdros_amalgamation_1.cpp emdros_amalgamation_2.cpp emdros_c_amalgamation_1.c emdros_c_amalgamation_2.c: mkamalgamation amalgamation.json
-	./mkamalgamation amalgamation.json
+emdros.h: amalgamation_made.txt
 
-emdros-lconfig.h: ../include/emdros-lconfig.h
-	cp ../include/emdros-lconfig.h $@
+emdros_c.h: amalgamation_made.txt
 
-emdros-config.h: ../include/emdros-config.h
-	cp ../include/emdros-config.h $@
+amalgamation_made.txt: mkamalgamation.py amalgamation.xml
+	python mkamalgamation.py amalgamation.xml
+	touch amalgamation_made.txt
+
+emdros-lconfig.h: ../lib/base/emdros-lconfig.h
+	cp ../lib/base/emdros-lconfig.h $@
+
+emdros-config.h: ../lib/base/emdros-config.h
+	cp ../lib/base/emdros-config.h $@
 
 macdist:	
 	$(DO_MACDIST)
