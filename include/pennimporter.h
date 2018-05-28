@@ -3,9 +3,9 @@
  *
  * Classes to do Penn Treebank importing
  *
- * Ulrik Petersen
+ * Ulrik Sandborg-Petersen
  * Created: 2/17-2006
- * Last update: 3/1-2017
+ * Last update: 11/4-2017
  *
  */
 /************************************************************************
@@ -94,18 +94,14 @@
 #include <string>
 #include <list>
 #include <set>
+#include <istream>
+
 #include "monads.h"
 #include "infos.h"
 #include "string_list.h"
 #include "penn_yylex.h"
 
-#include "emdros-lconfig.h"
 
-#if HAVE_ISTREAM
-#include <istream>
-#else
-#include <istream.h>
-#endif
 
 class PennScanner {
 protected:
@@ -167,9 +163,9 @@ class PennTreeNode {
 	PennTreeNode *m_pChild, *m_pNextSibling;
 	SetOfMonads m_monads;
 	id_d_t m_id_d;
-	long m_docid;
-	std::list<long> m_corefs;
-	long m_parent_docid;
+	emdros_int64 m_docid;
+	std::list<emdros_int64> m_corefs;
+	emdros_int64 m_parent_docid;
  public:
 	PennTreeNode(PennTreeNode *pChild){
 		m_type = kPennRoot;
@@ -208,19 +204,19 @@ class PennTreeNode {
 	const std::string& getFunction(void) const { return m_strFunction; };
 	SetOfMonads getMonads(void) const { return m_monads; };
 	id_d_t getID_D(void) const { return m_id_d; };
-	long getDocID(void) const { return m_docid; };
-	long getParentDocID(void) const { return m_parent_docid; };
+	emdros_int64 getDocID(void) const { return m_docid; };
+	emdros_int64 getParentDocID(void) const { return m_parent_docid; };
 	PennTreeNode *getChild(void) const { return m_pChild; };
 	PennTreeNode *getNextSibling(void) const { return m_pNextSibling; };
-	std::list<long>& getCorefs(void) { return m_corefs; };
+	std::list<emdros_int64>& getCorefs(void) { return m_corefs; };
 
 	void setNodeType(const std::string& strIn);
 	void setTerminal(const std::string& strIn);
 	void addMonads(const SetOfMonads& monads) { m_monads.unionWith(monads); };
 	void addMonad(monad_m m) { m_monads.add(m); };
 	void setID_D(id_d_t id_d) { m_id_d = id_d; };
-	void setDocID(long docid) { m_docid = docid; };
-	void setParentDocID(long parent_docid) { m_parent_docid = parent_docid; };
+	void setDocID(emdros_int64 docid) { m_docid = docid; };
+	void setParentDocID(emdros_int64 parent_docid) { m_parent_docid = parent_docid; };
 	void pretty() const {
 		std::cout << " typ=" << m_type<< "', nodetype='" << getNodeType()  << ", terminal='" << getTerminal() << "' id=" << m_id_d << std::endl; 
 	};
@@ -248,7 +244,7 @@ class PennImporterEnv {
 
 typedef std::list<EmdrosMemObject*> PEMOList;
 
-typedef std::map<long, std::list<id_d_t> > CorefMap;
+typedef std::map<emdros_int64, std::list<id_d_t> > CorefMap;
 
 
 class EmdrosImporterBase {
@@ -293,7 +289,7 @@ class PennTreebankImporter : public EmdrosImporterBase {
 	PEMOList m_docs;
 	bool m_bEmitNonTerminalsAsDistinctObjectTypes;
 	bool m_bUseIntegerDocIDs;
-	long m_cur_docid;
+	emdros_int64 m_cur_docid;
 	std::set<std::string> m_DroppedIndexOTNs;
  public:
 	PennTreebankImporter(bool bEmitNonTerminalsAsDistinctObjectTypes, 
@@ -314,8 +310,8 @@ class PennTreebankImporter : public EmdrosImporterBase {
 	EmdrosMemObject *createTerminal(PennTreeNode *pNode, PennTreeNode *pParent);
 	EmdrosMemObject *createNonTerminal(PennTreeNode *pNode);
 	EmdrosMemObject *createRootTree(PennTreeNode *pNode);
-	EmdrosMemObject *createDoc(monad_m first, monad_m last, id_d_t id_d, long doc_docid);
-	SetOfMonads assignMonadsAndID_Ds(PennTreeNode *pNode, SetOfMonads& sibling_monads, id_d_t parent_id_d, long parent_docid);
+	EmdrosMemObject *createDoc(monad_m first, monad_m last, id_d_t id_d, emdros_int64 doc_docid);
+	SetOfMonads assignMonadsAndID_Ds(PennTreeNode *pNode, SetOfMonads& sibling_monads, id_d_t parent_id_d, emdros_int64 parent_docid);
 	void resolveCorefs(PennTreeNode *pNode, CorefMap& map);
 	
 };

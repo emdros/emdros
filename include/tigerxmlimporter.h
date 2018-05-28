@@ -5,13 +5,13 @@
  *
  * into Emdros
  * Created: 4/4-2007
- * Last update: 10/3-2011
+ * Last update: 7/28-2017
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2007-2011  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2007-2017  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as

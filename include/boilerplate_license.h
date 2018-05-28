@@ -1,7 +1,7 @@
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2006  Ulrik Petersen
+ *   Copyright (C) 2006-2017  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -29,21 +29,19 @@
  *   a) Sun's Java platform,
  *   b) Python, 
  *   c) Jython,
- *   d) Ruby, and/or 
- *   e) Perl 
- *   f) PostgreSQL
- *   g) OpenSSL
+ *   d) PostgreSQL
+ *   e) OpenSSL
  *
  *   (or with modified versions of these), and to distribute linked
  *   combinations including both Emdros, in whole or in part, and one
- *   or more of the libraries normally distributed with (a)-(g) above.
+ *   or more of the libraries normally distributed with (a)-(e) above.
  *
  *   Please note: This gives you special rights concerning the
  *   libraries which normally accompany the above pieces of software.
  *   It gives you no special rights concerning software that you write
  *   yourself.  You must obey the GNU General Public License in all
  *   respects for all of the code used other than the libraries
- *   normally distributed with (a)-(g) above.
+ *   normally distributed with (a)-(e) above.
  *
  *   If you modify this file, you may extend this exception to your
  *   version of the file, but you are not obligated to do so. If you
