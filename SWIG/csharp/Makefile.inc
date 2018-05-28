@@ -69,11 +69,14 @@ SWIG_GENERATED_CSHARPFILES = \
                 StringListConstIterator.cs \
                 StringList.cs \
                 StringVector.cs \
+                SWIGTYPE_p_EmdrosEnv.cs \
                 SWIGTYPE_p_JSONValue.cs \
+                SWIGTYPE_p_long_long.cs \
                 SWIGTYPE_p_std__istream.cs \
                 SWIGTYPE_p_std__listT_std__string_t.cs \
                 SWIGTYPE_p_std__ostream.cs \
                 SWIGTYPE_p_std__string.cs \
+                SWIGTYPE_p_std__vectorT_long_t.cs \
                 SWIGTYPE_p_String2SOMMap.cs \
                 TableColumnException.cs \
                 TableColumnType.cs \
