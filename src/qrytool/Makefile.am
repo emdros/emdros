@@ -95,7 +95,7 @@ noinst_HEADERS = solution.h mytable.h exec.h \
 
 AM_CPPFLAGS = -I$(top_srcdir)/amalgamation \
               -I$(top_srcdir)/wx \
-              -I$(top-srcdir)/include \
+              -I$(top_srcdir)/include \
               -I$(top_srcdir)/ 
 
 CLEANFILES = *~ core config.log EQTUsersGuide.log
