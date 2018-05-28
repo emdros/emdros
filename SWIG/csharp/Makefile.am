@@ -9,9 +9,7 @@ SWIG_PROGRAM = @SWIG_PROGRAM@
 
 SWIG_CSHARP_SRC = \
       libcsemdros_wrap.cxx \
-      CSharpSources.zip \
-      EmdrosDotNet.dll
-
+      CSharpSources.zip 
 
 TestEmdros.cs: TestEmdros.cs.in
 	$(top_builddir)/config.status --file=TestEmdros.cs
@@ -41,7 +39,7 @@ test: TestEmdros.cs EmdrosDotNet.dll
 
 AM_CXXFLAGS = @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ @ADDITIONAL_CXXFLAGS@ @DEBUGFLAG@
 
-AM_CPPFLAGS = -I. -I$(top_srcdir)
+AM_CPPFLAGS = -I. -I$(top_srcdir)/lib/base -I. -I$(top_srcdir)/lib/base -I$(top_srcdir)/lib/EMdF -I$(top_srcdir)/lib/MQL -I$(top_srcdir)/lib/harvest  -I$(top_srcdir)/amalgamation -I$(top_srcdir)
 
 libcsemdros_wrap.cxx $(SWIG_GENERATED_CSHARPFILES): libcsemdros.i 
 	$(SWIG_PROGRAM) -namespace Emdros -c++ -csharp libcsemdros.i
@@ -54,30 +52,35 @@ CSharpSources.zip: libcsemdros_wrap.cxx
 	zip CSharpSources.zip $(SWIG_GENERATED_CSHARPFILES)
 
 
+if CAN_DO_SWIG
+MAYBE_BUILT_SRC = $(SWIG_CSHARP_SRC)
+else
+MAYBE_BUILT_SRC = 
+endif
 
 
 
 
 if SWIG_WITH_CSHARP_WRAPPERS
 
-MAYBE_BUILT_SRC = $(SWIG_CSHARP_SRC) \
-                  TestEmdros.cs 
+MAYBE_BUILT_SRC += EmdrosDotNet.dll \
+                   TestEmdros.cs 
 
 pkglib_LTLIBRARIES = libcsemdros.la
 
 
 nodist_libcsemdros_la_SOURCES = libcsemdros_wrap.cxx 
 
-libcsemdros_la_LIBADD = @HARVEST_LDADD_BACKBACK@ \
-                        @MQL_LDADD_BACKBACK@ @PCRE2_LDADD_BACKBACK@ \
-                        @EMDF_LDADD_BACKBACK@ @ZLIB_LDADD_BACKBACK@ 
+libcsemdros_la_LIBADD = @HARVEST_LDADD_BACKBACKBACK@ \
+                        @MQL_LDADD_BACKBACKBACK@ @PCRE2_LDADD_BACKBACKBACK@ \
+                        @EMDF_LDADD_BACKBACKBACK@ @ZLIB_LDADD_BACKBACKBACK@ 
 
 libcsemdros_la_LDFLAGS = -version-info \
                          @LIB_EMDROS_CURRENT@:@LIB_EMDROS_REVISION@:@LIB_EMDROS_AGE@ \
                          @DARWIN_LDFLAGS@ @SUN_LDFLAGS@
-libcsemdros_la_DEPENDENCIES = @HARVEST_DEPS_BACKBACK@ \
-                             @MQL_DEPS_BACKBACK@ @PCRE2_DEPS_BACKBACK@ \
-                             @EMDF_DEPS_BACKBACK@ @ZLIB_DEPS_BACKBACK@ 
+libcsemdros_la_DEPENDENCIES = @HARVEST_DEPS_BACKBACKBACK@ \
+                             @MQL_DEPS_BACKBACKBACK@ @PCRE2_DEPS_BACKBACKBACK@ \
+                             @EMDF_DEPS_BACKBACKBACK@ @ZLIB_DEPS_BACKBACKBACK@ 
 
 
 install-exec-hook: EmdrosDotNet.dll CSharpSources.zip
@@ -96,8 +99,6 @@ macdist: TestEmdros.cs CSharpSources.zip
 
 else
 
-
-MAYBE_BUILT_SRC = 
 
 # Not SWIG_WITH_CSHARP_WRAPPERS
 

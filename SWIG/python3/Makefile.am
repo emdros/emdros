@@ -16,10 +16,12 @@ EmdrosPy3.py py3emdros_wrap.cxx: py3emdros.i
 	$(SWIG_PROGRAM) -c++ -python py3emdros.i
 
 
+if CAN_DO_SWIG
+MAYBE_BUILT_SRC = $(SWIG_PY3_SRC) 
+endif
+
 
 if SWIG_WITH_PYTHON3_WRAPPERS
-
-MAYBE_BUILT_SRC = $(SWIG_PY3_SRC) 
 
 pkglib_LTLIBRARIES = _EmdrosPy3.la
 
@@ -54,8 +56,6 @@ macdist:
 
 else
 # Not SWIG_WITH_PYTHON3_WRAPPERS
-
-MAYBE_BUILT_SRC = 
 
 pkglib_LTLIBRARIES =
 

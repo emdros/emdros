@@ -18,10 +18,12 @@ pyemdros_wrap.cxx: pyemdros.i
 EmdrosPy.py: pyemdros_wrap.cxx
 
 
+if CAN_DO_SWIG
+MAYBE_BUILT_SRC = $(SWIG_PY_SRC)
+endif
+
 
 if SWIG_WITH_PYTHON2_WRAPPERS
-
-MAYBE_BUILT_SRC = $(SWIG_PY_SRC)
 
 #EmdrosPy.pyc: EmdrosPy.py
 #	export PYTHON=$(PYTHON) ; $(SHELL) $(top_builddir)/py-compile EmdrosPy.py
@@ -69,8 +71,6 @@ macdist:
 
 else
 # Not SWIG_WITH_PYTHON2_WRAPPERS
-
-MAYBE_BUILT_SRC = 
 
 pkglib_LTLIBRARIES =
 

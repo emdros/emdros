@@ -24,11 +24,14 @@ EmdrosPHP7.ini: Makefile EmdrosPHP7.ini.in
 	sed -e 's:@pkglibdir@:$(pkglibdir):g' EmdrosPHP7.ini.in > $@
 
 
+if CAN_DO_SWIG
+if CAN_SWIG_DO_PHP7
+MAYBE_BUILT_SRC = $(SWIG_PHP7_SRC)
+endif
+endif
+
+
 if SWIG_WITH_PHP7_WRAPPERS
-
-
-
-MAYBE_BUILT_SRC = $(SWIG_PHP7_SRC) 
 
 pkglib_LTLIBRARIES = EmdrosPHP7.la
 
@@ -59,8 +62,6 @@ macdist:
 
 else
 # Not SWIG_WITH_PHP7_WRAPPERS
-
-MAYBE_BUILT_SRC = 
 
 pkglib_LTLIBRARIES =
 

@@ -124,6 +124,12 @@
 
 	* src/agexport.cpp: Remove this, since it has never been tested.
 
+	* m4/emdros_swig.m4: Define AM_CONDITIONALs CAN_DO_SWIG and
+	SWIG_CAN_DO_PHP7.
+
+	* SWIG/: Always build SWIG-generated sources if we CAN_DO_SWIG
+	(and for PHP7, if CAN_SWIG_DO_PHP7).
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).

@@ -23,12 +23,14 @@ phpemdros_wrap.h: phpemdros_wrap.cpp
 EmdrosPHP.ini: Makefile EmdrosPHP.ini.in
 	sed -e 's:@pkglibdir@:$(pkglibdir):g' EmdrosPHP.ini.in > $@
 
+if CAN_DO_SWIG
+MAYBE_BUILT_SRC = $(SWIG_PHP5_SRC) 
+endif
 
 if SWIG_WITH_PHP5_WRAPPERS
 
 
 
-MAYBE_BUILT_SRC = $(SWIG_PHP5_SRC) 
 
 pkglib_LTLIBRARIES = EmdrosPHP.la
 
@@ -59,8 +61,6 @@ macdist:
 
 else
 # Not SWIG_WITH_PHP5_WRAPPERS
-
-MAYBE_BUILT_SRC = 
 
 pkglib_LTLIBRARIES =
 

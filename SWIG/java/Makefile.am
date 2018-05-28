@@ -4,9 +4,7 @@ include Makefile.inc
 SWIG_PROGRAM = @SWIG_PROGRAM@
 
 SWIG_JAVA_SRC = \
-      libjemdros_wrap.cxx \
-      jemdros.jar 
-
+      libjemdros_wrap.cxx 
 
 #
 # On GNU g++, -O2 and above means that strict-aliasing is turned on.
@@ -40,7 +38,11 @@ gen_files:
 
 
 
-
+if CAN_DO_SWIG
+MAYBE_BUILT_SRC = $(SWIG_JAVA_SRC)
+else
+MAYBE_BUILT_SRC = 
+endif
 
 
 
@@ -72,7 +74,8 @@ if SWIG_WITH_JAVA_WRAPPERS
 pkglib_LTLIBRARIES = libjemdros.la
 
 
-MAYBE_BUILT_SRC = TestEmdros.java $(SWIG_JAVA_SRC)
+MAYBE_BUILT_SRC += TestEmdros.java jemdros.jar 
+
 
 TestEmdros.class: TestEmdros.java
 	@JAVAC@ -classpath $(prefix)/lib/emdros/jemdros.jar:. TestEmdros.java
@@ -114,7 +117,7 @@ macdist:
 
 else
 
-MAYBE_BUILT_SRC = 
+MAYBE_BUILT_SRC += 
 
 # Not SWIG_WITH_JAVA_WRAPPERS
 
