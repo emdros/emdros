@@ -167,7 +167,6 @@ include/emdros-version.h
 include/emdros-config.h
 include/emdros-config.h.in
 include/emdros-lconfig.h
-include/emdros_reserved_words.h
 include/mqlpars.h
 include/pcre2_config.h
 include/prefix_emdros.h
