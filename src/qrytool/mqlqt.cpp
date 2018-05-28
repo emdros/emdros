@@ -104,19 +104,12 @@
 #include <sstream>
 #include <fstream>
 #include <string>
-#include <emdfdb.h>
-#include <table.h>
-#include <emdros-lconfig.h>
-#include <emdf_output.h>
-#include <emdros_environment.h>
+
+#include <emdros.h>
+
 #include "emdros_wrapper.h"
-#include <encryption.h>
-#include <conf.h>
 #include "exec.h"
-#include <prefix_emdros.h>
 #include "consout.h"
-#include <opt.h>
-#include <messages.h>
 
 
 

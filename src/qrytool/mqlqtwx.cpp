@@ -220,9 +220,8 @@ bool EmdrosQueryToolApp::OnInit()
 				++i;
 				wxString strBackend = argv[i];
 				std::string str_backend = std::string((const char*)strBackend.mb_str(wxConvUTF8));
-				bool bSuccess = false;
 				eBackendKind backend_kind;
-				bSuccess = string2backend_kind(str_backend, backend_kind);
+				bool bSuccess = string2backend_kind(str_backend, backend_kind);
 				if (bSuccess) {
 					conndata.m_backend_kind = backend_kind;
 				}
