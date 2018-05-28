@@ -20,7 +20,7 @@ endif
 
 AM_CXXFLAGS = @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ @ADDITIONAL_CXXFLAGS@ @DEBUGFLAG@ $(EXTRA_GPLUSPLUS_FLAGS)
 
-AM_CPPFLAGS = -I$(top_srcdir)/include -I. @JDK_INCLUDES@
+AM_CPPFLAGS = -I$(top_srcdir)/include -I. -I$(top_srcdir)/ @JDK_INCLUDES@ 
 
 gen_files:
 	echo "SWIG_GENERATED_JAVAFILES = \\" > ll.txt 
