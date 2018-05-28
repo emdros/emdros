@@ -115,7 +115,7 @@
 
 	in a cross-platform manner.
 
-	****** NOTE THAT THIS MEANS THAT WE NOW REQUIRE C++11 *****
+	* include/emdros-lconfig.h.in: #define HAVE_CXX11.
 
 2018-05-12 Ulrik Sandborg-Petersen
 

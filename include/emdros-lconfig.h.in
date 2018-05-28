@@ -90,11 +90,15 @@
  */
 
 
-#ifndef LCONFIG__H__
-#define LCONFIG__H__
+#ifndef EMDROS_LCONFIG__H__
+#define EMDROS_LCONFIG__H__
 
 #if defined(_WIN32) || defined(WIN32)
 #include "win32-lconfig.h"
+#endif
+
+#ifndef HAVE_CXX11
+#define HAVE_CXX11 @HAVE_CXX11@
 #endif
 
 #ifndef USE_POSTGRESQL
