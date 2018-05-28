@@ -30,12 +30,13 @@ EXTRA_PROGRAMS = importtool importtoolu
 
 bin_PROGRAMS = $(MAYBE_NONUNICODE_PRGS) $(MAYBE_UNICODE_PRGS) 
 
-ALWAYSLDADD = $(top_builddir)/util/libutil_emdros.la \
-              @EMDROS_LDADD_SWIG@ @ZLIB_LIBADD_SWIG@ \
+ALWAYSLDADD = \
+              -L$(top_builddir)/wx -lemdrosguiu \
+              @EMDROS_LDADD_BACKBACK@ \
               @SUN_LDFLAGS@  @DARWIN_LDFLAGS@
 
-ALWAYSDEPS = $(top_builddir)/util/libutil_emdros.la \
-             @EMDROS_DEPS_SWIG@ @ZLIB_DEP_SWIG@
+ALWAYSDEPS = @EMDROS_DEPS_BACKBACK@
+
 
 
 importtool_LDADD = $(top_builddir)/wx/libemdrosgui.a $(ALWAYSLDADD) \
