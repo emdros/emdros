@@ -3,7 +3,7 @@
  *
  * Trial of EMdF framework
  * Created: 1/27-2001
- * Last update: 5/11-2018
+ * Last update: 5/28-2018
  *
  */
 /************************************************************************
@@ -896,7 +896,7 @@ int test_backend(eBackendKind backend_kind,
 			std::cerr << "FAILURE: long2string." << std::endl;
 		}
 		strValue = long2string(MAX_MONAD);
-		bContinue = bContinue && strValue == "2100000000";
+		bContinue = bContinue && strValue == "1152921504606846976";
 		if (!bContinue) {
 			std::cerr << "FAILURE: long2string." << std::endl;
 		}

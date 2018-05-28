@@ -135,6 +135,9 @@
 	* EMdF/json.re: Upgrade the JSON lexer to work with 64-bit
 	integers.
 
+	* tests/emdftry.cpp: Update MAX_MONAD test so that it works with
+	the new 1 << 60 MAX_MONAD.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).
