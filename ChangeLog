@@ -74,6 +74,9 @@
 	long time, and so far as Ulrik knows, nobody was using its
 	facilities.
 
+	* examples/: This has been removed, and moved into its own repo on
+	GitHub.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).

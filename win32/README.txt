@@ -279,6 +279,6 @@ wxWidgets version >= 3.0.0
 Building Emdros only
 ====================
 
-If you wish to build Emdros only (no examples, no SWIG, no query
-tool), you can define EMDROS_ONLY=1 in win32\config.mak.
+If you wish to build Emdros only (no SWIG, no query tool), you can
+define EMDROS_ONLY=1 in win32\config.mak.
 

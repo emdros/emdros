@@ -38,7 +38,7 @@ EXTRA_DIST = \
 
 SUBDIRS = doc pcre2 zlib sqlite3 include \
           EMdF MQL harvest amalgamation util importers $(MAYBE_WX) \
-          src tests examples \
+          src tests \
 	  SWIG win32
 
 CLEANFILES = *~ core install_mac.sh extrafiles-emdros.txt extrafiles-emdros-devel.txt
@@ -147,8 +147,6 @@ endif
 if WX_DO_UNICODE
 	cp -Rp src/qrytool/EmdrosQueryTool.app $(MACDISTDIR)/
 	cp -Rp src/importtool/EmdrosImportTool.app $(MACDISTDIR)/
-	cp -Rp examples/ChunkingTool/EmdrosChunkingTool.app $(MACDISTDIR)/
-	cp examples/ChunkingTool/doc/ChunkingToolGuide.pdf $(MACDISTDIR)/doc/PDF/
 	cp src/qrytool/TECkit/TECkit_Compile $(MACDISTDIR)/development/bin
 	cp src/qrytool/TECkit/TxtConv $(MACDISTDIR)/development/bin
 	cp src/qrytool/TECkit/.libs/libteckit.a $(MACDISTDIR)/development/lib
@@ -156,7 +154,6 @@ if WX_DO_UNICODE
 endif
 	cd doc ; make macdist MACDISTDIR=../$(MACDISTDIR) ; cd ..
 	cd src ; make macdist MACDISTDIR=../$(MACDISTDIR) ; cd ..
-	cd examples/HAL ; make macdist MACDISTDIR=../../$(MACDISTDIR) ; cd ../.\.
 	cd SWIG ; make macdist MACDISTDIR=../../$(MACDISTDIR) ; cd ..
 	cp ../emdros-@VERSION@.tar.gz $(MACDISTDIR)/development/sourcecode/
 	cd EMdF ; make macdist MACDISTDIR=../$(MACDISTDIR) ; cd ..
@@ -181,22 +178,5 @@ test:
 	$(MAKE) -C tests test
 
 
-EMDROS_EXAMPLES_VERSION = 2.0
-EXAMPLESDIR = Emdros-Examples-$(EMDROS_EXAMPLES_VERSION)
-EXAMPLESZIP = $(EXAMPLESDIR).zip
-
-examples: $(EXAMPLESZIP)
-
-$(EXAMPLESZIP): all
-	rm -f $(EXAMPLESZIP)
-	rm -rf $(EXAMPLESDIR)
-	mkdir -p $(EXAMPLESDIR)
-	$(MAKE) -C examples examples EXAMPLESDIR=../$(EXAMPLESDIR)
-	zip -r $(EXAMPLESZIP) $(EXAMPLESDIR)
-	@echo "Now look in " $(EXAMPLESZIP)
-
-
 clean-local:
 	rm -f $(EMDROS_SPEC_FILE)
-	rm -f $(EXAMPLESZIP)
-	rm -rf $(EXAMPLESDIR)
