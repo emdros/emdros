@@ -1,13 +1,13 @@
 /*
  * pyemdros.i: Python bindings for Emdros using SWIG
  * Created: 2/8-2003 (February 8, 2003)
- * Last update: 10/30-2010
+ * Last update: 5/29-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2003-2010  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2003-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -84,10 +84,12 @@
 
 %{
 #include <iostream>
+#include "emdros-lconfig.h"
 %}
 
 /* don't tell us about changes in the first letter of constants */
 #pragma SWIG nowarn=801 
+
 
 /* include common typemaps. */
 %include "typemaps.i" 
@@ -97,8 +99,46 @@
 
 %include "exception.i"
 
+
+%{
+#if defined(USE_AMALGAMATION) && USE_AMALGAMATION
+#include "emdros.h"
+#else
+#include "../../include/emdf.h"
+#include "../../include/exception_emdros.h"
+#include "../../include/string_list.h"
+#include "../../include/emdf_exception.h"
+#include "../../include/emdf_output.h"
+#include "../../include/emdf_value.h"
+#include "../../include/emdfdb.h"
+#include "../../include/monads.h"
+#include "../../include/table.h"
+#include "../../include/emdf_enums.h"
+#include "../../include/pgemdfdb.h"
+#include "../../include/mysqlemdfdb.h"
+#include "../../include/sqlite3emdfdb.h"
+#include "../../include/mql_error.h"
+#include "../../include/mql_execute.h"
+#include "../../include/mql_types.h"
+#include "../../include/mql_sheaf.h"
+#include "../../include/mql_result.h"
+#include "../../include/mql_execution_environment.h"
+#include "../../include/emdros_environment.h"
+#include "../../include/mql_enums.h"
+#include "../../include/renderobjects.h"
+#include "../../include/renderxml.h"
+#include "../../include/harvest_fts.h"
+	
+#endif
+%}
+
+// Include this before using emdros_int64, monad_m, id_d_t, etc.
+%include "../../include/emdf.h"
+
 %template(StringVector) std::vector<std::string>;
-%template(IntVector) std::vector<long>;
+%template(IntVector) std::vector<int>;
+%template(LongVector) std::vector<long>;
+%template(LongLongVector) std::vector<long long>;
 
 
 /* make sure that STL exceptions get caught and rethrown. */
@@ -113,12 +153,8 @@
 
 
 
-%apply long &INOUT { long & };
+%apply emdros_int64 &INOUT { emdros_int64 & };
 %apply bool &INOUT { bool & };
-
-/* This assumes that all "long &" parameters are INOUT,
- * which seems safe, if somewhat inefficient.
- */
 
 %apply const std::string & {std::string &};
 %apply std::string & {string &};
@@ -126,31 +162,32 @@
 %constant std::ostream * KSTDOUT = &std::cout;
 %constant std::ostream * KSTDERR = &std::cerr;
 
+// EMdF library
+%include "../../include/exception_emdros.h"
+%include "../../include/llist.h"
+%include "../../include/string_list.h"
+%include "../../include/emdf_exception.h"
+%include "../../include/emdf_output.h"
+%include "../../include/emdf_value.h"
+%include "../../include/emdfdb.h"
+%include "../../include/monads.h"
+%include "../../include/table.h"
+%include "../../include/emdf_enums.h"
+%include "../../include/pgemdfdb.h"
+%include "../../include/mysqlemdfdb.h"
+%include "../../include/sqlite3emdfdb.h"
 
-/* To get monad_m and id_d_t typedefs. */
-%include "../../include/emdf.h"
+// MQL library
+%include "../../include/mql_execution_environment.h"
+%include "../../include/mql_error.h"
+%include "../../include/mql_execute.h"
+%include "../../include/mql_types.h"
+%include "../../include/mql_sheaf.h"
+%include "../../include/mql_result.h"
+%include "../../include/emdros_environment.h"
+%include "../../include/mql_enums.h"
 
-/*
-%{
-typedef long monad_m;
-typedef long id_d_t;
-%}
-typedef long monad_m;
-typedef long id_d_t;
 
-*/
-
-%include "libemdfpython.i"
-%include "libmqlpython.i"
-
- /* harvest library */
-%{
-#include "../../include/renderobjects.h"
-#include "../../include/renderxml.h"
-#include "../../include/harvest_fts.h"
-%}
-
- /* harvest library */
 %include "../../include/renderobjects.h"
 %include "../../include/renderxml.h"
 %include "../../include/harvest_fts.h"
