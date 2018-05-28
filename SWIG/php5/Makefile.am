@@ -1,22 +1,24 @@
 SWIG_PROGRAM = @SWIG_PROGRAM@
 
+SWIG_PHP5_SRC = \
+      php5emdros_wrap.cxx \
+      php5emdros_wrap.h \
+      php_EmdrosPHP.h \
+      EmdrosPHP.php
 
 
 
 AM_CXXFLAGS = @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ @ADDITIONAL_CXXFLAGS@ @DEBUGFLAG@
 
-AM_CPPFLAGS = -I$(top_srcdir)/include -I. @PHP_INCLUDES@
+AM_CPPFLAGS = -I. -I$(top_srcdir) @PHP5_INCLUDES@  
+php5emdros_wrap.cxx: php5emdros.i libemdfphp.i libmqlphp.i 
+	$(SWIG_PROGRAM) -c++ -php5 php5emdros.i
 
+EmdrosPHP.php: php5emdros_wrap.cxx
 
+php_EmdrosPHP.h: php5emdros_wrap.cxx
 
-phpemdros_wrap.cpp: phpemdros.i libemdfphp.i libmqlphp.i 
-	$(SWIG_PROGRAM) -c++ -php phpemdros.i
-
-EmdrosPHP.php: phpemdros_wrap.cpp
-
-php_EmdrosPHP.h: phpemdros_wrap.cpp
-
-phpemdros_wrap.h: phpemdros_wrap.cpp
+php5emdros_wrap.h: php5emdros_wrap.cxx
 
 EmdrosPHP.ini: Makefile EmdrosPHP.ini.in
 	sed -e 's:@pkglibdir@:$(pkglibdir):g' EmdrosPHP.ini.in > $@
@@ -24,35 +26,26 @@ EmdrosPHP.ini: Makefile EmdrosPHP.ini.in
 
 if SWIG_WITH_PHP5_WRAPPERS
 
-SWIG_PHP_SRC = \
-      phpemdros_wrap.cpp \
-      phpemdros_wrap.h \
-      php_EmdrosPHP.h \
-      EmdrosPHP.php
 
 
-MAYBE_BUILT_SRC = $(SWIG_PHP_SRC) 
+MAYBE_BUILT_SRC = $(SWIG_PHP5_SRC) 
 
 pkglib_LTLIBRARIES = EmdrosPHP.la
 
-EmdrosPHP_la_SOURCES = phpemdros_wrap.cpp 
+nodist_EmdrosPHP_la_SOURCES = php5emdros_wrap.cxx 
 
 
-EmdrosPHP_la_LIBADD = $(top_builddir)/harvest/libharvest.la \
-                      $(top_builddir)/MQL/libmql.la @PCRE_LIBADD_SWIG@ \
-                      @EMDFLDADDSWIG@ @ZLIB_LIBADD_SWIG@ 
-EmdrosPHP_la_LDFLAGS = @SWIG_EXTRA_LIBS@ -module \
+EmdrosPHP_la_LIBADD = @EMDROS_LDADD_BACKBACK@
+EmdrosPHP_la_LDFLAGS = -module \
                        -version-info \
-                       @LIB_SWIG_CURRENT@:@LIB_SWIG_REVISION@:@LIB_SWIG_AGE@ \
+                       @LIB_EMDROS_CURRENT@:@LIB_EMDROS_REVISION@:@LIB_EMDROS_AGE@ \
                        @DARWIN_LDFLAGS@ @SUN_LDFLAGS@
-EmdrosPHP_la_DEPENDENCIES = $(top_builddir)/harvest/libharvest.la \
-                            $(top_builddir)/MQL/libmql.la @PCRE_DEP_SWIG@ \
-                            @EMDFDEPSSWIG@ @ZLIB_DEP_SWIG@ 
+EmdrosPHP_la_DEPENDENCIES = @EMDROS_DEPS_BACKBACK@
 
 
 
 install-exec-hook:
-	cp EmdrosPHP.php $(DESTDIR)$(pkglibdir)
+	cp EmdrosPHP.php EmdrosPHP.ini $(DESTDIR)$(pkglibdir)
 	rm -f $(DESTDIR)$(pkglibdir)/EmdrosPHP.a
 
 uninstall-hook:
@@ -61,13 +54,11 @@ uninstall-hook:
 
 
 macdist:
-	cp -fL README-PHP EmdrosPHP.php .libs/EmdrosPHP.so $(MACDISTDIR)/development/SWIG/php5/
+	cp -fL README-PHP5 EmdrosPHP.php .libs/EmdrosPHP.so $(MACDISTDIR)/development/SWIG/php5/
 
 
 else
 # Not SWIG_WITH_PHP5_WRAPPERS
-
-SWIG_PHP_SRC =
 
 MAYBE_BUILT_SRC = 
 
@@ -84,13 +75,17 @@ endif # end if SWIG_WITH_PHP5_WRAPPERS
 
 BUILT_SOURCES = $(MAYBE_BUILT_SRC) EmdrosPHP.ini
 
-EXTRA_DIST = phpemdros.i \
+
+EXTRA_DIST = php5emdros.i \
              libemdfphp.i libmqlphp.i \
              EmdrosPHP.ini.in \
-             test.php \
-             README-PHP \
+             test7.php \
+             README-PHP5 \
              $(MAYBE_BUILT_SRC)
 
-CLEANFILES = *~ core config.log $(BUILT_SOURCES)
+CLEANFILES = *~ core config.log 
 
-DISTCLEANFILES = $(SWIG_PHP_SRC) phpemdros_wrap.cpp php_EmdrosPHP.h EmdrosPHP.php EmdrosPHP.ini phpemdros_wrap.h
+DISTCLEANFILES = $(SWIG_PHP5_SRC) \
+                 php5emdros_wrap.cxx php5emdros_wrap.h \
+                 php_EmdrosPHP.h EmdrosPHP.php EmdrosPHP.ini 
+
