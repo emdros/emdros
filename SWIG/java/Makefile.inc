@@ -71,6 +71,7 @@ SWIG_GENERATED_JAVAFILES = \
                 StringList.java \
                 StringVector.java \
                 SWIGTYPE_p_JSONValue.java \
+                SWIGTYPE_p_long_long.java \
                 SWIGTYPE_p_std__istream.java \
                 SWIGTYPE_p_std__listT_std__string_t.java \
                 SWIGTYPE_p_std__ostream.java \
