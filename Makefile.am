@@ -8,7 +8,9 @@ endif
 
 EMDROS_SPEC_FILE = emdros-spec-@VERSION@.spec
 
-EXTRA_DIST = README INSTALL.Win32.txt INSTALL.Mac.txt \
+EXTRA_DIST = \
+             emdros.pc.in emdros.pc \
+             README INSTALL.Win32.txt INSTALL.Mac.txt \
              Doxyfile autogen.sh rmfiles.sh install-sh \
              emdros.spec.in $(EMDROS_SPEC_FILE) \
              generate_extrafiles.py.in \
@@ -43,7 +45,8 @@ SUBDIRS = djgpp doc pcre zlib sqlite3 include \
 CLEANFILES = *~ core install_mac.sh generate_extrafiles.py extrafiles-emdros.txt extrafiles-emdros-devel.txt
 
 DISTCLEANFILES = debian/docs \
-                 $(EMDROS_SPEC_FILE) $(EMDROS_SPEC_FILE).in
+                 $(EMDROS_SPEC_FILE) $(EMDROS_SPEC_FILE).in \
+                 emdros.pc 
 
 BUILT_SOURCES = install_mac.sh debian/docs generate_extrafiles.py extrafiles-emdros.txt $(EMDROS_SPEC_FILE) \
                 debian/rules \
@@ -98,6 +101,10 @@ debian/docs: debian/docs.in $(top_builddir)/config.status
 	chmod 664 $@
 
 
+pkgconfigdir = $(datarootdir)/pkgconfig
+
+# This is only here, however
+dist_pkgconfig_DATA = emdros.pc
 
 
 AM_CPPFLAGS = -I$(top_srcdir)/include
@@ -186,6 +193,7 @@ endif
 
 test:
 	$(MAKE) -C tests test
+
 
 EMDROS_EXAMPLES_VERSION = 2.0
 EXAMPLESDIR = Emdros-Examples-$(EMDROS_EXAMPLES_VERSION)

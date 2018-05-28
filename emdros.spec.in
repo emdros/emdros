@@ -137,6 +137,7 @@ This package contains development files.
 %files devel -f %{_builddir}/emdros-%{ver}/extrafiles-emdros-devel.txt
 %{prefix}/lib/*.so
 %{prefix}/lib/*.la
+%{_datadir}/pkgconfig/emdros.pc
 %{_includedir}/emdros/
 
 %files  -f %{_builddir}/emdros-%{ver}/extrafiles-emdros.txt
