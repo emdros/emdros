@@ -104,7 +104,6 @@
 #include "debug.h"
 // emdf.h also includes emdros-lconfig.h
 #include "emdf.h"
-// So that this will be defined
 #include "pcre2_emdros.h"
 #include "infos.h"
 #include "emdf_enums.h"
