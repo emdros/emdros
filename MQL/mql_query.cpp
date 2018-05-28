@@ -2210,7 +2210,7 @@ bool FeatureComparison::compare(MQLExecEnv *pEE, const EMdFValue *left_value, No
 
 	// Compare
 	bool bResult;
-	int pcre_result;
+	int pcre2_result;
 	int start_offset = 0;
 	std::string right_value;
 	std::string left_value_str;
