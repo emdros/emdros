@@ -79,9 +79,8 @@ AC_CONFIG_FILES([Makefile
                  contrib/sqlite3/Makefile
                  contrib/sqlite3/src/Makefile
 		 lib/Makefile
-                 lib/base/emdros-lconfig.h
-                 lib/base/version-emdros.h
-                 lib/base/Makefile
+                 include/emdros-lconfig.h
+                 include/version-emdros.h
                  lib/EMdF/Makefile
                  lib/MQL/Makefile
                  lib/harvest/Makefile
@@ -89,26 +88,22 @@ AC_CONFIG_FILES([Makefile
                  lib/importers/Makefile
                  amalgamation/Makefile
                  src/Makefile
-                 src/cli/Makefile
-                 src/gui/Makefile
-                 src/gui/art/Makefile
-                 src/gui/wx/Makefile 
-                 src/gui/importtool/Makefile
-		 src/gui/importtool/doc/Makefile
-                 src/gui/querytool/Makefile
-                 src/gui/querytool/doc/Makefile
-                 bindings/Makefile
-                 bindings/SWIG/Makefile
-                 bindings/SWIG/csharp/Makefile
-                 bindings/SWIG/java/Makefile
-                 bindings/SWIG/php7/Makefile
-                 bindings/SWIG/python2/Makefile
-                 bindings/SWIG/python3/Makefile
+                 src/importtool/Makefile
+		 src/importtool/doc/Makefile
+                 src/querytool/Makefile
+                 src/querytool/doc/Makefile
+                 SWIG/Makefile
+                 SWIG/csharp/Makefile
+                 SWIG/java/Makefile
+                 SWIG/php5/Makefile
+                 SWIG/php7/Makefile
+                 SWIG/python2/Makefile
+                 SWIG/python3/Makefile
 		 tests/Makefile
 		 tests/asv/Makefile
 		 tests/test_json/Makefile
-                 build/rpm/generate_extrafiles.py 
-                 build/rpm/emdros.spec
+                 generate_extrafiles.py 
+                 emdros.spec
                  emdros.pc
 		 debian/rules
                ])

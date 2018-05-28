@@ -32,6 +32,9 @@
 	- include/conf_ini.h
 	- include/mql_query.h
 
+	* util/: All of the importers have been moved into a new library,
+	libemdros_importers, in importers/.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).
