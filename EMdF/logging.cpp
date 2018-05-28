@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 11/21-2002
- * Last update: 2/7-2018
+ * Last update: 5/28-2018
  *
  */
 /************************************************************************
@@ -95,11 +95,7 @@
 #include <fstream>
 #include <cstdlib>
 #include <cstring>
-#ifdef __DJGPP__
-#include <elconf.h>
-#else
 #include <emdros-lconfig.h>
-#endif
 
 
 /** Maximum string length that a timestamp can be.

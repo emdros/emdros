@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 4/9-2005
- * Last update: 5/11-2018
+ * Last update: 5/28-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2011  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2005-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -83,14 +83,8 @@
  *
  **************************************************************************/
 #include "exec.h"
-#ifdef __DJGPP__
-#include <mql_ex~1.h>
-#include <mql_ex~2.h>
-#include "emdros~1.h"
-#else
 #include <mql_execute.h>
 #include "emdros_wrapper.h"
-#endif
 #include <fstream>
 
 

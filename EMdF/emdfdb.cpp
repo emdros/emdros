@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 5/11-2018
+ * Last update: 5/28-2018
  *
  */
 /************************************************************************
@@ -135,17 +135,6 @@ static void sleep(DWORD milliseconds)
 #endif
 
 
-#ifdef __DJGPP__
-static void sleep(short int milliseconds)
-{
-	// Note: This method isn't really necessary, so
-	// this hack is OK.
-	volatile double mydouble = 1.34;
-	for (int i = 0; i < milliseconds*10000; ++i) {
-		mydouble = (mydouble * 1.2);
-	}
-}
-#endif
 
 /** Decode object range type from Object Type flags.
  *
