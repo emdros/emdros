@@ -63,6 +63,7 @@ emdflib_src = arena.cpp \
        minidom.cpp \
        monads.cpp \
        qdxml.cpp \
+       smart_vector.cpp \
        string_func.cpp \
        string2som_map.cpp \
        string_list.cpp \
