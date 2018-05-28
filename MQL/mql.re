@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 6/23-2007
- * Last update: 7/30-2016
+ * Last update: 5/28-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2016  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -301,7 +301,7 @@ E N C O D I N G             { MQL_TOKEN_RETURN("encoding", T_KEY_ENCODING); }
 			    }
 (BACKPING [a-zA-Z_][a-zA-Z0-9_]*)+       { addToken();
                                            MQL_TOKEN_RETURN("mark", T_MARK); }
-[0-9]{1,10}                 { addInteger();
+[0-9]{1,20}                 { addInteger();
                               MQL_TOKEN_RETURN(INTEGER_MAGIC, T_INTEGER); }
 '"'                         { yylval->setString(new std::string);
 			      yylval->pString->reserve(32);
@@ -390,7 +390,7 @@ void MQLScanner::addToken(void)
 
 void MQLScanner::addInteger(void)
 {
-	const unsigned int MAX_INTEGER_CHARS = 12;
+	const unsigned int MAX_INTEGER_CHARS = 20;
 	unsigned int cnt = cur - tok;
 	if (cnt > MAX_INTEGER_CHARS) {
 	   	std::string mystring;

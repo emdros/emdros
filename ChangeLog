@@ -130,6 +130,8 @@
 	* SWIG/: Always build SWIG-generated sources if we CAN_DO_SWIG
 	(and for PHP7, if CAN_SWIG_DO_PHP7).
 
+	* MQL/mql.re: Upgrade the MQL lexer to work with 64-bit integers.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).
