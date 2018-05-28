@@ -143,6 +143,9 @@
 
 	* Ensure that "make dist" works.
 
+	* include/emdf_wstring.h, EMdF/emdf_wstring.cpp: Remove, since we
+	haven't used them for more than a decade.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).
