@@ -35,8 +35,8 @@ Requirements
 Platforms supported
 -------------------
 
-The following *nix platforms are supported by Emdros, and thus are
-known to work:
+The following *nix-like platforms are supported by Emdros, and thus
+are known to work:
 
 - Linux x86, x86_64 and ARMv7
 - Solaris 10 on SPARC hardware
@@ -47,7 +47,7 @@ known to work:
 In addition, Emdros releases are regularly compiled and tested on
 Windows.  It should work on:
 
-- Windows XP, Vista, 7, 8, and 8.1 (see INSTALL.Win32.txt)
+- Windows XP, Vista, 7, 8, 8.1, and 10 (see INSTALL.Win32.txt)
 
 There have been reports of Emdros compiling and running on *BSD,
 including NetBSD and FreeBSD.  These platforms are not regularly
@@ -82,6 +82,7 @@ The specific PostgreSQL library needed by Emdros is:
 The specific MySQL library needed by Emdros is:
 
 - libmysqlclient.a
+
 
 CentOS
 ------
