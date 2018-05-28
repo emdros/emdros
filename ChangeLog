@@ -122,6 +122,8 @@
 	* EMdF/make_primes_list.py: Finish the final "/* if
 	!defined(EMDR_PRIMES_H_)" commen twith "*/".
 
+	* src/agexport.cpp: Remove this, since it has never been tested.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).

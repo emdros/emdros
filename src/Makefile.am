@@ -5,22 +5,21 @@ MACLDFLAGS = -static
 endif
 
 bin_PROGRAMS = mql mqldump upgrade_db manage_indices \
-               agexport ubimport pennimport negraimport tigerxmlimport \
+               ubimport pennimport negraimport tigerxmlimport \
                plaintextimport slashedtextimport sfmimport \
                renderobjects fts_indexer fts_harvester bptdump \
                bptdetach
 
-ALWAYSLDADD = @EMDROS_LDADD_BACKBACK@ \
-              @ZLIB_LDADD_BACKBACK@ \
+ALWAYSLDADD = @EMDROS_LDADD@ \
+              @ZLIB_LDADD@ \
               @SUN_LDFLAGS@  @DARWIN_LDFLAGS@
 
-ALWAYSDEPS = @EMDROS_DEPS_BACKBACK@ @ZLIB_DEPS_BACKBACK@
+ALWAYSDEPS = @EMDROS_DEPS@ @ZLIB_DEPS@
 
 mql_LDADD = $(ALWAYSLDADD)
 mqldump_LDADD =  $(ALWAYSLDADD)
 upgrade_db_LDADD = $(ALWAYSLDADD)
 manage_indices_LDADD = $(ALWAYSLDADD)
-agexport_LDADD =  $(ALWAYSLDADD)
 ubimport_LDADD =  $(ALWAYSLDADD)
 pennimport_LDADD =  $(ALWAYSLDADD)
 negraimport_LDADD =  $(ALWAYSLDADD)
@@ -39,7 +38,6 @@ mql_LDFLAGS = $(MACLDFLAGS)
 mqldump_LDFLAGS = $(MACLDFLAGS)
 upgrade_db_LDFLAGS = $(MACLDFLAGS)
 manage_indices_LDFLAGS = $(MACLDFLAGS)
-agexport_LDFLAGS = $(MACLDFLAGS)
 ubimport_LDFLAGS = $(MACLDFLAGS)
 pennimport_LDFLAGS = $(MACLDFLAGS)
 negraimport_LDFLAGS = $(MACLDFLAGS)
@@ -58,7 +56,6 @@ mql_DEPENDENCIES = $(ALWAYSDEPS)
 mqldump_DEPENDENCIES = $(ALWAYSDEPS)
 upgrade_db_DEPENDENCIES = $(ALWAYSDEPS)
 manage_indices_DEPENDENCIES = $(ALWAYSDEPS)
-agexport_DEPENDENCIES = $(ALWAYSDEPS)
 ubimport_DEPENDENCIES = $(ALWAYSDEPS)
 pennimport_DEPENDENCIES = $(ALWAYSDEPS)
 negraimport_DEPENDENCIES = $(ALWAYSDEPS)
@@ -78,7 +75,6 @@ mql_SOURCES = mql.cpp
 mqldump_SOURCES = mqldump.cpp 
 upgrade_db_SOURCES = upgrade_db.cpp
 manage_indices_SOURCES = manage_indices.cpp
-agexport_SOURCES = agexport.cpp 
 ubimport_SOURCES = ubimport.cpp
 pennimport_SOURCES = pennimport.cpp
 negraimport_SOURCES = negraimport.cpp
@@ -93,7 +89,7 @@ bptdump_SOURCES = bptdump.cpp
 bptdetach_SOURCES = bptdetach.cpp
 
 
-AM_CPPFLAGS = -I$(srcdir)/../include
+AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/
 EXTRA_DIST = win32.mak mingw.mak 
 
 CLEANFILES = *~ core 
