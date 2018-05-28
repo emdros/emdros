@@ -7,13 +7,22 @@ endif
 
 ARFLAGS = @ARFLAGS@
 
-lib_LTLIBRARIES = libutil_emdros.la
 
-libutil_emdros_la_DEPENDENCIES = @EMDROS_DEPS@
-libutil_emdros_la_LIBADD = @EMDROS_LDADD@
+if DO_DEVEL
+MAYBE_LIBS_UTIL = libutil_emdros.la
+else
+MAYBE_LIBS_UTIL = 
+endif
+
+lib_LTLIBRARIES = $(MAYBE_LIBS_UTIL)
+
+libutil_emdros_la_DEPENDENCIES = @HARVEST_DEPS_BACKBACK@ @MQL_DEPS_BACKBACK@ @EMDF_DEPS_BACKBACK@
+libutil_emdros_la_LIBADD = @HARVEST_LDADD_BACKBACK@ @MQL_LDADD_BACKBACK@ @EMDF_LDADD_BACKBACK@
 libutil_emdros_la_LDFLAGS = $(MACLDFLAGS) \
                             @SUN_LDFLAGS@ \
                             @DARWIN_LDFLAGS@
+
+
 libutil_emdros_la_SOURCES = mql_exporter.cpp agxml.cpp opt.cpp \
                             conf.cpp conf_ini.cpp \
                             schema.cpp unboundbibleimporter.cpp \

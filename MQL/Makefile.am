@@ -49,16 +49,19 @@ mqllib_src = mql_yylex.cpp \
        mql_sheaf.cpp \
        mql_statement.cpp \
        mql_utility.cpp 
-#
-# PostgreSQL and MySQL
-#
-if POSTGRESQL
+
+
+
+
+if DO_DEVEL
+MAYBE_LIBS_MQL = libmql.la
+else
+MAYBE_LIBS_MQL = 
 endif
 
-if MYSQL
-endif
 
-lib_LTLIBRARIES = libmql.la 
+lib_LTLIBRARIES = $(MAYBE_LIBS_MQL)
+
 
 
 #
@@ -66,11 +69,13 @@ lib_LTLIBRARIES = libmql.la
 #
 libmql_la_SOURCES = $(mqllib_src)
 
-libmql_la_LIBADD = @PCRE_LIBADD@ @EMDFDEPS@
-libmql_la_DEPENDENCIES = @PCRE_DEP@ @EMDFDEPS@
+libmql_la_LIBADD = @EMDF_LDADD_BACKBACK@ @PCRE2_LDADD_BACKBACK@ 
+libmql_la_DEPENDENCIES = @EMDF_DEPS_BACKBACK@ @PCRE2_DEPS_BACKBACK@ 
 libmql_la_LDFLAGS = $(MACLDFLAGS) -version-info \
-       @LIB_MQL_CURRENT@:@LIB_MQL_REVISION@:@LIB_MQL_AGE@ \
+       @LIB_EMDROS_CURRENT@:@LIB_EMDROS_REVISION@:@LIB_EMDROS_AGE@ \
        @SUN_LDFLAGS@ @DARWIN_LDFLAGS@
+
+
 
 
 #
