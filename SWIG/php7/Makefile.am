@@ -1,15 +1,18 @@
 SWIG_PROGRAM = @SWIG_PROGRAM@
 
+SWIG_PHP7_SRC = \
+      php7emdros_wrap.cxx \
+      php7emdros_wrap.h \
+      php_EmdrosPHP7.h \
+      EmdrosPHP7.php
+
 
 
 AM_CXXFLAGS = @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ @ADDITIONAL_CXXFLAGS@ @DEBUGFLAG@
 
-AM_CPPFLAGS = -I$(top_srcdir)/include -I. @PHP7_INCLUDES@
-
-
-
+AM_CPPFLAGS = -I. -I$(top_srcdir) @PHP7_INCLUDES@ 
 php7emdros_wrap.cxx: php7emdros.i libemdfphp.i libmqlphp.i 
-	cd $(srcdir) ; $(SWIG_PROGRAM) -c++ -php7 php7emdros.i
+	$(SWIG_PROGRAM) -c++ -php7 php7emdros.i
 
 EmdrosPHP7.php: php7emdros_wrap.cxx
 
@@ -23,11 +26,6 @@ EmdrosPHP7.ini: Makefile EmdrosPHP7.ini.in
 
 if SWIG_WITH_PHP7_WRAPPERS
 
-SWIG_PHP7_SRC = \
-      php7emdros_wrap.cxx \
-      php7emdros_wrap.h \
-      php_EmdrosPHP7.h \
-      EmdrosPHP7.php
 
 
 MAYBE_BUILT_SRC = $(SWIG_PHP7_SRC) 
@@ -37,16 +35,12 @@ pkglib_LTLIBRARIES = EmdrosPHP7.la
 nodist_EmdrosPHP7_la_SOURCES = php7emdros_wrap.cxx 
 
 
-EmdrosPHP7_la_LIBADD = $(top_builddir)/harvest/libharvest.la \
-                      $(top_builddir)/MQL/libmql.la @PCRE_LIBADD_SWIG@ \
-                      @EMDFLDADDSWIG@ @ZLIB_LIBADD_SWIG@ 
-EmdrosPHP7_la_LDFLAGS = @SWIG_EXTRA_LIBS@ -module \
+EmdrosPHP7_la_LIBADD = @EMDROS_LDADD_BACKBACK@
+EmdrosPHP7_la_LDFLAGS = -module \
                        -version-info \
-                       @LIB_SWIG_CURRENT@:@LIB_SWIG_REVISION@:@LIB_SWIG_AGE@ \
+                       @LIB_EMDROS_CURRENT@:@LIB_EMDROS_REVISION@:@LIB_EMDROS_AGE@ \
                        @DARWIN_LDFLAGS@ @SUN_LDFLAGS@
-EmdrosPHP7_la_DEPENDENCIES = $(top_builddir)/harvest/libharvest.la \
-                            $(top_builddir)/MQL/libmql.la @PCRE_DEP_SWIG@ \
-                            @EMDFDEPSSWIG@ @ZLIB_DEP_SWIG@ 
+EmdrosPHP7_la_DEPENDENCIES = @EMDROS_DEPS_BACKBACK@
 
 
 
@@ -66,9 +60,6 @@ macdist:
 else
 # Not SWIG_WITH_PHP7_WRAPPERS
 
-SWIG_PHP7_SRC =
-
-
 MAYBE_BUILT_SRC = 
 
 pkglib_LTLIBRARIES =
@@ -84,6 +75,7 @@ endif # end if SWIG_WITH_PHP7_WRAPPERS
 
 BUILT_SOURCES = $(MAYBE_BUILT_SRC) EmdrosPHP7.ini
 
+
 EXTRA_DIST = php7emdros.i \
              libemdfphp.i libmqlphp.i \
              EmdrosPHP7.ini.in \
@@ -91,7 +83,7 @@ EXTRA_DIST = php7emdros.i \
              README-PHP7 \
              $(MAYBE_BUILT_SRC)
 
-CLEANFILES = *~ core config.log $(BUILT_SOURCES)
+CLEANFILES = *~ core config.log 
 
 DISTCLEANFILES = $(SWIG_PHP7_SRC) \
                  php7emdros_wrap.cxx php7emdros_wrap.h \
