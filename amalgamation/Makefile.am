@@ -54,7 +54,7 @@ emdros.h: amalgamation_made.txt
 emdros_c.h: amalgamation_made.txt
 
 amalgamation_made.txt: mkamalgamation.py amalgamation.xml
-	python mkamalgamation.py amalgamation.xml
+	python2 mkamalgamation.py amalgamation.xml
 	touch amalgamation_made.txt
 
 emdros-lconfig.h: ../include/emdros-lconfig.h

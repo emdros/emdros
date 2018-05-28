@@ -13,6 +13,9 @@
 
 	* SWIG/python2/, SWIG/python3/: Do the same for these.
 
+	* amalgamation/Makefile.am: Use 'python2' rather than 'python', in
+	order to make rpm-build on Fedora 28 happy.
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into
