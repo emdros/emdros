@@ -133,7 +133,7 @@ DIST_DOC_DOC_FILES=bootstrapping.txt HOW-TO-USE.txt MQL-README.txt \
                    emdftry.html jsontry.html mqltry.html mqllingtry.html \
                    fts_indexer.html fts_harvester.html fts_filters.html \
                    jsontry.html renderobjects.html \
-                   eqtc.html eqtu.html agexport.html \
+                   eqtc.html eqtu.html \
                    ubimport.html pennimport.html negraimport.html \
                    plaintextimport.html slashedtextimport.html \
                    sfmimport.html tigerxmlimport.html bptdump.html \
@@ -189,7 +189,6 @@ DIST_BIN_FILES=  win32\Release\mql.exe \
                  win32\Release\mqldump.exe \
                  win32\Release\manage_indices.exe \
                  win32\Release\upgrade_db.exe \
-                 win32\Release\agexport.exe \
                  win32\Release\ubimport.exe \
                  win32\Release\pennimport.exe \
                  win32\Release\negraimport.exe \
