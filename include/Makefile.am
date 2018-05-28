@@ -7,8 +7,8 @@ include Makefile.inc
 PACKAGE_INCLUDE_HEADER_FILES_NODIST = \
        pcre2_emdros.h zlib_emdros.h
 
-if USE_LOCAL_PCRE
-PACKAGE_INCLUDE_HEADER_FILES_NODIST += pcre_config.h
+if USE_LOCAL_PCRE2
+PACKAGE_INCLUDE_HEADER_FILES_NODIST += pcre2_config.h
 endif
 
 if USE_LOCAL_ZLIB
@@ -60,13 +60,13 @@ CLEANFILES = *~ pcre2_emdros.h zlib_emdros.h \
 
 DISTCLEANFILES = emdros-config.h.in
 
-if USE_LOCAL_PCRE
+if USE_LOCAL_PCRE2
 pcre2_emdros.h: $(srcdir)/../pcre2/pcre2.h
-	echo '#include "pcre_config.h"' >> ./pcre2_emdros.h
+	echo '#include "pcre2_config.h"' >> ./pcre2_emdros.h
 	cat $(srcdir)/../pcre2/pcre2.h >> ./pcre2_emdros.h
 else
 pcre2_emdros.h:
-	echo "#include <pcre.h>" > pcre2_emdros.h
+	echo "#include <pcre2.h>" > pcre2_emdros.h
 endif
 
 if USE_LOCAL_ZLIB
