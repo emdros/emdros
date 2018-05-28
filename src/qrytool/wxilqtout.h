@@ -90,14 +90,17 @@
 #pragma interface "wxilqtout.cpp"
 #endif
 
+#include <wx/font.h>
 
-#include "conf.h"
+
+#include <map>
+
+#include <emdros.h>
+
 #include "qtoutput.h"
+
 #include <htreecanvas.h>
 #include <layout.h>
-#include <wx/font.h>
-#include <conf.h>
-#include <map>
 
 class WXILLayoutCanvas : public LayoutCanvas {
  protected:

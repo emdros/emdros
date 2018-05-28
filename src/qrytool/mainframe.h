@@ -6,13 +6,13 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 2/28-2007
+ * Last update: 11/10-2017
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2007  Ulrik Petersen
+ *   Copyright (C) 2005-2017  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -104,13 +104,14 @@
 #include "wx/splitter.h"
 #include "wx/treectrl.h"
 #include "wx/wxhtml.h"
-#include <emdros_environment.h>
+
 #include <string>
-#include <conf.h>
+
+#include <emdros.h>
+
 #include <layout.h>
-#include <emdf_enums.h>
+
 #include "wxilqtout.h"
-#include "schema.h"
 #include "emdros_wrapper.h"
 ////@end includes
 

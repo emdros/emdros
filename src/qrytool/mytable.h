@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/9-2005
- * Last update: 3/1-2017
+ * Last update: 11/10-2017
  *
  */
 /************************************************************************
@@ -86,14 +86,12 @@
 #ifndef MYTABLE__H__
 #define MYTABLE__H__
 
-#include <table.h>
 #include <set>
 #include <map>
 #include <vector>
 #include <string>
-#include <emdf.h>
-#include <monads.h>
-#include <emdf_exception.h>
+
+#include <emdros.h>
 
 class MyTable; // Forward declaration
 

@@ -70,6 +70,9 @@
 	include/opt.h
 	include/qdxml.h
 
+	* Remove src/qrytool/TECKit.  It had not been updated for a very
+	long time, and so far as Ulrik knows, nobody was using its
+	facilities.
 
 2018-05-12 Ulrik Sandborg-Petersen
 

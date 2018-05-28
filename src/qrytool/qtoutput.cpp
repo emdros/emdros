@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 5/15-2005
- * Last update: 8/30-2008
+ * Last update: 11/9-2017
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2008  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2005-2017  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -83,11 +83,6 @@
  *
  **************************************************************************/
 
-#include "qtoutput.h"
-#include <string_func.h>
-#include <prefix_emdros.h>
-#include "conf.h"
-#include "schema.h"
 #include <sstream>
 #include <fstream>
 #include <iostream>
@@ -95,23 +90,19 @@
 #include <cstring>
 #include <cstdlib>
 
+#include <emdros.h>
+
+
+#include "qtoutput.h"
+
 bool loadFile(std::string filename, std::string& outstring, std::string& message)
 {
 	std::ostringstream ostr;
 	std::ifstream fin;
 	fin.open(filename.c_str());
 	if (!fin) {
-		std::string newFileName = app_prefix() + filename;
-		std::ifstream fin2;
-		fin2.open(newFileName.c_str());
-		if (!fin2) {
-		        message += "ERROR: Could not open file " + filename +" for reading.\n\n";
-			return false;
-		} else {
-	                char c;
-			while (fin2.get(c)) ostr.put(c);
-			fin2.close();
-		}
+		message += "ERROR: Could not open file " + filename +" for reading.\n\n";
+		return false;
 	} else {
 	        char c;
 	        while (fin.get(c)) ostr.put(c);
@@ -122,6 +113,7 @@ bool loadFile(std::string filename, std::string& outstring, std::string& message
 	return true;
 }
 
+/*
 bool string2encoding(const std::string& encoding_name, unsigned int& output)
 {
 	std::string locase_name;
@@ -140,7 +132,10 @@ bool string2encoding(const std::string& encoding_name, unsigned int& output)
 		return false;
 	}
 }
+*/
 
+
+/*
 void clear_OTFeatureTECkitTableMapMap(OTFeatureTECkitTableMapMap &TECkitMap)
 {
 	OTFeatureTECkitTableMapMap::iterator it1 = TECkitMap.begin();
@@ -154,12 +149,14 @@ void clear_OTFeatureTECkitTableMapMap(OTFeatureTECkitTableMapMap &TECkitMap)
 		++it1;
 	}
 }
+*/
 
 QTOutputBase::~QTOutputBase()
 {
-	clear_OTFeatureTECkitTableMapMap(m_TECkitMap);
+	// clear_OTFeatureTECkitTableMapMap(m_TECkitMap);
 }
 
+/*
 bool QTOutputBase::compileTECkits(Configuration *pConf, const std::string& object_type_name, const std::string& feature_name, std::string& message)
 {
 	if (!pConf->has_key("data_feature_teckit_mapping")) {
@@ -306,6 +303,9 @@ std::string QTOutputBase::applyTECkit(const std::string& object_type_name, unsig
 	}
 }
 
+*/
+
+
 int QTOutputBase::getIndexOfFeature(const std::string& object_type_name,
 				    const std::string& feature_name)
 {
@@ -325,6 +325,8 @@ int QTOutputBase::getIndexOfFeature(const std::string& object_type_name,
 
 bool QTOutputBase::getConfigurationValues(Configuration *pConf, EmdrosSchema *pSchema, std::string& message)
 {
+	UNUSED(message);
+	
 	bool bResult = true;
 
 	// Number of interlinear lines
@@ -394,13 +396,15 @@ bool QTOutputBase::getConfigurationValues(Configuration *pConf, EmdrosSchema *pS
 			     ++featntci) {
 				std::string feature_name;
 				str_tolower(featntci->name, feature_name);
-	
+
+				/*
 				// Compile any TECkits for this particular OT/feature-name
 				bool bCompilationResult = compileTECkits(pConf, object_type_name, feature_name, message);
 				if (!bCompilationResult) {
 					message += "Could not compile TECkit mapping.\n";
 					bResult = false;
 				}
+				*/
 			}
 		}
 	}

@@ -83,6 +83,8 @@ since 3.5.0.
 - DJGPP support has been removed, along with QMake (from Qt) support.
   Should you need either of these back in, please contact Ulrik.
 
+- TECkit has been removed, meaning you can no longer translate
+  encodings on-the-fly in the Emdros Query Tool.
 
 - *** Version 3.5.0 *** 
 

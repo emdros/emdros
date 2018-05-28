@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/16-2005
- * Last update: 3/1-2017
+ * Last update: 11/10-2017
  *
  */
 /************************************************************************
@@ -83,6 +83,8 @@
  *
  **************************************************************************/
 
+#include <emdros.h>
+
 #include "consout.h"
 
 ConsoleQTOutput::ConsoleQTOutput(std::ostream* pOut, bool bDeleteOut) 
@@ -143,8 +145,14 @@ void ConsoleQTOutput::printFeature(const std::string& object_type_name,
 {
   // The naive implementation just prints the feature value
   // A more sophisticated version will change the font...
+	/*
   std::string new_feature_value = applyTECkit(object_type_name, feature_index, feature_name, feature_value);
   print(new_feature_value + ' ');
+	*/
+	UNUSED(object_type_name);
+	UNUSED(feature_index);
+	UNUSED(feature_name);
+	print(feature_value + ' ');
 }
 
 

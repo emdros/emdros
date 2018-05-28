@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 4/9-2005
- * Last update: 5/31-2005
+ * Last update: 11/10-2017
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005  Ulrik Petersen
+ *   Copyright (C) 2005-2017  Ulrik Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -86,7 +86,6 @@
 #define EXEC__H__
 
 #include "emdros_wrapper.h"
-#include "conf.h"
 
 extern int exec_stream(std::istream *pStrin, EmdrosWrapper *pEW);
 extern int exec_file(std::string filename, EmdrosWrapper *pEW);

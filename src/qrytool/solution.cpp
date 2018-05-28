@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 4/9-2005
- * Last update: 11/13-2009
+ * Last update: 11/10-2017
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2009  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2005-2017  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -83,8 +83,10 @@
  *
  **************************************************************************/
 
+#include <emdros.h>
+
 #include "solution.h"
-#include <debug.h>
+
 
 Solution::Solution()
 {

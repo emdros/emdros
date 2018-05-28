@@ -6,7 +6,7 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 4/10-2017
+ * Last update: 11/5-2017
  *
  */
 /************************************************************************
@@ -109,19 +109,21 @@
 #include <wx/clipbrd.h>
 #include <wx/dataobj.h>
 #include <wx/version.h>
+
 #include <fstream>
 #include <sstream>
-#include "exec.h"
-#include <wxutil_emdros.h>
-#include <prefix_emdros.h>
-#include "qtconnwizard.h"
+
 
 ////@end includes
 
+#include <emdros.h>
+
+#include "exec.h"
+#include "qtconnwizard.h"
 #include "mainframe.h"
 #include "conndlg.h"
 #include "mqlqtwx.h"
-#include <monads.h>
+
 
 ////@begin XPM images
 #include <connect.xpm>
@@ -801,19 +803,25 @@ void MainFrame::OnToolsExecuteQuery(wxCommandEvent& event)
 
 	std::istringstream istr(std::string((const char*)(m_pEditWindow->GetValue().mb_str(wxConvUTF8))));
 	if (m_pEE == 0 || !m_pEE->connectionOk()) {
-		wxEmdrosErrorMessage(wxT("Error: The connection to the backend is not OK.\n")
-				     wxT("You must use \"Tools\"-->\"New connection...\"\n")
-				     wxT("to establish a proper connection."));
+		wxMessageBox(wxT("Error: The connection to the backend is not OK.\n")
+			     wxT("You must use \"Tools\"-->\"New connection...\"\n")
+			     wxT("to establish a proper connection."),
+			     wxT("Error"),
+			     wxOK|wxCENTRE|wxICON_ERROR);
 		return;
 	} else {
 		m_bExecuting = true;
 		int nReturnCode = exec_stream(&istr, m_pEW);
 		if (m_pOut->ShouldStop()) {
-			wxEmdrosInfoMessage(wxT("You successfully stopped the process."));
+			wxMessageBox(wxT("You successfully stopped the process."),
+			     wxT("Information"),
+			     wxOK|wxCENTRE|wxICON_EXCLAMATION);
 			m_pOut->UnStop();
 		}
 		if (nReturnCode != 0) {
-			wxEmdrosErrorMessage(wxT("Error: Something went wrong while executing query."));
+			wxMessageBox(wxT("Error: Something went wrong while executing query."),
+				     wxT("Error"),
+				     wxOK|wxCENTRE|wxICON_ERROR);
 		}
 		m_bExecuting = false;
 	}
@@ -844,16 +852,22 @@ void MainFrame::OnToolsConfigure(wxCommandEvent& event)
 {
 	(void)(event); // Silence a warning	
 
-	//wxEmdrosInfoMessage(wxT("Sorry. Not implemented yet.\nPlease close this dialog box, then\npress F1 to see the User's Guide about how to write\na *.cfg configuration file."));
+	//wxMessageBox(wxT("Sorry. Not implemented yet.\nPlease close this dialog box, then\npress F1 to see the User's Guide about how to write\na *.cfg configuration file."), wxT("Information"), wxOK|wxCENTRE|wxICON_EXCLAMATION);
 	try {
 		ConnectionWizard *pWizard = new ConnectionWizard(this);
 		if (pWizard->RunIt()) {
-			wxEmdrosInfoMessage(wxT("Finished successfully!"));
+			wxMessageBox(wxT("Finished successfully!"),
+				     wxT("Information"),
+				     wxOK|wxCENTRE|wxICON_INFORMATION);
 		} else {
-			wxEmdrosInfoMessage(wxT("Aborted."));
+			wxMessageBox(wxT("Aborted."),
+				     wxT("Information"),
+				     wxOK|wxCENTRE|wxICON_INFORMATION);
 		}
 	} catch (EmdrosException e) {
-		wxEmdrosInfoMessage(wxString(e.what().c_str(), wxConvUTF8));
+		wxMessageBox(wxString(e.what().c_str(), wxConvUTF8),
+			     wxT("Information"),
+			     wxOK|wxCENTRE|wxICON_INFORMATION);
 	}
 }
 
@@ -896,7 +910,9 @@ void MainFrame::ReadQuery()
 	std::ifstream fin;
 	fin.open(std::string((const char*)(m_strCurFileName.mb_str(wxConvUTF8))).c_str(), std::ios::in);
 	if (!fin) {
-		wxEmdrosErrorMessage(wxT("Could not open file."));
+		wxMessageBox(wxT("Could not open file."),
+			     wxT("Error"),
+			     wxOK|wxCENTRE|wxICON_ERROR);
 	} else {
 		ClearTextCtrls();
 		while (!fin.eof()) {
@@ -915,7 +931,9 @@ void MainFrame::SaveTextCtrl(const wxString& filename, wxTextCtrl *pTextCtrl)
 	std::ofstream fout;
 	fout.open(std::string((const char*)(filename.mb_str(wxConvUTF8))).c_str(), std::ios::out);
 	if (!fout) {
-		wxEmdrosErrorMessage(wxT("Could not open file for writing."));
+		wxMessageBox(wxT("Could not open file for writing."),
+			     wxT("Error"),
+			     wxOK|wxCENTRE|wxICON_ERROR);
 	} else  {
 		wxString strQuery = pTextCtrl->GetValue();
 		fout << std::string((const char*) strQuery.mb_str(wxConvUTF8));
@@ -929,7 +947,9 @@ void MainFrame::SaveOutputAreaAsHTML(const wxString& filename)
 	std::string str_filename = std::string((const char*)(filename.mb_str(wxConvUTF8)));
 	fout.open(str_filename.c_str(), std::ios::out);
 	if (!fout) {
-		wxEmdrosErrorMessage(wxT("Could not open file for writing."));
+		wxMessageBox(wxT("Could not open file for writing."),
+			     wxT("Error"),
+			     wxOK|wxCENTRE|wxICON_ERROR);
 	} else  {
 		wxBusyCursor busyCursor;
 		m_pResultsWindow->toHTML(&fout, str_filename);
@@ -951,7 +971,9 @@ bool MainFrame::Connect()
 				    &ssout);
 	if (m_pConf == 0) {
 		(*m_pOut) << ssout.str();
-		wxEmdrosErrorMessage(wxString(wxT("Error: Could not load configuration file:\n")) + m_connectionData.m_strConfiguration);
+		wxMessageBox(wxString(wxT("Error: Could not load configuration file:\n")) + m_connectionData.m_strConfiguration,
+			     wxT("Error"),
+			     wxOK|wxCENTRE|wxICON_ERROR);
 		ClearSchemaTree(wxString(wxT("Configuration not loaded")));
 		this->Refresh();
 		return false;
@@ -961,9 +983,11 @@ bool MainFrame::Connect()
 			if (m_pConf->has_key("database")) {
 				strDB = wxString(m_pConf->getValues("database")[0].c_str(), wxConvUTF8);
 			} else {
-				wxEmdrosErrorMessage(wxString(wxT("Error: You must specify a database name,\n")
-							      wxT("either in the connection dialog or in the\n")
-							      wxT("configuration file (with the 'database' key).")));
+				wxMessageBox(wxString(wxT("Error: You must specify a database name,\n")
+						      wxT("either in the connection dialog or in the\n")
+						      wxT("configuration file (with the 'database' key).")),
+					     wxT("Error"),
+					     wxOK|wxCENTRE|wxICON_ERROR);
 				ClearSchemaTree(wxString(wxT("No database specified")));
 				this->Refresh();
 				return false;
@@ -990,7 +1014,9 @@ bool MainFrame::Connect()
 		std::string message;
 		if (!m_pEW->configurePOut(message)) {
 			wxString wxStrMsg = wxString(message.c_str(), wxConvUTF8);
-			wxEmdrosErrorMessage(wxString(wxT("Error: While configuring, I encountered the following problem:\n") + wxStrMsg));
+			wxMessageBox(wxString(wxT("Error: While configuring, I encountered the following problem:\n") + wxStrMsg),
+				     wxT("Error"),
+				     wxOK|wxCENTRE|wxICON_ERROR);
 		}
 
 		// Initialize m_pResultsWindow
@@ -1045,7 +1071,9 @@ bool MainFrame::Connect()
 							  wxT("program is located, or to C:\\WINDOWS\\SYSTEM32\\."));
 			}
 #endif
-					       wxEmdrosErrorMessage(error_message);
+					       wxMessageBox(error_message,
+							    wxT("Error"),
+							    wxOK|wxCENTRE|wxICON_ERROR);
 			ClearSchemaTree(wxString(wxT("Could not establish connection...")));
 			this->Refresh();
 			return false;
@@ -1078,7 +1106,9 @@ void MainFrame::PopulateSchemaTree(void)
 	ClearSchemaTree(m_connectionData.m_strDatabase);
 	std::ostringstream stringstream;
 	if (!m_pEW->retrieveSchema(&stringstream)) {
-		wxEmdrosErrorMessage(wxT("Error: Could not retrieve schema."));
+		wxMessageBox(wxT("Error: Could not retrieve schema."),
+			     wxT("Error"),
+			     wxOK|wxCENTRE|wxICON_ERROR);
 	} else {
 		EmdrosSchema *pSchema = m_pEW->getPSchema();
 		if (pSchema != 0) {

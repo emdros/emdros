@@ -6,7 +6,7 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 4/10-2017
+ * Last update: 11/4-2017
  *
  */
 /************************************************************************
@@ -101,12 +101,11 @@
 #include <wx/valgen.h>
 #include <wx/fontdlg.h>
 
-#include "qtconnwizard.h"
-#include <wxutil_emdros.h>
-#include <string_func.h>
-#include <prefix_emdros.h>
 #include <emdros-lconfig.h>
-#include <conf.h>
+#include <emdros.h>
+
+#include "qtconnwizard.h"
+
 
 
 //////////////////////////////////////////////////
@@ -246,7 +245,7 @@ void RasterUnitWizardPage::OnPageChanging(wxWizardEvent& event)
 	if (event.GetDirection()) { // Forward
 		WXStringVec myvec = m_pLeftRightChooser->getRight();
 		if (m_bDoesNotWantZero && myvec.size() != 1) {
-			wxEmdrosErrorMessage(wxT("Error: You cannot go on without\nspecifying precisely 1 unit."));
+			wxMessageBox(wxT("Error: You cannot go on without\nspecifying precisely 1 unit."), wxT("Error"), wxOK|wxCENTRE|wxICON_ERROR);
 			event.Veto();
 		}
 	} else {
@@ -351,7 +350,7 @@ void DataUnitsWizardPage::OnPageChanging(wxWizardEvent& event)
 	if (event.GetDirection()) { // Forward
 		WXStringVec myvec = m_pLeftRightChooser->getRight();
 		if (myvec.size() < 1) {
-			wxEmdrosErrorMessage(wxT("Error: You cannot go on without\nspecifying at least 1 data unit."));
+			wxMessageBox(wxT("Error: You cannot go on without\nspecifying at least 1 data unit."), wxT("Error"), wxOK|wxCENTRE|wxICON_ERROR);
 			event.Veto();
 		}
 	} else {
@@ -594,7 +593,7 @@ void DataUnitFeaturesWizardPage::OnPageChanging(wxWizardEvent& event)
 	if (event.GetDirection()) { // Forward
 		WXStringVec myvec = m_pLeftRightChooser->getRight();
 		if (myvec.size() < 1) {
-			wxEmdrosErrorMessage(wxT("Error: You cannot go on without\nspecifying at least 1 data unit feature."));
+			wxMessageBox(wxT("Error: You cannot go on without\nspecifying at least 1 data unit feature."), wxT("Error"), wxOK|wxCENTRE|wxICON_ERROR);
 			event.Veto();
 		}
 	} else {
@@ -990,7 +989,7 @@ void ReferenceFeaturesWizardPage::OnPageChanging(wxWizardEvent& event)
 		WXStringVec myvec = m_pLeftRightChooser->getRight();
 		if (m_bHasReferenceUnit) {
 			if (myvec.size() < 1) {
-				wxEmdrosErrorMessage(wxT("Error: You cannot go on without\nspecifying at least 1 data unit."));
+				wxMessageBox(wxT("Error: You cannot go on without\nspecifying at least 1 data unit."), wxT("Error"), wxOK|wxCENTRE|wxICON_ERROR);
 				event.Veto();
 			}
 		}

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/16-2005
- * Last update: 3/1-2017
+ * Last update: 11/10-2017
  *
  */
 /************************************************************************
@@ -86,19 +86,16 @@
 #ifndef QTOUTPUT__H__
 #define QTOUTPUT__H__
 
-#include "TECkit/TECkit_Compiler.h"
-#include "TECkit/TECkit_Engine.h"
+// #include "TECkit/TECkit_Compiler.h"
+// #include "TECkit/TECkit_Engine.h"
 
 #include <string>
 #include <set>
 #include <map>
-#include <emdf_value.h>
-#include <monads.h>
-#include <mytable.h>
 
-typedef std::map<std::string, TECkit_Converter> FeatureTECkitTableMap;
+// typedef std::map<std::string, TECkit_Converter> FeatureTECkitTableMap;
 
-typedef std::map<std::string, FeatureTECkitTableMap> OTFeatureTECkitTableMapMap;
+// typedef std::map<std::string, FeatureTECkitTableMap> OTFeatureTECkitTableMapMap;
 
 class Configuration; // Forward declaration
 class EmdrosSchema; // Forward declaration
@@ -113,12 +110,12 @@ typedef enum { ST_LATIN, ST_RASTER } eQTOutputState;
 class QTOutputBase {
 protected:
 	bool m_bStop;
-	bool m_bHasTECkitTables;
+	// bool m_bHasTECkitTables;
 	eQTOutputState m_state;
 	eQTOutputState m_current_paragraph_state;
 	int m_nInterlinearLines;
 
-	OTFeatureTECkitTableMapMap m_TECkitMap;
+	// OTFeatureTECkitTableMapMap m_TECkitMap;
 
 	typedef std::map<std::string, std::list<std::string> > String2StringListMap;
 
@@ -129,7 +126,7 @@ protected:
 public:
 	QTOutputBase() { 
 		m_bStop = false; 
-		m_bHasTECkitTables = false; 
+		// m_bHasTECkitTables = false; 
 		m_state = ST_LATIN;
 		m_current_paragraph_state = ST_LATIN; 
 		m_nInterlinearLines = 1;
@@ -197,12 +194,12 @@ public:
 	virtual void startTableCell(const std::string& CSS_class) { UNUSED(CSS_class); };
 	virtual void endTableCell(const std::string& CSS_class) { UNUSED(CSS_class); };
 
-	virtual std::string applyTECkit(const std::string& object_type_name, unsigned int feature_index, const std::string& feature_name, const std::string& feature_value);
+	// virtual std::string applyTECkit(const std::string& object_type_name, unsigned int feature_index, const std::string& feature_name, const std::string& feature_value);
 	virtual bool ShouldStop(void) const { return m_bStop; };
 	virtual QTOutputBase& operator<< (const std::string& toPrint) { print(toPrint); return *this; };
 	virtual void MyYield(void) = 0;
  protected:
-	virtual bool compileTECkits(Configuration *pConf, const std::string& object_type_name, const std::string& feature_name, std::string& message);
+	// virtual bool compileTECkits(Configuration *pConf, const std::string& object_type_name, const std::string& feature_name, std::string& message);
 };
 
 

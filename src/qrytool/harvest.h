@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 4/9-2005
- * Last update: 3/19-2008
+ * Last update: 11/10-2017
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2008  Ulrik Petersen
+ *   Copyright (C) 2005-2017  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -86,14 +86,14 @@
 #ifndef HARVEST__H__
 #define HARVEST__H__
 
-#include <emdros_environment.h>
-#include <mql_sheaf.h>
+#include <emdros.h>
+
 #include <list>
-#include <llist.h>
 #include <set>
+
 #include "mytable.h"
 #include "solution.h"
-#include "conf.h"
+
 
 class EmdrosWrapper; // Forward declaration
 

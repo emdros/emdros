@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 4/9-2005
- * Last update: 6/9-2014
+ * Last update: 11/10-2017
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2014  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2005-2017  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -83,11 +83,10 @@
  *
  **************************************************************************/
 
-#include "harvest.h"
-#include "emdros_wrapper.h"
-#include <debug.h>
-#include <emdf_value.h>
+#include <emdros.h>
 
+#include "emdros_wrapper.h"
+#include "harvest.h"
 
 
 Harvest::Harvest(EmdrosWrapper *pEWrap, Sheaf *pSheaf)

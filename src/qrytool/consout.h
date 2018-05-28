@@ -86,7 +86,6 @@
 #ifndef CONSOUT__H__
 #define CONSOUT__H__
 
-#include "conf.h"
 #include "qtoutput.h"
 
 class ConsoleQTOutput : public QTOutputBase {

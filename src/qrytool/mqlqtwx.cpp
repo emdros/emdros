@@ -6,13 +6,13 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 4/18-2018
+ * Last update: 11/10-2017
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2018  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2005-2017  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -117,12 +117,13 @@
 #include <wx/fs_zip.h>
 #include <wx/filename.h>
 #include <wx/splash.h>
-#include <emdros-lconfig.h>
-#include <conndlg.h>
-#include <prefix_emdros.h>
-#include <wxutil_emdros.h>
-#include <opt.h>
+
 #include <fstream>
+
+#include <emdros-lconfig.h>
+#include <emdros.h>
+
+#include "conndlg.h"
 #include "exec.h"
 
 
@@ -132,8 +133,8 @@
 #include "mqlqtwx.h"
 
 ////@begin XPM images
-#include <EmdrosSplashScreen.xpm>
-#include "../../wx/blue-E.xpm"
+#include "../art/EmdrosSplashScreen.xpm"
+#include "../art/blue-E.xpm"
 ////@end XPM images
 
 /*!
@@ -219,8 +220,9 @@ bool EmdrosQueryToolApp::OnInit()
 				++i;
 				wxString strBackend = argv[i];
 				std::string str_backend = std::string((const char*)strBackend.mb_str(wxConvUTF8));
-				eBackendKind backend_kind;
-				if (string2backend_kind(str_backend, backend_kind)) {
+				bool bSuccess = false;
+				eBackendKind backend_kind = string2backend_kind(str_backend, bSuccess);
+				if (bSuccess) {
 					conndata.m_backend_kind = backend_kind;
 				}
 			}
@@ -335,7 +337,9 @@ bool EmdrosQueryToolApp::GetConnection(ConnectionData& conndata)
 		conndata.m_strUser = wxT("emdf");
 	if (conndata.m_backend_kind != kSQLite3
 	    && conndata.m_backend_kind != kPostgreSQL
+	    && conndata.m_backend_kind != kMongoDB
 	    && conndata.m_backend_kind != kBPT
+	    && conndata.m_backend_kind != kBPT2
 	    && conndata.m_backend_kind != kMySQL) {
 		conndata.m_backend_kind = DEFAULT_BACKEND_ENUM;
 	}
@@ -440,7 +444,7 @@ wxString GetAppPath(void)
 
 
 
-std::string app_prefix(void)
+std::string app_prefix()
 {
 #ifdef __WXMSW__
 	wxString app_path_plus_etc = GetAppPath() + wxT("\\..\\etc\\qrytool\\");
@@ -449,8 +453,7 @@ std::string app_prefix(void)
 	wxString app_path_plus_etc = GetAppPath() + wxT("/../share/emdros/qrytool/");
 	return std::string((const char*)app_path_plus_etc.mb_str(wxConvUTF8));
 #else
-	std::string myprefix = prefix() + "share/emdros/qrytool/";
-	wxString result = wxString(myprefix.c_str(), wxConvUTF8);
+	wxString result = GetAppPath() + wxT("/../share/emdros/qrytool/");
 	if (!wxDir::Exists(result)) {
 		result = ::wxGetCwd();
 	}

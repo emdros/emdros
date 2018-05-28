@@ -6,13 +6,13 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 4/27-2007
+ * Last update: 11/10-2017
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2007  Ulrik Petersen
+ *   Copyright (C) 2005-2017  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -100,11 +100,11 @@
 #include <wx/checkbox.h>
 #include <wx/textctrl.h>
 #include <wx/spinctrl.h>
+
 #include <leftrightchooser.h>
-#include <wxorder_chooser.h>
+#include <order_chooser.h>
 #include <dropdown_widget.h>
 #include <conndlg.h>
-#include <schema.h>
 #include <configwizard.h>
 ////@end includes
 
