@@ -71,17 +71,11 @@ pkglib_LTLIBRARIES = libcsemdros.la
 
 nodist_libcsemdros_la_SOURCES = libcsemdros_wrap.cxx 
 
-libcsemdros_la_LIBADD = @HARVEST_LDADD_BACKBACKBACK@ \
-                        @MQL_LDADD_BACKBACKBACK@ @PCRE2_LDADD_BACKBACKBACK@ \
-                        @EMDF_LDADD_BACKBACKBACK@ @ZLIB_LDADD_BACKBACKBACK@ 
-
+libcsemdros_la_LIBADD = @EMDROS_LDADD_BACKBACK@
 libcsemdros_la_LDFLAGS = -version-info \
                          @LIB_EMDROS_CURRENT@:@LIB_EMDROS_REVISION@:@LIB_EMDROS_AGE@ \
                          @DARWIN_LDFLAGS@ @SUN_LDFLAGS@
-libcsemdros_la_DEPENDENCIES = @HARVEST_DEPS_BACKBACKBACK@ \
-                             @MQL_DEPS_BACKBACKBACK@ @PCRE2_DEPS_BACKBACKBACK@ \
-                             @EMDF_DEPS_BACKBACKBACK@ @ZLIB_DEPS_BACKBACKBACK@ 
-
+libcsemdros_la_DEPENDENCIES = @EMDROS_DEPS_BACKBACK@ 
 
 install-exec-hook: EmdrosDotNet.dll CSharpSources.zip
 	cp ./EmdrosDotNet.dll $(DESTDIR)/$(pkglibdir)
