@@ -42,13 +42,13 @@ SUBDIRS = djgpp doc pcre2 zlib sqlite3 include \
           src tests examples \
 	  SWIG win32
 
-CLEANFILES = *~ core install_mac.sh generate_extrafiles.py extrafiles-emdros.txt extrafiles-emdros-devel.txt
+CLEANFILES = *~ core install_mac.sh extrafiles-emdros.txt extrafiles-emdros-devel.txt
 
 DISTCLEANFILES = debian/docs \
                  $(EMDROS_SPEC_FILE) $(EMDROS_SPEC_FILE).in \
-                 emdros.pc 
+                 emdros.pc generate_extrafiles.py 
 
-BUILT_SOURCES = install_mac.sh debian/docs generate_extrafiles.py extrafiles-emdros.txt $(EMDROS_SPEC_FILE) \
+BUILT_SOURCES = install_mac.sh debian/docs extrafiles-emdros.txt $(EMDROS_SPEC_FILE) \
                 debian/rules \
                 debian/emdros.postinst \
                 debian/emdros.postrm \
@@ -58,9 +58,6 @@ BUILT_SOURCES = install_mac.sh debian/docs generate_extrafiles.py extrafiles-emd
 include include/Makefile.inc
 
 
-
-generate_extrafiles.py: generate_extrafiles.py.in config.status
-	$(top_builddir)/config.status --file=$@
 
 extrafiles-emdros.txt: generate_extrafiles.py
 	python generate_extrafiles.py
