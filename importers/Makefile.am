@@ -29,22 +29,12 @@ libemdros_importers_la_SOURCES = unboundbibleimporter.cpp \
 
 
 importerslib_hdr = \
-               boilerplate_license.h \
-               negraimporter.h \
                negraschema.h \
-               pennimporter.h \
                pennparser.h \
                pennschema.h \
-               penn_yylex.h \
-               plaintextimporter.h \
                plaintextschema.h \
-               sfm.h \
-               sfmimporter.h \
                simplebibleschema.h \
-               slashedtextimporter.h \
-               slashedtextschema.h \
-               tigerxmlimporter.h \
-               unboundbibleimporter.h 
+               slashedtextschema.h
 
 noinst_HEADERS = $(importerslib_hdr)
 
@@ -131,11 +121,11 @@ slashedtextschema.h: slashedtextschema.mql boilerplate_license.h
 $(LEMON): $(srcdir)/lemon.c
 	cd $(srcdir) ; $(CC) -o $@ lemon.c
 
-$(srcdir)/lemon.c: $(top_srcdir)/contrib/sqlite3/tool/lemon.c
-	cp $(top_srcdir)/contrib/sqlite3/tool/lemon.c $@
+$(srcdir)/lemon.c: $(top_srcdir)/sqlite3/tool/lemon.c
+	cp $(top_srcdir)/sqlite3/tool/lemon.c $@
 
-$(srcdir)/lempar.c: $(top_srcdir)/contrib/sqlite3/tool/lempar.c
-	cp $(top_srcdir)/contrib/sqlite3/tool/lempar.c $@
+$(srcdir)/lempar.c: $(top_srcdir)/sqlite3/tool/lempar.c
+	cp $(top_srcdir)/sqlite3/tool/lempar.c $@
 
 #
 # Parser
