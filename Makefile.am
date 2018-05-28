@@ -37,7 +37,7 @@ EXTRA_DIST = \
 
 
 SUBDIRS = doc pcre2 zlib sqlite3 include \
-          EMdF MQL harvest amalgamation util importers $(MAYBE_WX) \
+          EMdF MQL harvest util importers amalgamation $(MAYBE_WX) \
           src tests \
 	  SWIG win32
 
