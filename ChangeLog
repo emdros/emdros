@@ -132,6 +132,9 @@
 
 	* MQL/mql.re: Upgrade the MQL lexer to work with 64-bit integers.
 
+	* EMdF/json.re: Upgrade the JSON lexer to work with 64-bit
+	integers.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).
