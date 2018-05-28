@@ -857,15 +857,17 @@ if test x$DO_SWIG_PHP5 != xno; then
   fi    
 fi
 
-dnl Test for PHP version 7.x.  
+
+
+dnl Test for PHP version 5.x.  
 if test x$DO_SWIG_PHP5 != xno; then
   AC_MSG_CHECKING([PHP5 vernum... ])
 
   PHP5_VERNUM=`$PHP5_CONFIG --vernum`
   AC_MSG_RESULT($PHP5_VERNUM)
 
-  AC_MSG_CHECKING([PHP 7 availability... ])
-  PHP5_AVAILABLE=`echo $PHP5_VERNUM | awk '{a=1; VERNUM=$a+0; print VERNUM >= 70000 && VERNUM < 80000;}'`
+  AC_MSG_CHECKING([PHP 5 availability... ])
+  PHP5_AVAILABLE=`echo $PHP5_VERNUM | awk '{a=1; VERNUM=$a+0; print VERNUM >= 50000 && VERNUM < 60000;}'`
 
   if test "x$PHP5_AVAILABLE" = "x0"; then
      AC_MSG_WARN(["no, PHP5 not available. Can't do SWIG PHP5 bindings."])
