@@ -44,7 +44,7 @@ AM_CFLAGS = @DEBUGFLAG@ @ADDITIONAL_CFLAGS@
 AM_CXXFLAGS = \
               @DEBUGFLAG@ @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ \
               $(DEFINE_SQLITE3_EMDFDB_NO_FSYNC) \
-              @ADDITIONAL_CXXFLAGS@ 
+              @ADDITIONAL_CXXFLAGS@ -I$(top_srcdir)
 
 
 $(mysourcecode): amalgamation_made.txt
@@ -57,11 +57,11 @@ amalgamation_made.txt: mkamalgamation.py amalgamation.xml
 	python mkamalgamation.py amalgamation.xml
 	touch amalgamation_made.txt
 
-emdros-lconfig.h: ../lib/base/emdros-lconfig.h
-	cp ../lib/base/emdros-lconfig.h $@
+emdros-lconfig.h: ../include/emdros-lconfig.h
+	cp ../include/emdros-lconfig.h $@
 
-emdros-config.h: ../lib/base/emdros-config.h
-	cp ../lib/base/emdros-config.h $@
+emdros-config.h: ../include/emdros-config.h
+	cp ../include/emdros-config.h $@
 
 macdist:	
 	$(DO_MACDIST)
