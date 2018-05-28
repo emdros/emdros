@@ -171,20 +171,16 @@
       </unrenamed_files>
       <header_files>
         <header_file name="include/arena.h" />
-        <header_file name="include/base_enums.h" />
         <header_file name="include/crc32_emdros.h" />
         <header_file name="include/debug.h" />
         <header_file name="include/emdf.h" />
         <header_file name="include/emdros-config.h" />
         <header_file name="include/emdros-lconfig.h" />
         <header_file name="include/emdros_reserved_words.h" />
-        <header_file name="include/emdros_token.h" />
         <header_file name="include/encryption.h" />
         <header_file name="include/exception_emdros.h" />
         <header_file name="include/json_classes.h" />
-        <header_file name="include/json.h" />
         <header_file name="include/json_lexer.h" />
-        <header_file name="include/jsonpars.h" />
         <header_file name="include/llist.h" />
         <header_file name="include/logging.h" />
         <header_file name="include/minidom.h" />
@@ -213,8 +209,6 @@
         <header_file name="include/inst.h" />
         <header_file name="include/inst_object.h" />
         <header_file name="include/monads.h" />
-        <header_file name="include/mongoconn.h" />
-        <header_file name="include/mongoemdfdb.h" />
         <header_file name="include/mysqlconn.h" />
         <header_file name="include/mysqlemdfdb.h" />
         <header_file name="include/pgconn.h" />
@@ -222,7 +216,6 @@
         <header_file name="include/sqlite3conn.h" />
         <header_file name="include/sqlite3emdfdb.h" />
         <header_file name="include/sqlite3_emdros.h" />
-        <header_file name="include/startup.h" />
         <header_file name="include/string2som_map.h" />
         <header_file name="include/string_set_cache.h" />
         <header_file name="include/table.h" />
@@ -253,7 +246,6 @@
 	<header_file name="include/mql_utility.h" />
 	<header_file name="include/mql_yylex.h" />
         <header_file name="include/pcre2.h" />
-        <header_file name="include/templatelang_classes.h" />
         <header_file name="include/renderobjects.h" />
         <header_file name="include/renderxml.h" />
         <header_file name="include/harvest_fts.h" />
@@ -261,8 +253,8 @@
         <header_file name="include/renderobjects.h" />
         <header_file name="include/harvest_fts3.h" />
         <header_file name="include/memobject.h" />
+        <header_file name="include/templatelang_classes.h" />
         <header_file name="include/templatelang_lexer.h" />
-        <header_file name="include/templatelangpars.h" />
         <header_file name="include/conf.h" />
         <header_file name="include/conf_ini.h" />
         <header_file name="include/schema.h" />
@@ -273,6 +265,9 @@
         <header_file name="include/bptdumper.h" />
         <header_file name="include/bpt2dumper.h" />
         <header_file name="include/md5_emdros.h" />
+        <header_file name="EMdF/json.h" />
+        <header_file name="EMdF/jsonpars.h" />
+        <header_file name="harvest/templatelangpars.h" />
       </header_files>
       <target_prefix>
 
@@ -283,9 +278,7 @@
       </target_prefix>
       <source_files>
         <source_file name="EMdF/arena.cpp" />
-        <source_file name="EMdF/emdros_reserved_words.cpp" />
         <source_file name="EMdF/encryption.cpp" />
-        <source_file name="EMdF/base_enums.cpp" />
         <source_file name="EMdF/crc32_emdros.cpp" />
         <source_file name="EMdF/json_classes.cpp" />
         <source_file name="EMdF/json_lexer.cpp" />
@@ -297,13 +290,11 @@
         <source_file name="EMdF/string_func.cpp" />
         <source_file name="EMdF/string_list.cpp" />
         <source_file name="EMdF/utils.cpp" />
-        <source_file name="EMdF/string_set_cache.h" />
         <source_file name="EMdF/string_set_cache.cpp" />
         <source_file name="EMdF/infos.cpp" />
         <source_file name="EMdF/emdf_value.cpp" />
         <source_file name="EMdF/emdf_ffeatures.cpp" />
         <source_file name="EMdF/string2som_map.cpp" />
-        <source_file name="EMdF/startup.cpp" />
         <source_file name="EMdF/inst_object.cpp" />
         <source_file name="EMdF/inst.cpp" />
         <source_file name="EMdF/emdf_hash.cpp" />
@@ -313,7 +304,6 @@
         <source_file name="EMdF/enum_const_cache.cpp" />
         <source_file name="EMdF/table.cpp" />
         <source_file name="EMdF/conn.cpp" />
-        <source_file name="EMdF/mongoemdfdb.cpp" />
         <source_file name="EMdF/bptemdfdb.cpp" />
         <source_file name="EMdF/sqlite3emdfdb.cpp" />
         <source_file name="EMdF/mysqlemdfdb.cpp" />
@@ -323,7 +313,7 @@
         <source_file name="EMdF/pgemdfdb.cpp" />
         <source_file name="EMdF/emdfdb.cpp" />
         <source_file name="EMdF/sqlite3conn.cpp" />
-        <source_file name="EMdF/mongoconn.cpp" />
+        <source_file name="MQL/emdros_reserved_words.cpp" />
         <source_file name="MQL/emdros_environment.cpp" />
         <source_file name="MQL/mql_database_statements.cpp" />
         <source_file name="MQL/mql_enumeration_statements.cpp" />
@@ -376,10 +366,10 @@
       <code_prefixes>
       </code_prefixes>
       <header_files>
-	<header_file name="include/boilerplate_license.h" />
+	<header_file name="importers/boilerplate_license.h" />
 	<header_file name="include/negraimporter.h" />
 	<header_file name="include/pennimporter.h" />
-	<header_file name="include/pennparser.h" />
+	<header_file name="importers/pennparser.h" />
 	<header_file name="include/penn_yylex.h" />
 	<header_file name="include/plaintextimporter.h" />
 	<header_file name="include/sfm.h" />
