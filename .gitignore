@@ -64,6 +64,8 @@ amalgamation/emdros_amalgamation_1_emdros.cpp
 amalgamation/emdros_amalgamation_2_importers.cpp
 amalgamation/emdros_c_amalgamation_1.c
 amalgamation/emdros_c_amalgamation_2.c
+amalgamation/amalgamation_made.txt
+amalgamation/emdros_c.h
 autom4te.cache/
 aclocal.m4
 compile
