@@ -1,5 +1,10 @@
 ============ 3.6.0 ============
 
+2018-05-28 Ulrik Sandborg-Petersen
+
+	* m4/*.m4, configure.ac: Split the configure.ac script into
+	several m4 submodules.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).
