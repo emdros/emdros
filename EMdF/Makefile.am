@@ -110,7 +110,7 @@ EXTRA_DIST = win32.mak mingw.mak \
 # libemdf.la
 #
 libemdf_la_SOURCES = $(emdflib_src) 
-libemdf_la_LIBADD = @BACKEND_LDADD_BACKBACK@ 
+libemdf_la_LIBADD = @BACKEND_LDADD@ 
 libemdf_la_LDFLAGS = $(MACLDFLAGS) -version-info \
                      @LIB_EMDROS_CURRENT@:@LIB_EMDROS_REVISION@:@LIB_EMDROS_AGE@ \
                      @SUN_LDFLAGS@ \
