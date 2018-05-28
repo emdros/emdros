@@ -7,6 +7,10 @@
 
 	* emdros.pc.in: Add pkg-config support.
 
+	* SWIG/nodejs/, SWIG/perl/, SWIG/Android: These bindings were all
+	non-functional, so we are guessing that nobody was using them.
+	They have been removed.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).

@@ -24,6 +24,14 @@ since 3.5.0.
   - XML parsing (renderobjects, for example)
   - MQL
 
+- The following SWIG bindings were non-functional, and have been
+  removed.  If you want them back, please write to us and ask for
+  their reinstatement.
+
+  - nodejs
+  - perl
+  - Android
+
 - PCRE has been upgraded.
 
 - SQLite3 has been upgraded.
