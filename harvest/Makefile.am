@@ -15,8 +15,8 @@ endif
 
 lib_LTLIBRARIES = $(MAYBE_LIBS_HARVEST)
 
-libharvest_la_DEPENDENCIES = $(top_builddir)/MQL/libmql.la
-libharvest_la_LIBADD = $(top_builddir)/MQL/libmql.la   
+libharvest_la_DEPENDENCIES = @MQL_DEPS@ @EMDF_DEPS@
+libharvest_la_LIBADD = @MQL_LDADD@ @EMDF_LDADD@
 libharvest_la_LDFLAGS = $(MACLDFLAGS) \
                             @SUN_LDFLAGS@ \
                             @DARWIN_LDFLAGS@
