@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 3/16-2001
- * Last update: 10/3-2011
+ * Last update: 5/28-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2011  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -97,7 +97,7 @@
 
 class Straw; // Forward declaration
 
-extern void restrict(const SetOfMonads& SOM, monad_m monad, SetOfMonads& result);
+extern void R_restrict(const SetOfMonads& SOM, monad_m monad, SetOfMonads& result);
 extern void join(Straw* pStraw, ListOfStraws* pLS);
 // extern void hat(const SetOfMonads& O, SetOfMonads& out); // Has been obsolete...
 #endif /* MQL_UTILITY__H__ */

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/16-2001
- * Last update: 5/11-2018
+ * Last update: 5/28-2018
  *
  */
 /************************************************************************
@@ -699,10 +699,10 @@ ListOfStraws *R_block_string2_power_block(MQLExecEnv *pEE, const SetOfMonads& U,
 			monad_m strawlastPlus1PlusLimitLow = strawlastPlus1 + limit_low;
 
 			SetOfMonads Uping; 
-			restrict(U, strawlastPlus1PlusLimitLow, Uping);
+			R_restrict(U, strawlastPlus1PlusLimitLow, Uping);
 
 			SetOfMonads Suping;
-			restrict(Su, strawlastPlus1PlusLimitLow, Suping);
+			R_restrict(Su, strawlastPlus1PlusLimitLow, Suping);
 
 			if (!Uping.isEmpty() && !Suping.isEmpty()) {
 				monad_m Supinglast = Suping.last();
@@ -1145,8 +1145,8 @@ ListOfStraws *R_block(MQLExecEnv *pEE,
 			Suping = Su;
 			Smping = U.first();
 		} else {
-			restrict(U, Sm, Uping);
-			restrict(Su, Sm, Suping);
+			R_restrict(U, Sm, Uping);
+			R_restrict(Su, Sm, Suping);
 			Smping = Sm;
 		}
 		

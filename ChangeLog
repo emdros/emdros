@@ -102,6 +102,10 @@
 	* include/emdros_reserved_words.h, MQL/emdros_reserved_words.cpp:
 	Generate the latter in MQL/Makefile.am from MQL/MQL.re.
 
+	* include/mql_utility.h, MQL/mql_utility.cpp, MQL/mql_R.cpp:
+	Rename restrict() to R_restrict(), since restrict is now defined
+	in include/emdros-config.h.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).
