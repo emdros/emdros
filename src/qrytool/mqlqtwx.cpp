@@ -133,8 +133,8 @@
 #include "mqlqtwx.h"
 
 ////@begin XPM images
-#include "../art/EmdrosSplashScreen.xpm"
-#include "../art/blue-E.xpm"
+#include "../../wx/EmdrosSplashScreen.xpm"
+#include "../../wx/blue-E.xpm"
 ////@end XPM images
 
 /*!
@@ -221,7 +221,8 @@ bool EmdrosQueryToolApp::OnInit()
 				wxString strBackend = argv[i];
 				std::string str_backend = std::string((const char*)strBackend.mb_str(wxConvUTF8));
 				bool bSuccess = false;
-				eBackendKind backend_kind = string2backend_kind(str_backend, bSuccess);
+				eBackendKind backend_kind;
+				bSuccess = string2backend_kind(str_backend, backend_kind);
 				if (bSuccess) {
 					conndata.m_backend_kind = backend_kind;
 				}
@@ -337,7 +338,6 @@ bool EmdrosQueryToolApp::GetConnection(ConnectionData& conndata)
 		conndata.m_strUser = wxT("emdf");
 	if (conndata.m_backend_kind != kSQLite3
 	    && conndata.m_backend_kind != kPostgreSQL
-	    && conndata.m_backend_kind != kMongoDB
 	    && conndata.m_backend_kind != kBPT
 	    && conndata.m_backend_kind != kBPT2
 	    && conndata.m_backend_kind != kMySQL) {
