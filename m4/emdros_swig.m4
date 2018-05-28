@@ -804,6 +804,117 @@ fi
 
 
 
+dnl SWIG support for php5
+
+AC_ARG_WITH(swig-language-php5,
+[  --with-swig-language-php5  Use swig scripting language wrappers],
+[case "${withval}" in
+       yes) DO_SWIG_PHP5=yes ;;
+       no)  DO_SWIG_PHP5=no ;;
+       maybe) DO_SWIG_PHP5=maybe ;;
+       *)   AC_MSG_ERROR(Bad value ${withval} for --with-swig-language-php5) ;;
+     esac],
+[DO_SWIG_PHP5=maybe],
+)
+ORIGINAL_DO_SWIG_PHP5=$DO_SWIG_PHP5
+
+
+AC_MSG_CHECKING([Whether we are to do php5...])
+if test x$enable_shared != xyes; then
+   if test x$DO_SWIG_PHP5 = xyes; then
+      AC_MSG_WARN([
+WARNING: You cannot do SWIG backends (in this case, PHP5)
+if you are not also doing shared libraries. This means
+that you must not use --disable-shared when wishing to
+do a SWIG backend.])
+      DO_SWIG_PHP5=no
+   else
+      AC_MSG_RESULT([no, since we are not doing shared libraries.])
+      DO_SWIG_PHP5=no
+   fi
+else
+   AC_MSG_RESULT([maybe... let's check some more...])
+fi
+
+
+
+
+
+
+if test x$DO_SWIG_PHP5 != xno; then
+  dnl php5 program
+  AC_CHECK_PROGS(PHP5_CONFIG, [php-config5.6 php-config5.5 php-config], [no])
+  AC_SUBST(PHP5_CONFIG)
+  if test x$PHP5_CONFIG = xno; then
+    if test x$DO_SWIG_PHP5 = xyes; then
+      AC_MSG_WARN([
+  Could not find php5-config program in path. Not doing SWIG PHP5 bindings.])
+      DO_SWIG_PHP5=no
+    else
+      AC_MSG_RESULT([Not found. Not doing SWIG PHP5 frontend.])
+      DO_SWIG_PHP5=no
+    fi
+  fi    
+fi
+
+dnl Test for PHP version 7.x.  
+if test x$DO_SWIG_PHP5 != xno; then
+  AC_MSG_CHECKING([PHP5 vernum... ])
+
+  PHP5_VERNUM=`$PHP5_CONFIG --vernum`
+  AC_MSG_RESULT($PHP5_VERNUM)
+
+  AC_MSG_CHECKING([PHP 7 availability... ])
+  PHP5_AVAILABLE=`echo $PHP5_VERNUM | awk '{a=1; VERNUM=$a+0; print VERNUM >= 70000 && VERNUM < 80000;}'`
+
+  if test "x$PHP5_AVAILABLE" = "x0"; then
+     AC_MSG_WARN(["no, PHP5 not available. Can't do SWIG PHP5 bindings."])
+     DO_SWIG_PHP5=no
+  else
+     AC_MSG_RESULT([yes])
+  fi
+fi
+
+if test x$DO_SWIG_PHP5 != xno; then
+  # 
+  # If we came this far, then 'maybe' should be 'yes', unconditionally.
+  #
+  DO_SWIG_PHP5=yes
+
+  dnl PHP5 include-dir
+  PHP5_INCLUDES=`$PHP5_CONFIG --includes`
+  echo "PHP5_INCLUDES = $PHP5_INCLUDES"
+  AC_SUBST(PHP5_INCLUDES)
+
+  dnl PHP5 extension-dir
+  PHP5_EXTENSION_DIR=`$PHP5_CONFIG --extension-dir`
+  echo "PHP5_EXTENSION_DIR = $PHP5_EXTENSION_DIR"
+  AC_SUBST(PHP5_EXTENSION_DIR)
+
+  dnl PHP5 libs
+  PHP5_LIBS=`$PHP5_CONFIG --libs`
+  echo "PHP5_LIBS = $PHP5_LIBS"
+  AC_SUBST(PHP5_LIBS)
+
+  dnl PHP5 extension-dir
+  PHP5_LDFLAGS=`$PHP5_CONFIG --ldflags`
+  echo "PHP5_LDFLAGS = $PHP5_LDFLAGS"
+  AC_SUBST(PHP5_LDFLAGS)
+fi
+
+AC_MSG_CHECKING([Whether to do SWIG PHP5 frontend])
+AC_MSG_RESULT($DO_SWIG_PHP5)
+
+if test x$DO_SWIG_PHP5 = xyes; then
+  DO_AT_LEAST_ONE_SWIG=yes
+fi
+
+
+
+
+
+
+
 
 dnl SWIG support for php7
 
