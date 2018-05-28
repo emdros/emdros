@@ -70,8 +70,8 @@ lib_LTLIBRARIES = $(MAYBE_LIBS_MQL)
 #
 libmql_la_SOURCES = $(mqllib_src)
 
-libmql_la_LIBADD = @EMDF_LDADD_BACKBACK@ @PCRE2_LDADD_BACKBACK@ 
-libmql_la_DEPENDENCIES = @EMDF_DEPS_BACKBACK@ @PCRE2_DEPS_BACKBACK@ 
+libmql_la_LIBADD = @EMDF_LDADD@ @PCRE2_LDADD@ 
+libmql_la_DEPENDENCIES = @EMDF_DEPS@ @PCRE2_DEPS@ 
 libmql_la_LDFLAGS = $(MACLDFLAGS) -version-info \
        @LIB_EMDROS_CURRENT@:@LIB_EMDROS_REVISION@:@LIB_EMDROS_AGE@ \
        @SUN_LDFLAGS@ @DARWIN_LDFLAGS@
@@ -104,7 +104,7 @@ mql_built_headers = $(top_srcdir)/include/mqlpars.h
 noinst_HEADERS = \
                  $(mql_built_headers) 
 
-AM_CPPFLAGS = -I$(srcdir)/../include
+AM_CPPFLAGS = -I$(srcdir)/../include -I$(top_srcdir)/
 
 CLEANFILES = *~ core $(srcdir)/lemon $(top_srcdir)/include/unistd.h \
              $(srcdir)/mql.out \
