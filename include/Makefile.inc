@@ -1,5 +1,4 @@
 PACKAGE_INCLUDE_HEADER_FILES_DIST = \
-       boilerplate_license.h \
        crc32_emdros.h \
        md5_emdros.h \
        emdf_primes.h \
