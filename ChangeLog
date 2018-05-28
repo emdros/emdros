@@ -1,4 +1,4 @@
-============ 3.6.0 ============
+============ 4.0.0 ============
 
 2018-05-28 Ulrik Sandborg-Petersen
 
@@ -107,6 +107,15 @@
 	in include/emdros-config.h.
 
 	* sqlite3/tool/Makefile.am: Don't build lemon here.
+
+	* include/emdf.h: typedef the following 64-bit data types:
+
+	- emdros_int64
+	- emdros_uint64
+
+	in a cross-platform manner.
+
+	****** NOTE THAT THIS MEANS THAT WE NOW REQUIRE C++11 *****
 
 2018-05-12 Ulrik Sandborg-Petersen
 
