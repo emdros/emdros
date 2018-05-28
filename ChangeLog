@@ -117,6 +117,8 @@
 
 	* include/emdros-lconfig.h.in: #define HAVE_CXX11.
 
+	* include/emdf.h: #define MAX_MONAD to be 1 << 60.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).

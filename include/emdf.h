@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 3/1-2017
+ * Last update: 5/28-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -104,8 +104,24 @@
 #pragma warning( disable : 4290 ) 
 #endif
 
-typedef long id_d_t;
-typedef long monad_m;
+#if defined(_MSC_VER) || defined(__BORLANDC__)
+  typedef __int64 emdros_int64;
+  typedef unsigned __int64 emdros_uint64;
+#else
+#if defined(HAVE_CXX11) && HAVE_CXX11
+  #include <cstdint>
+
+  typedef int_fast64_t emdros_int64;
+  typedef uint_fast64_t emdros_uint64;
+#else
+  typedef long long emdros_int64;
+  typedef unsigned long long emdros_uint64;
+#endif
+#endif
+
+
+typedef emdros_int64 id_d_t;
+typedef emdros_int64 monad_m;
 
 #define SEQUENCE_OBJECT_ID_DS   (0)
 #define SEQUENCE_TYPE_IDS       (1)
@@ -131,7 +147,7 @@ typedef long monad_m;
 #define MAX_DBNAME_CHARS         (32)
 #define MAX_IDENTIFIER_CHARS     (512)
 
-#define MAX_MONAD               (2100000000L)
+#define MAX_MONAD               ((1LL << 60))
 
 
 /* The maximum chars to put in an index on MySQL for 
