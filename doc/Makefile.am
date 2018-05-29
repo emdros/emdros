@@ -1,7 +1,7 @@
 man_MANS = emdros.1 \
            mql.1 mqldump.1 manage_indices.1 upgrade_db.1 \
            emdftry.1 mqltry.1 mqllingtry.1 jsontry.1 renderobjects.1 \
-           hal_build_db.1 mqlhal.1 eqtc.1 eqt.1 eqtu.1 \
+           eqtc.1 eqt.1 eqtu.1 \
            ubimport.1 pennimport.1 negraimport.1 tigerxmlimport.1 \
            plaintextimport.1 slashedtextimport.1 sfmimport.1 bptdump.1 \
            fts_indexer.1 fts_harvester.1 fts_filters.5
@@ -22,24 +22,21 @@ CMSFILES = \
 
 
 EXTRA_DIST = index.html $(TXTFILES) $(WIN32FILES) $(CMSFILES) \
-             $(man_MANS) $(man_html) mqlhal.1.in eqtc.1.in \
+             $(man_MANS) $(man_html) eqtc.1.in \
              eqt.1.in eqtu.1.in 
 
 CLEANFILES = *~ core 
 
 DISTCLEANFILES = \
-             $(man_html) mqlhal.1 eqtc.1 \
+             $(man_html) eqtc.1 \
              eqt.1 eqtu.1  eqtu.1.in 
 
-BUILT_SOURCES = mqlhal.1 eqtc.1 eqt.1 eqtu.1 eqtu.1 
+BUILT_SOURCES = eqtc.1 eqt.1 eqtu.1 eqtu.1 
 
 dist_doc_DATA = 
 
 
 
-
-mqlhal.1: mqlhal.1.in
-	$(top_builddir)/config.status --file=$(srcdir)/mqlhal.1
 
 eqtc.1: eqtc.1.in
 	$(top_builddir)/config.status --file=$(srcdir)/eqtc.1

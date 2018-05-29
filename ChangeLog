@@ -74,6 +74,10 @@
 	* debian/emdros.manpages: Remove references to agexport.1,
 	mqlhal.1, and hal_build_db.1.
 
+	* doc/mqlhal.1.in, doc/hal_build_db.1, doc/Makefile.am: Remove
+	mqlhal.1 and hal_build_db.1, since these man pages are now part of
+	the examples-emdros GitHub repo.
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into
