@@ -5,6 +5,8 @@
 - Fix README-Emdros-on-Android.txt
 - Fix README-Emdros-on-iOS.txt
 - Fix README.txt
+- Fix INSTALL.Win32.txt
+- Fix INSTALL.Mac.txt
 - Read through all man pages, amend where necessary.
 - Upgrade LyX docs from CreativeCommons 2.5 to latest CC license.
 - Port MQL Programmer's Reference Guide to Restructured text.
