@@ -33,8 +33,11 @@
 
 	* doc/Makefile.am: Remove the references to the LyX files.
 
-	* emdros.spec.in: Don't mention the PDF files, which are not part
+	* emdros.spec.in: Don't mention the PDF files, which are now part
 	of the emdros/docs-emdros repo on GitHub.
+
+	* debian/docbase.in: Don't mention the PDF files, which are now
+	part of the emdros/docs-emdros repo on GitHub.
 
 2018-05-28 Ulrik Sandborg-Petersen
 
