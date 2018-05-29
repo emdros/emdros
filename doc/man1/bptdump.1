@@ -3,7 +3,7 @@
 .\"
 .\"  tbl bptdump.1 | nroff -man | less
 .\"
-.TH BPTDUMP 1 "July 22, 2012"
+.TH BPTDUMP 1 "May 2, 2017"
 .SH NAME
 bptdump \- A utility to dump an Emdros database as a Bit Packed Table
 .SH SYNOPSIS
@@ -23,7 +23,7 @@ the other backends.  It is proprietary, not Open Source.
 .TP
 Please contact Ulrik Sandborg-Petersen, the author of Emdros, for more
 information about the BPT engine, including licensing options.  You
-may reach him via: <ulrikp{at}emergence[dot]dk> (address obfuscated to
+may reach him via: <ulrikp{at}scripturesys[dot]com> (address obfuscated to
 avoid spammers; sorry to everyone else...).
 .TP
 In the Open Source version of Emdros, the \fBbptdump\fR utility does
@@ -68,22 +68,21 @@ used.
 .TP
 .BI \-h\ ,\ \-\-host \ hostname 
 set db back-end hostname to connect to (default is 'localhost').  Has
-no effect on SQLite.
+no effect on SQLite3.
 .TP
 .BI \-u\ ,\ \-\-user \ user
 set database user to connect as (default is 'emdf').  Has no effect on
-SQLite.
+SQLite3.
 .TP
 .BI \-p\ ,\ \-\-password \ password
-set password to use for the database user.  Has no effect on SQLite,
-unless you have an encryption-enabled SQLite, in which case this gets
+set password to use for the database user.  Has no effect on SQLite3,
+unless you have an encryption-enabled SQLite3, in which case this gets
 passed as the key.
 .TP
 .BI \-b\ ,\ \-\-backend \ backend
 set database backend to `backend'. Valid values are: For PostgreSQL:
 "p", "pg", "postgres", and "postgresql". For MySQL: "m", "my", and
-"mysql". For SQLite 2.X.X: "2", "s", "l", "lt", "sqlite", and
-"sqlite2". For SQLite 3.X.X: "3", "s3", "lt3", and "sqlite3".
+"mysql". For SQLite 3.X.X: "3", "s3", "lt3", and "sqlite3".
 
 .SH EXAMPLES
 
@@ -115,4 +114,4 @@ bptdump -b 3 -d /home/mike/db/mydbtodump /home/mike/db/bptdb
 .SH AUTHORS
 Copyright
 .Cr
-2001-2012 by Ulrik Petersen (ulrikp@users.sourceforge.net).
+2001-2017 by Ulrik Sandborg-Petersen (ulrikp@emdros.org). All rights reserved.

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/1-2001 (1st of March, 2001)
- * Last update: 4/18-2018
+ * Last update: 5/29-2018
  *
  */
 /************************************************************************
@@ -121,9 +121,6 @@ bool DatabaseStatement::symbol(bool& bResult)
 			break;
 		case kMySQL:
 			m_pEE->pError->appendError("For MySQL, the database name must be an identifier.\nSee the MQL User's Guide for what this means.\n");
-			break;
-		case kSQLite2:
-			; // Do nothing
 			break;
 		case kSQLite3:
 			; // Do nothing

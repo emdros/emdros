@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/14-2003
- * Last update: 4/18-2018
+ * Last update: 5/29-2018
  *
  */
 /************************************************************************
@@ -108,9 +108,6 @@
 #if USE_MYSQL
 #include <mysqlemdfdb.h>
 #endif
-#if USE_SQLITE2
-#include <sqliteemdfdb.h>
-#endif
 #if USE_SQLITE3
 #include <sqlite3emdfdb.h>
 #endif
@@ -158,8 +155,6 @@ void EmdrosEnv::init(std::ostream* output_stream,
 #else
 		throw EmdrosException(std::string("MySQL support not compiled in. Cannot make a MySQL connection."));
 #endif
-	} else if (backend_kind == kSQLite2) {
-		throw EmdrosException(std::string("SQLite 2.X.X is no longer supported."));
 	} else if (backend_kind == kSQLite3) {
 #if USE_SQLITE3
 		pDB = new SQLite3EMdFDB(initial_db, password);

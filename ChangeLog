@@ -170,6 +170,33 @@
 	win32/mingw.mak
 	win32/win32.mak
 
+	* include/emdf_enums.h: Remove kSQLite2.  SQLite2 support was
+	removed some time ago.
+
+	Other affected files:
+
+	MQL/emdros_environment.cpp
+	MQL/mql_database_statements.cpp
+	SWIG/csharp/TestEmdros.cs.in
+	SWIG/csharp/win32.mak
+	SWIG/java/win32.mak
+	SWIG/python2/win32.mak
+	debian/copyright
+	doc/man1/bptdump.1
+	doc/man1/emdftry.1
+	doc/man1/eqtc.1.in
+	doc/man1/fts_harvester.1
+	doc/man1/fts_indexer.1
+	doc/man1/mql.1
+	doc/man1/mqldump.1
+	doc/man1/mqllingtry.1
+	doc/man1/mqltry.1
+	doc/man1/renderobjects.1
+	src/manage_indices.cpp
+	tests/emdftry.cpp
+	tests/mqltry.cpp
+	win32/config.mak.in
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into

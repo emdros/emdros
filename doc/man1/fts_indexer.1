@@ -3,7 +3,7 @@
 .\"
 .\"  tbl fts_indexer.1 | nroff -man | less
 .\"
-.TH FTS_INDEXER 1 "December 28, 2013"
+.TH FTS_INDEXER 1 "May 2, 2017"
 .SH NAME
 fts_indexer \- A tool to index Emdros databases for Full Text Search
 .SH SYNOPSIS
@@ -96,45 +96,44 @@ then the MQL is just executed within the target database.
 .TP
 .BI \-h\ ,\ \-\-host \ hostname 
 set source db back-end hostname to connect to (default
-is 'localhost').  Has no effect on SQLite or SQLite 3.  If --nodb is
+is 'localhost').  Has no effect on SQLite.  If --nodb is
 not given, and if -th or --target-host is not given, then the target
 database host will be the same as the source database host.
 .TP
 .BI \-th\ ,\ \-\-target\-host \ hostname 
 set target db back-end hostname to connect to (default
-is 'localhost').  Has no effect on SQLite or SQLite 3.  Has no effect
+is 'localhost').  Has no effect on SQLite.  Has no effect
 it --nodb is given.  If -th and --target-host are not given, then the
 target database host will be the same as the source database host.
 .TP
 .BI \-u\ ,\ \-\-user \ user
 set source database user to connect as (default is 'emdf').  Has no
-effect on SQLite or SQLite 3.  Will be used for the target database
+effect on SQLite.  Will be used for the target database
 user as well, unless --nodb, -tu, or --target-user is given.
 .TP
 .BI \-tu\ ,\ \-\-target\-user \ user
 set target database user to connect as (default is 'emdf').  Has no
-effect on SQLite or SQLite 3.  Will override the source database user
+effect on SQLite.  Will override the source database user
 if given.  Has no effect if --nodb is given.
 .TP
 .BI \-p\ ,\ \-\-password \ password
 set source database password to use for the source database user.  Has
-no effect on SQLite or SQLite 3, unless you have an encryption-enabled
-SQLite (3), in which case this gets passed as the key.  Will be used
+no effect on SQLite, unless you have an encryption-enabled
+SQLite, in which case this gets passed as the key.  Will be used
 for the target database password, unless one of --nodb, -tp or
 --target-password is given.
 .TP
 .BI \-tp\ ,\ \-\-target\-password \ password
 set target password to use for the target database user.  Has no
-effect on SQLite (3), unless you have an encryption-enabled SQLite
-(3), in which case this gets passed as the key.  Will override the
-source database user for the target database.  Has no effect if --nodb
-is given.
+effect on SQLite, unless you have an encryption-enabled SQLite, in
+which case this gets passed as the key.  Will override the source
+database user for the target database.  Has no effect if --nodb is
+given.
 .BI \-b\ ,\ \-\-backend \ backend
 set source database backend to `backend'. The target database backend
 is also given with this switch, unless provided by the -tb switch.
 Valid values are: For PostgreSQL: "p", "pg", "postgres", and
-"postgresql". For MySQL: "m", "my", and "mysql". For SQLite 2.X.X:
-"2", "s", "l", "lt", "sqlite", and "sqlite2". For SQLite 3.X.X: "3",
+"postgresql". For MySQL: "m", "my", and "mysql". For SQLite 3.X.X: "3",
 "s3", "lt3", and "sqlite3".
 .TP
 .BI \-tb\ ,\ \-\-target\-backend \ backend
@@ -215,6 +214,6 @@ from either end of the string.
 .SH AUTHORS
 Copyright
 .Cr
-2010 by Ulrik Sandborg-Petersen (ulrikp@users.sourceforge.net).  Note
-that this software is distributed under the GNU GPL.  See the sources
-for details.
+2010-2017 by Ulrik Sandborg-Petersen (ulrikp@emdros.org).  Note that
+this software is distributed under the GNU GPL.  See the sources for
+details.

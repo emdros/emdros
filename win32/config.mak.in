@@ -104,9 +104,6 @@ MYSQLTOP=C:\Program Files\MySQL\MySQL Connector.C 6.1
 #
 # On the other hand, things are significantly faster with this set to 1.
 
-SQLITE2_NO_SYNC=1
-#SQLITE2_NO_SYNC=0
-
 SQLITE3_NO_SYNC=1
 #SQLITE3_NO_SYNC=0
 

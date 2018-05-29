@@ -3,7 +3,7 @@
  *
  * Trial of EMdF framework
  * Created: 1/27-2001
- * Last update: 5/28-2018
+ * Last update: 5/29-2018
  *
  */
 /************************************************************************
@@ -648,8 +648,6 @@ int test_backend(eBackendKind backend_kind,
 #else
 		throw EmdrosException(std::string("MySQL support not compiled in. Cannot make a MySQL connection."));
 #endif
-	} else if (backend_kind == kSQLite2) {
-		throw EmdrosException(std::string("SQLite 2.X.X no longer supported."));
 	} else if (backend_kind == kSQLite3) {
 #if USE_SQLITE3
 		pDB = new SQLite3EMdFDB("emdf", password);

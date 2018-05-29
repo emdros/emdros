@@ -28,6 +28,6 @@ License: GPL-2.0
 
 # Please also look if there are files or directories which have a
 # different copyright/license attached and list them here.
-SQLite2 and SQLite3 are in the Public Domain.
+SQLite3 is in the Public Domain.
 
-PCRE in the pcre/ directory has its own copyright.
+PCRE2 in the pcre2/ directory has its own copyright.

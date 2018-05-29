@@ -24,7 +24,7 @@ public class TestEmdros {
 				    "emdf",      // db username
 				    "changeme",  // db password
 			            "emdf",      // initial database
-				    eBackendKind.kSQLite2); // backend kind
+				    eBackendKind.kSQLite3); // backend kind
 	}
 
 	bool Exec(String query) {
