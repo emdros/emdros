@@ -206,6 +206,9 @@
 
 	amalgamation/amalgamation.xml
 
+	* amalgamation/amalgamation.json: Remove this, since it has been
+	obsoleted by amalgamation/amalgamation.xml.
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into
