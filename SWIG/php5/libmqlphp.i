@@ -1,13 +1,13 @@
 /*
  * libmqlphp.i: SWIG interface to libmql.la from PHP
  * Created: 2/8-2003 (February 8, 2003)
- * Last update: 8/17-2013
+ * Last update: 5/29-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2003-2013  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2003-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -86,7 +86,7 @@
 #include "../../include/mql_sheaf.h"
 #include "../../include/mql_result.h"
 #include "../../include/mql_execution_environment.h"
-#include "../../include/emdros_environment.h"
+#include "../../include/environment_emdros.h"
 #include "../../include/mql_enums.h"
 %}
 
