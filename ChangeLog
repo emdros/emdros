@@ -111,6 +111,8 @@
 	* doc/HOW-TO-USE.txt, doc/MQL-README.txt, doc/NEWS-doc.txt: Remove
 	this obsolete documentation.
 
+	* doc/xinetd.mql: Remove this obsolete example.
+
 
 2018-05-28 Ulrik Sandborg-Petersen
 
