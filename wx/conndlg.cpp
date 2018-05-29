@@ -6,13 +6,13 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 11/10-2017
+ * Last update: 5/29-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2005-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -172,8 +172,8 @@ public:
 protected:
 	eBackendKind getBackendKindFromString(wxString strBackendKind) {
 		std::string backendKind = (const char*) strBackendKind.mb_str(wxConvUTF8);
-		bool bSuccess = false;
-		eBackendKind backend = string2backend_kind(backendKind, bSuccess);
+		eBackendKind backend;
+		bool bSuccess = string2backend_kind(backendKind, backend);
 		if (bSuccess) {
 			return backend;
 		} else {
@@ -307,7 +307,7 @@ void ConnectionPanel::CreateControls()
 	wxStaticText* itemStaticTextBackendCB = new wxStaticText( itemDialog1, wxID_STATIC, _("Backend:"), wxDefaultPosition, wxDefaultSize, 0 );
 	pBackendSizer->Add(itemStaticTextBackendCB, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	const int number_of_backends = USE_SQLITE3 + USE_POSTGRESQL + USE_MYSQL + USE_BPT + USE_MONGODB;
+	const int number_of_backends = USE_SQLITE3 + USE_POSTGRESQL + USE_MYSQL + USE_BPT;
 	wxString choices[number_of_backends + 1] = {
 #if USE_SQLITE3
 		wxString(backend_kind2string(kSQLite3).c_str(), wxConvUTF8),
@@ -320,9 +320,6 @@ void ConnectionPanel::CreateControls()
 #endif
 #if USE_BPT
 		wxString(backend_kind2string(kBPT).c_str(), wxConvUTF8),
-#endif
-#if USE_MONGODB
-		wxString(backend_kind2string(kMongoDB).c_str(), wxConvUTF8),
 #endif
 		wxString(wxT(""))
 	};
@@ -547,8 +544,8 @@ eBackendKind ConnectionPanel::getBackendKindFromComboBoxString(void)
 	} else {
 		wxString strBackendKind = m_cbBackendCB->GetValue();
 		std::string backendKind = (const char*) strBackendKind.mb_str(wxConvUTF8);
-		bool bSuccess = false;
-		eBackendKind backend = string2backend_kind(backendKind, bSuccess);
+		eBackendKind backend;
+		bool bSuccess = string2backend_kind(backendKind, backend);
 		if (bSuccess) {
 			return backend;
 		} else {
@@ -712,8 +709,7 @@ void ConnectionPanel::readConfig()
 
 
 	if (config->Read(wxT("Backend"), &myString)) {
-		bool bSuccess = false;
-		m_backend = string2backend_kind(std::string((const char*)myString.mb_str(wxConvUTF8)), bSuccess);
+		bool bSuccess = string2backend_kind(std::string((const char*)myString.mb_str(wxConvUTF8)), m_backend);
 		if (!bSuccess) {
 			m_backend = DEFAULT_BACKEND_ENUM;
 		}
