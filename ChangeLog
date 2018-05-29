@@ -154,6 +154,9 @@
 	since they were removed from include/emdros-lconfig.h.in
 	yesterday.
 
+	* src/qrytool/mqlqt.cpp: Also remove prefix_emdros.h usage from
+	this file.
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into

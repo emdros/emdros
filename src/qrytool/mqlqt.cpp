@@ -4,7 +4,7 @@
  * A tool to query Emdros databases.
  *
  * Created: 5/1-2001 (1st of May, 2001)
- * Last update: 3/20-2010
+ * Last update: 11/10-2017
  *
  * Return codes:
  * 
@@ -20,7 +20,7 @@
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2010  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2017  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -93,35 +93,24 @@
  **************************************************************************/
 
 
-#include <emdros-config.h>
+#include "emdros-config.h"
 // Do this because emdros-config might #define malloc,
 // in which case some systems will fail to use the real 
 // malloc, thus causing build errors.
 #undef malloc
 
-#include <monads.h>
 #include <iostream>
 #include <sstream>
 #include <fstream>
 #include <string>
 
+#include <emdros-lconfig.h>
 #include <emdros.h>
 
-#include "emdros_wrapper.h"
-#include "exec.h"
-#include "consout.h"
+#include <emdros_wrapper.h>
+#include <exec.h>
+#include <consout.h>
 
-
-
-std::string app_prefix(void)
-{
-#ifdef WIN32
-	return prefix();
-#else
-	std::string myprefix = prefix() + "share/emdros/qrytool/";
-	return myprefix;
-#endif
-}
 
 
 void show_version(std::ostream& ostr)
@@ -152,7 +141,7 @@ int main(int argc, char* argv[])
 	std::string filename;
 	std::string hostname("localhost");
 	std::string user("emdf");
-	std::string configfile(app_prefix() + "default.cfg");
+	std::string configfile;
 	Configuration *pConf;
 	std::string password = "";
 	eBackendKind backend_kind;
@@ -162,7 +151,7 @@ int main(int argc, char* argv[])
 			     );
 
 	addOption("-c", "--config", true, 
-		  std::string(app_prefix() + "default.cfg").c_str(),
+		  "",
 		  "ERROR: -c and --config must have a filename as their argument.\n"
 		  "       example: -c /home/joe/mygreatdb.cfg\n"
 		  "       example: -c penn.cfg\n");
@@ -226,7 +215,7 @@ int main(int argc, char* argv[])
   
 	std::cerr << "Using config file " << configfile << std::endl;
 	ConsoleQTOutput consoutput(&std::cout, false);
-	pConf = parse_config_file(configfile, app_prefix(), 
+	pConf = parse_config_file(configfile, "",
 				  &std::cout);
 	if (pConf == 0) {
 		std::cerr << "Error: Could not parse config file '" << configfile << "'." << std::endl;
