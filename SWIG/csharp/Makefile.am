@@ -119,6 +119,7 @@ EXTRA_DIST = libcsemdros.i \
 CLEANFILES = *~ core config.log libcsemdros.la $(BUILT_SOURCES) \
              $(SWIG_CSHARP_SRC) \
              TestEmdros.cs \
-             EmdrosDotNet.dll
+             EmdrosDotNet.dll \
+             $(SWIG_GENERATED_CSHARPFILES)
 
 DISTCLEANFILES =  

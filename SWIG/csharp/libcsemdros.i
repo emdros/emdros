@@ -135,7 +135,7 @@
 
 
 %template(StringVector) std::vector<std::string>;
-%template(IntVector) std::vector<emdros_int64>;
+// %template(IntVector) std::vector<emdros_int64>;
 
 
 /* make sure that STL exceptions get caught and rethrown. */
