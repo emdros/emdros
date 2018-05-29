@@ -225,9 +225,9 @@ tests/test_json/diff.txt
 tests/test_json/test1.txt
 tests/test_json/test2.txt
 tests/test_json/test3.txt
-tests/test_json/testerror1.txt
-tests/test_json/testerror2.txt
-tests/test_json/testerror3.txt
+tests/test_json/test1.error-txt
+tests/test_json/test2.error-txt
+tests/test_json/test3.error-txt
 util/emdfxml_dtd.h
 importers/negraschema.h
 importers/pennlexer.cpp
