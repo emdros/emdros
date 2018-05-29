@@ -150,6 +150,9 @@
 	wx/browsewidget.cpp
 	wx/conndlg.cpp
 
+	* win32/lconfig.h.win32: Remove HAVE_OSTREAM and HAVE_ISTREAM,
+	since they were removed from include/emdros-lconfig.h.in
+	yesterday.
 
 2018-05-28 Ulrik Sandborg-Petersen
 
