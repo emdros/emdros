@@ -81,6 +81,9 @@
 	* SWIG/java/Makefile.am: Use @EMDROS_LDADD_BACKBACK@ and
 	@EMDROS_DEPS_BACKBACK@ rather than the old ones.
 
+	* test/test_json/Makefile.am: Remove GNU-Make-isms, for greater
+	POSIX compliance.
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into
