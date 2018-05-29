@@ -115,6 +115,8 @@
 
 	* doc/bootstrapping.txt: Remove this obsolete documentation.
 
+	* src/importtool/doc/Makefile.am: Remove GNU-Make-isms for greater
+	portability and POSIX compliance.
 
 2018-05-28 Ulrik Sandborg-Petersen
 
