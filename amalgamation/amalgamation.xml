@@ -300,6 +300,7 @@
         <source_file name="EMdF/monads.cpp" />
         <source_file name="EMdF/emdf_output.cpp" />
         <source_file name="EMdF/emdf_primes.cpp" />
+        <source_file name="EMdF/emdros_reserved_words.cpp" />
         <source_file name="EMdF/enum_const_cache.cpp" />
         <source_file name="EMdF/table.cpp" />
         <source_file name="EMdF/conn.cpp" />
@@ -312,7 +313,6 @@
         <source_file name="EMdF/pgemdfdb.cpp" />
         <source_file name="EMdF/emdfdb.cpp" />
         <source_file name="EMdF/sqlite3conn.cpp" />
-        <source_file name="MQL/emdros_reserved_words.cpp" />
         <source_file name="MQL/emdros_environment.cpp" />
         <source_file name="MQL/mql_database_statements.cpp" />
         <source_file name="MQL/mql_enumeration_statements.cpp" />

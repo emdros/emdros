@@ -30,7 +30,6 @@ mqllib_src = mql_yylex.cpp \
        mql_get_query.cpp \
        mql_query.cpp \
        mql_R.cpp \
-       emdros_reserved_words.cpp \
        emdros_environment.cpp \
        mql_database_statements.cpp \
        mql_enumeration_statements.cpp \
@@ -90,9 +89,7 @@ EXTRA_DIST = mql.re mql_lexer.cpp \
 BUILT_SOURCES = $(srcdir)/mql_lexer.cpp \
                 $(srcdir)/mql_parser.cpp \
                 $(srcdir)/mqlpars.h \
-                $(srcdir)/mql_get_query.cpp \
-                emdros_reserved_words.cpp
-
+                $(srcdir)/mql_get_query.cpp 
 
 #
 # Headers
@@ -154,13 +151,6 @@ $(srcdir)/mql_lexer.cpp: mql.re
 mql_execute.o: $(top_srcdir)/include/mqlflexr.h
 
 
-emdros_reserved_words.cpp: ../MQL/mql.re
-	rm -f $@
-	echo "#include <emdros_reserved_words.h>" >> $@
-	echo "const char *emdros_reserved_words[] = {" >> $@
-	grep "TOKEN_RETURN(\"[a-zA-Z_]\+\"" ../MQL/mql.re | grep -v "T_IDENTIFIER" | grep -v "T_STRING" | awk -F 'TOKEN_RETURN' '{ print $$2; }' | sed -e 's/[(",]//g' | awk '{ print "\"" $$1 "\","; }' >> $@
-	echo " (const char*) 0" >> $@
-	echo "};" >> $@
 
 
 #dist-hook:

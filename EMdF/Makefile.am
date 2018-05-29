@@ -13,7 +13,9 @@ DEFINE_SQLITE3_EMDFDB_NO_FSYNC = -DSQLITE3_EMDFDB_NO_FSYNC
 BUILT_SOURCES = \
                 $(srcdir)/json_lexer.cpp \
                 $(srcdir)/json_parser.cpp \
-                $(srcdir)/jsonpars.h
+                $(srcdir)/jsonpars.h \
+                emdros_reserved_words.cpp
+
 
 
 
@@ -43,6 +45,7 @@ emdflib_src = arena.cpp \
        mysqlconn.cpp \
        sqlite3conn.cpp \
        emdf_primes.cpp \
+       emdros_reserved_words.cpp \
        bptemdfdb.cpp \
        bpt2emdfdb.cpp \
        emdfdb.cpp \
@@ -121,8 +124,18 @@ AM_CPPFLAGS = -I$(srcdir)/../include
 
 CLEANFILES = *~ core \
              $(srcdir)/lemon.c $(srcdir)/lempar.c lemon \
-             json_lexer.cpp json_parser.cpp jsonpars.h json.out json.h 
+             json_lexer.cpp json_parser.cpp jsonpars.h json.out json.h \
+             emdros_reserved_words.cpp
 
+
+
+emdros_reserved_words.cpp: ../MQL/mql.re
+	rm -f $@
+	echo "#include <emdros_reserved_words.h>" >> $@
+	echo "const char *emdros_reserved_words[] = {" >> $@
+	grep "TOKEN_RETURN(\"[a-zA-Z_]\+\"" ../MQL/mql.re | grep -v "T_IDENTIFIER" | grep -v "T_STRING" | awk -F 'TOKEN_RETURN' '{ print $$2; }' | sed -e 's/[(",]//g' | awk '{ print "\"" $$1 "\","; }' >> $@
+	echo " (const char*) 0" >> $@
+	echo "};" >> $@
 
 
 

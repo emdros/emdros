@@ -197,6 +197,15 @@
 	tests/mqltry.cpp
 	win32/config.mak.in
 
+	* EMdF/Makefile.am, MQL/Makefile.am: Move
+	emdros_reserved_words.cpp from MQL/ to EMdF/.  This is because the
+	content is used in the libemdf library, so we need it there in
+	order not to create a circular dependency.
+
+	Other files affected:
+
+	amalgamation/amalgamation.xml
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into
