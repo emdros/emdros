@@ -95,7 +95,6 @@ PACKAGE_INCLUDE_HEADER_FILES_DIST = \
        conf_ini.h \
        opt.h \
        schema.h \
-       prefix_emdros.h \
        sfm.h \
        wxutil_emdros.h \
        leftrightchooser.h \
