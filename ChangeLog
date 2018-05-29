@@ -105,6 +105,12 @@
 	* doc/README-doc.txt, doc/README.MySQL.Win32.txt: Remove this
 	obsolete documentation.
 
+	* doc/MQL-README.txt: Remove this non-user-facing,
+	developer-facing documentation.
+
+	* doc/HOW-TO-USE.txt, doc/MQL-README.txt, doc/NEWS-doc.txt: Remove
+	this obsolete documentation.
+
 
 2018-05-28 Ulrik Sandborg-Petersen
 
