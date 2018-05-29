@@ -58,6 +58,8 @@
 	* include/Makefile.am: Don't mention pcre2_config.h, which is no
 	longer necessary.
 
+	* debian/emdros.examples: Also distribute C# examples.
+
 
 2018-05-28 Ulrik Sandborg-Petersen
 
