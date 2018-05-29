@@ -50,6 +50,11 @@
 	* src/importtool/doc/Makefile.am: get buildbtb.py from
 	../../doc/cms/.
 
+	* emdros.spec.in: Remove progref.
+
+	* debian/docbase.in: Remove.  It is no longer meaningful, now that
+	we have removed the progref as well.
+
 
 2018-05-28 Ulrik Sandborg-Petersen
 

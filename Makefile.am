@@ -31,7 +31,6 @@ EXTRA_DIST = \
              debian/emdros.postinst   debian/emdros.postinst.in \
              debian/emdros.postrm   debian/emdros.postrm.in \
              debian/emdros.prerm   debian/emdros.prerm.in \
-             debian/emdros.doc-base   debian/docbase.in \
              debian/source/format 
 
 
@@ -41,7 +40,7 @@ SUBDIRS = doc pcre2 zlib sqlite3 include \
           src tests \
 	  SWIG win32
 
-CLEANFILES = *~ core install_mac.sh extrafiles-emdros.txt extrafiles-emdros-devel.txt debian/emdros.doc-base
+CLEANFILES = *~ core install_mac.sh extrafiles-emdros.txt extrafiles-emdros-devel.txt 
 
 DISTCLEANFILES = debian/docs \
                  $(EMDROS_SPEC_FILE) $(EMDROS_SPEC_FILE).in \
@@ -51,8 +50,7 @@ BUILT_SOURCES = install_mac.sh debian/docs extrafiles-emdros.txt $(EMDROS_SPEC_F
                 debian/rules \
                 debian/emdros.postinst \
                 debian/emdros.postrm \
-                debian/emdros.prerm \
-                debian/emdros.doc-base
+                debian/emdros.prerm
 
 include include/Makefile.inc
 
@@ -80,10 +78,6 @@ debian/emdros.prerm: debian/emdros.prerm.in  config.status
 debian/emdros.postinst: debian/emdros.postinst.in  config.status
 	$(top_builddir)/config.status --file=$@
 
-debian/emdros.doc-base: debian/docbase.in  config.status
-	cp debian/docbase.in  debian/emdros.doc-base.in
-	$(top_builddir)/config.status --file=$@
-	rm -f debian/emdros.doc-base.in
 
 
 $(EMDROS_SPEC_FILE): emdros.spec.in config.status extrafiles-emdros.txt

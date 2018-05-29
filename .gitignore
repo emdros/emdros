@@ -244,5 +244,4 @@ amalgamation/mkamalgamation
 extrafiles-emdros-devel.txt
 extrafiles-emdros.txt
 generate_extrafiles.py
-debian/emdros.doc-base
 emdros.pc
