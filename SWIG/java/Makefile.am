@@ -25,7 +25,7 @@ AM_CPPFLAGS = -I. @JDK_INCLUDES@ -I$(top_srcdir)
 
 gen_files:
 	echo "SWIG_GENERATED_JAVAFILES = \\" > ll.txt 
-	$(SWIG_PROGRAM) -DPOSTGRESQL -DSQLITE -DMYSQL -package jemdros -c++ -java libjemdros.i ; rm -f libjemdros_wrap.cxx
+	$(SWIG_PROGRAM) -package jemdros -c++ -java libjemdros.i ; rm -f libjemdros_wrap.cxx
 	ls -l *.java | grep -v "TableRow.java" | grep -v "TestEmdros.java" | awk '{ print $$9; }' | sed -e 's/^/                /' | sed -e 's/$$/ \\/' >> ll.txt
 	echo "                TableRow.java" >> ll.txt
 	rm -f `cat ll.txt`

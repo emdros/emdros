@@ -19,6 +19,7 @@ SWIG_GENERATED_JAVAFILES = \
                 EMdFOutputException.java \
                 EMdFOutput.java \
                 EMdFValue.java \
+                EmdrosEnv.java \
                 EmdrosException.java \
                 EmdrosFTSStringFilter.java \
                 eMOKind.java \
@@ -69,8 +70,8 @@ SWIG_GENERATED_JAVAFILES = \
                 StringListConstIterator.java \
                 StringList.java \
                 StringVector.java \
-                SWIGTYPE_p_EmdrosEnv.java \
                 SWIGTYPE_p_JSONValue.java \
+                SWIGTYPE_p_std__istream.java \
                 SWIGTYPE_p_std__listT_std__string_t.java \
                 SWIGTYPE_p_std__ostream.java \
                 SWIGTYPE_p_std__string.java \

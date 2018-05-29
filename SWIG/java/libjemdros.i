@@ -123,7 +123,7 @@
 #include "../../include/mql_sheaf.h"
 #include "../../include/mql_result.h"
 #include "../../include/mql_execution_environment.h"
-#include "../../include/emdros_environment.h"
+#include "../../include/environment_emdros.h"
 #include "../../include/mql_enums.h"
 #include "../../include/renderobjects.h"
 #include "../../include/renderxml.h"
@@ -240,7 +240,7 @@ emdf_throws(EmdrosException)
 %include "../../include/mql_types.h"
 %include "../../include/mql_sheaf.h"
 %include "../../include/mql_result.h"
-%include "../../include/emdros_environment.h"
+%include "../../include/environment_emdros.h"
 %include "../../include/mql_enums.h"
 
 
