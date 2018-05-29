@@ -216,6 +216,14 @@
 
 	* debian/emdros.manpages: Update with new paths.
 
+	* debian/rules.in: Add the empty rule:
+
+	override_dh_usrlocal:
+
+	This is because dh_usrlocal does not work with the current
+	directory layout, throwing an error at dpkg-buildpackage build
+	time.
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into
