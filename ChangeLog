@@ -102,6 +102,9 @@
 	not been compiling the non-Unicode version, eqt, since wxWidgets
 	2.4 was current.
 
+	* doc/README-doc.txt, doc/README.MySQL.Win32.txt: Remove this
+	obsolete documentation.
+
 
 2018-05-28 Ulrik Sandborg-Petersen
 
