@@ -55,6 +55,9 @@
 	* debian/docbase.in: Remove.  It is no longer meaningful, now that
 	we have removed the progref as well.
 
+	* include/Makefile.am: Don't mention pcre2_config.h, which is no
+	longer necessary.
+
 
 2018-05-28 Ulrik Sandborg-Petersen
 

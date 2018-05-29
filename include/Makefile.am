@@ -7,10 +7,6 @@ include Makefile.inc
 PACKAGE_INCLUDE_HEADER_FILES_NODIST = \
        zlib_emdros.h
 
-if USE_LOCAL_PCRE2
-PACKAGE_INCLUDE_HEADER_FILES_NODIST += pcre2_config.h
-endif
-
 if USE_LOCAL_ZLIB
 PACKAGE_INCLUDE_HEADER_FILES_NODIST += zconf.h
 endif
