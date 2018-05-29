@@ -118,6 +118,20 @@
 	* src/importtool/doc/Makefile.am: Remove GNU-Make-isms for greater
 	portability and POSIX compliance.
 
+	* src/qrytool/doc/: Add the following files, instead of generating
+	them:
+
+	src/qrytool/doc/clear.png
+	src/qrytool/doc/connect.png
+	src/qrytool/doc/copy.png
+	src/qrytool/doc/cut.png
+	src/qrytool/doc/flash.png
+	src/qrytool/doc/new.png
+	src/qrytool/doc/open.png
+	src/qrytool/doc/paste.png
+	src/qrytool/doc/save.png
+	src/qrytool/doc/stop.png
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into

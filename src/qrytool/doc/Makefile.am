@@ -14,7 +14,7 @@ EXTRA_DIST = Content.txt files.txt \
 
 BUILT_SOURCES = 1001.htm \
                 $(DOCUMENT_NAME).hhc $(DOCUMENT_NAME).hhk $(DOCUMENT_NAME).htb \
-                $(PNGFILES_FROM_XPM) $(DOCUMENT_NAME).pdf
+                $(DOCUMENT_NAME).pdf
 
 $(DOCUMENT_NAME).htb: 1001.htm
 	cd $(srcdir); zip $(DOCUMENT_NAME).htb *.htm *.png $(DOCUMENT_NAME).hhc $(DOCUMENT_NAME).hhk $(DOCUMENT_NAME).hhp 
@@ -51,7 +51,6 @@ DISTCLEANFILES = *.htm $(srcdir)/../$(DOCUMENT_NAME).htb \
                   $(DOCUMENT_NAME).aux \
                   $(DOCUMENT_NAME).out \
                   $(DOCUMENT_NAME).log \
-                  $(PNGFILES_FROM_XPM) \
                   buildhtb.py \
                   config.py config.pyc config.log
 
@@ -60,14 +59,6 @@ CLEANFILES = *~ core
 
 qrytooldir = $(prefix)/share/emdros/qrytool
 dist_qrytool_DATA = $(DOCUMENT_NAME).htb
-
-
-%.png : ../../../wx/%.xpm
-	convert $< $@
-#	ppmmake 1,1,1 48 48 > /tmp/EQTEmdrosWhite.ppm
-#	ALPHA=`echo $< | sed -e 's_xpm_pbmalpha_g'` ; xpmtoppm --alphaout=$$ALPHA $< > /tmp/EQTEmdrostmp.ppm
-#	ALPHA=`echo $< | sed -e 's_xpm_pbmalpha_g'` ; pnmcomp -alpha=$$ALPHA /tmp/EQTEmdrostmp.ppm /tmp/EQTEmdrosWhite.ppm | pnmtopng > $@ ; rm -f $$ALPHA
-#	rm -f /tmp/EQTEmdrostmp.ppm /tmp/EQTEmdrosWhite.ppm
 
 
 $(srcdir)/config.py: $(srcdir)/config.py.in
