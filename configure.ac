@@ -8,7 +8,7 @@ LT_INIT
 AM_INIT_AUTOMAKE
 AC_CONFIG_SRCDIR([MQL/mql_R.cpp])
 AC_CONFIG_HEADERS([include/emdros-config.h])
-
+AC_PREFIX_DEFAULT(/usr)
 
 # Unix/Linux .so library versioning
 LIB_EMDROS_CURRENT=6

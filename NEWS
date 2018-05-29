@@ -92,6 +92,8 @@ since 3.5.0.
 - TECkit has been removed, meaning you can no longer translate
   encodings on-the-fly in the Emdros Query Tool.
 
+- The default prefix chosen by the configure script is now /usr rather
+  than /usr/local.  You can still override this with --prefix=....
 
 
 
