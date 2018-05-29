@@ -1,6 +1,6 @@
-#TODO for Emdros release 4.0
+# TODO for Emdros release 4.0
 
-##Documentation
+## Documentation
 
 - Fix README-Emdros-on-Android.txt
 - Fix README-Emdros-on-iOS.txt
@@ -10,20 +10,20 @@
 - Port MQL Programmer's Reference Guide to Restructured text.
 
 
-##Build development
+## Build development
 - Rename win32.mak -> windows.mak.
 - macOS: HomeBrew
 - Python: pip install emdros-py (2 & 3)
 
-##Continuous Integration
+## Continuous Integration
 
 Set up Travis etc.
 
-##Examples
+## Examples
 
 Release separate emdros-examples package.
 
-##Web
+## Web
 
 New website based on Jekyll or similar.
 
