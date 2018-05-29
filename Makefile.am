@@ -41,7 +41,7 @@ SUBDIRS = doc pcre2 zlib sqlite3 include \
           src tests \
 	  SWIG win32
 
-CLEANFILES = *~ core install_mac.sh extrafiles-emdros.txt extrafiles-emdros-devel.txt
+CLEANFILES = *~ core install_mac.sh extrafiles-emdros.txt extrafiles-emdros-devel.txt debian/emdros.doc-base
 
 DISTCLEANFILES = debian/docs \
                  $(EMDROS_SPEC_FILE) $(EMDROS_SPEC_FILE).in \
