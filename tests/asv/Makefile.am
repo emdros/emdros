@@ -3,7 +3,6 @@ RENDEROBJECTS = ../../src/renderobjects
 FTS_INDEXER = ../../src/fts_indexer
 FTS_HARVESTER = ../../src/fts_harvester
 
-
 MYOUTPUT_SQLITE3 = asv.sqlite3.renderobjects.context.xml \
                    asv.sqlite3.renderobjects.parallel.xml \
                    asv.sqlite3.renderxml.context.xml \
@@ -17,9 +16,11 @@ MYOUTPUT_SQLITE3 = asv.sqlite3.renderobjects.context.xml \
                    asv.sqlite3.fts_harvester.fe2.2.txt \
                    asv.sqlite3.fts_harvester.fe2.2.xml 
 
+DBS = 
 
 if SQLITE3
 myoutput_sqlite3 = $(MYOUTPUT_SQLITE3)
+DBS += asv.sqlite3
 else
 myoutput_sqlite3 = 
 endif
@@ -28,23 +29,22 @@ MYOUTPUT_STATIC = $(MYOUTPUT_SQLITE3)
 
 MYOUTPUT = $(myoutput_sqlite3)
 
-KNOWN_GOOD_OUTPUT = $(subst,asv,known_good_output/asv,$(MYOUTPUT_STATIC))
+KNOWN_GOOD_OUTPUT = ` echo $(MYOUTPUT_STATIC) | sed -e 's_asv_known_good_output/asv_g' `
 
 CLEANFILES = *~ *.pyc asv.mql asv.sqlite3 \
              $(MYOUTPUT) diff.txt
 
-EXTRA_DIST = asv.Gen1-3.osis.xml osis2mql.py osis_schema.mql asv.mql \
+EXTRA_DIST = asv.Gen1-3.osis.xml osis2mql.py osis_schema.mql \
              osistohtml.json \
              known_good_output/*.xml \
              known_good_output/*.txt
 
 .PHONY: test
-test:
-	$(MAKE) clean
-	$(MAKE) diff.txt
+test: clean diff.txt
 
 asv.mql: asv.Gen1-3.osis.xml osis2mql.py
 	python osis2mql.py --OT asv.Gen1-3.osis.xml $@
+
 
 
 
@@ -106,7 +106,7 @@ asv.sqlite3.renderxml.parallel.xml: asv.sqlite3 osistohtml.json
 
 
 
-diff.txt: $(MYOUTPUT)
+diff.txt: asv.mql $(DBS) $(MYOUTPUT)
 	rm -f $@
 	for f in $(MYOUTPUT); do diff $$f known_good_output/$$f >> $@; done
 	test -z "`cat $@`"
