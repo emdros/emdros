@@ -132,6 +132,9 @@
 	src/qrytool/doc/save.png
 	src/qrytool/doc/stop.png
 
+	* INSTALL: Don't mention ImageMagick as a requirement, since this
+	was removed in the previous commit.
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into
