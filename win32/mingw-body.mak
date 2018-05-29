@@ -59,14 +59,6 @@ else
 
 endif
 
-ifeq "$(SQLITE2)"  "1"
-
-DBINCLUDE_SQLITE2 = -I..\win32
-DBLIB_SQLITE2 = $(OUTDIR)\libsqlite_emdros.a
-CBS_SQLITE2 = _sq
-
-endif
-
 ifeq "$(SQLITE3)"  "1"
 
 DBINCLUDE_SQLITE3 = -I..\win32
@@ -76,21 +68,19 @@ CBS_SQLITE3 = _sq3
 endif
 
 DBINCLUDE = $(DBINCLUDE_PG) $(DBINCLUDE_MY) \
-            $(DBINCLUDE_SQLITE2) $(DBINCLUDE_SQLITE3)
+            $(DBINCLUDE_SQLITE3)
 
 DBLIB = $(DBLIB_PG) $(DBLIB_MY) \
-        $(DBLIB_SQLITE2) $(DBLIB_SQLITE3)
+        $(DBLIB_SQLITE3)
 
-CHARACTERISTIC_BACKEND_STRING = $(CBS_SQLITE2)$(CBS_SQLITE3)$(CBS_PGSQL)$(CBS_MYSQL)
+CHARACTERISTIC_BACKEND_STRING = $(CBS_SQLITE3)$(CBS_PGSQL)$(CBS_MYSQL)
 
 
 
 #-----------------------------
 #DEFAULT_BACKEND_ENUM
 #-----------------------------
-ifeq "$(SQLITE2)"  "1"
-DEFAULT_BACKEND_ENUM = kSQLite2
-else ifeq "$(POSTGRESQL)"  "1"
+ifeq "$(POSTGRESQL)"  "1"
 
 DEFAULT_BACKEND_ENUM = kPostgreSQL
 

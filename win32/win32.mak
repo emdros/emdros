@@ -37,10 +37,6 @@ ALL: config.nsh
    cd ..\zlib
    nmake /f win32.mak $(MAKEMACRO) 
 !ENDIF
-!IF "$(SQLITE2)" == "1"
-   cd ..\sqlite
-   nmake /f win32.mak $(MAKEMACRO) 
-!ENDIF
 !IF "$(SQLITE3)" == "1"
    cd ..\sqlite3
    nmake /f win32.mak $(MAKEMACRO) 
@@ -84,10 +80,6 @@ CLEAN:
    -del config.nsh
    cd ..\include
    nmake /f win32.mak CLEAN
-!IF "$(SQLITE2)" == "1"
-   cd ..\sqlite
-   nmake /f win32.mak CLEAN
-!ENDIF
 !IF "$(SQLITE3)" == "1"
    cd ..\sqlite
    nmake /f win32.mak CLEAN
@@ -275,11 +267,6 @@ DIST_MY_DOC_FILES = doc\README.MySQL.Win32.txt
 
 
 
-DIST_SQLITE2_LIB_FILES = win32\Release\libsqlite_emdros.lib
-
-DIST_SQLITE2_BIN_FILES = win32\Release\sqlite_emdros.exe
-
-
 
 DIST_SQLITE3_LIB_FILES = win32\Release\libsqlite3_emdros.lib
 
@@ -308,9 +295,6 @@ DIST: ALL
 !IF "$(MYSQL)" == "1"
    nmake /f win32.mak  DIST_MYSQL
 !ENDIF
-!IF "$(SQLITE2)" == "1"
-   nmake /f win32.mak  DIST_SQLITE2
-!ENDIF
 !IF "$(SQLITE3)" == "1"
    nmake /f win32.mak  DIST_SQLITE3
 !ENDIF
@@ -324,8 +308,6 @@ DIST_MYSQL:
 DIST_PGSQL: 
    nmake /f win32.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_PG_DIST_FILES
 
-DIST_SQLITE2: 
-   nmake /f win32.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_SQLITE2_DIST_FILES
 DIST_SQLITE3: 
    nmake /f win32.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_SQLITE3_DIST_FILES
 
@@ -341,12 +323,6 @@ MAKE_MY_DIST_FILES:
    for %%F in ($(DIST_MY_BIN_FILES)) do copy %F "$(DIST_DIR)\bin"
    for %%F in ($(DIST_MY_LIB_FILES)) do copy %F "$(DIST_DIR)\lib"
    for %%F in ($(DIST_MY_DOC_FILES)) do copy %F "$(DIST_DIR)\doc"
-   cd win32
-
-MAKE_SQLITE2_DIST_FILES:
-   cd ..
-   for %%F in ($(DIST_SQLITE2_LIB_FILES)) do copy %F "$(DIST_DIR)\lib"
-   for %%F in ($(DIST_SQLITE2_BIN_FILES)) do copy %F "$(DIST_DIR)\bin"
    cd win32
 
 MAKE_SQLITE3_DIST_FILES:
@@ -421,9 +397,6 @@ INST: DIST
 
 config.nsh:
    -del config.nsh
-!IF "$(SQLITE2)" == "1"
-   echo !define SQLITE2 >> config.nsh
-!ENDIF
 !IF "$(SQLITE3)" == "1"
    echo !define SQLITE3 >> config.nsh
 !ENDIF

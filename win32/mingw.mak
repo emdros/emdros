@@ -17,9 +17,6 @@ endif
 ifeq ($(BPT),1)
 	$(MAKE) -C ..\zlib -f mingw.mak $(MAKEMACRO) 
 endif
-ifeq ($(SQLITE2),1)
-	$(MAKE) -C ..\sqlite -f mingw.mak $(MAKEMACRO) 
-endif
 ifeq ($(SQLITE3),1)
 	$(MAKE) -C ..\sqlite3 -f mingw.mak $(MAKEMACRO) 
 endif
@@ -47,9 +44,6 @@ endif
 clean:
 	-del config.nsh
 	$(MAKE) -C ../include -f mingw.mak clean
-ifeq ($(SQLITE2),1)
-	$(MAKE) -C ../sqlite -f mingw.mak clean
-endif
 ifeq ($(SQLITE3),1)
 	$(MAKE) -C ../sqlite3 -f mingw.mak clean
 endif
@@ -218,12 +212,6 @@ DIST_MY_DOC_FILES = doc\README.MySQL.Win32.txt
 
 
 
-DIST_SQLITE2_LIB_FILES = win32\Release\libsqlite_emdros.lib
-
-DIST_SQLITE2_BIN_FILES = win32\Release\sqlite_emdros.exe
-
-
-
 DIST_SQLITE3_LIB_FILES = win32\Release\libsqlite3_emdros.lib
 
 DIST_SQLITE3_BIN_FILES = win32\Release\sqlite3_emdros.exe
@@ -251,9 +239,6 @@ endif
 ifeq ($(MYSQL),1)
 	$(MAKE) -f mingw.mak  DIST_MYSQL
 endif
-ifeq ($(SQLITE2),1)
-	$(MAKE) -f mingw.mak  DIST_SQLITE2
-endif
 ifeq ($(SQLITE3),1)
 	$(MAKE) -f mingw.mak  DIST_SQLITE3
 endif
@@ -267,8 +252,6 @@ DIST_MYSQL:
 DIST_PGSQL: 
 	$(MAKE) -f mingw.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_PG_DIST_FILES
 
-DIST_SQLITE2: 
-	$(MAKE) -f mingw.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_SQLITE2_DIST_FILES
 DIST_SQLITE3: 
 	$(MAKE) -f mingw.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_SQLITE3_DIST_FILES
 
@@ -284,12 +267,6 @@ MAKE_MY_DIST_FILES:
 	for %%F in ($(DIST_MY_BIN_FILES)) do copy %F "$(DIST_DIR)\bin"
 	for %%F in ($(DIST_MY_LIB_FILES)) do copy %F "$(DIST_DIR)\lib"
 	for %%F in ($(DIST_MY_DOC_FILES)) do copy %F "$(DIST_DIR)\doc"
-	cd win32
-
-MAKE_SQLITE2_DIST_FILES:
-	cd ..
-	for %%F in ($(DIST_SQLITE2_LIB_FILES)) do copy %F "$(DIST_DIR)\lib"
-	for %%F in ($(DIST_SQLITE2_BIN_FILES)) do copy %F "$(DIST_DIR)\bin"
 	cd win32
 
 MAKE_SQLITE3_DIST_FILES:
@@ -364,9 +341,6 @@ inst: dist
 
 config.nsh:
 	-del config.nsh
-ifeq ($(SQLITE2),1)
-	echo !define SQLITE2 >> config.nsh
-endif
 ifeq ($(SQLITE3),1)
 	echo !define SQLITE3 >> config.nsh
 endif

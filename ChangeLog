@@ -157,6 +157,19 @@
 	* src/qrytool/mqlqt.cpp: Also remove prefix_emdros.h usage from
 	this file.
 
+	* win32/: Remove all traces of SQLite2.  SQLite2 support was
+	removed some time ago.
+
+	Affected files:
+
+	win32/README.txt
+	win32/body.mak
+	win32/config.mak.in
+	win32/lconfig.h.win32
+	win32/mingw-body.mak
+	win32/mingw.mak
+	win32/win32.mak
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into

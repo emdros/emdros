@@ -89,9 +89,6 @@
 #define SUN 0
 
 
-/* Don't use "system-wide" SQLite2. There is none on Win32. */
-#define USE_SYSTEM_SQLITE2 (0)
-
 /* Don't use "system-wide" SQLite3. There is none on Win32. */
 #define USE_SYSTEM_SQLITE3 (0)
 
