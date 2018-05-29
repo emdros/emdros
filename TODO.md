@@ -14,6 +14,8 @@
 - Rename win32.mak -> windows.mak.
 - macOS: HomeBrew
 - Python: pip install emdros-py (2 & 3)
+- Amalgamation: Reimplement mkamalgamation.py in C++, for Windows
+  buildability without Python.
 
 ## Continuous Integration
 
