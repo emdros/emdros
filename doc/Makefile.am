@@ -12,9 +12,16 @@ man_html = $(man_html1:.5=.html)
 TXTFILES = bootstrapping.txt HOW-TO-USE.txt MQL-README.txt \
            README-doc.txt ChangeLog-doc.txt NEWS-doc.txt 
 
-WIN32FILES = README.MySQL.Win32.txt 
+WIN32FILES = README.MySQL.Win32.txt
 
-EXTRA_DIST = index.html $(TXTFILES) $(WIN32FILES) \
+CMSFILES = \
+           cms/buildhtb.py \
+           cms/cms.css \
+           cms/dot.gif 
+
+
+
+EXTRA_DIST = index.html $(TXTFILES) $(WIN32FILES) $(CMSFILES) \
              $(man_MANS) $(man_html) mqlhal.1.in eqtc.1.in \
              eqt.1.in eqtu.1.in 
 
