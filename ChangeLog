@@ -113,6 +113,8 @@
 
 	* doc/xinetd.mql: Remove this obsolete example.
 
+	* doc/bootstrapping.txt: Remove this obsolete documentation.
+
 
 2018-05-28 Ulrik Sandborg-Petersen
 
