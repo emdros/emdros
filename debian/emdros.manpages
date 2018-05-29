@@ -1,4 +1,3 @@
-doc/agexport.1
 doc/bptdump.1
 doc/emdftry.1
 doc/emdros.1
@@ -8,12 +7,10 @@ doc/eqtu.1
 doc/fts_filters.5
 doc/fts_harvester.1
 doc/fts_indexer.1
-doc/hal_build_db.1
 doc/jsontry.1
 doc/manage_indices.1
 doc/mql.1
 doc/mqldump.1
-doc/mqlhal.1
 doc/mqllingtry.1
 doc/mqltry.1
 doc/negraimport.1
