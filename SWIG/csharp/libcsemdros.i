@@ -1,13 +1,13 @@
 /*
  * libemdros.i: C# bindings for Emdros using SWIG
  * Created: 2/8-2003 (February 8, 2003)
- * Last update: 11/8-2017
+ * Last update: 5/29-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2003-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2003-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -116,18 +116,18 @@
 #include "../../include/mysqlemdfdb.h"
 #include "../../include/sqlite3emdfdb.h"
 
-#include "../../MQL/mql_error.h"
-#include "../../MQL/mql_execute.h"
-#include "../../MQL/mql_types.h"
-#include "../../MQL/mql_sheaf.h"
-#include "../../MQL/mql_result.h"
-#include "../../MQL/mql_execution_environment.h"
-#include "../../MQL/emdros_environment.h"
-#include "../../MQL/mql_enums.h"
+#include "../../include/mql_error.h"
+#include "../../include/mql_execute.h"
+#include "../../include/mql_types.h"
+#include "../../include/mql_sheaf.h"
+#include "../../include/mql_result.h"
+#include "../../include/mql_execution_environment.h"
+#include "../../include/environment_emdros.h"
+#include "../../include/mql_enums.h"
 
-#include "../../harvest/renderobjects.h"
-#include "../../harvest/renderxml.h"
-#include "../../harvest/harvest_fts.h"
+#include "../../include/renderobjects.h"
+#include "../../include/renderxml.h"
+#include "../../include/harvest_fts.h"
 
 #endif
 %}
@@ -135,7 +135,7 @@
 
 
 %template(StringVector) std::vector<std::string>;
-// %template(IntVector) std::vector<emdros_int64>;
+%template(IntVector) std::vector<emdros_int64>;
 
 
 /* make sure that STL exceptions get caught and rethrown. */
@@ -186,7 +186,7 @@
 %include "../../include/mql_types.h"
 %include "../../include/mql_sheaf.h"
 %include "../../include/mql_result.h"
-%include "../../include/emdros_environment.h"
+%include "../../include/environment_emdros.h"
 %include "../../include/mql_enums.h"
 
  /* harvest library */
