@@ -114,9 +114,7 @@ include/emdros-config.h.in
 include/emdros-lconfig.h
 include/mqlpars.h
 include/pcre2_config.h
-include/prefix_emdros.h
 include/sqlite3_emdros.h
-include/sqlite_emdros.h
 include/stamp-h1
 include/version-emdros.h
 include/zlib_emdros.h
