@@ -170,6 +170,7 @@ src/qrytool/doc/EQTUsersGuide.pdf
 src/qrytool/doc/EQTUsersGuide.tex
 src/qrytool/doc/EQTUsersGuide.toc
 src/qrytool/doc/buildhtb.py
+src/qrytool/doc/config.py
 src/qrytool/eqtc
 src/qrytool/eqtu
 src/renderobjects
