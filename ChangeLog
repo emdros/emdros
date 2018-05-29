@@ -64,6 +64,9 @@
 
 	* debian/rules.in: Adjust to the new configure script.
 
+	* INSTALL: Remove transfig and lyx from the requirements.  Now
+	that the LyX files are in the docs-emdros repo, we don't need them
+	for building Emdros.
 
 2018-05-28 Ulrik Sandborg-Petersen
 
