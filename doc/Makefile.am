@@ -1,5 +1,3 @@
-SUBDIRS = progref
-
 man_MANS = emdros.1 \
            mql.1 mqldump.1 manage_indices.1 upgrade_db.1 \
            emdftry.1 mqltry.1 mqllingtry.1 jsontry.1 renderobjects.1 \
@@ -62,5 +60,4 @@ macdist: all html
 	cp $(TXTFILES) $(MACDOCDISTDIR)/txt
 	cp $(man_html) $(MACDOCDISTDIR)/html
 	cp $(man_MANS) $(MACDISTDIR)/development/man/1
-	cd progref ; make macdist MACDISTDIR=../$(MACDISTDIR) ; cd ..
 

@@ -142,8 +142,6 @@ This package contains development files.
 %{_bindir}/*
 %{prefix}/share/emdros/
 %{prefix}/lib/*.so.*
-%doc %{prefix}/share/doc/emdros/emdros-progref-guide.html/*
-%doc doc/progref/emdros-progref-guide-@VERSION@.zip
 %doc SWIG/csharp/README-csharp
 %doc SWIG/csharp/TestEmdros.cs
 %doc SWIG/java/README-Java
@@ -178,14 +176,7 @@ This package contains development files.
 %doc doc/mqllingtry.html
 %doc doc/mqltry.html
 %doc doc/upgrade_db.html
-%doc doc/Monad-Sets.lyx
-%doc doc/MQL-Programmers-Guide.lyx
-%doc doc/MQL-Query-Guide.lyx
-%doc doc/New-EMdF.lyx
-%doc doc/Rel-EMdF.lyx
-%doc doc/Standard-MdF.lyx
 %doc src/qrytool/doc/EQTUsersGuide.pdf
-%doc doc/progref/EmdrosProgRefGuide.pdf
 
 
 

@@ -50,6 +50,7 @@
 	* src/importtool/doc/Makefile.am: get buildbtb.py from
 	../../doc/cms/.
 
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into
