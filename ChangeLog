@@ -214,6 +214,8 @@
 	* configure.ac: Set the default --prefix to /usr rather than
 	/usr/local.  The user can still override with --prefix=....
 
+	* debian/emdros.manpages: Update with new paths.
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into
