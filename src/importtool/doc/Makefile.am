@@ -72,7 +72,7 @@ dist_importtool_DATA = $(DOCUMENT_NAME).htb
 $(srcdir)/config.py: $(srcdir)/config.py.in
 	$(top_builddir)/config.status --file=$(srcdir)/config.py
 
-$(srcdir)/buildhtb.py: $(top_srcdir)/doc/progref/buildhtb.py
-	cp $(top_srcdir)/doc/progref/buildhtb.py $(srcdir)/buildhtb.py
+$(srcdir)/buildhtb.py: $(top_srcdir)/doc/cms/buildhtb.py
+	cp $(top_srcdir)/doc/cms/buildhtb.py $(srcdir)/buildhtb.py
 
 

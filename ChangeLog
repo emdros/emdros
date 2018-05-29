@@ -39,6 +39,17 @@
 	* debian/docbase.in: Don't mention the PDF files, which are now
 	part of the emdros/docs-emdros repo on GitHub.
 
+	* doc/progref/: Remove.  It is now part of the emdros/docs-emdros
+	repo on GitHub.
+
+	* doc/cms/buildhtb.py: Initial addition.
+
+	* src/qrytool/doc/Makefile.am: get buildbtb.py from
+	../../doc/cms/.
+
+	* src/importtool/doc/Makefile.am: get buildbtb.py from
+	../../doc/cms/.
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into
