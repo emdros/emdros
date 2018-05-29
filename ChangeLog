@@ -60,6 +60,10 @@
 
 	* debian/emdros.examples: Also distribute C# examples.
 
+	* debian/changelog: Bump to 4.0.0.
+
+	* debian/rules.in: Adjust to the new configure script.
+
 
 2018-05-28 Ulrik Sandborg-Petersen
 
