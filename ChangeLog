@@ -68,6 +68,9 @@
 	that the LyX files are in the docs-emdros repo, we don't need them
 	for building Emdros.
 
+	* debian/emdros.postinst.in, debian/emdros.postrm.in: Remove
+	references to the chunking tool.
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into

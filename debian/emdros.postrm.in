@@ -35,8 +35,6 @@ case "$1" in
 
    	           $XDG_DESKTOP_MENU uninstall @prefix@/share/emdros/emergence-eqtu.desktop || true
    	           $XDG_DESKTOP_MENU uninstall @prefix@/share/emdros/emergence-importtool.desktop || true
-   	           $XDG_DESKTOP_MENU uninstall @prefix@/share/emdros/emergence-chunkingtool.desktop || true
-
    	     fi
    	  fi   
         fi
