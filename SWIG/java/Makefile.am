@@ -92,16 +92,12 @@ drop:
 
 nodist_libjemdros_la_SOURCES = libjemdros_wrap.cxx 
 
-libjemdros_la_LIBADD = @HARVEST_LDADD_BACKBACK@ \
-                       @MQL_LDADD_BACKBACK@  @PCRE2_LDADD_BACKBACK@ \
-                       @EMDF_LDADD_BACKBACK@ @ZLIB_LDADD_BACKBACK@ 
+libjemdros_la_LIBADD = @EMDROS_LDADD_BACKBACK@
 libjemdros_la_CXXFLAGS = $(AM_CXXFLAGS)
 libjemdros_la_LDFLAGS = -version-info \
                         @LIB_EMDROS_CURRENT@:@LIB_EMDROS_REVISION@:@LIB_EMDROS_AGE@ \
                         @DARWIN_LDFLAGS@ @SUN_LDFLAGS@
-libjemdros_la_DEPENDENCIES = @HARVEST_DEPS_BACKBACK@ @MQL_DEPS_BACKBACK@ \
-                             @EMDF_DEPS_BACKBACK@ \
-                             @PCRE2_DEPS_BACKBACK@ @ZLIB_DEPS_BACKBACK@ 
+libjemdros_la_DEPENDENCIES = @EMDROS_DEPS_BACKBACK@ 
 
 install-exec-hook: jemdros.jar
 	cp ./jemdros.jar $(DESTDIR)$(pkglibdir)	

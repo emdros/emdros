@@ -78,6 +78,9 @@
 	mqlhal.1 and hal_build_db.1, since these man pages are now part of
 	the examples-emdros GitHub repo.
 
+	* SWIG/java/Makefile.am: Use @EMDROS_LDADD_BACKBACK@ and
+	@EMDROS_DEPS_BACKBACK@ rather than the old ones.
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into
