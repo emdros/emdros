@@ -209,6 +209,8 @@
 	* amalgamation/amalgamation.json: Remove this, since it has been
 	obsoleted by amalgamation/amalgamation.xml.
 
+	* debian/emdros.postrm.in: Fix '[: missing ]' error on line 24.
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into

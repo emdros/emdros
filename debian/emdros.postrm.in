@@ -21,7 +21,7 @@ set -e
 
 case "$1" in
     purge|remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
-	if [ -x "`which xdg-icon-resource 2>/dev/null`" -a -x "`which xdg-desktop-menu 2>/dev/null`"]; then
+	if [ -x "`which xdg-icon-resource 2>/dev/null`" -a -x "`which xdg-desktop-menu 2>/dev/null`" ]; then
      	  XDG_ICON_RESOURCE=`which xdg-icon-resource`
    	  XDG_DESKTOP_MENU=`which xdg-desktop-menu`
 
