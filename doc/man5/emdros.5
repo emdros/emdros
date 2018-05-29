@@ -2,7 +2,7 @@
 .\" First parameter, NAME, should be all caps
 .\" Second parameter, SECTION, should be 1-8, maybe w/ subsection
 .\" other parameters are allowed: see man(7), man(1)
-.TH EMDROS 1 "January 20, 2007"
+.TH EMDROS 5 "November 9, 2017"
 .\" Please adjust this date whenever revising the manpage.
 .\"
 .\" Some roff macros, for reference:
@@ -24,19 +24,10 @@ emdros \- text database engine for analyzed or annotated text
 .B eqtc
 .RI [ options ] 
 .br
-.B eqt
-.RI [ options ] 
-.br
 .B eqtu
 .RI [ options ] 
 .br
 .B mqldump
-.RI [ options ] 
-.br
-.B upgrade_db
-.RI [ options ] 
-.br
-.B manage_indices
 .RI [ options ] 
 .br
 .B emdftry
@@ -48,17 +39,6 @@ emdros \- text database engine for analyzed or annotated text
 .B mqllingtry
 .RI [ options ] 
 .br
-.B chunkingtool
-.RI [ options ] 
-.br
-.B chunkingtoolu
-.RI [ options ] 
-.br
-.B hal_build_db
-.RI [ options ] 
-.br
-.B mqlhal
-.RI [ options ] 
 .SH DESCRIPTION
 This manual page briefly documents the Emdros engine and some of its
 command-line programs.
@@ -78,22 +58,13 @@ man pages.
 .B mql(1) 
 is the main Emdros program.  It is an interface to the MQL language.
 
-.B eqtc(1), eqt(1), eqtu(1)
+.B eqtc(1), eqtu(1)
 are front-ends for querying Emdros databases, giving human-readable
-results.  The eqtc(1) program is for command-line use, while eqt(1)
-and eqtu(1) are for graphical usage.  The difference between eqt(1)
-and eqtu(1) is that the latter has built-in Unicode support, while the
-former does not.
+results.  The eqtc(1) program is for command-line use, while eqtu(1)
+is for graphical usage.
 
 .B mqldump(1) 
 is a utility for dumping (parts of) an Emdros database into MQL.
-
-.B upgrade_db(1) 
-is a utility for upgrading Emdros databases made with previous
-versions of Emdros.
-
-.B manage_indices(1) 
-is a utility for managing the database indexes on Emdros databases.
 
 .B emdftry(1) 
 is a testing program which exercises the Emdros EMdF library, telling
@@ -107,42 +78,8 @@ the user if anything is wrong.
 is a testing program which exercises the Emdros MQL library in a small
 toy linguistic application, telling the user if anything is wrong.
 
-.B chunkingtool(1), chunkingtoolu(1)
-are sample demonstration programs, demonstrating how one can use
-Emdros.  In this case, the applications are for doing discourse-type
-analysis with chunking of text into lines and subsequent indentation
-of lines with respect to each other.
-
-.B agexport(1)
-is an exporter from an Emdros database to Annotation Graph XML format.
-
-.B pennimport(1)
-is an importer from Penn Treebank formato to MQL.
-
-.B plaintextimport(1)
-imports plain text files into an MQL file.
-
-.B sfmimport(1)
-imports files with SIL's Standard Format Markers into Emdros.
-
-.B slashedtextimport(1)
-imports corpora in/PREP/in slashed/VERB/slash format/NOUN/format into
-Emdros.
-
-.B ubimport(1)
-imports Unbound Bible format into Emdros.
-
-.B negraimport(1)
-is an importer from flat-file NEGRA format to MQL.
-
-.B hal_build_db(1), mqlhal(1)
-are example applications implementing a so-called HAL space.
-
-.B sqlite_emdros(1), sqlite3_emdros(1)
+.B sqlite3_emdros(1)
 are the native SQL interfaces to SQLite (2 and 3) for Emdros databases.
-
-.B TECkit_Compile(1), TxtConv(1)
-are programs for using SIL's TECkit library, provided with Emdros.
 
 
 
@@ -161,31 +98,13 @@ Show version of program.
 .SH SEE ALSO
 .BR mql(1),
 .BR eqtc(1),
-.BR eqt(1),
 .BR eqtu(1),
 .BR mqldump(1),
-.BR upgrade_db(1),
-.BR manage_indices(1),
 .BR emdftry(1),
 .BR mqltry(1),
-.BR agexport(1),
-.BR negraimport(1),
-.BR pennimport(1),
-.BR plaintextimport(1),
-.BR sfmimport(1),
-.BR slashedtextimport(1),
 .BR sqlite3_emdros(1),
-.BR sqlite_emdros(1),
-.BR ubimport(1),
 .BR mqllingtry(1),
-.BR chunkingtool(1),
-.BR chunkingtoolu(1),
-.BR TECkit_Compile(1),
-.BR TxtConv(1),
-.BR mqlhal(1),
 .BR sqlite3_emdros(1),
-.BR sqlite_emdros(1),
-.BR hal_build_db(1).
 .br
 
 See also the Emdros website: <http://emdros.org/> and especially the
@@ -193,4 +112,4 @@ Programmer's Reference Guide: <http://emdros.org/progref/current/>.
 
 .SH AUTHOR
 The Emdros programs, and this manual page, were written by Ulrik
-Petersen <ulrikp@users.sourceforge.net>.
+Sandborg-Petersen <ulrikp@emdros.org>.

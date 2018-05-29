@@ -96,6 +96,12 @@
 	* doc/Makefile.am: Remove GNU-Make-isms, for greater POSIX
 	compliance and portability.
 
+	* doc/man1/emdros.1: Rename to doc/man5/emdros.5.
+
+	* doc/man1/eqt.1.in: Rename to doc/man1/eqtu.1.in, since we have
+	not been compiling the non-Unicode version, eqt, since wxWidgets
+	2.4 was current.
+
 
 2018-05-28 Ulrik Sandborg-Petersen
 
