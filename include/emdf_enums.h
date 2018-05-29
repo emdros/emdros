@@ -237,7 +237,6 @@ enum eBackendKind {
 	kBackendNone = 0,/**< No backend selected */
 	kPostgreSQL = 1, /**< PostgreSQL */
 	kMySQL = 2,      /**< MySQL */
-	kSQLite2 = 3,    /**< SQLite 2.X.X */ // No longer available.
 	kSQLite3 = 4,    /**< SQLite 3.X.X */
 	kBPT = 5,        /**< Bit Packed Table version 1 */
 	kBPT2 = 6        /**< Bit Packed Table version 2 */
