@@ -25,6 +25,17 @@
 	* SWIG/java/Makefile.am: Always create TestEmdros.java, since it
 	is included in the RPM Spec file, and doesn't do any harm.
 
+	* doc/*.lyx: Remove the LyX files.  The LyX files have been moved
+	into the emdros/docs-emdros GitHub repo.  The reason is a desire
+	to make it easier to build Emdros.  One should not have to have
+	LyX installed to build from source straight out of the GitHub
+	repo.
+
+	* doc/Makefile.am: Remove the references to the LyX files.
+
+	* emdros.spec.in: Don't mention the PDF files, which are not part
+	of the emdros/docs-emdros repo on GitHub.
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into
