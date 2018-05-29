@@ -6,13 +6,13 @@
  *
  * Martin Petersen
  * Created: 10/11-2006
- * Last update: 11/4-2017
+ * Last update: 5/29-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2006-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2006-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -110,6 +110,7 @@
 #include <wx/sizer.h>
 #include <wx/arrstr.h>
 #include <wx/utils.h> // For wxBusyCursor
+#include <wx/stdpaths.h>
 #include <wx/stattext.h>
 #include <wx/statline.h> // for wxStaticLine
 #include <wx/strconv.h>
@@ -132,7 +133,7 @@
 
 ////@begin XPM images
 //#include <EmdrosSplashScreen.xpm>
-#include "../art/blue-E.xpm"
+#include "../../wx/blue-E.xpm"
 ////@end XPM images
 
 /*!
@@ -220,16 +221,23 @@ int EmdrosImportToolApp::OnExit()
 	////@end EmdrosImportToolApp cleanup
 }
 
+wxString myGetAppPath()
+{
+	wxFileName fname(wxStandardPaths::Get().GetExecutablePath());
+	wxString appPath(fname.GetPath());
+	return appPath;
+}
+
 std::string app_prefix(void)
 {
 #ifdef __WXMSW__
-	wxString app_path_plus_etc = GetAppPath() + wxT("..\\etc\\");
+	wxString app_path_plus_etc = myGetAppPath() + wxT("..\\etc\\");
 	return std::string((const char*)app_path_plus_etc.mb_str(wxConvUTF8));
 #elif defined(__WXMAC__)
-	wxString app_path_plus_etc = GetAppPath() + wxT("../share/emdros/importtool/");
+	wxString app_path_plus_etc = myGetAppPath() + wxT("../share/emdros/importtool/");
 	return std::string((const char*)app_path_plus_etc.mb_str(wxConvUTF8));
 #else
-	wxString result = GetAppPath() + wxT("../share/emdros/importtool/");
+	wxString result = myGetAppPath() + wxT("../share/emdros/importtool/");
 	if (!wxDir::Exists(result)) {
 		result = ::wxGetCwd();
 	}
@@ -300,14 +308,6 @@ void EmdrosImportToolApp::FindAppPath()
 	m_strAppPath = wxEmptyString;
 	return;
 }
-
-
-wxString GetAppPath()
-{
-	return wxGetApp().m_strAppPath;
-}
-
-
 
 
 

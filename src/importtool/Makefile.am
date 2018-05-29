@@ -58,7 +58,7 @@ importtoolu_SOURCES = importtool.cpp
 
 noinst_HEADERS = importtool.h
 
-AM_CPPFLAGS = -I$(top_srcdir)/include -I. -I$(top_srcdir)/wx
+AM_CPPFLAGS = -I$(top_srcdir)/include -I. -I$(top_srcdir)/wx -I$(top_srcdir)/amalgamation -I$(top_srcdir)/
 CLEANFILES = *~ core config.log Info.plist
 
 IMPORTTOOLDATA = doc/ImportToolUsersGuide.htb
