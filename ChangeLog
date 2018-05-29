@@ -84,6 +84,18 @@
 	* tests/test_json/Makefile.am, tests/asv/Makefile.am: Remove
 	GNU-Make-isms, for greater POSIX compliance and portability.
 
+	* doc/ChangeLog-doc.txt: Remove, since it had not been updated for
+	many, many years.
+
+	* doc/cms/Makefile.am: Initial addition.
+
+	* doc/man1/*.1, doc/man1/*.1.in: Move all man1's into doc/man1/.
+
+	* doc/man5/*.5: Move all man5's into doc/man5/.
+
+	* doc/Makefile.am: Remove GNU-Make-isms, for greater POSIX
+	compliance and portability.
+
 
 2018-05-28 Ulrik Sandborg-Petersen
 
