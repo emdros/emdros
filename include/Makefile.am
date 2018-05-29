@@ -1,6 +1,6 @@
 EXTRA_DIST = emdros-lconfig.h.in emdros-config.h.in \
              Makefile.inc win32.mak mingw.mak \
-             emdros-version.h.in prefix_emdros.h.in
+             emdros-version.h.in
 
 include Makefile.inc
 
@@ -36,15 +36,15 @@ noinst_HEADERS = mql_R.h \
        sqlite3conn.h \
        lzma_emdros.h \
        zlib_emdros.h \
-       version-emdros.h prefix_emdros.h \
+       version-emdros.h \
        sqlite3_emdros.h 
 
 #
 BUILT_SOURCES = zlib_emdros.h \
-                version-emdros.h prefix_emdros.h \
+                version-emdros.h \
                 sqlite3_emdros.h 
 CLEANFILES = *~ zlib_emdros.h \
-                version-emdros.h prefix_emdros.h \
+                version-emdros.h \
                 sqlite3_emdros.h \
                 core 
 
@@ -106,9 +106,6 @@ endif
 version-emdros.h: emdros-version.h.in
 	$(top_builddir)/config.status --file=$(srcdir)/emdros-version.h
 	mv $(srcdir)/emdros-version.h $(srcdir)/version-emdros.h
-
-prefix_emdros.h: prefix_emdros.h.in
-	$(top_builddir)/config.status --file=$(srcdir)/prefix_emdros.h
 
 
 macdist:

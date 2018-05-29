@@ -6,13 +6,13 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 3/31-2013
+ * Last update: 11/10-2017
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2012  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2005-2017  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -97,8 +97,9 @@
 
 ////@begin includes
 #include "wx/valtext.h"
-#include "emdf_enums.h"
-#include "conf.h"
+
+#include <emdros.h>
+
 ////@end includes
 
 /*!

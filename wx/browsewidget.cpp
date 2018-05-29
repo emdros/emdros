@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 10/24-2006
- * Last update: 4/10-2017
+ * Last update: 11/10-2017
  *
  */
 /************************************************************************
@@ -100,12 +100,12 @@
 
 #include "wx/validate.h"
 #include "wx/filename.h"
+
 #include <browsewidget.h>
-#include <wxutil_emdros.h>
-#include <string_func.h>
-#include <prefix_emdros.h>
+
 #include <emdros-lconfig.h>
-#include <conf.h>
+#include <emdros.h>
+
 
 
 

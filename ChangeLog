@@ -135,6 +135,22 @@
 	* INSTALL: Don't mention ImageMagick as a requirement, since this
 	was removed in the previous commit.
 
+	* include/prefix_emdros.h.in: This file was removed, and so was
+	its BUILT_SOURCE, include/prefix_emdros.h: The reason is that we
+	are moving towards an amalgamation that does not depend on the
+	configure script.  Having the configure script's prefix inside the
+	amalgamation is not a good idea.
+
+	The following files were also affected:
+
+	amalgamation/amalgamation.xml
+	include/Makefile.am
+	include/conndlg.h
+	src/importtool/importtool.cpp
+	wx/browsewidget.cpp
+	wx/conndlg.cpp
+
+
 2018-05-28 Ulrik Sandborg-Petersen
 
 	* m4/*.m4, configure.ac: Split the configure.ac script into

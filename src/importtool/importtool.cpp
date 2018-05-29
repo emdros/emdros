@@ -6,13 +6,13 @@
  *
  * Martin Petersen
  * Created: 10/11-2006
- * Last update: 5/13-2014
+ * Last update: 11/4-2017
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2006-2014  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2006-2017  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -118,11 +118,13 @@
 #include <wx/filename.h>
 #include <wx/splash.h>
 
-#include <emdros-lconfig.h>
-#include <conndlg.h>
-#include <prefix_emdros.h>
-#include <conf.h>
 #include <sstream>
+
+#include <emdros-lconfig.h>
+#include <emdros.h>
+
+
+#include <conndlg.h>
 
 ////@end includes
 
@@ -130,7 +132,7 @@
 
 ////@begin XPM images
 //#include <EmdrosSplashScreen.xpm>
-#include "../../wx/blue-E.xpm"
+#include "../art/blue-E.xpm"
 ////@end XPM images
 
 /*!
@@ -218,6 +220,22 @@ int EmdrosImportToolApp::OnExit()
 	////@end EmdrosImportToolApp cleanup
 }
 
+std::string app_prefix(void)
+{
+#ifdef __WXMSW__
+	wxString app_path_plus_etc = GetAppPath() + wxT("..\\etc\\");
+	return std::string((const char*)app_path_plus_etc.mb_str(wxConvUTF8));
+#elif defined(__WXMAC__)
+	wxString app_path_plus_etc = GetAppPath() + wxT("../share/emdros/importtool/");
+	return std::string((const char*)app_path_plus_etc.mb_str(wxConvUTF8));
+#else
+	wxString result = GetAppPath() + wxT("../share/emdros/importtool/");
+	if (!wxDir::Exists(result)) {
+		result = ::wxGetCwd();
+	}
+	return std::string((const char*)result.mb_str(wxConvUTF8));
+#endif
+}
 
 
 wxString EmdrosImportToolApp::wxHelpPrefix(void)
@@ -228,7 +246,7 @@ wxString EmdrosImportToolApp::wxHelpPrefix(void)
 	GetModuleFileName(NULL, buf, 511);
 	wxString result = wxPathOnly(wxString(buf, wxConvUTF8)) + wxT("\\");
 #else
-	wxString result = wxString(prefix().c_str(), wxConvUTF8) + wxT("share/emdros/importtool/");
+	wxString result = wxString(app_prefix().c_str(), wxConvUTF8);
 	if (!wxDir::Exists(result)) {
 		result = ::wxGetHomeDir();
 	}
@@ -284,30 +302,13 @@ void EmdrosImportToolApp::FindAppPath()
 }
 
 
-wxString GetAppPath(void)
+wxString GetAppPath()
 {
 	return wxGetApp().m_strAppPath;
 }
 
 
 
-std::string app_prefix(void)
-{
-#ifdef __WXMSW__
-	wxString app_path_plus_etc = GetAppPath() + wxT("..\\etc\\");
-	return std::string((const char*)app_path_plus_etc.mb_str(wxConvUTF8));
-#elif defined(__WXMAC__)
-	wxString app_path_plus_etc = GetAppPath() + wxT("../share/emdros/importtool/");
-	return std::string((const char*)app_path_plus_etc.mb_str(wxConvUTF8));
-#else
-	std::string myprefix = prefix() + "share/emdros/importtool/";
-	wxString result = wxString(myprefix.c_str(), wxConvUTF8);
-	if (!wxDir::Exists(result)) {
-		result = ::wxGetCwd();
-	}
-	return std::string((const char*)result.mb_str(wxConvUTF8));
-#endif
-}
 
 
 
@@ -492,6 +493,8 @@ bool ImportToolMainFrame::ShowToolTips()
 
 wxBitmap ImportToolMainFrame::GetBitmapResource( const wxString& name )
 {
+	UNUSED(name);
+	
 	return wxNullBitmap;
 	////@end ImportToolMainFrame bitmap retrieval
 }
@@ -520,6 +523,8 @@ void ImportToolMainFrame::OnAbout(wxCommandEvent& WXUNUSED(event) )
 
 void ImportToolMainFrame::OnFileRunWizard(wxCommandEvent& event)
 {
+	UNUSED(event);
+	
 	ImporterWizard *pWizard = new ImporterWizard(NULL);
     
 	pWizard->SetIcon(wxIcon( blue_E_xpm ));
@@ -531,6 +536,8 @@ void ImportToolMainFrame::OnFileRunWizard(wxCommandEvent& event)
 
 void ImportToolMainFrame::OnFileExit(wxCommandEvent& event)
 {
+	UNUSED(event);
+	
 	Close();
 }
 

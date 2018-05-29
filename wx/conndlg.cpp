@@ -6,13 +6,13 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 4/18-2018
+ * Last update: 11/10-2017
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2018  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2005-2017  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -105,12 +105,10 @@
 #include "wx/filename.h"
 #include "wx/version.h"
 
-#include <conndlg.h>
-#include <wxutil_emdros.h>
-#include <string_func.h>
-#include <prefix_emdros.h>
 #include <emdros-lconfig.h>
-#include <conf.h>
+#include <emdros.h>
+
+#include <conndlg.h>
 
 
 class BackendKindValidator : public wxValidator
@@ -121,11 +119,9 @@ public:
 	BackendKindValidator(eBackendKind *valPtr = NULL) { 
 		m_valPtr = valPtr;
 	};
-	/*
 	BackendKindValidator(const BackendKindValidator& other) : wxValidator(other) {
 		m_valPtr = other.m_valPtr;
 	}
-	*/
 	~BackendKindValidator() {};
 	virtual wxObject* Clone() const {
 		return new BackendKindValidator(m_valPtr);
@@ -176,8 +172,9 @@ public:
 protected:
 	eBackendKind getBackendKindFromString(wxString strBackendKind) {
 		std::string backendKind = (const char*) strBackendKind.mb_str(wxConvUTF8);
-		eBackendKind backend;
-		if (string2backend_kind(backendKind, backend)) {
+		bool bSuccess = false;
+		eBackendKind backend = string2backend_kind(backendKind, bSuccess);
+		if (bSuccess) {
 			return backend;
 		} else {
 			return kBackendNone;
@@ -310,7 +307,7 @@ void ConnectionPanel::CreateControls()
 	wxStaticText* itemStaticTextBackendCB = new wxStaticText( itemDialog1, wxID_STATIC, _("Backend:"), wxDefaultPosition, wxDefaultSize, 0 );
 	pBackendSizer->Add(itemStaticTextBackendCB, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
 
-	const int number_of_backends = USE_SQLITE3 + USE_POSTGRESQL + USE_MYSQL + USE_BPT;
+	const int number_of_backends = USE_SQLITE3 + USE_POSTGRESQL + USE_MYSQL + USE_BPT + USE_MONGODB;
 	wxString choices[number_of_backends + 1] = {
 #if USE_SQLITE3
 		wxString(backend_kind2string(kSQLite3).c_str(), wxConvUTF8),
@@ -323,6 +320,9 @@ void ConnectionPanel::CreateControls()
 #endif
 #if USE_BPT
 		wxString(backend_kind2string(kBPT).c_str(), wxConvUTF8),
+#endif
+#if USE_MONGODB
+		wxString(backend_kind2string(kMongoDB).c_str(), wxConvUTF8),
 #endif
 		wxString(wxT(""))
 	};
@@ -482,12 +482,12 @@ void ConnectionPanel::OnBrowseConfiguration(wxCommandEvent& event)
 						  &strout);
 			if (pConf == 0) {
 				bContinue = true;
-				wxEmdrosErrorMessage(wxString(wxT("Error: The requested file is not a valid configuration file. Please choose one that is, or press cancel.")));
+				wxMessageBox(wxString(wxT("Error: The requested file is not a valid configuration file. Please choose one that is, or press cancel.")), wxT("Error"), wxOK|wxCENTRE|wxICON_ERROR);
 			} else {
 				bContinue = false;
 				std::string error_msg;
 				if (!m_conf_check_callback(pConf,error_msg)) {
-					wxEmdrosErrorMessage(wxString(wxT("Error: The request file is not a valid configuration file.  Here is what is wrong:\n")) + wxString(error_msg.c_str(), wxConvUTF8) + wxT("\n--------------------\nPlease choose one that is valid, or press cancel."));
+					wxMessageBox(wxString(wxT("Error: The request file is not a valid configuration file.  Here is what is wrong:\n")) + wxString(error_msg.c_str(), wxConvUTF8) + wxT("\n--------------------\nPlease choose one that is valid, or press cancel."), wxT("Error"), wxOK|wxCENTRE|wxICON_ERROR);
 					bContinue = true;
 				} else {
 					wxString strDatabase = m_ctrlDatabase->GetValue();
@@ -547,8 +547,9 @@ eBackendKind ConnectionPanel::getBackendKindFromComboBoxString(void)
 	} else {
 		wxString strBackendKind = m_cbBackendCB->GetValue();
 		std::string backendKind = (const char*) strBackendKind.mb_str(wxConvUTF8);
-		eBackendKind backend;
-		if (string2backend_kind(backendKind, backend)) {
+		bool bSuccess = false;
+		eBackendKind backend = string2backend_kind(backendKind, bSuccess);
+		if (bSuccess) {
 			return backend;
 		} else {
 			return kBackendNone;
@@ -711,7 +712,9 @@ void ConnectionPanel::readConfig()
 
 
 	if (config->Read(wxT("Backend"), &myString)) {
-		if (!string2backend_kind(std::string((const char*)myString.mb_str(wxConvUTF8)), m_backend)) {
+		bool bSuccess = false;
+		m_backend = string2backend_kind(std::string((const char*)myString.mb_str(wxConvUTF8)), bSuccess);
+		if (!bSuccess) {
 			m_backend = DEFAULT_BACKEND_ENUM;
 		}
 	} else {
