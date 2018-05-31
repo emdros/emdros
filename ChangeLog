@@ -33,6 +33,9 @@
 	"zlib/zlib.h" or <zlib.h>, depending on whether we have
 	USE_SYSTEM_ZLIB or not.
 
+	* emdros.pc.in, m4/emdros_buildenv_end.m4: Define Libs and Include
+	absolutely, and add -lemdros_amalgamation to the Libs.
+
 2018-05-29 Ulrik Sandborg-Petersen
 
 	* py-compile: Explicitly use python2, so as to make rpm-build on
