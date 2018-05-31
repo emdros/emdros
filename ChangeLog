@@ -22,6 +22,8 @@
 	"sqlite3/src/sqlite3.h" or <sqlite3.h>, depending on whether we
 	have USE_SYSTEM_SQLITE3 or not.
 
+	* win32/lconfig.h.win32: Add "#define USE_SYSTEM_PCRE2 (0)".
+
 2018-05-29 Ulrik Sandborg-Petersen
 
 	* py-compile: Explicitly use python2, so as to make rpm-build on
