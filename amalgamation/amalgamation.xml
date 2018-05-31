@@ -211,10 +211,13 @@
         <header_file name="include/sqlite3conn.h" />
         <header_file name="include/sqlite3emdfdb.h" />
         <header_file name="include/sqlite3_emdros.h" />
+	<header_file name="sqlite3/src/sqlite3.h" />
         <header_file name="include/string2som_map.h" />
         <header_file name="include/string_set_cache.h" />
         <header_file name="include/table.h" />
 	<header_file name="include/emdros_environment.h" />
+        <header_file name="include/zlib_emdros.h" />
+        <header_file name="zlib/zlib.h" />
 	<header_file name="include/mql_database_statements.h" />
 	<header_file name="include/mql_enumeration_statements.h" />
 	<header_file name="include/mql_enums.h" />
@@ -266,6 +269,7 @@
       <external_header_files>
 	<external_header_file name="pcre2.h"/>
 	<external_header_file name="sqlite3.h"/>
+	<external_header_file name="zlib.h"/>
       </external_header_files>
       <unrenamed_files>
 	<unrenamed_file name="sqlite3/src/sqlite3.h" />
