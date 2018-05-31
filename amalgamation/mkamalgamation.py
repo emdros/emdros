@@ -91,7 +91,7 @@ class TargetFile:
         self.code_prefixes = {} # code_filename -> "code_prefix"
         self.source_files = [] # list of filename-string
         self.header_files = [] # list of filename-string
-        self.unrenamed_files = [] # list of filename-string
+        self.external_header_files = [] # list of external_header_filename-strings
         self.target_prefix = ""
         self.target_suffix = ""
 
@@ -116,8 +116,8 @@ class TargetFile:
     def addHeaderFile(self, header_filename):
         self.header_files.append(header_filename)
 
-    def addUnrenamedFile(self, unrenamed_filename):
-        self.unrenamed_files.append(unrenamed_filename)
+    def addExternalFile(self, external_filename):
+        self.external_header_files.append(external_filename)
 
     def setTargetPrefix(self, target_prefix):
         self.target_prefix = target_prefix
@@ -131,9 +131,11 @@ class TargetFile:
     def getTargetSuffix(self):
         return self.target_suffix
 
-    def make_headers_available(self, result):
+    def make_headers_available(self, result, unrenamed_files):
         for header_path in self.header_files:
-            if header_path in self.unrenamed_files:
+            if header_path in self.external_header_files:
+                pass
+            elif header_path in unrenamed_files:
                 result.setdefault(header_path, header_path)
             else:
                 header_filename = os.path.split(header_path)[-1]
@@ -180,16 +182,18 @@ class TargetFile:
         if language == 'C':
             fout.write("#ifdef __cplusplus\n} /* End of 'extern \"C\"'. */\n#endif\n")
 
-    def write_h_amalgamation(self, fout, headers_available):
+    def write_h_amalgamation(self, fout, headers_available, unrenamed_files):
         fout.write(self.target_prefix)
         
         for source_filename in self.header_files:
-            if source_filename in self.unrenamed_files:
+            if source_filename in unrenamed_files:
                 header_filename = source_filename
             else:
                 header_filename = os.path.split(source_filename)[-1]
-                
-            if header_filename in headers_available:
+
+            if header_filename in self.external_header_files:
+                bDoIt = False
+            elif header_filename in headers_available:
                 bDoIt = headers_available[header_filename] != ""
                 headers_available[header_filename] = ""
             else:
@@ -234,6 +238,8 @@ class AmalgamationCreator:
         self.target_files = [] # List of TargetFile objects
         self.target_header_files = {} # language-string -> target_header_filename-string
         self.ignored_header_files = [] # list of ignored_header_filename-strings
+        self.unrenamed_files = [] # list of filename-string
+        
         self.preambles = {} # language-string -> preamble-string
 
     def addTargetHeaderFile(self, language, name):
@@ -241,6 +247,9 @@ class AmalgamationCreator:
 
     def addIgnoredHeaderFile(self, name):
         self.ignored_header_files.append(name)
+
+    def addUnrenamedFile(self, unrenamed_filename):
+        self.unrenamed_files.append(unrenamed_filename)
 
     def addTargetFile(self, target_file_obj):
         self.target_files.append(target_file_obj)
@@ -252,7 +261,7 @@ class AmalgamationCreator:
         for target_file_obj in self.target_files:
             language = target_file_obj.getLanguage()
             
-            target_file_obj.make_headers_available(result)
+            target_file_obj.make_headers_available(result, self.unrenamed_files)
 
         # Ignore these, and elide their inclusion.
         for header_filename in self.ignored_header_files:
@@ -292,7 +301,9 @@ class AmalgamationCreator:
 
             fout = open(target_header_filename, "wb")
 
-            fout.write("#ifndef EMDROS_H_\n#define EMDROS_H_\n\n")
+            define_name = target_header_filename.upper().replace(".", "_")
+
+            fout.write("#ifndef %(define_name)s\n#define %(define_name)s\n\n" % {"define_name" : define_name})
 
             preamble = self.getPreamble(language)
             fout.write(preamble)
@@ -301,9 +312,9 @@ class AmalgamationCreator:
                 target_file_language = target_file_obj.getLanguage()
 
                 if target_file_language == language:
-                    target_file_obj.write_h_amalgamation(fout, headers_available)
+                    target_file_obj.write_h_amalgamation(fout, headers_available, self.unrenamed_files)
 
-            fout.write("\n#endif /* !defined(EMDROS_H_) */\n")
+            fout.write("\n#endif /* !defined(%s) */\n" % define_name)
 
             fout.close()
 
@@ -321,6 +332,7 @@ class AmalgamationXMLHandler(xml.sax.ContentHandler):
                                      "target_preambles",
                                      "target_header_files",
                                      "ignored_header_files",
+                                     "external_header_files",
                                      "unrenamed_files",
                                      "target_files",
                                      "code_prefixes",
@@ -334,6 +346,7 @@ class AmalgamationXMLHandler(xml.sax.ContentHandler):
         self.handled_elements = set(["target_preamble",
                                      "target_header_file",
                                      "ignored_header_file",
+                                     "external_header_file",
                                      "unrenamed_file",
                                      "target_file",
                                      "code_prefix",
@@ -422,7 +435,10 @@ class AmalgamationXMLHandler(xml.sax.ContentHandler):
             self.ac_obj.addIgnoredHeaderFile(name)
         elif tag == "unrenamed_file":
             name = attributes["name"]
-            self.cur_target_file.addUnrenamedFile(name)
+            self.ac_obj.addUnrenamedFile(name)
+        elif tag == "external_header_file":
+            name = attributes["name"]
+            self.cur_target_file.addExternalFile(name)
         elif tag == "target_file":
             language = attributes["language"]
             name = attributes["name"]
@@ -444,6 +460,8 @@ class AmalgamationXMLHandler(xml.sax.ContentHandler):
         elif tag == "target_header_file":
             pass # All done at start
         elif tag == "ignored_header_file":
+            pass # All done at start
+        elif tag == "external_header_file":
             pass # All done at start
         elif tag == "unrenamed_file":
             pass # All done at start

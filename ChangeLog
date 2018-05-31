@@ -5,6 +5,14 @@
 	* amalgamation/amalgamation.xml: Remove "pcre2/pcre2.h" from
 	<unrenamed_files> element, and add it to <header_files> element.
 
+	* amalgamation/mkamalgamation.py, amalgamation/amalgamation.xml:
+	Solve issues with <pcre2.h>, a system header file, being mistaken
+	for "pcre2/pcre2.h".
+
+	Move <unrenamed_files> to the top-level section, and add
+	<external_header_files> to each <target_file> section.  Use these
+	to not include <pcre2.h> and <sqlite3.h> in emdros.h.
+
 2018-05-29 Ulrik Sandborg-Petersen
 
 	* py-compile: Explicitly use python2, so as to make rpm-build on

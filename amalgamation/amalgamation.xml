@@ -51,6 +51,10 @@
     <ignored_header_file name="simplebibleschema.h"/>
     <ignored_header_file name="slashedtextschema.h"/>
   </ignored_header_files>
+  <unrenamed_files>
+    <unrenamed_file name="sqlite3/src/sqlite3.h" />
+    <unrenamed_file name="pcre2/pcre2.h" />
+  </unrenamed_files>
   <target_files>
     <target_file language="C" name="emdros_c_amalgamation_1.c">
       <code_prefixes>
@@ -122,9 +126,6 @@
       <header_files>
         <header_file name="sqlite3/src/sqlite3.h"/>
       </header_files>
-      <unrenamed_files>
-	<unrenamed_file name="sqlite3/src/sqlite3.h" />
-      </unrenamed_files>
       <target_prefix>
 #ifndef USE_SQLITE3
 #define USE_SQLITE3 1
@@ -242,7 +243,6 @@
 	<header_file name="include/mql_types.h" />
 	<header_file name="include/mql_utility.h" />
 	<header_file name="include/mql_yylex.h" />
-        <header_file name="include/pcre2.h" />
         <header_file name="include/renderobjects.h" />
         <header_file name="include/renderxml.h" />
         <header_file name="include/harvest_fts.h" />
@@ -266,6 +266,10 @@
         <header_file name="EMdF/jsonpars.h" />
         <header_file name="harvest/templatelangpars.h" />
       </header_files>
+      <external_header_files>
+	<external_header_file name="pcre2.h"/>
+	<external_header_file name="sqlite3.h"/>
+      </external_header_files>
       <target_prefix>
 
 #ifndef SQLITE3_EMDFDB_NO_FSYNC
