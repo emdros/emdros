@@ -186,6 +186,7 @@
         <header_file name="include/string_list.h" />
         <header_file name="include/utils.h" />
         <header_file name="include/zlib_emdros.h" />
+        <header_file name="zlib/zlib.h" />
         <header_file name="include/version-emdros.h" />
         <header_file name="include/bpt2emdfdb.h" />
         <header_file name="include/bptemdfdb.h" />
@@ -269,6 +270,7 @@
       <unrenamed_files>
 	<unrenamed_file name="sqlite3/src/sqlite3.h" />
 	<unrenamed_file name="pcre2/pcre2.h" />
+	<unrenamed_file name="zlib/zlib.h" />
       </unrenamed_files>
       <target_prefix>
 

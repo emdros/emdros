@@ -4,11 +4,8 @@ EXTRA_DIST = emdros-lconfig.h.in emdros-config.h.in \
 
 include Makefile.inc
 
-PACKAGE_INCLUDE_HEADER_FILES_NODIST = \
-       zlib_emdros.h
-
 if USE_LOCAL_ZLIB
-PACKAGE_INCLUDE_HEADER_FILES_NODIST += zconf.h
+PACKAGE_INCLUDE_HEADER_FILES_NODIST = zconf.h
 endif
 
 
@@ -40,10 +37,8 @@ noinst_HEADERS = mql_R.h \
        sqlite3_emdros.h 
 
 #
-BUILT_SOURCES = zlib_emdros.h \
-                version-emdros.h 
-CLEANFILES = *~ zlib_emdros.h \
-                version-emdros.h \
+BUILT_SOURCES = version-emdros.h 
+CLEANFILES = *~ version-emdros.h \
                 core 
 
 DISTCLEANFILES = emdros-config.h.in
@@ -54,27 +49,6 @@ if USE_LOCAL_ZLIB
 zconf.h: $(srcdir)/../zlib/zconf.h
 	cp $(srcdir)/../zlib/zconf.h $@
 
-zlib_emdros.h: $(srcdir)/../zlib/zlib.h zconf.h
-	rm -f $@
-	echo '#ifndef ZLIB_EMDROS_H_' >> zlib_emdros.h
-	echo '#define ZLIB_EMDROS_H_' >> zlib_emdros.h
-	echo '#include "emdros-lconfig.h"' >> zlib_emdros.h
-	echo '#if (defined(USE_BPT) && USE_BPT) || (defined(USE_BPT2) && USE_BPT2)' >> zlib_emdros.h
-	echo '' >> zlib_emdros.h
-	echo '#include "zconf.h"' >> ./zlib_emdros.h
-	cat $(srcdir)/../zlib/zlib.h >> ./zlib_emdros.h
-	echo '#endif /* (defined(USE_BPT) && USE_BPT) || (defined(USE_BPT2) && USE_BPT2) */' >> zlib_emdros.h
-	echo '#endif /* !defined(ZLIB_EMDROS_H_) */' >> zlib_emdros.h
-else
-zlib_emdros.h:
-	rm -f $@
-	echo '#ifndef ZLIB_EMDROS_H_' >> zlib_emdros.h
-	echo '#define ZLIB_EMDROS_H_' >> zlib_emdros.h
-	echo '#include "emdros-lconfig.h"' >> zlib_emdros.h
-	echo '#if (defined(USE_BPT) && USE_BPT) || (defined(USE_BPT2) && USE_BPT2)' >> zlib_emdros.h
-	echo "#include <zlib.h>" >> zlib_emdros.h
-	echo '#endif /* (defined(USE_BPT) && USE_BPT) || (defined(USE_BPT2) && USE_BPT2) */' >> zlib_emdros.h
-	echo '#endif /* !defined(ZLIB_EMDROS_H_) */' >> zlib_emdros.h
 endif
 
 

@@ -101,7 +101,6 @@ include/emdros-lconfig.h
 include/mqlpars.h
 include/stamp-h1
 include/version-emdros.h
-include/zlib_emdros.h
 install-sh
 install_mac.sh
 libtool

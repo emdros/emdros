@@ -24,6 +24,15 @@
 
 	* win32/lconfig.h.win32: Add "#define USE_SYSTEM_PCRE2 (0)".
 
+	* include/zlib_emdros.h: Move towards being able to make the
+	amalgamation "offline", i.e., making it indendepent of the
+	configure script.
+
+	Do this by adding a new include/zlib_emdros.h, which includes
+	"emdros-lconfig.h.in", and which then #includes either
+	"zlib/zlib.h" or <zlib.h>, depending on whether we have
+	USE_SYSTEM_ZLIB or not.
+
 2018-05-29 Ulrik Sandborg-Petersen
 
 	* py-compile: Explicitly use python2, so as to make rpm-build on

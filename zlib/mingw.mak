@@ -10,8 +10,8 @@ WIN32DIR = ..\win32
 
 LOCAL_UNICODE_CPPFLAGS = -I. -DZ_STATIC -DHAVE_CONFIG_H -DSTD
 LIBTARGET = libz_emdros.a
-TARGETS = zconfhwin32 ..\include\zlib_emdros.h "$(OUTDIR)\$(LIBTARGET)"
-CLEANFILES = ..\include\zlib_emdros.h
+TARGETS = zconfhwin32 "$(OUTDIR)\$(LIBTARGET)"
+CLEANFILES = 
 
 LIBTARGET_OBJS= \
      adler32.o \
@@ -36,9 +36,6 @@ INTDIR_SUFFIX = \zlib_emdros
 include $(WIN32DIR)\config.mak
 include $(WIN32DIR)\mingw-body.mak
 
-
-..\include\zlib_emdros.h: zlib.h zlib_emdros.h.win32
-	copy /Y /b zlib_emdros.h.win32 + zlib.h ..\include\zlib_emdros.h
 
 
 zconfhwin32:
