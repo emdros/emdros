@@ -49,7 +49,4 @@ lconfig:
     echo #define DEFAULT_BACKEND_ENUM $(DEFAULT_BACKEND_ENUM) >> $(EMDROS_LCONFIG_WIN32_H)
 
 
-!IF "$(SQLITE3)"=="1"
-    copy ..\sqlite3\src\sqlite3.h .\sqlite3_emdros.h
-!ENDIF
 

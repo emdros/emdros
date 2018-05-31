@@ -13,6 +13,15 @@
 	<external_header_files> to each <target_file> section.  Use these
 	to not include <pcre2.h> and <sqlite3.h> in emdros.h.
 
+	* include/sqlite3_emdros.h: Move towards being able to make the
+	amalgamation "offline", i.e., making it indendepent of the
+	configure script.
+
+	Do this by adding a new include/sqlite3_emdros.h, which includes
+	"emdros-lconfig.h.in", and which then #includes either
+	"sqlite3/src/sqlite3.h" or <sqlite3.h>, depending on whether we
+	have USE_SYSTEM_SQLITE3 or not.
+
 2018-05-29 Ulrik Sandborg-Petersen
 
 	* py-compile: Explicitly use python2, so as to make rpm-build on

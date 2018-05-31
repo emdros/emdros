@@ -41,11 +41,9 @@ noinst_HEADERS = mql_R.h \
 
 #
 BUILT_SOURCES = zlib_emdros.h \
-                version-emdros.h \
-                sqlite3_emdros.h 
+                version-emdros.h 
 CLEANFILES = *~ zlib_emdros.h \
                 version-emdros.h \
-                sqlite3_emdros.h \
                 core 
 
 DISTCLEANFILES = emdros-config.h.in
@@ -77,28 +75,6 @@ zlib_emdros.h:
 	echo "#include <zlib.h>" >> zlib_emdros.h
 	echo '#endif /* (defined(USE_BPT) && USE_BPT) || (defined(USE_BPT2) && USE_BPT2) */' >> zlib_emdros.h
 	echo '#endif /* !defined(ZLIB_EMDROS_H_) */' >> zlib_emdros.h
-endif
-
-if USE_LOCAL_SQLITE3
-sqlite3_emdros.h: $(srcdir)/../sqlite3/src/sqlite3.h
-	rm -f $@
-	echo "#ifndef SQLITE3_EMDROS_H_" >> $@
-	echo "#define SQLITE3_EMDROS_H_" >> $@
-	echo "#include <emdros-lconfig.h>" >> $@
-	echo "#if USE_SQLITE3" >> $@
-	cat $(srcdir)/../sqlite3/src/sqlite3.h >> $@
-	echo "#endif /* USE_SQLITE3 */" >> $@
-	echo "#endif /* SQLITE3_EMDROS_H_ */" >> $@
-else
-sqlite3_emdros.h: 
-	rm -f $@
-	echo "#ifndef SQLITE3_EMDROS_H_" >> $@
-	echo "#define SQLITE3_EMDROS_H_" >> $@
-	echo "#include <emdros-lconfig.h>" >> $@
-	echo "#if USE_SQLITE3" >> $@
-	echo "#include <sqlite3.h>" >> sqlite3_emdros.h
-	echo "#endif /* USE_SQLITE3 */" >> $@
-	echo "#endif /* SQLITE3_EMDROS_H_ */" >> $@
 endif
 
 

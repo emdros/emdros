@@ -54,7 +54,3 @@ endif
 	echo #define DEFAULT_BACKEND_ENUM $(DEFAULT_BACKEND_ENUM) >> $(EMDROS_LCONFIG_WIN32_H)
 
 
-ifeq ($(SQLITE3),1)
-	copy /Y /B ..\sqlite3\src\sqlite3.h .\sqlite3_emdros.h
-endif
-
