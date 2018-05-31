@@ -166,9 +166,6 @@
 #undef MYMIN
 	</code_prefix>
       </code_prefixes>
-      <unrenamed_files>
-	<unrenamed_file name="pcre2/pcre2.h" />
-      </unrenamed_files>
       <header_files>
         <header_file name="include/arena.h" />
         <header_file name="include/crc32_emdros.h" />
@@ -185,6 +182,7 @@
         <header_file name="include/logging.h" />
         <header_file name="include/minidom.h" />
         <header_file name="include/pcre2_emdros.h" />
+	<header_file name="pcre2/pcre2.h" />
         <header_file name="include/qdxml.h" />
         <header_file name="include/smart_vector.h" />
         <header_file name="include/string_func.h" />

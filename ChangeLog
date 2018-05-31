@@ -1,5 +1,10 @@
 ============ 4.0.0 ============
 
+2018-05-31 Ulrik Sandborg-Petersen
+
+	* amalgamation/amalgamation.xml: Remove "pcre2/pcre2.h" from
+	<unrenamed_files> element, and add it to <header_files> element.
+
 2018-05-29 Ulrik Sandborg-Petersen
 
 	* py-compile: Explicitly use python2, so as to make rpm-build on
