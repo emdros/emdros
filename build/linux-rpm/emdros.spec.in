@@ -186,7 +186,7 @@ This package contains development files.
 
 %changelog
 
-* Mon Jun 1 2018 Ulrik Sandborg-Petersen <ulrikp@users.sf.net>
+* Fri Jun 1 2018 Ulrik Sandborg-Petersen <ulrikp@users.sf.net>
 
   Better %post and %preun, with better handling of GUI icons.  Better
   BuildRequires and Requires entries.
