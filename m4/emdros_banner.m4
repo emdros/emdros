@@ -19,7 +19,7 @@ else
 fi
 
 echo "SQLite 3.X.X:         $DO_SQLITE3"
-echo "MongoDB:              $DO_MONGODB"
+dnl echo "MongoDB:              $DO_MONGODB"
 echo "BPT:                  $DO_BPT"
 echo "BPT2:                 $DO_BPT2"
 

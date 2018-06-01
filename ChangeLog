@@ -47,6 +47,9 @@
 
 	* INSTALL: Rewrite large parts to reflect the new reality.
 
+	* configure.ac, m4/emdros_banner.m4: Don't look for MongoDB for
+	now, since the MongoDB backend is not mature enough to release.
+
 2018-05-31 Ulrik Sandborg-Petersen
 
 	* amalgamation/amalgamation.xml: Remove "pcre2/pcre2.h" from
