@@ -19,9 +19,15 @@
 - macOS: HomeBrew
 - Python: pip install emdros-py (2 & 3)
 
+## MQL
+
+- Perhaps do away with the ! bang operator, and the implicit
+  opt_gap_block?
+
 ## Continuous Integration
 
-Set up Travis etc.
+- Set up Travis for macOS
+- Set up Travis for Windows?
 
 ## Examples
 
