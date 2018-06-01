@@ -168,6 +168,14 @@
 #define USE_SYSTEM_ZLIB (@USE_SYSTEM_ZLIB@)
 #endif
 
+#ifndef USE_SYSTEM_PCRE2
+/** USE_SYSTEM_PCRE2 must be zero if we are using the local pcre2,
+ * otherwise, it must be non-zero.  
+ * @internal
+ */
+#define USE_SYSTEM_PCRE2 (@USE_SYSTEM_PCRE2@)
+#endif
+
 #define EMDROS_VERSION_MAJOR (@EMDROS_VERSION_MAJOR@)
 #define EMDROS_VERSION_MINOR (@EMDROS_VERSION_MINOR@)
 #define EMDROS_VERSION_RELEASE (@EMDROS_VERSION_RELEASE@)
