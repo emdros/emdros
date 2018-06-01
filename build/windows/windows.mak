@@ -49,8 +49,6 @@ ALL: config.nsh
    nmake /f windows.mak $(MAKEMACRO) 
    cd ..\harvest
    nmake /f windows.mak $(MAKEMACRO) 
-   cd ..\amalgamation
-   nmake /f windows.mak $(MAKEMACRO) 
 !IF "$(EMDROS_ONLY)"=="0"
 !IF "$(WITH_WXWIN)"=="yes"
    cd ..\wx
