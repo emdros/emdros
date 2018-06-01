@@ -53,6 +53,11 @@
 	* doc/emdros.manpages: Don't try to distribute non-existing
 	doc/man1/eqt.1.
 
+	* src/qrytool/doc/, src/importtool/doc/: Remove from the Emdros
+	sources.  Move to the docs-emdros package.  This is because having
+	them requires pdflatex to be installed when building.  We don't
+	want this dependency here.
+
 2018-05-31 Ulrik Sandborg-Petersen
 
 	* amalgamation/amalgamation.xml: Remove "pcre2/pcre2.h" from
