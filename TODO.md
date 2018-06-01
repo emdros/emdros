@@ -14,6 +14,7 @@
 
 ## Build development
 - Rename win32.mak -> windows.mak.
+- Windows: Base installer on InnoSetup, not NSIS.
 - macOS: HomeBrew
 - Python: pip install emdros-py (2 & 3)
 - Amalgamation: Reimplement mkamalgamation.py in C++, for Windows
