@@ -13,7 +13,8 @@
 
 
 ## Build development
-- Rename win32.mak -> windows.mak.
+- Windows: Make the Visual Studio NMAKE files work again.
+- Windows: Make the mingw.mak makefiles work again.
 - Windows: Base installer on InnoSetup, not NSIS.
 - macOS: HomeBrew
 - Python: pip install emdros-py (2 & 3)
