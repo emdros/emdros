@@ -71,6 +71,9 @@
 	* src/qrytool/Makefile.am: Only depend on the -lemdrosguiu library
 	if we are doing wxWidgets.
 
+	* src/importtool/Makefile.am: Do the same for the importtool as
+	was just done for the Query tool.
+
 2018-05-31 Ulrik Sandborg-Petersen
 
 	* amalgamation/amalgamation.xml: Remove "pcre2/pcre2.h" from
