@@ -18,6 +18,8 @@
 - Python: pip install emdros-py (2 & 3)
 - Amalgamation: Reimplement mkamalgamation.py in C++, for Windows
   buildability without Python.
+- Allow building from source repo without jar(1) installed (amend
+  SWIG/java/Makefile.am)
 
 ## Continuous Integration
 
