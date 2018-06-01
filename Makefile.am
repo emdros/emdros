@@ -6,14 +6,10 @@ if WITH_WX_PROGRAMS
   MAYBE_WX=wx
 endif
 
-EMDROS_SPEC_FILE = emdros-spec-@VERSION@.spec
-
 EXTRA_DIST = \
              emdros.pc.in emdros.pc \
              README INSTALL.Win32.txt INSTALL.Mac.txt \
              Doxyfile autogen.sh rmfiles.sh install-sh \
-             emdros.spec.in $(EMDROS_SPEC_FILE) \
-             generate_extrafiles.py.in \
              install_mac.sh.in signthis.bat \
              README-Emdros-on-Android.txt \
              README-Emdros-on-iOS.txt \
@@ -40,13 +36,13 @@ SUBDIRS = doc pcre2 zlib sqlite3 include \
           src tests \
 	  SWIG build
 
-CLEANFILES = *~ core install_mac.sh extrafiles-emdros.txt extrafiles-emdros-devel.txt 
+CLEANFILES = *~ core install_mac.sh 
 
 DISTCLEANFILES = debian/docs \
-                 $(EMDROS_SPEC_FILE) $(EMDROS_SPEC_FILE).in \
-                 emdros.pc generate_extrafiles.py 
+                 emdros.pc 
 
-BUILT_SOURCES = install_mac.sh debian/docs extrafiles-emdros.txt $(EMDROS_SPEC_FILE) \
+BUILT_SOURCES = install_mac.sh \
+                debian/docs \
                 debian/rules \
                 debian/emdros.postinst \
                 debian/emdros.postrm \
@@ -54,10 +50,6 @@ BUILT_SOURCES = install_mac.sh debian/docs extrafiles-emdros.txt $(EMDROS_SPEC_F
 
 include include/Makefile.inc
 
-
-
-extrafiles-emdros.txt: generate_extrafiles.py
-	python generate_extrafiles.py
 
 
 
@@ -79,12 +71,6 @@ debian/emdros.postinst: debian/emdros.postinst.in  config.status
 	$(top_builddir)/config.status --file=$@
 
 
-
-$(EMDROS_SPEC_FILE): emdros.spec.in config.status extrafiles-emdros.txt
-	cp emdros.spec.in ./$(EMDROS_SPEC_FILE).in
-	$(top_builddir)/config.status --file=./$(EMDROS_SPEC_FILE)
-	rm -f ./$(EMDROS_SPEC_FILE).in
-	chmod 664 ./$(EMDROS_SPEC_FILE)
 
 debian/docs: debian/docs.in $(top_builddir)/config.status 
 	$(top_builddir)/config.status --file=$@
@@ -172,5 +158,5 @@ test:
 	$(MAKE) -C tests test
 
 
-clean-local:
-	rm -f $(EMDROS_SPEC_FILE)
+
+

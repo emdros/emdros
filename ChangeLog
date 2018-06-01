@@ -40,6 +40,11 @@
 	reflect the new reality of the scripturesys-*.desktop files, and
 	the new blue-E icon names.
 
+	* configure.ac, Makefile.am: Adjust to the new location of
+	generate_extrafiles.py.in.
+
+	* Makefile.am: Don't generate emdros-spec-@VERSION@.spec.
+
 
 2018-05-31 Ulrik Sandborg-Petersen
 
