@@ -2,8 +2,8 @@ language: cpp
 
 script: autoreconf -i && ./configure && make && make test
 
-install: pkg-config
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y pkg-config
 
-compiler:
-  - gcc
-  - clang
+compiler: gcc
