@@ -110,7 +110,10 @@ EXTRA_DIST = windows.mak mingw.mak \
              mqlqtwx.rc \
              Amsterdam.map \
              Info.plist.in EmdrosQueryTool.r \
-             scripturesys-eqtu.desktop
+             scripturesys-eqtu.desktop \
+             doc/EQTUsersGuide.pdf \
+             doc/EQTUsersGuide.htb
+
 
 DISTCLEANFILES = Info.plist
 
@@ -139,8 +142,6 @@ distclean-local: $(maybe_distclean_local)
 MacOSX_distclean_local:
 	rm -rf EmdrosQueryTool.app
 
-doc/EQTUsersGuide.htb:
-	cd doc ; make ; cd ..
 
 EmdrosQueryTool.app: Info.plist eqtu $(QRYTOOLDATA) $(top_srcdir)/wx/blue-E.icns
 	rm -rf EmdrosQueryTool.app
