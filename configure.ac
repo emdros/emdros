@@ -102,6 +102,7 @@ AC_CONFIG_FILES([Makefile
 		 tests/asv/Makefile
 		 tests/test_json/Makefile
 		 build/Makefile
+		 build/linux-rpm/Makefile
 		 build/windows/Makefile
                  generate_extrafiles.py 
                  emdros.pc

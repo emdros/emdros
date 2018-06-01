@@ -24,6 +24,11 @@
 
 	* mingw.mak: Initial addition to the source root.
 
+	* build/linux-rpm/Makefile.am: Initial addition.
+
+	* emdros.spec.in, generate_extrafile.py.in: Move to
+	build/linux-rpm/.
+
 2018-05-31 Ulrik Sandborg-Petersen
 
 	* amalgamation/amalgamation.xml: Remove "pcre2/pcre2.h" from

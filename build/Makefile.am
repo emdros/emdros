@@ -1,3 +1,3 @@
-SUBDIRS = windows
+SUBDIRS = linux-rpm  windows 
 
 CLEANFILES = *~
