@@ -38,7 +38,7 @@ EXTRA_DIST = \
 SUBDIRS = doc pcre2 zlib sqlite3 include \
           EMdF MQL harvest util importers amalgamation $(MAYBE_WX) \
           src tests \
-	  SWIG win32
+	  SWIG build
 
 CLEANFILES = *~ core install_mac.sh extrafiles-emdros.txt extrafiles-emdros-devel.txt 
 

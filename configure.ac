@@ -101,7 +101,8 @@ AC_CONFIG_FILES([Makefile
 		 tests/Makefile
 		 tests/asv/Makefile
 		 tests/test_json/Makefile
-		 win32/Makefile
+		 build/Makefile
+		 build/windows/Makefile
                  generate_extrafiles.py 
                  emdros.pc
 		 debian/rules

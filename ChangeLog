@@ -13,6 +13,10 @@
 	* include/emdros-lconfig.h.in: #define USE_SYSTEM_PCRE2 if not
 	already defined.
 
+	* build/Makefile.am: Initial addition.
+
+	* win32/: Moved into build/windows/.
+
 2018-05-31 Ulrik Sandborg-Petersen
 
 	* amalgamation/amalgamation.xml: Remove "pcre2/pcre2.h" from
