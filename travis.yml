@@ -1,0 +1,9 @@
+language: cpp
+
+script: autoreconf -i && ./configure && make && make test
+
+install: pkg-config
+
+compiler:
+  - gcc
+  - clang
