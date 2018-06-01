@@ -157,25 +157,18 @@ This package contains development files.
 %doc %{_mandir}/man1/*.1*
 %doc %{_mandir}/man5/*.5*
 %doc README NEWS ChangeLog COPYING AUTHORS INSTALL
-%doc doc/ChangeLog-doc.txt
-%doc doc/HOW-TO-USE.txt
-%doc doc/MQL-README.txt
-%doc doc/NEWS-doc.txt
-%doc doc/README-doc.txt
-%doc doc/bootstrapping.txt
-%doc doc/emdftry.html
-%doc doc/jsontry.html
-%doc doc/emdros.html
-%doc doc/eqtc.html
-%doc doc/index.html
-%doc doc/renderobjects.html
-%doc doc/fts_indexer.html
-%doc doc/manage_indices.html
-%doc doc/mqldump.html
-%doc doc/mql.html
-%doc doc/mqllingtry.html
-%doc doc/mqltry.html
-%doc doc/upgrade_db.html
+%doc doc/man1/emdftry.html
+%doc doc/man1/jsontry.html
+%doc doc/man5/emdros.html
+%doc doc/man1/eqtc.html
+%doc doc/man1/renderobjects.html
+%doc doc/man1/fts_indexer.html
+%doc doc/man1/upgrade_db.html
+%doc doc/man1/manage_indices.html
+%doc doc/man1/mqldump.html
+%doc doc/man1/mql.html
+%doc doc/man1/mqllingtry.html
+%doc doc/man1/mqltry.html
 %doc src/qrytool/doc/EQTUsersGuide.pdf
 
 

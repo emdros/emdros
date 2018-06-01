@@ -11,6 +11,8 @@ man_MANS = man1/mql.1 \
            man1/fts_indexer.1 \
            man1/fts_harvester.1 \
            man1/emdftry.1 \
+           man1/upgrade_db.1 \
+           man1/manage_indices.1 \
            man1/mqltry.1 \
            man1/mqllingtry.1 \
            man1/jsontry.1 \

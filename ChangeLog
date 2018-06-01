@@ -1,5 +1,12 @@
 ============ 4.0.0 ============
 
+2018-06-01 Ulrik Sandborg-Petersen
+
+	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
+	man1/upgrade_db.1 as man1 pages.
+
+	* emdros.spec.in: Fix HTML manpage %doc paths.
+
 2018-05-31 Ulrik Sandborg-Petersen
 
 	* amalgamation/amalgamation.xml: Remove "pcre2/pcre2.h" from
