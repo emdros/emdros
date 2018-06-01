@@ -59,7 +59,7 @@ noinst_HEADERS = importtool.h
 AM_CPPFLAGS = -I$(top_srcdir)/include -I. -I$(top_srcdir)/wx -I$(top_srcdir)/amalgamation -I$(top_srcdir)/
 CLEANFILES = *~ core config.log Info.plist
 
-IMPORTTOOLDATA = doc/ImportToolUsersGuide.htb
+#IMPORTTOOLDATA = doc/ImportToolUsersGuide.htb
 
 desktopdatadir = $(datadir)/applications
 dist_desktopdata_DATA = scripturesys-importtool.desktop
@@ -109,8 +109,8 @@ distclean-local: $(maybe_distclean_local)
 MacOSX_distclean_local:
 	rm -rf EmdrosImportTool.app
 
-doc/ImportToolUsersGuide.htb:
-	cd doc ; make ; cd ..
+#doc/ImportToolUsersGuide.htb:
+#	cd doc ; make ; cd ..
 
 EmdrosImportTool.app: Info.plist importtoolu $(IMPORTTOOLDATA) $(top_srcdir)/wx/blue-E.icns
 	rm -rf EmdrosImportTool.app
@@ -119,7 +119,7 @@ EmdrosImportTool.app: Info.plist importtoolu $(IMPORTTOOLDATA) $(top_srcdir)/wx/
 	-mkdir EmdrosImportTool.app/Contents/MacOS
 	-mkdir EmdrosImportTool.app/Contents/Resources
 	-mkdir -p EmdrosImportTool.app/Contents/share/emdros/importtool
-	cp $(IMPORTTOOLDATA) EmdrosImportTool.app/Contents/share/emdros/importtool/
+#	cp $(IMPORTTOOLDATA) EmdrosImportTool.app/Contents/share/emdros/importtool/
 	cp -f $(top_srcdir)/wx/blue-E.icns EmdrosImportTool.app/Contents/Resources/blue-E.icns
 	cp Info.plist EmdrosImportTool.app/Contents
 	echo -n 'APPL????' > EmdrosImportTool.app/Contents/PkgInfo
