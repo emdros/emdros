@@ -206,8 +206,8 @@ importers/pennschema.h
 importers/plaintextschema.h
 importers/simplebibleschema.h
 importers/slashedtextschema.h
-win32/config.mak
-win32/emdros.nsi
+build/windows/config.mak
+build/windows/emdros.nsi
 amalgamation/mkamalgamation
 extrafiles-emdros-devel.txt
 extrafiles-emdros.txt
