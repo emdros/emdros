@@ -45,6 +45,7 @@
 
 	* Makefile.am: Don't generate emdros-spec-@VERSION@.spec.
 
+	* INSTALL: Rewrite large parts to reflect the new reality.
 
 2018-05-31 Ulrik Sandborg-Petersen
 

@@ -101,11 +101,11 @@ On Fedora 26-28, the following packages are required to build the full
 gamut of Emdros programs and libraries, even after a "make distclean"
 or a "make clean":
 
-gcc-c++ make binutils groff gcc glibc-devel glibc-headers kernel-headers groff libgomp libstdc++-devel re2c transfig latex2html swig autoconf automake libtool wxGTK3 wxGTK3-devel
+sudo dnf install gcc-c++ make binutils groff gcc glibc-devel glibc-headers kernel-headers groff libgomp libstdc++-devel re2c transfig latex2html swig autoconf automake libtool wxGTK3 wxGTK3-devel pkgconf
 
 The following packages are optional on Fedora:
 
-tcl java-1.8.0-openjdk java-1.8.0-openjdk-devel python-devel python3-devel php-devel mono-core ruby ruby-devel perl-devel nodejs-devel node-gyp mysql mysql-server mysql mysql-devel postgresql postgresql-server postgresql-devel 
+sudo dnf install java-1.8.0-openjdk java-1.8.0-openjdk-devel python-devel python3-devel php-devel mono-core mysql mysql-server mysql mysql-devel postgresql postgresql-server postgresql-devel 
 
 Ubuntu
 ------
@@ -138,19 +138,15 @@ PostgreSQL support:
 sudo apt install postgresql libpq-dev postgresql-client
 
 SWIG bindings support:
-Tcl:     sudo apt install tcl tcl-dev
 Java:    sudo apt install openjdk-8-jdk
 Python2: sudo apt install python-dev
 Python3: sudo apt install python3-dev
 Mono/C#: sudo apt install mono-devel mono-mcs mono-tools-devel
-Ruby:    sudo apt install ruby ruby-dev
 PHP5:    sudo apt install php5.6-dev
 PHP7:    sudo apt install php-dev
-Perl:    sudo apt install perl
-Node.JS: sudo apt install nodejs-dev node-gyp 
 
 To bring all language bindings in:
-sudo apt install tcl tcl-dev openjdk-8-jdk python-dev python3-dev mono-devel mono-mcs mono-tools-devel ruby ruby-dev php5.6-dev php-dev perl nodejs-dev node-gyp
+sudo apt install openjdk-8-jdk python-dev python3-dev mono-devel mono-mcs mono-tools-devel php5.6-dev php-dev
 
 To build a .deb:
 
@@ -175,7 +171,7 @@ Building after make distclean
 The following command will bring in everything needed to build after
 make distclean:
 
-sudo apt-get install latex2html swig3.0 autoconf automake libtool groff autotools-dev re2c
+sudo apt-get install latex2html swig3.0 autoconf automake libtool groff autotools-dev re2c pkg-config
 
 If SWIG support for PHP 5.6 is required, you need to install the
 following PPA, with the following commands:
@@ -189,7 +185,7 @@ Do this _before_ installing the php5.6-dev package.
 The following packages are optional, but add more functionality if
 installed before building:
 
-tcl tcl-dev openjdk-8-jdk python-dev python3-dev mono-devel mono-mcs mono-tools-devel ruby ruby-dev php5.6-dev php-dev perl libmysqlclient-dev mysql-client mysql-server postgresql libpq-dev postgresql-client nodejs-dev node-gyp 
+openjdk-8-jdk python-dev python3-dev mono-devel mono-mcs mono-tools-devel php5.6-dev php-dev perl libmysqlclient-dev mysql-client mysql-server postgresql libpq-dev postgresql-client
 
 SWIG version 3.0.11 or higher is required if you wish to do a "make
 distclean" and still have support for PHP7.
@@ -199,21 +195,16 @@ distclean" and still have support for PHP7.
 Older versions of Ubuntu
 ::::::::::::::::::::::::
 
-On Ubuntu 14.10 (Utopic Unicorn), the following command will bring in
-everything needed to build a .deb:
-
-sudo apt-get install g++ make binutils tcl tcl-dev re2c latex2html swig3.0 autoconf automake libtool libwxgtk3.0-dev libwxgtk-media3.0-dev openjdk-7-jdk python-dev mono-devel mono-gmcs mono-tools-devel ruby ruby-dev php5-dev perl libmysqlclient-dev mysql-client mysql-server postgresql libpq-dev postgresql-client groff xdg-utils zlib1g-dev build-essential fakeroot debhelper autotools-dev libwxgtk-webview3.0-dev
-
 On Ubuntu 14.04 LTS (Trusty Tahr), the following command will bring in
 everything needed to build a .deb:
 
-sudo apt-get install g++ make binutils tcl tcl-dev re2c latex2html swig autoconf automake libtool libwxgtk3.0-dev libwxgtk-media3.0-dev openjdk-7-jdk python-dev mono-devel mono-gmcs mono-tools-devel ruby ruby-dev php5-dev perl libmysqlclient-dev mysql-client mysql-server postgresql libpq-dev postgresql-client groff xdg-utils zlib1g-dev build-essential fakeroot debhelper autotools-dev 
+sudo apt-get install g++ make binutils re2c latex2html swig autoconf automake libtool libwxgtk3.0-dev libwxgtk-media3.0-dev openjdk-7-jdk python-dev mono-devel mono-gmcs mono-tools-devel php5-dev perl libmysqlclient-dev mysql-client mysql-server postgresql libpq-dev postgresql-client groff xdg-utils zlib1g-dev build-essential fakeroot debhelper autotools-dev pkg-config
 
 On Ubuntu Server 14.04 LTS, and possibly others, the minimum packages
 needed to build a .deb of Emdros from an Emdros release tarball will
 be pulled in with the following.
 
-sudo apt-get install make g++ libwxgtk3.0-0 libwxgtk3.0-dev libwxgtk-media3.0-dev zlib1g-dev build-essential fakeroot debhelper autotools-dev 
+sudo apt-get install make g++ libwxgtk3.0-0 libwxgtk3.0-dev libwxgtk-media3.0-dev zlib1g-dev build-essential fakeroot debhelper autotools-dev pkg-config
 
 Note that this does not pull in PostgreSQL or MySQL, so unless their
 development packages are installed, support for these will not be
@@ -348,7 +339,7 @@ into the debian/rules file, meaning they will also be effective after
 you run make dist.  For example, you could do the following instead of
 merely configure:
 
-./configure  --with-swig-language-nodejs=no --with-swig-language-java=no  --with-swig-language-perl=no --with-swig-language-python2=yes  --with-swig-language-python3=yes --with-swig-language-ruby=yes  --with-swig-language-php7=no --with-swig-language-php=no --with-wx=maybe  --with-sqlite=no  --with-sqlite3=yes  --with-mysql=no  --with-bpt=maybe  --with-bpt2=maybe --enable-shared=yes  --disable-debug  
+./configure  --with-swig-language-nodejs=no --with-swig-language-java=no  --with-swig-language-perl=no --with-swig-language-python2=yes  --with-swig-language-python3=yes --with-swig-language-ruby=yes  --with-swig-language-php7=no --with-swig-language-php=no --with-wx=maybe  --with-sqlite3=yes  --with-mysql=no  --with-bpt=maybe  --with-bpt2=maybe --enable-shared=yes  --disable-debug  
 
 Then these options will be carried over into debian/rules, via
 debian/rules.in.
@@ -390,7 +381,6 @@ system.
 
 In particular, the configure-script looks for the following:
 
-- SQLite 2.x.x
 - SQLite 3.x.x
 - PostgreSQL
 - MySQL
@@ -423,42 +413,39 @@ effect, and do not complete the configure process."
 
 The switches are as follows:
 
-- SQLite 2.x.x        --with-sqlite=[yes|no|maybe|local|system]
 - SQLite 3.x.x        --with-sqlite3=[yes|no|maybe|local|system]
 - PostgreSQL          --with-postgresql=[yes|no|maybe]
 - MySQL               --with-mysql=[yes|no|maybe]
 - wxWidgets           --with-wx=[yes|no|maybe]
 - .Net (for SWIG)     --with-swig-language-csharp=[yes|no|maybe]
-- Node.JS (for SWIG)  --with-swig-language-nodejs=[yes|no|maybe]
 - Java (for SWIG)     --with-swig-language-java=[yes|no|maybe]
-- Perl (for SWIG)     --with-swig-language-perl=[yes|no|maybe]
 - Python 2 (for SWIG) --with-swig-language-python=[yes|no|maybe]
 - Python 3 (for SWIG) --with-swig-language-python3=[yes|no|maybe]
-- Ruby (for SWIG)     --with-swig-language-ruby=[yes|no|maybe]
 - PHP5 (for SWIG)     --with-swig-language-php=[yes|no|maybe]
 - PHP7 (for SWIG)     --with-swig-language-php7=[yes|no|maybe]
 
 
---with-sqlite and --with-sqlite3
---------------------------------
+--with-sqlite3
+--------------
 
-The SQLite switches are a little special, in that, in addition to the
+The --with-sqlite3 switch is special, in that, in addition to the
 [yes|no|maybe] values, they also take the two values "local" and
 "system".
 
-The value "local" means "yes, use SQLite (2/3), but use the locally 
-present (i.e., in the Emdros sources) SQLite".
+The value "local" means "yes, use SQLite 3, but use the locally
+present (i.e., in the Emdros sources) SQLite3".
 
-The value "system" means "yes, use SQLite, but use the one installed
+The value "system" means "yes, use SQLite 3, but use the one installed
 on the system", of the appropriate version.
 
-The value "maybe" means "yes, use SQLite, and let the configure-script
-choose whether to use the one on the system (if present) or the one in
-the Emdros sources (if not present on the system)."
+The value "maybe" means "yes, use SQLite 3, and let the
+configure-script choose whether to use the one on the system (if
+present) or the one in the Emdros sources (if not present on the
+system)."
 
 The value "yes" means the same as "maybe".
 
-The value "no" means "do not build with SQLite".
+The value "no" means "do not build with SQLite 3".
 
 
 --with-bpt
@@ -475,7 +462,7 @@ The BPT backend comes with built-in, optional encryption.
 
 If you are interested in licensing the BPT backend, please get in
 touch with Ulrik Sandborg-Petersen, the author of Emdros, via email:
-ulrikp@emergence.dk
+ulrikp@emdros.org
 
 The BPT engine is turned off by default, given that it is not part of
 the Open Source version of Emdros.  In case you have the source code
@@ -508,7 +495,7 @@ The BPT2 backend comes with built-in, optional encryption.
 
 If you are interested in licensing the BPT2 backend, please get in
 touch with Ulrik Sandborg-Petersen, the author of Emdros, via email:
-ulrikp@emergence.dk
+ulrikp@emdros.org
 
 The BPT2 engine is turned off by default, given that it is not part of
 the Open Source version of Emdros.  In case you have the source code
@@ -556,9 +543,7 @@ The most important ones are:
 - --prefix=                  (defaults to /usr/local)
 - --with-mysql=[yes|no|maybe]
 - --with-postgresql=[yes|no|maybe]
-- --with-sqlite=[yes|no|maybe|system|local]
 - --with-sqlite3=[yes|no|maybe|system|local]
-- --with-sqlite-no-fsync=[yes|no]    (on by default)
 - --with-sqlite3-no-fsync=[yes|no]   (on by default)
 - --with-bpt=[yes|no|maybe]          (off by default)
 - --with-bpt2=[yes|no|maybe]         (off by default)
@@ -571,15 +556,12 @@ The most important ones are:
 - --disable-static
 - --enable-local-pcre        (on by default)
 - --disable-local-pcre
-- --with-swig-language-nodejs=[yes|no|maybe]
 - --with-swig-language-java=[yes|no|maybe]
-- --with-swig-language-perl=[yes|no|maybe]
 - --with-swig-language-python=[yes|no|maybe]
 - --with-swig-language-python3=[yes|no|maybe]
-- --with-swig-language-ruby=[yes|no|maybe]
 - --with-swig-language-php=[yes|no|maybe]
 - --with-swig-language-php7=[yes|no|maybe]
-- --with-default-backend=[sqlite|sqlite3|mysql|postgresql]
+- --with-default-backend=[sqlite3|mysql|postgresql]
 
 For descriptions of these and other options, you can run the following
 command:
@@ -592,10 +574,3 @@ Building on Mac OS X
 
 Please see INSTALL.Mac.txt.
 
-
-What happens after building Emdros?
-===================================
-
-Please see the doc/HOW-TO-USE file.
-
-Please also see the rest of the documentation.
