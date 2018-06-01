@@ -10,7 +10,6 @@ doc/man1/mql.1
 doc/man1/mqldump.1
 doc/man1/mqllingtry.1
 doc/man1/mqltry.1
-doc/man1/negraimport.1
 doc/man1/pennimport.1
 doc/man1/plaintextimport.1
 doc/man1/renderobjects.1
