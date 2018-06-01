@@ -148,6 +148,7 @@ This package contains development files.
 
 %files  -f %{_builddir}/emdros-%{ver}/build/linux-rpm/extrafiles-emdros.txt
 %{_bindir}/*
+%{prefix}/share/applications/
 %{prefix}/share/emdros/
 %{prefix}/lib/*.so.*
 %doc SWIG/csharp/README-csharp
