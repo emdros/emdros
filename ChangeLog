@@ -36,6 +36,10 @@
 	* wx/Makefile.am: Also install blue-E-128x128.png along with the
 	other sizes.
 
+	* debian/emdros.postinst.in, debian/emdros.postrm.in: Update to
+	reflect the new reality of the scripturesys-*.desktop files, and
+	the new blue-E icon names.
+
 
 2018-05-31 Ulrik Sandborg-Petersen
 

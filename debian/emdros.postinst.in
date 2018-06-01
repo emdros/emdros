@@ -27,14 +27,15 @@ case "$1" in
 
         if test "x$XDG_ICON_RESOURCE" != "x" -a "x$XDG_DESKTOP_MENU" != "x" -a "x@DO_WXWIDGETS@" = "xyes"; then 
            if test -x $XDG_ICON_RESOURCE -a -x $XDG_DESKTOP_MENU; then
-              $XDG_ICON_RESOURCE install --size 16 @prefix@/share/emdros/blue-E-16x16.png emergence-blue-E || true
-              $XDG_ICON_RESOURCE install --size 22 @prefix@/share/emdros/blue-E-22x22.png emergence-blue-E || true
-              $XDG_ICON_RESOURCE install --size 32 @prefix@/share/emdros/blue-E-32x32.png emergence-blue-E || true
-              $XDG_ICON_RESOURCE install --size 48 @prefix@/share/emdros/blue-E-48x48.png emergence-blue-E || true
-              $XDG_ICON_RESOURCE install --size 64 @prefix@/share/emdros/blue-E-64x64.png emergence-blue-E || true
+              $XDG_ICON_RESOURCE install --size 16 @prefix@/share/emdros/blue-E-16x16.png scripturesys-blue-E || true
+              $XDG_ICON_RESOURCE install --size 22 @prefix@/share/emdros/blue-E-22x22.png scripturesys-blue-E || true
+              $XDG_ICON_RESOURCE install --size 32 @prefix@/share/emdros/blue-E-32x32.png scripturesys-blue-E || true
+              $XDG_ICON_RESOURCE install --size 48 @prefix@/share/emdros/blue-E-48x48.png scripturesys-blue-E || true
+              $XDG_ICON_RESOURCE install --size 64 @prefix@/share/emdros/blue-E-64x64.png scripturesys-blue-E || true
+              $XDG_ICON_RESOURCE install --size 128 @prefix@/share/emdros/blue-E-128x128.png scripturesys-blue-E || true
 
-              $XDG_DESKTOP_MENU install @prefix@/share/emdros/emergence-eqtu.desktop || true
-              $XDG_DESKTOP_MENU install @prefix@/share/emdros/emergence-importtool.desktop || true
+              $XDG_DESKTOP_MENU install @prefix@/share/applications/scripturesys-eqtu.desktop || true
+              $XDG_DESKTOP_MENU install @prefix@/share/applications/scripturesys-importtool.desktop || true
       fi
    fi
 fi
