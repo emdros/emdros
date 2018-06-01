@@ -28,7 +28,7 @@ echo ""
 if test "x$USE_CONFIGURE_DEFAULT_BACKEND_ENUM" != "x0"; then
 echo "Default backend:      $DEFAULT_BACKEND"
 else
-echo "Default backend:      Chosen by lib/base/emdros-lconfig.h"
+echo "Default backend:      Chosen by include/emdros-lconfig.h"
 fi
 
 echo ""
