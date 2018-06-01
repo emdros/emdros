@@ -61,6 +61,16 @@
 	* src/qrytool/doc/EQTUsersGuide.pdf: Initial addition.  A static
 	file now.
 
+	* src/qrytool/EmdrosQueryTool.r: Remove this long-obsolete file,
+	which was for a very old version of MacOS.
+
+	* src/qrytool/Makefile.am: Remove the Non-Unicode WX build.
+
+	* src/qrytool/Makefile.am: Sanitize the macOS build.
+
+	* src/qrytool/Makefile.am: Only depend on the -lemdrosguiu library
+	if we are doing wxWidgets.
+
 2018-05-31 Ulrik Sandborg-Petersen
 
 	* amalgamation/amalgamation.xml: Remove "pcre2/pcre2.h" from

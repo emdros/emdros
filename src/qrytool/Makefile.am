@@ -13,12 +13,6 @@ else
 MAYBE_UNICODE_PRGS =
 endif
 
-if WX_DO_NONUNICODE
-MAYBE_NONUNICODE_PRGS = eqt
-else
-MAYBE_NONUNICODE_PRGS =
-endif
-
 else
 MAYBE_PRGS = 
 endif
@@ -26,19 +20,14 @@ endif
 if HOSTISDARWIN
 MACLDFLAGS = -static
 if WITH_WX_PROGRAMS
-maybe_all_local = RezSetFile EmdrosQueryTool.app
-__macosx__rez = $(WX_REZFLAGS) eqtu -s $(top_srcdir)/wx EmdrosQueryTool.r
+maybe_all_local = EmdrosQueryTool.app
 maybe_distclean_local = MacOSX_distclean_local
 else
 maybe_all_local = 
-__macosx__rez = 
-__macosx__setfile = 
 maybe_distclean_local = 
 endif
 else
 maybe_all_local = 
-__macosx__rez = 
-__macosx__setfile = 
 maybe_distclean_local = 
 endif
 
@@ -49,7 +38,6 @@ noinst_LIBRARIES = libquerytool.a
 
 
 ALWAYSLDADD = -L$(top_builddir)/src/qrytool -lquerytool \
-              -L$(top_builddir)/wx -lemdrosguiu \
               @EMDROS_LDADD_BACKBACK@ \
               @SUN_LDFLAGS@  @DARWIN_LDFLAGS@
 
@@ -60,13 +48,10 @@ eqtc_LDADD = $(ALWAYSLDADD)
 eqtc_DEPENDENCIES = $(ALWAYSDEPS)
 eqtc_LDFLAGS = $(MACLDFLAGS) 
 
-eqt_LDADD = $(top_builddir)/wx/libemdrosgui.a $(ALWAYSLDADD) \
-            @WX_NONUNICODE_LDFLAGS@ @WX_NONUNICODE_LIBS@
-eqt_LDFLAGS = $(MACLDFLAGS) 
-eqt_DEPENDENCIES = $(ALWAYSDEPS) $(top_builddir)/wx/libemdrosgui.a
-eqt_CXXFLAGS = $(AM_CXXFLAGS) @WX_NONUNICODE_CXXFLAGS@
 
-eqtu_LDADD = $(top_builddir)/wx/libemdrosguiu.a $(ALWAYSLDADD) \
+
+eqtu_LDADD = -L$(top_builddir)/wx -lemdrosguiu \
+             $(ALWAYSLDADD) \
              @WX_UNICODE_LDFLAGS@ @WX_UNICODE_LIBS@
 eqtu_LDFLAGS = $(MACLDFLAGS) 
 eqtu_DEPENDENCIES = $(ALWAYSDEPS) $(top_builddir)/wx/libemdrosguiu.a
@@ -82,7 +67,6 @@ libquerytool_a_AR = $(AR) $(ARFLAGS)
 endif
 
 eqtc_SOURCES = mqlqt.cpp
-eqt_SOURCES = mqlqtwx.cpp qtconnwizard.cpp mainframe.cpp wxilqtout.cpp
 eqtu_SOURCES = mqlqtwx.cpp qtconnwizard.cpp mainframe.cpp wxilqtout.cpp 
 
 
@@ -159,9 +143,6 @@ EmdrosQueryTool.app: Info.plist eqtu $(QRYTOOLDATA) $(top_srcdir)/wx/blue-E.icns
 Info.plist: Info.plist.in
 	$(top_builddir)/config.status --file=$(srcdir)/Info.plist
 
-RezSetFile: eqtu  EmdrosQueryTool.r Info.plist
-	$(__macosx__rez)
-	$(__macosx__setfile)
 
 
 macdist:
