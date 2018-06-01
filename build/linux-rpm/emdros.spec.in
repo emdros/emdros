@@ -19,6 +19,9 @@ Source0: emdros-@VERSION@.tar.gz
 License: GPLv2
 Group: Applications/Databases
 Prefix: %{prefix}
+@WX_DO_UNICODE_TRUE@BuildRequires: desktop-file-utils xdg-utils
+@WX_DO_UNICODE_TRUE@Requires(post): desktop-file-utils xdg-utils
+@WX_DO_UNICODE_TRUE@Requires(preun): desktop-file-utils xdg-utils
 #BuildRoot: %{_tmppath}/%{name}-root
 
 %description 
@@ -56,19 +59,24 @@ make install DESTDIR=%{buildroot}
 %post
 /sbin/ldconfig
 
-XDG_ICON_RESOURCE=`which xdg-icon-resource`
-XDG_DESKTOP_MENU=`which xdg-desktop-menu`
 
-if test "x$XDG_ICON_RESOURCE" != "x" -a "x$XDG_DESKTOP_MENU" != "x"; then
-   if test -x $XDG_ICON_RESOURCE -a -x $XDG_DESKTOP_MENU -a -x ${prefix}/bin/eqtu; then
-      $XDG_ICON_RESOURCE install --size 16 %{prefix}/share/emdros/blue-E-16x16.png emergence-blue-E || true
-      $XDG_ICON_RESOURCE install --size 22 %{prefix}/share/emdros/blue-E-22x22.png emergence-blue-E || true
-      $XDG_ICON_RESOURCE install --size 32 %{prefix}/share/emdros/blue-E-32x32.png emergence-blue-E || true
-      $XDG_ICON_RESOURCE install --size 48 %{prefix}/share/emdros/blue-E-48x48.png emergence-blue-E || true
-      $XDG_ICON_RESOURCE install --size 64 %{prefix}/share/emdros/blue-E-64x64.png emergence-blue-E || true
+XDG_ICON_RESOURCE=`which xdg-icon-resource  2>/dev/null`
+DESKTOP_FILE_INSTALL=`which desktop-file-install  2>/dev/null`
 
-      $XDG_DESKTOP_MENU install %{prefix}/share/emdros/emergence-eqtu.desktop || true
-      $XDG_DESKTOP_MENU install %{prefix}/share/emdros/emergence-importtool.desktop || true
+if test "x$XDG_ICON_RESOURCE" != "x" -a "x$DESKTOP_FILE_INSTALL" != "x"; then
+   if test -x "$XDG_ICON_RESOURCE" -a -x "$DESKTOP_FILE_INSTALL" -a -x ${prefix}/bin/eqtu; then
+      $XDG_ICON_RESOURCE install --size 16 %{prefix}/share/emdros/blue-E-16x16.png scripturesys-blue-E || true
+      $XDG_ICON_RESOURCE install --size 22 %{prefix}/share/emdros/blue-E-22x22.png scripturesys-blue-E || true
+      $XDG_ICON_RESOURCE install --size 32 %{prefix}/share/emdros/blue-E-32x32.png scripturesys-blue-E || true
+      $XDG_ICON_RESOURCE install --size 48 %{prefix}/share/emdros/blue-E-48x48.png scripturesys-blue-E || true
+      $XDG_ICON_RESOURCE install --size 64 %{prefix}/share/emdros/blue-E-64x64.png scripturesys-blue-E || true
+      $XDG_ICON_RESOURCE install --size 128 %{prefix}/share/emdros/blue-E-128x128.png scripturesys-blue-E || true
+
+#      $DESKTOP_FILE_INSTALL --dir %{_datadir}/applications  %{prefix}/share/emdros/scripturesys-eqtu.desktop || true
+#      $DESKTOP_FILE_INSTALL --dir %{_datadir}/applications  %{prefix}/share/emdros/scripturesys-importtool.desktop || true
+
+      desktop-file-validate %{_datadir}/applications/scripturesys-eqtu.desktop
+      desktop-file-validate %{_datadir}/applications/scripturesys-importtool.desktop
    fi
 fi
 
@@ -86,20 +94,20 @@ fi
 #
 if test "x$1" == "x0"; then
    
-   XDG_ICON_RESOURCE=`which xdg-icon-resource`
-   XDG_DESKTOP_MENU=`which xdg-desktop-menu`
+   XDG_ICON_RESOURCE=`which xdg-icon-resource  2>/dev/null`
+   XDG_DESKTOP_MENU=`which xdg-desktop-menu  2>/dev/null`
 
    if test "x$XDG_ICON_RESOURCE" != "x" -a "x$XDG_DESKTOP_MENU" != "x"; then
       if test -x $XDG_ICON_RESOURCE -a -x $XDG_DESKTOP_MENU -a -x ${prefix}/bin/eqtu; then
-      	 $XDG_ICON_RESOURCE uninstall --size 16 emergence-blue-E || true
-         $XDG_ICON_RESOURCE uninstall --size 22 emergence-blue-E || true
-         $XDG_ICON_RESOURCE uninstall --size 32 emergence-blue-E || true
-         $XDG_ICON_RESOURCE uninstall --size 48 emergence-blue-E || true
-         $XDG_ICON_RESOURCE uninstall --size 64 emergence-blue-E || true
+#         $XDG_DESKTOP_MENU uninstall %{prefix}/share/emdros/scripturesys-eqtu.desktop
+#         $XDG_DESKTOP_MENU uninstall %{prefix}/share/emdros/scripturesys-importtool.desktop || true
 
-         $XDG_DESKTOP_MENU uninstall %{prefix}/share/emdros/emergence-eqtu.desktop || true
-         $XDG_DESKTOP_MENU uninstall %{prefix}/share/emdros/emergence-importtool.desktop || true
-
+      	 $XDG_ICON_RESOURCE uninstall --size 16 scripturesys-blue-E || true
+         $XDG_ICON_RESOURCE uninstall --size 22 scripturesys-blue-E || true
+         $XDG_ICON_RESOURCE uninstall --size 32 scripturesys-blue-E || true
+         $XDG_ICON_RESOURCE uninstall --size 48 scripturesys-blue-E || true
+         $XDG_ICON_RESOURCE uninstall --size 64 scripturesys-blue-E || true
+         $XDG_ICON_RESOURCE uninstall --size 128 scripturesys-blue-E || true
       fi
    fi
 fi
@@ -132,13 +140,13 @@ This package contains development files.
 
 
 
-%files devel -f %{_builddir}/emdros-%{ver}/extrafiles-emdros-devel.txt
+%files devel -f %{_builddir}/emdros-%{ver}/build/linux-rpm/extrafiles-emdros-devel.txt
 %{prefix}/lib/*.so
 %{prefix}/lib/*.la
 %{_datadir}/pkgconfig/emdros.pc
 %{_includedir}/emdros/
 
-%files  -f %{_builddir}/emdros-%{ver}/extrafiles-emdros.txt
+%files  -f %{_builddir}/emdros-%{ver}/build/linux-rpm/extrafiles-emdros.txt
 %{_bindir}/*
 %{prefix}/share/emdros/
 %{prefix}/lib/*.so.*
@@ -176,6 +184,11 @@ This package contains development files.
 #%defattr(-,root,root)
 
 %changelog
+
+* Mon Jun 1 2018 Ulrik Sandborg-Petersen <ulrikp@users.sf.net>
+
+  Better %post and %preun, with better handling of GUI icons.  Better
+  BuildRequires and Requires entries.
 
 * Mon May 28 2018 Ulrik Sandborg-Petersen <ulrikp@users.sf.net>
   Enable rpm-build of version 4.0.0.

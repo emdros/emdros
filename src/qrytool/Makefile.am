@@ -112,11 +112,13 @@ EXTRA_DIST = windows.mak mingw.mak \
              mqlqtwx.rc \
              Amsterdam.map \
              Info.plist.in EmdrosQueryTool.r \
-             emergence-eqtu.desktop
+             scripturesys-eqtu.desktop
 
 DISTCLEANFILES = Info.plist
 
-dist_pkgdata_DATA = emergence-eqtu.desktop
+desktopdatadir = $(datadir)/applications
+dist_desktopdata_DATA = scripturesys-eqtu.desktop
+
 
 
 #

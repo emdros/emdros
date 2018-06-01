@@ -52,7 +52,8 @@ dist_pkgdata_DATA = \
                     blue-E-22x22.png \
                     blue-E-32x32.png \
                     blue-E-48x48.png \
-                    blue-E-64x64.png
+                    blue-E-64x64.png \
+                    blue-E-128x128.png
 
 
 

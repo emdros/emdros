@@ -29,6 +29,14 @@
 	* emdros.spec.in, generate_extrafile.py.in: Move to
 	build/linux-rpm/.
 
+	* build/linux-rpm/emdros.spec.in: Update to the new
+	location. Improve the use of xdg-utils.  Have better BuildRequires
+	and Requires entries.  Do GUI desktop icons better.
+
+	* wx/Makefile.am: Also install blue-E-128x128.png along with the
+	other sizes.
+
+
 2018-05-31 Ulrik Sandborg-Petersen
 
 	* amalgamation/amalgamation.xml: Remove "pcre2/pcre2.h" from

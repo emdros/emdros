@@ -63,11 +63,13 @@ CLEANFILES = *~ core config.log Info.plist
 
 IMPORTTOOLDATA = doc/ImportToolUsersGuide.htb
 
-dist_pkgdata_DATA = emergence-importtool.desktop
+desktopdatadir = $(datadir)/applications
+dist_desktopdata_DATA = scripturesys-importtool.desktop
+
 
 EXTRA_DIST = windows.mak mingw.mak importtool.rc \
              Info.plist.in  EmdrosImportTool.r \
-             emergence-importtool.desktop
+             scripturesys-importtool.desktop
 
 
 #
