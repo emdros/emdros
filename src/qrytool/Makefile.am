@@ -93,7 +93,7 @@ EXTRA_DIST = windows.mak mingw.mak \
              av.cfg default.cfg wihebrew.cfg wh.cfg \
              mqlqtwx.rc \
              Amsterdam.map \
-             Info.plist.in EmdrosQueryTool.r \
+             Info.plist.in \
              scripturesys-eqtu.desktop \
              doc/EQTUsersGuide.pdf \
              doc/EQTUsersGuide.htb
