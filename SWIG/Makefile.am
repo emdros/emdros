@@ -1,4 +1,4 @@
-EXTRA_DIST=win32.mak mingw.mak
+EXTRA_DIST=windows.mak mingw.mak
 SUBDIRS = csharp java php5 php7 python2 python3 
 
 

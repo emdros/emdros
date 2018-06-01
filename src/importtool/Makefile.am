@@ -65,7 +65,7 @@ IMPORTTOOLDATA = doc/ImportToolUsersGuide.htb
 
 dist_pkgdata_DATA = emergence-importtool.desktop
 
-EXTRA_DIST = win32.mak mingw.mak importtool.rc \
+EXTRA_DIST = windows.mak mingw.mak importtool.rc \
              Info.plist.in  EmdrosImportTool.r \
              emergence-importtool.desktop
 

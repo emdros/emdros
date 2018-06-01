@@ -90,7 +90,7 @@ bptdetach_SOURCES = bptdetach.cpp
 
 
 AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/
-EXTRA_DIST = win32.mak mingw.mak 
+EXTRA_DIST = windows.mak mingw.mak 
 
 CLEANFILES = *~ core 
 AM_CXXFLAGS = @CXXFLAGS@ @DEBUGFLAG@ @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ \

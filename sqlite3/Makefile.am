@@ -15,7 +15,7 @@ endif
 SUBDIRS=$(MYSUBDIRS)
 
 EXTRA_DIST = sqlite3_emdros.1 VERSION \
-             win32.mak mingw.mak 
+             windows.mak mingw.mak 
 
 
 # Man pages

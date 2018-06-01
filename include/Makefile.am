@@ -1,5 +1,5 @@
 EXTRA_DIST = emdros-lconfig.h.in emdros-config.h.in \
-             Makefile.inc win32.mak mingw.mak \
+             Makefile.inc windows.mak mingw.mak \
              emdros-version.h.in
 
 include Makefile.inc

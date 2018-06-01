@@ -112,7 +112,7 @@ endif # end if SWIG_WITH_CSHARP_WRAPPERS
 BUILT_SOURCES =  $(MAYBE_BUILT_SRC)  TestEmdros.cs 
 
 EXTRA_DIST = libcsemdros.i \
-             README-csharp win32.mak \
+             README-csharp windows.mak \
              TestEmdros.cs.in \
              $(MAYBE_BUILT)
 

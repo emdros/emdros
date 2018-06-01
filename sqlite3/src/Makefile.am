@@ -1,6 +1,6 @@
 noinst_HEADERS = sqlite3ext.h sqlite3.h
 
-EXTRA_DIST = win32.mak mingw.mak \
+EXTRA_DIST = windows.mak mingw.mak \
              prefix.c encryption.c sqlite3.c 
 
 

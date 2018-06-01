@@ -17,6 +17,9 @@
 
 	* win32/: Moved into build/windows/.
 
+	* Rename all win32.mak to windows.mak. This is because Win32, the
+	API, is no longer the only Windows API.
+
 2018-05-31 Ulrik Sandborg-Petersen
 
 	* amalgamation/amalgamation.xml: Remove "pcre2/pcre2.h" from

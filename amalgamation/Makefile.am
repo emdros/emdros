@@ -36,7 +36,7 @@ CLEANFILES = $(mysourcecode) $(myheaders) *~ core amalgamation_made.txt
 
 EXTRA_DIST = mkamalgamation.py \
              amalgamation.xml \
-             win32.mak mingw.mak 
+             windows.mak mingw.mak 
 
 AM_CPPFLAGS = 
 AM_CFLAGS = @DEBUGFLAG@ @ADDITIONAL_CFLAGS@

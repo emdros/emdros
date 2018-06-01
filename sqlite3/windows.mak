@@ -15,14 +15,14 @@ NULL=nul
 
 ALL: 
    cd src
-   nmake /f win32.mak $(MAKEMACRO) 
+   nmake /f windows.mak $(MAKEMACRO) 
    cd ..
 
 CLEANFILES = *~
 
 CLEAN:
    cd src
-   nmake /f win32.mak CLEAN
+   nmake /f windows.mak CLEAN
    cd ..
    -@erase $(CLEANFILES)
 

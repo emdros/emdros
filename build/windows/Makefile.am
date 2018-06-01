@@ -1,4 +1,4 @@
-EXTRA_DIST = win32.mak mingw.mak body.mak mingw-body.mak \
+EXTRA_DIST = windows.mak mingw.mak body.mak mingw-body.mak \
    config.h.win32 lconfig.h.win32 \
    config.mak.in config.mak README.txt \
    emdros.nsi.in emdros-logo-installer.bmp emdros.nsi

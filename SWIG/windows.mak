@@ -17,29 +17,29 @@ NULL=nul
 ALL:
 !IF "$(WITH_SWIG_PYTHON)" == "yes"
 	cd python 
-	nmake /f win32.mak
+	nmake /f windows.mak
 	cd ..
 !ENDIF
 !IF "$(WITH_SWIG_JAVA)" == "yes"
 	cd java
-	nmake /f win32.mak
+	nmake /f windows.mak
 	cd ..
 !ENDIF
 !IF "$(WITH_SWIG_CSHARP)" == "yes"
 	cd csharp
-	nmake /f win32.mak
+	nmake /f windows.mak
 	cd ..
 !ENDIF
 
 
 CLEAN:
 	cd python 
-	nmake /f win32.mak clean
+	nmake /f windows.mak clean
 	cd ..
 	cd java 
-	nmake /f win32.mak clean
+	nmake /f windows.mak clean
 	cd ..
 	cd csharp
-	nmake /f win32.mak clean
+	nmake /f windows.mak clean
 	cd ..
 

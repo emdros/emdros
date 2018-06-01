@@ -103,7 +103,7 @@ lib_LTLIBRARIES = $(MAYBE_LIBS_EMDF)
 #
 # Misc variables
 #
-EXTRA_DIST = win32.mak mingw.mak \
+EXTRA_DIST = windows.mak mingw.mak \
              json.re json_lexer.cpp \
              json.yxx json_parser.cpp jsonpars.h
 

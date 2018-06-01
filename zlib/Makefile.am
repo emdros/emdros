@@ -27,7 +27,7 @@ BUILT_SOURCES = $(maybe_build_sources)
 
 CLEANFILES = $(srcdir)/../include/zlib.h $(srcdir)/../include/zconf.h *~ core
 
-EXTRA_DIST = win32.mak mingw.mak \
+EXTRA_DIST = windows.mak mingw.mak \
              README.Emdros.txt \
              zlib_emdros.h.win32 zconf.h.win32 zconf.h.mingw \
              ChangeLog CMakeLists.txt configure FAQ README treebuild.xml zconf.h.cmakein zconf.h.in zlib2ansi zlib.3 \

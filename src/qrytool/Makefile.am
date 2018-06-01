@@ -107,7 +107,7 @@ QRYTOOLDATA = av.cfg default.cfg penn.cfg \
               wh.cfg whutf8.cfg whwordsonly.cfg whwordsonlyutf8.cfg \
               doc/EQTUsersGuide.htb
 
-EXTRA_DIST = win32.mak mingw.mak \
+EXTRA_DIST = windows.mak mingw.mak \
              av.cfg default.cfg wihebrew.cfg wh.cfg \
              mqlqtwx.rc \
              Amsterdam.map \
