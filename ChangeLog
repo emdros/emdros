@@ -20,6 +20,8 @@
 	* Rename all win32.mak to windows.mak. This is because Win32, the
 	API, is no longer the only Windows API.
 
+	* windows.mak: Initial addition to the source root.
+
 2018-05-31 Ulrik Sandborg-Petersen
 
 	* amalgamation/amalgamation.xml: Remove "pcre2/pcre2.h" from
