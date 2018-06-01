@@ -58,6 +58,9 @@
 	them requires pdflatex to be installed when building.  We don't
 	want this dependency here.
 
+	* src/qrytool/doc/EQTUsersGuide.pdf: Initial addition.  A static
+	file now.
+
 2018-05-31 Ulrik Sandborg-Petersen
 
 	* amalgamation/amalgamation.xml: Remove "pcre2/pcre2.h" from
