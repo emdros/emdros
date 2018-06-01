@@ -74,6 +74,10 @@
 	* src/importtool/Makefile.am: Do the same for the importtool as
 	was just done for the Query tool.
 
+	* m4/emdros_swig.m4: Ensure that we don't do PHP5 in the case in
+	which we don't have SWIG, and we don't have the SWIG-generated
+	PHP5 sources.
+
 2018-05-31 Ulrik Sandborg-Petersen
 
 	* amalgamation/amalgamation.xml: Remove "pcre2/pcre2.h" from

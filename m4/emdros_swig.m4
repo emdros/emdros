@@ -818,6 +818,16 @@ AC_ARG_WITH(swig-language-php5,
 )
 ORIGINAL_DO_SWIG_PHP5=$DO_SWIG_PHP5
 
+dnl If we can't do SWIG, don't do SWIG PHP5 bindings.
+if test x$CAN_DO_SWIG == xno; then
+   if test -f SWIG/php5/phpemdros_wrap.cpp -a -f SWIG/php5/EmdrosPHP.php; then
+     DO_SWIG_PHP5=yes;
+   else
+     DO_SWIG_PHP5=no;
+   fi
+fi
+
+
 
 AC_MSG_CHECKING([Whether we are to do php5...])
 if test x$enable_shared != xyes; then
