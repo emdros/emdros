@@ -19,6 +19,11 @@
 - macOS: HomeBrew
 - Python: pip install emdros-py (2 & 3)
 
+## EMdF
+
+- MySQL: Support other connection mechanisms than TCP/IP.
+- PostgreSQL: Support other connection mechanisms than TCP/IP.
+
 ## MQL
 
 - Perhaps do away with the ! bang operator, and the implicit
