@@ -62,7 +62,7 @@ CPPFLAGS_PGSQL = /DUSE_POSTGRESQL=0
 
 !IF "$(MYSQL)" == "1"
 
-DBINCLUDE_MY = /I "..\build\windows\mysql_include"
+DBINCLUDE_MY = /I "$(WIN32DIR)\mysql_include"
 DBLIB_MY = "$(MYSQLTOP)\lib\libmysql.lib"
 CBS_MYSQL = _my
 CPPFLAGS_MYSQL = /DUSE_MYSQL=1
@@ -74,7 +74,7 @@ CPPFLAGS_MYSQL = /DUSE_MYSQL=0
 
 !IF "$(SQLITE3)" == "1"
 
-DBINCLUDE_SQLITE3 = /I "..\build\windows"
+DBINCLUDE_SQLITE3 = /I "$(WIN32DIR)"
 DBLIB_SQLITE3 = "$(OUTDIR)\libsqlite3_emdros.lib" 
 CBS_SQLITE3 = _sq3
 CPPFLAGS_SQLITE3 = /DUSE_SQLITE3=1
