@@ -96,8 +96,13 @@
 #include "emdros-lconfig.h"
 
 #if defined(WIN32) || defined(__WIN32__) || defined(_WINDOWS)
-extern "C++" {
+#ifndef OPT_H_LINKAGE
+#define OPT_H_LINKAGE extern "C++"
 #endif
+#else
+#define OPT_H_LINKAGE
+#endif
+
 
 typedef struct option_t {
 	std::string short_version; /**< For options with one -. */
@@ -126,17 +131,21 @@ typedef struct option_t {
 
 typedef std::map<std::string, option_t> OptionMap_t;
 
+OPT_H_LINKAGE
 void addOption(const char *short_version, /* with or without the - . */
-		      const char *long_version,  /* with or without the -- . */
-		      bool takes_parameter = false,
-		      const char *default_value = "",
-		      const char *help_message_when_no_param = "");
+			    const char *long_version,  /* with or without the -- . */
+			    bool takes_parameter = false,
+			    const char *default_value = "",
+			    const char *help_message_when_no_param = "");
 		      
 
+OPT_H_LINKAGE
 bool parseArguments(int argc, char *argv[], std::string& error_message, std::list<std::string>& surplus_arguments);
 
+OPT_H_LINKAGE
 bool getArgumentValue(const char *short_version, std::string& value);
 
+OPT_H_LINKAGE
 bool getArgumentPresent(const char *short_version);
 
 /* Must be declared in the program. */
@@ -144,21 +153,25 @@ extern OptionMap_t theOptionMap;
 
 /* Adds -h, -u, -p, -b, --version, --help, 
  * and -e if bAddEncoding is true. */
+OPT_H_LINKAGE
 void addStandardArguments(bool bAddEncoding = false);
 
+OPT_H_LINKAGE
 bool getStandardArguments(bool& bShowVersion, bool& bShowHelp, std::string& hostname, std::string& user, std::string& password, eBackendKind& backend_kind, eCharsets& charset, std::string& error_message);
 
+OPT_H_LINKAGE
 std::string getBackendsAvailable();
 
+OPT_H_LINKAGE
 void printBackendsAvailable(std::ostream& ostr);
 
+OPT_H_LINKAGE
 void printUsageStandardArguments(std::ostream& ostr);
 
+OPT_H_LINKAGE
 void printUsageDefaultsOfStandardArguments(std::ostream& ostr);
 
-#if defined(WIN32) || defined(__WIN32__) || defined(_WINDOWS)
-} // extern "C++"
-#endif
+
 	
 
 #endif // OPTIONS__H__

@@ -90,6 +90,7 @@
 // global variable
 OptionMap_t theOptionMap;
 
+OPT_H_LINKAGE
 bool getHasEncodingOption(void)
 {
 	OptionMap_t::const_iterator ci = theOptionMap.find("-e");
@@ -100,6 +101,7 @@ bool getHasEncodingOption(void)
 	}
 }
 
+OPT_H_LINKAGE
 std::string reduceOption(const std::string& in)
 {
 	std::string::size_type length = in.length();
@@ -125,6 +127,7 @@ std::string reduceOption(const std::string& in)
 	}
 }
 
+OPT_H_LINKAGE
 void addOption(const char *short_version, /* with or without the - . */
 	       const char *long_version,  /* with or without the -- . */
 	       bool takes_parameter,
@@ -244,6 +247,7 @@ bool getArgumentValue(const char *short_version, std::string& value)
 }
 
 
+OPT_H_LINKAGE
 bool getArgumentPresent(const char *short_version)
 {
 	OptionMap_t::const_iterator ci = theOptionMap.find(std::string(short_version));
@@ -256,6 +260,7 @@ bool getArgumentPresent(const char *short_version)
 
 
 /* Adds -h, -u, -p, -b, --help, --version. */
+OPT_H_LINKAGE
 void addStandardArguments(bool bAddEncoding)
 {
 	addOption("--help", "--help");
@@ -293,6 +298,7 @@ void addStandardArguments(bool bAddEncoding)
 }
 
 
+OPT_H_LINKAGE
 bool getStandardArguments(bool& bShowVersion, bool& bShowHelp, std::string& hostname, std::string& user, std::string& password, eBackendKind& backend_kind, eCharsets& charset, std::string& error_message)
 {
 	bShowVersion = getArgumentPresent("-V");
@@ -328,6 +334,7 @@ bool getStandardArguments(bool& bShowVersion, bool& bShowHelp, std::string& host
 	return true;
 }
 
+OPT_H_LINKAGE
 std::string getBackendsAvailable()
 {
 
@@ -351,6 +358,7 @@ std::string getBackendsAvailable()
 	return backend_string;
 }
 
+OPT_H_LINKAGE
 void printBackendsAvailable(std::ostream& ostr)
 {
 	ostr << "BACKENDS AVAILABLE IN THIS BUILD:\n";
@@ -359,6 +367,7 @@ void printBackendsAvailable(std::ostream& ostr)
 	ostr << "   " << backend_string << std::endl;	
 }
 
+OPT_H_LINKAGE
 void printUsageStandardArguments(std::ostream& ostr)
 {
 	ostr << "   --help               Show this help" << std::endl;
@@ -380,6 +389,7 @@ void printUsageStandardArguments(std::ostream& ostr)
 	     << "                        " << getBackendsAvailable() << std::endl;
 }
 
+OPT_H_LINKAGE
 void printUsageDefaultsOfStandardArguments(std::ostream& ostr)
 {
 	ostr << "   -h localhost " << std::endl;
