@@ -43,6 +43,8 @@
 	* include/Makefile.am: Don't CLEAN version-emdros.h, now that it
 	is in the repo.
 
+	* pcre2/windows.mak: Initial addition.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
