@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 11/4-2017 (November 4, 2017)
- * Last update: 11/24-2017
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -95,6 +95,13 @@
 
 #ifndef PCRE2_CODE_UNIT_WIDTH
 #define PCRE2_CODE_UNIT_WIDTH 8
+#endif
+
+// On Windows, we need to define PCRE2_STATIC before including pcre2/pcre2,
+// since this is required for building pcre2 when we build it as
+// a static library, which we do on Windows.
+#if defined(WIN32) || defined(__WIN32__)
+#define PCRE2_STATIC (1)
 #endif
 
 // USE_SYSTEM_PCRE2 is defined in emdros-lconfig.h(.in)

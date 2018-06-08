@@ -301,6 +301,9 @@
 	* MQL/mql_sheaf.cpp, include/mql_sheaf.h: Use emdros_int64 instead
 	of long for the counting machinery.
 
+	* include/pcre2_emdros.h: #define PCRE2_STATIC if we are building
+	this on Windows.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
