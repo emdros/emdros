@@ -1,5 +1,11 @@
 ============ 4.0.0 ============
 
+2018-06-08 Ulrik Sandborg-Petersen
+
+	* build/windows/config.mak.in: Surround each configuration macro
+	with !IFNDEF ... !ENDIF.  This should enable us to specify those
+	macros on the command line to NMAKE.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
