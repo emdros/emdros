@@ -144,6 +144,9 @@
 	- longlong2string_format -> emdros_int64ToString_format
 	- string2longlong -> string2emdros_int64
 
+	* EMdF/infos.cpp, include/infos.h: Use emdros_int64 for enum const
+	values.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

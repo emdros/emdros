@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 2/26-2001
- * Last update: 11/27-2005
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2012  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -171,18 +171,18 @@ bool FeatureInfo::getIsComputed(void) const
 ///////////////////////////////////////////////////////////
 
 
-EnumConstInfo::EnumConstInfo(std::string name, int value, bool is_default):
-  m_name(name), 
-  m_value(value), 
-  m_is_default(is_default)
+EnumConstInfo::EnumConstInfo(std::string name, emdros_int64 value, bool is_default):
+	m_name(name), 
+	m_value(value), 
+	m_is_default(is_default)
 {
-
+	
 }
 
 EnumConstInfo::EnumConstInfo(const EnumConstInfo& other) :
-  m_name(other.m_name),
-  m_value(other.m_value),
-  m_is_default(other.m_is_default)
+	m_name(other.m_name),
+	m_value(other.m_value),
+	m_is_default(other.m_is_default)
 {
 
 }
@@ -195,27 +195,28 @@ EnumConstInfo::~EnumConstInfo()
 
 const std::string& EnumConstInfo::getName(void) const
 {
-  return m_name;
+	return m_name;
 }
 
-int EnumConstInfo::getValue(void) const
+emdros_int64 EnumConstInfo::getValue(void) const
 {
-  return m_value;
+	return m_value;
 }
 
 bool EnumConstInfo::getIsDefault(void) const
 {
-  return m_is_default;
+	return m_is_default;
 }
 
 bool EnumConstInfo::operator==(const EnumConstInfo& other) const
 {
-  if (m_name == other.m_name
-      && m_value == other.m_value
-      && m_is_default == other.m_is_default)
-    return true;
-  else
-    return false;
+	if (m_name == other.m_name
+	    && m_value == other.m_value
+	    && m_is_default == other.m_is_default) {
+		return true;
+	} else {
+		return false;
+	}
 }
 
 
