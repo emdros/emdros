@@ -1,0 +1,11 @@
+#define T_JSON_KEY_BRACE_OPEN                   1
+#define T_JSON_KEY_BRACE_CLOSE                  2
+#define T_JSON_KEY_COMMA                        3
+#define T_JSON_STRING                           4
+#define T_JSON_KEY_COLON                        5
+#define T_JSON_KEY_BRACKET_OPEN                 6
+#define T_JSON_KEY_BRACKET_CLOSE                7
+#define T_JSON_KEY_TRUE                         8
+#define T_JSON_KEY_FALSE                        9
+#define T_JSON_KEY_NULL                        10
+#define T_JSON_INTEGER                         11

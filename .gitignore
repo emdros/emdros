@@ -26,9 +26,6 @@ lemon.c
 EMdF/json.c
 EMdF/json.h
 EMdF/json.out
-EMdF/json_lexer.cpp
-EMdF/json_parser.cpp
-EMdF/jsonpars.h
 MQL/mql.c
 MQL/mql.h
 MQL/mql.out

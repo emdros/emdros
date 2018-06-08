@@ -124,7 +124,7 @@ AM_CPPFLAGS = -I$(srcdir)/../include
 
 CLEANFILES = *~ core \
              $(srcdir)/lemon.c $(srcdir)/lempar.c lemon \
-             json_lexer.cpp json_parser.cpp jsonpars.h json.out json.h 
+             json.out json.h 
 
 
 

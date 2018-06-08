@@ -55,6 +55,12 @@
         - build/windows/windows.mak
         - include/windows.mak
 
+	* EMdF/json_parser.cpp, EMdF/jsonpars.h, EMdF/json_lexer.cpp: Add
+	to repo.
+
+	* EMdF/Makefile.am: Don't CLEAN json_parser.cpp, jsonpars.h, and
+	json_lexer.cpp.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
