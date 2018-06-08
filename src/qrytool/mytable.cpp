@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 4/9-2005
- * Last update: 11/30-2006
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2006  Ulrik Petersen
+ *   Copyright (C) 2005-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -84,7 +84,7 @@
  **************************************************************************/
 
 #include "mytable.h"
-#include <string_func.h>
+#include "string_func.h"
 #include <algorithm>
 
 MyTable::MyTable(const StringVec& feature_names)

@@ -83,10 +83,9 @@
  *
  **************************************************************************/
 
-#include <emdros.h>
-
 #include "emdros_wrapper.h"
 #include "harvest.h"
+
 
 
 Harvest::Harvest(EmdrosWrapper *pEWrap, Sheaf *pSheaf)

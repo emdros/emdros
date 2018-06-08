@@ -86,6 +86,9 @@
 #ifndef OUTPUT_STYLE__H__
 #define OUTPUT_STYLE__H__
 
+#include "emdros-lconfig.h"
+#include "conf.h"
+
 #include "solution.h"
 #include "qtoutput.h"
 

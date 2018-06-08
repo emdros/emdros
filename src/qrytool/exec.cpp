@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/9-2005
- * Last update: 5/28-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -83,10 +83,11 @@
  *
  **************************************************************************/
 
-#include <emdros.h>
 
 #include "exec.h"
 #include "emdros_wrapper.h"
+#include "mql_execute.h"
+#include "mql_execution_environment.h"
 
 #include <fstream>
 

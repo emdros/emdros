@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 5/15-2005
- * Last update: 11/9-2017
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2005-2018   Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -90,10 +90,13 @@
 #include <cstring>
 #include <cstdlib>
 
-#include <emdros.h>
 
 
 #include "qtoutput.h"
+
+#include "schema.h"  // From the Emdros util library
+
+
 
 bool loadFile(std::string filename, std::string& outstring, std::string& message)
 {

@@ -4,7 +4,7 @@
  * A tool to query Emdros databases.
  *
  * Created: 5/1-2001 (1st of May, 2001)
- * Last update: 11/10-2017
+ * Last update: 6/8-2018
  *
  * Return codes:
  * 
@@ -104,12 +104,13 @@
 #include <fstream>
 #include <string>
 
-#include <emdros-lconfig.h>
-#include <emdros.h>
+#include "opt.h" // From the emdros util library.
+#include "messages.h" // From the emdros util library.
+#include "encryption.h" // From the EMdF library
 
-#include <emdros_wrapper.h>
-#include <exec.h>
-#include <consout.h>
+#include "emdros_wrapper.h"
+#include "exec.h"
+#include "consout.h"
 
 
 
