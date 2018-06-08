@@ -3,7 +3,7 @@
  *
  * A front-end to the BookcaseIndexer class in the libharvest library.
  * Created: 5/1-2001 (1st of May, 2001)
- * Last update: 5/11-2018
+ * Last update: 6/8-2018
  *
  * Return codes:
  * 
@@ -324,7 +324,6 @@ int main(int argc, char* argv[])
 	} else {
 		bool bShowVersion;
 		bool bShowHelp;
-		std::string error_message;
 		if (!getStandardArguments(bShowVersion, bShowHelp,
 					  source_hostname,
 					  source_user,
@@ -494,7 +493,7 @@ int main(int argc, char* argv[])
 
 	if (!(fts_engine_version == 1 
 	      || fts_engine_version == 2)) {
-		std::string error_message = "ERROR: Requested FTS engine version " + long2string(fts_engine_version) + " is not available.\n"
+		error_message = "ERROR: Requested FTS engine version " + long2string(fts_engine_version) + " is not available.\n"
 			+ "Please use either 1 or 2.";
 		print_usage(std::cerr);
 		std::cerr << error_message << std::endl;

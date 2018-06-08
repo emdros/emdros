@@ -4,7 +4,7 @@
  * A front-end to the harvest library's RenderObjects and RenderXML modules.
  *
  * Created: 9/16-2008
- * Last update: 5/11-2018
+ * Last update: 6/8-2018
  *
  * Return codes:
  * 
@@ -381,7 +381,6 @@ int main(int argc, char* argv[])
 	} else {
 		bool bShowVersion;
 		bool bShowHelp;
-		std::string error_message;
 		if (!getStandardArguments(bShowVersion, bShowHelp,
 					  hostname,
 					  user,

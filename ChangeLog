@@ -338,6 +338,22 @@
 
 	* src/windows.mak: Import the libimporters_emdros.lib library.
 
+	* src/: Make all of the programs compile on Windows.  Also, remove
+	some compiler warnings on Windows Visual Studio.
+
+	Files affected:
+
+        modified:   src/bptdetach.cpp
+        modified:   src/bptdump.cpp
+        modified:   src/fts_harvester.cpp
+        modified:   src/fts_indexer.cpp
+        modified:   src/negraimport.cpp
+        modified:   src/pennimport.cpp
+        modified:   src/plaintextimport.cpp
+        modified:   src/renderobjectstool.cpp
+        modified:   src/sfmimport.cpp
+        modified:   src/slashedtextimport.cpp
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

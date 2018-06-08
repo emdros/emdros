@@ -3,7 +3,7 @@
  *
  * A front-end to the BookcaseHarvester class in the libharvest library.
  * Created: 5/1-2001 (1st of May, 2001)
- * Last update: 5/11-2018
+ * Last update: 6/8-2018
  *
  * Return codes:
  * 
@@ -117,7 +117,7 @@
 #include <harvest_fts3.h>
 
 
-int exec_harvester(EmdrosEnv *pEnv, const std::string& output_filename, int fts_engine_version, const std::string& bookcase_otn, const std::string& indexed_otn, const std::string& indexed_feature, const std::string& stylesheet_name, const std::string& stylesheet_file_name, const StringList& query_string_list, long largest_proximity, bool bUseGoogleSyntax, bool bGetXHTML, bool bSingleBookcaseHits, const std::string& bookcase_title_otn, const std::string& bookcase_title_feature, int hits_per_page, int page_number)
+int exec_harvester(EmdrosEnv *pEnv, const std::string& output_filename, int fts_engine_version, const std::string& bookcase_otn, const std::string& indexed_otn, const std::string& indexed_feature, const std::string& stylesheet_name, const std::string& stylesheet_file_name, const StringList& query_string_list, monad_m largest_proximity, bool bUseGoogleSyntax, bool bGetXHTML, bool bSingleBookcaseHits, const std::string& bookcase_title_otn, const std::string& bookcase_title_feature, int hits_per_page, int page_number)
 { 
 	bool bResult = true;
 
@@ -299,7 +299,7 @@ int main(int argc, char* argv[])
 	bool bUseGoogleSyntax = false;
 	bool bSingleBookcaseHits = false;
 	bool bGetXHTML = false;
-	long largest_proximity;
+	monad_m largest_proximity;
 	StringList query_string_list;
 	int fts_engine_version = 1;
 	int hits_per_page = 10;
@@ -385,7 +385,6 @@ int main(int argc, char* argv[])
 	} else {
 		bool bShowVersion;
 		bool bShowHelp;
-		std::string error_message;
 		if (!getStandardArguments(bShowVersion, bShowHelp,
 					  source_hostname,
 					  source_user,
@@ -414,7 +413,7 @@ int main(int argc, char* argv[])
 		if (getArgumentPresent("-lp")) {
 			std::string largest_proximity_str;
 			getArgumentValue("-lp", largest_proximity_str);
-			largest_proximity = string2long(largest_proximity_str);
+			largest_proximity = string2emdros_int64(largest_proximity_str);
 		} else {
 			largest_proximity = MAX_MONAD;
 		}
@@ -566,7 +565,7 @@ int main(int argc, char* argv[])
 	if (!(fts_engine_version == 1 
 	      || fts_engine_version == 2
 	      || fts_engine_version == 3)) {
-		std::string error_message = "ERROR: Requested FTS engine version " + long2string(fts_engine_version) + " is not available.\n"
+		error_message = "ERROR: Requested FTS engine version " + long2string(fts_engine_version) + " is not available.\n"
 			+ "Please use either 1, 2, or 3.";
 		print_usage(std::cerr);
 		std::cerr << error_message << std::endl;

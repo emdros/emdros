@@ -3,7 +3,7 @@
  *
  * A front-end to Emdros for importing slashed text
  * Created: 8/8-2006 (August 8, 2006)
- * Last update: 5/11-2018
+ * Last update: 6/8-2018
  *
  * Return codes:
  * 
@@ -275,7 +275,6 @@ int main(int argc, char* argv[])
 	} else {
 		bool bShowVersion;
 		bool bShowHelp;
-		std::string error_message;
 		if (!getStandardArguments(bShowVersion, bShowHelp,
 					  dummy_hostname,
 					  dummy_user,
