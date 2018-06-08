@@ -34,6 +34,10 @@
 
 	* build/windows/Makefile.am: Done build or clean config.mak.
 
+	* include/emdros-lconfig.h.in: #include "version-emdros.h" instead
+	of "emdros-version.h", since that is the correct name, according
+	to include/Makefile.am.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

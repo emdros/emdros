@@ -97,7 +97,7 @@
 #include "win32-lconfig.h"
 #endif
 
-#include "emdros-version.h"
+#include "version-emdros.h"
 
 #ifndef HAVE_CXX11
 #define HAVE_CXX11 @HAVE_CXX11@
