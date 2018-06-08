@@ -1879,10 +1879,10 @@ void BookcaseHarvester::process(const SetOfMonads& substrate, const StringList& 
 	std::map<int, std::string>::const_iterator ci1 = mydictindex2tokenstring_map.begin();
 	while (ci1 != mydictindex2tokenstring_map.end()) {
 		std::string feature_value = ci1->second;
-		int mydict_index = ci1->first;
+		int mydict_index2 = ci1->first;
 		++ci1;
 
-		mydict.insert(std::make_pair(mydict_index, std::map<monad_m, SetOfMonads>()));
+		mydict.insert(std::make_pair(mydict_index2, std::map<monad_m, SetOfMonads>()));
 
 
 		std::string query = "SELECT ALL OBJECTS WHERE [" + index_OTN + " " + make_string_feature_comparison("feature_value", feature_value) + " GET monad_set]";
@@ -1916,14 +1916,14 @@ void BookcaseHarvester::process(const SetOfMonads& substrate, const StringList& 
 				std::string monad_set_str = pIndex_mo->getFeatureAsString(0);
 				SetOfMonads som;
 				som.fromCompactString(monad_set_str);
-				if (mydict[mydict_index].find(first_monad) == mydict[mydict_index].end()) {
-					mydict[mydict_index].insert(std::make_pair(first_monad, som));
+				if (mydict[mydict_index2].find(first_monad) == mydict[mydict_index2].end()) {
+					mydict[mydict_index2].insert(std::make_pair(first_monad, som));
 					lmdict.insert(std::make_pair(first_monad, last_monad));
 
 				} else {
 					ASSERT_THROW(lmdict[first_monad] == last_monad,
 						     "first_monad " + monad_m2string(first_monad) + " does not have same last_monad in lmdict for feature value '" + feature_value + "' ... last_monad = " + monad_m2string(last_monad) + ", while lmdict has last_monad" + monad_m2string(lmdict[first_monad]));
-					mydict[mydict_index][first_monad].unionWith(som);
+					mydict[mydict_index2][first_monad].unionWith(som);
 				}
 			}
 		}
@@ -1942,13 +1942,13 @@ void BookcaseHarvester::process(const SetOfMonads& substrate, const StringList& 
 	if (token_list_size == 1) {
 		token_list_ci = token_list.const_iterator();
 		std::string feature_value = token_list_ci.current();
-		int mydict_index = tokenindex2mydict_map[0];
-		std::map<monad_m, SetOfMonads>::const_iterator fmsom_ci = mydict[mydict_index].begin();
-		std::map<monad_m, SetOfMonads>::const_iterator fmsom_cend = mydict[mydict_index].end();
+		int mydict_index3 = tokenindex2mydict_map[0];
+		std::map<monad_m, SetOfMonads>::const_iterator fmsom_ci = mydict[mydict_index3].begin();
+		std::map<monad_m, SetOfMonads>::const_iterator fmsom_cend = mydict[mydict_index3].end();
 		while (fmsom_ci != fmsom_cend) {
 			monad_m first_monad = fmsom_ci->first;
 			monad_m last_monad = lmdict[first_monad];
-			SetOfMonads som = mydict[mydict_index][first_monad];
+			SetOfMonads som = mydict[mydict_index3][first_monad];
 			if (bReduceToSingleHitsWithinBookcases) {
 				monad_m m = som.first();
 				result.addHit(first_monad, last_monad, m);
@@ -1969,12 +1969,12 @@ void BookcaseHarvester::process(const SetOfMonads& substrate, const StringList& 
 		FastSetOfMonads masterSOM;
 
 		token_list_ci = token_list.const_iterator();
-		int token_list_index = 0;
+		token_list_index = 0;
 		while (token_list_ci.hasNext()) {
 			std::string feature_value = token_list_ci.next();
-			int mydict_index = tokenindex2mydict_map[token_list_index];
-			std::map<monad_m, SetOfMonads>::const_iterator ffv_ci = mydict[mydict_index].begin();
-			std::map<monad_m, SetOfMonads>::const_iterator ffv_cend = mydict[mydict_index].end();
+			int mydict_index4 = tokenindex2mydict_map[token_list_index];
+			std::map<monad_m, SetOfMonads>::const_iterator ffv_ci = mydict[mydict_index4].begin();
+			std::map<monad_m, SetOfMonads>::const_iterator ffv_cend = mydict[mydict_index4].end();
 
 			FastSetOfMonads SOM = FastSetOfMonads();
 			
@@ -2014,9 +2014,9 @@ void BookcaseHarvester::process(const SetOfMonads& substrate, const StringList& 
 						
 					int index = 1;	
 					while (index < token_list_size) {
-						int mydict_index = tokenindex2mydict_map[index];
+						int mydict_index5 = tokenindex2mydict_map[index];
 						
-						SetOfMonads other_som = mydict[mydict_index][m];
+						SetOfMonads other_som = mydict[mydict_index5][m];
 						
 						other_som.offset(-index);
 						
@@ -2102,9 +2102,9 @@ void BookcaseHarvester::process(const SetOfMonads& substrate, const StringList& 
 
 							token_list_index = 1;
 							while (token_list_index < token_list_size) {
-								int mydict_index = tokenindex2mydict_map[token_list_index];
+								int mydict_index6 = tokenindex2mydict_map[token_list_index];
 							
-								const SetOfMonads& other_som = mydict[mydict_index][m];
+								const SetOfMonads& other_som = mydict[mydict_index6][m];
 								SOMConstIterator other_som_ci = other_som.const_iterator();
 								SetOfMonads masterSOM3;
 								while (other_som_ci.hasNext()) {
@@ -2145,9 +2145,9 @@ void BookcaseHarvester::process(const SetOfMonads& substrate, const StringList& 
 
 							token_list_index = 1;
 							while (token_list_index < token_list_size) {
-								int mydict_index = tokenindex2mydict_map[token_list_index];
+								int mydict_index7 = tokenindex2mydict_map[token_list_index];
 							
-								SetOfMonads other_som = mydict[mydict_index][m];
+								SetOfMonads other_som = mydict[mydict_index7][m];
 								
 								SetOfMonads other_som_filled = fill_with_largest_proximity(other_som, largest_proximity, first_monad, last_monad);
 								

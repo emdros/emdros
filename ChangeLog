@@ -49,6 +49,8 @@
         modified:   MQL/mql_query.cpp
         modified:   MQL/mql_sheaf.cpp
         modified:   harvest/renderobjects.cpp
+        modified:   harvest/harvest_fts.cpp
+        modified:   harvest/templatelang_classes.cpp
         modified:   include/mql_object.h
         modified:   include/qdxml.h
         modified:   include/vtreecanvas.h

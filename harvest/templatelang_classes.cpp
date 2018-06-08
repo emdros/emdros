@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 6/8-2018
+ * Last update: 6/9-2018
  *
  */
 /************************************************************************
@@ -2107,10 +2107,11 @@ int ttparse(TemplateLangExecEnv *pEE)
 	pEE->bSyntaxError = false;
 	pParser = TemplateLangParserAlloc( malloc );
 	pToken = TemplateLangnewToken();
-	while((hTokenId = ttlex(pToken, pEE))
-	      && !pEE->bSyntaxError) {
+	hTokenId = ttlex(pToken, pEE);
+	while(hTokenId && !pEE->bSyntaxError) {
 		TemplateLangParser(pParser, hTokenId, pToken, pEE);
 		pToken = TemplateLangnewToken();
+		hTokenId = ttlex(pToken, pEE);
 	}
 	TemplateLangParser(pParser, 0, pToken, pEE);
 	TemplateLangParserFree(pParser, free );
