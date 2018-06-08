@@ -95,8 +95,6 @@
 
 #include <map>
 
-#include <emdros.h>
-
 #include "qtoutput.h"
 
 #include <htreecanvas.h>

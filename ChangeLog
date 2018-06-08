@@ -315,6 +315,16 @@
 	* include/opt.h, util/opt.cpp: Finally solve the issue with
 	__cdecl declarations on Windows.
 
+	* src/qrytool/: Make it compile on Windows.
+
+	Affected files:
+
+        modified:   src/qrytool/mainframe.cpp
+        modified:   src/qrytool/mainframe.h
+        modified:   src/qrytool/mqlqtwx.cpp
+        modified:   src/qrytool/qtconnwizard.cpp
+        modified:   src/qrytool/wxilqtout.h
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

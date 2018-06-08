@@ -6,7 +6,7 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 5/28-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -115,8 +115,6 @@
 
 
 ////@end includes
-
-#include <emdros.h>
 
 #include "exec.h"
 #include "qtconnwizard.h"
