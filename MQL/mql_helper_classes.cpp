@@ -2714,7 +2714,7 @@ Feature::Feature(const Feature& other)
 	m_list_index = other.m_list_index;
 	m_feature_index_inst = other.m_feature_index_inst;
 	if (other.m_enum_const_cache.size() > 0) {
-		std::map<long, std::string>::const_iterator 
+		std::map<emdros_int64, std::string>::const_iterator 
 			ci = other.m_enum_const_cache.begin();
 		while (ci != other.m_enum_const_cache.end()) {
 			m_enum_const_cache[ci->first] = ci->second;
@@ -2798,7 +2798,7 @@ bool Feature::symbolFeaturesExist(MQLExecEnv *pEE, id_d_t object_type_id, bool& 
 		std::list<EnumConstInfo>::const_iterator ci = enumConsts.begin();
 		std::list<EnumConstInfo>::const_iterator cend = enumConsts.end();
 		while (ci != cend) {
-			// m_enum_const_cache.insert(std::pair<long, std::string>(ci->getValue(), std::string(ci->getName())));
+			// m_enum_const_cache.insert(std::pair<emdros_int64, std::string>(ci->getValue(), std::string(ci->getName())));
 			m_enum_const_cache[ci->getValue()] = std::string(ci->getName());
 			++ci;
 		}
@@ -3268,7 +3268,7 @@ bool AggregateFeature::type(MQLExecEnv *pEE, bool& bResult)
 
 void AggregateFeature::exec(MQLExecEnv *pEE, const InstObject *pInstObj)
 {
-	long feature_value = 0;
+	emdros_int64 feature_value = 0;
 	const EMdFValue *pEMdFValue = 0;
 	switch (m_function) {
 	case kAFMIN:

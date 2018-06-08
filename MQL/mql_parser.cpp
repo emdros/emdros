@@ -34,7 +34,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 5/11-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -221,7 +221,7 @@ typedef union {
   IntegerListNode* mqlyy17;
   Blocks* mqlyy18;
   UnorderedGroup* mqlyy24;
-  long* mqlyy37;
+  emdros_int64* mqlyy37;
   ID_D* mqlyy43;
   ECUpdate* mqlyy46;
   Statement* mqlyy50;
@@ -265,7 +265,7 @@ typedef union {
   BlockString* mqlyy501;
   FFeatures* mqlyy520;
   eMonadUniquenessType mqlyy527;
-  long mqlyy529;
+  emdros_int64 mqlyy529;
   sheaf_return_type_pair* mqlyy551;
   eUniverseOrSubstrate mqlyy569;
   Power* mqlyy594;
@@ -3554,7 +3554,7 @@ static void mqlyy_reduce(
         break;
       case 156: /* opt_ec_initialization ::= ec_initialization */
 #line 668 "./mql.yxx"
-{ mqlyylhsminor.mqlyy37 = new long(mqlyymsp[0].minor.mqlyy529); }
+{ mqlyylhsminor.mqlyy37 = new emdros_int64(mqlyymsp[0].minor.mqlyy529); }
 #line 3559 "./mql.c"
   mqlyymsp[0].minor.mqlyy37 = mqlyylhsminor.mqlyy37;
         break;

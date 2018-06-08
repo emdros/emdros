@@ -283,7 +283,7 @@ std::string MonadSetRelationClause::calculateCharacteristicString() const
 //
 ////////////////////////////////////////////////////////////
 
-UsingRange::UsingRange(long start, long end)
+UsingRange::UsingRange(emdros_int64 start, emdros_int64 end)
 	: m_start(start),
 	  m_end(end)
 {
@@ -293,11 +293,11 @@ void UsingRange::weed(MQLExecEnv *pEE, bool& bResult)
 {
 	if (m_start < 0 
 	    || m_end < 0) {
-		pEE->pError->appendError("The RANGE(" + long2string(m_start) + "," + long2string(m_end) + ") cannot use negative numbers.\n");
+		pEE->pError->appendError("The RANGE(" + emdros_int64ToString(m_start) + "," + emdros_int64ToString(m_end) + ") cannot use negative numbers.\n");
 		bResult = false;
 	}
 	if (m_start > m_end) {
-		pEE->pError->appendError("The RANGE(" + long2string(m_start) + "," + long2string(m_end) + ") cannot have start > end.\n");
+		pEE->pError->appendError("The RANGE(" + emdros_int64ToString(m_start) + "," + emdros_int64ToString(m_end) + ") cannot have start > end.\n");
 		bResult = false;
 	}
 }
@@ -4412,12 +4412,12 @@ void ObjectBlock::addOBBToVec(OBBVec *pOBBVec)
 ////////////////////////////////////////////////////////////
 // This gets called by the parser when it is ".. (<|<=) integer".
 // "<" gets "integer-1", "<=" gets "integer".
-Power::Power(long limit)
+Power::Power(emdros_int64 limit)
 	: m_limit_low(0), m_limit_high(limit)
 {
 }
 
-Power::Power(long limit_low, long limit_high)
+Power::Power(emdros_int64 limit_low, emdros_int64 limit_high)
 	: m_limit_low(limit_low), m_limit_high(limit_high)
 {
 }

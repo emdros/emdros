@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/14-2003
- * Last update: 5/29-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -1213,7 +1213,7 @@ std::string EmdrosEnv::getBackendName(void)
  *        a boolean from most other EMdFDB methods.
  * @return The enumeration name.
  */
-std::string EmdrosEnv::getEnumConstNameFromValue(long value,
+std::string EmdrosEnv::getEnumConstNameFromValue(emdros_int64 value,
 						 const std::string& enum_name, 
 						 /* out */ bool &bDBOK)
 {

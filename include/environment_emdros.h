@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/14-2003
- * Last update: 5/28-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -183,7 +183,7 @@ class EmdrosEnv {
 	// Returns the string-representation of an enumeration constant in 
 	// enum enum_name with the value value.
 	// Just calls the corresponding EMdFDB method.
-	virtual std::string getEnumConstNameFromValue(long value,
+	virtual std::string getEnumConstNameFromValue(emdros_int64 value,
 						      const std::string& enum_name, 
 						      /* out */ bool &bDBOK);
 

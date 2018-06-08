@@ -5,13 +5,13 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 3/8-2001
- * Last update: 7/15-2016
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2016  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -532,7 +532,7 @@ class MatchedObject {
 	std::string getFeatureAsString(int index) const;
 
 	// See the comment before the function in ../MQL/mql_sheaf.cpp.
-	long getFeatureAsLong(int index) const;
+	emdros_int64 getFeatureAsLong(int index) const;
 
 	// Returns 0 on index out of range.
 	// Is the fastest

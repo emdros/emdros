@@ -193,6 +193,20 @@
 	* include/mql_sheaf.h: Update MatchedObject to return an
 	emdros_int64 for the getFeatureAsLong() method.
 
+	* MQL/: Finish (more or less) porting to emdros_int64 from long.
+
+	Files affected:
+
+        modified:   MQL/emdros_environment.cpp
+        modified:   MQL/mql.yxx
+        modified:   MQL/mql_helper_classes.cpp
+        modified:   MQL/mql_parser.cpp
+        modified:   MQL/mql_query.cpp
+        modified:   include/environment_emdros.h
+        modified:   include/mql_query.h
+        modified:   include/mql_sheaf.h
+
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

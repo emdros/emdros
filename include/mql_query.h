@@ -254,14 +254,14 @@ class StartMonadIterator {
 
 class UsingRange {
  protected:
-	long m_start;
-	long m_end;
+	emdros_int64 m_start;
+	emdros_int64 m_end;
  public:
-	UsingRange(long start, long end);
+	UsingRange(emdros_int64 start, emdros_int64 end);
 	virtual ~UsingRange() {};
 	void weed(MQLExecEnv *pEE, bool& bResult);
-	long getStart() { return m_start; }
-	long getEnd()  { return m_end; }
+	emdros_int64 getStart() { return m_start; }
+	emdros_int64 getEnd()  { return m_end; }
  protected:
 	// Disallow assignment, copy construction, and default construction
 	UsingRange() {};
@@ -866,15 +866,15 @@ class Block : public ByMonads {
 
 class Power {
  private:
-	long m_limit_low;
-	long m_limit_high;
+	emdros_int64 m_limit_low;
+	emdros_int64 m_limit_high;
  public:
-	Power(long limit); // m_limit_low is 0, m_limit_high is limit
-	Power(long limit_low, long limit_high);
+	Power(emdros_int64 limit); // m_limit_low is 0, m_limit_high is limit
+	Power(emdros_int64 limit_low, emdros_int64 limit_high);
 	virtual ~Power();
 	void weed(bool &bResult);
-	long getLimitLow() const { return m_limit_low; };
-	long getLimitHigh() const { return m_limit_high; };
+	emdros_int64 getLimitLow() const { return m_limit_low; };
+	emdros_int64 getLimitHigh() const { return m_limit_high; };
 };
 
 

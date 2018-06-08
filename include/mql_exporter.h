@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 12/16-2005
- * Last update: 10/9-2007
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2007  Ulrik Petersen
+ *   Copyright (C) 2005-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -176,7 +176,7 @@ public:
 protected:
 	bool ExecuteQuery(std::string query, bool& bCompilerResult); 
 	bool GetObjectTypeId(std::string object_type_name, id_d_t& object_type_id, eObjectRangeType& objectRangeType, eMonadUniquenessType& monadUniquenessType);
-	bool GetEnumConst(long value, const std::string& enum_name, std::string& outstr);
+	bool GetEnumConst(emdros_int64 value, const std::string& enum_name, std::string& outstr);
 	bool getObjectTypes(bool& bCompilerResult);
 	void DumpCreateAndUseDB();
 	bool DumpArbitraryMonadSet(const std::string& monad_set_name, const SetOfMonads& som, bool& bCompilerResult);
