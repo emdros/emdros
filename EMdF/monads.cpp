@@ -1654,15 +1654,40 @@ void SetOfMonads::clear()
  */
 inline void num2string(std::string& result, monad_m m)
 {
-	char m0,m1,m2,m3,m4,m5;
+	char m0,m1,m2,m3,m4,m5,m6,m7,m8,m9,m10;
 	m0 = m & 0x3F;
 	m1 = (m >> 6) & 0x3f;
 	m2 = (m >> 12) & 0x3f;
 	m3 = (m >> 18) & 0x3f;
 	m4 = (m >> 24) & 0x3f;
 	m5 = (m >> 30) & 0x3f;
+	m6 = (m >> 36) & 0x3f;
+	m7 = (m >> 42) & 0x3f;
+	m8 = (m >> 48) & 0x3f;
+	m9 = (m >> 54) & 0x3f;
+	m10 = (m >> 60) & 0x3f;
 	bool bBegun = false;
-	if (m5 > 0) {
+	if (m10 > 0) {
+		result += (m10 + '0');
+		bBegun = true;
+	}
+	if ((m9 > 0) || bBegun) {
+		result += (m9 + '0');
+		bBegun = true;
+	}
+	if ((m8 > 0) || bBegun) {
+		result += (m8 + '0');
+		bBegun = true;
+	}
+	if ((m7 > 0) || bBegun) {
+		result += (m7 + '0');
+		bBegun = true;
+	}
+	if ((m6 > 0) || bBegun) {
+		result += (m6 + '0');
+		bBegun = true;
+	}
+	if ((m5 > 0) || bBegun) {
 		result += (m5 + '0');
 		bBegun = true;
 	}

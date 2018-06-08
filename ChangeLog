@@ -280,6 +280,9 @@
         modified:   include/memobject.h
         modified:   include/templatelang_classes.h
 
+	* EMdF/monads.cpp: Make the compact strings able to store 63 bits,
+	not just 31.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
