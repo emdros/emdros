@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 7/8-2003
- * Last update: 4/26-2013
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2013  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -125,7 +125,7 @@ template<typename T> class ParserListNode {
 };
 
 typedef ParserListNode<std::string> StringListNode;
-typedef ParserListNode<long> IntegerListNode;
+typedef ParserListNode<emdros_int64> IntegerListNode;
 #endif /* !defined SWIG */
 
 template<typename T> class ParserListConstIterator; // Forward declaration
@@ -526,12 +526,12 @@ class StringList :  public ParserListStdString {
 	std::vector<std::string> getAsVector(void) const { return ParserListStdString::getAsVector(); };
 };
 
-typedef ParserListConstIterator<long> IntegerListConstIterator;
+typedef ParserListConstIterator<emdros_int64> IntegerListConstIterator;
 #ifdef SWIG
-%template (IntegerListConstIterator) ParserListConstIterator<long>;
+%template (IntegerListConstIterator) ParserListConstIterator<emdros_int64>;
 #endif
 
-typedef ParserList<long> ParserListLong;
+typedef ParserList<emdros_int64> ParserListLong;
 				     /*
 				       #ifdef SWIG
 				       %template (ParserListLong) ParserList<long>;
@@ -561,10 +561,10 @@ class IntegerList : public ParserListLong {
 	IntegerList(IntegerListNode *tail) : ParserListLong(tail) {};
 #endif
 	virtual ~IntegerList() {};
-	void addIntegerFront(long l) { addValueFront(l); };
-	void addIntegerBack(long l) { addValueBack(l); };
+	void addIntegerFront(emdros_int64 l) { addValueFront(l); };
+	void addIntegerBack(emdros_int64 l) { addValueBack(l); };
 	bool isEmpty(void) const { return ParserListLong::isEmpty(); };
-	std::vector<long> getAsVector(void) const { return ParserListLong::getAsVector(); };
+	std::vector<emdros_int64> getAsVector(void) const { return ParserListLong::getAsVector(); };
 };
 
 

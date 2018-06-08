@@ -187,6 +187,9 @@
         modified:   include/mql_query.h
         modified:   include/mql_types.h
 
+	* include/string_list.h: Update IntegerList to use emdros_int64
+	instead of long.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
