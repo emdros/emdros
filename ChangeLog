@@ -77,6 +77,10 @@
 	* amalgmation/amalgamation.xml: Fix include/mqlpars.h ->
 	MQL/mqlpars.h.
 
+	* harvest/Makefile.am: Don't build the emdroslang parser or lexer.
+	The Emdros Language is not finished yet, so don't attempt to build
+	it for now.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

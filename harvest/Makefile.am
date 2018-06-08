@@ -66,10 +66,7 @@ AM_CXXFLAGS = @DEBUGFLAG@ @ADDITIONAL_CXXFLAGS@
 BUILT_SOURCES = \
                 $(srcdir)/templatelang_lexer.cpp \
                 $(srcdir)/templatelang_parser.cpp \
-                $(srcdir)/templatelangpars.h \
-                $(srcdir)/emdroslang_lexer.cpp \
-                $(srcdir)/emdroslang_parser.cpp \
-                $(srcdir)/emdroslangpars.h
+                $(srcdir)/templatelangpars.h 
 
 
 
