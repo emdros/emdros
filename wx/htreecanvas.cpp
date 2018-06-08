@@ -2,7 +2,7 @@
 // Horizontal Tree Canvas : implementation file
 //
 // Created: 9/8-2007
-// Last update: 3/1-2018
+// Last update: 6/9-2018
 //
 /************************************************************************
  *
@@ -314,7 +314,7 @@ void HTreeNode::Draw(wxDC *pDC, int y, int yParentMiddle, int yParentBottom, int
 
 			m_pBranchLabels->Draw(pDC, xBranchLabels + xOffset, yBranchLabels + yOffset);
 		} else {
-			int xMiddle = getVerticalRiserX();
+			xMiddle = getVerticalRiserX();
 
 			pDC->SetPen(pen);
 			pDC->DrawLine(xMiddle + xOffset,
@@ -656,8 +656,6 @@ void HTreeBox::toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string
 	std::string png_filename = std::string((const char*) strPNGFileName.mb_str(wxConvUTF8));
 	std::string imgsrc_filename = std::string((const char*) strIMGSRCFileName.mb_str(wxConvUTF8));
 	
-
-	std::cerr << "UP201: png_filename = '" << png_filename << "'" << std::endl;
 
 	// emit <img src="<md5-digest>.png">
 	(*pOut) << "<img src=\"" << imgsrc_filename << "\">";

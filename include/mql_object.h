@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 4/2-2001
- * Last update: 1/9-2009
+ * Last update: 6/9-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2009  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -115,7 +115,7 @@ private:
 	~MQLObject();
 	void addFeature(const FeatureInfo& fi);
 	void retrieveFeatureValues(const InstObject *pOther);
-	const EMdFValue* getFeatureValue(short int index) const { 
+	const EMdFValue* getFeatureValue(unsigned int index) const { 
 		return m_feature_value_vec_inst[index];
 	};
 	

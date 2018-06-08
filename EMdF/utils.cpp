@@ -3,14 +3,14 @@
  *
  * Utility functions for EMdF
  * Created: 1/30-2001
- * Last update: 4/29-2006
+ * Last update: 6/9-2018
  *
  */
 
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2006  Ulrik Petersen
+ *   Copyright (C) 2001-2018  Ulrik Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -108,7 +108,7 @@ void convertDBName(const std::string& strIn, std::string& strOut)
 	int count = 1;
 	while (p != cend
 	       && count < MAX_DBNAME_CHARS) {
-		strOut += tolower(*p);
+		strOut += (char) tolower(*p);
 		++count;
 		++p;
 	}

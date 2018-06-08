@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/8-2001
- * Last update: 6/8-2018
+ * Last update: 6/9-2018
  *
  */
 /************************************************************************
@@ -1348,16 +1348,17 @@ void MatchedObject::printXML(EMdFOutput* pOut, bool bIsForFullSheaf) const
 						ASSERT_THROW(false, "Unknown FEATURE_TYPE.");
 					}
 				}
-  
-				AttributePairList attribute_list;
-				attribute_list.push_back(AttributePair("feature_name", feature_name));
-				attribute_list.push_back(AttributePair("type", feature_type));
+
+				
+				AttributePairList attribute_list2;
+				attribute_list2.push_back(AttributePair("feature_name", feature_name));
+				attribute_list2.push_back(AttributePair("type", feature_type));
 				if (!enum_name.empty()) {
-					attribute_list.push_back(AttributePair("enum_name", enum_name));
+					attribute_list2.push_back(AttributePair("enum_name", enum_name));
 				}
 	
 				pOut->newline();
-				pOut->startTag("feature", attribute_list, false);
+				pOut->startTag("feature", attribute_list2, false);
 				pOut->outCharData(valstring);
 				pOut->endTag("feature", false);
 			}

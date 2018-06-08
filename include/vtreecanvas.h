@@ -8,13 +8,13 @@
 // Petersen dated August 13, 2004.
 //
 // Created: 3/29-2000
-// Last update: 4/10-2017
+// Last update: 6/9-2018
 //
 //
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2003-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2003-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -206,9 +206,9 @@ public:
 	virtual void OnChangeInterlinearLine();
 	virtual void OnUpdate();
 	void CalculateScreenTreeParameters() { CalculateTreeParameters(m_tp, false); };
-	virtual void make_tree(TreeItemVec &tree_items, ViewMetrics *pViewMetrics, wxDC *pDC) {
+	virtual void make_tree(TreeItemVec &tree_items, ViewMetrics *pMyViewMetrics, wxDC *pDC) {
 		(void)(tree_items); // Silence a warning
-		(void)(pViewMetrics); // Silence a warning
+		(void)(pMyViewMetrics); // Silence a warning
 		(void)(pDC); // Silence a warning
 	}; // MUST BE IMPLEMENTED!
 	virtual void UpdateAllViews() {};  // Must be implemented.

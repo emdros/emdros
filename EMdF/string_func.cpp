@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/1-2001
- * Last update: 6/8-2018
+ * Last update: 6/9-2018
  *
  */
 /************************************************************************
@@ -1884,7 +1884,7 @@ std::string escape_UTF8_string_with_slashu(const std::string& instr)
 		unsigned int c = 0;
 		EMDROS_READ_UTF8_CPLUSPLUS(instr, instr_length, index, c);
 		if (c < 0x80) {
-			result += c;
+			result += (char) c;
 		} else {
 			codepoint2slashu(result, c);
 		}
@@ -1994,9 +1994,9 @@ std::string joinList(const std::string& between, const std::list<id_d_t>& l)
 	std::string::size_type between_length = between.length();
 	char szLongDigits[30];
 	if (ci != cend) {
-		emdros_int64 l = *ci;
+		emdros_int64 myl = *ci;
 
-		emdros_int64ToSz(l, szLongDigits);
+		emdros_int64ToSz(myl, szLongDigits);
 
 		bigstring.addsz(szLongDigits);
 		
@@ -2005,9 +2005,9 @@ std::string joinList(const std::string& between, const std::list<id_d_t>& l)
 	while (ci != cend) {
 		bigstring.addChars(between.data(), between_length);
 
-		emdros_int64 l = *ci;
+		emdros_int64 myl = *ci;
 
-		emdros_int64ToSz(l, szLongDigits);
+		emdros_int64ToSz(myl, szLongDigits);
 
 		bigstring.addsz(szLongDigits);
 

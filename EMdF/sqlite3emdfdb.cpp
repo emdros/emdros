@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 6/8-2018
+ * Last update: 6/9-2018
  *
  */
 /************************************************************************
@@ -1632,14 +1632,14 @@ bool SQLite3EMdFDB::createObjectsOT_objects(const std::string& object_type_name,
 			break;
 		case FEATURE_TYPE_SET_OF_MONADS:
 			{
-				SetOfMonads som = pValue->getSOM();
-				OT_objects_data += escapeStringForSQL(som.toCompactString());
+				SetOfMonads som2 = pValue->getSOM();
+				OT_objects_data += escapeStringForSQL(som2.toCompactString());
 				// Emit comma after previous column
 				OT_objects_data += ',';
-				if (som.isEmpty()) {
+				if (som2.isEmpty()) {
 					OT_objects_data += monad_m2string(MAX_MONAD);
 				} else {
-					OT_objects_data += monad_m2string(som.first());
+					OT_objects_data += monad_m2string(som2.first());
 				}
 			}
 			break;

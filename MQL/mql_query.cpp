@@ -3044,7 +3044,7 @@ bool FFeatures::symbolObjectReferences2(MQLExecEnv *pEE)
 		BlockString2 *pBS2 = (BlockString2*) pEE->getNodeFromNodeNumber(bs2_nn);
 
 		bool bAdd = true;
-		node_number_t bs2_parent = pBS2->getBlockString2Parent();
+		bs2_parent = pBS2->getBlockString2Parent();
 		while (bAdd
 		       && bs2_parent != -1) {
 			if (BS2_set.find(bs2_parent) != BS2_set.end()) {

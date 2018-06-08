@@ -3,13 +3,13 @@
  *
  * Functions for executing MQL queries
  * Created: 3/23-2001
- * Last update: 4/1-2016
+ * Last update: 6/9-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2016   Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018   Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -133,10 +133,11 @@ int yyparse(MQLExecEnv *pEE)
 	pEE->bSyntaxError = false,
 		pParser = MQLParserAlloc( malloc );
 	Token *token = newToken();
-	while((hTokenId = yylex(token, pEE))
-	      && !pEE->bSyntaxError) {
+	hTokenId = yylex(token, pEE);
+	while(hTokenId && !pEE->bSyntaxError) {
 		MQLParser(pParser, hTokenId, token, pEE);
 		token = newToken();
+		hTokenId = yylex(token, pEE);
 	}
 	MQLParser(pParser, 0, token, pEE);
 	MQLParserFree(pParser, free );

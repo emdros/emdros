@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/4-2007
- * Last update: 6/8-2018
+ * Last update: 6/9-2018
  *
  */
 /************************************************************************
@@ -162,6 +162,7 @@ std::string QDParser::state2string(eQDStates e)
 }
 	
 #define APPEND_CHAR(s, c) s += (char) c
+#define SET_CHAR(s, c) s = (char) c
 
 void QDParser::parse(QDDocHandler *pDH, std::istream *pStream) 
 {
@@ -317,7 +318,7 @@ void QDParser::parse(QDDocHandler *pDH, std::istream *pStream)
 			default:
 				pushState(IN_TAG);
 				state = ATTRIBUTE_LVALUE;
-				m_lvalue = c;
+				SET_CHAR(m_lvalue, c);
 				m_rvalue.clear();
 				break;
 			}
@@ -342,7 +343,7 @@ void QDParser::parse(QDDocHandler *pDH, std::istream *pStream)
 				default:
 					pushState(topState);
 					state = OPEN_TAG;
-					m_tag_name = c;
+					SET_CHAR(m_tag_name, c);
 					eraseAttributes();
 					break;
 				}
@@ -429,7 +430,7 @@ void QDParser::parse(QDDocHandler *pDH, std::istream *pStream)
 			} else {
 				pushState(IN_XMLDECLARATION);
 				state = ATTRIBUTE_LVALUE;
-				m_lvalue = c;
+				SET_CHAR(m_lvalue, c);
 				m_rvalue.clear();
 			}
 			break;
@@ -521,7 +522,7 @@ void QDParser::parse(QDDocHandler *pDH, std::istream *pStream)
 				pushState(DOCTYPE);
 				state = COMMENT;
 			} else if (c == ']') {
-				m_tag_name = c;
+				SET_CHAR(m_tag_name, c);
 			} else if (c == '>') {
 				if (m_tag_name == "]>") {
 					// Is TEXT

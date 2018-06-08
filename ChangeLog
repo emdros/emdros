@@ -35,6 +35,27 @@
         modified:   tests/mqllingtry.cpp
         modified:   tests/mqltry.cpp
 
+	* Fix a lot of Visual Studio warnings on warning level /W4.
+
+	Files affected:
+
+        modified:   ChangeLog
+        modified:   EMdF/emdfdb.cpp
+        modified:   EMdF/qdxml.cpp
+        modified:   EMdF/sqlite3emdfdb.cpp
+        modified:   EMdF/string_func.cpp
+        modified:   EMdF/utils.cpp
+        modified:   MQL/mql_execute.cpp
+        modified:   MQL/mql_query.cpp
+        modified:   MQL/mql_sheaf.cpp
+        modified:   harvest/renderobjects.cpp
+        modified:   include/mql_object.h
+        modified:   include/qdxml.h
+        modified:   include/vtreecanvas.h
+        modified:   src/qrytool/mqlqt.cpp
+        modified:   wx/htreecanvas.cpp
+
+
 2018-06-08 Ulrik Sandborg-Petersen
 
 	* build/windows/config.mak.in: Surround each configuration macro

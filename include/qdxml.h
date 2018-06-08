@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/4-2007
- * Last update: 5/28-2018
+ * Last update: 6/9-2018
  *
  */
 /************************************************************************
@@ -145,7 +145,7 @@ class QDParser {
 	std::string m_lvalue;
 	std::string m_rvalue;
 	bool m_end_of_line;
-	char m_quote_char;
+	int m_quote_char;
 	std::string m_entity;
 	std::string m_text;
 	
@@ -192,7 +192,7 @@ class QDParser {
 		m_attributes.clear();
 	}
 
-	bool myisspace(char nc)
+	bool myisspace(int nc)
 	{
 		return nc == (int) ' ' 
 			|| nc == (int) '\n' 

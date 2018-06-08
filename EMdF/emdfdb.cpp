@@ -128,10 +128,13 @@ extern "C" {
 
 
 #ifdef WIN32
+/*
+// This is no longer needed.
 static void sleep(DWORD milliseconds)
 {
 	SleepEx(milliseconds, FALSE);
 }
+*/
 #endif
 
 
@@ -1735,7 +1738,7 @@ bool EMdFDB::objectTypeExists(id_d_t object_type_id,
 	if (pConn == 0)
 		return false;
 	else {
-		emdros_int64 object_type_flags;
+		emdros_int64 object_type_flags = 0;
 
 		// First try the map cache
 		String2OTCacheInfoMap::const_iterator mi, mend;
@@ -3396,12 +3399,12 @@ bool EMdFDB::dropFeatureFromOT_objects(const std::string& object_type_name,
 	}
 
 	if (featureTypeIdIsSOM(feature_type_id)) {
-		std::ostringstream query_stream;
-		query_stream
+		std::ostringstream query_stream2;
+		query_stream2
 			<< "ALTER TABLE " << normalizeTableName(OTN + "_objects", false) << " DROP COLUMN "
 			<< "first_monad_" << encodeFeatureName(feature_name);
-		if (!pConn->execCommand(query_stream.str())) {
-			DEBUG_COMMAND_QUERY_FAILED("EMdFDB::dropFeatureFromOT_objects", query_stream.str());
+		if (!pConn->execCommand(query_stream2.str())) {
+			DEBUG_COMMAND_QUERY_FAILED("EMdFDB::dropFeatureFromOT_objects", query_stream2.str());
 			return false;
 		}
 	}
@@ -4699,17 +4702,17 @@ bool EMdFDB::getID_DFromStringSet(const std::string& normalized_object_type_name
 			// Release results
 			pConn->finalize();
 
-			id_d_t id_d;
+			id_d_t id_d2;
 			if (!addStringToStringSetTable(normalized_object_type_name,
 						       encoded_feature_name,
 						       encoded_string_to_find,
-						       id_d)) {
+						       id_d2)) {
 				DEBUG_X_FAILED("EMdFDB::getID_DFromStringSet", std::string("Adding string to StringSet table ") + table_name);
 				return false;
 			}
       
 			// Set result
-			result = id_d2number_string(id_d);
+			result = id_d2number_string(id_d2);
 		} else {
 			// It was not there, but we must not add it. Return NIL
 			result = id_d2number_string(NIL);
@@ -7241,11 +7244,14 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 		}
     
 		// Get whether it is a WITH SINGLE RANGE OBJECTS or not
+		/*
+		// This is now a parameter, so don't get it again.
 		eObjectRangeType objectRangeType;
 		if (!getOTObjectRangeType(object_type_name, objectRangeType)) {
 			DEBUG_X_FAILED("EMdFDB::getInst", "getting range type of object type " + object_type_name);
 			return false;
 		}
+		*/
 
 
 		// ****************************************************
@@ -11150,14 +11156,14 @@ bool EMdFDB::createIndicesOnOTObjects(const std::string& object_type_name)
 	while (ci != cend) {
 		if (featureTypeIdIsWithIndex(ci->getType())) {
 			std::string table_name;
-			std::string index_name;
+			std::string index_name2;
 			std::list<std::pair<std::string, unsigned int> > column_list2;
 			column_list2.push_back(std::pair<std::string, unsigned int>(encodeFeatureName(ci->getName()), MAX_TEXT_INDEX_CHARS));
 			getIndexAndTableNameForFeature(object_type_name, 
 						       ci->getName(),
 						       table_name, 
-						       index_name);
-			createIndex(index_name, table_name, column_list2);
+						       index_name2);
+			createIndex(index_name2, table_name, column_list2);
 			column_list2.pop_back();
 
 			/*
@@ -11436,24 +11442,24 @@ bool EMdFDB::dropIndicesOnOTObjects(const std::string& object_type_name)
 		return false;
 	}
 
-	std::string index_name;
+	std::string index_name3;
 
 	switch (monadUniquenessType) {
 	case kMUTNonUniqueMonads:
-		index_name = OTN + "o_fm_i";
+		index_name3 = OTN + "o_fm_i";
 		break;
 	case kMUTUniqueFirstMonads:
-		index_name = OTN + "o_id_d_i";
+		index_name3 = OTN + "o_id_d_i";
 		break;
 	case kMUTUniqueFirstAndLastMonads:
-		index_name = OTN + "o_id_d_i";
+		index_name3 = OTN + "o_id_d_i";
 		break;
 	default:
 		ASSERT_THROW(false, "Unknown monad uniqueness type");
 		break;
 	}
   
-	dropIndex(index_name, OTN + "_objects");
+	dropIndex(index_name3, OTN + "_objects");
 
 
 	// Get a list of features
@@ -11467,12 +11473,12 @@ bool EMdFDB::dropIndicesOnOTObjects(const std::string& object_type_name)
 	while (ci != cend) {
 		if (featureTypeIdIsWithIndex(ci->getType())) {
 			std::string table_name;
-			std::string index_name;
+			std::string index_name4;
 			getIndexAndTableNameForFeature(object_type_name, 
 						       ci->getName(),
 						       table_name, 
-						       index_name);
-			dropIndex(index_name, table_name);
+						       index_name4);
+			dropIndex(index_name4, table_name);
 		}
 		/*
 		if (featureTypeIdIsFromSet(ci->getType())) {

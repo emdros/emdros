@@ -6,7 +6,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 22/4-2007
- * Last update: 6/8-2018
+ * Last update: 6/9-2018
  *
  */
 /************************************************************************
@@ -459,7 +459,7 @@ void RenderObjects::objects2Document()
 }
 
 
-typedef std::map<int, std::list<MemObject*> > Priority2ObjectMap;
+typedef std::map<monad_m, std::list<MemObject*> > Priority2ObjectMap;
 typedef std::map<monad_m, Priority2ObjectMap > Monad2priority2objectMapMap;
 
 void RenderObjects::startElements(const ListOfMSEPObjectPair& mse_pobject_list, monad_m monad)
@@ -485,7 +485,7 @@ void RenderObjects::startElements(const ListOfMSEPObjectPair& mse_pobject_list, 
 			
 				MemObject *pObj = pMPO->m_pObj;
 				
-				emdros_int64 priority;
+				monad_m priority;
 				// The document index feature is
 				// always the last one (guaranteed by
 				// setDefaults()).
@@ -522,7 +522,7 @@ void RenderObjects::startElements(const ListOfMSEPObjectPair& mse_pobject_list, 
 				long OTN_surrogate = pObj->getObjectTypeSurrogate();
 				monad_m last;
 				
-				int priority;
+				monad_m priority;
 				last = pMPO->m_mse_last;
 				priority = m_startPriority[OTN_surrogate];
 				
@@ -620,7 +620,7 @@ void RenderObjects::endElements(const ListOfMSEPObjectPair& mse_pobject_list, mo
 			long OTN_surrogate = pObj->getObjectTypeSurrogate();
 			monad_m first;
 		
-			int priority;
+			monad_m priority;
 			priority = m_endPriority[OTN_surrogate];
 			first = pMPO->m_mse_first;
 
@@ -769,8 +769,8 @@ bool RenderObjects::loadObjectsFromMonads(long OTN_surrogate, const std::string&
 				// This is necessary for some strange
 				// reason...  otherwise, we lose the
 				// anonymous SOM somehow.
-				SetOfMonads som = pMO->getMonads();
-				SOMConstIterator somci = som.const_iterator();
+				SetOfMonads som2 = pMO->getMonads();
+				SOMConstIterator somci = som2.const_iterator();
 
 				while (somci.hasNext()) {
 					MonadSetElement mse = somci.next();
