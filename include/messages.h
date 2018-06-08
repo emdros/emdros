@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 10/6-2006 (October 6, 2006)
- * Last update: 10/6-2006
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2006  Ulrik Petersen
+ *   Copyright (C) 2005-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -93,7 +93,16 @@
 #include <ostream>
 #include "emdf_enums.h"
 
-extern void emdrosMessageConnectionNotOK(std::ostream *pOut, eBackendKind kind);
+#if defined(_WINDOWS)
+extern "C++" {
+#endif
+
+void emdrosMessageConnectionNotOK(std::ostream *pOut, eBackendKind kind);
 
 
+#if defined(_WINDOWS)
+} // extern "C++" 
+#endif
+
+	
 #endif

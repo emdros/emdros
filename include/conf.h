@@ -94,6 +94,13 @@
 #include <ostream>
 
 
+
+#if defined(_WINDOWS)
+extern "C++" {
+#endif
+
+
+
 typedef std::vector<std::string> StringVec;
 typedef std::map<std::string, StringVec> StringStringVecMap;
 
@@ -133,5 +140,10 @@ bool app_checkConfiguration(Configuration *pConf, std::string& error_msg);
 
 typedef bool(*app_checkConfigurationFunc_t)(Configuration *pConf, std::string& error_msg);
 
+#if defined(_WINDOWS)
+} // extern "C++" 
+#endif
+
+	
 
 #endif // CONFIGURATION__H__
