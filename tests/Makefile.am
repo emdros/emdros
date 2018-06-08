@@ -171,7 +171,7 @@ EXTRA_DIST = windows.mak mingw.mak mqlqa.h.in mqlqa.h qa2h.py \
              file2h.py win32_testall.bat
 
 CLEANFILES = *~ core testincludes.o
-DISTCLEANFILES = mqlqa.h bptqa.h \
+DISTCLEANFILES = \
                 Info.plist.htmlcanvastest \
                 Info.plist.htreetest \
                 config.log

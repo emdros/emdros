@@ -357,6 +357,12 @@
 	* tests/emdftry.cpp: Make it compile without warnings on Windows,
 	with the new requirements for emdros_int64.
 
+	* tests/Makefile.am: Don't DISTCLEAN mqlqa.h or bptqa.h.
+
+	* test/mqlqa.h: Add to repo.
+
+	* test/bptqa.h: Add to repo.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
