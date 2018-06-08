@@ -45,6 +45,16 @@
 
 	* pcre2/windows.mak: Initial addition.
 
+	* Windows NMAKE build system: Work towards build able to build
+	again.
+
+	Files affacted:
+
+        - ChangeLog
+        - EMdF/windows.mak
+        - build/windows/windows.mak
+        - include/windows.mak
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

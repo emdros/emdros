@@ -4,21 +4,18 @@
 # Makefile for Microsoft Visual C++ 5.0 (or compat)
 
 
-WIN32DIR = ..\win32
+WIN32DIR = ..\build\windows
 
 !INCLUDE $(WIN32DIR)\config.mak
 
 
 EMDROS_LCONFIG_WIN32_H = win32-lconfig.h
 
-TARGETS = pcre_emdros_h lconfig
-CLEANFILES= pcre_emdros.h
+TARGETS = lconfig
+CLEANFILES= 
 
 
 !INCLUDE $(WIN32DIR)\body.mak
-
-pcre_emdros_h:
-	copy /Y /B ..\pcre\pcre_emdros.h.win32 +..\pcre\pcre.h .\pcre_emdros.h
 
 lconfig:
     -erase -q $(EMDROS_LCONFIG_WIN32_H)

@@ -1,6 +1,6 @@
-# Emdros makefile for win32 directory
+# Emdros makefile for build\windows directory
 
-# Makefile for Microsoft Visual C++ 5.0 (or compat)
+# Makefile for Microsoft Visual C++ 10.0 (or compat)
 
 !IF "$(OS)" == "Windows_NT"
 NULL=
@@ -8,26 +8,26 @@ NULL=
 NULL=nul
 !ENDIF 
 
-!MESSAGE Building Emdros on Win32
+!MESSAGE Building Emdros on Windows
 !MESSAGE
 
 !INCLUDE .\config.mak
 
-!INCLUDE ..\include\Makefile.inc
+!INCLUDE ..\..\include\Makefile.inc
 
 ALL: config.nsh 
-   copy config.h.win32 ..\include\emdros-config.h
+   copy config.h.win32 ..\..\include\emdros-config.h
 !IF "$(MYSQL)" == "1"
-   -mkdir ..\win32\mysql_include
-   -mkdir ..\win32\mysql_include\mysql
-   -mkdir ..\win32\mysql_include\mysql\psi
-   copy "$(MYSQLTOP)\include\*.*" "..\win32\mysql_include\"
-   copy "$(MYSQLTOP)\include\mysql\*.*" "..\win32\mysql_include\mysql\"
-   copy "$(MYSQLTOP)\include\mysql\psi\*.*" "..\win32\mysql_include\mysql\psi\"
+   -mkdir ..\..\build\windows\mysql_include
+   -mkdir ..\..\build\windows\mysql_include\mysql
+   -mkdir ..\..\build\windows\mysql_include\mysql\psi
+   copy "$(MYSQLTOP)\include\*.*" "..\..\build\windows\mysql_include\"
+   copy "$(MYSQLTOP)\include\mysql\*.*" "..\..\build\windows\mysql_include\mysql\"
+   copy "$(MYSQLTOP)\include\mysql\psi\*.*" "..\..\build\windows\mysql_include\mysql\psi\"
 !ENDIF
-   cd ..\include
+   cd ..\..\include
    nmake /f windows.mak $(MAKEMACRO) 
-   cd ..\pcre
+   cd ..\pcre2
    nmake /f windows.mak $(MAKEMACRO) 
 !IF "$(BPT)" == "1"
    cd ..\zlib
@@ -50,6 +50,8 @@ ALL: config.nsh
    cd ..\harvest
    nmake /f windows.mak $(MAKEMACRO) 
 !IF "$(EMDROS_ONLY)"=="0"
+   cd ..\importers
+   nmake /f windows.mak $(MAKEMACRO)
 !IF "$(WITH_WXWIN)"=="yes"
    cd ..\wx
    nmake /f windows.mak $(MAKEMACRO) 
@@ -70,13 +72,13 @@ ALL: config.nsh
    cd ..\SWIG
    nmake /f windows.mak $(MAKEMACRO) 
 !ENDIF 
-   cd ..\win32
-   echo All Win32 parts have been built!
+   cd ..\..\build\windows
+   echo All Windows parts have been built!
 
 
 CLEAN:
    -del config.nsh
-   cd ..\include
+   cd ..\..\include
    nmake /f windows.mak CLEAN
 !IF "$(SQLITE3)" == "1"
    cd ..\sqlite
@@ -84,13 +86,15 @@ CLEAN:
 !ENDIF
    cd ..\EMdF
    nmake /f windows.mak CLEAN
-   cd ..\pcre
+   cd ..\pcre2
    nmake /f windows.mak CLEAN
    cd ..\MQL
    nmake /f windows.mak CLEAN
    cd ..\util
    nmake /f windows.mak CLEAN
    cd ..\harvest
+   nmake /f windows.mak CLEAN
+   cd ..\importers
    nmake /f windows.mak CLEAN
    cd ..\wx
    nmake /f windows.mak CLEAN
@@ -104,13 +108,13 @@ CLEAN:
    nmake /f windows.mak CLEAN
    cd ..\SWIG
    nmake /f windows.mak CLEAN
-   cd ..\win32
+   cd ..\..\build\windows
    -@erase *~
    -@rmdir Release\ /s /q
    -@rmdir ReleaseUnicode\ /s /q
    -@rmdir Debug\ /s /q
    -@rmdir DebugUnicode\ /s /q
-   echo All Win32 parts have been cleaned!
+   echo All Windows parts have been cleaned!
 
 DISTCLEAN: CLEAN
    -del ..\config.h
@@ -376,14 +380,14 @@ MAKE_DIST_FILES: MAKE_DIST_SWIG
 	for %%F in ($(DIST_BIN_FILES)) do copy .\%F "$(DIST_DIR)\bin"
 	for %%F in ($(DIST_LIB_FILES)) do copy .\%F "$(DIST_DIR)\lib"
 	for %%F in ($(DIST_ETC_QRYTOOL_FILES)) do copy .\%F "$(DIST_DIR)\etc\qrytool"
-	copy win32\config.mak "$(DIST_DIR)\doc"
-	cd win32
+	copy build\windows\config.mak "$(DIST_DIR)\doc"
+	cd build\windows
 
 
 INST: DIST
 	cd ..\emdros-windows
         "$(NSISEXE)" emdros.nsi
-        cd ..\win32
+        cd ..\..\build\windows
 
 config.nsh:
    -del config.nsh
