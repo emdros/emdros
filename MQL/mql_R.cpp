@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/16-2001
- * Last update: 5/28-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -389,7 +389,7 @@ Sheaf *R_blocks(MQLExecEnv *pEE,
 		
 		StartMonadIterator *pSMI = pBS->getSMI(pEE, U, Su, Su.first());
 		
-		long count = 0;
+		emdros_int64 count = 0;
 		
 		while (pEE->m_bContinueExecution 
 		       && pSMI->hasNext()) {
@@ -402,7 +402,7 @@ Sheaf *R_blocks(MQLExecEnv *pEE,
 
 				if (pUR) {
 					pIntermediateLOS = new ListOfStraws();
-					long LOS_size = pIntermediateLOS->appendAndSubsumeWhileFiltering(pLOS);
+					emdros_int64 LOS_size = pIntermediateLOS->appendAndSubsumeWhileFiltering(pLOS);
 					if (LOS_size == 0) {
 						delete pIntermediateLOS;
 						continue;
