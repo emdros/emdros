@@ -6,7 +6,7 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 5/29-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -105,8 +105,7 @@
 #include "wx/filename.h"
 #include "wx/version.h"
 
-#include <emdros-lconfig.h>
-#include <emdros.h>
+#include "string_func.h"
 
 #include <conndlg.h>
 

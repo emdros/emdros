@@ -2,13 +2,13 @@
 // importerwizard.cpp
 // Martin Petersen and Ulrik Petersen
 // Created: 10/11-2006
-// Last update: 4/10-2017
+// Last update: 6/8-2018
 //
 //
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2006-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2006-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -221,8 +221,8 @@ EmdrosImporterBase* ImporterWizard::GetImporter()
 	eImporter imp = m_pSummaryPage->GetImportFormat();
 	monad_m starting_monad;
 	id_d_t starting_id_d;
-	m_pSummaryPage->GetStartingMonad().ToLong(&starting_monad, 10);
-	m_pSummaryPage->GetStartingIDD().ToLong(&starting_id_d, 10);
+	m_pSummaryPage->GetStartingMonad().ToLongLong(&starting_monad, 10);
+	m_pSummaryPage->GetStartingIDD().ToLongLong(&starting_id_d, 10);
 	std::string myStdString = 
 		std::string((const char*)m_pSummaryPage->GetSFMImportFileName().mb_str(wxConvUTF8));
 	EmdrosImporterBase *pBase;

@@ -228,6 +228,16 @@
         modified:   importers/pennlexer.re
         modified:   util/mql_exporter.cpp
 
+	* wx/: Make it emdros_int64-compliant.  Also, don't #include
+	<emdros.h>, since we don't have it on Windows (yet), because we
+	don't do the amalgamation on Windows.
+
+	Files affected:
+
+        modified:   include/conndlg.h
+        modified:   wx/browsewidget.cpp
+        modified:   wx/conndlg.cpp
+        modified:   wx/importerwizard.cpp
 
 2018-06-01 Ulrik Sandborg-Petersen
 
