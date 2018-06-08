@@ -15,6 +15,10 @@
 	- EMDROS_VERSION_MINOR
 	- EMDROS_VERSION_RELEASE
 
+	* build/windows/window.mak: Remove LyX and PDF files that are now
+	no longer part of the Emdros sources, but part of the docs-emdros
+	package.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
