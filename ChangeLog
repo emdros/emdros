@@ -25,9 +25,15 @@
 
 	* tests/Makefile.am: Don't DISTCLEAN mqlqa.h or bptqa.h.
 
-	* test/mqlqa.h: Add to repo.
+	* tests/mqlqa.h: Add to repo.
 
-	* test/bptqa.h: Add to repo.
+	* tests/bptqa.h: Add to repo.
+
+	* tests/: Make the programs compile on Windows:
+
+        modified:   tests/bpttry.cpp
+        modified:   tests/mqllingtry.cpp
+        modified:   tests/mqltry.cpp
 
 2018-06-08 Ulrik Sandborg-Petersen
 

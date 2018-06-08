@@ -3,7 +3,7 @@
  *
  * Trial of MQL and EMdF framework
  * Created: 3/6-2001 (March 6, 2001)
- * Last update: 5/29-2018
+ * Last update: 6/9-2018
  *
  */
 /************************************************************************
@@ -535,7 +535,7 @@ bool exec_string_get_id_d(EmdrosEnv *pEE, std::string mql_query, std::string suc
 	return bResult;
 }
 
-bool exec_string_get_long(EmdrosEnv *pEE, std::string mql_query, std::string success, long& result_long)
+bool exec_string_get_long(EmdrosEnv *pEE, std::string mql_query, std::string success, emdros_int64 & result_long)
 {
 	bool bResult;
 	if (!pEE->executeString(mql_query, bResult, true, false)) {
@@ -554,7 +554,7 @@ bool exec_string_get_long(EmdrosEnv *pEE, std::string mql_query, std::string suc
 		Table *pResult = pEE->getTable();
 		TableIterator ti = pResult->iterator();
 		std::string strLong = pResult->getColumn(ti, 1);
-		result_long = string2long(strLong);
+		result_long = string2emdros_int64(strLong);
 	}
 
 	// Clean up
@@ -592,7 +592,7 @@ bool exec_string_get_string(EmdrosEnv *pEE, std::string mql_query, std::string s
 	return bResult;
 }
 
-bool exec_string_check_no_of_rows(EmdrosEnv *pEE, std::string mql_query, std::string success, long no_of_expected_rows)
+bool exec_string_check_no_of_rows(EmdrosEnv *pEE, std::string mql_query, std::string success, emdros_int64 no_of_expected_rows)
 {
 	bool bResult;
 	if (!pEE->executeString(mql_query, bResult, true, false)) {
@@ -603,7 +603,7 @@ bool exec_string_check_no_of_rows(EmdrosEnv *pEE, std::string mql_query, std::st
 			COMPILE_ERROR;
 		} else {
 			// Check no of expected rows
-			long no_of_rows = pEE->getTable()->size();
+			emdros_int64 no_of_rows = pEE->getTable()->size();
 			if (no_of_rows != no_of_expected_rows) {
 				bResult = false;
 				ROW_ERROR;
@@ -620,7 +620,7 @@ bool exec_string_check_no_of_rows(EmdrosEnv *pEE, std::string mql_query, std::st
 	return bResult;
 }
 
-bool exec_string_check_counts(EmdrosEnv *pEE, std::string mql_query, const std::string& object_type_name, bool bUseOnlyFocusObjects, long nExpectedObjectCount, long nExpectedObjectCountFromObjectType, long nExpectedStrawCount, const std::string& success)
+bool exec_string_check_counts(EmdrosEnv *pEE, std::string mql_query, const std::string& object_type_name, bool bUseOnlyFocusObjects, emdros_int64 nExpectedObjectCount, emdros_int64 nExpectedObjectCountFromObjectType, emdros_int64 nExpectedStrawCount, const std::string& success)
 {
 	bool bResult;
 	if (!pEE->executeString(mql_query, bResult, true, false)) {
@@ -630,10 +630,10 @@ bool exec_string_check_counts(EmdrosEnv *pEE, std::string mql_query, const std::
 		if (!bResult) {
 			COMPILE_ERROR;
 		} else {
-			long no_of_objects = pEE->getSheaf()->countObjects(bUseOnlyFocusObjects);
-			long no_of_objects_from_object_type = pEE->getSheaf()->countObjectsFromObjectType(object_type_name, bUseOnlyFocusObjects);
+			emdros_int64 no_of_objects = pEE->getSheaf()->countObjects(bUseOnlyFocusObjects);
+			emdros_int64 no_of_objects_from_object_type = pEE->getSheaf()->countObjectsFromObjectType(object_type_name, bUseOnlyFocusObjects);
 			
-			long no_of_straws = pEE->getSheaf()->countStraws();
+			emdros_int64 no_of_straws = pEE->getSheaf()->countStraws();
 
 			if (no_of_objects != nExpectedObjectCount
 			    || no_of_objects_from_object_type != nExpectedObjectCountFromObjectType
@@ -666,8 +666,8 @@ bool exec_string_check_monad(EmdrosEnv *pEE, std::string mql_query, std::string 
 			bResult = false;
 		} else {
 			// Check monad
-			long no_of_expected_rows = 1;
-			long no_of_rows = pEE->getTable()->size();
+			emdros_int64 no_of_expected_rows = 1;
+			emdros_int64 no_of_rows = pEE->getTable()->size();
 			if (no_of_rows != no_of_expected_rows) {
 				bResult = false;
 				ROW_ERROR;
@@ -1519,6 +1519,7 @@ int testall(EmdrosEnv *pEE, eBackendKind backend_kind, const std::string& passwo
 			delete pMySheaf;
 			goto end;
 		} catch (EmdrosException& e) {
+			(void) e;
 			// This is what it should do!
 			std::cout << "SUCCESS: SheafConstIterator::next() threw an exception, which it should!" << std::endl;
 		}
@@ -1736,7 +1737,7 @@ int testall(EmdrosEnv *pEE, eBackendKind backend_kind, const std::string& passwo
 		"[ surface := 'blah'; number := 3;\n"
 		"]\n"
 		"GO";
-	long result_long;
+	emdros_int64 result_long;
 	if (!exec_string_get_long(pEE, mql_query, "batch-creating objects", result_long))
 		goto end;
 	if (result_long == 4) {
@@ -2714,7 +2715,6 @@ int main(int argc, char* argv[])
 	} else {
 		bool bShowVersion;
 		bool bShowHelp;
-		std::string error_message;
 		if (!getStandardArguments(bShowVersion, bShowHelp,
 					  hostname,
 					  user,

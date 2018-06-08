@@ -3,7 +3,7 @@
  *
  * Linguistic trial of MQL and EMdF framework
  * Created: 3/30-2005
- * Last update: 5/11-2018
+ * Last update: 6/9-2018
  *
  */
 /************************************************************************
@@ -212,14 +212,14 @@ bool execute_query(EmdrosEnv *pEnv,
 class EmdrosObject {
 protected:
 	SetOfMonads monads;
-	int object_id_d;
+	id_d_t object_id_d;
 
 public:
 	EmdrosObject() {
 		object_id_d = NIL;
 	};
 
-	EmdrosObject(int id_d) {
+	EmdrosObject(id_d_t id_d) {
 		object_id_d = id_d;
 	};
 	virtual ~EmdrosObject() {};
@@ -230,9 +230,9 @@ public:
 
 	SetOfMonads getMonads() { return monads; };
 
-	int getID_D() { return object_id_d; };
+	id_d_t getID_D() { return object_id_d; };
 
-	void setID_D(int oid) { object_id_d = oid; };
+	void setID_D(id_d_t oid) { object_id_d = oid; };
 
 	bool createObject(EmdrosEnv *pEnv) {	
 		// Build query
@@ -282,7 +282,7 @@ public:
 		phraseType = "Not yet set";
 	}
 
-	Phrase(int oid) : EmdrosObject(oid) {
+	Phrase(id_d_t oid) : EmdrosObject(oid) {
 		phraseType = "Not yet set";
 	}
 
@@ -314,7 +314,7 @@ public:
 		psp = "Not yet set";
 	};
 	
-	Word(int oid) : EmdrosObject(oid) {
+	Word(id_d_t oid) : EmdrosObject(oid) {
 		surface = "Not yet set";
 		psp = "Not yet set";
 	};
@@ -888,10 +888,10 @@ bool fill_database(EmdrosEnv *pEnv, const StringList& words) {
 			}
       
 			// Add monad to all phrases
-			for (PhraseStack::const_iterator ci = phrase_stack.begin();
-			     ci != phrase_stack.end();
-			     ++ci) {
-				Phrase *pPhrase = (Phrase*) *ci;
+			for (PhraseStack::const_iterator ci2 = phrase_stack.begin();
+			     ci2 != phrase_stack.end();
+			     ++ci2) {
+				Phrase *pPhrase = (Phrase*) *ci2;
 				pPhrase->addMonad(monad);
 			}
       
@@ -1038,7 +1038,6 @@ int main(int argc, char *argv[])
 	} else {
 		bool bShowVersion;
 		bool bShowHelp;
-		std::string error_message;
 		if (!getStandardArguments(bShowVersion, bShowHelp,
 					  hostname,
 					  user,
