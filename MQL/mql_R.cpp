@@ -434,7 +434,7 @@ Sheaf *R_blocks(MQLExecEnv *pEE,
 						// Case 2: We start before pUR,
 						// but end within it.	
 						pIntermediateLOS = new ListOfStraws();
-						long mystart = pUR->getStart() - count;
+						emdros_int64 mystart = pUR->getStart() - count;
 						pIntermediateLOS->appendAndSubsumeWhileCounting(pLOS, mystart, LOS_size - mystart);
 
 						count += LOS_size;
@@ -449,7 +449,7 @@ Sheaf *R_blocks(MQLExecEnv *pEE,
 
 
 						// Cut off some inside.
-						long mystart = pUR->getStart() - count;
+						emdros_int64 mystart = pUR->getStart() - count;
 
 						pIntermediateLOS2->appendAndSubsumeWhileCounting(pIntermediateLOS, mystart, pUR->getEnd() - pUR->getStart() + 1);
 

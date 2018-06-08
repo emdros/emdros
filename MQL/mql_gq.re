@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 6/23-2007
- * Last update: 4/29-2013
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2013  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -157,7 +157,7 @@ char *MQLGQScanner::fill(char *cursor)
 {
         if(!eof)
         {
-                unsigned int cnt = tok - bot;
+                std::streamsize cnt = tok - bot;
 	        if(cnt)
                 {
                         memcpy(bot, tok, lim - tok);

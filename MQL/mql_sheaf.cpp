@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 3/8-2001
- * Last update: 12/2-2017
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -542,7 +542,7 @@ std::string MatchedObject::getFeatureAsString(int index) const
 	} else {
 		switch (pValue->getKind()) {
 		case kEVInt:
-			return long2string(pValue->getInt());
+			return emdros_int64ToString(pValue->getInt());
 			break;
 		case kEVEnum: 
 			{
@@ -564,13 +564,13 @@ std::string MatchedObject::getFeatureAsString(int index) const
 				IntegerList *pList = pValue->getIntegerList();
 				IntegerListConstIterator ilci = pList->const_iterator();
 				if (ilci.hasNext()) {
-					long first_enum = ilci.next();
+					emdros_int64 first_enum = ilci.next();
 					result += pFeature->getEnumConstNameFromValue(first_enum);
 				}
 				while (ilci.hasNext()) {
 					result += ',';
 					
-					long next_enum = ilci.next();
+					emdros_int64 next_enum = ilci.next();
 					result += pFeature->getEnumConstNameFromValue(next_enum);
 				}
 				
@@ -581,14 +581,14 @@ std::string MatchedObject::getFeatureAsString(int index) const
 				IntegerList *pList = pValue->getIntegerList();
 				IntegerListConstIterator ilci = pList->const_iterator();
 				if (ilci.hasNext()) {
-					long first_int = ilci.next();
-					result += long2string(first_int);
+					emdros_int64 first_int = ilci.next();
+					result += emdros_int64ToString(first_int);
 				}
 				while (ilci.hasNext()) {
 					result += ',';
 					
-					long next_int = ilci.next();
-					result += long2string(next_int);
+					emdros_int64 next_int = ilci.next();
+					result += emdros_int64ToString(next_int);
 				}
 				
 				result += ')';
@@ -1026,7 +1026,7 @@ id_d_t MatchedObject::getObjectTypeId() const
  */
 void MatchedObject::printConsole(EMdFOutput *pOut, bool bIsForFullSheaf) const
 {
-	/* Assumed 63-bits. */
+	/* Assumes 63-bits. */
 #define MAX_LONG_STRING_LENGTH (21) 
 	if (!getRetrieve()) {
 		// Nothing to do
@@ -1047,7 +1047,7 @@ void MatchedObject::printConsole(EMdFOutput *pOut, bool bIsForFullSheaf) const
 			outstr += m_pObjectBlock->getObjectTypeName();
 			outstr.push_back(' ');
 			
-			long2szNonReversing(getID_D(), szBuffer, MAX_LONG_STRING_LENGTH, &szLong, &nStringLength);
+			emdros_int64ToSzNonReversing(getID_D(), szBuffer, MAX_LONG_STRING_LENGTH, &szLong, &nStringLength);
 			
 			outstr.append(szLong, nStringLength);
 		}
@@ -1057,17 +1057,17 @@ void MatchedObject::printConsole(EMdFOutput *pOut, bool bIsForFullSheaf) const
 		} else {
 			if (m_last == m_u.first) {
 				outstr.append(" { ", 3);
-				long2szNonReversing(m_last, szBuffer, MAX_LONG_STRING_LENGTH, &szLong, &nStringLength);
+				emdros_int64ToSzNonReversing(m_last, szBuffer, MAX_LONG_STRING_LENGTH, &szLong, &nStringLength);
 		
 				outstr.append(szLong, nStringLength);
 				outstr.append(" } ", 3);
 			} else {
 				outstr.append(" { ", 3);
-				long2szNonReversing(m_u.first, szBuffer, MAX_LONG_STRING_LENGTH, &szLong, &nStringLength);
+				emdros_int64ToSzNonReversing(m_u.first, szBuffer, MAX_LONG_STRING_LENGTH, &szLong, &nStringLength);
 		
 				outstr.append(szLong, nStringLength);
 				outstr.push_back('-');
-				long2szNonReversing(m_last, szBuffer, MAX_LONG_STRING_LENGTH, &szLong, &nStringLength);
+				emdros_int64ToSzNonReversing(m_last, szBuffer, MAX_LONG_STRING_LENGTH, &szLong, &nStringLength);
 		
 				outstr.append(szLong, nStringLength);
 				outstr.append(" } ", 3);
@@ -1146,7 +1146,7 @@ void MatchedObject::printConsole(EMdFOutput *pOut, bool bIsForFullSheaf) const
 						if (!featureTypeIdIsListOfENUM(feature_type_id)) {
 							ASSERT_THROW(featureTypeIdIsListOfINTEGER(feature_type_id)
 								     || featureTypeIdIsListOfID_D(feature_type_id),
-								     "At this point, we only know how to do lists of integers and lists of id_ds.\nThis is something else. The feature_type_id is:" + long2string(feature_type_id));
+								     "At this point, we only know how to do lists of integers and lists of id_ds.\nThis is something else. The feature_type_id is:" + emdros_int64ToString(feature_type_id));
 							std::string mystr = pIntegerList->getDelimitedString(DEFAULT_LIST_DELIMITER);
 							outstr.append(mystr);
 						} else {
@@ -1154,7 +1154,7 @@ void MatchedObject::printConsole(EMdFOutput *pOut, bool bIsForFullSheaf) const
 							StringList mystringlist;
 							while (ci.hasNext()) {
 								// Get next enum value
-								long cur_enum_value = ci.next();
+								emdros_int64 cur_enum_value = ci.next();
 								std::string enum_const_name = pFeature->getEnumConstNameFromValue(cur_enum_value);
 								mystringlist.addStringBack(enum_const_name);
 							}
@@ -1308,7 +1308,7 @@ void MatchedObject::printXML(EMdFOutput* pOut, bool bIsForFullSheaf) const
 							StringList mystringlist;
 							while (ci.hasNext()) {
 								// Get next enum value
-								long cur_enum_value = ci.next();
+								emdros_int64 cur_enum_value = ci.next();
 								std::string enum_const_name = pFeature->getEnumConstNameFromValue(cur_enum_value);
 								mystringlist.addStringBack(enum_const_name);
 							}
@@ -1489,7 +1489,7 @@ void MatchedObject::printJSON(EMdFOutput* pOut, bool bIsForFullSheaf) const
 							StringList mystringlist;
 							while (ci.hasNext()) {
 								// Get next enum value
-								long cur_enum_value = ci.next();
+								emdros_int64 cur_enum_value = ci.next();
 								std::string enum_const_name = pFeature->getEnumConstNameFromValue(cur_enum_value);
 								mystringlist.addStringBack(enum_const_name);
 							}

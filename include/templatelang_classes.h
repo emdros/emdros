@@ -125,11 +125,11 @@ typedef enum {
 class TemplateDictlookupFeature : public TemplateASTNode {
  protected:
 	std::string m_dict_name;
-	long m_feature_index;
+	unsigned int m_feature_index;
 	std::string m_default_value;
 	bool m_bMangleFeature;
  public:
-	TemplateDictlookupFeature(std::string *pDictName, long feature_index, std::string *pDefaultValue, bool bMangleFeature);
+	TemplateDictlookupFeature(std::string *pDictName, unsigned int feature_index, std::string *pDefaultValue, bool bMangleFeature);
 	virtual ~TemplateDictlookupFeature();
 
 	virtual void exec(TemplateLangExecEnv *pEE);
@@ -185,10 +185,10 @@ typedef enum {
 
 class TemplateFeature : public TemplateASTNode {
  protected:
-	long m_index;
+	unsigned int m_index;
 	eMangleKind m_mangle_kind;
  public:
-	TemplateFeature(long index, eMangleKind mangle_kind);
+	TemplateFeature(unsigned int index, eMangleKind mangle_kind);
 	virtual ~TemplateFeature();
 
 	virtual void exec(TemplateLangExecEnv *pEE);
@@ -341,10 +341,10 @@ class TemplateIf : public TemplateASTNode {
 
 class TemplateIfFeatureEqual : public TemplateASTNode {
  protected:
-	long m_feature_index;
+	unsigned int m_feature_index;
 	std::string m_value;
  public:
-	TemplateIfFeatureEqual(long feature_index, std::string *pString);
+	TemplateIfFeatureEqual(unsigned int feature_index, std::string *pString);
 	virtual ~TemplateIfFeatureEqual();
 
 	virtual void exec(TemplateLangExecEnv *pEE);

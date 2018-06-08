@@ -6,7 +6,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 22/4-2007
- * Last update: 5/11-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -485,7 +485,7 @@ void RenderObjects::startElements(const ListOfMSEPObjectPair& mse_pobject_list, 
 			
 				MemObject *pObj = pMPO->m_pObj;
 				
-				int priority;
+				emdros_int64 priority;
 				// The document index feature is
 				// always the last one (guaranteed by
 				// setDefaults()).
@@ -586,7 +586,7 @@ void RenderObjects::endElements(const ListOfMSEPObjectPair& mse_pobject_list, mo
 			
 			MemObject *pObj = pMPO->m_pObj;
 
-			long priority;
+			monad_m priority;
 			priority = MAX_MONAD - pObj->getSpecialLong();
 
 			priorityMap[priority].push_back(pObj);

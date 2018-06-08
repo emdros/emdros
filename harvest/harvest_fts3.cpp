@@ -6,7 +6,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 3/19-2016
- * Last update: 5/11-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -666,7 +666,7 @@ FTS3TermDictIterator FTS3TermDict::end()
  *
  ******************************************************************/
 
-void local_filter_term_lists(long token_range, const StringMPairListList& term_list_list, FTS3TermDict *pTermDict, BookcaseHitList& /* out */ hit_list)
+void local_filter_term_lists(monad_m token_range, const StringMPairListList& term_list_list, FTS3TermDict *pTermDict, BookcaseHitList& /* out */ hit_list)
 {
 	StringMPairListList::const_iterator ci = term_list_list.begin();
 	StringMPairListList::const_iterator ciend = term_list_list.end();
@@ -776,7 +776,7 @@ void local_query_FTS3Search(EmdrosEnv *pEE, const std::string& bookcase_otn, con
 	Term2TMLMap term_token_dict;
 	
 	TokenMonadList *pSmallest_token_monad_list = 0;
-        long smallest_token_monad_list_length = MAX_MONAD;
+        monad_m smallest_token_monad_list_length = MAX_MONAD;
 
 	StringMPairListList::const_iterator ci = term_list_list.begin();
 	StringMPairListList::const_iterator ciend = term_list_list.end();
@@ -794,7 +794,7 @@ void local_query_FTS3Search(EmdrosEnv *pEE, const std::string& bookcase_otn, con
 				
 				term_token_dict.insert(std::make_pair(term, pQuery_result));
 
-				long query_result_length = pQuery_result->size();
+				monad_m query_result_length = pQuery_result->size();
 				if (query_result_length <= smallest_token_monad_list_length) {
 					pSmallest_token_monad_list = pQuery_result;
 					smallest_token_monad_list_length = query_result_length;
@@ -852,10 +852,10 @@ FTS3Search::~FTS3Search()
 
 
 
-bool FTS3Search::locate(EmdrosEnv *pEE, bool bUseGoogleSyntax, long token_range, const std::string& term_string, BookcaseHitList& result)
+bool FTS3Search::locate(EmdrosEnv *pEE, bool bUseGoogleSyntax, monad_m token_range, const std::string& term_string, BookcaseHitList& result)
 {
         FTS3Tokenizer *pTokenizer = new FTS3Tokenizer(); // FIXME: Add pFilter_list
-	long my_token_range = token_range;
+	monad_m my_token_range = token_range;
 
 	StringMPairListList term_list_list = pTokenizer->process(bUseGoogleSyntax, term_string);
 

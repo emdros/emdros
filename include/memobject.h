@@ -5,13 +5,13 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: Sometime in 2005 or 2006.
- * Last update: 3/21-2013
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2013  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2005-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -99,7 +99,7 @@ class MemObject {
  private:
 	monad_m m_first, m_last;
 	long m_OTN_surrogate;
-	long m_special_long;
+	emdros_int64 m_special_long;
 	id_d_t m_id_d;
 	FeatureVector m_features;
  public:
@@ -124,8 +124,8 @@ class MemObject {
 	void setObjectTypeSurrogate(long surrogate) { m_OTN_surrogate = surrogate; };
 	long getObjectTypeSurrogate(void) const { return m_OTN_surrogate; };
 
-	void setSpecialLong(long special_long) { m_special_long = special_long; };
-	long getSpecialLong(void) const { return m_special_long; };
+	void setSpecialLong(emdros_int64 special_long) { m_special_long = special_long; };
+	emdros_int64 getSpecialLong(void) const { return m_special_long; };
 
 	void setID_D(id_d_t id_d)
 	{

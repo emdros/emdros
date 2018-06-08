@@ -611,7 +611,7 @@ class BookcaseHitList {
 	void clearHitMap();
 	bool empty() const;
 	void merge(const BookcaseHitList& other);
-	void merge_range(const BookcaseHitList& other, int token_range, bool bDirectionMatters);
+	void merge_range(const BookcaseHitList& other, monad_m token_range, bool bDirectionMatters);
 	void filter_both(BookcaseHitList& other);
 	static void filter(BookcaseHitList& hl1, const BookcaseHitList& hl2);
  protected:

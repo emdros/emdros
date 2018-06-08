@@ -1435,7 +1435,7 @@ void BookcaseHitList::merge(const BookcaseHitList& other)
 }
 
 
-void BookcaseHitList::merge_range(const BookcaseHitList& other, int token_range, bool bDirectionMatters)
+void BookcaseHitList::merge_range(const BookcaseHitList& other, monad_m token_range, bool bDirectionMatters)
 {
         BookcaseHitList result_hit_list(*this);
 	result_hit_list.clearHitMap();

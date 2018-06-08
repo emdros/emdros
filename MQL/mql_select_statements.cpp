@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/6-2001 (March 6, 2001)
- * Last update: 5/11-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -242,6 +242,7 @@ bool QueryBase::myMonads(MQLExecEnv *pEE, bool& bResult)
 			return false;
 		}
 	} catch (BadMonadsException& e) {
+		(void) e;
 		bAllM1IsEmptyDatabase = true;
 	}
 
@@ -367,6 +368,7 @@ bool QueryBase::myExec(MQLExecEnv *pEE, MQLResult **ppMQLResult)
 		try {
 			pSheaf = R_topograph(pEE, U, m_Su, m_max_range->getMaxRange(), m_query);
 		} catch (EMdFDBException& e) {
+			(void) e;
 			return false;
 		}
 
@@ -853,6 +855,7 @@ bool GetObjectsHavingMonadsInStatement::exec()
 			return false;
 		}
 	} catch (BadMonadsException& e) {
+		(void) e;
 		bAllM1IsEmptyDatabase = true;
 	}
   
@@ -1282,6 +1285,7 @@ bool GetAggregateFeaturesStatement::exec()
 			return false;
 		}
 	} catch (BadMonadsException& e) {
+		(void) e;
 		bAllM1IsEmptyDatabase = true;
 	}
   
@@ -1388,7 +1392,7 @@ bool GetAggregateFeaturesStatement::exec()
 	int nColumnNumber = 1;
 	pAF = m_aggregate_feature_list;
 	while (pAF != 0) {
-		std::string column_name = "Column" + long2string(nColumnNumber);
+		std::string column_name = "Column" + emdros_int64ToString(nColumnNumber);
 
 		m_result->appendHeader(column_name, kTCInteger);
 
@@ -1406,7 +1410,7 @@ bool GetAggregateFeaturesStatement::exec()
 	pAF = m_aggregate_feature_list;
 	std::list<std::string> column_values;
 	while (pAF != 0) {
-		column_values.push_front(long2string(pAF->getResult()));
+		column_values.push_front(emdros_int64ToString(pAF->getResult()));
 
 		pAF = pAF->getNext();
 	}
@@ -1621,7 +1625,7 @@ bool SelectEnumerationConstantsStatement::exec()
 	std::list<EnumConstInfo>::const_iterator cend(l.end());
 	while (ci != cend) {
 		m_result->append(ci->getName());
-		m_result->append(int2string(ci->getValue()));
+		m_result->append(emdros_int64ToString(ci->getValue()));
 		m_result->append(bool_alpha2string(ci->getIsDefault()));
 		++ci;
 		if (ci != cend)

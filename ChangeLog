@@ -261,6 +261,25 @@
 	#include <emdros.h>.  Instead, #include the requisite individual
 	headers.
 
+	* Move further in the emdros_int64 conversion.
+
+	Files affected:
+
+        modified:   MQL/mql_R.cpp
+        modified:   MQL/mql_get_query.cpp
+        modified:   MQL/mql_gq.re
+        modified:   MQL/mql_select_statements.cpp
+        modified:   MQL/mql_sheaf.cpp
+        modified:   harvest/harvest_fts.cpp
+        modified:   harvest/harvest_fts3.cpp
+        modified:   harvest/renderobjects.cpp
+        modified:   harvest/templatelang.yxx
+        modified:   harvest/templatelang_classes.cpp
+        modified:   include/harvest_fts.h
+        modified:   include/harvest_fts3.h
+        modified:   include/memobject.h
+        modified:   include/templatelang_classes.h
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 3/19-2016
- * Last update: 2/13-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -110,7 +110,7 @@ class FTS3Search {
 	~FTS3Search();
 
 
-	bool locate(EmdrosEnv *pEE, bool bUseGoogleSyntax, long token_range, const std::string& term_string, BookcaseHitList& result);
+	bool locate(EmdrosEnv *pEE, bool bUseGoogleSyntax, monad_m token_range, const std::string& term_string, BookcaseHitList& result);
 };
 
 

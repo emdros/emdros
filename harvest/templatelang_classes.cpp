@@ -188,7 +188,7 @@ void TemplateSimpleNode::exec(TemplateLangExecEnv *pEE)
 //
 //////////////////////////////////////////////////////////////////
 
-TemplateFeature::TemplateFeature(long index, eMangleKind mangle_kind)
+TemplateFeature::TemplateFeature(unsigned int index, eMangleKind mangle_kind)
 {
 	m_index = index;
 	m_mangle_kind = mangle_kind;
@@ -591,7 +591,7 @@ void TemplateNixing::exec(TemplateLangExecEnv *pEE)
 //
 //////////////////////////////////////////////////////////////////
 
-TemplateDictlookupFeature::TemplateDictlookupFeature(std::string *pDictName, long feature_index, std::string *pDefaultValue, bool bMangleFeature)
+TemplateDictlookupFeature::TemplateDictlookupFeature(std::string *pDictName, unsigned int feature_index, std::string *pDefaultValue, bool bMangleFeature)
 {
 	m_dict_name = *pDictName;
 	delete pDictName;
@@ -784,7 +784,7 @@ void TemplateIf::exec(TemplateLangExecEnv *pEE)
 //
 //////////////////////////////////////////////////////////////////
 
-TemplateIfFeatureEqual::TemplateIfFeatureEqual(long feature_index, std::string *pString)
+TemplateIfFeatureEqual::TemplateIfFeatureEqual(unsigned int feature_index, std::string *pString)
 {
 	m_feature_index = feature_index;
 	m_value = *pString;
