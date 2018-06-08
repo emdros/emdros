@@ -7,7 +7,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 5/28-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -739,7 +739,7 @@ void JSONScanner::addInteger(void)
 	     	     ++p) {
 		     mystring.append(1, *p);
 		}
-		(*yylval)->setInteger(sz2longlong(mystring.c_str()));
+		(*yylval)->setInteger(sz2emdros_int64(mystring.c_str()));
         } else {
 		char szInt[MAX_INTEGER_CHARS+1];
 
@@ -751,7 +751,7 @@ void JSONScanner::addInteger(void)
 		     *q++ = *p;
 		}
 		*q = '\0';
-		(*yylval)->setInteger(sz2longlong(szInt));
+		(*yylval)->setInteger(sz2emdros_int64(szInt));
 	}
 }
 

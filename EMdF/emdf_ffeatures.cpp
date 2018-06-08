@@ -211,7 +211,7 @@ std::string EMdFComparison::makeConstraints(EMdFDB *pDB) const
 			if (ci.hasNext()) {
 				result += ',';
 			}
-		}
+	}
 
 		result += ')';
     
@@ -225,8 +225,8 @@ std::string EMdFComparison::makeConstraints(EMdFDB *pDB) const
 		std::list<EnumConstInfo>::const_iterator cend = m_in_enum_list.end();
 		for (ci = m_in_enum_list.begin(); ci != cend; ) {
 			EnumConstInfo eci(*ci);
-			long enum_const = eci.getValue();
-			result += long2string(enum_const);
+			emdros_int64 enum_const = eci.getValue();
+			result += emdros_int64ToString(enum_const);
 			++ci;
 			if (ci != cend) {
 				result += ',';

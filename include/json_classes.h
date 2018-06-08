@@ -5,13 +5,13 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 5/23-2017
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2008-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2008-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -150,7 +150,7 @@ class JSONValue {
 	eJSONValueKind m_kind;
 	union {
 		bool m_boolean;
-		long long m_integer;
+		emdros_int64 m_integer;
 		const std::string* m_pString;
 		std::list<JSONValue*> *m_pList;
 		std::map<std::string, JSONValue*> *m_pObject;
@@ -159,7 +159,7 @@ class JSONValue {
  public:
 	JSONValue();                        // null
 	JSONValue(bool bValue);             // boolean
-	JSONValue(long long integer);       // integer
+	JSONValue(emdros_int64 integer);    // integer
 #ifndef SWIG
 	JSONValue(std::string *pString);    // string
 	JSONValue(JSONListElement *pTail);  // list
@@ -171,7 +171,7 @@ class JSONValue {
 	eJSONValueKind getKind(void) const { return m_kind; };
 	std::string getString(void) const;
 	bool getBoolean(void) const;
-	long long getInteger(void) const;
+	emdros_int64 getInteger(void) const;
 	const std::list<JSONValue*>& getList(void) const;
 	void append(JSONValue* pValue);
 	void addKeyValue(const std::string& key, JSONValue *pValue);
@@ -188,7 +188,7 @@ class JSONValue {
 	void pretty(std::ostream *pOut, int indent_level = 0, bool bEscapeAsUnicode = false) const;
 	void printCompact(std::ostream *pOut, bool bEscapeAsUnicode = false) const;
 	bool castToBool() const;
-	long long castToInteger() const;
+	emdros_int64 castToInteger() const;
 	std::string castToString() const;
 #endif
  private:

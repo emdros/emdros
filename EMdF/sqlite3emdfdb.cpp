@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 5/11-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -292,6 +292,7 @@ bool SQLite3EMdFDB::getNextID(int sequence, id_d_t& out)
 				}
 			}
 		} catch (EMdFNULLValueException& e) {
+			(void) e;
 			DEBUG_NULL_VALUE_EXCEPTION("SQLite3EMdFDB::getNextID");
 
 			// Abort transaction if in progress
@@ -361,7 +362,7 @@ bool SQLite3EMdFDB::setNextObjectID_DIfNotHigher(id_d_t next_id_d)
 			if (current_id_d < next_id_d-1) {
 				// Update value
 				sprintf(szQuery, 
-					"UPDATE sequence_%d SET sequence_value = %ld;", 
+					"UPDATE sequence_%d SET sequence_value = %lld;", 
 					SEQUENCE_OBJECT_ID_DS, next_id_d-1);
 				if (!pConn->execCommand(szQuery)) {
 					DEBUG_COMMAND_QUERY_FAILED("SQLite3EMdFDB::getNextID", szQuery);
@@ -379,6 +380,7 @@ bool SQLite3EMdFDB::setNextObjectID_DIfNotHigher(id_d_t next_id_d)
 				}
 			}
 		} catch (EMdFNULLValueException& e) {
+			(void) e;
 			DEBUG_NULL_VALUE_EXCEPTION("SQLite3EMdFDB::getNextID");
 
 			// Abort transaction if in progress
@@ -804,6 +806,7 @@ bool SQLite3EMdFDB::getIndices(const std::string& object_type_name,
 				return false;
 			}
 		} catch (EMdFNULLValueException& e) {
+			(void) e;
 			// There was a NULL value exception, but this is not an error:
 			// The primary key will return NULL.
 			// Do one more round
@@ -1203,7 +1206,7 @@ bool SQLite3EMdFDB::addFeatureToOT_objects(const std::string& object_type_name,
 			// Find the value of the enumeration constant.
 			bool bExists;
 			bool bDummyIsDefault;
-			long enum_value;
+			emdros_int64 enum_value;
 			if (!enumConstExists(fi.getDefaultValue(),
 					     fi.getType(),
 					     bExists,
@@ -1276,7 +1279,7 @@ bool SQLite3EMdFDB::addFeatureToOT_objects(const std::string& object_type_name,
 		// Find the value of the enumeration constant.
 		bool bExists;
 		bool bDummyIsDefault;
-		long enum_value;
+		emdros_int64 enum_value;
 		if (!enumConstExists(fi.getDefaultValue(),
 				     fi.getType(),
 				     bExists,
@@ -1619,13 +1622,13 @@ bool SQLite3EMdFDB::createObjectsOT_objects(const std::string& object_type_name,
 			}
 			break;
 		case FEATURE_TYPE_INTEGER:
-			OT_objects_data += long2string(pValue->getInt());
+			OT_objects_data += emdros_int64ToString(pValue->getInt());
 			break;
 		case FEATURE_TYPE_ID_D:
 			OT_objects_data += id_d2number_string(pValue->getID_D());
 			break;
 		case FEATURE_TYPE_ENUM:
-			OT_objects_data += long2string(pValue->getEnum());
+			OT_objects_data += emdros_int64ToString(pValue->getEnum());
 			break;
 		case FEATURE_TYPE_SET_OF_MONADS:
 			{

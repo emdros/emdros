@@ -582,34 +582,35 @@ void EMdFOutput::jsonOutValue(const std::string& s)
 
 void EMdFOutput::jsonOutValue(const char* s)
 {
-    jsonOutValue(std::string(s));
+	jsonOutValue(std::string(s));
 }
 
 
 void EMdFOutput::jsonOutValue(bool b)
 {
-    out(b ? "true" : "false");
-    m_emit_comma = true;
+	out(b ? "true" : "false");
+	m_emit_comma = true;
 }
 
 void EMdFOutput::jsonOutValue()
 {
-    out("null");
-    m_emit_comma = true;
+	out("null");
+	m_emit_comma = true;
 }
 
 void EMdFOutput::jsonOutValue(emdros_int64 i)
 {
-    out(longlong2string(i));
-    m_emit_comma = true;
+	out(emdros_int64ToString(i));
+	m_emit_comma = true;
 }
 
 void EMdFOutput::jsonOutValueOrNull(id_d_t i)
 {
-    if (i == NIL)
-        jsonOutValue();
-    else
-        jsonOutValue(i);
+	if (i == NIL) {
+		jsonOutValue();
+	} else {
+		jsonOutValue(i);
+	}
 }
 
 

@@ -5,13 +5,13 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 6/22-2017
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2008-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2008-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -169,7 +169,7 @@ JSONValue::JSONValue(bool bValue)
 	m_value.m_boolean = bValue;
 }
 
-JSONValue::JSONValue(long long integer)
+JSONValue::JSONValue(emdros_int64 integer)
 {
 	m_kind = kJSONInteger;
 	m_value.m_integer = integer;
@@ -365,7 +365,7 @@ bool JSONValue::getBoolean(void) const
 }
 
 
-long long JSONValue::getInteger(void) const
+emdros_int64 JSONValue::getInteger(void) const
 {
 	if (m_kind == kJSONInteger) {
 		return m_value.m_integer;
@@ -473,7 +473,7 @@ void JSONValue::printCompact(std::ostream *pOut, bool bEscapeAsUnicode) const
 		}
 		break;
 	case kJSONInteger:
-		(*pOut) << longlong2string(getInteger());
+		(*pOut) << emdros_int64ToString(getInteger());
 		break;
 	case kJSONString:
 		(*pOut) << '\"' << escapeJSONChars(getString(), bEscapeAsUnicode) << '\"';
@@ -519,7 +519,7 @@ bool JSONValue::castToBool() const
 	return !(this->isFalse());
 }
 
-long long JSONValue::castToInteger() const
+emdros_int64 JSONValue::castToInteger() const
 {
 	switch (m_kind) {
 	case kJSONNull:
@@ -536,7 +536,7 @@ long long JSONValue::castToInteger() const
 		return m_value.m_integer;
 		break;
 	case kJSONString:
-		return string2longlong(*m_value.m_pString);
+		return string2emdros_int64(*m_value.m_pString);
 		break;
 	case kJSONList:
 		return m_value.m_pList->size();
@@ -596,7 +596,7 @@ void JSONValue::pretty(std::ostream *pOut, int indent_level, bool bEscapeAsUnico
 		}
 		break;
 	case kJSONInteger:
-		(*pOut) << longlong2string(getInteger());
+		(*pOut) << emdros_int64ToString(getInteger());
 		break;
 	case kJSONString:
 		(*pOut) << '\"' << escapeJSONChars(getString(), bEscapeAsUnicode) << '\"';

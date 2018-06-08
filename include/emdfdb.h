@@ -112,12 +112,12 @@
 class ObjectTypeCacheInfo {
  public:
 	id_d_t m_object_type_id;
-	long m_object_type_flags;
+	emdros_int64 m_object_type_flags;
 	monad_m m_largest_object_length;
-        ObjectTypeCacheInfo(id_d_t object_type_id, long object_type_flags, monad_m largest_object_length) : m_object_type_id(object_type_id), m_object_type_flags(object_type_flags), m_largest_object_length(largest_object_length) {};
+        ObjectTypeCacheInfo(id_d_t object_type_id, emdros_int64 object_type_flags, monad_m largest_object_length) : m_object_type_id(object_type_id), m_object_type_flags(object_type_flags), m_largest_object_length(largest_object_length) {};
 };
 
-/** A std::map mapping an id_d_t to a std::pair of std::string and long.
+/** A std::map mapping a std::string to ObjectTypeCacheInfo
  *@internal
  */
 typedef std::map<std::string, ObjectTypeCacheInfo> String2OTCacheInfoMap;
@@ -339,23 +339,23 @@ class EMdFDB {
 	virtual bool enumConstExists(const std::string& enum_const_name, 
 				     id_d_t enum_id, 
 				     /* out */ bool& result,
-				     /* out */ long& value,
+				     /* out */ emdros_int64& value,
 				     /* out */ bool& is_default);
-	virtual bool enumConstExists(long value,
+	virtual bool enumConstExists(emdros_int64 value,
 				     id_d_t enum_id,
 				     bool& bExists,
 				     /* out */ std::string& enum_const_name,
 				     /* out */ bool& is_default);
 	// Returns the string-representation of an enumeration constant in 
 	// enum enum_name with the value value.
-	virtual bool getEnumConstNameFromValue(long value,
+	virtual bool getEnumConstNameFromValue(emdros_int64 value,
 					       const std::string& enum_name, 
 					       /* out */ std::string& enum_const_name);
-	virtual bool dropEnumConst(id_d_t enum_id, const std::string& enum_const_name, long value);
+	virtual bool dropEnumConst(id_d_t enum_id, const std::string& enum_const_name, emdros_int64 value);
 	virtual bool updateEnumConst(const std::string& enum_const_name, 
 				     id_d_t enum_id,
-				     long old_value,
-				     long new_value);
+				     emdros_int64 old_value,
+				     emdros_int64 new_value);
 	virtual bool setDefaultEnumConst(id_d_t enum_id,
 					 const std::string& enum_value_name);
 
@@ -864,8 +864,8 @@ class EMdFDB {
 	 */
 	virtual bool createSequenceTables() { return false; };
 	void addEnumToCache(id_d_t enum_id, const std::string& enum_name);
-	void addObjectTypeToCache(id_d_t object_type_id, const std::string& object_type_name, long object_type_flags, monad_m largest_object_length);
-	bool addEnumConstToCache(id_d_t enum_id, const std::string& enum_name, const std::string& enum_const_name, long value, bool is_default);
+	void addObjectTypeToCache(id_d_t object_type_id, const std::string& object_type_name, emdros_int64 object_type_flags, monad_m largest_object_length);
+	bool addEnumConstToCache(id_d_t enum_id, const std::string& enum_name, const std::string& enum_const_name, emdros_int64 value, bool is_default);
 	void addFeatureToCache(id_d_t object_type_id, const std::string& feature_name, id_d_t feature_type_id, const std::string& default_value, bool is_computed);
 	void addFeatureToCacheIfNotAlreadyThere(id_d_t object_type_id, const std::string& feature_name, id_d_t feature_type_id, const std::string& default_value, bool is_computed);
 	void deleteObjectTypeFromCache(const std::string& object_type_name);

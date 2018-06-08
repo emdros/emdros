@@ -160,6 +160,19 @@
 	* include/conn.h, include/pgconn.h, include/mysqlconn.h: Use
 	emdros_int64 instead of long for getting the integer values.
 
+	* Adjust to the emdros_int64 changes just committed over the past
+	several commits. Files affected:
+
+        - EMdF/emdf_ffeatures.cpp
+        - EMdF/emdf_output.cpp
+        - EMdF/emdfdb.cpp
+        - EMdF/json.re
+        - EMdF/json_classes.cpp
+        - EMdF/json_lexer.cpp
+        - EMdF/sqlite3emdfdb.cpp
+        - include/emdfdb.h
+        - include/json_classes.h
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
