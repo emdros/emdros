@@ -53,6 +53,7 @@ LIB_EXTRA_OBJS = $(LIB_EXTRA_OBJS_PG) \
 LIBTARGET_OBJS= \
 	"$(INTDIR)\arena.obj" \
 	"$(INTDIR)\conn.obj" \
+	"$(INTDIR)\emdros_reserved_words.obj" \
 	"$(INTDIR)\emdfdb.obj" \
 	"$(INTDIR)\pgemdfdb.obj" \
 	"$(INTDIR)\mysqlemdfdb.obj" \

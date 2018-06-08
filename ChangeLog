@@ -304,6 +304,8 @@
 	* include/pcre2_emdros.h: #define PCRE2_STATIC if we are building
 	this on Windows.
 
+	* EMdF/windows.mak: Compile EMdF/emdros_reserved_words.cpp 
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
