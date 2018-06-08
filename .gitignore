@@ -172,5 +172,6 @@ extrafiles-emdros.txt
 generate_extrafiles.py
 emdros.pc
 build/windows/Release/
+build/windows/ReleaseUnicode/
 build/windows/config.nsh
 include/win32-lconfig.h
