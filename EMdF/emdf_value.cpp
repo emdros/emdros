@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/18-2003
- * Last update: 5/28-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -103,7 +103,7 @@ EMdFValue::EMdFValue()
 	m_u.m_int = 0;
 }
 
-EMdFValue::EMdFValue(eEVkind kind, long i)
+EMdFValue::EMdFValue(eEVkind kind, emdros_int64 i)
 {
 	m_kind = kind;
 	switch (kind) {
@@ -199,7 +199,7 @@ IntegerList *EMdFValue::getIntegerList (void) const
 bool EMdFValue::compareInt(const EMdFValue& other, eComparisonOp op) const
 {
 	// Get our own value
-	long left_value;
+	emdros_int64 left_value;
 	switch (m_kind) {
 	case kEVInt:
 		left_value = m_u.m_int;
@@ -228,7 +228,7 @@ bool EMdFValue::compareInt(const EMdFValue& other, eComparisonOp op) const
 		bResult = other.compareSetOfMonads(*this, op);
 	} else {
 		// Get other's value
-		long right_value;
+		emdros_int64 right_value;
 		switch (other.m_kind) {
 		case kEVInt:
 			right_value = other.m_u.m_int;
@@ -318,7 +318,7 @@ std::string EMdFValue::toString() const
 	switch (m_kind) {
 	case kEVInt:
 	case kEVEnum:
-		result = long2string(m_u.m_int);
+		result = emdros_int64ToString(m_u.m_int);
 		break;
 	case kEVID_D:
 		result = id_d2number_string(m_u.m_id_d);
@@ -439,8 +439,8 @@ bool EMdFValue::compareListOfIntegerWithAtomicValue(const EMdFValue& other, eCom
 		// This while-loop will terminate with bResult = false if it was not there.
 		while (ci.hasNext()
 		       && ciother.hasNext()) {
-			long myint = ci.next();
-			long otherint = ciother.next();
+			emdros_int64 myint = ci.next();
+			emdros_int64 otherint = ciother.next();
 			if (myint != otherint) {
 				bResult = false;
 				break; // Break out of while-loop, since we are done!
@@ -452,7 +452,7 @@ bool EMdFValue::compareListOfIntegerWithAtomicValue(const EMdFValue& other, eCom
 		
 	} else {
 		// Get other's value
-		long other_value;
+		emdros_int64 other_value;
 		switch (other.m_kind) {
 		case kEVInt:
 			other_value = other.m_u.m_int;
@@ -474,7 +474,7 @@ bool EMdFValue::compareListOfIntegerWithAtomicValue(const EMdFValue& other, eCom
 		bResult = false;
 		// This while-loop will terminate with bResult = false if it was not there.
 		while (ci.hasNext()) {
-			long myint = ci.next();
+			emdros_int64 myint = ci.next();
 			if (myint == other_value) {
 				bResult = true;
 				break; // Break out of while-loop, since we are done!
@@ -511,7 +511,7 @@ bool EMdFValue::compareSetOfMonads(const EMdFValue& other, eComparisonOp op) con
 			     "op was neither kHas nor kIn.");
 
 		// Get other's value
-		long other_value;
+		emdros_int64 other_value;
 		switch (other.m_kind) {
 		case kEVInt:
 			other_value = other.m_u.m_int;

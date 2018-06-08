@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 1/18-2003
- * Last update: 11/16-2011
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2011  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -111,7 +111,7 @@ private:
 #ifndef SWIG
   union {
     id_d_t m_id_d;
-    long m_int;
+    emdros_int64 m_int;
     std::string *m_pString;
     IntegerList *m_pIntegerList;
     SetOfMonads *m_pSOM;
@@ -121,7 +121,7 @@ private:
 public: 
   EMdFValue(); // Don't use unless you plan to = assign a new value later
   EMdFValue(const EMdFValue& other);
-  EMdFValue(eEVkind kind, long i);
+  EMdFValue(eEVkind kind, emdros_int64 i);
   EMdFValue(const std::string& str);
   EMdFValue(const SetOfMonads& som);
   EMdFValue(eEVkind kind, IntegerList* pIntegerList);
@@ -130,8 +130,8 @@ public:
   const std::string getString(void) const;
   SetOfMonads getSOM(void) const;
   id_d_t getID_D(void) const { return m_u.m_id_d; };
-  long getInt(void) const { return m_u.m_int; };
-  long getEnum(void) const { return m_u.m_int; };
+  emdros_int64 getInt(void) const { return m_u.m_int; };
+  emdros_int64 getEnum(void) const { return m_u.m_int; };
   IntegerList *getIntegerList (void) const;
   bool compare(const EMdFValue& other, eComparisonOp op) const;
   std::string toString(void) const;

@@ -150,6 +150,10 @@
 	* EMdF/enum_const_cache.cpp, include/enum_const_cache.h: Use
 	emdros_int64 for enum const values.
 
+	* EMdF/emdf_value.cpp, include/emdf_value.h: Use emdros_int64
+	instead of long for the Emdros integer value in the EMdFValue
+	class.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
