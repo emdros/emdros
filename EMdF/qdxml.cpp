@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 4/4-2007
- * Last update: 3/7-2017
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2007-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2007-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -705,7 +705,7 @@ void QDParser::fillBuffer()
 		top = bot + BUF_SIZE;
 		readIntoBuffer();
 	} else if (!eof) {
-                long long cnt = lim - cur;
+                size_t cnt = lim - cur;
 		if (cnt > 0) {
                         memcpy(bot, cur, cnt);
 			lim = bot + cnt;

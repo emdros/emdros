@@ -251,6 +251,9 @@
 	FastSetOfmonads::getCardinality() return emdros_int_64 instead of
 	long.
 
+	* EMdF/qdxml.cpp: Fix warning by using size_t instead of long
+	long.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
