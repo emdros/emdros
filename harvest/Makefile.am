@@ -43,8 +43,7 @@ CLEANFILES = *~ core config.log
 
 DISTCLEANFILES = \
                  $(srcdir)/lemon $(srcdir)/lemon.c $(srcdir)/lempar.c \
-                 templatelang_lexer.cpp \
-                 templatelang_parser.cpp templatelangpars.h templatelang.out \
+                 templatelang.out \
                  emdroslang_lexer.cpp \
                  emdroslang_parser.cpp emdroslangpars.h emdroslang.out
 

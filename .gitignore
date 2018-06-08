@@ -78,9 +78,6 @@ doc/man1/eqtu.1
 *.spec
 harvest/templatelang.c
 harvest/templatelang.out
-harvest/templatelang_lexer.cpp
-harvest/templatelang_parser.cpp
-harvest/templatelangpars.h
 harvest/emdroslang.c
 harvest/emdroslang.out
 harvest/emdroslang_lexer.cpp
