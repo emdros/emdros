@@ -4092,7 +4092,7 @@ bool EMdFDB::getFeaturesByQueryExec(const std::string query,
 							// No, the list is not empty
 							std::string mylistresult;
 							while (ci.hasNext()) {
-								long enum_const_value = ci.next();
+								emdros_int64 enum_const_value = ci.next();
 								std::string enum_const_name;
 								// First try the cache
 								const EnumConstInfo *pECI = m_enum_const_cache->find(feature_type, enum_const_value);

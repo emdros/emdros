@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 7/19-2003
- * Last update: 5/28-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -206,8 +206,8 @@ std::string EMdFComparison::makeConstraints(EMdFDB *pDB) const
 		// to check... otherwise, it would have been an error to do
 		// as we do here, since it would result in "IN ()".
 		while (ci.hasNext()) {
-			long myint = ci.next();
-			result += long2string(myint);
+			emdros_int64 myint = ci.next();
+			result += emdros_int64ToString(myint);
 			if (ci.hasNext()) {
 				result += ',';
 			}
