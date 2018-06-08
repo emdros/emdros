@@ -1,5 +1,34 @@
 ============ 4.0.0 ============
 
+2018-06-09 Ulrik Sandborg-Petersen
+
+	* src/windows.mak: Import the libimporters_emdros.lib library.
+
+	* src/: Make all of the programs compile on Windows.  Also, remove
+	some compiler warnings on Windows Visual Studio.
+
+	Files affected:
+
+        modified:   src/bptdetach.cpp
+        modified:   src/bptdump.cpp
+        modified:   src/fts_harvester.cpp
+        modified:   src/fts_indexer.cpp
+        modified:   src/negraimport.cpp
+        modified:   src/pennimport.cpp
+        modified:   src/plaintextimport.cpp
+        modified:   src/renderobjectstool.cpp
+        modified:   src/sfmimport.cpp
+        modified:   src/slashedtextimport.cpp
+
+	* tests/emdftry.cpp: Make it compile without warnings on Windows,
+	with the new requirements for emdros_int64.
+
+	* tests/Makefile.am: Don't DISTCLEAN mqlqa.h or bptqa.h.
+
+	* test/mqlqa.h: Add to repo.
+
+	* test/bptqa.h: Add to repo.
+
 2018-06-08 Ulrik Sandborg-Petersen
 
 	* build/windows/config.mak.in: Surround each configuration macro
@@ -336,32 +365,6 @@
         modified:   src/importtool/importtool.cpp
         modified:   src/importtool/windows.mak
 
-	* src/windows.mak: Import the libimporters_emdros.lib library.
-
-	* src/: Make all of the programs compile on Windows.  Also, remove
-	some compiler warnings on Windows Visual Studio.
-
-	Files affected:
-
-        modified:   src/bptdetach.cpp
-        modified:   src/bptdump.cpp
-        modified:   src/fts_harvester.cpp
-        modified:   src/fts_indexer.cpp
-        modified:   src/negraimport.cpp
-        modified:   src/pennimport.cpp
-        modified:   src/plaintextimport.cpp
-        modified:   src/renderobjectstool.cpp
-        modified:   src/sfmimport.cpp
-        modified:   src/slashedtextimport.cpp
-
-	* tests/emdftry.cpp: Make it compile without warnings on Windows,
-	with the new requirements for emdros_int64.
-
-	* tests/Makefile.am: Don't DISTCLEAN mqlqa.h or bptqa.h.
-
-	* test/mqlqa.h: Add to repo.
-
-	* test/bptqa.h: Add to repo.
 
 2018-06-01 Ulrik Sandborg-Petersen
 
