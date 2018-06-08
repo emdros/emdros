@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/1-2001
- * Last update: 5/18-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -341,7 +341,7 @@ bool string2bool_alpha(const std::string& str)
  */
 std::string int2string(int i)
 {
-	return longlong2string(i);
+	return emdros_int64ToString(i);
 }
 
 /** Convert a double to a string, base 10.
@@ -366,7 +366,7 @@ std::string double2string(double d)
  */
 std::string monad_m2string(monad_m m)
 {
-	return longlong2string(m);
+	return emdros_int64ToString(m);
 }
 
 /** Convert a string to a monad_m.
@@ -395,7 +395,7 @@ std::string id_d2string(id_d_t i)
 	if (i == NIL) {
 		return NIL_AS_VISIBLE_STRING;
 	} else {
-		return longlong2string(i);
+		return emdros_int64ToString(i);
 	}
 }
 
@@ -410,16 +410,16 @@ std::string id_d2string(id_d_t i)
  */
 std::string id_d2number_string(id_d_t i)
 {
-	return longlong2string(i);
+	return emdros_int64ToString(i);
 }
 
-inline void longlong2sz(long long l, char *szResult)
+inline void emdros_int64ToSz(emdros_int64 l, char *szResult)
 {
 	// Build up string in reverse
 	char *p = szResult;
-	long long v = l;
+	emdros_int64 v = l;
 	do {
-		long long tmp = v;
+		emdros_int64 tmp = v;
 		v /= 10;
 		*p++ = "9876543210123456789" [9+(tmp - v*10)];
 	} while (v);
@@ -441,13 +441,13 @@ inline void longlong2sz(long long l, char *szResult)
 	}
 }
 
-/** Convert a long long to a string.
+/** Convert a emdros_int64 to a string.
  *
- * @param l The long long to convert.
+ * @param l The emdros_int64 to convert.
  *
- * @return The input long long, converted to a string (base 10).
+ * @return The input emdros_int64, converted to a string (base 10).
  */
-std::string longlong2string(long long l)
+std::string emdros_int64ToString(emdros_int64 l)
 {
 	const int nBufLength = 30;
 	// Some ideas taken from http://www.jb.man.ac.uk/~slowe/cpp/itoa.html
@@ -457,7 +457,7 @@ std::string longlong2string(long long l)
 
 	unsigned int nLength;
 
-	longlong2szNonReversing(l, szBuffer, nBufLength, &szResult, &nLength);
+	emdros_int64ToSzNonReversing(l, szBuffer, nBufLength, &szResult, &nLength);
 
 	return std::string(szResult, nLength);
 }
@@ -470,7 +470,7 @@ std::string longlong2string(long long l)
  */
 std::string long2string(long l)
 {
-	return longlong2string(l);
+	return emdros_int64ToString(l);
 }
 
 void decode_format_string(const std::string& format, char& cPad, int& nMinLength)
@@ -486,15 +486,15 @@ void decode_format_string(const std::string& format, char& cPad, int& nMinLength
 	}
 }
 
-/** Convert a long long to a string using a format string.
+/** Convert a emdros_int64 to a string using a format string.
  *
- * @param l The long long to convert.
+ * @param l The emdros_int64 to convert.
  *
  * @param format The format string to use.
  *
- * @return The input long long, converted to a string (base 10).
+ * @return The input emdros_int64, converted to a string (base 10).
  */
-std::string longlong2string_format(long long l, const std::string& format)
+std::string emdros_int64ToString_format(emdros_int64 l, const std::string& format)
 {
 	char cPad = '@';
 	int nMinLength = -1;
@@ -508,7 +508,7 @@ std::string longlong2string_format(long long l, const std::string& format)
 
 	unsigned int nLength;
 
-	longlong2szNonReversing(l, szBuffer, nBufLength, &szResult, &nLength);
+	emdros_int64ToSzNonReversing(l, szBuffer, nBufLength, &szResult, &nLength);
 	std::string tmp_result = std::string(szResult, nLength);
 
 	if (nMinLength > -1) {
@@ -539,19 +539,19 @@ std::string longlong2string_format(long long l, const std::string& format)
  */
 std::string long2string_format(long l, const std::string& format)
 {
-	return longlong2string_format(l, format);
+	return emdros_int64ToString_format(l, format);
 }
 
 
-/** Convert a string to a long long.
+/** Convert a string to a emdros_int64.
  *
  * @param str The input string, base 10.
  *
- * @return The input string, converted to a long long.
+ * @return The input string, converted to a emdros_int64.
  */
-long long string2longlong(const std::string& str)
+emdros_int64 string2emdros_int64(const std::string& str)
 {
-	return sz2longlong(str.c_str());
+	return sz2emdros_int64(str.c_str());
 }
 
 /** Convert a string to a long.
@@ -562,7 +562,7 @@ long long string2longlong(const std::string& str)
  */
 long string2long(const std::string& str)
 {
-	return (long) sz2longlong(str.c_str());
+	return (long) sz2emdros_int64(str.c_str());
 }
 
 /** Convert a string to an ID_D.
@@ -1964,14 +1964,14 @@ std::string joinVector(const std::string& between, const std::vector<std::string
 std::string joinList(const std::string& between, const std::list<id_d_t>& l)
 {
 	Bigstring bigstring;
-	std::list<long>::const_iterator ci = l.begin();	
-	std::list<long>::const_iterator cend = l.end();
+	std::list<id_d_t>::const_iterator ci = l.begin();	
+	std::list<id_d_t>::const_iterator cend = l.end();
 	std::string::size_type between_length = between.length();
 	char szLongDigits[30];
 	if (ci != cend) {
-		long long l = *ci;
+		emdros_int64 l = *ci;
 
-		longlong2sz(l, szLongDigits);
+		emdros_int64ToSz(l, szLongDigits);
 
 		bigstring.addsz(szLongDigits);
 		
@@ -1980,9 +1980,9 @@ std::string joinList(const std::string& between, const std::list<id_d_t>& l)
 	while (ci != cend) {
 		bigstring.addChars(between.data(), between_length);
 
-		long long l = *ci;
+		emdros_int64 l = *ci;
 
-		longlong2sz(l, szLongDigits);
+		emdros_int64ToSz(l, szLongDigits);
 
 		bigstring.addsz(szLongDigits);
 

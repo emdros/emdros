@@ -135,6 +135,15 @@
 	- EMdFOutput::jsonOutValue()
 	- EMdFOutput::jsonOutValueOrNull
 
+	* include/string_func.h, EMdF/string_func.cpp: Rename the
+	following functions:
+
+	- sz2longlong -> sz2emdros_int64
+	- longlong2szNonReversing -> emdros_int64ToSzNonReversing
+	- longlong2string -> emdros_int64ToString
+	- longlong2string_format -> emdros_int64ToString_format
+	- string2longlong -> string2emdros_int64
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

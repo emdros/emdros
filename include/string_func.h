@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 3/1-2001
- * Last update: 5/29-2017
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -124,9 +124,9 @@ inline bool is_whitespace(char c)
 	return c == ' ' || c == '\n' || c == '\t' || c == '\r'; // NOTE: '\v' is missing, but I don't think it is ever used!
 }
 
-inline long long sz2longlong(const char *szBuffer)
+inline emdros_int64 sz2emdros_int64(const char *szBuffer)
 {
-	long long result = 0;
+	emdros_int64 result = 0;
 	const char *p = szBuffer;
 
 	while (*p && is_whitespace(*p)) {
@@ -154,7 +154,7 @@ inline long long sz2longlong(const char *szBuffer)
 	return (bIsNegative) ? -result : result;
 }
 
-inline void longlong2szNonReversing(long long l, char *szBuffer, int nBufLength, char **szResult, unsigned int *pStringLength)
+inline void emdros_int64ToSzNonReversing(emdros_int64 l, char *szBuffer, int nBufLength, char **szResult, unsigned int *pStringLength)
 {
 	// Build up string
 	char *p = szBuffer + nBufLength;
@@ -165,9 +165,9 @@ inline void longlong2szNonReversing(long long l, char *szBuffer, int nBufLength,
 
 	*pStringLength = 0;
 	
-	long long v = l;
+	emdros_int64 v = l;
 	do {
-		long long tmp = v;
+		emdros_int64 tmp = v;
 		v /= 10;
 		*p-- = "9876543210123456789" [9+(tmp - v*10)];
 
@@ -219,9 +219,9 @@ inline void long2szNonReversing(long l, char *szBuffer, int nBufLength, char **s
 }
 
 
-extern std::string longlong2string(long long l);
-extern std::string longlong2string_format(long long l, const std::string& format);
-extern long long string2longlong(const std::string& str);
+extern std::string emdros_int64ToString(emdros_int64 l);
+extern std::string emdros_int64ToString_format(emdros_int64 l, const std::string& format);
+extern emdros_int64 string2emdros_int64(const std::string& str);
 
 extern std::string long2string(long l);
 extern std::string long2string_format(long l, const std::string& format);
