@@ -101,6 +101,7 @@ m4/lt~obsolete.m4
 missing
 sqlite3/src/sqlite3_emdros
 sqlite3/src/sqlite3_emdros_amalgamation.c
+sqlite3/src/sqlite3_localamalgam.c
 src/agexport
 src/bptdump
 src/fts_harvester
