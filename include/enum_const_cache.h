@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 1/20-2004
- * Last update: 4/29-2006
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2004-2006  Ulrik Petersen
+ *   Copyright (C) 2004-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -97,10 +97,10 @@
 #include <map>
 #include <string>
 
-/** A std::map mapping an int to an EnumConstInfo pointer.
+/** A std::map mapping an emdros_int64 to an EnumConstInfo pointer.
  *@internal.
  */
-typedef std::map<int, EnumConstInfo*> ValueECIMap;
+typedef std::map<emdros_int64, EnumConstInfo*> ValueECIMap;
 
 /** A pointer to a ValueECIMap.
  *@internal
@@ -152,11 +152,11 @@ class EnumConstCache {
 	void addEnum(id_d_t enum_id, const std::string& enum_name);
 	void dropEnum(id_d_t enum_id);
 	const EnumConstInfo* find(id_d_t enum_id, const std::string& enum_const_name) const;
-	const EnumConstInfo* find(id_d_t enum_id, int enum_const_value) const;
-	const EnumConstInfo* find(const std::string& enum_name, int enum_const_value) const;
+	const EnumConstInfo* find(id_d_t enum_id, emdros_int64 enum_const_value) const;
+	const EnumConstInfo* find(const std::string& enum_name, emdros_int64 enum_const_value) const;
 	const EnumConstInfo* getDefault(id_d_t enum_id) const;
 	void drop(id_d_t enum_id, const std::string& enum_const_name);
-	void updateValue(id_d_t enum_id, const std::string& enum_const_name, int new_value);
+	void updateValue(id_d_t enum_id, const std::string& enum_const_name, emdros_int64 new_value);
 	void setNewDefault(id_d_t enum_id, const std::string& enum_value_name);
 	void clear();
 	bool hasEnum(id_d_t enum_id);

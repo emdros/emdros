@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/20-2004
- * Last update: 5/28-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -160,7 +160,7 @@ bool EnumConstCache::addEci(id_d_t enum_id, const std::string& enum_name, const 
 	PValueECIMap pVECIMap = m_idd_veci_map[enum_id];
 
 	// Make sure it isn't there already
-	int value = eci.getValue();
+	emdros_int64 value = eci.getValue();
 	if (pVECIMap->find(value) != pVECIMap->end()) {
 		// It was there. Don't add, and return false.
 		// (this is not an error.)
@@ -259,7 +259,7 @@ const EnumConstInfo* EnumConstCache::find(id_d_t enum_id, const std::string& enu
 }
 
 
-const EnumConstInfo* EnumConstCache::find(id_d_t enum_id, int enum_const_value) const
+const EnumConstInfo* EnumConstCache::find(id_d_t enum_id, emdros_int64 enum_const_value) const
 {
 	// First see if we can find the enum
 	IDD_VECIMap::const_iterator ci = m_idd_veci_map.find(enum_id);
@@ -281,7 +281,7 @@ const EnumConstInfo* EnumConstCache::find(id_d_t enum_id, int enum_const_value) 
 	}
 }
 
-const EnumConstInfo* EnumConstCache::find(const std::string& enum_name, int enum_const_value) const
+const EnumConstInfo* EnumConstCache::find(const std::string& enum_name, emdros_int64 enum_const_value) const
 {
 	// See if we can find the enum
 	String_IDDMap::const_iterator ci = m_enum_name_idd_map.find(enum_name);
@@ -383,7 +383,7 @@ void EnumConstCache::drop(id_d_t enum_id, const std::string& enum_const_name)
 			return;
 		} else {
 			// Get its value
-			int enum_const_value = it2->second->getValue();
+			emdros_int64 enum_const_value = it2->second->getValue();
 
 			// DON'T delete the EnumConstInfo
 			// It will be deleted when we do the VECI Map.
@@ -424,7 +424,7 @@ void EnumConstCache::drop(id_d_t enum_id, const std::string& enum_const_name)
 	}
 }
 
-void EnumConstCache::updateValue(id_d_t enum_id, const std::string& enum_const_name, int new_value)
+void EnumConstCache::updateValue(id_d_t enum_id, const std::string& enum_const_name, emdros_int64 new_value)
 {
 	// First see if we can find the enum
 	IDD_SECIMap::iterator it = m_idd_seci_map.find(enum_id);
@@ -444,7 +444,7 @@ void EnumConstCache::updateValue(id_d_t enum_id, const std::string& enum_const_n
 			// Get pointer to EnumConstInfo from iterator
 			EnumConstInfo *pECI = it2->second;
 
-			int old_enum_const_value = pECI->getValue();
+			emdros_int64 old_enum_const_value = pECI->getValue();
 
 			// Update it
 			pECI->setValue(new_value);

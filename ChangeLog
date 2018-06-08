@@ -147,6 +147,9 @@
 	* EMdF/infos.cpp, include/infos.h: Use emdros_int64 for enum const
 	values.
 
+	* EMdF/enum_const_cache.cpp, include/enum_const_cache.h: Use
+	emdros_int64 for enum const values.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
