@@ -354,6 +354,9 @@
         modified:   src/sfmimport.cpp
         modified:   src/slashedtextimport.cpp
 
+	* tests/emdftry.cpp: Make it compile without warnings on Windows,
+	with the new requirements for emdros_int64.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

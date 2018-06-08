@@ -3,7 +3,7 @@
  *
  * Trial of EMdF framework
  * Created: 1/27-2001
- * Last update: 5/29-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -437,9 +437,9 @@ bool test_is_hex(std::string instring, bool bExpectedResult)
 	return bContinue;
 }
 
-bool test_hex2char(std::string instring, unsigned char expected_result)
+bool test_hex2char(std::string instring, char expected_result)
 {
-	unsigned char result = hex2char(instring.c_str());
+	char result = hex2char(instring.c_str());
 	bool bContinue = result == expected_result;
 	if (bContinue) {
 		std::cout << "SUCCESS: hex2char reported the correct char for '" << instring << "'\n";
@@ -623,6 +623,9 @@ int test_backend(eBackendKind backend_kind,
 		 const std::string& user, 
 		 const std::string& password)
 {
+	UNUSED(hostname); // Just in case we have neither MySQL nor PostgreSQL
+	UNUSED(user); // Just in case we have neither MySQL nor PostgreSQL
+
 	std::cout << "----------------------------------\n"
 		  << "Testing backend " << backend_kind2string(backend_kind) << '\n'
 		  << "----------------------------------" << std::endl;
@@ -676,10 +679,10 @@ int test_backend(eBackendKind backend_kind,
 		EMdFValue evString(std::string("String"));
 		EMdFValue evInt1(kEVInt, 1);
 		EMdFValue evIntMinus1(kEVInt, -1);
-		EMdFValue evID_DNIL(kEVID_D, (long) NIL);
-		EMdFValue evID_D(kEVID_D, 1);
-		EMdFValue evEnum1(kEVEnum, 1);
-		EMdFValue evEnumMinus1(kEVEnum, -1);
+		EMdFValue evID_DNIL(kEVID_D, (id_d_t) NIL);
+		EMdFValue evID_D(kEVID_D, (id_d_t) 1);
+		EMdFValue evEnum1(kEVEnum, (emdros_int64) 1);
+		EMdFValue evEnumMinus1(kEVEnum, (emdros_int64) -1);
 		IntegerList *pILInt = new IntegerList();
 		pILInt->addValueBack(1);
 		pILInt->addValueBack(2);
@@ -699,6 +702,7 @@ int test_backend(eBackendKind backend_kind,
 			bContinue = false;
 			std::cerr << "FAILURE: evID_D.getString() didn't throw an exception, which it should!" << std::endl;
 		} catch (EmdrosException& e) {
+			(void) e;
 			// This is what it should do.
 		}
 		if (bContinue && evInt1.getInt() != 1) {
@@ -765,6 +769,7 @@ int test_backend(eBackendKind backend_kind,
 			bContinue = false;
 			std::cerr << "FAILURE: Getting row 1, column 3 of the table did NOT fail, as it should!" << std::endl;
 		} catch (TableColumnException& e) {
+			(void) e;
 			// This is what it should do!
 		}
 
@@ -773,6 +778,7 @@ int test_backend(eBackendKind backend_kind,
 			bContinue = false;
 			std::cerr << "FAILURE: Getting row 1, column 0 of the table did NOT fail, as it should!" << std::endl;
 		} catch (TableColumnException& e) {
+			(void) e;
 			// This is what it should do!
 		}
 
@@ -893,7 +899,7 @@ int test_backend(eBackendKind backend_kind,
 		if (!bContinue) {
 			std::cerr << "FAILURE: long2string." << std::endl;
 		}
-		strValue = long2string(MAX_MONAD);
+		strValue = monad_m2string(MAX_MONAD);
 		bContinue = bContinue && strValue == "1152921504606846976";
 		if (!bContinue) {
 			std::cerr << "FAILURE: long2string." << std::endl;
@@ -1049,43 +1055,43 @@ int test_backend(eBackendKind backend_kind,
 		bContinue = bContinue && test_hex2char("FF", '\xFF');
 		bContinue = bContinue && test_hex2char("C9", '\xC9');
 		
-		bContinue = bContinue && test_char2hex('\xff', "ff");
-		bContinue = bContinue && test_char2hex('\xad', "ad");
-		bContinue = bContinue && test_char2hex('\x00', "00");
-		bContinue = bContinue && test_char2hex('\x03', "03");
-		bContinue = bContinue && test_char2hex('\x20', "20");
-		bContinue = bContinue && test_char2hex('\xA8', "a8");
-		bContinue = bContinue && test_char2hex('\xFF', "ff");
-		bContinue = bContinue && test_char2hex('\xC9', "c9");
+		bContinue = bContinue && test_char2hex((unsigned char)'\xff', "ff");
+		bContinue = bContinue && test_char2hex((unsigned char)'\xad', "ad");
+		bContinue = bContinue && test_char2hex((unsigned char)'\x00', "00");
+		bContinue = bContinue && test_char2hex((unsigned char)'\x03', "03");
+		bContinue = bContinue && test_char2hex((unsigned char)'\x20', "20");
+		bContinue = bContinue && test_char2hex((unsigned char)'\xA8', "a8");
+		bContinue = bContinue && test_char2hex((unsigned char)'\xFF', "ff");
+		bContinue = bContinue && test_char2hex((unsigned char)'\xC9', "c9");
 		
-		bContinue = bContinue && test_char2upperhex('\xff', "FF");
-		bContinue = bContinue && test_char2upperhex('\xad', "AD");
-		bContinue = bContinue && test_char2upperhex('\x00', "00");
-		bContinue = bContinue && test_char2upperhex('\x03', "03");
-		bContinue = bContinue && test_char2upperhex('\x20', "20");
-		bContinue = bContinue && test_char2upperhex('\xA8', "A8");
-		bContinue = bContinue && test_char2upperhex('\xFF', "FF");
-		bContinue = bContinue && test_char2upperhex('\xC9', "C9");
+		bContinue = bContinue && test_char2upperhex((unsigned char)'\xff', "FF");
+		bContinue = bContinue && test_char2upperhex((unsigned char)'\xad', "AD");
+		bContinue = bContinue && test_char2upperhex((unsigned char)'\x00', "00");
+		bContinue = bContinue && test_char2upperhex((unsigned char)'\x03', "03");
+		bContinue = bContinue && test_char2upperhex((unsigned char)'\x20', "20");
+		bContinue = bContinue && test_char2upperhex((unsigned char)'\xA8', "A8");
+		bContinue = bContinue && test_char2upperhex((unsigned char)'\xFF', "FF");
+		bContinue = bContinue && test_char2upperhex((unsigned char)'\xC9', "C9");
 
-		bContinue = bContinue && test_char2octal('\377', "377");
-		bContinue = bContinue && test_char2octal('\310', "310");
-		bContinue = bContinue && test_char2octal('\300', "300");
-		bContinue = bContinue && test_char2octal('\200', "200");
-		bContinue = bContinue && test_char2octal('\100', "100");
-		bContinue = bContinue && test_char2octal('\000', "000");
-		bContinue = bContinue && test_char2octal('\241', "241");
-		bContinue = bContinue && test_char2octal('\203', "203");
-		bContinue = bContinue && test_char2octal('\237', "237");
+		bContinue = bContinue && test_char2octal((unsigned char)'\377', "377");
+		bContinue = bContinue && test_char2octal((unsigned char)'\310', "310");
+		bContinue = bContinue && test_char2octal((unsigned char)'\300', "300");
+		bContinue = bContinue && test_char2octal((unsigned char)'\200', "200");
+		bContinue = bContinue && test_char2octal((unsigned char)'\100', "100");
+		bContinue = bContinue && test_char2octal((unsigned char)'\000', "000");
+		bContinue = bContinue && test_char2octal((unsigned char)'\241', "241");
+		bContinue = bContinue && test_char2octal((unsigned char)'\203', "203");
+		bContinue = bContinue && test_char2octal((unsigned char)'\237', "237");
 
-		bContinue = bContinue && test_octal2char("377", '\377');
-		bContinue = bContinue && test_octal2char("310", '\310');
-		bContinue = bContinue && test_octal2char("300", '\300');
-		bContinue = bContinue && test_octal2char("200", '\200');
-		bContinue = bContinue && test_octal2char("100", '\100');
-		bContinue = bContinue && test_octal2char("000", '\000');
-		bContinue = bContinue && test_octal2char("241", '\241');
-		bContinue = bContinue && test_octal2char("203", '\203');
-		bContinue = bContinue && test_octal2char("237", '\237');
+		bContinue = bContinue && test_octal2char("377", (unsigned char) '\377');
+		bContinue = bContinue && test_octal2char("310", (unsigned char) '\310');
+		bContinue = bContinue && test_octal2char("300", (unsigned char) '\300');
+		bContinue = bContinue && test_octal2char("200", (unsigned char) '\200');
+		bContinue = bContinue && test_octal2char("100", (unsigned char) '\100');
+		bContinue = bContinue && test_octal2char("000", (unsigned char) '\000');
+		bContinue = bContinue && test_octal2char("241", (unsigned char) '\241');
+		bContinue = bContinue && test_octal2char("203", (unsigned char) '\203');
+		bContinue = bContinue && test_octal2char("237", (unsigned char) '\237');
 
 		
 		bContinue = bContinue && test_parse_C_backslashes("\\nadf", "\nadf");
@@ -1605,6 +1611,7 @@ int test_backend(eBackendKind backend_kind,
 			fsom.addMSE(MonadSetElement(0,1));
 			std::cout << "SUCCESS: FastSetOfMonads: removeMSE() followed by addMSE() succeeded!\n";
 		} catch (EmdrosException& e) {
+			(void) e;
 			bContinue = false;
 			std::cerr << "FAILURE: FastSetOfMonads: removeMSE() followed by addMSE() failed!" << std::endl;
 		}
@@ -1714,7 +1721,7 @@ int test_backend(eBackendKind backend_kind,
 			std::cout << "SUCCESS: " << newdb << " created!\n";
 			result = 0;
 		} else {
-			std::string dberr_msg = pDB->errorMessage();
+			std::string my_dberr_msg = pDB->errorMessage();
 			pDB->clearLocalError();
 			if (pDB->dropDatabase(newdb)) {
 				if (pDB->createDatabase(newdb, password)) {
@@ -1807,7 +1814,7 @@ int test_backend(eBackendKind backend_kind,
 	}
   
 	// Create enumeration
-	long enum_id;
+	emdros_int64 enum_id = 0;
 	if (bContinue) {
 		if (pDB->createEnum("phrase_type_t", enum_id)) {
 			std::cout << "SUCCESS: creating enum \n";
@@ -1819,7 +1826,7 @@ int test_backend(eBackendKind backend_kind,
 
 	// Check that enum exists
 	bool enum_exists;
-	long second_enum_id;
+	emdros_int64 second_enum_id;
 	if (bContinue) {
 		if (pDB->enumExists("phrase_type_t", enum_exists, second_enum_id)) {
 			if (enum_exists && second_enum_id == enum_id)
@@ -1847,7 +1854,7 @@ int test_backend(eBackendKind backend_kind,
 	}
   
 	// Check get default
-	bool get_default_result;
+	bool get_default_result = false;
 	std::string default_constant_name;
 	if (bContinue) {
 		if (pDB->getDefault(enum_id, get_default_result, default_constant_name)) {
@@ -1864,9 +1871,9 @@ int test_backend(eBackendKind backend_kind,
 	}
 
 	// Check that constant exists
-	bool enum_const_exists_result;
-	long NP_enum_const_value;
-	bool is_default;
+	bool enum_const_exists_result = false;
+	emdros_int64 NP_enum_const_value = 0;
+	bool is_default = false;
 	if (bContinue) {
 		if (pDB->enumConstExists("NP", 
 					 enum_id,
@@ -2089,7 +2096,7 @@ int test_backend(eBackendKind backend_kind,
 
 
 	// Check create object type
-	id_d_t phrase_object_type_id;
+	id_d_t phrase_object_type_id = NIL;
 	std::list<FeatureInfo> FeatureInfos;
 	// feature "phrase_type"
 	FeatureInfo f_info_phrase_type("phrase_type", enum_id | FEATURE_TYPE_ENUM, "-1", false);
@@ -2117,9 +2124,9 @@ int test_backend(eBackendKind backend_kind,
 	}
 
 	// Check existence
-	long second_phrase_object_type_id;
-	bool object_type_exists_result;
-	eObjectRangeType objectRangeType;
+	id_d_t second_phrase_object_type_id = NIL;
+	bool object_type_exists_result = false;
+	eObjectRangeType objectRangeType = kORTSingleMonad;
 	eMonadUniquenessType monadUniquenessType;
 	if (bContinue) {
 		if (pDB->objectTypeExists("Phrase", object_type_exists_result, second_phrase_object_type_id, objectRangeType, monadUniquenessType)) {
@@ -2203,7 +2210,7 @@ int test_backend(eBackendKind backend_kind,
 	FeatureInfo f_info_parent2("Parent", FEATURE_TYPE_ID_D, NIL_AS_STRING, false);
 	FeatureInfos.push_back(f_info_parent2);
 
-	long word_object_type_id;
+	id_d_t word_object_type_id = NIL;
 	if (bContinue) {
 		if (pDB->createObjectType("Word", FeatureInfos, kORTSingleMonad, kMUTNonUniqueMonads, word_object_type_id)) {
 			std::cout << "SUCCESS: creating object type 'Word' with id_d " << word_object_type_id << std::endl;
@@ -2213,7 +2220,7 @@ int test_backend(eBackendKind backend_kind,
 		}
 	}
 
-	id_d_t second_word_object_type_id;
+	id_d_t second_word_object_type_id = NIL;
 	if (bContinue) {
 		if (pDB->objectTypeExists("Word", 
 					  object_type_exists_result, 
@@ -2386,7 +2393,7 @@ int test_backend(eBackendKind backend_kind,
 
 	// Check creation of object
 	// Create phrase
-	id_d_t phrase1;
+	id_d_t phrase1 = NIL;
 	if (bContinue) {
 		if (!pDB->getNextObjectID_D(phrase1)) {
 			std::cerr << "FAILURE: Error in getting oid for phrase (getNextObjectID_D)." << std::endl;
@@ -2411,7 +2418,7 @@ int test_backend(eBackendKind backend_kind,
 	}
 
 	// Create word1
-	id_d_t word1;
+	id_d_t word1 = NIL;
 	if (bContinue) {
 		if (!pDB->getNextObjectID_D(word1)) {
 			std::cerr << "FAILURE: getting id_d for word1 in getNextObjectID_D." << std::endl;
@@ -2437,7 +2444,7 @@ int test_backend(eBackendKind backend_kind,
   
 	// Create 2nd word
 	features.erase(features.begin(), features.end());
-	id_d_t word2;
+	id_d_t word2 = NIL;
 	if (bContinue) {
 		if (!pDB->getNextObjectID_D(word2)) {
 			std::cerr << "FAILURE: Error in getting oid for word2 (getNextObjectID_D)." << std::endl;
@@ -2817,7 +2824,6 @@ int main(int argc, char* argv[])
 	} else {
 		bool bShowVersion;
 		bool bShowHelp;
-		std::string error_message;
 		if (!getStandardArguments(bShowVersion, bShowHelp,
 					  hostname,
 					  user,
