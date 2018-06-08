@@ -100,7 +100,7 @@
 // On Windows, we need to define PCRE2_STATIC before including pcre2/pcre2,
 // since this is required for building pcre2 when we build it as
 // a static library, which we do on Windows.
-#if defined(WIN32) || defined(__WIN32__)
+#if defined(WIN32) || defined(__WIN32__) || defined(_WINDOWS)
 #define PCRE2_STATIC (1)
 #endif
 
