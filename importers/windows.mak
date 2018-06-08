@@ -1,31 +1,32 @@
 #
-# Emdros Win32 Makefile for importers directory
+# Emdros Win32 Makefile for util directory
 #
 # Makefile for Microsoft Visual C++ 5.0 (or compat)
-#
-# Will build a Win32 library libimporters.lib
 
+# Will build a Win32 library libutil_emdros.lib
 
-#
-# Custom macros
-#
 WIN32DIR = ..\build\windows
 
-!INCLUDE $(WIN32DIR)\config.mak
 
-
-LIBTARGET = libbase.lib
-#TARGETS = "$(OUTDIR)\$(LIBTARGET)"
-TARGETS = 
+LIBTARGET = libutil_emdros.lib
+TARGETS = "$(OUTDIR)\$(LIBTARGET)"
 CLEANFILES = 
 
-LOCAL_CPPFLAGS = 
+LIBTARGET_OBJS= \
+        "$(INTDIR)\unboundbibleimporter.obj" \
+        "$(INTDIR)\pennparser.obj" \
+        "$(INTDIR)\pennlexer.obj" \
+        "$(INTDIR)\penn_yylex.obj" \
+        "$(INTDIR)\pennimporter.obj" \
+        "$(INTDIR)\negraimporter.obj" \
+        "$(INTDIR)\tigerxmlimporter.obj" \
+        "$(INTDIR)\plaintextimporter.obj" \
+        "$(INTDIR)\slashedtextimporter.obj" \
+        "$(INTDIR)\sfm.obj" \
+        "$(INTDIR)\sfmimporter.obj" 
 
-LIBTARGET_OBJS= 
 
-
-
-
-
+!INCLUDE $(WIN32DIR)\config.mak
 !INCLUDE $(WIN32DIR)\body.mak
+
 

@@ -17,21 +17,9 @@ LIBTARGET_OBJS= \
         "$(INTDIR)\md5_emdros.obj" \
         "$(INTDIR)\opt.obj" \
         "$(INTDIR)\messages.obj" \
-        "$(INTDIR)\agxml.obj" \
         "$(INTDIR)\erw.obj" \
         "$(INTDIR)\schema.obj" \
         "$(INTDIR)\mql_exporter.obj" \
-        "$(INTDIR)\unboundbibleimporter.obj" \
-        "$(INTDIR)\pennparser.obj" \
-        "$(INTDIR)\pennlexer.obj" \
-        "$(INTDIR)\penn_yylex.obj" \
-        "$(INTDIR)\pennimporter.obj" \
-        "$(INTDIR)\negraimporter.obj" \
-        "$(INTDIR)\tigerxmlimporter.obj" \
-        "$(INTDIR)\plaintextimporter.obj" \
-        "$(INTDIR)\slashedtextimporter.obj" \
-        "$(INTDIR)\sfm.obj" \
-        "$(INTDIR)\sfmimporter.obj" \
         "$(INTDIR)\bptdumper.obj" \
         "$(INTDIR)\bpt2dumper.obj"
 

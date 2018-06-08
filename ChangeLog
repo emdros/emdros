@@ -206,6 +206,7 @@
         modified:   include/mql_query.h
         modified:   include/mql_sheaf.h
 
+	* util/windows.mak, importers/windows.mak: Make them build again.
 
 2018-06-01 Ulrik Sandborg-Petersen
 
