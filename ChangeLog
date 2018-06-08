@@ -325,6 +325,9 @@
         modified:   src/qrytool/qtconnwizard.cpp
         modified:   src/qrytool/wxilqtout.h
 
+	* src/qrytool/mainframe.cpp: Get rid of some wxWidgets warnings
+	w.r.t. deprecated wxFont c'tors.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

@@ -263,9 +263,9 @@ MainFrame::MainFrame( wxWindow* parent,
 	// Set default style of text controls
 	if (m_pOut != 0) {
 		wxFont *pFont = new wxFont(m_pOut->getInputAreaFontSize(), 
-					   wxMODERN, 
-					   wxNORMAL, 
-					   wxNORMAL, 
+					   wxFONTFAMILY_MODERN, 
+					   wxFONTSTYLE_NORMAL, 
+					   wxFONTWEIGHT_NORMAL, 
 					   FALSE, 
 					   m_pOut->getInputAreaFontName());
 
@@ -402,14 +402,14 @@ void MainFrame::CreateControls()
 	*/
 
 #ifdef __WXMSW__
-	wxFont *pFont = new wxFont(12, wxMODERN, wxNORMAL, wxNORMAL, FALSE, wxT("Courier New"));
+	wxFont *pFont = new wxFont(12, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, FALSE, wxT("Courier New"));
 	pFont->SetPointSize(12);
 	m_pEditWindow->SetFont(*pFont);
 	delete pFont;
 
 #else  // Not windows
 
-	wxFont *pFont = new wxFont(12, wxMODERN, wxNORMAL, wxNORMAL, FALSE, wxT("Courier New"));
+	wxFont *pFont = new wxFont(12, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, FALSE, wxT("Courier New"));
 	pFont->SetPointSize(12);
 	m_pEditWindow->SetFont(*pFont);
 	delete pFont;
@@ -697,8 +697,8 @@ void MainFrame::OnFileSaveAs(wxCommandEvent& event)
 
 		// Set m_strQueryFileDir to the path-part of the 
 		// gotten filename.
-		wxFileName fn(m_strCurFileName);
-		m_strQueryFileDir = fn.GetPath();
+		wxFileName fn2(m_strCurFileName);
+		m_strQueryFileDir = fn2.GetPath();
 
 		SaveQuery();
 	}
@@ -1024,9 +1024,9 @@ bool MainFrame::Connect()
 		// Set size and font name of input area
 		if (m_pOut != 0) {
 			wxFont *pFont = new wxFont(m_pOut->getInputAreaFontSize(), 
-						   wxMODERN, 
-						   wxNORMAL, 
-						   wxNORMAL, 
+						   wxFONTFAMILY_MODERN, 
+						   wxFONTSTYLE_NORMAL, 
+						   wxFONTWEIGHT_NORMAL, 
 						   FALSE, 
 						   m_pOut->getInputAreaFontName());
 
