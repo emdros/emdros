@@ -193,7 +193,7 @@ PYTHON_LIB=c:\python27\libs\python27.lib
 # SWIG Java upport
 # ----------------------------------------------
 
-!IFNDEF #WITH_SWIG_JAVA
+!IFNDEF WITH_SWIG_JAVA
 # uncomment to enable Java
 #WITH_SWIG_JAVA=yes
 !ENDIF
