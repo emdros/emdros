@@ -336,6 +336,8 @@
         modified:   src/importtool/importtool.cpp
         modified:   src/importtool/windows.mak
 
+	* src/windows.mak: Import the libimporters_emdros.lib library.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
