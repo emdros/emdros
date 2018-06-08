@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 4/9-2005
- * Last update: 11/10-2017
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2005-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -293,7 +293,6 @@ Harvest::Harvest(EmdrosWrapper *pEWrap, Sheaf *pSheaf)
 			}
     
 			// Get data units
-			StringVec data_unit_set = m_pConf->getValues("data_unit");
 			unsigned int myindex = 0;
 			for (StringVec::const_iterator dataunit_ci = data_unit_set.begin();
 			     dataunit_ci != data_unit_set.end()
@@ -301,8 +300,8 @@ Harvest::Harvest(EmdrosWrapper *pEWrap, Sheaf *pSheaf)
 			     ++dataunit_ci) {
 				m_pEW->getPOut()->MyYield();
 				std::string dataunit = *dataunit_ci;
-				MyTable *pT = new MyTable(data_unit_table_vec[myindex], raster_monads_this_solution);
-				pSolution->addMyTable(kData, dataunit, pT);
+				MyTable *pT2 = new MyTable(data_unit_table_vec[myindex], raster_monads_this_solution);
+				pSolution->addMyTable(kData, dataunit, pT2);
 				++myindex;
 			}
     

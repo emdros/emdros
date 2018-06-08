@@ -308,6 +308,8 @@
 
 	* importers/pennimporter.cpp: Fix a warning on Windows with /W4.
 
+	* src/qrytool/harvest.cpp: Fix some warnings on Windows with /W4.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
