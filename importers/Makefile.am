@@ -40,16 +40,8 @@ noinst_HEADERS = $(importerslib_hdr)
 
 CLEANFILES = *~ core \
              $(srcdir)/lemon $(srcdir)/lemon.c $(srcdir)/lempar.c \
-             simplebibleschema.h pennschema.h \
-             $(srcdir)/pennlexer.cpp \
-             $(srcdir)/pennparser.cpp \
-             $(srcdir)/pennparser.h \
              $(srcdir)/pennparser.out \
-             $(srcdir)/lemon.c $(srcdir)/lempar.c \
-             $(srcdir)/negraschema.h \
-             $(srcdir)/plaintextschema.h \
-             $(srcdir)/slashedtextschema.h
-
+             $(srcdir)/lemon.c $(srcdir)/lempar.c 
 
 
 EXTRA_DIST = windows.mak mingw.mak \

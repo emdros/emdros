@@ -90,6 +90,20 @@
 	* harvest/Makefile.am: Don't clean the files just added to the
 	repo.
 
+	* importers/: Add the following files to the repo:
+
+	- importers/negraschema.h
+	- importers/pennlexer.cpp
+	- importers/pennparser.cpp
+	- importers/pennparser.h
+	- importers/pennschema.h
+	- importers/plaintextschema.h
+	- importers/simplebibleschema.h
+	- importers/slashedtextschema.h
+
+	Also, don't CLEAN these files in the importers/Makefile.am.
+
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
