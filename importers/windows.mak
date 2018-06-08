@@ -8,7 +8,7 @@
 WIN32DIR = ..\build\windows
 
 
-LIBTARGET = libutil_emdros.lib
+LIBTARGET = libimporters_emdros.lib
 TARGETS = "$(OUTDIR)\$(LIBTARGET)"
 CLEANFILES = 
 
