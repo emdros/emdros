@@ -161,15 +161,7 @@ tests/test_json/test1.error-txt
 tests/test_json/test2.error-txt
 tests/test_json/test3.error-txt
 util/emdfxml_dtd.h
-importers/negraschema.h
-importers/pennlexer.cpp
-importers/pennparser.cpp
-importers/pennparser.h
 importers/pennparser.out
-importers/pennschema.h
-importers/plaintextschema.h
-importers/simplebibleschema.h
-importers/slashedtextschema.h
 build/windows/config.mak
 build/windows/emdros.nsi
 amalgamation/mkamalgamation
