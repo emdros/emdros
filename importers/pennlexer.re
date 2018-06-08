@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 2/17-2006
- * Last update: 6/17-2011
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2006-2011  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2006-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -146,7 +146,7 @@ unsigned char *PennScanner::fill(unsigned char *cursor)
 {
         if(!eof)
         {
-                unsigned int cnt = tok - bot;
+                std::streamsize cnt = tok - bot;
                 if(cnt)
                 {
                         memcpy(bot, tok, lim - tok);

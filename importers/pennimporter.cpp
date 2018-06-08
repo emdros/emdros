@@ -3,13 +3,13 @@
  *
  * Functions and classes for importing Penn Treebank-style data
  * Created: 2/18-2006
- * Last update: 5/2-2017
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -237,7 +237,7 @@ bool EmdrosMemObject::putMQL(std::ostream *pOut, const std::list<FeatureInfo>& f
 				switch(feature_type & FEATURE_TYPE_TYPE_MASK) {
 				case FEATURE_TYPE_INTEGER:
 				case FEATURE_TYPE_ID_D:
-					value = longlong2string(string2longlong(getFeature(ci->getName())));
+					value = emdros_int64ToString(string2emdros_int64(getFeature(ci->getName())));
 					default_value = ci->getDefaultValue();
 					break;
 				case FEATURE_TYPE_ENUM:
@@ -775,7 +775,7 @@ void PennTreebankImporter::putCorpusAsMQL(std::ostream *pOut)
 void doAddCorefToMap(PennTreeNode *pNode, CorefMap& mymap, bool bUseIntegerDocIDs)
 {
 	if (pNode->getStrCoref() != "") {
-		emdros_int64 coref = string2longlong(pNode->getStrCoref());
+		emdros_int64 coref = string2emdros_int64(pNode->getStrCoref());
 		if (mymap.find(coref) == mymap.end()) {
 			mymap[coref] = std::list<id_d_t>();
 		}
@@ -792,7 +792,7 @@ void doAddCorefToMap(PennTreeNode *pNode, CorefMap& mymap, bool bUseIntegerDocID
 void doAddCorefsToNode(PennTreeNode *pNode, CorefMap& mymap, bool bUseIntegerDocIDs)
 {
 	if (pNode->getStrCoref() != "") {
-		emdros_int64 coref = string2longlong(pNode->getStrCoref());
+		emdros_int64 coref = string2emdros_int64(pNode->getStrCoref());
 		emdros_int64 mydocid;
 		if (bUseIntegerDocIDs) {
 			mydocid = pNode->getDocID();
@@ -965,10 +965,10 @@ EmdrosMemObject *PennTreebankImporter::createTerminal(PennTreeNode *pNode, PennT
 {
 	EmdrosMemObject *pObj = new EmdrosMemObject(pParent->getMonads(), pParent->getID_D());
 	if (m_bUseIntegerDocIDs) {
-		pObj->setFeature("docid", longlong2string(pParent->getDocID()));
-		pObj->setFeature("parent", longlong2string(pParent->getParentDocID()));
+		pObj->setFeature("docid", emdros_int64ToString(pParent->getDocID()));
+		pObj->setFeature("parent", emdros_int64ToString(pParent->getParentDocID()));
 	} else {
-		pObj->setFeature("parent", longlong2string(pParent->getParentDocID()));
+		pObj->setFeature("parent", emdros_int64ToString(pParent->getParentDocID()));
 	}
 	if (!pNode->getCorefs().empty()) {
 		pObj->setFeature("coref", std::string("(") + joinList(",", pNode->getCorefs()) + ")");
@@ -985,10 +985,10 @@ EmdrosMemObject *PennTreebankImporter::createNonTerminal(PennTreeNode *pNode)
 {
 	EmdrosMemObject *pObj = new EmdrosMemObject(pNode->getMonads(), pNode->getID_D());
 	if (m_bUseIntegerDocIDs) {
-		pObj->setFeature("docid", longlong2string(pNode->getDocID()));
-		pObj->setFeature("parent", longlong2string(pNode->getParentDocID()));
+		pObj->setFeature("docid", emdros_int64ToString(pNode->getDocID()));
+		pObj->setFeature("parent", emdros_int64ToString(pNode->getParentDocID()));
 	} else {
-		pObj->setFeature("parent", longlong2string(pNode->getParentDocID()));
+		pObj->setFeature("parent", emdros_int64ToString(pNode->getParentDocID()));
 	}
 	if (!pNode->getCorefs().empty()) {
 		pObj->setFeature("coref", std::string("(") + joinList(",", pNode->getCorefs()) + ")");
@@ -1004,10 +1004,10 @@ EmdrosMemObject *PennTreebankImporter::createRootTree(PennTreeNode *pNode)
 {
 	EmdrosMemObject *pObj = new EmdrosMemObject(pNode->getMonads(), pNode->getID_D());
 	if (m_bUseIntegerDocIDs) {
-		pObj->setFeature("docid", longlong2string(pNode->getDocID()));
-		pObj->setFeature("parent", longlong2string(pNode->getParentDocID()));
+		pObj->setFeature("docid", emdros_int64ToString(pNode->getDocID()));
+		pObj->setFeature("parent", emdros_int64ToString(pNode->getParentDocID()));
 	} else {
-		pObj->setFeature("parent", longlong2string(pNode->getParentDocID()));
+		pObj->setFeature("parent", emdros_int64ToString(pNode->getParentDocID()));
 	}
 	m_root_trees.push_back(pObj);
 	return pObj;
@@ -1044,7 +1044,7 @@ EmdrosMemObject *PennTreebankImporter::createDoc(monad_m first, monad_m last, id
 	SetOfMonads monads(first, last);
 	EmdrosMemObject *pObj = new EmdrosMemObject(monads, id_d);
 	if (m_bUseIntegerDocIDs) {
-		pObj->setFeature("docid", longlong2string(doc_docid));
+		pObj->setFeature("docid", emdros_int64ToString(doc_docid));
 	}
 	m_docs.push_back(pObj);
 	return pObj;

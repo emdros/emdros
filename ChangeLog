@@ -219,6 +219,15 @@
         modified:   include/harvest_fts.h
         modified:   include/templatelang_classes.h
 
+	* util/, importers/: Make them emdros_int64-compliant.
+
+	Files affected:
+
+        modified:   importers/pennimporter.cpp
+        modified:   importers/pennlexer.cpp
+        modified:   importers/pennlexer.re
+        modified:   util/mql_exporter.cpp
+
 
 2018-06-01 Ulrik Sandborg-Petersen
 

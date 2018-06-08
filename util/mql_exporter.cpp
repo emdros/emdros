@@ -3,13 +3,13 @@
  *
  * A class to dump Emdros databases in MQL
  * Created: 5/1-2001 (1st of May, 2001)
- * Last update: 3/1-2017
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -162,7 +162,7 @@ bool MQLExporter::GetObjectTypeId(std::string object_type_name, id_d_t& object_t
 	return true;
 }
 
-bool MQLExporter::GetEnumConst(long value, const std::string& enum_name, std::string& outstr)
+bool MQLExporter::GetEnumConst(emdros_int64 value, const std::string& enum_name, std::string& outstr)
 {
 	bool bDBOK = false;
 	outstr= m_pEE->getEnumConstNameFromValue(value,
@@ -390,7 +390,7 @@ bool MQLExporter::DumpEnum(std::string enum_name, bool& bCompilerResult)
 	while (it.hasNext()) {
 		// Get enum constant info info
 		std::string enum_const_name = it.getColumn(1);
-		long value = string2long(it.getColumn(2));
+		emdros_int64 value = string2emdros_int64(it.getColumn(2));
 		bool is_default = string2bool_alpha(it.getColumn(3));
 
 		// Write info to ostr
@@ -768,7 +768,7 @@ bool MQLExporter::DumpObjectDataSingleObject(std::string object_type_name, const
 			const IntegerList *myintlist = pValue->getIntegerList();
 			IntegerListConstIterator ci = myintlist->const_iterator();
 			while (ci.hasNext()) {
-				long myint = ci.next();
+				emdros_int64 myint = ci.next();
 				std::string thisvalue;
 				if (featureTypeIdIsListOfENUM(feature_type_id)) {
 					if (!GetEnumConst(myint, strType_id, thisvalue)) {
@@ -776,7 +776,7 @@ bool MQLExporter::DumpObjectDataSingleObject(std::string object_type_name, const
 						return false;
 					}
 				} else {
-					thisvalue = long2string(myint);
+					thisvalue = emdros_int64ToString(myint);
 				}
 				value_as_string += thisvalue;
 				if (ci.hasNext())
@@ -785,7 +785,7 @@ bool MQLExporter::DumpObjectDataSingleObject(std::string object_type_name, const
 			value_as_string += ")";
 		} else if (featureTypeIdIsINTEGER(feature_type_id)) {
 			ASSERT_THROW(pValue->getKind() == kEVInt, "pValue is not kEVInt");
-			value_as_string = long2string(pValue->getInt());
+			value_as_string = emdros_int64ToString(pValue->getInt());
 		} else if (featureTypeIdIsID_D(feature_type_id)) {
 			ASSERT_THROW(pValue->getKind() == kEVID_D, "pValue is not kEVID_D");
 			value_as_string = id_d2string(pValue->getID_D());
