@@ -1616,17 +1616,42 @@ std::string strip(const std::string& instring)
 	}
 }
 
-std::string long2compact_string7bits(long input)
+std::string emdros_int64ToCompact_string7bits(emdros_int64 input)
 {
 	std::string result;
 	result.reserve(5);
-	char m0,m1,m2,m3,m4;
+	char m0,m1,m2,m3,m4,m5,m6,m7,m8,m9;
 	m0 = input & 0x7F;
 	m1 = (input >> 7) & 0x7f;
 	m2 = (input >> 14) & 0x7f;
 	m3 = (input >> 21) & 0x7f;
 	m4 = (input >> 28) & 0x7f;
+	m5 = (input >> 35) & 0x7f;
+	m6 = (input >> 42) & 0x7f;
+	m7 = (input >> 49) & 0x7f;
+	m8 = (input >> 56) & 0x7f;
+	m9 = (input >> 63) & 0x7f;
 	bool bBegun = false;
+	if ((m9 > 0) || bBegun) {
+		result += (m9 + '0');
+		bBegun = true;
+	}
+	if ((m8 > 0) || bBegun) {
+		result += (m8 + '0');
+		bBegun = true;
+	}
+	if ((m7 > 0) || bBegun) {
+		result += (m7 + '0');
+		bBegun = true;
+	}
+	if ((m6 > 0) || bBegun) {
+		result += (m6 + '0');
+		bBegun = true;
+	}
+	if ((m5 > 0) || bBegun) {
+		result += (m5 + '0');
+		bBegun = true;
+	}
 	if ((m4 > 0) || bBegun) {
 		result += (m4 + '0');
 		bBegun = true;
@@ -1647,7 +1672,7 @@ std::string long2compact_string7bits(long input)
 }
 
 
-void compact_string7bits2long(const std::string& inStr, long& output)
+void compact_string7bits2emdros_int64(const std::string& inStr, emdros_int64& output)
 {
 	std::string::size_type i = 0, end = inStr.size();
 	output = 0;
@@ -1668,9 +1693,9 @@ void IntegerList2compact_string7bits(const IntegerList& intlist, std::string& re
 	result = " ";
 	IntegerListConstIterator cit = intlist.const_iterator();
 	while (cit.hasNext()) {
-		long curlong = cit.next();
+		emdros_int64 curlong = cit.next();
 		std::string this_compact_string;
-		result += long2compact_string7bits(curlong);
+		result += emdros_int64ToCompact_string7bits(curlong);
 	}
 	result += " ";
 }

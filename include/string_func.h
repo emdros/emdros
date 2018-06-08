@@ -532,8 +532,8 @@ extern std::string strip(const std::string& instring, const std::string& stripch
 extern std::string strip(const std::string& instring);
 
 
-extern std::string long2compact_string7bits(long input);
-extern void compact_string7bits2long(const std::string& input, long& output);
+extern std::string emdros_int64ToCompact_string7bits(emdros_int64 input);
+extern void compact_string7bits2emdros_int64(const std::string& input, emdros_int64& output);
 extern void IntegerList2compact_string7bits(const IntegerList& intlist, std::string& result);
 extern void compact_string7bits2IntegerList(const std::string& inStr, IntegerList& intlist);
 

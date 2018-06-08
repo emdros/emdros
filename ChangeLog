@@ -239,6 +239,13 @@
         modified:   wx/conndlg.cpp
         modified:   wx/importerwizard.cpp
 
+	* EMdF/string_func.cpp, include/string_func.h: Rename, and
+	reimplement, the following functions, so that they work with
+	63-bit monads.
+
+	- long2compact_string7bits -> emdros_int64ToCompact_string7bits
+	- compact_string7bits2long -> compact_string7bits2emdros_int64
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
