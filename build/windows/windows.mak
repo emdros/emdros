@@ -277,8 +277,8 @@ TECKIT_INCLUDE_HEADER_FILES = \
 
 
 DIST: ALL
-   nmake /f windows.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_DIST_DIRS
-   nmake /f windows.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_DIST_FILES
+   nmake /f windows.mak DIST_DIR="emdros-windows" MAKE_DIST_DIRS
+   nmake /f windows.mak DIST_DIR="emdros-windows" MAKE_DIST_FILES
 !IF "$(PGSQL)" == "1"
    nmake /f windows.mak  DIST_PGSQL
 !ENDIF
@@ -293,13 +293,13 @@ DIST: ALL
 
 
 DIST_MYSQL: 
-   nmake /f windows.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_MY_DIST_FILES
+   nmake /f windows.mak DIST_DIR="emdros-windows" MAKE_MY_DIST_FILES
 
 DIST_PGSQL: 
-   nmake /f windows.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_PG_DIST_FILES
+   nmake /f windows.mak DIST_DIR="emdros-windows" MAKE_PG_DIST_FILES
 
 DIST_SQLITE3: 
-   nmake /f windows.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_SQLITE3_DIST_FILES
+   nmake /f windows.mak DIST_DIR="emdros-windows" MAKE_SQLITE3_DIST_FILES
 
 
 MAKE_PG_DIST_FILES:
@@ -381,7 +381,7 @@ MAKE_DIST_FILES: MAKE_DIST_SWIG
 
 
 INST: DIST
-	cd ..\emdros-$(VERSION)-windows
+	cd ..\emdros-windows
         "$(NSISEXE)" emdros.nsi
         cd ..\win32
 

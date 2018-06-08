@@ -224,8 +224,8 @@ TECKIT_INCLUDE_HEADER_FILES = \
 
 
 dist: all
-	$(MAKE) -f mingw.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_DIST_DIRS
-	$(MAKE) -f mingw.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_DIST_FILES
+	$(MAKE) -f mingw.mak DIST_DIR="emdros-windows" MAKE_DIST_DIRS
+	$(MAKE) -f mingw.mak DIST_DIR="emdros-windows" MAKE_DIST_FILES
 ifeq ($(PGSQL),1)
 	$(MAKE) -f mingw.mak  DIST_PGSQL
 endif
@@ -240,13 +240,13 @@ endif
 
 
 DIST_MYSQL: 
-	$(MAKE) -f mingw.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_MY_DIST_FILES
+	$(MAKE) -f mingw.mak DIST_DIR="emdros-windows" MAKE_MY_DIST_FILES
 
 DIST_PGSQL: 
-	$(MAKE) -f mingw.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_PG_DIST_FILES
+	$(MAKE) -f mingw.mak DIST_DIR="emdros-windows" MAKE_PG_DIST_FILES
 
 DIST_SQLITE3: 
-	$(MAKE) -f mingw.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_SQLITE3_DIST_FILES
+	$(MAKE) -f mingw.mak DIST_DIR="emdros-windows" MAKE_SQLITE3_DIST_FILES
 
 
 MAKE_PG_DIST_FILES:
@@ -328,7 +328,7 @@ MAKE_DIST_FILES: MAKE_DIST_SWIG
 
 
 inst: dist
-	cd ..\emdros-$(VERSION)-windows
+	cd ..\emdros-windows
 	"$(NSISEXE)" emdros.nsi
 	cd ..\win32
 
