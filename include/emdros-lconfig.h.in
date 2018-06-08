@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 10/21-2001
- * Last update: 5/28-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -97,6 +97,8 @@
 #include "win32-lconfig.h"
 #endif
 
+#include "emdros-version.h"
+
 #ifndef HAVE_CXX11
 #define HAVE_CXX11 @HAVE_CXX11@
 #endif
@@ -176,9 +178,6 @@
 #define USE_SYSTEM_PCRE2 (@USE_SYSTEM_PCRE2@)
 #endif
 
-#define EMDROS_VERSION_MAJOR (@EMDROS_VERSION_MAJOR@)
-#define EMDROS_VERSION_MINOR (@EMDROS_VERSION_MINOR@)
-#define EMDROS_VERSION_RELEASE (@EMDROS_VERSION_RELEASE@)
 
 /* Is current version at least (<=) MAJOR.MINOR.RELEASE ? */
 #define EMDROS_CHECK_VERSION(MAJOR, MINOR, RELEASE) \
