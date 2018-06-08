@@ -556,7 +556,7 @@ class FeatureComparison {
 	 *
 	 * @return The feature index.
 	 */
-	short int getFeatureIndex() const { 
+	int getFeatureIndex() const { 
 		return m_feature_index;
 	};
 	/** Set m_bCanBePreQueried to false.
