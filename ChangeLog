@@ -38,6 +38,11 @@
 	of "emdros-version.h", since that is the correct name, according
 	to include/Makefile.am.
 
+	* include/version-emdros.h: Add to repo.
+
+	* include/Makefile.am: Don't CLEAN version-emdros.h, now that it
+	is in the repo.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

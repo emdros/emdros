@@ -38,8 +38,7 @@ noinst_HEADERS = mql_R.h \
 
 #
 BUILT_SOURCES = version-emdros.h 
-CLEANFILES = *~ version-emdros.h \
-                core 
+CLEANFILES = *~  core 
 
 DISTCLEANFILES = emdros-config.h.in
 
