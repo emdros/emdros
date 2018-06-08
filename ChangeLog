@@ -298,6 +298,9 @@
 
 	* include/conf.h: Same thing with conf.h.
 
+	* MQL/mql_sheaf.cpp, include/mql_sheaf.h: Use emdros_int64 instead
+	of long for the counting machinery.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

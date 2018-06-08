@@ -332,9 +332,9 @@ SetOfMonads MatchedObject::getMonads(void) const
  * @return The number of (possibly focus) objects in this
  * MatchedObject, and any embedded Sheaf.
  */
-long MatchedObject::countObjects(bool bUseOnlyFocusObjects) const
+emdros_int64 MatchedObject::countObjects(bool bUseOnlyFocusObjects) const
 {
-	long result = 0;
+	emdros_int64 result = 0;
 	
 	bool bDoIt = true;
 	if (bUseOnlyFocusObjects) {
@@ -376,9 +376,9 @@ long MatchedObject::countObjects(bool bUseOnlyFocusObjects) const
  * @return The number of (possibly focus) objects in this
  * MatchedObject, and any embedded Sheaf.
  */
-long MatchedObject::countObjectsFromObjectType(const std::string& object_type_name, bool bUseOnlyFocusObjects) const
+emdros_int64 MatchedObject::countObjectsFromObjectType(const std::string& object_type_name, bool bUseOnlyFocusObjects) const
 {
-	long result = 0;
+	emdros_int64 result = 0;
 	
 	bool bDoIt = true;
 	if (bUseOnlyFocusObjects) {
@@ -406,9 +406,9 @@ long MatchedObject::countObjectsFromObjectType(const std::string& object_type_na
  * @return The number of straws in this MatchedObject's
  * embedded Sheaf, or 0 if that sheaf is empty.
  */
-long MatchedObject::countStraws() const
+emdros_int64 MatchedObject::countStraws() const
 {
-	long result = 0;
+	emdros_int64 result = 0;
 	if (m_sheaf != 0) {
 		result += m_sheaf->countStraws();
 	}
@@ -1804,9 +1804,9 @@ void Straw::flatten(FlatSheaf *pFlatSheaf)
  * MatchedObject's of this straw, and any embedded Sheaves
  * therein.
  */
-long Straw::countObjects(bool bUseOnlyFocusObjects) const
+emdros_int64 Straw::countObjects(bool bUseOnlyFocusObjects) const
 {
-	long result = 0;
+	emdros_int64 result = 0;
 	
 	StrawConstIterator ci = const_iterator();
 	while (ci.hasNext()) {
@@ -1842,9 +1842,9 @@ long Straw::countObjects(bool bUseOnlyFocusObjects) const
  * MatchedObject's in this straw, and any embedded Sheaves
  * therein.
  */
-long Straw::countObjectsFromObjectType(const std::string& object_type_name, bool bUseOnlyFocusObjects) const
+emdros_int64 Straw::countObjectsFromObjectType(const std::string& object_type_name, bool bUseOnlyFocusObjects) const
 {
-	long result = 0;
+	emdros_int64 result = 0;
 	
 	StrawConstIterator ci = const_iterator();
 	while (ci.hasNext()) {
@@ -1858,9 +1858,9 @@ long Straw::countObjectsFromObjectType(const std::string& object_type_name, bool
  * @return The 1 + the number of straws inside the embedded
  * sheaves in its MatchedObject's.
  */
-long Straw::countStraws() const
+emdros_int64 Straw::countStraws() const
 {
-	long result = 1;
+	emdros_int64 result = 1;
 	
 	StrawConstIterator ci = const_iterator();
 	while (ci.hasNext()) {
@@ -2020,9 +2020,9 @@ void ListOfStraws::appendACopy(const ListOfStraws *pOther)
  *
  * @return The number of Straws added.
  */
-long ListOfStraws::appendAndSubsumeWhileFiltering(ListOfStraws* pOther)
+emdros_int64 ListOfStraws::appendAndSubsumeWhileFiltering(ListOfStraws* pOther)
 {
-	long straw_count = 0;
+	emdros_int64 straw_count = 0;
 	SheafConstIterator other_ci = pOther->const_iterator();
 	while (other_ci.hasNext()) {
 		Straw *pNewStraw = new Straw();
@@ -2068,10 +2068,10 @@ long ListOfStraws::appendAndSubsumeWhileFiltering(ListOfStraws* pOther)
  *
  * @return The number of Straws added.
  */
-long ListOfStraws::appendAndSubsumeWhileCounting(ListOfStraws* pOther, long start_index, long count)
+emdros_int64 ListOfStraws::appendAndSubsumeWhileCounting(ListOfStraws* pOther, emdros_int64 start_index, emdros_int64 count)
 {
-	long straw_count = 0;
-	long straw_index = 0;
+	emdros_int64 straw_count = 0;
+	emdros_int64 straw_index = 0;
 	SheafConstIterator other_ci = pOther->const_iterator();
 	while (other_ci.hasNext()) {
 		const Straw *pOtherStraw = other_ci.next();
@@ -2602,9 +2602,9 @@ void Sheaf::flatten(FlatSheaf *pFlatSheaf)
  * MatchedObject's of this straw, and any embedded Sheaves
  * therein.
  */
-long Sheaf::countObjects(bool bUseOnlyFocusObjects) const
+emdros_int64 Sheaf::countObjects(bool bUseOnlyFocusObjects) const
 {
-	long result = 0;
+	emdros_int64 result = 0;
 
 	SheafConstIterator ci = const_iterator();
 	while (ci.hasNext()) {
@@ -2638,9 +2638,9 @@ long Sheaf::countObjects(bool bUseOnlyFocusObjects) const
  * MatchedObject's in this straw, and any embedded Sheaves
  * therein.
  */
-long Sheaf::countObjectsFromObjectType(const std::string& object_type_name, bool bUseOnlyFocusObjects) const
+emdros_int64 Sheaf::countObjectsFromObjectType(const std::string& object_type_name, bool bUseOnlyFocusObjects) const
 {
-	long result = 0;
+	emdros_int64 result = 0;
 
 	SheafConstIterator ci = const_iterator();
 	while (ci.hasNext()) {
@@ -2654,9 +2654,9 @@ long Sheaf::countObjectsFromObjectType(const std::string& object_type_name, bool
  *
  * @return The number of straws inside the sheaf, recursively.
  */
-long Sheaf::countStraws() const
+emdros_int64 Sheaf::countStraws() const
 {
-	long result = 0;
+	emdros_int64 result = 0;
 	SheafConstIterator ci = const_iterator();
 	while (ci.hasNext()) {
 		result += (ci.next())->countStraws();

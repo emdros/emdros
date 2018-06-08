@@ -479,7 +479,7 @@ class MatchedObject {
 	 * @return The number of (possibly focus) objects in this
 	 * MatchedObject, and any embedded Sheaf.
 	 */
-	long countObjects(bool bUseOnlyFocusObjects) const;
+	emdros_int64 countObjects(bool bUseOnlyFocusObjects) const;
 
 	/** Count objects recursively.
 	 *
@@ -504,14 +504,14 @@ class MatchedObject {
 	 * @return The number of (possibly focus) objects in this
 	 * MatchedObject, and any embedded Sheaf.
 	 */
-	long countObjectsFromObjectType(const std::string& object_type_name, bool bUseOnlyFocusObjects) const;
+	emdros_int64 countObjectsFromObjectType(const std::string& object_type_name, bool bUseOnlyFocusObjects) const;
 	
 	/** Count straws recursively.
 	 *
 	 * @return The number of straws in this MatchedObject's
 	 * embedded Sheaf, or 0 if that sheaf is empty.
 	 */
-	long countStraws() const;
+	emdros_int64 countStraws() const;
 
 	// See Sheaf::getSOM() for an explanation
 	void getSOM(SetOfMonads& som, bool bUseOnlyFocusObjects) const;
@@ -638,7 +638,7 @@ class Straw {
 	 * MatchedObject's of this straw, and any embedded Sheaves
 	 * therein.
 	 */
-	long countObjects(bool bUseOnlyFocusObjects) const;
+	emdros_int64 countObjects(bool bUseOnlyFocusObjects) const;
 
 	/** Count objects recursively.
 	 *
@@ -664,13 +664,13 @@ class Straw {
 	 * MatchedObject's in this straw, and any embedded Sheaves
 	 * therein.
 	 */
-	long countObjectsFromObjectType(const std::string& object_type_name, bool bUseOnlyFocusObjects) const;
+	emdros_int64 countObjectsFromObjectType(const std::string& object_type_name, bool bUseOnlyFocusObjects) const;
 	
 	/** Count straws recursively.
 	 *
 	 * @return The number of straws inside the sheaf, recursively.
 	 */
-	long countStraws() const;
+	emdros_int64 countStraws() const;
 
 	
 	// See Sheaf::getSOM() for an explanation
@@ -726,7 +726,7 @@ class ListOfStraws {
 	ListOfStraws& operator=(const ListOfStraws& other);
 #endif // !defined SWIG
 	bool isEmpty() const { return m_list.empty(); };
-	long size() const { return m_list.size(); }; // WARNING: This is currently slow!
+	emdros_int64 size() const { return m_list.size(); }; // WARNING: This is currently slow!
 	static void printLOSStartConsole(EMdFOutput *pOut);
 	static void printLOSEndConsole(EMdFOutput *pOut);
 	void printConsole(EMdFOutput *pOut, bool bPrintStartAndEnd = true) const;
@@ -735,8 +735,8 @@ class ListOfStraws {
 #ifndef SWIG
 	void append(Straw* straw);
 	void appendAndSubsume(ListOfStraws *pOther);
-	long appendAndSubsumeWhileFiltering(ListOfStraws *pOther);
-	long appendAndSubsumeWhileCounting(ListOfStraws* pOther, long start_index, long count);
+	emdros_int64 appendAndSubsumeWhileFiltering(ListOfStraws *pOther);
+	emdros_int64 appendAndSubsumeWhileCounting(ListOfStraws* pOther, emdros_int64 start_index, emdros_int64 count);
 	void appendACopy(const ListOfStraws *pOther);
 	void join(const Straw* mys);
 	void joinAndTakeOver(Straw* s);
@@ -779,7 +779,7 @@ class Sheaf {
 	const ListOfStraws* get_plist(void) const { return m_plist; };
 	ListOfStraws *takeOverPList(void) { ListOfStraws *pList = m_plist; m_plist = 0; return pList; }
 	void appendAndSubsume(Sheaf *pOther);
-	long appendAndSubsumeWithCounting(Sheaf *pOther, long start_index, long count);
+	emdros_int64 appendAndSubsumeWithCounting(Sheaf *pOther, emdros_int64 start_index, emdros_int64 count);
 	Sheaf& operator=(const Sheaf& other);
 	void flatten(FlatSheaf *pFlatSheaf);
 #endif
@@ -812,7 +812,7 @@ class Sheaf {
 	 * MatchedObject's of the straws of this Sheaf, and any
 	 * embedded Sheaves therein.
 	 */
-	long countObjects(bool bUseOnlyFocusObjects) const;
+	emdros_int64 countObjects(bool bUseOnlyFocusObjects) const;
 
 	/** Count objects recursively.
 	 *
@@ -838,14 +838,14 @@ class Sheaf {
 	 * MatchedObject's in the straws of this Sheaf, and any
 	 * embedded Sheaves therein.
 	 */
-	long countObjectsFromObjectType(const std::string& object_type_name, bool bUseOnlyFocusObjects) const;
+	emdros_int64 countObjectsFromObjectType(const std::string& object_type_name, bool bUseOnlyFocusObjects) const;
 	
 	/** Count straws recursively.
 	 *
 	 * @return The number of straws inside this Sheaf, and any
 	 * embedded sheaves in its inner MatchedObject's.
 	 */
-	long countStraws() const;
+	emdros_int64 countStraws() const;
 	
 	
 	// The method makes no distinction between matched_objects arising from 
