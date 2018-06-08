@@ -79,15 +79,8 @@ DIST_DOC_DOC_FILES=bootstrapping.txt HOW-TO-USE.txt MQL-README.txt \
 	                eqtc.html eqtu.html \
 	                ubimport.html pennimport.html negraimport.html \
 	                plaintextimport.html slashedtextimport.html \
-	                sfmimport.html tigerxmlimport.html bptdump.html \
-	                Monad-Sets.lyx \
-	                MQL-Programmers-Guide.lyx MQL-Query-Guide.lyx \
-	                New-EMdF.lyx Rel-EMdF.lyx Standard-MdF.lyx \
-	                Monad-Sets.pdf \
-	                MQL-Programmers-Guide.pdf MQL-Query-Guide.pdf \
-	                New-EMdF.pdf Rel-EMdF.pdf Standard-MdF.pdf \
-	                progref\EmdrosProgRefGuide.pdf \
-	                progref\emdros-progref-guide-$(VERSION).zip
+	                sfmimport.html tigerxmlimport.html bptdump.html 
+
 
 
 
