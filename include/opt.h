@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/19-2006
- * Last update: 5/28-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -122,18 +122,18 @@ typedef struct option_t {
 
 typedef std::map<std::string, option_t> OptionMap_t;
 
-extern void addOption(const char *short_version, /* with or without the - . */
+void addOption(const char *short_version, /* with or without the - . */
 		      const char *long_version,  /* with or without the -- . */
 		      bool takes_parameter = false,
 		      const char *default_value = "",
 		      const char *help_message_when_no_param = "");
 		      
 
-extern bool parseArguments(int argc, char *argv[], std::string& error_message, std::list<std::string>& surplus_arguments);
+bool parseArguments(int argc, char *argv[], std::string& error_message, std::list<std::string>& surplus_arguments);
 
-extern bool getArgumentValue(const char *short_version, std::string& value);
+bool getArgumentValue(const char *short_version, std::string& value);
 
-extern bool getArgumentPresent(const char *short_version);
+bool getArgumentPresent(const char *short_version);
 
 /* Must be declared in the program. */
 extern OptionMap_t theOptionMap; 

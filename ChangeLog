@@ -283,6 +283,19 @@
 	* EMdF/monads.cpp: Make the compact strings able to store 63 bits,
 	not just 31.
 
+	* pcre2/windows.mak: /D define PCRE2_STATIC, since that is what we
+	are building.
+
+	* include/opt.h: The Microsoft Visual Studio 2017 C++ compiler
+	thinks that certain functions are 'extern "C"' if they are
+	declared 'extern', and don't contain C++-only parameters.  Hence,
+	don't use 'extern' on these functions:
+
+	- addOption()
+	- parseArguments()
+	- getArgumentValue()
+	- getArgumentPresent()
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
