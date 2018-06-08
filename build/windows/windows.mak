@@ -56,11 +56,9 @@ ALL: config.nsh
    cd ..\wx
    nmake /f windows.mak $(MAKEMACRO) 
 !ENDIF
-   cd ..\src\qrytool\TECkit
+   cd ..\src\qrytool
    nmake /f windows.mak $(MAKEMACRO) 
-   cd ..\..\..\src\qrytool
-   nmake /f windows.mak $(MAKEMACRO) 
-   cd ..\..\src\importtool
+   cd ..\importtool
    nmake /f windows.mak $(MAKEMACRO) 
    cd ..
 !ENDIF
@@ -99,6 +97,8 @@ CLEAN:
    cd ..\wx
    nmake /f windows.mak CLEAN
    cd ..\src\qrytool
+   nmake /f windows.mak CLEAN
+   cd ..\importtool
    nmake /f windows.mak CLEAN
    cd ..
    nmake /f windows.mak CLEAN
