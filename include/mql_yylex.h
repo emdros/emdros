@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 5/1 (1st of May, 2001)
- * Last update: 7/30-2016
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2016  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -120,7 +120,7 @@ public:
 	};
 	void setChar(char c) { cChar = c; };
 	void setString(std::string* pS) { pString = pS; };
-	void setInteger(long long i) { integer = i; };
+	void setInteger(emdros_int64 i) { integer = i; };
 	void setName(const char *szName) { szTokenName = szName; };
 	std::string *extractString(void) { std::string *pS = pString; pString = 0; return pS; }
 	std::string getTokenName(void) const { 
@@ -129,7 +129,7 @@ public:
 		} else if (strcmp(szTokenName, STRING_MAGIC) == 0) { 
 		  return "the string '" + *pString + "'"; 
 		} else if (strcmp(szTokenName, INTEGER_MAGIC) == 0) { 
-			return std::string("the integer ") + longlong2string(integer); 
+			return std::string("the integer ") + emdros_int64ToString(integer); 
 		} else if (strcmp(szTokenName, CHAR_MAGIC) == 0) { 
 			return std::string("the character 0x") + char2hex(cChar); 
 		} else { 
@@ -138,7 +138,7 @@ public:
 	};
 	std::string *pString;
 	Bigstring *pBigstring;
-	long long integer;
+	emdros_int64 integer;
 	const char *szTokenName;
 	char cChar;
 };
