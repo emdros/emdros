@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 10/21-2001
- * Last update: 5/28-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -96,6 +96,7 @@
 #include "emdros-config.h"
 #include "emdros-lconfig.h"
 #include "exception_emdros.h"
+#include "emdf.h"
 
 #include <ostream>
 #include <string>
@@ -204,12 +205,12 @@ class EMdFOutput {
 	void out(const char* s) { *m_pStream << s; };
 #endif
 	void outCharData(const std::string& s);
-    void jsonOutValue(const std::string& s);
-    void jsonOutValue(const char* s);
-    void jsonOutValue(bool b);
-    void jsonOutValue(long i);
-    void jsonOutValue();
-    void jsonOutValueOrNull(long i);
+	void jsonOutValue(const std::string& s);
+	void jsonOutValue(const char* s);
+	void jsonOutValue(bool b);
+	void jsonOutValue(emdros_int64 i);
+	void jsonOutValue();
+	void jsonOutValueOrNull(id_d_t i);
 	/** flush stream.
 	 * @internal
 	 */

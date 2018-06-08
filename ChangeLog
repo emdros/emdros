@@ -128,6 +128,13 @@
         - wx/windows.mak
         - zlib/windows.mak
 
+	* EMdF/emdf_output.cpp, include/emdf_output.h: Reinstate
+	compileability on Visual Studio 2017, by using emdros_int64 or
+	id_d_t instead of long in the following methods:
+
+	- EMdFOutput::jsonOutValue()
+	- EMdFOutput::jsonOutValueOrNull
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

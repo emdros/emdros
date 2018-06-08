@@ -598,13 +598,13 @@ void EMdFOutput::jsonOutValue()
     m_emit_comma = true;
 }
 
-void EMdFOutput::jsonOutValue(long i)
+void EMdFOutput::jsonOutValue(emdros_int64 i)
 {
-    out(long2string(i));
+    out(longlong2string(i));
     m_emit_comma = true;
 }
 
-void EMdFOutput::jsonOutValueOrNull(long i)
+void EMdFOutput::jsonOutValueOrNull(id_d_t i)
 {
     if (i == NIL)
         jsonOutValue();
