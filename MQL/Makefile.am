@@ -77,29 +77,22 @@ libmql_la_LDFLAGS = $(MACLDFLAGS) -version-info \
 
 
 
-
-#
-# Misc variables
-#
-EXTRA_DIST = mql.re mql_lexer.cpp \
-             mql_gq.re mql_get_query.cpp \
-             mql.yxx mql_parser.cpp mqlpars.h \
-             windows.mak mingw.mak unistd.h.win32 
-
 BUILT_SOURCES = $(srcdir)/mql_lexer.cpp \
                 $(srcdir)/mql_parser.cpp \
                 $(srcdir)/mqlpars.h \
                 $(srcdir)/mql_get_query.cpp 
 
+
+#
+# Misc variables
+#
+EXTRA_DIST = mql.re  mql_gq.re  mql.yxx \
+             $(BUILT_SOURCES) \
+             windows.mak mingw.mak unistd.h.win32 
+
 #
 # Headers
 #
-
-mql_built_headers = $(top_srcdir)/include/mqlpars.h
-
-
-noinst_HEADERS = \
-                 $(mql_built_headers) 
 
 AM_CPPFLAGS = -I$(srcdir)/../include -I$(top_srcdir)/
 
@@ -107,11 +100,7 @@ CLEANFILES = *~ core $(srcdir)/lemon $(top_srcdir)/include/unistd.h \
              $(srcdir)/mql.out \
              $(srcdir)/lemon.c $(srcdir)/lempar.c
 
-DISTCLEANFILES = $(srcdir)/mql_get_query.cpp $(srcdir)/mql_lexer.cpp \
-             $(srcdir)/mql_parser.cpp \
-             $(srcdir)/mqlpars.h \
-             $(top_srcdir)/include/mqlpars.h 
-
+DISTCLEANFILES = 
 
 #
 # Parsers
@@ -125,9 +114,6 @@ $(srcdir)/mql_parser.cpp: $(srcdir)/mql.yxx $(srcdir)/lempar.c $(srcdir)/lemon
 	cp $(srcdir)/mql.h $(srcdir)/mqlpars.h
 
 $(srcdir)/mql_parser.o: $(srcdir)/mql_parser.cpp
-
-$(top_srcdir)/include/mqlpars.h: $(srcdir)/mqlpars.h
-	cp $(srcdir)/mqlpars.h $(top_srcdir)/include/
 
 
 

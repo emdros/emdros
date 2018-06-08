@@ -233,7 +233,7 @@
 	<header_file name="include/mql_object.h" />
 	<header_file name="include/mql_object_statements.h" />
 	<header_file name="include/mql_object_type_statements.h" />
-	<header_file name="include/mqlpars.h" />
+	<header_file name="MQL/mqlpars.h" />
 	<header_file name="include/mql_query.h" />
 	<header_file name="include/mql_result.h" />
 	<header_file name="include/mql_R.h" />

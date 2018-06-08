@@ -61,6 +61,22 @@
 	* EMdF/Makefile.am: Don't CLEAN json_parser.cpp, jsonpars.h, and
 	json_lexer.cpp.
 
+	*: MQL/mql_parser.cpp, MQL/mqlpars.h, MQL/mql_get_query.cpp,
+	MQL/lexer.cpp Add to repo.
+
+	* MQL/Makefile.am: Don't DISTCLEAN the files just added to the repo:
+
+	- MQL/mql_parser.cpp
+	- MQL/mqlpars.h
+	- MQL/mql_get_query.cpp,
+	- MQL/lexer.cpp
+
+	* MQL/Makefile.am: Don't make ../include/mqlpars.h.  It was
+	redundant.
+
+	* amalgmation/amalgamation.xml: Fix include/mqlpars.h ->
+	MQL/mqlpars.h.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

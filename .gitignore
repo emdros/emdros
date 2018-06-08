@@ -29,10 +29,6 @@ EMdF/json.out
 MQL/mql.c
 MQL/mql.h
 MQL/mql.out
-MQL/mql_get_query.cpp
-MQL/mql_lexer.cpp
-MQL/mql_parser.cpp
-MQL/mqlpars.h
 SWIG/csharp/*.cs
 SWIG/csharp/CSharpSources.zip
 SWIG/csharp/EmdrosDotNet.dll
@@ -95,7 +91,6 @@ include/emdros-version.h
 include/emdros-config.h
 include/emdros-config.h.in
 include/emdros-lconfig.h
-include/mqlpars.h
 include/stamp-h1
 install-sh
 install_mac.sh
