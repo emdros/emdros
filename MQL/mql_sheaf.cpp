@@ -613,9 +613,9 @@ std::string MatchedObject::getFeatureAsString(int index) const
  *
  * Convenience function for getEMdFValue(int).  
  *
- * Returns the given EMdFValue as a long.  For enums, the enum integer
- * value is returned, not the string name associated with it. Integers
- * and ID_Ds are returned as they are.
+ * Returns the given EMdFValue as an emdros_int64.  For enums, the
+ * enum integer value is returned, not the string name associated with
+ * it. Integers and ID_Ds are returned as they are.
  *
  * Throws an EmdrosException if the EMdFValue in question is a string
  * or a list.  Throws an EmdrosException if index out of range.
@@ -626,7 +626,7 @@ std::string MatchedObject::getFeatureAsString(int index) const
  * of.
  * @return The given EMdFValue, converted to a string.
  */
-long MatchedObject::getFeatureAsLong(int index) const
+emdros_int64 MatchedObject::getFeatureAsLong(int index) const
 {
 	const EMdFValue *pValue = getEMdFValue(index);
 	if (pValue == 0) {
@@ -1026,8 +1026,8 @@ id_d_t MatchedObject::getObjectTypeId() const
  */
 void MatchedObject::printConsole(EMdFOutput *pOut, bool bIsForFullSheaf) const
 {
-	/* Assumed 63-bits. Right now, we only have 31 bits. */
-#define MAX_LONG_STRING_LENGTH (20) 
+	/* Assumed 63-bits. */
+#define MAX_LONG_STRING_LENGTH (21) 
 	if (!getRetrieve()) {
 		// Nothing to do
 		return;

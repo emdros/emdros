@@ -190,6 +190,9 @@
 	* include/string_list.h: Update IntegerList to use emdros_int64
 	instead of long.
 
+	* include/mql_sheaf.h: Update MatchedObject to return an
+	emdros_int64 for the getFeatureAsLong() method.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
