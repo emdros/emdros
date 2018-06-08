@@ -140,14 +140,7 @@ DEFAULT_BACKEND_ENUM = kSQLite3
 
 
 
-# This is necessary for successful runtime of TECkit
-# on Visual Studio (Express) 2005.  The reason is that
-# Visual Studio (Express) 2005 implements checks on
-# iterators, and TECkit relies on being able to have iterators 
-# be outside the bounds of the vector.
-TECKIT_CPPFLAGS_EXTRA = /D_HAS_ITERATOR_DEBUGGING=0 /D_SECURE_SCL=0
-
-CPPFLAGS_EXTRA = $(DB_CPPFLAGS)  $(TECKIT_CPPFLAGS_EXTRA) /EHsc
+CPPFLAGS_EXTRA = $(WINFLAGS) $(DB_CPPFLAGS) /EHsc
 
 
 PCRELIB="$(OUTDIR)\libpcre2_emdros.lib"
@@ -486,7 +479,7 @@ DEBUG_SENSITIVE_CPPFLAGS = /MTd /W4 /Od /Zi \
 !ELSE
 
 # non-debug build
-DEBUG_SENSITIVE_CPPFLAGS = /MT /W3 /O2 /D"NDEBUG=1"   /D_CRT_SECURE_NO_WARNINGS=1  /D_SCL_SECURE_NO_WARNINGS=1
+DEBUG_SENSITIVE_CPPFLAGS = /MT /W4 /O2 /D"NDEBUG=1"   /D_CRT_SECURE_NO_WARNINGS=1  /D_SCL_SECURE_NO_WARNINGS=1
 !ENDIF
 
 

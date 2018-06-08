@@ -310,6 +310,8 @@
 
 	* src/qrytool/harvest.cpp: Fix some warnings on Windows with /W4.
 
+	* build/windows/body.mak: Define /W4, not /W3, in RELEASE builds.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
