@@ -6,7 +6,7 @@
 # Will build a Win32 static library (non-debug) libmql.lib
 
 
-WIN32DIR = ..\windows\build
+WIN32DIR = ..\build\windows
 
 LIBTARGET = libmql.lib
 TARGETS = "$(OUTDIR)\$(LIBTARGET)" 

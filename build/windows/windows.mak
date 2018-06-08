@@ -72,7 +72,7 @@ ALL: config.nsh
    cd ..\SWIG
    nmake /f windows.mak $(MAKEMACRO) 
 !ENDIF 
-   cd ..\..\build\windows
+   cd ..\build\windows
    echo All Windows parts have been built!
 
 
@@ -81,7 +81,7 @@ CLEAN:
    cd ..\..\include
    nmake /f windows.mak CLEAN
 !IF "$(SQLITE3)" == "1"
-   cd ..\sqlite
+   cd ..\sqlite3
    nmake /f windows.mak CLEAN
 !ENDIF
    cd ..\EMdF
@@ -98,9 +98,7 @@ CLEAN:
    nmake /f windows.mak CLEAN
    cd ..\wx
    nmake /f windows.mak CLEAN
-   cd ..\src\qrytool\TECkit
-   nmake /f windows.mak CLEAN
-   cd ..\..\..\src\qrytool
+   cd ..\src\qrytool
    nmake /f windows.mak CLEAN
    cd ..
    nmake /f windows.mak CLEAN
@@ -108,7 +106,7 @@ CLEAN:
    nmake /f windows.mak CLEAN
    cd ..\SWIG
    nmake /f windows.mak CLEAN
-   cd ..\..\build\windows
+   cd ..\build\windows
    -@erase *~
    -@rmdir Release\ /s /q
    -@rmdir ReleaseUnicode\ /s /q
@@ -387,7 +385,7 @@ MAKE_DIST_FILES: MAKE_DIST_SWIG
 INST: DIST
 	cd ..\emdros-windows
         "$(NSISEXE)" emdros.nsi
-        cd ..\..\build\windows
+        cd ..\build\windows
 
 config.nsh:
    -del config.nsh

@@ -6,7 +6,7 @@
 # Will build Emdros programs
 
 
-WIN32DIR = ..\windows\build
+WIN32DIR = ..\build\windows
 
 !INCLUDE $(WIN32DIR)\config.mak
 

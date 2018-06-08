@@ -16,7 +16,7 @@ NULL=nul
 
 ALL:
 !IF "$(WITH_SWIG_PYTHON)" == "yes"
-	cd python 
+	cd python2 
 	nmake /f windows.mak
 	cd ..
 !ENDIF
@@ -33,7 +33,7 @@ ALL:
 
 
 CLEAN:
-	cd python 
+	cd python2
 	nmake /f windows.mak clean
 	cd ..
 	cd java 

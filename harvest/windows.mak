@@ -5,7 +5,7 @@
 
 # Will build a Win32 library libharvest.lib
 
-WIN32DIR = ..\windows\build
+WIN32DIR = ..\build\windows
 
 
 LIBTARGET = libharvest.lib
