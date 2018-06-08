@@ -121,11 +121,12 @@ int penn_yyparse(PennImporterEnv *pEE)
 	pEE->bSyntaxError = false,
 		pParser = PennParserAlloc( malloc );
 	pToken = newPennToken();
-	while((hTokenId = penn_yylex(pToken, pEE))
-	      && !pEE->bSyntaxError) {
+	hTokenId = penn_yylex(pToken, pEE);
+	while(hTokenId && !pEE->bSyntaxError) {
 	  
 		PennParser(pParser, hTokenId, pToken, pEE);
 		pToken = newPennToken();
+		hTokenId = penn_yylex(pToken, pEE);
 	}
 	PennParser(pParser, 0, pToken, pEE);
 	PennParserFree(pParser, free );
