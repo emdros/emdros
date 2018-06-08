@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/10-2005
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2005  Ulrik Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -166,7 +166,7 @@ public:
   virtual bool accessTuple(int field_no, 
 			   bool& result) = 0;
   virtual bool accessTuple(int field_no, 
-			   long& result) = 0;
+			   emdros_int64& result) = 0;
   virtual bool accessTuple(int field_no, 
 			   std::string& result) = 0;
 

@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 12/31-2017
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -255,7 +255,7 @@ public:
     } else {
       // Convert result
       // result = strtol(szTemp, (char **)NULL, 10);
-      result = sz2longlong(szTemp);
+      result = sz2emdros_int64(szTemp);
 
       // Return success
       return true;

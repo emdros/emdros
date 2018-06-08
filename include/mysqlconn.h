@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 4/18-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -240,7 +240,7 @@ public:
 	throw EMdFNULLValueException();
       } else {
 	// It wasn't NULL.  Convert result
-	result = sz2longlong(pField);
+	result = sz2emdros_int64(pField);
       }
 	
       // Return success      

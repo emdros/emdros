@@ -157,6 +157,9 @@
 	* include/mql_yylex.h: Use emdros_int64 instead of a long for the
 	integer value.
 
+	* include/conn.h, include/pgconn.h, include/mysqlconn.h: Use
+	emdros_int64 instead of long for getting the integer values.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
