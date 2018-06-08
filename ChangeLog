@@ -103,6 +103,30 @@
 
 	Also, don't CLEAN these files in the importers/Makefile.am.
 
+	* Windows: Work towards building on Windows straight out of the
+	repo.
+
+	Files affected:
+
+        - EMdF/windows.mak
+        - MQL/windows.mak
+        - SWIG/csharp/windows.mak
+        - SWIG/java/windows.mak
+        - SWIG/python2/windows.mak
+        - SWIG/windows.mak
+        - build/windows/body.mak
+        - harvest/windows.mak
+        - importers/windows.mak
+        - include/windows.mak
+        - sqlite3/src/windows.mak
+        - sqlite3/windows.mak
+        - src/importtool/windows.mak
+        - src/qrytool/windows.mak
+        - src/windows.mak
+        - tests/windows.mak
+        - util/windows.mak
+        - wx/windows.mak
+        - zlib/windows.mak
 
 2018-06-01 Ulrik Sandborg-Petersen
 

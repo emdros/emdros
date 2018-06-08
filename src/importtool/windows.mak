@@ -1,11 +1,11 @@
 #
-# Emdros Win32 Makefile for examples/ImportTool directory
+# Emdros Win32 Makefile for src\importtool directory
 #
 # Makefile for Microsoft Visual C++ 5.0 (or compat)
 
 # Will build the Win32 program "EmdrosImportToolUnicode.exe".
 
-WIN32DIR = ..\..\win32
+WIN32DIR = ..\..\build\windows
 
 !INCLUDE $(WIN32DIR)\config.mak
 

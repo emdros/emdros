@@ -12,7 +12,7 @@ NULL=
 NULL=nul
 !ENDIF 
 
-!INCLUDE ..\win32\config.mak
+!INCLUDE ..\build\windows\config.mak
 
 ALL:
 !IF "$(WITH_SWIG_PYTHON)" == "yes"

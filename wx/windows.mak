@@ -5,7 +5,7 @@
 
 # Will build a Win32 library, libemdrosguiu.lib
 
-WIN32DIR = ..\win32
+WIN32DIR = ..\windows\build
 
 !INCLUDE $(WIN32DIR)\config.mak
 

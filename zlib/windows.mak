@@ -5,7 +5,7 @@
 
 # Will build a Win32 library libz_emdros.lib
 
-WIN32DIR = ..\win32
+WIN32DIR = ..\windows\build
 
 
 LOCAL_CPPFLAGS = -I. -DZ_STATIC -DHAVE_CONFIG_H

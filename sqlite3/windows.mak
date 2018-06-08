@@ -11,7 +11,7 @@ NULL=nul
 !MESSAGE Building sqlite on Win32
 !MESSAGE
 
-!INCLUDE ..\win32\config.mak
+!INCLUDE ..\build\windows\config.mak
 
 ALL: 
    cd src

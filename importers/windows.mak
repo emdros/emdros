@@ -9,7 +9,7 @@
 #
 # Custom macros
 #
-WIN32DIR = ..\win32
+WIN32DIR = ..\windows\build
 
 !INCLUDE $(WIN32DIR)\config.mak
 

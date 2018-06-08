@@ -11,7 +11,7 @@ WIN32DIR = ..\build\windows
 
 EMDROS_LCONFIG_WIN32_H = win32-lconfig.h
 
-TARGETS = lconfig
+TARGETS = lconfig emdros-lconfig.h
 CLEANFILES= 
 
 
@@ -47,3 +47,5 @@ lconfig:
 
 
 
+emdros-lconfig.h: emdros-lconfig.h.in
+    copy /B /Y emdros-lconfig.h.in  emdros-lconfig.h

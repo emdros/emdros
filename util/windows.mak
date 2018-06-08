@@ -5,7 +5,7 @@
 
 # Will build a Win32 library libutil_emdros.lib
 
-WIN32DIR = ..\win32
+WIN32DIR = ..\build\windows
 
 
 LIBTARGET = libutil_emdros.lib

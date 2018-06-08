@@ -4,7 +4,7 @@
 # Makefile for Microsoft Visual C++ 5.0 (or compat)
 
 
-WIN32DIR=..\..\win32
+WIN32DIR=..\..\build\windows
 
 !INCLUDE $(WIN32DIR)\config.mak
 

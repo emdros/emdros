@@ -6,7 +6,7 @@
 # Will build _EmdrosPy.dll and EmdrosPy.py
 #
 
-WIN32DIR = ..\..\win32
+WIN32DIR = ..\..\build\windows
 
 !INCLUDE $(WIN32DIR)\config.mak
 

@@ -6,7 +6,7 @@
 # Will build a Win32 library libqrytool.lib
 # and the eqt(c)(u).exe programs
 
-WIN32DIR = ..\..\win32
+WIN32DIR = ..\..\build\windows
 
 !INCLUDE $(WIN32DIR)\config.mak
 
