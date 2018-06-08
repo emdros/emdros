@@ -129,7 +129,6 @@ src/upgrade_db
 src/bptdetach
 tests/Info.plist.htmlcanvastest
 tests/Info.plist.htreetest
-tests/bptqa.h
 tests/bpttry
 tests/emdftry
 tests/emdros_utiltry
@@ -137,7 +136,6 @@ tests/htmlcanvastestu
 tests/htreetestu
 tests/jsontry
 tests/mqllingtry
-tests/mqlqa.h
 tests/mqltry
 tests/erwtry
 tests/emdros_qdtry
