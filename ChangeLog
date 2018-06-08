@@ -173,6 +173,20 @@
         - include/emdfdb.h
         - include/json_classes.h
 
+	* MQL/: Adjust to the new reality of using emdros_int64.
+
+	Affected files:
+
+        modified:   MQL/mql.re
+        modified:   MQL/mql_enumeration_statements.cpp
+        modified:   MQL/mql_helper_classes.cpp
+        modified:   MQL/mql_lexer.cpp
+        modified:   MQL/mql_query.cpp
+        modified:   MQL/windows.mak
+        modified:   include/mql_enumeration_statements.h
+        modified:   include/mql_query.h
+        modified:   include/mql_types.h
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 5/28-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -1294,7 +1294,7 @@ Value::Value(std::string* str, eValueKind kind) // for enum_const and string
 	}
 }
 
-Value::Value(long integer)
+Value::Value(emdros_int64 integer)
 	: m_emdf_value(0),
 	  m_object_reference_usage(0),
 	  m_enum_const(0),
@@ -1449,10 +1449,10 @@ std::string Value::getAsString(MQLExecEnv *pEE, NonParentORDSolution *pNonParent
 	const EMdFValue* pValue;
 	switch (m_kind) {
 	case kValEnumConst:
-		result = long2string(m_enum_const_value);
+		result = emdros_int64ToString(m_enum_const_value);
 		break;
 	case kValInteger:
-		result = long2string(m_integer);
+		result = emdros_int64ToString(m_integer);
 		break;
 	case kValString:
 		result = *m_string;
@@ -1474,7 +1474,7 @@ const std::string& Value::getEnumConst()
 	return *m_enum_const;
 }
 
-long Value::getInteger()
+emdros_int64 Value::getInteger()
 {
 	ASSERT_THROW(m_kind == kValInteger,
 		     "value kind was not integer");
@@ -1759,7 +1759,7 @@ bool FeatureComparison::symbol(MQLExecEnv *pEE,
 
 			// Check that it exists
 			bool bEnumConstExists;
-			long enum_const_value;
+			emdros_int64 enum_const_value;
 			bool bIsDefault;
 			if (!pEE->pDB->enumConstExists(cur_enum_const,
 						       feature_type_id,
@@ -3944,6 +3944,7 @@ bool ObjectBlock::makeInst(MQLExecEnv *pEE, const SetOfMonads& Su, eMonadSetRela
 			m_inst = R_inst(pEE, Su, this, pMonadSetOperation);
 			m_inst->setIsAggregate(true);
 		} catch (EMdFDBException& e) {
+			(void) e;
 			return false;
 		}
 	}
@@ -4008,6 +4009,7 @@ EMdFFFeatures *ObjectBlock::getEMdFConstraints(EMdFDB *pDB)
 			return m_feature_constraints->getEMdFConstraints(pDB);
 		}
 	} catch (EMdFDBDBError& e) {
+		(void) e;
 		// If we come here, there was a DB error.
 		return 0;
 	}
@@ -4026,6 +4028,7 @@ bool ObjectBlock::calculatePreQueryString(EMdFDB *pDB)
 		// If we came this far, there were no DB errors
 		return true;
 	} catch (EMdFDBDBError& e) {
+		(void) e;
 		// If we come here, there was a DB error.
 		return false;
 	}

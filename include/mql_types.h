@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 7/19-2016
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2016  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -258,16 +258,16 @@ class Expression {
  private:
 	eExprType m_type;
 	std::string* m_string;
-	long m_integer;
+	emdros_int64 m_integer;
 	id_d_t m_enum_id;
-	long m_enum_value;
+	emdros_int64 m_enum_value;
 	StringList *m_list_of_identifier;
 	IntegerList *m_list_of_integer;
 	SetOfMonads *m_pSOM;
 	MQLMonadSetElement *m_pMQLMSE;
  public:
 	Expression(); // for kExprEmptyList
-	Expression(long integer); // For kExprInteger
+	Expression(emdros_int64 integer); // For kExprInteger
 	Expression(const SetOfMonads& som); // For kExprSetOfMonads
 	Expression(MQLMonadSetElement *pSOM); // For kExprSetOfMonads
 	Expression(std::string* str, eExprType type); // For kExprString and kExprIdentifier
@@ -276,11 +276,11 @@ class Expression {
 	~Expression();
 	void weed(MQLExecEnv *pEE, bool& bResult);
 	eExprType getKind() { return m_type; };
-	long getInteger();
+	emdros_int64 getInteger();
 	const SetOfMonads& getSOM() const;
 	const std::string& getString();
 	const std::string& getIdentifier();
-	long getEnumValue();
+	emdros_int64 getEnumValue();
 	bool getAsString(MQLExecEnv *pEE, std::string& result, bool bConvertEnumConstToInteger);
 	bool typeTypeCompatibility(MQLExecEnv *pEE, MQLType* type, bool& bResult);
 	IntegerList *getCopyOfIntegerList(void) const;
@@ -464,7 +464,7 @@ class Feature {
 	std::string m_enum_name;
 	int m_list_index;
 	short int m_feature_index_inst;
-	std::map<long, std::string> m_enum_const_cache;
+	std::map<emdros_int64, std::string> m_enum_const_cache;
 	int m_length;
  public:
 	Feature(std::string* feature, Feature* next);
@@ -474,7 +474,7 @@ class Feature {
 	const std::string& getFeature() { return *m_feature; };
 	id_d_t getFeatureTypeID(void) const { return m_feature_type_id; };
 	const std::string& getEnumName(void) const { return m_enum_name; };
-	const std::string& getEnumConstNameFromValue(long value) { return m_enum_const_cache[value]; };
+	const std::string& getEnumConstNameFromValue(emdros_int64 value) { return m_enum_const_cache[value]; };
 	Feature* getNext() { return m_next; };
 	void setNext(Feature* next) { m_next = next; };
 	int getLength(void) { return m_length = getLength(1); };
@@ -504,7 +504,7 @@ class Feature {
 class AggregateFeature {
  protected:	
 	eAggregateFunction m_function;
-	long m_result;
+	emdros_int64 m_result;
 	Feature *m_feature;
 	FeatureComparison *m_feature_comparison;
 
@@ -528,7 +528,7 @@ class AggregateFeature {
 	virtual std::string getFeatureName() const;
 	virtual FeatureComparison *getFeatureComparison() const { return m_feature_comparison; };
 	
-	virtual long getResult() const { return m_result; };
+	virtual emdros_int64 getResult() const { return m_result; };
 	virtual void weed(MQLExecEnv *pEE, bool& bResult);
 	virtual bool symbol(MQLExecEnv *pEE, const std::string& object_type_name, id_d_t object_type_id, bool& bResult);
 	virtual bool type(MQLExecEnv *pEE, bool& bResult);

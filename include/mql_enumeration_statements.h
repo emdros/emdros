@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 11/22-2002
- * Last update: 3/14-2007
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2002-2007  Ulrik Petersen
+ *   Copyright (C) 2002-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -114,17 +114,17 @@ class ECDeclaration {
 	ECDeclaration* m_next;
 	bool m_is_default;
 	std::string* m_ec_name;
-	long* m_opt_ec_initialization;
-	long m_value;
+	emdros_int64* m_opt_ec_initialization;
+	emdros_int64 m_value;
  public:
-	ECDeclaration(bool is_default, std::string* ec_name, long* opt_ec_initialization, ECDeclaration* next);
+	ECDeclaration(bool is_default, std::string* ec_name, emdros_int64* opt_ec_initialization, ECDeclaration* next);
 	virtual ~ECDeclaration();
 	void weedDefault(MQLExecEnv *pEE, bool& bResult);
 	bool getIsDefault();
 	bool hasOptEcInitialization() { return m_opt_ec_initialization != 0; };
-	long getOptEcInitialization();
+	emdros_int64 getOptEcInitialization();
 	const std::string& getEcName();
-	long getValue(void) { return m_value; };
+	emdros_int64 getValue(void) { return m_value; };
 	ECDeclaration* getNext() { return m_next; };
 	void setNext(ECDeclaration* next) { m_next = next; };
 	bool symbolExistenceOfConstants(MQLExecEnv *pEE, id_d_t enum_id, bool& bResult);
@@ -133,8 +133,8 @@ class ECDeclaration {
 	bool createConstants(MQLExecEnv *pEE, id_d_t enum_id, const std::string& enum_name);
  private:
 	void weedDefaultPrivate(MQLExecEnv *pEE, bool& bResult, bool& has_met_default);
-	void symbolAssignValuesPrivate(long& previous);
-	void symbolValueMoreThanOncePrivate(MQLExecEnv *pEE, bool& bResult, std::set<long>& value_set, std::set<std::string>& const_set);
+	void symbolAssignValuesPrivate(emdros_int64& previous);
+	void symbolValueMoreThanOncePrivate(MQLExecEnv *pEE, bool& bResult, std::set<emdros_int64>& value_set, std::set<std::string>& const_set);
 };
 
 // CREATE ENUMERATION
@@ -157,18 +157,18 @@ class ECUpdate {
 	ECUpdate* m_next;
 	eAddUpdateRemove m_kind;
 	std::string* m_ec_name;
-	long m_ec_initialization;
+	emdros_int64 m_ec_initialization;
 	bool m_is_default;
  public:
 	ECUpdate(bool is_default, 
 		 std::string* ec_name, 
-		 long ec_initialization, 
+		 emdros_int64 ec_initialization, 
 		 eAddUpdateRemove kind, 
 		 ECUpdate* next);
 	virtual ~ECUpdate();
 	void weedDefault(MQLExecEnv *pEE, bool& bResult);
 	bool getIsDefault() { return m_is_default; };
-	long getEcInitialization() { return m_ec_initialization; };
+	emdros_int64 getEcInitialization() { return m_ec_initialization; };
 	const std::string& getEcName() { return *m_ec_name; };
 	eAddUpdateRemove getKind() { return m_kind; };
 	ECUpdate* getNext() { return m_next; };
@@ -183,7 +183,7 @@ class ECUpdate {
  private:
 	void weedDefaultPrivate(MQLExecEnv *pEE, bool& bResult, bool& has_met_default);
 	void symbolDoLocalUpdatePrivate(std::list<EnumConstInfo>& enum_list);
-	void symbolCheckNoTwoValuesSamePrivate(MQLExecEnv *pEE, const std::list<EnumConstInfo>& enum_list, std::set<long>& value_set, bool& bResult);
+	void symbolCheckNoTwoValuesSamePrivate(MQLExecEnv *pEE, const std::list<EnumConstInfo>& enum_list, std::set<emdros_int64>& value_set, bool& bResult);
 };
 
 // UPDATE ENUMERATION

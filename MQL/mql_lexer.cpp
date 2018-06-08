@@ -7,7 +7,7 @@
  *
  * Ulrik Petersen
  * Created: 6/23-2007
- * Last update: 5/28-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -4491,7 +4491,7 @@ void MQLScanner::addInteger(void)
 	     	     ++p) {
 		     mystring.push_back(*p);
 		}
-		yylval->setInteger(sz2longlong(mystring.c_str()));
+		yylval->setInteger(sz2emdros_int64(mystring.c_str()));
         } else {
 		char szInt[MAX_INTEGER_CHARS+1];
 
@@ -4503,7 +4503,7 @@ void MQLScanner::addInteger(void)
 		     *q++ = *p;
 		}
 		*q = '\0';
-		yylval->setInteger(sz2longlong(szInt));
+		yylval->setInteger(sz2emdros_int64(szInt));
 	}
 }
 

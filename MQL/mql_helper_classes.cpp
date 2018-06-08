@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 3/1-2017
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -526,7 +526,7 @@ Expression::Expression(const SetOfMonads& som) // For kExprSetOfMonads
 	m_pMQLMSE = 0;
 }
 
-Expression::Expression(long integer) // For kExprSetOfMonads
+Expression::Expression(emdros_int64 integer) // For kExprSetOfMonads
 {
 	m_string = 0;
 	m_list_of_identifier = 0;
@@ -619,7 +619,7 @@ void Expression::weed(MQLExecEnv *pEE, bool& bResult)
 	}
 }
 
-long Expression::getInteger()
+emdros_int64 Expression::getInteger()
 {
 	ASSERT_THROW(m_type == kExprInteger,
 		     "type was not kExprInteger");
@@ -649,7 +649,7 @@ const std::string& Expression::getIdentifier()
 	return *m_string;
 }
 
-long Expression::getEnumValue()
+emdros_int64 Expression::getEnumValue()
 {
 	ASSERT_THROW(m_type == kExprIdentifier,
 		     "Type is not kExprIdentifier");
@@ -747,7 +747,7 @@ bool Expression::typeTypeCompatibility(MQLExecEnv *pEE, MQLType* other_type, boo
 		ci = m_list_of_identifier->const_iterator();
 		while (ci.hasNext()) {
 			std::string enum_const = ci.next();
-			long enum_value;
+			emdros_int64 enum_value;
 			bool bExists;
 
 			if (!pEE->pDB->enumConstExists(enum_const, m_enum_id, bExists, 
@@ -780,7 +780,7 @@ bool Expression::getAsString(MQLExecEnv *pEE, std::string& result, bool bConvert
 	std::ostringstream mystrstream;
 	bool bEnumConstExists;
 	bool dummy_is_default;
-	long value;
+	emdros_int64 value;
 	switch(m_type) {
 	case kExprInteger:
 		mystrstream << m_integer;
@@ -954,7 +954,7 @@ bool FeatureDeclaration::symbolEnumConstantsExist(MQLExecEnv *pEE, bool& bResult
 		if (m_default_specification != 0 
 		    && m_default_specification->getKind() == kExprIdentifier) {
 			id_d_t enum_id = m_type->getTypeId();
-			long value;
+			emdros_int64 value;
 			bool is_default;
 			if (!pEE->pDB->enumConstExists(m_default_specification->getIdentifier(),
 						       enum_id, bResult, value, is_default)) {
@@ -1052,7 +1052,7 @@ bool FeatureDeclaration::typeTypeCompatibility(MQLExecEnv *pEE, bool& bResult)
 		std::string *pDefault_string;
 		switch (m_type->getType()) {
 		case kInteger:
-			m_default_specification = new Expression((long) 0);
+			m_default_specification = new Expression((emdros_int64) 0);
 			break;
 		case kString:
 			pDefault_string = new std::string("");
@@ -2031,10 +2031,10 @@ bool ObjectSpecBase::symbolAllFeaturesMustBeAssigned(MQLExecEnv *pEE,
 			// Decide type
 			switch (fi.getType() & FEATURE_TYPE_TYPE_MASK) {
 			case FEATURE_TYPE_INTEGER:
-				pExpr = new Expression(string2long(fi.getDefaultValue()));
+				pExpr = new Expression(string2emdros_int64(fi.getDefaultValue()));
 				break;
 			case FEATURE_TYPE_ID_D:
-				pExpr = new Expression(string2long(fi.getDefaultValue()));
+				pExpr = new Expression(string2emdros_int64(fi.getDefaultValue()));
 				break;
 			case FEATURE_TYPE_STRING:
 				pString = new std::string(fi.getDefaultValue());

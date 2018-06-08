@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 3/6-2001 (March 6, 2001)
- * Last update: 3/14-2007
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2007  Ulrik Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -99,7 +99,7 @@
 
 ECDeclaration::ECDeclaration(bool is_default, 
 			     std::string* ec_name, 
-			     long* opt_ec_initialization, 
+			     emdros_int64* opt_ec_initialization, 
 			     ECDeclaration* next)
 {
 	m_is_default = is_default;
@@ -120,7 +120,7 @@ bool ECDeclaration::getIsDefault()
 	return m_is_default;
 }
 
-long ECDeclaration::getOptEcInitialization()
+emdros_int64 ECDeclaration::getOptEcInitialization()
 {
 	return *m_opt_ec_initialization;
 }
@@ -153,7 +153,7 @@ bool ECDeclaration::symbolExistenceOfConstants(MQLExecEnv *pEE,id_d_t enum_id, b
 
 	// Then deal with ourselves
 	bool bEnumConstExists;
-	long dummy_value;
+	emdros_int64 dummy_value;
 	bool dummy_is_default;
 	if (!pEE->pDB->enumConstExists(*m_ec_name,
 				       enum_id,
@@ -180,11 +180,11 @@ bool ECDeclaration::symbolExistenceOfConstants(MQLExecEnv *pEE,id_d_t enum_id, b
 // 
 void ECDeclaration::symbolAssignValues(void)
 {
-	long previous = 0;
+	emdros_int64 previous = 0;
 	symbolAssignValuesPrivate(previous);
 }
 
-void ECDeclaration::symbolAssignValuesPrivate(long& previous)
+void ECDeclaration::symbolAssignValuesPrivate(emdros_int64& previous)
 {
 	// Deal with next before we deal with ourselves
 	if (m_next != 0) {
@@ -209,13 +209,13 @@ void ECDeclaration::symbolAssignValuesPrivate(long& previous)
 
 void ECDeclaration::symbolValueMoreThanOnce(MQLExecEnv *pEE, bool& bResult)
 {
-	std::set<long> value_set;
+	std::set<emdros_int64> value_set;
 	std::set<std::string> const_set;
 	symbolValueMoreThanOncePrivate(pEE, bResult, value_set, const_set);
 	return;
 }
 
-void ECDeclaration::symbolValueMoreThanOncePrivate(MQLExecEnv *pEE, bool& bResult, std::set<long>& value_set, std::set<std::string>& const_set)
+void ECDeclaration::symbolValueMoreThanOncePrivate(MQLExecEnv *pEE, bool& bResult, std::set<emdros_int64>& value_set, std::set<std::string>& const_set)
 {
 	// Deal with next before we deal with ourselves
 	if (m_next != 0) {
@@ -227,7 +227,7 @@ void ECDeclaration::symbolValueMoreThanOncePrivate(MQLExecEnv *pEE, bool& bResul
 	// Then deal with ourselves
 	if (value_set.find(m_value) != value_set.end()) {
 		bResult = false;
-		pEE->pError->appendError("Value " + long2string(m_value) + " is assigned to more than one label.\nThis is not allowed.\n");
+		pEE->pError->appendError("Value " + emdros_int64ToString(m_value) + " is assigned to more than one label.\nThis is not allowed.\n");
 		return;
 	} else {
 		bResult = true;
@@ -313,7 +313,7 @@ bool ECDeclaration::createConstants(MQLExecEnv *pEE, id_d_t enum_id, const std::
 
 ECUpdate::ECUpdate(bool is_default, 
 		   std::string* ec_name, 
-		   long ec_initialization, 
+		   emdros_int64 ec_initialization, 
 		   eAddUpdateRemove kind, 
 		   ECUpdate* next)
 {
@@ -373,7 +373,7 @@ void ECUpdate::weedDefaultPrivate(MQLExecEnv *pEE, bool& bResult, bool& has_met_
 
 bool SymbolConstExists(MQLExecEnv *pEE, const std::string& ec_name, id_d_t enum_id, bool& bConstExists)
 {
-	long dummy_value;
+	emdros_int64 dummy_value;
 	bool dummy_is_default;
 	return pEE->pDB->enumConstExists(ec_name,
 					 enum_id,
@@ -456,7 +456,7 @@ bool ECUpdate::symbolDefaultIsRemoved(MQLExecEnv *pEE, id_d_t enum_id, bool& bDe
 	// Then deal with ourselves
 	if (m_kind == kRemove) {
 		bool dummy_const_exists;
-		long dummy_value;
+		emdros_int64 dummy_value;
 		bool is_default;
 		if (!pEE->pDB->enumConstExists(*m_ec_name,
 					       enum_id,
@@ -524,7 +524,7 @@ bool ECUpdate::symbolNoTwoValuesSame(MQLExecEnv *pEE, id_d_t enum_id, bool& bRes
 	symbolDoLocalUpdatePrivate(enum_list);
 
 	// Check that it doesn't have two labels with the same value
-	std::set<long> value_set;
+	std::set<emdros_int64> value_set;
 	symbolCheckNoTwoValuesSamePrivate(pEE, enum_list, value_set, bResult);
 	return true;
 }
@@ -571,15 +571,15 @@ void ECUpdate::symbolDoLocalUpdatePrivate(std::list<EnumConstInfo>& enum_list)
 	}
 }
 
-void ECUpdate::symbolCheckNoTwoValuesSamePrivate(MQLExecEnv *pEE, const std::list<EnumConstInfo>& enum_list, std::set<long>& value_set, bool& bResult)
+void ECUpdate::symbolCheckNoTwoValuesSamePrivate(MQLExecEnv *pEE, const std::list<EnumConstInfo>& enum_list, std::set<emdros_int64>& value_set, bool& bResult)
 {
 	std::list<EnumConstInfo>::const_iterator ci = enum_list.begin();
 	std::list<EnumConstInfo>::const_iterator cend = enum_list.end();
 	for (; ci != cend; ++ci) {
-		long value = ci->getValue();
+		emdros_int64 value = ci->getValue();
 		if (value_set.find(value) != value_set.end()) {
 			bResult = false;
-			pEE->pError->appendError("Value " + long2string(value) + " would exist for more than one label after update.\nThis is not allowed.\n");
+			pEE->pError->appendError("Value " + emdros_int64ToString(value) + " would exist for more than one label after update.\nThis is not allowed.\n");
 		} else {
 			value_set.insert(value);
 		}
@@ -603,7 +603,7 @@ bool ECUpdate::execAddUpdateRemove(MQLExecEnv *pEE, id_d_t enum_id, const std::s
 
 	// Then deal with ourselves
 	EnumConstInfo ec_info(*m_ec_name, m_ec_initialization, m_is_default);
-	long value;      // Current value of enum const
+	emdros_int64 value;      // Current value of enum const
 	bool dummy_is_default; // Dummy variable
 	bool bExists;
 

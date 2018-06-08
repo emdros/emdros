@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 5/28-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -462,14 +462,14 @@ class Value {
 	EMdFValue *m_emdf_value;
 	ObjectReferenceUsage* m_object_reference_usage;
 	std::string* m_enum_const;
-	long m_integer;
+	emdros_int64 m_integer;
 	std::string* m_string;
 	eValueKind m_kind;
 	id_d_t m_enum_id;
-	long m_enum_const_value;
+	emdros_int64 m_enum_const_value;
  public:
 	Value(std::string* str, eValueKind kind); // for enum_const and string
-	Value(long integer);
+	Value(emdros_int64 integer);
 	Value(ObjectReferenceUsage* object_reference_usage);
 	virtual ~Value();
 	bool symbol(MQLExecEnv *pEE, id_d_t feature_type_id, node_number_t ffeatures_parent, bool& bResult);
@@ -477,7 +477,7 @@ class Value {
 	const std::string& getEnumConst();
 	std::string getAsString(MQLExecEnv *pEE, NonParentORDSolution *pNonParentORDSolution) const;
 	EMdFValue *getAsNewedEMdFValue() const;
-	long getInteger();
+	emdros_int64 getInteger();
 	const std::string& getString();
 	const EMdFValue* getEMdFValue(void);
 	ObjectReferenceUsage* getObjectReferenceUsage();

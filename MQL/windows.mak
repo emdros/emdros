@@ -9,8 +9,12 @@
 WIN32DIR = ..\build\windows
 
 LIBTARGET = libmql.lib
-TARGETS = "$(OUTDIR)\$(LIBTARGET)" 
+
+TARGETS = "$(OUTDIR)\$(LIBTARGET)"
+
 CLEANFILES = 
+
+LOCAL_CPPFLAGS = -I.
 
 LIBTARGET_OBJS= \
 	"$(INTDIR)\emdros_environment.obj" \
