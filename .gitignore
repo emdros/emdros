@@ -89,6 +89,7 @@ include/emdros-config.h
 include/emdros-config.h.in
 include/emdros-lconfig.h
 include/stamp-h1
+include/unistd.h
 install-sh
 install_mac.sh
 libtool
