@@ -5,13 +5,13 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 4/9-2005
- * Last update: 11/4-2017
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2005-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2005-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -121,7 +121,7 @@ private:
   std::string remove_char(const std::string& token, char c);
 };
 
-extern Configuration *parse_config_file(const std::string& filename, const std::string& prefix, std::ostream *pOut);
+Configuration *parse_config_file(const std::string& filename, const std::string& prefix, std::ostream *pOut);
 
 // Returns true on pConf OK; false otherwise.
 // If false, then error_msg is defined, and must contain
@@ -129,7 +129,7 @@ extern Configuration *parse_config_file(const std::string& filename, const std::
 // Otherwise, error_msg is undefined.
 //
 // MUST BE IMPLEMENTED IN APP!
-extern bool app_checkConfiguration(Configuration *pConf, std::string& error_msg);
+bool app_checkConfiguration(Configuration *pConf, std::string& error_msg);
 
 typedef bool(*app_checkConfigurationFunc_t)(Configuration *pConf, std::string& error_msg);
 

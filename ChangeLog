@@ -296,6 +296,8 @@
 	- getArgumentValue()
 	- getArgumentPresent()
 
+	* include/conf.h: Same thing with conf.h.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
