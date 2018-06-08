@@ -34,7 +34,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 5/11-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -1463,7 +1463,7 @@ static void tmplgyy_reduce(
       case 7: /* template_list_element ::= KEY_FEATURE KEY_SPACE INTEGER KEY_BB_CLOSE */
 {  tmplgyy_destructor(tmplgyypParser,3,&tmplgyymsp[-3].minor);
 #line 141 "./templatelang.yxx"
-{ tmplgyymsp[-3].minor.tmplgyy127 = new TemplateFeature(tmplgyymsp[-1].minor.tmplgyy0->integer, kMKXML); delete tmplgyymsp[-1].minor.tmplgyy0; }
+{ tmplgyymsp[-3].minor.tmplgyy127 = new TemplateFeature((unsigned int) tmplgyymsp[-1].minor.tmplgyy0->integer, kMKXML); delete tmplgyymsp[-1].minor.tmplgyy0; }
 #line 1468 "./templatelang.c"
   tmplgyy_destructor(tmplgyypParser,4,&tmplgyymsp[-2].minor);
   tmplgyy_destructor(tmplgyypParser,6,&tmplgyymsp[0].minor);
@@ -1472,7 +1472,7 @@ static void tmplgyy_reduce(
       case 8: /* template_list_element ::= KEY_FEATUREJSONMANGLE KEY_SPACE INTEGER KEY_BB_CLOSE */
 {  tmplgyy_destructor(tmplgyypParser,7,&tmplgyymsp[-3].minor);
 #line 143 "./templatelang.yxx"
-{ tmplgyymsp[-3].minor.tmplgyy127 = new TemplateFeature(tmplgyymsp[-1].minor.tmplgyy0->integer, kMKJSON); delete tmplgyymsp[-1].minor.tmplgyy0; }
+{ tmplgyymsp[-3].minor.tmplgyy127 = new TemplateFeature((unsigned int) tmplgyymsp[-1].minor.tmplgyy0->integer, kMKJSON); delete tmplgyymsp[-1].minor.tmplgyy0; }
 #line 1477 "./templatelang.c"
   tmplgyy_destructor(tmplgyypParser,4,&tmplgyymsp[-2].minor);
   tmplgyy_destructor(tmplgyypParser,6,&tmplgyymsp[0].minor);
@@ -1481,7 +1481,7 @@ static void tmplgyy_reduce(
       case 9: /* template_list_element ::= KEY_FEATURENOMANGLE KEY_SPACE INTEGER KEY_BB_CLOSE */
 {  tmplgyy_destructor(tmplgyypParser,8,&tmplgyymsp[-3].minor);
 #line 145 "./templatelang.yxx"
-{ tmplgyymsp[-3].minor.tmplgyy127 = new TemplateFeature(tmplgyymsp[-1].minor.tmplgyy0->integer, kMKNone); delete tmplgyymsp[-1].minor.tmplgyy0; }
+{ tmplgyymsp[-3].minor.tmplgyy127 = new TemplateFeature((unsigned int) tmplgyymsp[-1].minor.tmplgyy0->integer, kMKNone); delete tmplgyymsp[-1].minor.tmplgyy0; }
 #line 1486 "./templatelang.c"
   tmplgyy_destructor(tmplgyypParser,4,&tmplgyymsp[-2].minor);
   tmplgyy_destructor(tmplgyypParser,6,&tmplgyymsp[0].minor);
@@ -1544,7 +1544,7 @@ static void tmplgyy_reduce(
       case 16: /* template_list_element ::= KEY_SETCOUNTER KEY_SPACE STRING KEY_SPACE INTEGER KEY_BB_CLOSE */
 {  tmplgyy_destructor(tmplgyypParser,17,&tmplgyymsp[-5].minor);
 #line 159 "./templatelang.yxx"
-{ tmplgyymsp[-5].minor.tmplgyy127 = new TemplateSetCounter(tmplgyymsp[-3].minor.tmplgyy0->extractString(), tmplgyymsp[-1].minor.tmplgyy0->integer); delete tmplgyymsp[-3].minor.tmplgyy0; delete tmplgyymsp[-1].minor.tmplgyy0; }
+{ tmplgyymsp[-5].minor.tmplgyy127 = new TemplateSetCounter(tmplgyymsp[-3].minor.tmplgyy0->extractString(), (unsigned int) tmplgyymsp[-1].minor.tmplgyy0->integer); delete tmplgyymsp[-3].minor.tmplgyy0; delete tmplgyymsp[-1].minor.tmplgyy0; }
 #line 1549 "./templatelang.c"
   tmplgyy_destructor(tmplgyypParser,4,&tmplgyymsp[-4].minor);
   tmplgyy_destructor(tmplgyypParser,4,&tmplgyymsp[-2].minor);
@@ -1575,7 +1575,7 @@ static void tmplgyy_reduce(
       case 19: /* template_list_element ::= KEY_INCCOUNTER KEY_SPACE STRING KEY_SPACE INTEGER KEY_BB_CLOSE */
 {  tmplgyy_destructor(tmplgyypParser,19,&tmplgyymsp[-5].minor);
 #line 165 "./templatelang.yxx"
-{ tmplgyymsp[-5].minor.tmplgyy127 = new TemplateIncCounter(tmplgyymsp[-3].minor.tmplgyy0->extractString(), tmplgyymsp[-1].minor.tmplgyy0->integer, 0); delete tmplgyymsp[-3].minor.tmplgyy0; delete tmplgyymsp[-1].minor.tmplgyy0; }
+{ tmplgyymsp[-5].minor.tmplgyy127 = new TemplateIncCounter(tmplgyymsp[-3].minor.tmplgyy0->extractString(), (unsigned int) tmplgyymsp[-1].minor.tmplgyy0->integer, 0); delete tmplgyymsp[-3].minor.tmplgyy0; delete tmplgyymsp[-1].minor.tmplgyy0; }
 #line 1580 "./templatelang.c"
   tmplgyy_destructor(tmplgyypParser,4,&tmplgyymsp[-4].minor);
   tmplgyy_destructor(tmplgyypParser,4,&tmplgyymsp[-2].minor);
@@ -1606,7 +1606,7 @@ static void tmplgyy_reduce(
       case 22: /* template_list_element ::= KEY_DECCOUNTER KEY_SPACE STRING KEY_SPACE INTEGER KEY_BB_CLOSE */
 {  tmplgyy_destructor(tmplgyypParser,20,&tmplgyymsp[-5].minor);
 #line 171 "./templatelang.yxx"
-{ tmplgyymsp[-5].minor.tmplgyy127 = new TemplateDecCounter(tmplgyymsp[-3].minor.tmplgyy0->extractString(), tmplgyymsp[-1].minor.tmplgyy0->integer, 0); delete tmplgyymsp[-3].minor.tmplgyy0; delete tmplgyymsp[-1].minor.tmplgyy0; }
+{ tmplgyymsp[-5].minor.tmplgyy127 = new TemplateDecCounter(tmplgyymsp[-3].minor.tmplgyy0->extractString(), (unsigned int) tmplgyymsp[-1].minor.tmplgyy0->integer, 0); delete tmplgyymsp[-3].minor.tmplgyy0; delete tmplgyymsp[-1].minor.tmplgyy0; }
 #line 1611 "./templatelang.c"
   tmplgyy_destructor(tmplgyypParser,4,&tmplgyymsp[-4].minor);
   tmplgyy_destructor(tmplgyypParser,4,&tmplgyymsp[-2].minor);
@@ -1750,7 +1750,7 @@ static void tmplgyy_reduce(
       case 42: /* template_dictlookup_feature ::= KEY_DICTLOOKUP KEY_SPACE STRING KEY_SPACE KEY_BARE_FEATURE KEY_SPACE INTEGER KEY_SPACE STRING KEY_BB_CLOSE */
 {  tmplgyy_destructor(tmplgyypParser,25,&tmplgyymsp[-9].minor);
 #line 215 "./templatelang.yxx"
-{ tmplgyymsp[-9].minor.tmplgyy33 = new TemplateDictlookupFeature(tmplgyymsp[-7].minor.tmplgyy0->extractString(), tmplgyymsp[-3].minor.tmplgyy0->integer, tmplgyymsp[-1].minor.tmplgyy0->extractString(), true); 
+{ tmplgyymsp[-9].minor.tmplgyy33 = new TemplateDictlookupFeature(tmplgyymsp[-7].minor.tmplgyy0->extractString(), (unsigned int) tmplgyymsp[-3].minor.tmplgyy0->integer, tmplgyymsp[-1].minor.tmplgyy0->extractString(), true); 
   delete tmplgyymsp[-7].minor.tmplgyy0; delete tmplgyymsp[-3].minor.tmplgyy0; delete tmplgyymsp[-1].minor.tmplgyy0;
 }
 #line 1757 "./templatelang.c"
@@ -1765,7 +1765,7 @@ static void tmplgyy_reduce(
       case 43: /* template_dictlookup_feature ::= KEY_DICTLOOKUP KEY_SPACE STRING KEY_SPACE KEY_BARE_FEATURENOMANGLE KEY_SPACE INTEGER KEY_SPACE STRING KEY_BB_CLOSE */
 {  tmplgyy_destructor(tmplgyypParser,25,&tmplgyymsp[-9].minor);
 #line 219 "./templatelang.yxx"
-{ tmplgyymsp[-9].minor.tmplgyy33 = new TemplateDictlookupFeature(tmplgyymsp[-7].minor.tmplgyy0->extractString(), tmplgyymsp[-3].minor.tmplgyy0->integer, tmplgyymsp[-1].minor.tmplgyy0->extractString(), false); 
+{ tmplgyymsp[-9].minor.tmplgyy33 = new TemplateDictlookupFeature(tmplgyymsp[-7].minor.tmplgyy0->extractString(), (unsigned int) tmplgyymsp[-3].minor.tmplgyy0->integer, tmplgyymsp[-1].minor.tmplgyy0->extractString(), false); 
   delete tmplgyymsp[-7].minor.tmplgyy0; delete tmplgyymsp[-3].minor.tmplgyy0; delete tmplgyymsp[-1].minor.tmplgyy0;
 }
 #line 1772 "./templatelang.c"
@@ -1849,7 +1849,7 @@ static void tmplgyy_reduce(
       case 50: /* template_if_featureequal ::= KEY_IF_FEATUREEQUAL KEY_SPACE INTEGER KEY_SPACE STRING KEY_BB_CLOSE */
 {  tmplgyy_destructor(tmplgyypParser,33,&tmplgyymsp[-5].minor);
 #line 263 "./templatelang.yxx"
-{ tmplgyymsp[-5].minor.tmplgyy8 = new TemplateIfFeatureEqual(tmplgyymsp[-3].minor.tmplgyy0->integer, tmplgyymsp[-1].minor.tmplgyy0->extractString()); 
+{ tmplgyymsp[-5].minor.tmplgyy8 = new TemplateIfFeatureEqual((unsigned int) tmplgyymsp[-3].minor.tmplgyy0->integer, tmplgyymsp[-1].minor.tmplgyy0->extractString()); 
   delete tmplgyymsp[-1].minor.tmplgyy0; delete tmplgyymsp[-3].minor.tmplgyy0;			     
 }
 #line 1856 "./templatelang.c"

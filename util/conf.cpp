@@ -316,8 +316,8 @@ StringVec Configuration::getSubkeyValues(const std::string& key, const std::stri
 	 ci != m_conf[key].end();
 	 ++ci) {
       std::string subkey_plus_value = *ci;
-      std::string subkey = subkey_plus_value.substr(0, subkey_plus_dot.length());
-      if (subkey == subkey_plus_dot) {
+      std::string mysubkey = subkey_plus_value.substr(0, subkey_plus_dot.length());
+      if (mysubkey == subkey_plus_dot) {
 	result.push_back(remove_quote(subkey_plus_value.substr(subkey_plus_dot.length())));
       }
     }

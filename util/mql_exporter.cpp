@@ -766,9 +766,9 @@ bool MQLExporter::DumpObjectDataSingleObject(std::string object_type_name, const
 				     "pValue is neither kEVListOfInteger nor kEVListOfID_D");
 			value_as_string = "(";
 			const IntegerList *myintlist = pValue->getIntegerList();
-			IntegerListConstIterator ci = myintlist->const_iterator();
-			while (ci.hasNext()) {
-				emdros_int64 myint = ci.next();
+			IntegerListConstIterator intlist_ci = myintlist->const_iterator();
+			while (intlist_ci.hasNext()) {
+				emdros_int64 myint = intlist_ci.next();
 				std::string thisvalue;
 				if (featureTypeIdIsListOfENUM(feature_type_id)) {
 					if (!GetEnumConst(myint, strType_id, thisvalue)) {
@@ -779,7 +779,7 @@ bool MQLExporter::DumpObjectDataSingleObject(std::string object_type_name, const
 					thisvalue = emdros_int64ToString(myint);
 				}
 				value_as_string += thisvalue;
-				if (ci.hasNext())
+				if (intlist_ci.hasNext())
 					value_as_string += ",";
 			}
 			value_as_string += ")";
@@ -1201,7 +1201,6 @@ int MQLExporter::doIt(std::string& message)
 		if (m_filename == "-") {
 			m_ostr = &std::cout;
 		} else {
-			std::string strError;
 			fout.open(m_filename.c_str());
 			if (!fout) {
 				message = "FAILURE: Could not open file " + m_filename + " for writing.\n"
