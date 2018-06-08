@@ -208,6 +208,18 @@
 
 	* util/windows.mak, importers/windows.mak: Make them build again.
 
+	* harvest/: Transition to emdros_int64.
+
+	Files affected:
+
+        modified:   harvest/harvest_fts.cpp
+        modified:   harvest/templatelang.re
+        modified:   harvest/templatelang_classes.cpp
+        modified:   harvest/templatelang_lexer.cpp
+        modified:   include/harvest_fts.h
+        modified:   include/templatelang_classes.h
+
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

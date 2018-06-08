@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 11/16-2016
+ * Last update: 6/8-2018
  *
  */
 #include <templatelang_lexer.h>
@@ -246,7 +246,7 @@ void TemplateLanguageScanner::addInteger(void)
 	     	     ++p) {
 		     mystring.push_back(*p);
 		}
-		yylval->setInteger(sz2longlong(mystring.c_str()));
+		yylval->setInteger(sz2emdros_int64(mystring.c_str()));
 		yylval->setString(new std::string(mystring));
         } else {
 		char szInt[MAX_INTEGER_CHARS+1];
@@ -259,7 +259,7 @@ void TemplateLanguageScanner::addInteger(void)
 		     *q++ = *p;
 		}
 		*q = '\0';
-		yylval->setInteger(sz2longlong(szInt));
+		yylval->setInteger(sz2emdros_int64(szInt));
 		yylval->setString(new std::string(szInt));
 	}
 }

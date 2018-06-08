@@ -1,17 +1,17 @@
 /*
- * templatelang.h
+ * templatelang_classes.h
  *
  * Template language classes
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 12/21-2017
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2008-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2008-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -247,9 +247,9 @@ class TemplateCounterFormat : public TemplateASTNode {
 class TemplateSetCounter : public TemplateASTNode {
  protected:
 	std::string m_counter_name;
-	long long m_value;
+	emdros_int64 m_value;
  public:
-	TemplateSetCounter(std::string *pString, long long value);
+	TemplateSetCounter(std::string *pString, emdros_int64 value);
 	virtual ~TemplateSetCounter();
 
 	virtual void exec(TemplateLangExecEnv *pEE);
@@ -269,10 +269,10 @@ class TemplateSetCounterVar : public TemplateASTNode {
 class TemplateIncCounter : public TemplateASTNode {
  protected:
 	std::string m_counter_name;
-	long long m_value;
+	emdros_int64 m_value;
 	std::string m_var_name;
  public:
-	TemplateIncCounter(std::string *pString, long long value, std::string *pVarName);
+	TemplateIncCounter(std::string *pString, emdros_int64 value, std::string *pVarName);
 	virtual ~TemplateIncCounter();
 
 	virtual void exec(TemplateLangExecEnv *pEE);
@@ -281,10 +281,10 @@ class TemplateIncCounter : public TemplateASTNode {
 class TemplateDecCounter : public TemplateASTNode {
  protected:
 	std::string m_counter_name;
-	long long m_value;
+	emdros_int64 m_value;
 	std::string m_var_name;
  public:
-	TemplateDecCounter(std::string *pString, long long value, std::string *pVarName);
+	TemplateDecCounter(std::string *pString, emdros_int64 value, std::string *pVarName);
 	virtual ~TemplateDecCounter();
 
 	virtual void exec(TemplateLangExecEnv *pEE);
@@ -584,7 +584,7 @@ class TemplateLangExecEnv {
 	bool m_bOwnsBigstring;
 	std::string m_DBName;
 	AttributeMap m_attrs;
-	typedef std::map<std::string, long long> CounterMap;
+	typedef std::map<std::string, emdros_int64> CounterMap;
 	CounterMap m_counters;
 	typedef std::map<std::string, std::list<std::string> > StringListMap;
 	StringListMap m_lists;
@@ -658,11 +658,11 @@ class TemplateLangExecEnv {
 
 	std::string dictLookup(const std::string& dict_name, const std::string& dict_key, const std::string& default_value);
 
-	long long getCounter(const std::string& counter_name); // Initializes to 0 if not present!
-	void setCounter(const std::string& counter_name, long long value); // Creates if not present!
-	void incCounter(const std::string& counter_name, long long value); // Initializes to 0 if not present!
+	emdros_int64 getCounter(const std::string& counter_name); // Initializes to 0 if not present!
+	void setCounter(const std::string& counter_name, emdros_int64 value); // Creates if not present!
+	void incCounter(const std::string& counter_name, emdros_int64 value); // Initializes to 0 if not present!
 	void incCounter(const std::string& counter_name, const std::string& variable_name); // Initializes to 0 if not present!
-	void decCounter(const std::string& counter_name, long long value); // Initializes to 0 if not present!
+	void decCounter(const std::string& counter_name, emdros_int64 value); // Initializes to 0 if not present!
 	void decCounter(const std::string& counter_name, const std::string& variable_name); // Initializes to 0 if not present!
 
 	void emitBigstring(Bigstring *pBigstring);

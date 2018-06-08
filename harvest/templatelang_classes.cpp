@@ -5,13 +5,13 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 12/21-2017
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2008-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2008-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -357,7 +357,7 @@ void TemplateCounter::exec(TemplateLangExecEnv *pEE)
 {
 	TemplateASTNode::exec(pEE);
 
-	pEE->addToOutput(longlong2string(pEE->getCounter(m_counter_name)));
+	pEE->addToOutput(emdros_int64ToString(pEE->getCounter(m_counter_name)));
 }
 
 
@@ -385,9 +385,9 @@ void TemplateCounterFormat::exec(TemplateLangExecEnv *pEE)
 {
 	TemplateASTNode::exec(pEE);
 
-	long long counter_value = pEE->getCounter(m_counter_name);
+	emdros_int64 counter_value = pEE->getCounter(m_counter_name);
 
-	pEE->addToOutput(longlong2string_format(counter_value, m_format));
+	pEE->addToOutput(emdros_int64ToString_format(counter_value, m_format));
 }
 
 
@@ -400,7 +400,7 @@ void TemplateCounterFormat::exec(TemplateLangExecEnv *pEE)
 //
 //////////////////////////////////////////////////////////////////
 
-TemplateSetCounter::TemplateSetCounter(std::string *pString, long long value)
+TemplateSetCounter::TemplateSetCounter(std::string *pString, emdros_int64 value)
 {
 	m_counter_name = *pString;
 	delete pString;
@@ -449,7 +449,7 @@ void TemplateSetCounterVar::exec(TemplateLangExecEnv *pEE)
 
 	std::string varValue = pEE->getVar(m_variable_name);
 
-	long long value = string2longlong(varValue);
+	emdros_int64 value = string2emdros_int64(varValue);
 
 	pEE->setCounter(m_counter_name, value);
 }
@@ -464,7 +464,7 @@ void TemplateSetCounterVar::exec(TemplateLangExecEnv *pEE)
 //
 //////////////////////////////////////////////////////////////////
 
-TemplateIncCounter::TemplateIncCounter(std::string *pString, long long value, std::string *pVarName)
+TemplateIncCounter::TemplateIncCounter(std::string *pString, emdros_int64 value, std::string *pVarName)
 {
 	m_counter_name = *pString;
 	delete pString;
@@ -502,7 +502,7 @@ void TemplateIncCounter::exec(TemplateLangExecEnv *pEE)
 //
 //////////////////////////////////////////////////////////////////
 
-TemplateDecCounter::TemplateDecCounter(std::string *pString, long long value, std::string *pVarName)
+TemplateDecCounter::TemplateDecCounter(std::string *pString, emdros_int64 value, std::string *pVarName)
 {
 	m_counter_name = *pString;
 	delete pString;
@@ -706,7 +706,7 @@ void TemplateDictlookupCounter::exec(TemplateLangExecEnv *pEE)
 {
 	TemplateASTNode::exec(pEE);
 
-	std::string counterValue = longlong2string(pEE->getCounter(m_counter_name));
+	std::string counterValue = emdros_int64ToString(pEE->getCounter(m_counter_name));
 
 	pEE->addToOutput(pEE->dictLookup(m_dict_name, counterValue, m_default_value));
 }
@@ -1734,7 +1734,7 @@ const AttributeMap& TemplateLangExecEnv::getAllAttributes() const
 	return m_attrs;
 }
 
-long long TemplateLangExecEnv::getCounter(const std::string& counter_name)
+emdros_int64 TemplateLangExecEnv::getCounter(const std::string& counter_name)
 {
 	CounterMap::const_iterator it = m_counters.find(counter_name);
 	if (it == m_counters.end()) {
@@ -1747,13 +1747,13 @@ long long TemplateLangExecEnv::getCounter(const std::string& counter_name)
 }
 
 
-void TemplateLangExecEnv::setCounter(const std::string& counter_name, long long value)
+void TemplateLangExecEnv::setCounter(const std::string& counter_name, emdros_int64 value)
 {
 	m_counters[counter_name] = value;
 }
 
 
-void TemplateLangExecEnv::incCounter(const std::string& counter_name, long long value)
+void TemplateLangExecEnv::incCounter(const std::string& counter_name, emdros_int64 value)
 {
 	CounterMap::iterator it = m_counters.find(counter_name);
 	if (it == m_counters.end()) {
@@ -1768,7 +1768,7 @@ void TemplateLangExecEnv::incCounter(const std::string& counter_name, const std:
 {
 	std::string varValue = getVar(variable_name);
 
-	long long value = string2longlong(varValue);
+	emdros_int64 value = string2emdros_int64(varValue);
 
 	CounterMap::iterator it = m_counters.find(counter_name);
 	if (it == m_counters.end()) {
@@ -1780,7 +1780,7 @@ void TemplateLangExecEnv::incCounter(const std::string& counter_name, const std:
 
 
 
-void TemplateLangExecEnv::decCounter(const std::string& counter_name, long long value)
+void TemplateLangExecEnv::decCounter(const std::string& counter_name, emdros_int64 value)
 {
 	CounterMap::iterator it = m_counters.find(counter_name);
 	if (it == m_counters.end()) {
@@ -1794,7 +1794,7 @@ void TemplateLangExecEnv::decCounter(const std::string& counter_name, const std:
 {
 	std::string varValue = getVar(variable_name);
 
-	long long value = string2longlong(varValue);
+	emdros_int64 value = string2emdros_int64(varValue);
 
 	CounterMap::iterator it = m_counters.find(counter_name);
 	if (it == m_counters.end()) {

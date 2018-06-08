@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 8/25-2010
- * Last update: 5/11-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -1922,7 +1922,7 @@ void BookcaseHarvester::process(const SetOfMonads& substrate, const StringList& 
 
 				} else {
 					ASSERT_THROW(lmdict[first_monad] == last_monad,
-						     "first_monad " + long2string(first_monad) + " does not have same last_monad in lmdict for feature value '" + feature_value + "' ... last_monad = " + long2string(last_monad) + ", while lmdict has last_monad" + long2string(lmdict[first_monad]));
+						     "first_monad " + monad_m2string(first_monad) + " does not have same last_monad in lmdict for feature value '" + feature_value + "' ... last_monad = " + monad_m2string(last_monad) + ", while lmdict has last_monad" + monad_m2string(lmdict[first_monad]));
 					mydict[mydict_index][first_monad].unionWith(som);
 				}
 			}
@@ -1933,7 +1933,7 @@ void BookcaseHarvester::process(const SetOfMonads& substrate, const StringList& 
 
 	// Find out whether there is more than one
 	StringListConstIterator token_list_ci = token_list.const_iterator();
-	unsigned int token_list_size = 0;
+	int token_list_size = 0;
 	while (token_list_ci.hasNext()) {
 		++token_list_size;
 		token_list_ci.next();
@@ -1969,7 +1969,7 @@ void BookcaseHarvester::process(const SetOfMonads& substrate, const StringList& 
 		FastSetOfMonads masterSOM;
 
 		token_list_ci = token_list.const_iterator();
-		unsigned int token_list_index = 0;
+		int token_list_index = 0;
 		while (token_list_ci.hasNext()) {
 			std::string feature_value = token_list_ci.next();
 			int mydict_index = tokenindex2mydict_map[token_list_index];
@@ -2012,7 +2012,7 @@ void BookcaseHarvester::process(const SetOfMonads& substrate, const StringList& 
 					int first_mydict_index = tokenindex2mydict_map[0];
 					SetOfMonads masterSOM2 = mydict[first_mydict_index][m];					
 						
-					monad_m index = 1;
+					int index = 1;	
 					while (index < token_list_size) {
 						int mydict_index = tokenindex2mydict_map[index];
 						
@@ -2226,7 +2226,7 @@ bool harvestFTS_with_version(EmdrosEnv *pEnv, int fts_engine_version, const std:
 		}
 		return bResult;
 	} else {
-		error_message += "Unknown fts_engine_version: " + long2string(fts_engine_version);
+		error_message += "Unknown fts_engine_version: " + monad_m2string(fts_engine_version);
 		return false;
 	}
 }
