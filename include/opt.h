@@ -95,6 +95,10 @@
 
 #include "emdros-lconfig.h"
 
+#if defined(WIN32) || defined(__WIN32__) || defined(_WINDOWS)
+extern "C++" {
+#endif
+
 typedef struct option_t {
 	std::string short_version; /**< For options with one -. */
 	std::string long_version; /**< For options with two -s. */
@@ -140,16 +144,21 @@ extern OptionMap_t theOptionMap;
 
 /* Adds -h, -u, -p, -b, --version, --help, 
  * and -e if bAddEncoding is true. */
-extern void addStandardArguments(bool bAddEncoding = false);
+void addStandardArguments(bool bAddEncoding = false);
 
-extern bool getStandardArguments(bool& bShowVersion, bool& bShowHelp, std::string& hostname, std::string& user, std::string& password, eBackendKind& backend_kind, eCharsets& charset, std::string& error_message);
+bool getStandardArguments(bool& bShowVersion, bool& bShowHelp, std::string& hostname, std::string& user, std::string& password, eBackendKind& backend_kind, eCharsets& charset, std::string& error_message);
 
-extern std::string getBackendsAvailable();
+std::string getBackendsAvailable();
 
-extern void printBackendsAvailable(std::ostream& ostr);
+void printBackendsAvailable(std::ostream& ostr);
 
-extern void printUsageStandardArguments(std::ostream& ostr);
+void printUsageStandardArguments(std::ostream& ostr);
 
-extern void printUsageDefaultsOfStandardArguments(std::ostream& ostr);
+void printUsageDefaultsOfStandardArguments(std::ostream& ostr);
+
+#if defined(WIN32) || defined(__WIN32__) || defined(_WINDOWS)
+} // extern "C++"
+#endif
+	
 
 #endif // OPTIONS__H__
