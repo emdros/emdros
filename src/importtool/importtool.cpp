@@ -6,7 +6,7 @@
  *
  * Martin Petersen
  * Created: 10/11-2006
- * Last update: 5/29-2018
+ * Last update: 6/8-2018
  *
  */
 /************************************************************************
@@ -122,7 +122,6 @@
 #include <sstream>
 
 #include <emdros-lconfig.h>
-#include <emdros.h>
 
 
 #include <conndlg.h>

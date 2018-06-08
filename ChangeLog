@@ -331,6 +331,11 @@
 	* importers/windows.mak: The library name is
 	libimporters_emdros.lib, not libutil_emdros.lib.
 
+	* src/importtool/: Make it compile on Windows.  Files affected:
+
+        modified:   src/importtool/importtool.cpp
+        modified:   src/importtool/windows.mak
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

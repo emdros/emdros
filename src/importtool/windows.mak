@@ -33,8 +33,8 @@ BPT_DEPENDENCIES =
 
 
 PROGRAM_DEPENDENCIES = \
-   "$(OUTDIR)\libteckit.lib"  \
    "$(OUTDIR)\libutil_emdros.lib"  \
+   "$(OUTDIR)\libimporters_emdros.lib"  \
    $(DBLIB) \
    $(BPT_DEPENDENCIES) \
    $(EMDF_DEPENDENCIES) \
