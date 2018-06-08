@@ -246,6 +246,11 @@
 	- long2compact_string7bits -> emdros_int64ToCompact_string7bits
 	- compact_string7bits2long -> compact_string7bits2emdros_int64
 
+	* EMdF/monads.cpp, include/monads.h: Make the
+	SetOfMonads::getCardinality() and
+	FastSetOfmonads::getCardinality() return emdros_int_64 instead of
+	long.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

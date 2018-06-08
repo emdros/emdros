@@ -636,9 +636,9 @@ SetOfMonads& SetOfMonads::operator=(const SetOfMonads& other)
 
 }
 
-long SetOfMonads::getCardinality() const
+emdros_int64 SetOfMonads::getCardinality() const
 {
-	long cardinality = 0;
+	monad_m cardinality = 0;
 	SOMConstIterator ci = this->const_iterator();
 	while (ci.hasNext()) {
 		MonadSetElement mse(ci.next());
@@ -2568,9 +2568,9 @@ bool FastSetOfMonads::overlap(const SetOfMonads& Aset, const FastSetOfMonads& Bs
 	return false;
 }
 
-long FastSetOfMonads::getCardinality() const
+emdros_int64 FastSetOfMonads::getCardinality() const
 {
-	long cardinality = 0;
+	emdros_int64 cardinality = 0;
 	FastSOMConstIterator ci = this->const_iterator();
 	while (ci.hasNext()) {
 		MonadSetElement mse(ci.next());

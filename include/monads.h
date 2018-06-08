@@ -577,7 +577,7 @@ class SetOfMonads {
 	void add(monad_m monad);
 	void add(monad_m first, monad_m last);
 	bool equals(SetOfMonads& other) const { return *this == other; };
-	long getCardinality() const;
+	emdros_int64 getCardinality() const;
 #ifndef SWIG
 	// size() tells us the number of monad stretches.
 	long size() const { return monad_ms.size(); };
@@ -743,7 +743,7 @@ class FastSetOfMonads {
 	};
 
 
-	long getCardinality() const;
+	emdros_int64 getCardinality() const;
 
 	/** Test whether we are the empty set.
 	 *
