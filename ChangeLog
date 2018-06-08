@@ -22,6 +22,8 @@
 	* build/windows/windows.mak, build/windows/mingw.mak: Don't rely
 	on the VERSION macro.
 
+	* build/windows/config.mak.in: Remove the VERSION macro.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and

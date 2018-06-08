@@ -219,11 +219,6 @@ NSISEXE=C:\Program Files (x86)\NSIS\makensis.exe
 
 
 
-!IFNDEF VERSION
-# Set VERSION variable
-VERSION=@VERSION@
-!ENDIF
-
 
 
 # Don't touch this, or Emdros won't compile.
