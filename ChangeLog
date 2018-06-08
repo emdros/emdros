@@ -254,6 +254,9 @@
 	* EMdF/qdxml.cpp: Fix warning by using size_t instead of long
 	long.
 
+	* build/windows/body.mak: Define PCRELIB to use
+	libpcre2_emdros.lib, not libpcre_emdros.lib.
+
 2018-06-01 Ulrik Sandborg-Petersen
 
 	* doc/Makefile.am: Reinstate the man1/manage_indices.1 and
