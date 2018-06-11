@@ -22,13 +22,7 @@ rm -f compile
 rm -f `find . -name Makefile.in`
 rm -f `find . -name Makefile`
 rm -rf autom4te.cache/
-rm -f MQL/mql_parser.cpp
-rm -f MQL/mql_parser.cpp.h
-rm -f MQL/mqlpars.cpp.h
-rm -f MQL/mqlpars.h
 rm -f include/config.log
-rm -f include/mql_parser.cpp.h
-rm -f include/mqlpars.h
 rm -f doc/config.log
 rm -f src/qrytool/config.log
 rm -f examples/HAL/config.log
