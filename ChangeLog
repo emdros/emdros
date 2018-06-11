@@ -1,5 +1,10 @@
 ============ 4.0.0 ============
 
+2018-06-11 Ulrik Sandborg-Petersen
+
+	* build/windows/body.mak: As part of the CLEAN routine, also erase
+	LIB_WX_UNICODE_TARGET_OBJS.
+
 2018-06-09 Ulrik Sandborg-Petersen
 
 	* src/windows.mak: Import the libimporters_emdros.lib library.

@@ -884,6 +884,7 @@ CLEAN :
 	-@erase "$(OUTDIR)\$(DLLTARGET)"
 !ENDIF
 	-FOR %F in ($(DLLTARGET_OBJS)) DO erase /Q /S /F %F%
+	-FOR %F in ($(LIB_WX_UNICODE_TARGET_OBJS)) DO erase /Q /S /F %F%
 	-FOR %F in ($(WXPROGRAM1_OBJS) $(WXPROGRAM1)) DO erase /Q /S /F %F%
 	-FOR %F in ($(WXUNICODE_PROGRAM1_OBJS) $(WXUNICODE_PROGRAM1)) DO erase /Q /S /F %F%
 	-FOR %F in ($(WXPROGRAM2_OBJS) $(WXPROGRAM2)) DO erase /Q /S /F %F%
