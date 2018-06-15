@@ -28,6 +28,9 @@
 	SWIG (3.0.12 at the time of writing) does not support the latest
 	Node.  Also, the Node.JS wrappers never really worked.
 
+	* configure.ac: Set AC_PREFIX_DEFAULT to /usr instead of
+	/usr/local.  This helps build .deb packages on Ubuntu 18.04.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).
