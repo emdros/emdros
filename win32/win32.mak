@@ -87,7 +87,7 @@ CLEAN:
    cd ..\include
    nmake /f win32.mak CLEAN
 !IF "$(SQLITE3)" == "1"
-   cd ..\sqlite
+   cd ..\sqlite3
    nmake /f win32.mak CLEAN
 !ENDIF
    cd ..\EMdF

@@ -16,6 +16,9 @@
 	it's the C++ STL that has thrown an exception, and we need to know
 	what it is.
 
+	* win32/win32.mak: In the CLEAN target, cd into sqlite3 rather
+	than the non-existing sqlite directory.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).
