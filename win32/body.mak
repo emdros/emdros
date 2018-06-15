@@ -279,7 +279,7 @@ WXVERSION=31
 WINVERSION=-DWINVER=0x0601
 WINFLAGS=/Gy -c -DWIN32 -D__WIN32__ \
          -D_WINDOWS $(WINVERSION) -DSTRICT
-WINLINKFLAGS=/INCREMENTAL:NO -machine:i386 -subsystem:windows /MANIFEST
+WINLINKFLAGS=/INCREMENTAL:NO -machine:i386 -subsystem:windows /MANIFEST /LARGEADDRESSAWARE
 WINLIBS=kernel32.lib user32.lib gdi32.lib comdlg32.lib winspool.lib winmm.lib comctl32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib rpcrt4.lib advapi32.lib wsock32.lib wininet.lib 
 
 guilibsdll= 
@@ -573,6 +573,7 @@ LINK32=link.exe
 LINK32_FLAGS=kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib\
  advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib \
  wsock32.lib odbccp32.lib /subsystem:console $(LIBFLAGS) \
+ /LARGEADDRESSAWARE \
  $(LOCAL_LIBFLAGS)
 
 LINK32_WXFLAGS_UNICODE = $(WINLINKFLAGS) \
