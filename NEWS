@@ -8,7 +8,7 @@ Release notes for Emdros 3.6.0
 The release notes below cover some of the important changes in Emdros
 since 3.5.0.
 
-- SQLite2 support has been removed, as this version of SQLite has not
+- SQLite2 support has been removed, as version 2 of SQLite has not
   been updated by the SQLite authors for many, many years.  Also,
   SQLite2 support in Emdros has been been deprecated for some time.
 
