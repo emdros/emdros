@@ -1,5 +1,5 @@
 HOWTO Install Emdros on a Mac OS X
-Last update: 10/20-2016
+Last update: 6/15-2018
 
 Overview:
 
@@ -221,35 +221,10 @@ This is, however, not supported by the author of Emdros.
 
 
 Step number (4) should build a .dmg image.  If it doesn't, PLEASE let
-the author know via ulrikp<write-the-sign>emergence<dot>dk.
+the author know via ulrikp<write-the-sign>scripturesys<dot>com.
 Thanks.
 
 
-
-Building bindings for Node.JS on Mac OS X
-=========================================
-
-It is possible to build Emdros bindings for Node.JS.  To do so, follow
-these steps:
-
-1) Ensure that Node version  0.10.X is installed.  Currently, the SWIG
-   bindings do not build with Node version 0.12.X or higher.
-
-2) Install node-gyp:
-
-   sudo npm install -g node-gyp
-
-3) Install node-gyp's development dependencies:
-
-   sudo node-gyp install
-
-4) Compile Emdros as described above.  It should compile Node.JS
-   bindings, provided you:
-
-   a) Did not give --disable-shared as a switch to configure.
-
-   b) Did not disable the amalgamation with the --disable-amalgamation
-      switch to configure.
 
 
 Enjoy!

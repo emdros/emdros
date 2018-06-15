@@ -1358,9 +1358,6 @@ AC_SUBST(SWIG_WITH_PERL_WRAPPERS)
 AM_CONDITIONAL(SWIG_WITH_JAVA_WRAPPERS, test x$DO_SWIG_JAVA = xyes)
 AC_SUBST(SWIG_WITH_JAVA_WRAPPERS)
 
-AM_CONDITIONAL(SWIG_WITH_NODEJS_WRAPPERS, test x$DO_SWIG_NODEJS = xyes)
-AC_SUBST(SWIG_WITH_NODEJS_WRAPPERS)
-
 AM_CONDITIONAL(SWIG_WITH_PHP_WRAPPERS, test x$DO_SWIG_PHP = xyes)
 AC_SUBST(SWIG_WITH_PHP_WRAPPERS)
 
@@ -1462,7 +1459,6 @@ AC_CONFIG_FILES([Makefile
           SWIG/csharp/Makefile
           SWIG/java/Makefile
           SWIG/Android/Makefile
-          SWIG/nodejs/Makefile
           SWIG/perl/Makefile 
           SWIG/php/Makefile
           SWIG/php7/Makefile
@@ -1559,9 +1555,6 @@ if test "x$DO_SWIG_PYTHON" = "xyes"; then
 fi
 if test "x$DO_SWIG_PYTHON3" = "xyes"; then
   echo "SWIG Backend:         python3"
-fi
-if test "x$DO_SWIG_NODEJS" = "xyes"; then
-  echo "SWIG Backend:         Node.JS"
 fi
 if test "x$DO_SWIG_CSHARP" = "xyes"; then
   echo "SWIG Backend:         csharp"

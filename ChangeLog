@@ -24,6 +24,10 @@
 	Windows versions.  NOTE: This is not necessary if compiling with
 	64 bit support.
 
+	* NodeJS support has been removed.  Reason: The latest version of
+	SWIG (3.0.12 at the time of writing) does not support the latest
+	Node.  Also, the Node.JS wrappers never really worked.
+
 2018-05-12 Ulrik Sandborg-Petersen
 
 	* NEWS: Update with release notes for 3.6.0 (since 3.5.0).

@@ -24,6 +24,10 @@ since 3.5.0.
   - XML parsing (renderobjects, for example)
   - MQL
 
+- Node.JS support has been removed.  The reason is that the latest
+  SWIG version (3.0.12) does not support the latest Node.  Also, the
+  Node.JS bindings never really worked.
+
 - PCRE has been upgraded.
 
 - SQLite3 has been upgraded.

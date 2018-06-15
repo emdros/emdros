@@ -129,9 +129,6 @@ endif
 if SWIG_WITH_JAVA_WRAPPERS
 	mkdir -p $(MACDISTDIR)/development/SWIG/java
 endif
-if SWIG_WITH_NODEJS_WRAPPERS
-	mkdir -p $(MACDISTDIR)/development/SWIG/nodejs
-endif
 if SWIG_WITH_PERL_WRAPPERS
 	mkdir -p $(MACDISTDIR)/development/SWIG/perl
 endif

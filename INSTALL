@@ -146,7 +146,6 @@ Ruby:    sudo apt install ruby ruby-dev
 PHP5:    sudo apt install php5.6-dev
 PHP7:    sudo apt install php-dev
 Perl:    sudo apt install perl
-Node.JS: sudo apt install nodejs-dev node-gyp 
 
 To bring all language bindings in:
 sudo apt install tcl tcl-dev openjdk-8-jdk python-dev python3-dev mono-devel mono-mcs mono-tools-devel ruby ruby-dev php5.6-dev php-dev perl nodejs-dev node-gyp
@@ -441,7 +440,6 @@ The switches are as follows:
 - MySQL               --with-mysql=[yes|no|maybe]
 - wxWidgets           --with-wx=[yes|no|maybe]
 - .Net (for SWIG)     --with-swig-language-csharp=[yes|no|maybe]
-- Node.JS (for SWIG)  --with-swig-language-nodejs=[yes|no|maybe]
 - Java (for SWIG)     --with-swig-language-java=[yes|no|maybe]
 - Perl (for SWIG)     --with-swig-language-perl=[yes|no|maybe]
 - Python 2 (for SWIG) --with-swig-language-python=[yes|no|maybe]
