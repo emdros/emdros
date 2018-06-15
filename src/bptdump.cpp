@@ -5,7 +5,7 @@
  * (BPT)
  *
  * Created: 5/1-2001 (1st of May, 2001)
- * Last update: 5/11-2018
+ * Last update: 6/15-2018
  *
  * Return codes:
  * 
@@ -100,6 +100,7 @@
 
 
 #include <monads.h>
+#include <exception>
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -366,6 +367,8 @@ int main(int argc, char* argv[])
 	} catch (EMdFOutputException& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
 	} catch (EmdrosException& e) {
+		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
+	} catch (std::exception& e) {
 		std::cerr << e.what() << std::endl << "Program aborted." << std::endl;
 	} catch (...) {
 		std::cerr << "Unknown exception occurred.  Program aborted." << std::endl;
