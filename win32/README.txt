@@ -28,7 +28,6 @@ Generic build instructions
    should comment-out any of the following lines with the backend name
    for which you do not wish support for that backend.
 
-   SQLITE2=1
    SQLITE3=1
    MYSQL=1
    PGSQL=1
