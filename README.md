@@ -1,6 +1,8 @@
 # emdros
 Emdros is a text database engine for annotated text
 
+[![Build Status](https://travis-ci.com/emdros/emdros.svg?branch=master)](https://travis-ci.com/emdros/emdros)
+
 ## Website
 
 http://emdros.org/
