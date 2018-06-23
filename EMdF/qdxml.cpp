@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/4-2007
- * Last update: 6/9-2018
+ * Last update: 6/23-2018
  *
  */
 /************************************************************************
@@ -711,9 +711,12 @@ void QDParser::fillBuffer()
                         memcpy(bot, cur, cnt);
 			lim = bot + cnt;
 			cur = bot;
+			/*
+			// This is impossible, so don't have the code.
 		} else if (cnt < 0) {
 			// std::cerr << "UP200: lim = " << (void*) lim << ", cur = " << (void*) cur << ", cnt = " << cnt << std::endl;
 			ASSERT_THROW_X(false, QDException, "QDParser::fillBuffer(): cnt < 0");
+			*/
 		} else {
 			lim = bot;
 			cur = bot;

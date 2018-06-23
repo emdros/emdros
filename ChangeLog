@@ -10,6 +10,9 @@
 	mkamalgamation.cpp, rather than mkamalgamation.py, for creating
 	the amalgamation.
 
+	* EMdF/qdxml.cpp: Silence a compiler warning in
+	QDParser::fillBuffer().
+
 2018-06-11 Ulrik Sandborg-Petersen
 
 	* build/windows/body.mak: As part of the CLEAN routine, also erase
