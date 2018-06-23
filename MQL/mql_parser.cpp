@@ -221,7 +221,6 @@ typedef union {
   IntegerListNode* mqlyy17;
   Blocks* mqlyy18;
   UnorderedGroup* mqlyy24;
-  emdros_int64* mqlyy37;
   ID_D* mqlyy43;
   ECUpdate* mqlyy46;
   Statement* mqlyy50;
@@ -261,11 +260,13 @@ typedef union {
   MaxRange* mqlyy448;
   ECDeclaration* mqlyy455;
   int mqlyy466;
+  emdros_int64* mqlyy473;
   ObjectSpecNoOT* mqlyy481;
   BlockString* mqlyy501;
+  emdros_int64 mqlyy503;
   FFeatures* mqlyy520;
   eMonadUniquenessType mqlyy527;
-  emdros_int64 mqlyy529;
+  long mqlyy529;
   sheaf_return_type_pair* mqlyy551;
   eUniverseOrSubstrate mqlyy569;
   Power* mqlyy594;
@@ -1498,7 +1499,7 @@ static void mqlyy_destructor(
 {
 #line 130 "./mql.yxx"
  deleteToken((mqlyypminor->mqlyy0)); UNUSED(pEE); 
-#line 1502 "./mql.c"
+#line 1503 "./mql.c"
 }
       break;
     case 132: /* statement */
@@ -1552,7 +1553,7 @@ static void mqlyy_destructor(
 {
 #line 152 "./mql.yxx"
 delete((mqlyypminor->mqlyy50));
-#line 1556 "./mql.c"
+#line 1557 "./mql.c"
 }
       break;
     case 182: /* database_name */
@@ -1575,7 +1576,7 @@ delete((mqlyypminor->mqlyy50));
 {
 #line 217 "./mql.yxx"
  deleteToken((mqlyypminor->mqlyy0)); 
-#line 1579 "./mql.c"
+#line 1580 "./mql.c"
 }
       break;
     case 185: /* opt_DATABASE */
@@ -1594,7 +1595,7 @@ delete((mqlyypminor->mqlyy50));
 {
 #line 245 "./mql.yxx"
 ;
-#line 1598 "./mql.c"
+#line 1599 "./mql.c"
 }
       break;
     case 187: /* opt_ANALYZE */
@@ -1606,21 +1607,21 @@ delete((mqlyypminor->mqlyy50));
 {
 #line 263 "./mql.yxx"
 ;
-#line 1610 "./mql.c"
+#line 1611 "./mql.c"
 }
       break;
     case 193: /* opt_range_type */
 {
 #line 328 "./mql.yxx"
 ;
-#line 1617 "./mql.c"
+#line 1618 "./mql.c"
 }
       break;
     case 194: /* opt_monad_uniqueness_type */
 {
 #line 339 "./mql.yxx"
 ;
-#line 1624 "./mql.c"
+#line 1625 "./mql.c"
 }
       break;
     case 196: /* opt_feature_declaration_list */
@@ -1629,7 +1630,7 @@ delete((mqlyypminor->mqlyy50));
 {
 #line 361 "./mql.yxx"
 delete((mqlyypminor->mqlyy289));
-#line 1633 "./mql.c"
+#line 1634 "./mql.c"
 }
       break;
     case 200: /* feature_type */
@@ -1637,7 +1638,7 @@ delete((mqlyypminor->mqlyy289));
 {
 #line 383 "./mql.yxx"
 delete((mqlyypminor->mqlyy264));
-#line 1641 "./mql.c"
+#line 1642 "./mql.c"
 }
       break;
     case 201: /* default_specification */
@@ -1645,17 +1646,14 @@ delete((mqlyypminor->mqlyy264));
 {
 #line 441 "./mql.yxx"
 delete((mqlyypminor->mqlyy413));
-#line 1649 "./mql.c"
+#line 1650 "./mql.c"
 }
       break;
     case 205: /* opt_string_length */
-    case 227: /* ec_initialization */
-    case 230: /* signed_integer */
-    case 231: /* unsigned_integer */
 {
 #line 433 "./mql.yxx"
 ;
-#line 1659 "./mql.c"
+#line 1657 "./mql.c"
 }
       break;
     case 208: /* feature_update_list */
@@ -1663,7 +1661,7 @@ delete((mqlyypminor->mqlyy413));
 {
 #line 466 "./mql.yxx"
 delete((mqlyypminor->mqlyy380));
-#line 1667 "./mql.c"
+#line 1665 "./mql.c"
 }
       break;
     case 211: /* monad_specification */
@@ -1677,7 +1675,7 @@ delete((mqlyypminor->mqlyy380));
 {
 #line 1081 "./mql.yxx"
 delete((mqlyypminor->mqlyy108));
-#line 1681 "./mql.c"
+#line 1679 "./mql.c"
 }
       break;
     case 213: /* id_ds_specification */
@@ -1686,21 +1684,21 @@ delete((mqlyypminor->mqlyy108));
 {
 #line 1182 "./mql.yxx"
 delete((mqlyypminor->mqlyy43));
-#line 1690 "./mql.c"
+#line 1688 "./mql.c"
 }
       break;
     case 214: /* monad_set_chain */
 {
 #line 527 "./mql.yxx"
 delete((mqlyypminor->mqlyy51));
-#line 1697 "./mql.c"
+#line 1695 "./mql.c"
 }
       break;
     case 216: /* monad_set_operator */
 {
 #line 535 "./mql.yxx"
 ;
-#line 1704 "./mql.c"
+#line 1702 "./mql.c"
 }
       break;
     case 218: /* monad_set_name_list */
@@ -1709,14 +1707,14 @@ delete((mqlyypminor->mqlyy51));
 {
 #line 611 "./mql.yxx"
 delete((mqlyypminor->mqlyy336));
-#line 1713 "./mql.c"
+#line 1711 "./mql.c"
 }
       break;
     case 219: /* monad_set_name */
 {
 #line 606 "./mql.yxx"
 deleteToken((mqlyypminor->mqlyy0));
-#line 1720 "./mql.c"
+#line 1718 "./mql.c"
 }
       break;
     case 222: /* ec_declaration_list */
@@ -1724,21 +1722,30 @@ deleteToken((mqlyypminor->mqlyy0));
 {
 #line 639 "./mql.yxx"
 delete((mqlyypminor->mqlyy455));
-#line 1728 "./mql.c"
+#line 1726 "./mql.c"
 }
       break;
     case 225: /* ec_name */
 {
 #line 662 "./mql.yxx"
  deleteToken((mqlyypminor->mqlyy0));  
-#line 1735 "./mql.c"
+#line 1733 "./mql.c"
 }
       break;
     case 226: /* opt_ec_initialization */
 {
 #line 666 "./mql.yxx"
-delete((mqlyypminor->mqlyy37));
-#line 1742 "./mql.c"
+delete((mqlyypminor->mqlyy473));
+#line 1740 "./mql.c"
+}
+      break;
+    case 227: /* ec_initialization */
+    case 230: /* signed_integer */
+    case 231: /* unsigned_integer */
+{
+#line 701 "./mql.yxx"
+;
+#line 1749 "./mql.c"
 }
       break;
     case 228: /* ec_update_list */
@@ -1746,7 +1753,7 @@ delete((mqlyypminor->mqlyy37));
 {
 #line 683 "./mql.yxx"
 delete((mqlyypminor->mqlyy46));
-#line 1750 "./mql.c"
+#line 1757 "./mql.c"
 }
       break;
     case 234: /* select_clause */
@@ -1754,21 +1761,21 @@ delete((mqlyypminor->mqlyy46));
 {
 #line 761 "./mql.yxx"
 ;
-#line 1758 "./mql.c"
+#line 1765 "./mql.c"
 }
       break;
     case 236: /* with_max_range_clause */
 {
 #line 820 "./mql.yxx"
 delete((mqlyypminor->mqlyy448));
-#line 1765 "./mql.c"
+#line 1772 "./mql.c"
 }
       break;
     case 237: /* returning_clause */
 {
 #line 832 "./mql.yxx"
 delete((mqlyypminor->mqlyy551));
-#line 1772 "./mql.c"
+#line 1779 "./mql.c"
 }
       break;
     case 238: /* where_clause */
@@ -1777,14 +1784,14 @@ delete((mqlyypminor->mqlyy551));
 {
 #line 873 "./mql.yxx"
 delete((mqlyypminor->mqlyy269));
-#line 1781 "./mql.c"
+#line 1788 "./mql.c"
 }
       break;
     case 245: /* using_range_clause */
 {
 #line 847 "./mql.yxx"
 delete((mqlyypminor->mqlyy600));
-#line 1788 "./mql.c"
+#line 1795 "./mql.c"
 }
       break;
     case 247: /* single_monad_specification */
@@ -1793,7 +1800,7 @@ delete((mqlyypminor->mqlyy600));
 {
 #line 888 "./mql.yxx"
 ;
-#line 1797 "./mql.c"
+#line 1804 "./mql.c"
 }
       break;
     case 249: /* aggregate_feature_list */
@@ -1801,7 +1808,7 @@ delete((mqlyypminor->mqlyy600));
 {
 #line 930 "./mql.yxx"
 delete((mqlyypminor->mqlyy344));
-#line 1805 "./mql.c"
+#line 1812 "./mql.c"
 }
       break;
     case 251: /* feature_constraints */
@@ -1809,7 +1816,7 @@ delete((mqlyypminor->mqlyy344));
 {
 #line 1457 "./mql.yxx"
 delete((mqlyypminor->mqlyy520));
-#line 1813 "./mql.c"
+#line 1820 "./mql.c"
 }
       break;
     case 253: /* aggregate_feature_comparison */
@@ -1817,28 +1824,28 @@ delete((mqlyypminor->mqlyy520));
 {
 #line 953 "./mql.yxx"
 delete((mqlyypminor->mqlyy68));
-#line 1821 "./mql.c"
+#line 1828 "./mql.c"
 }
       break;
     case 254: /* comparison_operator */
 {
 #line 1496 "./mql.yxx"
 ;
-#line 1828 "./mql.c"
+#line 1835 "./mql.c"
 }
       break;
     case 255: /* value */
 {
 #line 1510 "./mql.yxx"
 delete((mqlyypminor->mqlyy616));
-#line 1835 "./mql.c"
+#line 1842 "./mql.c"
 }
       break;
     case 257: /* list_of_integer */
 {
 #line 1155 "./mql.yxx"
 delete((mqlyypminor->mqlyy17));
-#line 1842 "./mql.c"
+#line 1849 "./mql.c"
 }
       break;
     case 258: /* feature_list */
@@ -1846,7 +1853,7 @@ delete((mqlyypminor->mqlyy17));
 {
 #line 1328 "./mql.yxx"
 delete((mqlyypminor->mqlyy366));
-#line 1850 "./mql.c"
+#line 1857 "./mql.c"
 }
       break;
     case 261: /* with_id_d_specification */
@@ -1854,7 +1861,7 @@ delete((mqlyypminor->mqlyy366));
 {
 #line 1085 "./mql.yxx"
 ;
-#line 1858 "./mql.c"
+#line 1865 "./mql.c"
 }
       break;
     case 262: /* object_creation_specification */
@@ -1862,7 +1869,7 @@ delete((mqlyypminor->mqlyy366));
 {
 #line 1100 "./mql.yxx"
 delete((mqlyypminor->mqlyy275));
-#line 1866 "./mql.c"
+#line 1873 "./mql.c"
 }
       break;
     case 264: /* opt_list_of_feature_assignments */
@@ -1871,7 +1878,7 @@ delete((mqlyypminor->mqlyy275));
 {
 #line 1109 "./mql.yxx"
 delete((mqlyypminor->mqlyy265));
-#line 1875 "./mql.c"
+#line 1882 "./mql.c"
 }
       break;
     case 270: /* object_creation_list */
@@ -1879,7 +1886,7 @@ delete((mqlyypminor->mqlyy265));
 {
 #line 1219 "./mql.yxx"
 delete((mqlyypminor->mqlyy481));
-#line 1883 "./mql.c"
+#line 1890 "./mql.c"
 }
       break;
     case 277: /* blocks */
@@ -1887,49 +1894,49 @@ delete((mqlyypminor->mqlyy481));
 {
 #line 1354 "./mql.yxx"
 delete((mqlyypminor->mqlyy18));
-#line 1891 "./mql.c"
+#line 1898 "./mql.c"
 }
       break;
     case 278: /* block_string */
 {
 #line 1386 "./mql.yxx"
 delete((mqlyypminor->mqlyy501));
-#line 1898 "./mql.c"
+#line 1905 "./mql.c"
 }
       break;
     case 279: /* unordered_group */
 {
 #line 1547 "./mql.yxx"
 delete((mqlyypminor->mqlyy24));
-#line 1905 "./mql.c"
+#line 1912 "./mql.c"
 }
       break;
     case 280: /* block_string0 */
 {
 #line 1362 "./mql.yxx"
 delete((mqlyypminor->mqlyy63));
-#line 1912 "./mql.c"
+#line 1919 "./mql.c"
 }
       break;
     case 281: /* block */
 {
 #line 1538 "./mql.yxx"
 delete((mqlyypminor->mqlyy218));
-#line 1919 "./mql.c"
+#line 1926 "./mql.c"
 }
       break;
     case 282: /* block_string1 */
 {
 #line 1369 "./mql.yxx"
 delete((mqlyypminor->mqlyy116));
-#line 1926 "./mql.c"
+#line 1933 "./mql.c"
 }
       break;
     case 284: /* block_string2 */
 {
 #line 1376 "./mql.yxx"
 delete((mqlyypminor->mqlyy169));
-#line 1933 "./mql.c"
+#line 1940 "./mql.c"
 }
       break;
     case 289: /* retrieval */
@@ -1937,56 +1944,56 @@ delete((mqlyypminor->mqlyy169));
 {
 #line 1416 "./mql.yxx"
 ;
-#line 1941 "./mql.c"
+#line 1948 "./mql.c"
 }
       break;
     case 290: /* firstlast */
 {
 #line 1423 "./mql.yxx"
 ;
-#line 1948 "./mql.c"
+#line 1955 "./mql.c"
 }
       break;
     case 291: /* monad_set_relation_clause */
 {
 #line 1430 "./mql.yxx"
 delete((mqlyypminor->mqlyy299));
-#line 1955 "./mql.c"
+#line 1962 "./mql.c"
 }
       break;
     case 292: /* monad_set_relation_operation */
 {
 #line 1439 "./mql.yxx"
 
-#line 1962 "./mql.c"
+#line 1969 "./mql.c"
 }
       break;
     case 293: /* universe_or_substrate */
 {
 #line 1449 "./mql.yxx"
  
-#line 1969 "./mql.c"
+#line 1976 "./mql.c"
 }
       break;
     case 295: /* fterm */
 {
 #line 1469 "./mql.yxx"
 delete((mqlyypminor->mqlyy601));
-#line 1976 "./mql.c"
+#line 1983 "./mql.c"
 }
       break;
     case 296: /* ffactor */
 {
 #line 1474 "./mql.yxx"
 delete((mqlyypminor->mqlyy272));
-#line 1983 "./mql.c"
+#line 1990 "./mql.c"
 }
       break;
     case 298: /* object_reference_usage */
 {
 #line 1526 "./mql.yxx"
 delete((mqlyypminor->mqlyy266));
-#line 1990 "./mql.c"
+#line 1997 "./mql.c"
 }
       break;
     case 301: /* object_block */
@@ -1994,35 +2001,35 @@ delete((mqlyypminor->mqlyy266));
 {
 #line 1596 "./mql.yxx"
 delete((mqlyypminor->mqlyy101));
-#line 1998 "./mql.c"
+#line 2005 "./mql.c"
 }
       break;
     case 302: /* power */
 {
 #line 1625 "./mql.yxx"
 delete((mqlyypminor->mqlyy594));
-#line 2005 "./mql.c"
+#line 2012 "./mql.c"
 }
       break;
     case 303: /* opt_gap_block */
 {
 #line 1568 "./mql.yxx"
 delete((mqlyypminor->mqlyy303));
-#line 2012 "./mql.c"
+#line 2019 "./mql.c"
 }
       break;
     case 304: /* gap_block */
 {
 #line 1582 "./mql.yxx"
 delete((mqlyypminor->mqlyy6));
-#line 2019 "./mql.c"
+#line 2026 "./mql.c"
 }
       break;
     case 306: /* object_block_string */
 {
 #line 1555 "./mql.yxx"
 delete((mqlyypminor->mqlyy98));
-#line 2026 "./mql.c"
+#line 2033 "./mql.c"
 }
       break;
 /********* End destructor definitions *****************************************/
@@ -2197,7 +2204,7 @@ static void mqlyyStackOverflow(mqlyyParser *mqlyypParser){
   std::string errMsg = "stack overflow. Bailing out...\n";
   pEE->pError->appendError(errMsg);
    
-#line 2201 "./mql.c"
+#line 2208 "./mql.c"
 /******** End %stack_overflow code ********************************************/
    MQLParserARG_STORE; /* Suppress warning about unused %extra_argument var */
 }
@@ -2722,7 +2729,7 @@ static void mqlyy_reduce(
       case 0: /* statement ::= statement_by_itself KEY_GO */
 #line 153 "./mql.yxx"
 { pEE->pStatement = mqlyymsp[-1].minor.mqlyy50; }
-#line 2726 "./mql.c"
+#line 2733 "./mql.c"
   mqlyy_destructor(mqlyypParser,1,&mqlyymsp[0].minor);
         break;
       case 1: /* statement_by_itself ::= create_database_statement */
@@ -2775,14 +2782,14 @@ static void mqlyy_reduce(
       case 48: /* statement_by_itself ::= create_objects_statement */ mqlyytestcase(mqlyyruleno==48);
 #line 157 "./mql.yxx"
 { mqlyylhsminor.mqlyy50 = mqlyymsp[0].minor.mqlyy50; }
-#line 2779 "./mql.c"
+#line 2786 "./mql.c"
   mqlyymsp[0].minor.mqlyy50 = mqlyylhsminor.mqlyy50;
         break;
       case 49: /* create_database_statement ::= KEY_CREATE KEY_DATABASE database_name opt_WITH_KEY opt_USING_ENCODING */
 {  mqlyy_destructor(mqlyypParser,2,&mqlyymsp[-4].minor);
 #line 213 "./mql.yxx"
 { mqlyymsp[-4].minor.mqlyy50 = new CreateDatabaseStatement((MQLExecEnv*) pEE, mqlyymsp[-2].minor.mqlyy0->extractString(), mqlyymsp[-1].minor.mqlyy0->extractString(), mqlyymsp[0].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[-2].minor.mqlyy0); deleteToken(mqlyymsp[-1].minor.mqlyy0); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 2786 "./mql.c"
+#line 2793 "./mql.c"
   mqlyy_destructor(mqlyypParser,3,&mqlyymsp[-3].minor);
 }
         break;
@@ -2801,14 +2808,14 @@ static void mqlyy_reduce(
       case 355: /* enum_const ::= IDENTIFIER */ mqlyytestcase(mqlyyruleno==355);
 #line 218 "./mql.yxx"
 { mqlyylhsminor.mqlyy0 = mqlyymsp[0].minor.mqlyy0; }
-#line 2805 "./mql.c"
+#line 2812 "./mql.c"
   mqlyymsp[0].minor.mqlyy0 = mqlyylhsminor.mqlyy0;
         break;
       case 52: /* initialize_database_statement ::= KEY_INITIALIZE KEY_DATABASE database_name opt_WITH_KEY */
 {  mqlyy_destructor(mqlyypParser,6,&mqlyymsp[-3].minor);
 #line 225 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy50 = new InitializeDatabaseStatement((MQLExecEnv*) pEE, mqlyymsp[-1].minor.mqlyy0->extractString(), mqlyymsp[0].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[-1].minor.mqlyy0); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 2812 "./mql.c"
+#line 2819 "./mql.c"
   mqlyy_destructor(mqlyypParser,3,&mqlyymsp[-2].minor);
 }
         break;
@@ -2816,7 +2823,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,7,&mqlyymsp[-3].minor);
 #line 230 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy50 = new UseStatement((MQLExecEnv*) pEE, mqlyymsp[-1].minor.mqlyy0->extractString(), mqlyymsp[0].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[-1].minor.mqlyy0); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 2820 "./mql.c"
+#line 2827 "./mql.c"
   mqlyy_destructor(mqlyypParser,185,&mqlyymsp[-2].minor);
 }
         break;
@@ -2824,7 +2831,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,8,&mqlyymsp[-2].minor);
 #line 234 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy0 = mqlyymsp[0].minor.mqlyy0; }
-#line 2828 "./mql.c"
+#line 2835 "./mql.c"
   mqlyy_destructor(mqlyypParser,9,&mqlyymsp[-1].minor);
 }
         break;
@@ -2832,13 +2839,13 @@ static void mqlyy_reduce(
       case 57: /* opt_USING_ENCODING ::= */ mqlyytestcase(mqlyyruleno==57);
 #line 235 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy0 = newToken(); mqlyymsp[1].minor.mqlyy0->setString(new std::string("")); }
-#line 2836 "./mql.c"
+#line 2843 "./mql.c"
         break;
       case 56: /* opt_USING_ENCODING ::= KEY_USING KEY_ENCODING STRING */
 {  mqlyy_destructor(mqlyypParser,10,&mqlyymsp[-2].minor);
 #line 240 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy0 = mqlyymsp[0].minor.mqlyy0; }
-#line 2842 "./mql.c"
+#line 2849 "./mql.c"
   mqlyy_destructor(mqlyypParser,11,&mqlyymsp[-1].minor);
 }
         break;
@@ -2846,19 +2853,19 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,3,&mqlyymsp[0].minor);
 #line 246 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy466=0;}
-#line 2850 "./mql.c"
+#line 2857 "./mql.c"
 }
         break;
       case 59: /* opt_DATABASE ::= */
 #line 247 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy466=0;}
-#line 2856 "./mql.c"
+#line 2863 "./mql.c"
         break;
       case 60: /* drop_database_statement ::= KEY_DROP KEY_DATABASE database_name */
 {  mqlyy_destructor(mqlyypParser,12,&mqlyymsp[-2].minor);
 #line 253 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy50 = new DropDatabaseStatement((MQLExecEnv*) pEE, mqlyymsp[0].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 2862 "./mql.c"
+#line 2869 "./mql.c"
   mqlyy_destructor(mqlyypParser,3,&mqlyymsp[-1].minor);
 }
         break;
@@ -2866,7 +2873,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,13,&mqlyymsp[-2].minor);
 #line 259 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy50 = new VacuumDatabaseStatement((MQLExecEnv*) pEE, mqlyymsp[0].minor.mqlyy263); }
-#line 2870 "./mql.c"
+#line 2877 "./mql.c"
   mqlyy_destructor(mqlyypParser,185,&mqlyymsp[-1].minor);
 }
         break;
@@ -2877,20 +2884,20 @@ static void mqlyy_reduce(
       case 154: /* opt_DEFAULT ::= */ mqlyytestcase(mqlyyruleno==154);
 #line 264 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy263 = false; }
-#line 2881 "./mql.c"
+#line 2888 "./mql.c"
         break;
       case 63: /* opt_ANALYZE ::= KEY_ANALYZE */
 {  mqlyy_destructor(mqlyypParser,14,&mqlyymsp[0].minor);
 #line 265 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy263 = true; }
-#line 2887 "./mql.c"
+#line 2894 "./mql.c"
 }
         break;
       case 64: /* create_indexes_statement ::= KEY_CREATE KEY_INDEXES on_object_type */
 {  mqlyy_destructor(mqlyypParser,2,&mqlyymsp[-2].minor);
 #line 271 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy50 = new CreateIndexesStatement((MQLExecEnv*) pEE, *(mqlyymsp[0].minor.mqlyy0->pString)); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 2894 "./mql.c"
+#line 2901 "./mql.c"
   mqlyy_destructor(mqlyypParser,15,&mqlyymsp[-1].minor);
 }
         break;
@@ -2898,7 +2905,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,12,&mqlyymsp[-2].minor);
 #line 277 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy50 = new DropIndexesStatement((MQLExecEnv*) pEE, *(mqlyymsp[0].minor.mqlyy0->pString)); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 2902 "./mql.c"
+#line 2909 "./mql.c"
   mqlyy_destructor(mqlyypParser,15,&mqlyymsp[-1].minor);
 }
         break;
@@ -2906,7 +2913,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,16,&mqlyymsp[-5].minor);
 #line 286 "./mql.yxx"
 { mqlyymsp[-5].minor.mqlyy0 = mqlyymsp[-1].minor.mqlyy0; }
-#line 2910 "./mql.c"
+#line 2917 "./mql.c"
   mqlyy_destructor(mqlyypParser,17,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,189,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,18,&mqlyymsp[-2].minor);
@@ -2917,21 +2924,21 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,20,&mqlyymsp[0].minor);
 #line 292 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy466 = 0; }
-#line 2921 "./mql.c"
+#line 2928 "./mql.c"
 }
         break;
       case 68: /* choice_type_types ::= KEY_TYPES */
 {  mqlyy_destructor(mqlyypParser,21,&mqlyymsp[0].minor);
 #line 293 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy466 = 0; }
-#line 2928 "./mql.c"
+#line 2935 "./mql.c"
 }
         break;
       case 69: /* begin_transaction_statement ::= KEY_BEGIN KEY_TRANSACTION */
 {  mqlyy_destructor(mqlyypParser,22,&mqlyymsp[-1].minor);
 #line 299 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy50 = new BeginTransactionStatement((MQLExecEnv*) pEE); }
-#line 2935 "./mql.c"
+#line 2942 "./mql.c"
   mqlyy_destructor(mqlyypParser,23,&mqlyymsp[0].minor);
 }
         break;
@@ -2939,7 +2946,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,24,&mqlyymsp[-1].minor);
 #line 305 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy50 = new CommitTransactionStatement((MQLExecEnv*) pEE); }
-#line 2943 "./mql.c"
+#line 2950 "./mql.c"
   mqlyy_destructor(mqlyypParser,23,&mqlyymsp[0].minor);
 }
         break;
@@ -2947,7 +2954,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,25,&mqlyymsp[-1].minor);
 #line 311 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy50 = new AbortTransactionStatement((MQLExecEnv*) pEE); }
-#line 2951 "./mql.c"
+#line 2958 "./mql.c"
   mqlyy_destructor(mqlyypParser,23,&mqlyymsp[0].minor);
 }
         break;
@@ -2955,7 +2962,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,2,&mqlyymsp[-9].minor);
 #line 324 "./mql.yxx"
 { mqlyymsp[-9].minor.mqlyy50 = new CreateObjectTypeStatement((MQLExecEnv*) pEE, mqlyymsp[-2].minor.mqlyy0->extractString(), mqlyymsp[-5].minor.mqlyy342, mqlyymsp[-4].minor.mqlyy527, mqlyymsp[-1].minor.mqlyy289, mqlyymsp[-6].minor.mqlyy263); deleteToken(mqlyymsp[-2].minor.mqlyy0); }
-#line 2959 "./mql.c"
+#line 2966 "./mql.c"
   mqlyy_destructor(mqlyypParser,191,&mqlyymsp[-8].minor);
   mqlyy_destructor(mqlyypParser,20,&mqlyymsp[-7].minor);
   mqlyy_destructor(mqlyypParser,18,&mqlyymsp[-3].minor);
@@ -2965,13 +2972,13 @@ static void mqlyy_reduce(
       case 73: /* opt_range_type ::= */
 #line 330 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy342 = kORTMultipleRange; }
-#line 2969 "./mql.c"
+#line 2976 "./mql.c"
         break;
       case 74: /* opt_range_type ::= KEY_WITH KEY_MULTIPLE KEY_RANGE KEY_OBJECTS */
 {  mqlyy_destructor(mqlyypParser,8,&mqlyymsp[-3].minor);
 #line 332 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy342 = kORTMultipleRange; }
-#line 2975 "./mql.c"
+#line 2982 "./mql.c"
   mqlyy_destructor(mqlyypParser,26,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,27,&mqlyymsp[-1].minor);
   mqlyy_destructor(mqlyypParser,28,&mqlyymsp[0].minor);
@@ -2981,7 +2988,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,8,&mqlyymsp[-3].minor);
 #line 334 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy342 = kORTSingleRange; }
-#line 2985 "./mql.c"
+#line 2992 "./mql.c"
   mqlyy_destructor(mqlyypParser,29,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,27,&mqlyymsp[-1].minor);
   mqlyy_destructor(mqlyypParser,28,&mqlyymsp[0].minor);
@@ -2991,7 +2998,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,8,&mqlyymsp[-3].minor);
 #line 336 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy342 = kORTSingleMonad; }
-#line 2995 "./mql.c"
+#line 3002 "./mql.c"
   mqlyy_destructor(mqlyypParser,29,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,30,&mqlyymsp[-1].minor);
   mqlyy_destructor(mqlyypParser,28,&mqlyymsp[0].minor);
@@ -3000,13 +3007,13 @@ static void mqlyy_reduce(
       case 77: /* opt_monad_uniqueness_type ::= */
 #line 341 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy527 = kMUTNonUniqueMonads; }
-#line 3004 "./mql.c"
+#line 3011 "./mql.c"
         break;
       case 78: /* opt_monad_uniqueness_type ::= KEY_HAVING KEY_UNIQUE KEY_FIRST KEY_MONADS */
 {  mqlyy_destructor(mqlyypParser,31,&mqlyymsp[-3].minor);
 #line 343 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy527 = kMUTUniqueFirstMonads; }
-#line 3010 "./mql.c"
+#line 3017 "./mql.c"
   mqlyy_destructor(mqlyypParser,32,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,33,&mqlyymsp[-1].minor);
   mqlyy_destructor(mqlyypParser,34,&mqlyymsp[0].minor);
@@ -3016,7 +3023,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,31,&mqlyymsp[-5].minor);
 #line 345 "./mql.yxx"
 { mqlyymsp[-5].minor.mqlyy527 = kMUTUniqueFirstAndLastMonads; }
-#line 3020 "./mql.c"
+#line 3027 "./mql.c"
   mqlyy_destructor(mqlyypParser,32,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,33,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,35,&mqlyymsp[-2].minor);
@@ -3028,7 +3035,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,37,&mqlyymsp[-2].minor);
 #line 347 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy527 = kMUTNonUniqueMonads; }
-#line 3032 "./mql.c"
+#line 3039 "./mql.c"
   mqlyy_destructor(mqlyypParser,32,&mqlyymsp[-1].minor);
   mqlyy_destructor(mqlyypParser,34,&mqlyymsp[0].minor);
 }
@@ -3037,7 +3044,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,17,&mqlyymsp[0].minor);
 #line 352 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy466 = 0; }
-#line 3041 "./mql.c"
+#line 3048 "./mql.c"
 }
         break;
       case 82: /* opt_OBJECT ::= */
@@ -3045,36 +3052,36 @@ static void mqlyy_reduce(
       case 179: /* opt_OBJECTS ::= */ mqlyytestcase(mqlyyruleno==179);
 #line 353 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy466 = 0; }
-#line 3049 "./mql.c"
+#line 3056 "./mql.c"
         break;
       case 83: /* object_type_name ::= IDENTIFIER */
 #line 358 "./mql.yxx"
 {mqlyylhsminor.mqlyy0 = mqlyymsp[0].minor.mqlyy0; }
-#line 3054 "./mql.c"
+#line 3061 "./mql.c"
   mqlyymsp[0].minor.mqlyy0 = mqlyylhsminor.mqlyy0;
         break;
       case 84: /* opt_feature_declaration_list ::= feature_declaration_list */
       case 86: /* feature_declaration_list ::= feature_declaration */ mqlyytestcase(mqlyyruleno==86);
 #line 362 "./mql.yxx"
 { mqlyylhsminor.mqlyy289 = mqlyymsp[0].minor.mqlyy289; }
-#line 3061 "./mql.c"
+#line 3068 "./mql.c"
   mqlyymsp[0].minor.mqlyy289 = mqlyylhsminor.mqlyy289;
         break;
       case 85: /* opt_feature_declaration_list ::= */
 #line 363 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy289 = 0; }
-#line 3067 "./mql.c"
+#line 3074 "./mql.c"
         break;
       case 87: /* feature_declaration_list ::= feature_declaration_list feature_declaration */
 #line 370 "./mql.yxx"
 { mqlyylhsminor.mqlyy289 = mqlyymsp[0].minor.mqlyy289; mqlyylhsminor.mqlyy289->setNext(mqlyymsp[-1].minor.mqlyy289); }
-#line 3072 "./mql.c"
+#line 3079 "./mql.c"
   mqlyymsp[-1].minor.mqlyy289 = mqlyylhsminor.mqlyy289;
         break;
       case 88: /* feature_declaration ::= feature_name KEY_COLON feature_type default_specification opt_computed KEY_SEMICOLON */
 #line 376 "./mql.yxx"
 { mqlyylhsminor.mqlyy289 = new FeatureDeclaration(mqlyymsp[-5].minor.mqlyy0->extractString(), mqlyymsp[-3].minor.mqlyy264, mqlyymsp[-2].minor.mqlyy413, mqlyymsp[-1].minor.mqlyy263, 0); deleteToken(mqlyymsp[-5].minor.mqlyy0); }
-#line 3078 "./mql.c"
+#line 3085 "./mql.c"
   mqlyy_destructor(mqlyypParser,38,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,39,&mqlyymsp[0].minor);
   mqlyymsp[-5].minor.mqlyy289 = mqlyylhsminor.mqlyy289;
@@ -3082,7 +3089,7 @@ static void mqlyy_reduce(
       case 89: /* feature_declaration ::= feature_name KEY_COLON KEY_LIST KEY_OF list_feature_type KEY_SEMICOLON */
 #line 379 "./mql.yxx"
 { mqlyylhsminor.mqlyy289 = new FeatureDeclaration(mqlyymsp[-5].minor.mqlyy0->extractString(), mqlyymsp[-1].minor.mqlyy264, new Expression(), false, 0); deleteToken(mqlyymsp[-5].minor.mqlyy0); }
-#line 3086 "./mql.c"
+#line 3093 "./mql.c"
   mqlyy_destructor(mqlyypParser,38,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,40,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,41,&mqlyymsp[-2].minor);
@@ -3093,14 +3100,14 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,42,&mqlyymsp[-1].minor);
 #line 385 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy264 = new MQLType(kInteger, mqlyymsp[0].minor.mqlyy263); }
-#line 3097 "./mql.c"
+#line 3104 "./mql.c"
 }
         break;
       case 91: /* feature_type ::= KEY_STRING opt_string_length opt_from_set opt_with_index */
 {  mqlyy_destructor(mqlyypParser,43,&mqlyymsp[-3].minor);
 #line 387 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy264 = new MQLType(kString, mqlyymsp[-1].minor.mqlyy263, mqlyymsp[0].minor.mqlyy263); }
-#line 3104 "./mql.c"
+#line 3111 "./mql.c"
   mqlyy_destructor(mqlyypParser,205,&mqlyymsp[-2].minor);
 }
         break;
@@ -3108,7 +3115,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,44,&mqlyymsp[-3].minor);
 #line 389 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy264 = new MQLType(kASCII, mqlyymsp[-1].minor.mqlyy263, mqlyymsp[0].minor.mqlyy263); }
-#line 3112 "./mql.c"
+#line 3119 "./mql.c"
   mqlyy_destructor(mqlyypParser,205,&mqlyymsp[-2].minor);
 }
         break;
@@ -3116,20 +3123,20 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,45,&mqlyymsp[-1].minor);
 #line 391 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy264 = new MQLType(kID_D, mqlyymsp[0].minor.mqlyy263); }
-#line 3120 "./mql.c"
+#line 3127 "./mql.c"
 }
         break;
       case 94: /* feature_type ::= IDENTIFIER opt_with_index */
 #line 393 "./mql.yxx"
 { mqlyylhsminor.mqlyy264 = new MQLType(mqlyymsp[-1].minor.mqlyy0->extractString(), false, mqlyymsp[0].minor.mqlyy263); deleteToken(mqlyymsp[-1].minor.mqlyy0); }
-#line 3126 "./mql.c"
+#line 3133 "./mql.c"
   mqlyymsp[-1].minor.mqlyy264 = mqlyylhsminor.mqlyy264;
         break;
       case 95: /* feature_type ::= KEY_SET KEY_OF KEY_MONADS */
 {  mqlyy_destructor(mqlyypParser,46,&mqlyymsp[-2].minor);
 #line 395 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy264 = new MQLType(kORTMultipleRange); }
-#line 3133 "./mql.c"
+#line 3140 "./mql.c"
   mqlyy_destructor(mqlyypParser,41,&mqlyymsp[-1].minor);
   mqlyy_destructor(mqlyypParser,34,&mqlyymsp[0].minor);
 }
@@ -3138,7 +3145,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,29,&mqlyymsp[-4].minor);
 #line 397 "./mql.yxx"
 { mqlyymsp[-4].minor.mqlyy264 = new MQLType(kORTSingleMonad); }
-#line 3142 "./mql.c"
+#line 3149 "./mql.c"
   mqlyy_destructor(mqlyypParser,30,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,46,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,41,&mqlyymsp[-1].minor);
@@ -3149,7 +3156,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,29,&mqlyymsp[-4].minor);
 #line 399 "./mql.yxx"
 { mqlyymsp[-4].minor.mqlyy264 = new MQLType(kORTSingleRange); }
-#line 3153 "./mql.c"
+#line 3160 "./mql.c"
   mqlyy_destructor(mqlyypParser,27,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,46,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,41,&mqlyymsp[-1].minor);
@@ -3160,7 +3167,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,26,&mqlyymsp[-4].minor);
 #line 401 "./mql.yxx"
 { mqlyymsp[-4].minor.mqlyy264 = new MQLType(kORTMultipleRange); }
-#line 3164 "./mql.c"
+#line 3171 "./mql.c"
   mqlyy_destructor(mqlyypParser,27,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,46,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,41,&mqlyymsp[-1].minor);
@@ -3171,27 +3178,27 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,42,&mqlyymsp[0].minor);
 #line 408 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy264 = new MQLType(kListOfInteger); }
-#line 3175 "./mql.c"
+#line 3182 "./mql.c"
 }
         break;
       case 100: /* list_feature_type ::= KEY_ID_D */
 {  mqlyy_destructor(mqlyypParser,45,&mqlyymsp[0].minor);
 #line 410 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy264 = new MQLType(kListOfID_D); }
-#line 3182 "./mql.c"
+#line 3189 "./mql.c"
 }
         break;
       case 101: /* list_feature_type ::= IDENTIFIER */
 #line 412 "./mql.yxx"
 { mqlyylhsminor.mqlyy264 = new MQLType(mqlyymsp[0].minor.mqlyy0->extractString(), true, false); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 3188 "./mql.c"
+#line 3195 "./mql.c"
   mqlyymsp[0].minor.mqlyy264 = mqlyylhsminor.mqlyy264;
         break;
       case 102: /* opt_with_index ::= KEY_WITH KEY_INDEX */
 {  mqlyy_destructor(mqlyypParser,8,&mqlyymsp[-1].minor);
 #line 417 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy263 = true; }
-#line 3195 "./mql.c"
+#line 3202 "./mql.c"
   mqlyy_destructor(mqlyypParser,47,&mqlyymsp[0].minor);
 }
         break;
@@ -3199,7 +3206,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,37,&mqlyymsp[-1].minor);
 #line 418 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy263 = false; }
-#line 3203 "./mql.c"
+#line 3210 "./mql.c"
   mqlyy_destructor(mqlyypParser,47,&mqlyymsp[0].minor);
 }
         break;
@@ -3207,7 +3214,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,48,&mqlyymsp[-2].minor);
 #line 423 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy263 = true; }
-#line 3211 "./mql.c"
+#line 3218 "./mql.c"
   mqlyy_destructor(mqlyypParser,49,&mqlyymsp[-1].minor);
   mqlyy_destructor(mqlyypParser,50,&mqlyymsp[0].minor);
 }
@@ -3216,25 +3223,25 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,51,&mqlyymsp[-1].minor);
 #line 428 "./mql.yxx"
 {mqlyymsp[-1].minor.mqlyy263 = true;}
-#line 3220 "./mql.c"
+#line 3227 "./mql.c"
   mqlyy_destructor(mqlyypParser,46,&mqlyymsp[0].minor);
 }
         break;
       case 108: /* opt_from_set ::= */
 #line 429 "./mql.yxx"
 {mqlyymsp[1].minor.mqlyy263 = false;}
-#line 3227 "./mql.c"
+#line 3234 "./mql.c"
         break;
       case 109: /* opt_string_length ::= */
 #line 435 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy529 = 0; }
-#line 3232 "./mql.c"
+#line 3239 "./mql.c"
         break;
       case 110: /* opt_string_length ::= KEY_OPEN_BRACKET INTEGER KEY_CLOSE_BRACKET */
 {  mqlyy_destructor(mqlyypParser,52,&mqlyymsp[-2].minor);
 #line 437 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy529 = 0; }
-#line 3238 "./mql.c"
+#line 3245 "./mql.c"
   mqlyy_destructor(mqlyypParser,53,&mqlyymsp[-1].minor);
   mqlyy_destructor(mqlyypParser,54,&mqlyymsp[0].minor);
 }
@@ -3243,26 +3250,26 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,55,&mqlyymsp[-1].minor);
 #line 443 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy413 = mqlyymsp[0].minor.mqlyy413; }
-#line 3247 "./mql.c"
+#line 3254 "./mql.c"
 }
         break;
       case 112: /* default_specification ::= */
 #line 445 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy413 = 0; }
-#line 3253 "./mql.c"
+#line 3260 "./mql.c"
         break;
       case 113: /* opt_computed ::= KEY_COMPUTED */
 {  mqlyy_destructor(mqlyypParser,56,&mqlyymsp[0].minor);
 #line 451 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy263 = true; }
-#line 3259 "./mql.c"
+#line 3266 "./mql.c"
 }
         break;
       case 115: /* update_object_type_statement ::= KEY_UPDATE opt_OBJECT KEY_TYPE KEY_OPEN_SQUARE_BRACKET object_type_name feature_update_list KEY_CLOSE_SQUARE_BRACKET */
 {  mqlyy_destructor(mqlyypParser,57,&mqlyymsp[-6].minor);
 #line 462 "./mql.yxx"
 { mqlyymsp[-6].minor.mqlyy50 = new UpdateObjectTypeStatement((MQLExecEnv*) pEE, mqlyymsp[-2].minor.mqlyy0->extractString(), mqlyymsp[-1].minor.mqlyy380); deleteToken(mqlyymsp[-2].minor.mqlyy0); }
-#line 3266 "./mql.c"
+#line 3273 "./mql.c"
   mqlyy_destructor(mqlyypParser,191,&mqlyymsp[-5].minor);
   mqlyy_destructor(mqlyypParser,20,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,18,&mqlyymsp[-3].minor);
@@ -3272,27 +3279,27 @@ static void mqlyy_reduce(
       case 116: /* feature_update_list ::= feature_update */
 #line 468 "./mql.yxx"
 { mqlyylhsminor.mqlyy380 = mqlyymsp[0].minor.mqlyy380; }
-#line 3276 "./mql.c"
+#line 3283 "./mql.c"
   mqlyymsp[0].minor.mqlyy380 = mqlyylhsminor.mqlyy380;
         break;
       case 117: /* feature_update_list ::= feature_update_list feature_update */
 #line 470 "./mql.yxx"
 { mqlyylhsminor.mqlyy380 = mqlyymsp[0].minor.mqlyy380; mqlyylhsminor.mqlyy380->setNext(mqlyymsp[-1].minor.mqlyy380); }
-#line 3282 "./mql.c"
+#line 3289 "./mql.c"
   mqlyymsp[-1].minor.mqlyy380 = mqlyylhsminor.mqlyy380;
         break;
       case 118: /* feature_update ::= opt_ADD feature_declaration */
 {  mqlyy_destructor(mqlyypParser,210,&mqlyymsp[-1].minor);
 #line 476 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy380 = new FeatureUpdate(mqlyymsp[0].minor.mqlyy289, 0); }
-#line 3289 "./mql.c"
+#line 3296 "./mql.c"
 }
         break;
       case 119: /* feature_update ::= KEY_REMOVE feature_name KEY_SEMICOLON */
 {  mqlyy_destructor(mqlyypParser,58,&mqlyymsp[-2].minor);
 #line 478 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy380 = new FeatureUpdate(mqlyymsp[-1].minor.mqlyy0->extractString(), 0); deleteToken(mqlyymsp[-1].minor.mqlyy0); }
-#line 3296 "./mql.c"
+#line 3303 "./mql.c"
   mqlyy_destructor(mqlyypParser,39,&mqlyymsp[0].minor);
 }
         break;
@@ -3300,14 +3307,14 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,59,&mqlyymsp[0].minor);
 #line 483 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy466 = 0; }
-#line 3304 "./mql.c"
+#line 3311 "./mql.c"
 }
         break;
       case 122: /* drop_object_type_statement ::= KEY_DROP opt_OBJECT KEY_TYPE KEY_OPEN_SQUARE_BRACKET object_type_name KEY_CLOSE_SQUARE_BRACKET */
 {  mqlyy_destructor(mqlyypParser,12,&mqlyymsp[-5].minor);
 #line 493 "./mql.yxx"
 { mqlyymsp[-5].minor.mqlyy50 = new DropObjectTypeStatement((MQLExecEnv*) pEE, mqlyymsp[-1].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[-1].minor.mqlyy0); }
-#line 3311 "./mql.c"
+#line 3318 "./mql.c"
   mqlyy_destructor(mqlyypParser,191,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,20,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,18,&mqlyymsp[-2].minor);
@@ -3318,21 +3325,21 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,60,&mqlyymsp[-1].minor);
 #line 499 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy50 = new InsertMonadsStatement((MQLExecEnv*) pEE, mqlyymsp[0].minor.mqlyy108); }
-#line 3322 "./mql.c"
+#line 3329 "./mql.c"
 }
         break;
       case 124: /* delete_monads_statement ::= KEY_DELETE monad_specification */
 {  mqlyy_destructor(mqlyypParser,61,&mqlyymsp[-1].minor);
 #line 505 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy50 = new DeleteMonadsStatement((MQLExecEnv*) pEE, mqlyymsp[0].minor.mqlyy108); }
-#line 3329 "./mql.c"
+#line 3336 "./mql.c"
 }
         break;
       case 125: /* get_monads_statement ::= KEY_GET KEY_MONADS KEY_FROM choice_number_OBJECTS KEY_WITH id_ds_specification KEY_OPEN_SQUARE_BRACKET object_type_name KEY_CLOSE_SQUARE_BRACKET */
 {  mqlyy_destructor(mqlyypParser,62,&mqlyymsp[-8].minor);
 #line 516 "./mql.yxx"
 { mqlyymsp[-8].minor.mqlyy50 = new GetMonadsStatement((MQLExecEnv*) pEE, mqlyymsp[-3].minor.mqlyy43, mqlyymsp[-1].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[-1].minor.mqlyy0); }
-#line 3336 "./mql.c"
+#line 3343 "./mql.c"
   mqlyy_destructor(mqlyypParser,34,&mqlyymsp[-7].minor);
   mqlyy_destructor(mqlyypParser,51,&mqlyymsp[-6].minor);
   mqlyy_destructor(mqlyypParser,212,&mqlyymsp[-5].minor);
@@ -3345,7 +3352,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,30,&mqlyymsp[-3].minor);
 #line 523 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy50 = new MonadSetCalculationStatement((MQLExecEnv*) pEE, mqlyymsp[0].minor.mqlyy51); }
-#line 3349 "./mql.c"
+#line 3356 "./mql.c"
   mqlyy_destructor(mqlyypParser,46,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,63,&mqlyymsp[-1].minor);
 }
@@ -3353,41 +3360,41 @@ static void mqlyy_reduce(
       case 127: /* monad_set_chain ::= monad_set */
 #line 529 "./mql.yxx"
 { mqlyylhsminor.mqlyy51 = new MonadSetChainElement(mqlyymsp[0].minor.mqlyy108, kSONone, 0); }
-#line 3357 "./mql.c"
+#line 3364 "./mql.c"
   mqlyymsp[0].minor.mqlyy51 = mqlyylhsminor.mqlyy51;
         break;
       case 128: /* monad_set_chain ::= monad_set_chain monad_set_operator monad_set */
 #line 531 "./mql.yxx"
 { mqlyylhsminor.mqlyy51 = new MonadSetChainElement(mqlyymsp[0].minor.mqlyy108, mqlyymsp[-1].minor.mqlyy346, 0); mqlyylhsminor.mqlyy51->setNext(mqlyymsp[-2].minor.mqlyy51); }
-#line 3363 "./mql.c"
+#line 3370 "./mql.c"
   mqlyymsp[-2].minor.mqlyy51 = mqlyylhsminor.mqlyy51;
         break;
       case 129: /* monad_set_operator ::= KEY_UNION */
 {  mqlyy_destructor(mqlyypParser,64,&mqlyymsp[0].minor);
 #line 536 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy346 = kSOUnion; }
-#line 3370 "./mql.c"
+#line 3377 "./mql.c"
 }
         break;
       case 130: /* monad_set_operator ::= KEY_DIFFERENCE */
 {  mqlyy_destructor(mqlyypParser,65,&mqlyymsp[0].minor);
 #line 537 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy346 = kSODifference; }
-#line 3377 "./mql.c"
+#line 3384 "./mql.c"
 }
         break;
       case 131: /* monad_set_operator ::= KEY_INTERSECT */
 {  mqlyy_destructor(mqlyypParser,66,&mqlyymsp[0].minor);
 #line 538 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy346 = kSOIntersect; }
-#line 3384 "./mql.c"
+#line 3391 "./mql.c"
 }
         break;
       case 132: /* select_monad_sets_statement ::= KEY_SELECT KEY_MONAD KEY_SETS */
 {  mqlyy_destructor(mqlyypParser,67,&mqlyymsp[-2].minor);
 #line 544 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy50 = new SelectMonadSetsStatement((MQLExecEnv*) pEE); }
-#line 3391 "./mql.c"
+#line 3398 "./mql.c"
   mqlyy_destructor(mqlyypParser,30,&mqlyymsp[-1].minor);
   mqlyy_destructor(mqlyypParser,68,&mqlyymsp[0].minor);
 }
@@ -3396,7 +3403,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,62,&mqlyymsp[-3].minor);
 #line 551 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy50 = new GetMonadSetsStatement((MQLExecEnv*) pEE, mqlyymsp[0].minor.mqlyy336); }
-#line 3400 "./mql.c"
+#line 3407 "./mql.c"
   mqlyy_destructor(mqlyypParser,30,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,217,&mqlyymsp[-1].minor);
 }
@@ -3405,7 +3412,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,62,&mqlyymsp[-3].minor);
 #line 554 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy50 = new GetMonadSetsStatement((MQLExecEnv*) pEE); }
-#line 3409 "./mql.c"
+#line 3416 "./mql.c"
   mqlyy_destructor(mqlyypParser,30,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,217,&mqlyymsp[-1].minor);
   mqlyy_destructor(mqlyypParser,69,&mqlyymsp[0].minor);
@@ -3415,21 +3422,21 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,68,&mqlyymsp[0].minor);
 #line 559 "./mql.yxx"
 {mqlyymsp[0].minor.mqlyy466 = 0;}
-#line 3419 "./mql.c"
+#line 3426 "./mql.c"
 }
         break;
       case 136: /* choice_number_SET ::= KEY_SET */
 {  mqlyy_destructor(mqlyypParser,46,&mqlyymsp[0].minor);
 #line 560 "./mql.yxx"
 {mqlyymsp[0].minor.mqlyy466 = 0;}
-#line 3426 "./mql.c"
+#line 3433 "./mql.c"
 }
         break;
       case 137: /* create_monad_set_statement ::= KEY_CREATE KEY_MONAD KEY_SET monad_set_name KEY_WITH monad_specification */
 {  mqlyy_destructor(mqlyypParser,2,&mqlyymsp[-5].minor);
 #line 567 "./mql.yxx"
 { mqlyymsp[-5].minor.mqlyy50 = new CreateMonadSetStatement((MQLExecEnv*) pEE, mqlyymsp[-2].minor.mqlyy0->extractString(), mqlyymsp[0].minor.mqlyy108); deleteToken(mqlyymsp[-2].minor.mqlyy0); }
-#line 3433 "./mql.c"
+#line 3440 "./mql.c"
   mqlyy_destructor(mqlyypParser,30,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,46,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,8,&mqlyymsp[-1].minor);
@@ -3439,7 +3446,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,57,&mqlyymsp[-5].minor);
 #line 577 "./mql.yxx"
 { mqlyymsp[-5].minor.mqlyy50 = new UpdateMonadSetStatement((MQLExecEnv*) pEE, mqlyymsp[-2].minor.mqlyy0->extractString(), mqlyymsp[-1].minor.mqlyy346, mqlyymsp[0].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[-2].minor.mqlyy0); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 3443 "./mql.c"
+#line 3450 "./mql.c"
   mqlyy_destructor(mqlyypParser,30,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,46,&mqlyymsp[-3].minor);
 }
@@ -3448,7 +3455,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,57,&mqlyymsp[-5].minor);
 #line 583 "./mql.yxx"
 { mqlyymsp[-5].minor.mqlyy50 = new UpdateMonadSetStatement((MQLExecEnv*) pEE, mqlyymsp[-2].minor.mqlyy0->extractString(), kSOReplace, mqlyymsp[0].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[-2].minor.mqlyy0); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 3452 "./mql.c"
+#line 3459 "./mql.c"
   mqlyy_destructor(mqlyypParser,30,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,46,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,70,&mqlyymsp[-1].minor);
@@ -3458,7 +3465,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,57,&mqlyymsp[-5].minor);
 #line 589 "./mql.yxx"
 { mqlyymsp[-5].minor.mqlyy50 = new UpdateMonadSetStatement((MQLExecEnv*) pEE, mqlyymsp[-2].minor.mqlyy0->extractString(), mqlyymsp[-1].minor.mqlyy346, mqlyymsp[0].minor.mqlyy108); deleteToken(mqlyymsp[-2].minor.mqlyy0); }
-#line 3462 "./mql.c"
+#line 3469 "./mql.c"
   mqlyy_destructor(mqlyypParser,30,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,46,&mqlyymsp[-3].minor);
 }
@@ -3467,7 +3474,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,57,&mqlyymsp[-5].minor);
 #line 595 "./mql.yxx"
 { mqlyymsp[-5].minor.mqlyy50 = new UpdateMonadSetStatement((MQLExecEnv*) pEE, mqlyymsp[-2].minor.mqlyy0->extractString(), kSOReplace, mqlyymsp[0].minor.mqlyy108); deleteToken(mqlyymsp[-2].minor.mqlyy0); }
-#line 3471 "./mql.c"
+#line 3478 "./mql.c"
   mqlyy_destructor(mqlyypParser,30,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,46,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,70,&mqlyymsp[-1].minor);
@@ -3477,7 +3484,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,12,&mqlyymsp[-3].minor);
 #line 602 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy50 = new DropMonadSetStatement((MQLExecEnv*) pEE, mqlyymsp[0].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 3481 "./mql.c"
+#line 3488 "./mql.c"
   mqlyy_destructor(mqlyypParser,30,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,46,&mqlyymsp[-1].minor);
 }
@@ -3487,7 +3494,7 @@ static void mqlyy_reduce(
       case 265: /* list_of_identifier ::= IDENTIFIER */ mqlyytestcase(mqlyyruleno==265);
 #line 613 "./mql.yxx"
 { mqlyylhsminor.mqlyy336 = new StringListNode(*(mqlyymsp[0].minor.mqlyy0->pString), 0); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 3491 "./mql.c"
+#line 3498 "./mql.c"
   mqlyymsp[0].minor.mqlyy336 = mqlyylhsminor.mqlyy336;
         break;
       case 145: /* monad_set_name_list ::= monad_set_name_list KEY_COMMA monad_set_name */
@@ -3495,7 +3502,7 @@ static void mqlyy_reduce(
       case 266: /* list_of_identifier ::= list_of_identifier KEY_COMMA IDENTIFIER */ mqlyytestcase(mqlyyruleno==266);
 #line 616 "./mql.yxx"
 { mqlyylhsminor.mqlyy336 = new StringListNode(*(mqlyymsp[0].minor.mqlyy0->pString), mqlyymsp[-2].minor.mqlyy336); mqlyymsp[-2].minor.mqlyy336->setNext(mqlyylhsminor.mqlyy336); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 3499 "./mql.c"
+#line 3506 "./mql.c"
   mqlyy_destructor(mqlyypParser,71,&mqlyymsp[-1].minor);
   mqlyymsp[-2].minor.mqlyy336 = mqlyylhsminor.mqlyy336;
         break;
@@ -3503,7 +3510,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,2,&mqlyymsp[-6].minor);
 #line 625 "./mql.yxx"
 { mqlyymsp[-6].minor.mqlyy50 = new CreateEnumerationStatement((MQLExecEnv*) pEE, mqlyymsp[-4].minor.mqlyy0->extractString(), mqlyymsp[-1].minor.mqlyy455); deleteToken(mqlyymsp[-4].minor.mqlyy0); }
-#line 3507 "./mql.c"
+#line 3514 "./mql.c"
   mqlyy_destructor(mqlyypParser,220,&mqlyymsp[-5].minor);
   mqlyy_destructor(mqlyypParser,72,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,73,&mqlyymsp[-2].minor);
@@ -3514,60 +3521,60 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,75,&mqlyymsp[0].minor);
 #line 630 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy466 = 0; }
-#line 3518 "./mql.c"
+#line 3525 "./mql.c"
 }
         break;
       case 148: /* choice_ENUM_ERATION ::= KEY_ENUM */
 {  mqlyy_destructor(mqlyypParser,76,&mqlyymsp[0].minor);
 #line 631 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy466 = 0; }
-#line 3525 "./mql.c"
+#line 3532 "./mql.c"
 }
         break;
       case 150: /* ec_declaration_list ::= ec_declaration */
 #line 641 "./mql.yxx"
 { mqlyylhsminor.mqlyy455 = mqlyymsp[0].minor.mqlyy455; }
-#line 3531 "./mql.c"
+#line 3538 "./mql.c"
   mqlyymsp[0].minor.mqlyy455 = mqlyylhsminor.mqlyy455;
         break;
       case 151: /* ec_declaration_list ::= ec_declaration_list KEY_COMMA ec_declaration */
 #line 643 "./mql.yxx"
 { mqlyylhsminor.mqlyy455 = mqlyymsp[0].minor.mqlyy455; mqlyylhsminor.mqlyy455->setNext(mqlyymsp[-2].minor.mqlyy455); }
-#line 3537 "./mql.c"
+#line 3544 "./mql.c"
   mqlyy_destructor(mqlyypParser,71,&mqlyymsp[-1].minor);
   mqlyymsp[-2].minor.mqlyy455 = mqlyylhsminor.mqlyy455;
         break;
       case 152: /* ec_declaration ::= opt_DEFAULT ec_name opt_ec_initialization */
 #line 648 "./mql.yxx"
-{ mqlyylhsminor.mqlyy455 = new ECDeclaration(mqlyymsp[-2].minor.mqlyy263, mqlyymsp[-1].minor.mqlyy0->extractString(), mqlyymsp[0].minor.mqlyy37, 0); 
+{ mqlyylhsminor.mqlyy455 = new ECDeclaration(mqlyymsp[-2].minor.mqlyy263, mqlyymsp[-1].minor.mqlyy0->extractString(), mqlyymsp[0].minor.mqlyy473, 0); 
       deleteToken(mqlyymsp[-1].minor.mqlyy0); 
     }
-#line 3546 "./mql.c"
+#line 3553 "./mql.c"
   mqlyymsp[-2].minor.mqlyy455 = mqlyylhsminor.mqlyy455;
         break;
       case 153: /* opt_DEFAULT ::= KEY_DEFAULT */
 {  mqlyy_destructor(mqlyypParser,55,&mqlyymsp[0].minor);
 #line 656 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy263 = true; }
-#line 3553 "./mql.c"
+#line 3560 "./mql.c"
 }
         break;
       case 156: /* opt_ec_initialization ::= ec_initialization */
 #line 668 "./mql.yxx"
-{ mqlyylhsminor.mqlyy37 = new emdros_int64(mqlyymsp[0].minor.mqlyy529); }
-#line 3559 "./mql.c"
-  mqlyymsp[0].minor.mqlyy37 = mqlyylhsminor.mqlyy37;
+{ mqlyylhsminor.mqlyy473 = new emdros_int64(mqlyymsp[0].minor.mqlyy503); }
+#line 3566 "./mql.c"
+  mqlyymsp[0].minor.mqlyy473 = mqlyylhsminor.mqlyy473;
         break;
       case 157: /* opt_ec_initialization ::= */
 #line 671 "./mql.yxx"
-{ mqlyymsp[1].minor.mqlyy37 = 0; }
-#line 3565 "./mql.c"
+{ mqlyymsp[1].minor.mqlyy473 = 0; }
+#line 3572 "./mql.c"
         break;
       case 158: /* update_enumeration_statement ::= KEY_UPDATE choice_ENUM_ERATION enumeration_name KEY_EQUALS KEY_OPEN_BRACE ec_update_list KEY_CLOSE_BRACE */
 {  mqlyy_destructor(mqlyypParser,57,&mqlyymsp[-6].minor);
 #line 679 "./mql.yxx"
 { mqlyymsp[-6].minor.mqlyy50 = new UpdateEnumerationStatement((MQLExecEnv*) pEE, mqlyymsp[-4].minor.mqlyy0->extractString(), mqlyymsp[-1].minor.mqlyy46); deleteToken(mqlyymsp[-4].minor.mqlyy0); }
-#line 3571 "./mql.c"
+#line 3578 "./mql.c"
   mqlyy_destructor(mqlyypParser,220,&mqlyymsp[-5].minor);
   mqlyy_destructor(mqlyypParser,72,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,73,&mqlyymsp[-2].minor);
@@ -3577,70 +3584,70 @@ static void mqlyy_reduce(
       case 159: /* ec_update_list ::= ec_update */
 #line 685 "./mql.yxx"
 { mqlyylhsminor.mqlyy46 = mqlyymsp[0].minor.mqlyy46; }
-#line 3581 "./mql.c"
+#line 3588 "./mql.c"
   mqlyymsp[0].minor.mqlyy46 = mqlyylhsminor.mqlyy46;
         break;
       case 160: /* ec_update_list ::= ec_update_list KEY_COMMA ec_update */
 #line 687 "./mql.yxx"
 { mqlyylhsminor.mqlyy46 = mqlyymsp[0].minor.mqlyy46; mqlyylhsminor.mqlyy46->setNext(mqlyymsp[-2].minor.mqlyy46); }
-#line 3587 "./mql.c"
+#line 3594 "./mql.c"
   mqlyy_destructor(mqlyypParser,71,&mqlyymsp[-1].minor);
   mqlyymsp[-2].minor.mqlyy46 = mqlyylhsminor.mqlyy46;
         break;
       case 161: /* ec_update ::= opt_ADD opt_DEFAULT ec_name ec_initialization */
 {  mqlyy_destructor(mqlyypParser,210,&mqlyymsp[-3].minor);
 #line 693 "./mql.yxx"
-{ mqlyymsp[-3].minor.mqlyy46 = new ECUpdate(mqlyymsp[-2].minor.mqlyy263, mqlyymsp[-1].minor.mqlyy0->extractString(), mqlyymsp[0].minor.mqlyy529, kAdd, 0); deleteToken(mqlyymsp[-1].minor.mqlyy0); }
-#line 3595 "./mql.c"
+{ mqlyymsp[-3].minor.mqlyy46 = new ECUpdate(mqlyymsp[-2].minor.mqlyy263, mqlyymsp[-1].minor.mqlyy0->extractString(), mqlyymsp[0].minor.mqlyy503, kAdd, 0); deleteToken(mqlyymsp[-1].minor.mqlyy0); }
+#line 3602 "./mql.c"
 }
         break;
       case 162: /* ec_update ::= KEY_UPDATE opt_DEFAULT ec_name ec_initialization */
 {  mqlyy_destructor(mqlyypParser,57,&mqlyymsp[-3].minor);
 #line 695 "./mql.yxx"
-{ mqlyymsp[-3].minor.mqlyy46 = new ECUpdate(mqlyymsp[-2].minor.mqlyy263, mqlyymsp[-1].minor.mqlyy0->extractString(), mqlyymsp[0].minor.mqlyy529, kUpdate, 0); deleteToken(mqlyymsp[-1].minor.mqlyy0); }
-#line 3602 "./mql.c"
+{ mqlyymsp[-3].minor.mqlyy46 = new ECUpdate(mqlyymsp[-2].minor.mqlyy263, mqlyymsp[-1].minor.mqlyy0->extractString(), mqlyymsp[0].minor.mqlyy503, kUpdate, 0); deleteToken(mqlyymsp[-1].minor.mqlyy0); }
+#line 3609 "./mql.c"
 }
         break;
       case 163: /* ec_update ::= KEY_REMOVE ec_name */
 {  mqlyy_destructor(mqlyypParser,58,&mqlyymsp[-1].minor);
 #line 697 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy46 = new ECUpdate(false, mqlyymsp[0].minor.mqlyy0->extractString(), 0, kRemove, 0); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 3609 "./mql.c"
+#line 3616 "./mql.c"
 }
         break;
       case 164: /* ec_initialization ::= KEY_EQUALS signed_integer */
 {  mqlyy_destructor(mqlyypParser,72,&mqlyymsp[-1].minor);
 #line 702 "./mql.yxx"
-{ mqlyymsp[-1].minor.mqlyy529 = mqlyymsp[0].minor.mqlyy529; }
-#line 3616 "./mql.c"
+{ mqlyymsp[-1].minor.mqlyy503 = mqlyymsp[0].minor.mqlyy503; }
+#line 3623 "./mql.c"
 }
         break;
       case 165: /* signed_integer ::= INTEGER */
       case 168: /* unsigned_integer ::= INTEGER */ mqlyytestcase(mqlyyruleno==168);
 #line 706 "./mql.yxx"
-{ mqlyylhsminor.mqlyy529 = mqlyymsp[0].minor.mqlyy0->integer; deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 3623 "./mql.c"
-  mqlyymsp[0].minor.mqlyy529 = mqlyylhsminor.mqlyy529;
+{ mqlyylhsminor.mqlyy503 = mqlyymsp[0].minor.mqlyy0->integer; deleteToken(mqlyymsp[0].minor.mqlyy0); }
+#line 3630 "./mql.c"
+  mqlyymsp[0].minor.mqlyy503 = mqlyylhsminor.mqlyy503;
         break;
       case 166: /* signed_integer ::= KEY_DASH INTEGER */
 {  mqlyy_destructor(mqlyypParser,77,&mqlyymsp[-1].minor);
 #line 707 "./mql.yxx"
-{ mqlyymsp[-1].minor.mqlyy529 = -(mqlyymsp[0].minor.mqlyy0->integer); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 3630 "./mql.c"
+{ mqlyymsp[-1].minor.mqlyy503 = -(mqlyymsp[0].minor.mqlyy0->integer); deleteToken(mqlyymsp[0].minor.mqlyy0); }
+#line 3637 "./mql.c"
 }
         break;
       case 167: /* signed_integer ::= KEY_NIL */
 {  mqlyy_destructor(mqlyypParser,78,&mqlyymsp[0].minor);
 #line 708 "./mql.yxx"
-{ mqlyymsp[0].minor.mqlyy529 = NIL; }
-#line 3637 "./mql.c"
+{ mqlyymsp[0].minor.mqlyy503 = NIL; }
+#line 3644 "./mql.c"
 }
         break;
       case 169: /* drop_enumeration_statement ::= KEY_DROP choice_ENUM_ERATION enumeration_name */
 {  mqlyy_destructor(mqlyypParser,12,&mqlyymsp[-2].minor);
 #line 721 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy50 = new DropEnumerationStatement((MQLExecEnv*) pEE, mqlyymsp[0].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 3644 "./mql.c"
+#line 3651 "./mql.c"
   mqlyy_destructor(mqlyypParser,220,&mqlyymsp[-1].minor);
 }
         break;
@@ -3648,7 +3655,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,2,&mqlyymsp[-5].minor);
 #line 731 "./mql.yxx"
 { mqlyymsp[-5].minor.mqlyy50 = new CreateSegmentStatement((MQLExecEnv*) pEE, mqlyymsp[-3].minor.mqlyy0->extractString(), mqlyymsp[0].minor.mqlyy108); deleteToken(mqlyymsp[-3].minor.mqlyy0); }
-#line 3652 "./mql.c"
+#line 3659 "./mql.c"
   mqlyy_destructor(mqlyypParser,79,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,27,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,72,&mqlyymsp[-1].minor);
@@ -3657,20 +3664,20 @@ static void mqlyy_reduce(
       case 172: /* segment_range ::= INTEGER KEY_DASH INTEGER */
 #line 741 "./mql.yxx"
 { mqlyylhsminor.mqlyy108 = new MQLMonadSetElement(mqlyymsp[-2].minor.mqlyy0->integer, mqlyymsp[0].minor.mqlyy0->integer, 0, true);  deleteToken(mqlyymsp[-2].minor.mqlyy0); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 3661 "./mql.c"
+#line 3668 "./mql.c"
   mqlyy_destructor(mqlyypParser,77,&mqlyymsp[-1].minor);
   mqlyymsp[-2].minor.mqlyy108 = mqlyylhsminor.mqlyy108;
         break;
       case 173: /* select_statement ::= select_clause in_clause with_max_range_clause returning_clause where_clause */
 #line 751 "./mql.yxx"
 { mqlyylhsminor.mqlyy50 = new SelectStatement((MQLExecEnv*) pEE, mqlyymsp[-4].minor.mqlyy273, mqlyymsp[-3].minor.mqlyy108, mqlyymsp[-2].minor.mqlyy448, mqlyymsp[-1].minor.mqlyy551, mqlyymsp[0].minor.mqlyy269); }
-#line 3668 "./mql.c"
+#line 3675 "./mql.c"
   mqlyymsp[-4].minor.mqlyy50 = mqlyylhsminor.mqlyy50;
         break;
       case 174: /* select_statement ::= select_clause KEY_IN IDENTIFIER with_max_range_clause returning_clause where_clause */
 #line 757 "./mql.yxx"
 { mqlyylhsminor.mqlyy50 = new SelectStatement((MQLExecEnv*) pEE, mqlyymsp[-5].minor.mqlyy273, mqlyymsp[-3].minor.mqlyy0->extractString(), mqlyymsp[-2].minor.mqlyy448, mqlyymsp[-1].minor.mqlyy551, mqlyymsp[0].minor.mqlyy269); deleteToken(mqlyymsp[-3].minor.mqlyy0); }
-#line 3674 "./mql.c"
+#line 3681 "./mql.c"
   mqlyy_destructor(mqlyypParser,80,&mqlyymsp[-4].minor);
   mqlyymsp[-5].minor.mqlyy50 = mqlyylhsminor.mqlyy50;
         break;
@@ -3678,7 +3685,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,67,&mqlyymsp[-2].minor);
 #line 763 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy273 = mqlyymsp[-1].minor.mqlyy273; }
-#line 3682 "./mql.c"
+#line 3689 "./mql.c"
   mqlyy_destructor(mqlyypParser,240,&mqlyymsp[0].minor);
 }
         break;
@@ -3686,100 +3693,100 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,81,&mqlyymsp[0].minor);
 #line 768 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy273 = kFocus; }
-#line 3690 "./mql.c"
+#line 3697 "./mql.c"
 }
         break;
       case 177: /* focus_specification ::= KEY_ALL */
 {  mqlyy_destructor(mqlyypParser,69,&mqlyymsp[0].minor);
 #line 769 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy273 = kAll; }
-#line 3697 "./mql.c"
+#line 3704 "./mql.c"
 }
         break;
       case 178: /* opt_OBJECTS ::= KEY_OBJECTS */
 {  mqlyy_destructor(mqlyypParser,28,&mqlyymsp[0].minor);
 #line 774 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy466 = 0; }
-#line 3704 "./mql.c"
+#line 3711 "./mql.c"
 }
         break;
       case 180: /* in_clause ::= KEY_IN in_specification */
 {  mqlyy_destructor(mqlyypParser,80,&mqlyymsp[-1].minor);
 #line 781 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy108 = mqlyymsp[0].minor.mqlyy108; mqlyymsp[-1].minor.mqlyy108->setIsFirst(true); }
-#line 3711 "./mql.c"
+#line 3718 "./mql.c"
 }
         break;
       case 181: /* in_clause ::= */
 #line 783 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy108 = new MQLMonadSetElement(1L, MAX_MONAD, 0, true); }
-#line 3717 "./mql.c"
+#line 3724 "./mql.c"
         break;
       case 182: /* in_specification ::= monad_set */
       case 368: /* star_monad_set ::= monad_set */ mqlyytestcase(mqlyyruleno==368);
 #line 789 "./mql.yxx"
 { mqlyylhsminor.mqlyy108 = mqlyymsp[0].minor.mqlyy108; mqlyylhsminor.mqlyy108->setIsFirst(true); }
-#line 3723 "./mql.c"
+#line 3730 "./mql.c"
   mqlyymsp[0].minor.mqlyy108 = mqlyylhsminor.mqlyy108;
         break;
       case 183: /* in_specification ::= KEY_ALL */
 {  mqlyy_destructor(mqlyypParser,69,&mqlyymsp[0].minor);
 #line 791 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy108 = new MQLMonadSetElement(1L, MAX_MONAD, 0, true); }
-#line 3730 "./mql.c"
+#line 3737 "./mql.c"
 }
         break;
       case 184: /* monad_set ::= KEY_OPEN_BRACE monad_set_element_list KEY_CLOSE_BRACE */
 {  mqlyy_destructor(mqlyypParser,73,&mqlyymsp[-2].minor);
 #line 797 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy108 = mqlyymsp[-1].minor.mqlyy108; mqlyymsp[-2].minor.mqlyy108->setIsFirst(true); }
-#line 3737 "./mql.c"
+#line 3744 "./mql.c"
   mqlyy_destructor(mqlyypParser,74,&mqlyymsp[0].minor);
 }
         break;
       case 185: /* monad_set_element_list ::= monad_set_element */
 #line 803 "./mql.yxx"
 { mqlyylhsminor.mqlyy108 = mqlyymsp[0].minor.mqlyy108; }
-#line 3744 "./mql.c"
+#line 3751 "./mql.c"
   mqlyymsp[0].minor.mqlyy108 = mqlyylhsminor.mqlyy108;
         break;
       case 186: /* monad_set_element_list ::= monad_set_element_list KEY_COMMA monad_set_element */
 #line 806 "./mql.yxx"
 { mqlyylhsminor.mqlyy108 = mqlyymsp[0].minor.mqlyy108; mqlyylhsminor.mqlyy108->setNext(mqlyymsp[-2].minor.mqlyy108); }
-#line 3750 "./mql.c"
+#line 3757 "./mql.c"
   mqlyy_destructor(mqlyypParser,71,&mqlyymsp[-1].minor);
   mqlyymsp[-2].minor.mqlyy108 = mqlyylhsminor.mqlyy108;
         break;
       case 187: /* monad_set_element ::= INTEGER */
 #line 812 "./mql.yxx"
 { mqlyylhsminor.mqlyy108 = new MQLMonadSetElement(mqlyymsp[0].minor.mqlyy0->integer, 0, false); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 3757 "./mql.c"
+#line 3764 "./mql.c"
   mqlyymsp[0].minor.mqlyy108 = mqlyylhsminor.mqlyy108;
         break;
       case 188: /* monad_set_element ::= INTEGER KEY_DASH INTEGER */
 #line 814 "./mql.yxx"
 { mqlyylhsminor.mqlyy108 = new MQLMonadSetElement(mqlyymsp[-2].minor.mqlyy0->integer, mqlyymsp[0].minor.mqlyy0->integer, 0, false); deleteToken(mqlyymsp[-2].minor.mqlyy0); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 3763 "./mql.c"
+#line 3770 "./mql.c"
   mqlyy_destructor(mqlyypParser,77,&mqlyymsp[-1].minor);
   mqlyymsp[-2].minor.mqlyy108 = mqlyylhsminor.mqlyy108;
         break;
       case 189: /* monad_set_element ::= INTEGER KEY_DASH */
 #line 816 "./mql.yxx"
 { mqlyylhsminor.mqlyy108 = new MQLMonadSetElement(mqlyymsp[-1].minor.mqlyy0->integer, MAX_MONAD, 0, false); deleteToken(mqlyymsp[-1].minor.mqlyy0); }
-#line 3770 "./mql.c"
+#line 3777 "./mql.c"
   mqlyy_destructor(mqlyypParser,77,&mqlyymsp[0].minor);
   mqlyymsp[-1].minor.mqlyy108 = mqlyylhsminor.mqlyy108;
         break;
       case 190: /* with_max_range_clause ::= */
 #line 822 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy448 = new MaxRange(MAX_MONAD); }
-#line 3777 "./mql.c"
+#line 3784 "./mql.c"
         break;
       case 191: /* with_max_range_clause ::= KEY_WITH KEY_MAX KEY_RANGE KEY_MAX_M KEY_MONADS */
 {  mqlyy_destructor(mqlyypParser,8,&mqlyymsp[-4].minor);
 #line 824 "./mql.yxx"
 { mqlyymsp[-4].minor.mqlyy448 = new MaxRange(MAX_MONAD); }
-#line 3783 "./mql.c"
+#line 3790 "./mql.c"
   mqlyy_destructor(mqlyypParser,82,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,27,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,83,&mqlyymsp[-1].minor);
@@ -3790,7 +3797,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,8,&mqlyymsp[-4].minor);
 #line 826 "./mql.yxx"
 { mqlyymsp[-4].minor.mqlyy448 = new MaxRange(mqlyymsp[-1].minor.mqlyy0->integer); deleteToken(mqlyymsp[-1].minor.mqlyy0); }
-#line 3794 "./mql.c"
+#line 3801 "./mql.c"
   mqlyy_destructor(mqlyypParser,82,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,27,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,34,&mqlyymsp[0].minor);
@@ -3800,7 +3807,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,8,&mqlyymsp[-8].minor);
 #line 828 "./mql.yxx"
 { mqlyymsp[-8].minor.mqlyy448 = new MaxRange(mqlyymsp[-1].minor.mqlyy0->extractString(), mqlyymsp[-4].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[-1].minor.mqlyy0); deleteToken(mqlyymsp[-4].minor.mqlyy0); }
-#line 3804 "./mql.c"
+#line 3811 "./mql.c"
   mqlyy_destructor(mqlyypParser,82,&mqlyymsp[-7].minor);
   mqlyy_destructor(mqlyypParser,27,&mqlyymsp[-6].minor);
   mqlyy_destructor(mqlyypParser,84,&mqlyymsp[-5].minor);
@@ -3812,13 +3819,13 @@ static void mqlyy_reduce(
       case 194: /* returning_clause ::= */
 #line 834 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy551 = new sheaf_return_type_pair(kFullSheaf, ((StringList*) 0)); }
-#line 3816 "./mql.c"
+#line 3823 "./mql.c"
         break;
       case 195: /* returning_clause ::= KEY_RETURNING KEY_FULL KEY_SHEAF */
 {  mqlyy_destructor(mqlyypParser,85,&mqlyymsp[-2].minor);
 #line 836 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy551 = new sheaf_return_type_pair(kFullSheaf, ((StringList*) 0)); }
-#line 3822 "./mql.c"
+#line 3829 "./mql.c"
   mqlyy_destructor(mqlyypParser,86,&mqlyymsp[-1].minor);
   mqlyy_destructor(mqlyypParser,87,&mqlyymsp[0].minor);
 }
@@ -3828,7 +3835,7 @@ static void mqlyy_reduce(
 #line 838 "./mql.yxx"
 { StringList *pSL = new StringList(); 
       mqlyymsp[-2].minor.mqlyy551 = new sheaf_return_type_pair(kFlatSheaf, pSL); }
-#line 3832 "./mql.c"
+#line 3839 "./mql.c"
   mqlyy_destructor(mqlyypParser,88,&mqlyymsp[-1].minor);
   mqlyy_destructor(mqlyypParser,87,&mqlyymsp[0].minor);
 }
@@ -3839,7 +3846,7 @@ static void mqlyy_reduce(
 { StringList *pSL = new StringList(mqlyymsp[0].minor.mqlyy336); 
       delete mqlyymsp[0].minor.mqlyy336;
       mqlyymsp[-4].minor.mqlyy551 = new sheaf_return_type_pair(kFlatSheaf, pSL); }
-#line 3843 "./mql.c"
+#line 3850 "./mql.c"
   mqlyy_destructor(mqlyypParser,88,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,87,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,16,&mqlyymsp[-1].minor);
@@ -3848,21 +3855,21 @@ static void mqlyy_reduce(
       case 198: /* using_range_clause ::= */
 #line 849 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy600 = 0; }
-#line 3852 "./mql.c"
+#line 3859 "./mql.c"
         break;
       case 199: /* using_range_clause ::= KEY_RANGE KEY_ALL */
 {  mqlyy_destructor(mqlyypParser,27,&mqlyymsp[-1].minor);
 #line 851 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy600 = 0; }
-#line 3858 "./mql.c"
+#line 3865 "./mql.c"
   mqlyy_destructor(mqlyypParser,69,&mqlyymsp[0].minor);
 }
         break;
       case 200: /* using_range_clause ::= KEY_RANGE KEY_OPEN_BRACKET unsigned_integer KEY_COMMA unsigned_integer KEY_CLOSE_BRACKET */
 {  mqlyy_destructor(mqlyypParser,27,&mqlyymsp[-5].minor);
 #line 856 "./mql.yxx"
-{ mqlyymsp[-5].minor.mqlyy600 = new UsingRange(mqlyymsp[-3].minor.mqlyy529, mqlyymsp[-1].minor.mqlyy529); }
-#line 3866 "./mql.c"
+{ mqlyymsp[-5].minor.mqlyy600 = new UsingRange(mqlyymsp[-3].minor.mqlyy503, mqlyymsp[-1].minor.mqlyy503); }
+#line 3873 "./mql.c"
   mqlyy_destructor(mqlyypParser,52,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,71,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,54,&mqlyymsp[0].minor);
@@ -3871,8 +3878,8 @@ static void mqlyy_reduce(
       case 201: /* using_range_clause ::= KEY_RANGE KEY_OPEN_BRACKET unsigned_integer KEY_CLOSE_BRACKET */
 {  mqlyy_destructor(mqlyypParser,27,&mqlyymsp[-3].minor);
 #line 861 "./mql.yxx"
-{ mqlyymsp[-3].minor.mqlyy600 = new UsingRange(0, mqlyymsp[-1].minor.mqlyy529); }
-#line 3876 "./mql.c"
+{ mqlyymsp[-3].minor.mqlyy600 = new UsingRange(0, mqlyymsp[-1].minor.mqlyy503); }
+#line 3883 "./mql.c"
   mqlyy_destructor(mqlyypParser,52,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,54,&mqlyymsp[0].minor);
 }
@@ -3881,14 +3888,14 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,89,&mqlyymsp[-1].minor);
 #line 874 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy269 = mqlyymsp[0].minor.mqlyy269; }
-#line 3885 "./mql.c"
+#line 3892 "./mql.c"
 }
         break;
       case 205: /* select_objects_at_statement ::= KEY_SELECT opt_OBJECTS KEY_AT single_monad_specification KEY_OPEN_SQUARE_BRACKET object_type_name KEY_CLOSE_SQUARE_BRACKET */
 {  mqlyy_destructor(mqlyypParser,67,&mqlyymsp[-6].minor);
 #line 884 "./mql.yxx"
 { mqlyymsp[-6].minor.mqlyy50 = new SelectObjectsAtStatement((MQLExecEnv*) pEE, mqlyymsp[-3].minor.mqlyy244, mqlyymsp[-1].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[-1].minor.mqlyy0); }
-#line 3892 "./mql.c"
+#line 3899 "./mql.c"
   mqlyy_destructor(mqlyypParser,240,&mqlyymsp[-5].minor);
   mqlyy_destructor(mqlyypParser,90,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,18,&mqlyymsp[-2].minor);
@@ -3899,7 +3906,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,30,&mqlyymsp[-2].minor);
 #line 890 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy244 = mqlyymsp[0].minor.mqlyy0->integer; deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 3903 "./mql.c"
+#line 3910 "./mql.c"
   mqlyy_destructor(mqlyypParser,72,&mqlyymsp[-1].minor);
 }
         break;
@@ -3907,7 +3914,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,67,&mqlyymsp[-8].minor);
 #line 901 "./mql.yxx"
 { mqlyymsp[-8].minor.mqlyy50 = new SelectObjectsHavingMonadsInStatement((MQLExecEnv*) pEE, mqlyymsp[-3].minor.mqlyy108, *(mqlyymsp[-1].minor.mqlyy0->pString)); deleteToken(mqlyymsp[-1].minor.mqlyy0); }
-#line 3911 "./mql.c"
+#line 3918 "./mql.c"
   mqlyy_destructor(mqlyypParser,28,&mqlyymsp[-7].minor);
   mqlyy_destructor(mqlyypParser,31,&mqlyymsp[-6].minor);
   mqlyy_destructor(mqlyypParser,34,&mqlyymsp[-5].minor);
@@ -3920,14 +3927,14 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,69,&mqlyymsp[0].minor);
 #line 913 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy0 = newToken(); mqlyymsp[0].minor.mqlyy0->setString(new std::string("all")); }
-#line 3924 "./mql.c"
+#line 3931 "./mql.c"
 }
         break;
       case 211: /* get_aggregate_features_statement ::= KEY_GET KEY_AGGREGATE KEY_FEATURES aggregate_feature_list KEY_FROM KEY_OBJECTS in_clause using_monad_feature KEY_OPEN_SQUARE_BRACKET object_type_name feature_constraints KEY_CLOSE_SQUARE_BRACKET */
 {  mqlyy_destructor(mqlyypParser,62,&mqlyymsp[-11].minor);
 #line 927 "./mql.yxx"
 { mqlyymsp[-11].minor.mqlyy50 = new GetAggregateFeaturesStatement((MQLExecEnv*) pEE, mqlyymsp[-8].minor.mqlyy344, mqlyymsp[-5].minor.mqlyy108, mqlyymsp[-4].minor.mqlyy0->extractString(), mqlyymsp[-2].minor.mqlyy0->extractString(), mqlyymsp[-1].minor.mqlyy520); deleteToken(mqlyymsp[-4].minor.mqlyy0); deleteToken(mqlyymsp[-2].minor.mqlyy0); }
-#line 3931 "./mql.c"
+#line 3938 "./mql.c"
   mqlyy_destructor(mqlyypParser,91,&mqlyymsp[-10].minor);
   mqlyy_destructor(mqlyypParser,92,&mqlyymsp[-9].minor);
   mqlyy_destructor(mqlyypParser,51,&mqlyymsp[-7].minor);
@@ -3939,13 +3946,13 @@ static void mqlyy_reduce(
       case 212: /* aggregate_feature_list ::= aggregate_feature */
 #line 932 "./mql.yxx"
 { mqlyylhsminor.mqlyy344 = mqlyymsp[0].minor.mqlyy344; }
-#line 3943 "./mql.c"
+#line 3950 "./mql.c"
   mqlyymsp[0].minor.mqlyy344 = mqlyylhsminor.mqlyy344;
         break;
       case 213: /* aggregate_feature_list ::= aggregate_feature_list KEY_COMMA aggregate_feature */
 #line 936 "./mql.yxx"
 { mqlyylhsminor.mqlyy344 = mqlyymsp[0].minor.mqlyy344; mqlyylhsminor.mqlyy344->setNext(mqlyymsp[-2].minor.mqlyy344); }
-#line 3949 "./mql.c"
+#line 3956 "./mql.c"
   mqlyy_destructor(mqlyypParser,71,&mqlyymsp[-1].minor);
   mqlyymsp[-2].minor.mqlyy344 = mqlyylhsminor.mqlyy344;
         break;
@@ -3953,7 +3960,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,93,&mqlyymsp[-3].minor);
 #line 941 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy344 = new AggregateFeature(kAFMIN, mqlyymsp[-1].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[-1].minor.mqlyy0); }
-#line 3957 "./mql.c"
+#line 3964 "./mql.c"
   mqlyy_destructor(mqlyypParser,52,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,54,&mqlyymsp[0].minor);
 }
@@ -3962,7 +3969,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,82,&mqlyymsp[-3].minor);
 #line 943 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy344 = new AggregateFeature(kAFMAX, mqlyymsp[-1].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[-1].minor.mqlyy0); }
-#line 3966 "./mql.c"
+#line 3973 "./mql.c"
   mqlyy_destructor(mqlyypParser,52,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,54,&mqlyymsp[0].minor);
 }
@@ -3971,7 +3978,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,94,&mqlyymsp[-3].minor);
 #line 945 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy344 = new AggregateFeature(kAFSUM, mqlyymsp[-1].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[-1].minor.mqlyy0); }
-#line 3975 "./mql.c"
+#line 3982 "./mql.c"
   mqlyy_destructor(mqlyypParser,52,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,54,&mqlyymsp[0].minor);
 }
@@ -3980,7 +3987,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,95,&mqlyymsp[-3].minor);
 #line 947 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy344 = new AggregateFeature(kAFCOUNT_ALL); }
-#line 3984 "./mql.c"
+#line 3991 "./mql.c"
   mqlyy_destructor(mqlyypParser,52,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,96,&mqlyymsp[-1].minor);
   mqlyy_destructor(mqlyypParser,54,&mqlyymsp[0].minor);
@@ -3990,7 +3997,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,95,&mqlyymsp[-3].minor);
 #line 950 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy344 = new AggregateFeature(kAFCOUNT_FEATURE_COMPARISON, mqlyymsp[-1].minor.mqlyy68); }
-#line 3994 "./mql.c"
+#line 4001 "./mql.c"
   mqlyy_destructor(mqlyypParser,52,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,54,&mqlyymsp[0].minor);
 }
@@ -3999,14 +4006,14 @@ static void mqlyy_reduce(
       case 338: /* feature_comparison ::= feature_name comparison_operator value */ mqlyytestcase(mqlyyruleno==338);
 #line 955 "./mql.yxx"
 { mqlyylhsminor.mqlyy68 = new FeatureComparison(mqlyymsp[-2].minor.mqlyy0->extractString(), mqlyymsp[-1].minor.mqlyy130, mqlyymsp[0].minor.mqlyy616); deleteToken(mqlyymsp[-2].minor.mqlyy0); }
-#line 4003 "./mql.c"
+#line 4010 "./mql.c"
   mqlyymsp[-2].minor.mqlyy68 = mqlyylhsminor.mqlyy68;
         break;
       case 220: /* aggregate_feature_comparison ::= feature_name KEY_IN KEY_OPEN_BRACKET list_of_identifier KEY_CLOSE_BRACKET */
       case 339: /* feature_comparison ::= feature_name KEY_IN KEY_OPEN_BRACKET list_of_identifier KEY_CLOSE_BRACKET */ mqlyytestcase(mqlyyruleno==339);
 #line 957 "./mql.yxx"
 { mqlyylhsminor.mqlyy68 = new FeatureComparison(mqlyymsp[-4].minor.mqlyy0->extractString(), mqlyymsp[-1].minor.mqlyy336); deleteToken(mqlyymsp[-4].minor.mqlyy0); }
-#line 4010 "./mql.c"
+#line 4017 "./mql.c"
   mqlyy_destructor(mqlyypParser,80,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,52,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,54,&mqlyymsp[0].minor);
@@ -4016,7 +4023,7 @@ static void mqlyy_reduce(
       case 340: /* feature_comparison ::= feature_name KEY_IN KEY_OPEN_BRACKET list_of_integer KEY_CLOSE_BRACKET */ mqlyytestcase(mqlyyruleno==340);
 #line 959 "./mql.yxx"
 { mqlyylhsminor.mqlyy68 = new FeatureComparison(mqlyymsp[-4].minor.mqlyy0->extractString(), mqlyymsp[-1].minor.mqlyy17); deleteToken(mqlyymsp[-4].minor.mqlyy0); }
-#line 4020 "./mql.c"
+#line 4027 "./mql.c"
   mqlyy_destructor(mqlyypParser,80,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,52,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,54,&mqlyymsp[0].minor);
@@ -4026,7 +4033,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,62,&mqlyymsp[-9].minor);
 #line 975 "./mql.yxx"
 { mqlyymsp[-9].minor.mqlyy50 = new GetObjectsHavingMonadsInStatement((MQLExecEnv*) pEE, mqlyymsp[-4].minor.mqlyy108, mqlyymsp[-1].minor.mqlyy0->extractString(), mqlyymsp[-3].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[-1].minor.mqlyy0); deleteToken(mqlyymsp[-3].minor.mqlyy0); }
-#line 4030 "./mql.c"
+#line 4037 "./mql.c"
   mqlyy_destructor(mqlyypParser,28,&mqlyymsp[-8].minor);
   mqlyy_destructor(mqlyypParser,31,&mqlyymsp[-7].minor);
   mqlyy_destructor(mqlyypParser,34,&mqlyymsp[-6].minor);
@@ -4039,7 +4046,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,62,&mqlyymsp[-11].minor);
 #line 983 "./mql.yxx"
 { mqlyymsp[-11].minor.mqlyy50 = new GetObjectsHavingMonadsInStatement((MQLExecEnv*) pEE, mqlyymsp[-6].minor.mqlyy108, mqlyymsp[-3].minor.mqlyy0->extractString(), mqlyymsp[-5].minor.mqlyy0->extractString(), true); deleteToken(mqlyymsp[-3].minor.mqlyy0); deleteToken(mqlyymsp[-5].minor.mqlyy0); }
-#line 4043 "./mql.c"
+#line 4050 "./mql.c"
   mqlyy_destructor(mqlyypParser,28,&mqlyymsp[-10].minor);
   mqlyy_destructor(mqlyypParser,31,&mqlyymsp[-9].minor);
   mqlyy_destructor(mqlyypParser,34,&mqlyymsp[-8].minor);
@@ -4054,7 +4061,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,62,&mqlyymsp[-11].minor);
 #line 991 "./mql.yxx"
 { mqlyymsp[-11].minor.mqlyy50 = new GetObjectsHavingMonadsInStatement((MQLExecEnv*) pEE, mqlyymsp[-6].minor.mqlyy108, mqlyymsp[-3].minor.mqlyy0->extractString(), mqlyymsp[-5].minor.mqlyy0->extractString(), mqlyymsp[-1].minor.mqlyy366); deleteToken(mqlyymsp[-3].minor.mqlyy0); deleteToken(mqlyymsp[-5].minor.mqlyy0); }
-#line 4058 "./mql.c"
+#line 4065 "./mql.c"
   mqlyy_destructor(mqlyypParser,28,&mqlyymsp[-10].minor);
   mqlyy_destructor(mqlyypParser,31,&mqlyymsp[-9].minor);
   mqlyy_destructor(mqlyypParser,34,&mqlyymsp[-8].minor);
@@ -4068,7 +4075,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,10,&mqlyymsp[-3].minor);
 #line 995 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy0 = mqlyymsp[0].minor.mqlyy0; }
-#line 4072 "./mql.c"
+#line 4079 "./mql.c"
   mqlyy_destructor(mqlyypParser,30,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,84,&mqlyymsp[-1].minor);
 }
@@ -4077,7 +4084,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,10,&mqlyymsp[-3].minor);
 #line 996 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy0 = newToken(); mqlyymsp[-3].minor.mqlyy0->setString(new std::string("monads")); }
-#line 4081 "./mql.c"
+#line 4088 "./mql.c"
   mqlyy_destructor(mqlyypParser,30,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,84,&mqlyymsp[-1].minor);
   mqlyy_destructor(mqlyypParser,34,&mqlyymsp[0].minor);
@@ -4086,13 +4093,13 @@ static void mqlyy_reduce(
       case 227: /* using_monad_feature ::= */
 #line 997 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy0 = newToken(); mqlyymsp[1].minor.mqlyy0->setString(new std::string("monads")); }
-#line 4090 "./mql.c"
+#line 4097 "./mql.c"
         break;
       case 228: /* select_object_types_statement ::= KEY_SELECT opt_OBJECT KEY_TYPES */
 {  mqlyy_destructor(mqlyypParser,67,&mqlyymsp[-2].minor);
 #line 1004 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy50 = new SelectObjectTypesStatement((MQLExecEnv*) pEE); }
-#line 4096 "./mql.c"
+#line 4103 "./mql.c"
   mqlyy_destructor(mqlyypParser,191,&mqlyymsp[-1].minor);
   mqlyy_destructor(mqlyypParser,21,&mqlyymsp[0].minor);
 }
@@ -4101,7 +4108,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,67,&mqlyymsp[-6].minor);
 #line 1011 "./mql.yxx"
 { mqlyymsp[-6].minor.mqlyy50 = new SelectFeaturesStatement((MQLExecEnv*) pEE, mqlyymsp[-1].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[-1].minor.mqlyy0); }
-#line 4105 "./mql.c"
+#line 4112 "./mql.c"
   mqlyy_destructor(mqlyypParser,92,&mqlyymsp[-5].minor);
   mqlyy_destructor(mqlyypParser,51,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,259,&mqlyymsp[-3].minor);
@@ -4113,7 +4120,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,62,&mqlyymsp[-7].minor);
 #line 1018 "./mql.yxx"
 { mqlyymsp[-7].minor.mqlyy50 = new GetSetFromFeatureStatement((MQLExecEnv*) pEE, mqlyymsp[-1].minor.mqlyy0->extractString(), mqlyymsp[-3].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[-1].minor.mqlyy0); deleteToken(mqlyymsp[-3].minor.mqlyy0); }
-#line 4117 "./mql.c"
+#line 4124 "./mql.c"
   mqlyy_destructor(mqlyypParser,46,&mqlyymsp[-6].minor);
   mqlyy_destructor(mqlyypParser,51,&mqlyymsp[-5].minor);
   mqlyy_destructor(mqlyypParser,84,&mqlyymsp[-4].minor);
@@ -4125,7 +4132,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,17,&mqlyymsp[-1].minor);
 #line 1023 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy466=0; }
-#line 4129 "./mql.c"
+#line 4136 "./mql.c"
   mqlyy_destructor(mqlyypParser,20,&mqlyymsp[0].minor);
 }
         break;
@@ -4133,19 +4140,19 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,20,&mqlyymsp[0].minor);
 #line 1024 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy466=0; }
-#line 4137 "./mql.c"
+#line 4144 "./mql.c"
 }
         break;
       case 233: /* opt_OBJECTYPE ::= */
 #line 1025 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy466=0; }
-#line 4143 "./mql.c"
+#line 4150 "./mql.c"
         break;
       case 234: /* select_enumerations_statement ::= KEY_SELECT KEY_ENUMERATIONS */
 {  mqlyy_destructor(mqlyypParser,67,&mqlyymsp[-1].minor);
 #line 1031 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy50 = new SelectEnumerationsStatement((MQLExecEnv*) pEE); }
-#line 4149 "./mql.c"
+#line 4156 "./mql.c"
   mqlyy_destructor(mqlyypParser,97,&mqlyymsp[0].minor);
 }
         break;
@@ -4153,7 +4160,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,67,&mqlyymsp[-5].minor);
 #line 1040 "./mql.yxx"
 { mqlyymsp[-5].minor.mqlyy50 = new SelectEnumerationConstantsStatement((MQLExecEnv*) pEE, mqlyymsp[0].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 4157 "./mql.c"
+#line 4164 "./mql.c"
   mqlyy_destructor(mqlyypParser,220,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,98,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,51,&mqlyymsp[-2].minor);
@@ -4164,26 +4171,26 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,76,&mqlyymsp[0].minor);
 #line 1045 "./mql.yxx"
 {mqlyymsp[0].minor.mqlyy466=0;}
-#line 4168 "./mql.c"
+#line 4175 "./mql.c"
 }
         break;
       case 237: /* opt_ENUM_ERATION ::= KEY_ENUMERATION */
 {  mqlyy_destructor(mqlyypParser,75,&mqlyymsp[0].minor);
 #line 1046 "./mql.yxx"
 {mqlyymsp[0].minor.mqlyy466=0;}
-#line 4175 "./mql.c"
+#line 4182 "./mql.c"
 }
         break;
       case 238: /* opt_ENUM_ERATION ::= */
 #line 1047 "./mql.yxx"
 {mqlyymsp[1].minor.mqlyy466=0;}
-#line 4181 "./mql.c"
+#line 4188 "./mql.c"
         break;
       case 239: /* select_object_types_which_use_enum_statement ::= KEY_SELECT opt_OBJECT KEY_TYPES KEY_USING choice_ENUM_ERATION enumeration_name */
 {  mqlyy_destructor(mqlyypParser,67,&mqlyymsp[-5].minor);
 #line 1056 "./mql.yxx"
 { mqlyymsp[-5].minor.mqlyy50 = new SelectObjectTypesUsingEnumerationStatement((MQLExecEnv*) pEE, mqlyymsp[0].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 4187 "./mql.c"
+#line 4194 "./mql.c"
   mqlyy_destructor(mqlyypParser,191,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,21,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,10,&mqlyymsp[-2].minor);
@@ -4194,7 +4201,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,67,&mqlyymsp[-1].minor);
 #line 1062 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy50 = new SelectMinMStatement((MQLExecEnv*) pEE); }
-#line 4198 "./mql.c"
+#line 4205 "./mql.c"
   mqlyy_destructor(mqlyypParser,99,&mqlyymsp[0].minor);
 }
         break;
@@ -4202,7 +4209,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,67,&mqlyymsp[-1].minor);
 #line 1068 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy50 = new SelectMaxMStatement((MQLExecEnv*) pEE); }
-#line 4206 "./mql.c"
+#line 4213 "./mql.c"
   mqlyy_destructor(mqlyypParser,83,&mqlyymsp[0].minor);
 }
         break;
@@ -4210,7 +4217,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,2,&mqlyymsp[-5].minor);
 #line 1077 "./mql.yxx"
 { mqlyymsp[-5].minor.mqlyy50 = new CreateObjectFromMonadsStatement((MQLExecEnv*) pEE, mqlyymsp[-2].minor.mqlyy108, mqlyymsp[-1].minor.mqlyy282, mqlyymsp[0].minor.mqlyy275); }
-#line 4214 "./mql.c"
+#line 4221 "./mql.c"
   mqlyy_destructor(mqlyypParser,17,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,51,&mqlyymsp[-3].minor);
 }
@@ -4219,7 +4226,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,34,&mqlyymsp[-2].minor);
 #line 1082 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy108 = mqlyymsp[0].minor.mqlyy108; mqlyymsp[-2].minor.mqlyy108->setIsFirst(true); }
-#line 4223 "./mql.c"
+#line 4230 "./mql.c"
   mqlyy_destructor(mqlyypParser,72,&mqlyymsp[-1].minor);
 }
         break;
@@ -4227,7 +4234,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,8,&mqlyymsp[-3].minor);
 #line 1087 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy282 = mqlyymsp[0].minor.mqlyy282; }
-#line 4231 "./mql.c"
+#line 4238 "./mql.c"
   mqlyy_destructor(mqlyypParser,45,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,72,&mqlyymsp[-1].minor);
 }
@@ -4235,19 +4242,19 @@ static void mqlyy_reduce(
       case 245: /* with_id_d_specification ::= */
 #line 1089 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy282 = NIL; }
-#line 4239 "./mql.c"
+#line 4246 "./mql.c"
         break;
       case 246: /* id_d_const ::= INTEGER */
 #line 1095 "./mql.yxx"
 { mqlyylhsminor.mqlyy282 = mqlyymsp[0].minor.mqlyy0->integer; deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 4244 "./mql.c"
+#line 4251 "./mql.c"
   mqlyymsp[0].minor.mqlyy282 = mqlyylhsminor.mqlyy282;
         break;
       case 247: /* id_d_const ::= KEY_NIL */
 {  mqlyy_destructor(mqlyypParser,78,&mqlyymsp[0].minor);
 #line 1097 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy282 = NIL; }
-#line 4251 "./mql.c"
+#line 4258 "./mql.c"
 }
         break;
       case 248: /* object_creation_specification ::= KEY_OPEN_SQUARE_BRACKET object_type_name opt_list_of_feature_assignments KEY_CLOSE_SQUARE_BRACKET */
@@ -4255,7 +4262,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,18,&mqlyymsp[-3].minor);
 #line 1105 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy275 = new ObjectSpec(mqlyymsp[-2].minor.mqlyy0->extractString(), mqlyymsp[-1].minor.mqlyy265); deleteToken(mqlyymsp[-2].minor.mqlyy0); }
-#line 4259 "./mql.c"
+#line 4266 "./mql.c"
   mqlyy_destructor(mqlyypParser,19,&mqlyymsp[0].minor);
 }
         break;
@@ -4263,24 +4270,24 @@ static void mqlyy_reduce(
       case 251: /* list_of_feature_assignments ::= feature_assignment */ mqlyytestcase(mqlyyruleno==251);
 #line 1111 "./mql.yxx"
 { mqlyylhsminor.mqlyy265 = mqlyymsp[0].minor.mqlyy265; }
-#line 4267 "./mql.c"
+#line 4274 "./mql.c"
   mqlyymsp[0].minor.mqlyy265 = mqlyylhsminor.mqlyy265;
         break;
       case 250: /* opt_list_of_feature_assignments ::= */
 #line 1113 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy265 = 0; }
-#line 4273 "./mql.c"
+#line 4280 "./mql.c"
         break;
       case 252: /* list_of_feature_assignments ::= list_of_feature_assignments feature_assignment */
 #line 1122 "./mql.yxx"
 { mqlyylhsminor.mqlyy265 = mqlyymsp[0].minor.mqlyy265; mqlyylhsminor.mqlyy265->setNext(mqlyymsp[-1].minor.mqlyy265); }
-#line 4278 "./mql.c"
+#line 4285 "./mql.c"
   mqlyymsp[-1].minor.mqlyy265 = mqlyylhsminor.mqlyy265;
         break;
       case 253: /* feature_assignment ::= feature_name KEY_ASSIGN expression KEY_SEMICOLON */
 #line 1128 "./mql.yxx"
 { mqlyylhsminor.mqlyy265 = new FeatureAssignment(mqlyymsp[-3].minor.mqlyy0->extractString(), mqlyymsp[-1].minor.mqlyy413, 0); deleteToken(mqlyymsp[-3].minor.mqlyy0); }
-#line 4284 "./mql.c"
+#line 4291 "./mql.c"
   mqlyy_destructor(mqlyypParser,100,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,39,&mqlyymsp[0].minor);
   mqlyymsp[-3].minor.mqlyy265 = mqlyylhsminor.mqlyy265;
@@ -4289,38 +4296,38 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,34,&mqlyymsp[0].minor);
 #line 1134 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy0 = newToken(); mqlyymsp[0].minor.mqlyy0->setString(new std::string("monads")); }
-#line 4293 "./mql.c"
+#line 4300 "./mql.c"
 }
         break;
       case 256: /* expression ::= signed_integer */
 #line 1139 "./mql.yxx"
-{ mqlyylhsminor.mqlyy413 = new Expression(mqlyymsp[0].minor.mqlyy529); }
-#line 4299 "./mql.c"
+{ mqlyylhsminor.mqlyy413 = new Expression(mqlyymsp[0].minor.mqlyy503); }
+#line 4306 "./mql.c"
   mqlyymsp[0].minor.mqlyy413 = mqlyylhsminor.mqlyy413;
         break;
       case 257: /* expression ::= STRING */
 #line 1141 "./mql.yxx"
 { mqlyylhsminor.mqlyy413 = new Expression(mqlyymsp[0].minor.mqlyy0->extractString(), kExprString); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 4305 "./mql.c"
+#line 4312 "./mql.c"
   mqlyymsp[0].minor.mqlyy413 = mqlyylhsminor.mqlyy413;
         break;
       case 258: /* expression ::= IDENTIFIER */
 #line 1143 "./mql.yxx"
 { mqlyylhsminor.mqlyy413 = new Expression(mqlyymsp[0].minor.mqlyy0->extractString(), kExprIdentifier); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 4311 "./mql.c"
+#line 4318 "./mql.c"
   mqlyymsp[0].minor.mqlyy413 = mqlyylhsminor.mqlyy413;
         break;
       case 259: /* expression ::= monad_set */
 #line 1145 "./mql.yxx"
 { mqlyylhsminor.mqlyy413 = new Expression(mqlyymsp[0].minor.mqlyy108); }
-#line 4317 "./mql.c"
+#line 4324 "./mql.c"
   mqlyymsp[0].minor.mqlyy413 = mqlyylhsminor.mqlyy413;
         break;
       case 260: /* expression ::= KEY_OPEN_BRACKET KEY_CLOSE_BRACKET */
 {  mqlyy_destructor(mqlyypParser,52,&mqlyymsp[-1].minor);
 #line 1147 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy413 = new Expression(); /* empty list */ }
-#line 4324 "./mql.c"
+#line 4331 "./mql.c"
   mqlyy_destructor(mqlyypParser,54,&mqlyymsp[0].minor);
 }
         break;
@@ -4328,7 +4335,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,52,&mqlyymsp[-2].minor);
 #line 1149 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy413 = new Expression(new IntegerList(mqlyymsp[-1].minor.mqlyy17)); delete mqlyymsp[-1].minor.mqlyy17; }
-#line 4332 "./mql.c"
+#line 4339 "./mql.c"
   mqlyy_destructor(mqlyypParser,54,&mqlyymsp[0].minor);
 }
         break;
@@ -4336,20 +4343,20 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,52,&mqlyymsp[-2].minor);
 #line 1151 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy413 = new Expression(new StringList(mqlyymsp[-1].minor.mqlyy336), kExprListOfIdentifier); delete mqlyymsp[-1].minor.mqlyy336; }
-#line 4340 "./mql.c"
+#line 4347 "./mql.c"
   mqlyy_destructor(mqlyypParser,54,&mqlyymsp[0].minor);
 }
         break;
       case 263: /* list_of_integer ::= signed_integer */
 #line 1157 "./mql.yxx"
-{ mqlyylhsminor.mqlyy17 = new IntegerListNode(mqlyymsp[0].minor.mqlyy529, 0); }
-#line 4347 "./mql.c"
+{ mqlyylhsminor.mqlyy17 = new IntegerListNode(mqlyymsp[0].minor.mqlyy503, 0); }
+#line 4354 "./mql.c"
   mqlyymsp[0].minor.mqlyy17 = mqlyylhsminor.mqlyy17;
         break;
       case 264: /* list_of_integer ::= list_of_integer KEY_COMMA signed_integer */
 #line 1160 "./mql.yxx"
-{ mqlyylhsminor.mqlyy17 = new IntegerListNode(mqlyymsp[0].minor.mqlyy529, mqlyymsp[-2].minor.mqlyy17); mqlyymsp[-2].minor.mqlyy17->setNext(mqlyylhsminor.mqlyy17); }
-#line 4353 "./mql.c"
+{ mqlyylhsminor.mqlyy17 = new IntegerListNode(mqlyymsp[0].minor.mqlyy503, mqlyymsp[-2].minor.mqlyy17); mqlyymsp[-2].minor.mqlyy17->setNext(mqlyylhsminor.mqlyy17); }
+#line 4360 "./mql.c"
   mqlyy_destructor(mqlyypParser,71,&mqlyymsp[-1].minor);
   mqlyymsp[-2].minor.mqlyy17 = mqlyylhsminor.mqlyy17;
         break;
@@ -4357,7 +4364,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,2,&mqlyymsp[-5].minor);
 #line 1178 "./mql.yxx"
 { mqlyymsp[-5].minor.mqlyy50 = new CreateObjectFromID_DsStatement((MQLExecEnv*) pEE, mqlyymsp[-2].minor.mqlyy43, mqlyymsp[-1].minor.mqlyy282, mqlyymsp[0].minor.mqlyy275); }
-#line 4361 "./mql.c"
+#line 4368 "./mql.c"
   mqlyy_destructor(mqlyypParser,17,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,51,&mqlyymsp[-3].minor);
 }
@@ -4366,7 +4373,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,267,&mqlyymsp[-2].minor);
 #line 1184 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy43 = mqlyymsp[0].minor.mqlyy43; }
-#line 4370 "./mql.c"
+#line 4377 "./mql.c"
   mqlyy_destructor(mqlyypParser,72,&mqlyymsp[-1].minor);
 }
         break;
@@ -4374,40 +4381,40 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,45,&mqlyymsp[0].minor);
 #line 1189 "./mql.yxx"
 {mqlyymsp[0].minor.mqlyy466=0;}
-#line 4378 "./mql.c"
+#line 4385 "./mql.c"
 }
         break;
       case 270: /* choice_number_ID_DS ::= KEY_ID_DS */
 {  mqlyy_destructor(mqlyypParser,101,&mqlyymsp[0].minor);
 #line 1190 "./mql.yxx"
 {mqlyymsp[0].minor.mqlyy466=0;}
-#line 4385 "./mql.c"
+#line 4392 "./mql.c"
 }
         break;
       case 271: /* id_d_list ::= id_d */
 #line 1196 "./mql.yxx"
 { mqlyylhsminor.mqlyy43 = mqlyymsp[0].minor.mqlyy43; }
-#line 4391 "./mql.c"
+#line 4398 "./mql.c"
   mqlyymsp[0].minor.mqlyy43 = mqlyylhsminor.mqlyy43;
         break;
       case 272: /* id_d_list ::= id_d_list KEY_COMMA id_d */
 #line 1198 "./mql.yxx"
 { mqlyylhsminor.mqlyy43 = mqlyymsp[0].minor.mqlyy43; mqlyylhsminor.mqlyy43->setNext(mqlyymsp[-2].minor.mqlyy43); }
-#line 4397 "./mql.c"
+#line 4404 "./mql.c"
   mqlyy_destructor(mqlyypParser,71,&mqlyymsp[-1].minor);
   mqlyymsp[-2].minor.mqlyy43 = mqlyylhsminor.mqlyy43;
         break;
       case 273: /* id_d ::= id_d_const */
 #line 1203 "./mql.yxx"
 { mqlyylhsminor.mqlyy43 = new ID_D(mqlyymsp[0].minor.mqlyy282, 0); }
-#line 4404 "./mql.c"
+#line 4411 "./mql.c"
   mqlyymsp[0].minor.mqlyy43 = mqlyylhsminor.mqlyy43;
         break;
       case 274: /* create_objects_statement ::= KEY_CREATE KEY_OBJECTS KEY_WITH KEY_OBJECT KEY_TYPE KEY_OPEN_SQUARE_BRACKET object_type_name KEY_CLOSE_SQUARE_BRACKET object_creation_list */
 {  mqlyy_destructor(mqlyypParser,2,&mqlyymsp[-8].minor);
 #line 1215 "./mql.yxx"
 { mqlyymsp[-8].minor.mqlyy50 = new CreateObjectsStatement((MQLExecEnv*) pEE, mqlyymsp[-2].minor.mqlyy0->extractString(), mqlyymsp[0].minor.mqlyy481); deleteToken(mqlyymsp[-2].minor.mqlyy0); }
-#line 4411 "./mql.c"
+#line 4418 "./mql.c"
   mqlyy_destructor(mqlyypParser,28,&mqlyymsp[-7].minor);
   mqlyy_destructor(mqlyypParser,8,&mqlyymsp[-6].minor);
   mqlyy_destructor(mqlyypParser,17,&mqlyymsp[-5].minor);
@@ -4419,20 +4426,20 @@ static void mqlyy_reduce(
       case 275: /* object_creation_list ::= object_creation_no_object_type */
 #line 1222 "./mql.yxx"
 { mqlyylhsminor.mqlyy481 = mqlyymsp[0].minor.mqlyy481; }
-#line 4423 "./mql.c"
+#line 4430 "./mql.c"
   mqlyymsp[0].minor.mqlyy481 = mqlyylhsminor.mqlyy481;
         break;
       case 276: /* object_creation_list ::= object_creation_list object_creation_no_object_type */
 #line 1225 "./mql.yxx"
 { mqlyylhsminor.mqlyy481 = mqlyymsp[0].minor.mqlyy481; mqlyylhsminor.mqlyy481->setNext(mqlyymsp[-1].minor.mqlyy481); }
-#line 4429 "./mql.c"
+#line 4436 "./mql.c"
   mqlyymsp[-1].minor.mqlyy481 = mqlyylhsminor.mqlyy481;
         break;
       case 277: /* object_creation_no_object_type ::= KEY_CREATE KEY_OBJECT KEY_FROM monad_specification with_id_d_specification KEY_OPEN_SQUARE_BRACKET opt_list_of_feature_assignments KEY_CLOSE_SQUARE_BRACKET */
 {  mqlyy_destructor(mqlyypParser,2,&mqlyymsp[-7].minor);
 #line 1237 "./mql.yxx"
 { mqlyymsp[-7].minor.mqlyy481 = new ObjectSpecNoOT(mqlyymsp[-4].minor.mqlyy108, mqlyymsp[-3].minor.mqlyy282, mqlyymsp[-1].minor.mqlyy265, 0); }
-#line 4436 "./mql.c"
+#line 4443 "./mql.c"
   mqlyy_destructor(mqlyypParser,17,&mqlyymsp[-6].minor);
   mqlyy_destructor(mqlyypParser,51,&mqlyymsp[-5].minor);
   mqlyy_destructor(mqlyypParser,18,&mqlyymsp[-2].minor);
@@ -4443,7 +4450,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,57,&mqlyymsp[-4].minor);
 #line 1246 "./mql.yxx"
 { mqlyymsp[-4].minor.mqlyy50 = new UpdateObjectsByMonadsStatement((MQLExecEnv*) pEE, mqlyymsp[-1].minor.mqlyy108, mqlyymsp[0].minor.mqlyy275); }
-#line 4447 "./mql.c"
+#line 4454 "./mql.c"
   mqlyy_destructor(mqlyypParser,212,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,102,&mqlyymsp[-2].minor);
 }
@@ -4452,21 +4459,21 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,17,&mqlyymsp[0].minor);
 #line 1251 "./mql.yxx"
 {mqlyymsp[0].minor.mqlyy466=0;}
-#line 4456 "./mql.c"
+#line 4463 "./mql.c"
 }
         break;
       case 280: /* choice_number_OBJECTS ::= KEY_OBJECTS */
 {  mqlyy_destructor(mqlyypParser,28,&mqlyymsp[0].minor);
 #line 1252 "./mql.yxx"
 {mqlyymsp[0].minor.mqlyy466=0;}
-#line 4463 "./mql.c"
+#line 4470 "./mql.c"
 }
         break;
       case 282: /* update_objects_by_id_ds_statement ::= KEY_UPDATE choice_number_OBJECTS KEY_BY id_ds_specification object_update_specification */
 {  mqlyy_destructor(mqlyypParser,57,&mqlyymsp[-4].minor);
 #line 1272 "./mql.yxx"
 { mqlyymsp[-4].minor.mqlyy50 = new UpdateObjectsByID_DsStatement((MQLExecEnv*) pEE, mqlyymsp[-1].minor.mqlyy43, mqlyymsp[0].minor.mqlyy275); }
-#line 4470 "./mql.c"
+#line 4477 "./mql.c"
   mqlyy_destructor(mqlyypParser,212,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,102,&mqlyymsp[-2].minor);
 }
@@ -4475,7 +4482,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,61,&mqlyymsp[-4].minor);
 #line 1282 "./mql.yxx"
 { mqlyymsp[-4].minor.mqlyy50 = new DeleteObjectsByMonadsStatement((MQLExecEnv*) pEE, mqlyymsp[-1].minor.mqlyy108, *(mqlyymsp[0].minor.mqlyy0->pString)); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 4479 "./mql.c"
+#line 4486 "./mql.c"
   mqlyy_destructor(mqlyypParser,212,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,102,&mqlyymsp[-2].minor);
 }
@@ -4484,7 +4491,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,18,&mqlyymsp[-2].minor);
 #line 1291 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy0 = mqlyymsp[-1].minor.mqlyy0; }
-#line 4488 "./mql.c"
+#line 4495 "./mql.c"
   mqlyy_destructor(mqlyypParser,19,&mqlyymsp[0].minor);
 }
         break;
@@ -4492,7 +4499,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,61,&mqlyymsp[-4].minor);
 #line 1307 "./mql.yxx"
 { mqlyymsp[-4].minor.mqlyy50 = new DeleteObjectsByID_DsStatement((MQLExecEnv*) pEE, mqlyymsp[-1].minor.mqlyy43, *(mqlyymsp[0].minor.mqlyy0->pString)); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 4496 "./mql.c"
+#line 4503 "./mql.c"
   mqlyy_destructor(mqlyypParser,212,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,102,&mqlyymsp[-2].minor);
 }
@@ -4501,7 +4508,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,62,&mqlyymsp[-9].minor);
 #line 1319 "./mql.yxx"
 { mqlyymsp[-9].minor.mqlyy50 = new GetFeaturesStatement((MQLExecEnv*) pEE, mqlyymsp[-7].minor.mqlyy366, mqlyymsp[-3].minor.mqlyy43, mqlyymsp[-1].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[-1].minor.mqlyy0); }
-#line 4505 "./mql.c"
+#line 4512 "./mql.c"
   mqlyy_destructor(mqlyypParser,275,&mqlyymsp[-8].minor);
   mqlyy_destructor(mqlyypParser,51,&mqlyymsp[-6].minor);
   mqlyy_destructor(mqlyypParser,212,&mqlyymsp[-5].minor);
@@ -4514,26 +4521,26 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,84,&mqlyymsp[0].minor);
 #line 1324 "./mql.yxx"
 {mqlyymsp[0].minor.mqlyy466=0;}
-#line 4518 "./mql.c"
+#line 4525 "./mql.c"
 }
         break;
       case 289: /* choice_number_FEATURES ::= KEY_FEATURES */
 {  mqlyy_destructor(mqlyypParser,92,&mqlyymsp[0].minor);
 #line 1325 "./mql.yxx"
 {mqlyymsp[0].minor.mqlyy466=0;}
-#line 4525 "./mql.c"
+#line 4532 "./mql.c"
 }
         break;
       case 290: /* feature_list ::= feature_name */
 #line 1330 "./mql.yxx"
 { mqlyylhsminor.mqlyy366 = new GrammarFeature(mqlyymsp[0].minor.mqlyy0->extractString(), 0); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 4531 "./mql.c"
+#line 4538 "./mql.c"
   mqlyymsp[0].minor.mqlyy366 = mqlyylhsminor.mqlyy366;
         break;
       case 291: /* feature_list ::= feature_list KEY_COMMA feature_name */
 #line 1332 "./mql.yxx"
 { mqlyylhsminor.mqlyy366 = new GrammarFeature(mqlyymsp[0].minor.mqlyy0->extractString(), mqlyymsp[-2].minor.mqlyy366); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 4537 "./mql.c"
+#line 4544 "./mql.c"
   mqlyy_destructor(mqlyypParser,71,&mqlyymsp[-1].minor);
   mqlyymsp[-2].minor.mqlyy366 = mqlyylhsminor.mqlyy366;
         break;
@@ -4541,89 +4548,89 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,103,&mqlyymsp[0].minor);
 #line 1338 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy50 = new QuitStatement((MQLExecEnv*) pEE); }
-#line 4545 "./mql.c"
+#line 4552 "./mql.c"
 }
         break;
       case 293: /* mql_query ::= topograph */
 #line 1344 "./mql.yxx"
 { mqlyylhsminor.mqlyy269 = mqlyymsp[0].minor.mqlyy269; }
-#line 4551 "./mql.c"
+#line 4558 "./mql.c"
   mqlyymsp[0].minor.mqlyy269 = mqlyylhsminor.mqlyy269;
         break;
       case 294: /* topograph ::= blocks */
 #line 1350 "./mql.yxx"
 { mqlyylhsminor.mqlyy269 = new Topograph(mqlyymsp[0].minor.mqlyy18); }
-#line 4557 "./mql.c"
+#line 4564 "./mql.c"
   mqlyymsp[0].minor.mqlyy269 = mqlyylhsminor.mqlyy269;
         break;
       case 295: /* blocks ::= using_range_clause block_string */
 #line 1356 "./mql.yxx"
 { mqlyylhsminor.mqlyy18 = new Blocks(mqlyymsp[0].minor.mqlyy501, mqlyymsp[-1].minor.mqlyy600); }
-#line 4563 "./mql.c"
+#line 4570 "./mql.c"
   mqlyymsp[-1].minor.mqlyy18 = mqlyylhsminor.mqlyy18;
         break;
       case 296: /* blocks ::= using_range_clause unordered_group */
 #line 1358 "./mql.yxx"
 { mqlyylhsminor.mqlyy18 = new Blocks(mqlyymsp[0].minor.mqlyy24, mqlyymsp[-1].minor.mqlyy600); }
-#line 4569 "./mql.c"
+#line 4576 "./mql.c"
   mqlyymsp[-1].minor.mqlyy18 = mqlyylhsminor.mqlyy18;
         break;
       case 297: /* block_string0 ::= block */
 #line 1364 "./mql.yxx"
 { mqlyylhsminor.mqlyy63 = new BlockString0(mqlyymsp[0].minor.mqlyy218); }
-#line 4575 "./mql.c"
+#line 4582 "./mql.c"
   mqlyymsp[0].minor.mqlyy63 = mqlyylhsminor.mqlyy63;
         break;
       case 298: /* block_string0 ::= KEY_OPEN_SQUARE_BRACKET block_string KEY_CLOSE_SQUARE_BRACKET */
 {  mqlyy_destructor(mqlyypParser,18,&mqlyymsp[-2].minor);
 #line 1366 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy63 = new BlockString0(mqlyymsp[-1].minor.mqlyy501); }
-#line 4582 "./mql.c"
+#line 4589 "./mql.c"
   mqlyy_destructor(mqlyypParser,19,&mqlyymsp[0].minor);
 }
         break;
       case 299: /* block_string1 ::= block_string0 */
 #line 1371 "./mql.yxx"
 { mqlyylhsminor.mqlyy116 = new BlockString1(mqlyymsp[0].minor.mqlyy63); }
-#line 4589 "./mql.c"
+#line 4596 "./mql.c"
   mqlyymsp[0].minor.mqlyy116 = mqlyylhsminor.mqlyy116;
         break;
       case 300: /* block_string1 ::= block_string0 KEY_STAR star_monad_set */
 #line 1373 "./mql.yxx"
 { mqlyylhsminor.mqlyy116 = new BlockString1(mqlyymsp[-2].minor.mqlyy63, mqlyymsp[0].minor.mqlyy108); }
-#line 4595 "./mql.c"
+#line 4602 "./mql.c"
   mqlyy_destructor(mqlyypParser,96,&mqlyymsp[-1].minor);
   mqlyymsp[-2].minor.mqlyy116 = mqlyylhsminor.mqlyy116;
         break;
       case 301: /* block_string2 ::= block_string1 */
 #line 1378 "./mql.yxx"
 { mqlyylhsminor.mqlyy169 = new BlockString2(mqlyymsp[0].minor.mqlyy116); }
-#line 4602 "./mql.c"
+#line 4609 "./mql.c"
   mqlyymsp[0].minor.mqlyy169 = mqlyylhsminor.mqlyy169;
         break;
       case 302: /* block_string2 ::= block_string1 block_string2 */
 #line 1380 "./mql.yxx"
 { mqlyylhsminor.mqlyy169 = new BlockString2(mqlyymsp[-1].minor.mqlyy116, mqlyymsp[0].minor.mqlyy169, false); }
-#line 4608 "./mql.c"
+#line 4615 "./mql.c"
   mqlyymsp[-1].minor.mqlyy169 = mqlyylhsminor.mqlyy169;
         break;
       case 303: /* block_string2 ::= block_string1 KEY_EXCLAMATION block_string2 */
 #line 1383 "./mql.yxx"
 { mqlyylhsminor.mqlyy169 = new BlockString2(mqlyymsp[-2].minor.mqlyy116, mqlyymsp[0].minor.mqlyy169, true); }
-#line 4614 "./mql.c"
+#line 4621 "./mql.c"
   mqlyy_destructor(mqlyypParser,104,&mqlyymsp[-1].minor);
   mqlyymsp[-2].minor.mqlyy169 = mqlyylhsminor.mqlyy169;
         break;
       case 304: /* block_string ::= block_string2 */
 #line 1388 "./mql.yxx"
 { mqlyylhsminor.mqlyy501 = new BlockString(mqlyymsp[0].minor.mqlyy169); }
-#line 4621 "./mql.c"
+#line 4628 "./mql.c"
   mqlyymsp[0].minor.mqlyy501 = mqlyylhsminor.mqlyy501;
         break;
       case 305: /* block_string ::= block_string2 KEY_OR block_string */
 #line 1390 "./mql.yxx"
 { mqlyylhsminor.mqlyy501 = new BlockString(mqlyymsp[-2].minor.mqlyy169, mqlyymsp[0].minor.mqlyy501); }
-#line 4627 "./mql.c"
+#line 4634 "./mql.c"
   mqlyy_destructor(mqlyypParser,105,&mqlyymsp[-1].minor);
   mqlyymsp[-2].minor.mqlyy501 = mqlyylhsminor.mqlyy501;
         break;
@@ -4631,40 +4638,40 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,106,&mqlyymsp[0].minor);
 #line 1395 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy466 = 0; }
-#line 4635 "./mql.c"
+#line 4642 "./mql.c"
 }
         break;
       case 307: /* notexist ::= KEY_NOTEXISTS */
 {  mqlyy_destructor(mqlyypParser,107,&mqlyymsp[0].minor);
 #line 1396 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy466 = 0; }
-#line 4642 "./mql.c"
+#line 4649 "./mql.c"
 }
         break;
       case 308: /* object_reference_declaration ::= */
       case 310: /* mark_declaration ::= */ mqlyytestcase(mqlyyruleno==310);
 #line 1401 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy0 = newToken(); mqlyymsp[1].minor.mqlyy0->setString(new std::string()); }
-#line 4649 "./mql.c"
+#line 4656 "./mql.c"
         break;
       case 309: /* object_reference_declaration ::= KEY_AS object_reference */
 {  mqlyy_destructor(mqlyypParser,108,&mqlyymsp[-1].minor);
 #line 1402 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy0 = mqlyymsp[0].minor.mqlyy0; }
-#line 4655 "./mql.c"
+#line 4662 "./mql.c"
 }
         break;
       case 313: /* retrieval ::= */
 #line 1417 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy88 = kRetrieve; }
-#line 4661 "./mql.c"
+#line 4668 "./mql.c"
         break;
       case 314: /* retrieval ::= KEY_NORETRIEVE */
       case 371: /* gap_retrieval ::= KEY_NORETRIEVE */ mqlyytestcase(mqlyyruleno==371);
 {  mqlyy_destructor(mqlyypParser,110,&mqlyymsp[0].minor);
 #line 1418 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy88 = kNoRetrieve; }
-#line 4668 "./mql.c"
+#line 4675 "./mql.c"
 }
         break;
       case 315: /* retrieval ::= KEY_RETRIEVE */
@@ -4672,7 +4679,7 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,111,&mqlyymsp[0].minor);
 #line 1419 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy88 = kRetrieve; }
-#line 4676 "./mql.c"
+#line 4683 "./mql.c"
 }
         break;
       case 316: /* retrieval ::= KEY_FOCUS */
@@ -4680,33 +4687,33 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,81,&mqlyymsp[0].minor);
 #line 1420 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy88 = kRetrieveFocus; }
-#line 4684 "./mql.c"
+#line 4691 "./mql.c"
 }
         break;
       case 317: /* firstlast ::= */
 #line 1424 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy296 = kNoFirstLast; }
-#line 4690 "./mql.c"
+#line 4697 "./mql.c"
         break;
       case 318: /* firstlast ::= KEY_FIRST */
 {  mqlyy_destructor(mqlyypParser,33,&mqlyymsp[0].minor);
 #line 1425 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy296 = kFirst; }
-#line 4696 "./mql.c"
+#line 4703 "./mql.c"
 }
         break;
       case 319: /* firstlast ::= KEY_LAST */
 {  mqlyy_destructor(mqlyypParser,36,&mqlyymsp[0].minor);
 #line 1426 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy296 = kLast; }
-#line 4703 "./mql.c"
+#line 4710 "./mql.c"
 }
         break;
       case 320: /* firstlast ::= KEY_FIRST KEY_AND KEY_LAST */
 {  mqlyy_destructor(mqlyypParser,33,&mqlyymsp[-2].minor);
 #line 1427 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy296 = kFirstAndLast; }
-#line 4710 "./mql.c"
+#line 4717 "./mql.c"
   mqlyy_destructor(mqlyypParser,35,&mqlyymsp[-1].minor);
   mqlyy_destructor(mqlyypParser,36,&mqlyymsp[0].minor);
 }
@@ -4714,7 +4721,7 @@ static void mqlyy_reduce(
       case 321: /* monad_set_relation_clause ::= monad_set_relation_operation KEY_OPEN_BRACKET monad_set_name KEY_COMMA universe_or_substrate KEY_CLOSE_BRACKET */
 #line 1432 "./mql.yxx"
 { mqlyylhsminor.mqlyy299 = new MonadSetRelationClause(mqlyymsp[-5].minor.mqlyy360, mqlyymsp[-3].minor.mqlyy0->extractString(), mqlyymsp[-1].minor.mqlyy569); deleteToken(mqlyymsp[-3].minor.mqlyy0); }
-#line 4718 "./mql.c"
+#line 4725 "./mql.c"
   mqlyy_destructor(mqlyypParser,52,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,71,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,54,&mqlyymsp[0].minor);
@@ -4723,7 +4730,7 @@ static void mqlyy_reduce(
       case 322: /* monad_set_relation_clause ::= monad_set_relation_operation KEY_OPEN_BRACKET universe_or_substrate KEY_CLOSE_BRACKET */
 #line 1434 "./mql.yxx"
 { mqlyylhsminor.mqlyy299 = new MonadSetRelationClause(mqlyymsp[-3].minor.mqlyy360, new std::string("monads"), mqlyymsp[-1].minor.mqlyy569); }
-#line 4727 "./mql.c"
+#line 4734 "./mql.c"
   mqlyy_destructor(mqlyypParser,52,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,54,&mqlyymsp[0].minor);
   mqlyymsp[-3].minor.mqlyy299 = mqlyylhsminor.mqlyy299;
@@ -4731,77 +4738,77 @@ static void mqlyy_reduce(
       case 323: /* monad_set_relation_clause ::= */
 #line 1436 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy299 = new MonadSetRelationClause(kMSROPartOf, new std::string("monads"), kMSNSubstrate); }
-#line 4735 "./mql.c"
+#line 4742 "./mql.c"
         break;
       case 324: /* monad_set_relation_operation ::= KEY_PART_OF */
 {  mqlyy_destructor(mqlyypParser,112,&mqlyymsp[0].minor);
 #line 1441 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy360 = kMSROPartOf; }
-#line 4741 "./mql.c"
+#line 4748 "./mql.c"
 }
         break;
       case 325: /* monad_set_relation_operation ::= KEY_STARTS_IN */
 {  mqlyy_destructor(mqlyypParser,113,&mqlyymsp[0].minor);
 #line 1443 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy360 = kMSROStartsIn; }
-#line 4748 "./mql.c"
+#line 4755 "./mql.c"
 }
         break;
       case 326: /* monad_set_relation_operation ::= KEY_OVERLAP */
 {  mqlyy_destructor(mqlyypParser,114,&mqlyymsp[0].minor);
 #line 1445 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy360 = kMSROOverlap; }
-#line 4755 "./mql.c"
+#line 4762 "./mql.c"
 }
         break;
       case 327: /* universe_or_substrate ::= KEY_UNIVERSE */
 {  mqlyy_destructor(mqlyypParser,115,&mqlyymsp[0].minor);
 #line 1451 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy569 = kMSNUniverse; }
-#line 4762 "./mql.c"
+#line 4769 "./mql.c"
 }
         break;
       case 328: /* universe_or_substrate ::= KEY_SUBSTRATE */
 {  mqlyy_destructor(mqlyypParser,116,&mqlyymsp[0].minor);
 #line 1453 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy569 = kMSNSubstrate; }
-#line 4769 "./mql.c"
+#line 4776 "./mql.c"
 }
         break;
       case 329: /* feature_constraints ::= */
 #line 1458 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy520 = 0; }
-#line 4775 "./mql.c"
+#line 4782 "./mql.c"
         break;
       case 330: /* feature_constraints ::= ffeatures */
 #line 1459 "./mql.yxx"
 { mqlyylhsminor.mqlyy520 = mqlyymsp[0].minor.mqlyy520; }
-#line 4780 "./mql.c"
+#line 4787 "./mql.c"
   mqlyymsp[0].minor.mqlyy520 = mqlyylhsminor.mqlyy520;
         break;
       case 331: /* ffeatures ::= fterm */
 #line 1464 "./mql.yxx"
 { mqlyylhsminor.mqlyy520 = new FFeatures(mqlyymsp[0].minor.mqlyy601); }
-#line 4786 "./mql.c"
+#line 4793 "./mql.c"
   mqlyymsp[0].minor.mqlyy520 = mqlyylhsminor.mqlyy520;
         break;
       case 332: /* ffeatures ::= ffeatures KEY_OR fterm */
 #line 1465 "./mql.yxx"
 { mqlyylhsminor.mqlyy520 = new FFeatures(mqlyymsp[-2].minor.mqlyy520, mqlyymsp[0].minor.mqlyy601); }
-#line 4792 "./mql.c"
+#line 4799 "./mql.c"
   mqlyy_destructor(mqlyypParser,105,&mqlyymsp[-1].minor);
   mqlyymsp[-2].minor.mqlyy520 = mqlyylhsminor.mqlyy520;
         break;
       case 333: /* fterm ::= ffactor */
 #line 1470 "./mql.yxx"
 { mqlyylhsminor.mqlyy601 = new FTerm(mqlyymsp[0].minor.mqlyy272); }
-#line 4799 "./mql.c"
+#line 4806 "./mql.c"
   mqlyymsp[0].minor.mqlyy601 = mqlyylhsminor.mqlyy601;
         break;
       case 334: /* fterm ::= fterm KEY_AND ffactor */
 #line 1471 "./mql.yxx"
 { mqlyylhsminor.mqlyy601 = new FTerm(mqlyymsp[-2].minor.mqlyy601, mqlyymsp[0].minor.mqlyy272); }
-#line 4805 "./mql.c"
+#line 4812 "./mql.c"
   mqlyy_destructor(mqlyypParser,35,&mqlyymsp[-1].minor);
   mqlyymsp[-2].minor.mqlyy601 = mqlyylhsminor.mqlyy601;
         break;
@@ -4809,27 +4816,27 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,49,&mqlyymsp[-1].minor);
 #line 1476 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy272 = new FFactor(mqlyymsp[0].minor.mqlyy272); }
-#line 4813 "./mql.c"
+#line 4820 "./mql.c"
 }
         break;
       case 336: /* ffactor ::= KEY_OPEN_BRACKET ffeatures KEY_CLOSE_BRACKET */
 {  mqlyy_destructor(mqlyypParser,52,&mqlyymsp[-2].minor);
 #line 1478 "./mql.yxx"
 { mqlyymsp[-2].minor.mqlyy272 = new FFactor(mqlyymsp[-1].minor.mqlyy520); }
-#line 4820 "./mql.c"
+#line 4827 "./mql.c"
   mqlyy_destructor(mqlyypParser,54,&mqlyymsp[0].minor);
 }
         break;
       case 337: /* ffactor ::= feature_comparison */
 #line 1480 "./mql.yxx"
 { mqlyylhsminor.mqlyy272 = new FFactor(mqlyymsp[0].minor.mqlyy68); }
-#line 4827 "./mql.c"
+#line 4834 "./mql.c"
   mqlyymsp[0].minor.mqlyy272 = mqlyylhsminor.mqlyy272;
         break;
       case 341: /* feature_comparison ::= feature_name KEY_IN object_reference_usage */
 #line 1492 "./mql.yxx"
 { mqlyylhsminor.mqlyy68 = new FeatureComparison(mqlyymsp[-2].minor.mqlyy0->extractString(), kIn, new Value(mqlyymsp[0].minor.mqlyy266)); deleteToken(mqlyymsp[-2].minor.mqlyy0); }
-#line 4833 "./mql.c"
+#line 4840 "./mql.c"
   mqlyy_destructor(mqlyypParser,80,&mqlyymsp[-1].minor);
   mqlyymsp[-2].minor.mqlyy68 = mqlyylhsminor.mqlyy68;
         break;
@@ -4837,137 +4844,137 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,72,&mqlyymsp[0].minor);
 #line 1497 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy130 = kEqual; }
-#line 4841 "./mql.c"
+#line 4848 "./mql.c"
 }
         break;
       case 343: /* comparison_operator ::= KEY_LESS_THAN */
 {  mqlyy_destructor(mqlyypParser,117,&mqlyymsp[0].minor);
 #line 1498 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy130 = kLessThan; }
-#line 4848 "./mql.c"
+#line 4855 "./mql.c"
 }
         break;
       case 344: /* comparison_operator ::= KEY_GREATER_THAN */
 {  mqlyy_destructor(mqlyypParser,118,&mqlyymsp[0].minor);
 #line 1499 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy130 = kGreaterThan; }
-#line 4855 "./mql.c"
+#line 4862 "./mql.c"
 }
         break;
       case 345: /* comparison_operator ::= KEY_NOT_EQUAL */
 {  mqlyy_destructor(mqlyypParser,119,&mqlyymsp[0].minor);
 #line 1500 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy130 = kNotEqual; }
-#line 4862 "./mql.c"
+#line 4869 "./mql.c"
 }
         break;
       case 346: /* comparison_operator ::= KEY_LESS_THAN_OR_EQUAL */
 {  mqlyy_destructor(mqlyypParser,120,&mqlyymsp[0].minor);
 #line 1501 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy130 = kLessThanOrEqual; }
-#line 4869 "./mql.c"
+#line 4876 "./mql.c"
 }
         break;
       case 347: /* comparison_operator ::= KEY_GREATER_THAN_OR_EQUAL */
 {  mqlyy_destructor(mqlyypParser,121,&mqlyymsp[0].minor);
 #line 1502 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy130 = kGreaterThanOrEqual; }
-#line 4876 "./mql.c"
+#line 4883 "./mql.c"
 }
         break;
       case 348: /* comparison_operator ::= KEY_TILDE */
 {  mqlyy_destructor(mqlyypParser,122,&mqlyymsp[0].minor);
 #line 1503 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy130 = kTilde; }
-#line 4883 "./mql.c"
+#line 4890 "./mql.c"
 }
         break;
       case 349: /* comparison_operator ::= KEY_NOT_TILDE */
 {  mqlyy_destructor(mqlyypParser,123,&mqlyymsp[0].minor);
 #line 1504 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy130 = kNotTilde; }
-#line 4890 "./mql.c"
+#line 4897 "./mql.c"
 }
         break;
       case 350: /* comparison_operator ::= KEY_HAS */
 {  mqlyy_destructor(mqlyypParser,124,&mqlyymsp[0].minor);
 #line 1505 "./mql.yxx"
 { mqlyymsp[0].minor.mqlyy130 = kHas; }
-#line 4897 "./mql.c"
+#line 4904 "./mql.c"
 }
         break;
       case 351: /* value ::= enum_const */
 #line 1512 "./mql.yxx"
 { mqlyylhsminor.mqlyy616 = new Value(mqlyymsp[0].minor.mqlyy0->extractString(), kValEnumConst); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 4903 "./mql.c"
+#line 4910 "./mql.c"
   mqlyymsp[0].minor.mqlyy616 = mqlyylhsminor.mqlyy616;
         break;
       case 352: /* value ::= signed_integer */
 #line 1514 "./mql.yxx"
-{ mqlyylhsminor.mqlyy616 = new Value(mqlyymsp[0].minor.mqlyy529); }
-#line 4909 "./mql.c"
+{ mqlyylhsminor.mqlyy616 = new Value(mqlyymsp[0].minor.mqlyy503); }
+#line 4916 "./mql.c"
   mqlyymsp[0].minor.mqlyy616 = mqlyylhsminor.mqlyy616;
         break;
       case 353: /* value ::= STRING */
 #line 1516 "./mql.yxx"
 { mqlyylhsminor.mqlyy616 = new Value(mqlyymsp[0].minor.mqlyy0->extractString(), kValString); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 4915 "./mql.c"
+#line 4922 "./mql.c"
   mqlyymsp[0].minor.mqlyy616 = mqlyylhsminor.mqlyy616;
         break;
       case 354: /* value ::= object_reference_usage */
 #line 1518 "./mql.yxx"
 { mqlyylhsminor.mqlyy616 = new Value(mqlyymsp[0].minor.mqlyy266); }
-#line 4921 "./mql.c"
+#line 4928 "./mql.c"
   mqlyymsp[0].minor.mqlyy616 = mqlyylhsminor.mqlyy616;
         break;
       case 356: /* object_reference_usage ::= object_reference KEY_DOT feature_name */
 #line 1528 "./mql.yxx"
 { mqlyylhsminor.mqlyy266 = new ObjectReferenceUsage(mqlyymsp[-2].minor.mqlyy0->extractString(), mqlyymsp[0].minor.mqlyy0->extractString()); deleteToken(mqlyymsp[-2].minor.mqlyy0); deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 4927 "./mql.c"
+#line 4934 "./mql.c"
   mqlyy_destructor(mqlyypParser,125,&mqlyymsp[-1].minor);
   mqlyymsp[-2].minor.mqlyy266 = mqlyylhsminor.mqlyy266;
         break;
       case 357: /* opt_blocks ::= */
 #line 1533 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy18 = 0; }
-#line 4934 "./mql.c"
+#line 4941 "./mql.c"
         break;
       case 358: /* opt_blocks ::= blocks */
 #line 1534 "./mql.yxx"
 { mqlyylhsminor.mqlyy18 = mqlyymsp[0].minor.mqlyy18; }
-#line 4939 "./mql.c"
+#line 4946 "./mql.c"
   mqlyymsp[0].minor.mqlyy18 = mqlyylhsminor.mqlyy18;
         break;
       case 359: /* block ::= object_block */
       case 363: /* block ::= notexist_object_block */ mqlyytestcase(mqlyyruleno==363);
 #line 1539 "./mql.yxx"
 { mqlyylhsminor.mqlyy218 = new Block(mqlyymsp[0].minor.mqlyy101); }
-#line 4946 "./mql.c"
+#line 4953 "./mql.c"
   mqlyymsp[0].minor.mqlyy218 = mqlyylhsminor.mqlyy218;
         break;
       case 360: /* block ::= power */
 #line 1540 "./mql.yxx"
 { mqlyylhsminor.mqlyy218 = new Block(mqlyymsp[0].minor.mqlyy594); }
-#line 4952 "./mql.c"
+#line 4959 "./mql.c"
   mqlyymsp[0].minor.mqlyy218 = mqlyylhsminor.mqlyy218;
         break;
       case 361: /* block ::= opt_gap_block */
 #line 1541 "./mql.yxx"
 { mqlyylhsminor.mqlyy218 = new Block(mqlyymsp[0].minor.mqlyy303); }
-#line 4958 "./mql.c"
+#line 4965 "./mql.c"
   mqlyymsp[0].minor.mqlyy218 = mqlyylhsminor.mqlyy218;
         break;
       case 362: /* block ::= gap_block */
 #line 1542 "./mql.yxx"
 { mqlyylhsminor.mqlyy218 = new Block(mqlyymsp[0].minor.mqlyy6); }
-#line 4964 "./mql.c"
+#line 4971 "./mql.c"
   mqlyymsp[0].minor.mqlyy218 = mqlyylhsminor.mqlyy218;
         break;
       case 364: /* unordered_group ::= KEY_OPEN_SQUARE_BRACKET KEY_UNORDERED_GROUP object_block_string KEY_CLOSE_SQUARE_BRACKET */
 {  mqlyy_destructor(mqlyypParser,18,&mqlyymsp[-3].minor);
 #line 1552 "./mql.yxx"
 { mqlyymsp[-3].minor.mqlyy24 = new UnorderedGroup(mqlyymsp[-1].minor.mqlyy98); }
-#line 4971 "./mql.c"
+#line 4978 "./mql.c"
   mqlyy_destructor(mqlyypParser,126,&mqlyymsp[-2].minor);
   mqlyy_destructor(mqlyypParser,19,&mqlyymsp[0].minor);
 }
@@ -4975,25 +4982,25 @@ static void mqlyy_reduce(
       case 365: /* object_block_string ::= object_block */
 #line 1556 "./mql.yxx"
 { mqlyylhsminor.mqlyy98 = new ObjectBlockString(NULL, mqlyymsp[0].minor.mqlyy101); }
-#line 4979 "./mql.c"
+#line 4986 "./mql.c"
   mqlyymsp[0].minor.mqlyy98 = mqlyylhsminor.mqlyy98;
         break;
       case 366: /* object_block_string ::= object_block_string object_block */
 #line 1557 "./mql.yxx"
 { mqlyylhsminor.mqlyy98 = new ObjectBlockString(mqlyymsp[-1].minor.mqlyy98, mqlyymsp[0].minor.mqlyy101); }
-#line 4985 "./mql.c"
+#line 4992 "./mql.c"
   mqlyymsp[-1].minor.mqlyy98 = mqlyylhsminor.mqlyy98;
         break;
       case 367: /* star_monad_set ::= */
 #line 1564 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy108 = new MQLMonadSetElement(0, MAX_MONAD, 0, true); }
-#line 4991 "./mql.c"
+#line 4998 "./mql.c"
         break;
       case 369: /* opt_gap_block ::= KEY_OPEN_SQUARE_BRACKET KEY_OPT_GAP mark_declaration gap_retrieval opt_blocks KEY_CLOSE_SQUARE_BRACKET */
 {  mqlyy_destructor(mqlyypParser,18,&mqlyymsp[-5].minor);
 #line 1570 "./mql.yxx"
 { mqlyymsp[-5].minor.mqlyy303 = new OptGapBlock(mqlyymsp[-2].minor.mqlyy88, mqlyymsp[-3].minor.mqlyy0->extractString(), mqlyymsp[-1].minor.mqlyy18); deleteToken(mqlyymsp[-3].minor.mqlyy0); }
-#line 4997 "./mql.c"
+#line 5004 "./mql.c"
   mqlyy_destructor(mqlyypParser,127,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,19,&mqlyymsp[0].minor);
 }
@@ -5001,13 +5008,13 @@ static void mqlyy_reduce(
       case 370: /* gap_retrieval ::= */
 #line 1575 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy88 = kNoRetrieve; }
-#line 5005 "./mql.c"
+#line 5012 "./mql.c"
         break;
       case 374: /* gap_block ::= KEY_OPEN_SQUARE_BRACKET KEY_GAP mark_declaration gap_retrieval opt_blocks KEY_CLOSE_SQUARE_BRACKET */
 {  mqlyy_destructor(mqlyypParser,18,&mqlyymsp[-5].minor);
 #line 1584 "./mql.yxx"
 { mqlyymsp[-5].minor.mqlyy6 = new GapBlock(mqlyymsp[-2].minor.mqlyy88, mqlyymsp[-3].minor.mqlyy0->extractString(), mqlyymsp[-1].minor.mqlyy18); deleteToken(mqlyymsp[-3].minor.mqlyy0); }
-#line 5011 "./mql.c"
+#line 5018 "./mql.c"
   mqlyy_destructor(mqlyypParser,128,&mqlyymsp[-4].minor);
   mqlyy_destructor(mqlyypParser,19,&mqlyymsp[0].minor);
 }
@@ -5016,13 +5023,13 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,62,&mqlyymsp[-1].minor);
 #line 1591 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy366 = mqlyymsp[0].minor.mqlyy366; }
-#line 5020 "./mql.c"
+#line 5027 "./mql.c"
 }
         break;
       case 376: /* feature_retrieval ::= */
 #line 1592 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy366 = 0; }
-#line 5026 "./mql.c"
+#line 5033 "./mql.c"
         break;
       case 377: /* object_block ::= KEY_OPEN_SQUARE_BRACKET object_type_name mark_declaration object_reference_declaration retrieval firstlast monad_set_relation_clause feature_constraints feature_retrieval opt_blocks KEY_CLOSE_SQUARE_BRACKET */
 {  mqlyy_destructor(mqlyypParser,18,&mqlyymsp[-10].minor);
@@ -5030,7 +5037,7 @@ static void mqlyy_reduce(
 { mqlyymsp[-10].minor.mqlyy101 = new ObjectBlock(mqlyymsp[-9].minor.mqlyy0->extractString(), mqlyymsp[-8].minor.mqlyy0->extractString(), mqlyymsp[-7].minor.mqlyy0->extractString(), mqlyymsp[-6].minor.mqlyy88, mqlyymsp[-5].minor.mqlyy296, mqlyymsp[-4].minor.mqlyy299, mqlyymsp[-3].minor.mqlyy520, mqlyymsp[-2].minor.mqlyy366, mqlyymsp[-1].minor.mqlyy18, false); 
       deleteToken(mqlyymsp[-9].minor.mqlyy0); deleteToken(mqlyymsp[-8].minor.mqlyy0); deleteToken(mqlyymsp[-7].minor.mqlyy0); 
     }
-#line 5034 "./mql.c"
+#line 5041 "./mql.c"
   mqlyy_destructor(mqlyypParser,19,&mqlyymsp[0].minor);
 }
         break;
@@ -5040,7 +5047,7 @@ static void mqlyy_reduce(
 { mqlyymsp[-11].minor.mqlyy101 = new ObjectBlock(mqlyymsp[-9].minor.mqlyy0->extractString(), mqlyymsp[-8].minor.mqlyy0->extractString(), mqlyymsp[-7].minor.mqlyy0->extractString(), mqlyymsp[-6].minor.mqlyy88, mqlyymsp[-5].minor.mqlyy296, mqlyymsp[-4].minor.mqlyy299, mqlyymsp[-3].minor.mqlyy520, mqlyymsp[-2].minor.mqlyy366, mqlyymsp[-1].minor.mqlyy18, true); 
       deleteToken(mqlyymsp[-9].minor.mqlyy0); deleteToken(mqlyymsp[-8].minor.mqlyy0); deleteToken(mqlyymsp[-7].minor.mqlyy0); 
     }
-#line 5044 "./mql.c"
+#line 5051 "./mql.c"
   mqlyy_destructor(mqlyypParser,18,&mqlyymsp[-10].minor);
   mqlyy_destructor(mqlyypParser,19,&mqlyymsp[0].minor);
 }
@@ -5049,14 +5056,14 @@ static void mqlyy_reduce(
 {  mqlyy_destructor(mqlyypParser,129,&mqlyymsp[-1].minor);
 #line 1627 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy594 = new Power(mqlyymsp[0].minor.mqlyy244); }
-#line 5053 "./mql.c"
+#line 5060 "./mql.c"
 }
         break;
       case 380: /* power ::= KEY_POWER KEY_BETWEEN limit KEY_AND limit */
 {  mqlyy_destructor(mqlyypParser,129,&mqlyymsp[-4].minor);
 #line 1629 "./mql.yxx"
 { mqlyymsp[-4].minor.mqlyy594 = new Power(mqlyymsp[-2].minor.mqlyy244, mqlyymsp[0].minor.mqlyy244); }
-#line 5060 "./mql.c"
+#line 5067 "./mql.c"
   mqlyy_destructor(mqlyypParser,130,&mqlyymsp[-3].minor);
   mqlyy_destructor(mqlyypParser,35,&mqlyymsp[-1].minor);
 }
@@ -5064,26 +5071,26 @@ static void mqlyy_reduce(
       case 381: /* restrictor ::= */
 #line 1633 "./mql.yxx"
 { mqlyymsp[1].minor.mqlyy244 = MAX_MONAD; }
-#line 5068 "./mql.c"
+#line 5075 "./mql.c"
         break;
       case 382: /* restrictor ::= KEY_LESS_THAN limit */
 {  mqlyy_destructor(mqlyypParser,117,&mqlyymsp[-1].minor);
 #line 1634 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy244 = mqlyymsp[0].minor.mqlyy244-1; }
-#line 5074 "./mql.c"
+#line 5081 "./mql.c"
 }
         break;
       case 383: /* restrictor ::= KEY_LESS_THAN_OR_EQUAL limit */
 {  mqlyy_destructor(mqlyypParser,120,&mqlyymsp[-1].minor);
 #line 1635 "./mql.yxx"
 { mqlyymsp[-1].minor.mqlyy244 = mqlyymsp[0].minor.mqlyy244; }
-#line 5081 "./mql.c"
+#line 5088 "./mql.c"
 }
         break;
       case 384: /* limit ::= INTEGER */
 #line 1641 "./mql.yxx"
 { mqlyylhsminor.mqlyy244 = mqlyymsp[0].minor.mqlyy0->integer; deleteToken(mqlyymsp[0].minor.mqlyy0); }
-#line 5087 "./mql.c"
+#line 5094 "./mql.c"
   mqlyymsp[0].minor.mqlyy244 = mqlyylhsminor.mqlyy244;
         break;
       default:
@@ -5130,7 +5137,7 @@ static void mqlyy_parse_failed(
 #line 140 "./mql.yxx"
 
   pEE->bSyntaxError = true;
-#line 5134 "./mql.c"
+#line 5141 "./mql.c"
 /************ End %parse_failure code *****************************************/
   MQLParserARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
@@ -5154,7 +5161,7 @@ static void mqlyy_syntax_error(
   pEE->bSyntaxError = true;
   std::string errMsg = "syntax error near " + TOKEN->getTokenName() + '\n';
   pEE->pError->appendError(errMsg);
-#line 5158 "./mql.c"
+#line 5165 "./mql.c"
 /************ End %syntax_error code ******************************************/
   MQLParserARG_STORE; /* Suppress warning about unused %extra_argument variable */
 }
