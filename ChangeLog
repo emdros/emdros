@@ -4,6 +4,12 @@
 
 	* harvest/templatelang.yxx: Silence some more warnings on VS C++.
 
+	* amalgamation/mkamalgamation.cpp: Make it work.
+
+	* amalgamation/Makefile.am: Use the program made with
+	mkamalgamation.cpp, rather than mkamalgamation.py, for creating
+	the amalgamation.
+
 2018-06-11 Ulrik Sandborg-Petersen
 
 	* build/windows/body.mak: As part of the CLEAN routine, also erase

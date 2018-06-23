@@ -4,6 +4,10 @@ if HOSTISDARWIN
 MACLDFLAGS = -static
 endif
 
+noinst_PROGRAMS = mkamalgamation
+
+mkamalgamation_SOURCES = mkamalgamation.cpp
+
 
 lib_LTLIBRARIES = libemdros_amalgamation.la
 DO_MACDIST = cp -f .libs/libemdros_amalgamation.a $(MACDISTDIR)/development/lib/
@@ -34,7 +38,9 @@ nodist_pkginclude_HEADERS = $(myheaders)
 
 CLEANFILES = $(mysourcecode) $(myheaders) *~ core amalgamation_made.txt
 
-EXTRA_DIST = mkamalgamation.py \
+EXTRA_DIST = \
+             mkamalgamation.py \
+             mkamalgamation.cpp \
              amalgamation.xml \
              windows.mak mingw.mak 
 
@@ -53,9 +59,14 @@ emdros.h: amalgamation_made.txt
 
 emdros_c.h: amalgamation_made.txt
 
-amalgamation_made.txt: mkamalgamation.py amalgamation.xml
-	python2 mkamalgamation.py amalgamation.xml
+#amalgamation_made.txt: mkamalgamation.py amalgamation.xml
+#	python2 mkamalgamation.py amalgamation.xml
+#	touch amalgamation_made.txt
+
+amalgamation_made.txt: mkamalgamation amalgamation.xml
+	./mkamalgamation amalgamation.xml
 	touch amalgamation_made.txt
+
 
 emdros-lconfig.h: ../include/emdros-lconfig.h
 	cp ../include/emdros-lconfig.h $@
