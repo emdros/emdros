@@ -1,13 +1,13 @@
 /*
  * phpemdros.i: PHP bindings for Emdros using SWIG
  * Created: 2/8-2003 (February 8, 2003)
- * Last update: 1/24-2017
+ * Last update: 6/23-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2003-2017  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2003-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -152,6 +152,7 @@
 
 
 /* To get monad_m and id_d_t typedefs. */
+%include "../../include/emdros-lconfig.h"
 %include "../../include/emdf.h"
 
 /*

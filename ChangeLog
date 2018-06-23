@@ -34,6 +34,16 @@
 	* SWIG/java/Makefile.am: Put all SWIG generated java sources in
 	SWIG/java/jsource/.
 
+	* SWIG/: %include emdros-lconfig.h so that emdf.h will select the
+	right size for emdros_int64.
+
+	Files affected:
+
+	modified:   SWIG/php5/phpemdros.i
+	modified:   SWIG/php7/php7emdros.i
+	modified:   SWIG/python2/pyemdros.i
+	modified:   SWIG/python3/py3emdros.i
+
 2018-06-11 Ulrik Sandborg-Petersen
 
 	* build/windows/body.mak: As part of the CLEAN routine, also erase
