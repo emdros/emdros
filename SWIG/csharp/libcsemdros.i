@@ -148,6 +148,7 @@
 }
 
 
+%include "../../include/emdros-lconfig.h"
 %include "../../include/emdf.h"
 
 

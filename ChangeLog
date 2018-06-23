@@ -19,6 +19,10 @@
 	* include/emdf.h: Explicitly cast MAX_MONAD to monad_m.  This is
 	so as to help SWIG determine what to do.
 
+	* SWIG/cshar/libcsemdros.i: Also %include emdros-lconfig.h, so
+	that HAVE_CXX11 is #defined.  This helps SWIG navigate
+	include/emdf.h and select the right size for emdros_int64.
+
 2018-06-11 Ulrik Sandborg-Petersen
 
 	* build/windows/body.mak: As part of the CLEAN routine, also erase
