@@ -1,5 +1,9 @@
 ============ 4.0.0 ============
 
+2018-06-23 Ulrik Sandborg-Petersen
+
+	* harvest/templatelang.yxx: Silence some more warnings on VS C++.
+
 2018-06-11 Ulrik Sandborg-Petersen
 
 	* build/windows/body.mak: As part of the CLEAN routine, also erase

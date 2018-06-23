@@ -7,7 +7,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 6/8-2018
+ * Last update: 6/23-2018
  *
  */
 /************************************************************************
@@ -156,19 +156,19 @@ template_list_element(T) ::= KEY_COUNTER KEY_SPACE STRING(I) KEY_BB_CLOSE .
 template_list_element(T) ::= KEY_COUNTER KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_FORMAT KEY_SPACE STRING(F) KEY_BB_CLOSE .
 { T = new TemplateCounterFormat(I->extractString(), F->extractString()); delete I; delete F;}
 template_list_element(T) ::= KEY_SETCOUNTER KEY_SPACE STRING(I) KEY_SPACE INTEGER(V) KEY_BB_CLOSE .
-{ T = new TemplateSetCounter(I->extractString(), V->integer); delete I; delete V; }
+{ T = new TemplateSetCounter(I->extractString(), (unsigned int) V->integer); delete I; delete V; }
 template_list_element(T) ::= KEY_SETCOUNTER KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_VAR KEY_SPACE STRING(V) KEY_BB_CLOSE .
 { T = new TemplateSetCounterVar(I->extractString(), V->extractString()); delete I; delete V; }
 template_list_element(T) ::= KEY_INCCOUNTER KEY_SPACE STRING(I) KEY_BB_CLOSE .
 { T = new TemplateIncCounter(I->extractString(), 1, 0); delete I; }
 template_list_element(T) ::= KEY_INCCOUNTER KEY_SPACE STRING(I) KEY_SPACE INTEGER(S) KEY_BB_CLOSE .
-{ T = new TemplateIncCounter(I->extractString(), S->integer, 0); delete I; delete S; }
+{ T = new TemplateIncCounter(I->extractString(), (unsigned int) S->integer, 0); delete I; delete S; }
 template_list_element(T) ::= KEY_INCCOUNTER KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_VAR KEY_SPACE STRING(V) KEY_BB_CLOSE .
 { T = new TemplateIncCounter(I->extractString(), 0, V->extractString()); delete I; delete V; }
 template_list_element(T) ::= KEY_DECCOUNTER KEY_SPACE STRING(I) KEY_BB_CLOSE .
 { T = new TemplateDecCounter(I->extractString(), 1, 0); delete I; }
 template_list_element(T) ::= KEY_DECCOUNTER KEY_SPACE STRING(I) KEY_SPACE INTEGER(S) KEY_BB_CLOSE .
-{ T = new TemplateDecCounter(I->extractString(), S->integer, 0); delete I; delete S; }
+{ T = new TemplateDecCounter(I->extractString(), (unsigned int) S->integer, 0); delete I; delete S; }
 template_list_element(T) ::= KEY_DECCOUNTER KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_VAR KEY_SPACE STRING(V) KEY_BB_CLOSE .
 { T = new TemplateDecCounter(I->extractString(), 0, V->extractString()); delete I; delete V; }
 template_list_element(T) ::= KEY_LISTEMIT KEY_SPACE STRING(I) KEY_SPACE STRING(D) KEY_BB_CLOSE .
