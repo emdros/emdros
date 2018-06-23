@@ -147,7 +147,7 @@ typedef emdros_int64 monad_m;
 #define MAX_DBNAME_CHARS         (32)
 #define MAX_IDENTIFIER_CHARS     (512)
 
-#define MAX_MONAD               ((1LL << 60))
+#define MAX_MONAD               ((monad_m) (1LL << 60))
 
 
 /* The maximum chars to put in an index on MySQL for 

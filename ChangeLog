@@ -16,6 +16,9 @@
 	* wx/importerwizard.cpp: Fix a compiler error related to the size
 	of monad_m and id_d_t.
 
+	* include/emdf.h: Explicitly cast MAX_MONAD to monad_m.  This is
+	so as to help SWIG determine what to do.
+
 2018-06-11 Ulrik Sandborg-Petersen
 
 	* build/windows/body.mak: As part of the CLEAN routine, also erase
