@@ -31,6 +31,9 @@
 	HAVE_CXX11 is #defined.  This helps SWIG navigate include/emdf.h
 	and select the right size for emdros_int64.
 
+	* SWIG/java/Makefile.am: Put all SWIG generated java sources in
+	SWIG/java/jsource/.
+
 2018-06-11 Ulrik Sandborg-Petersen
 
 	* build/windows/body.mak: As part of the CLEAN routine, also erase

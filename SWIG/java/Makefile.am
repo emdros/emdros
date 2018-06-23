@@ -24,10 +24,12 @@ AM_CXXFLAGS = @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ @ADDITIONAL_CXXFLAGS@ @DEBUGFLAG@
 AM_CPPFLAGS = -I. @JDK_INCLUDES@ -I$(top_srcdir)
 
 gen_files:
+	mkdir -p jsource
+	rm -f jsource/*.java
 	echo "SWIG_GENERATED_JAVAFILES = \\" > ll.txt 
-	$(SWIG_PROGRAM) -package jemdros -c++ -java libjemdros.i ; rm -f libjemdros_wrap.cxx
-	ls -l *.java | grep -v "TableRow.java" | grep -v "TestEmdros.java" | awk '{ print $$9; }' | sed -e 's/^/                /' | sed -e 's/$$/ \\/' >> ll.txt
-	echo "                TableRow.java" >> ll.txt
+	$(SWIG_PROGRAM) -package jemdros -c++ -java -outdir jsource libjemdros.i ; rm -f libjemdros_wrap.cxx
+	ls -l jsource/*.java | grep -v "TableRow.java" | grep -v "TestEmdros.java" | awk '{ print $$9; }' | sed -e 's/^/                /' | sed -e 's/$$/ \\/' >> ll.txt
+	echo "                jsource/TableRow.java" >> ll.txt
 	rm -f `cat ll.txt`
 	@echo "ll.txt created."
 	@echo "Now consider:"
@@ -48,13 +50,14 @@ endif
 
 
 libjemdros_wrap.cxx: libjemdros.i
-	$(SWIG_PROGRAM) -package jemdros -c++ -java libjemdros.i
+	mkdir -p jsource
+	$(SWIG_PROGRAM) -package jemdros -c++ -java -outdir jsource libjemdros.i
 
 jemdros.jar: libjemdros_wrap.cxx
-	@JAVAC@ $(SWIG_GENERATED_JAVAFILES)
 	if test -d jemdros; then rm -rf jemdros; fi
 	mkdir jemdros
-	mv $(SWIG_CLASSFILES) $(SWIG_GENERATED_JAVAFILES) jemdros
+	@JAVAC@ -d jemdros $(SWIG_GENERATED_JAVAFILES)
+	cp $(SWIG_GENERATED_JAVAFILES) jemdros
 	@JAR@ cf0 jemdros.jar jemdros/*
 	rm -rf jemdros
 
@@ -146,7 +149,7 @@ CLEANFILES = *~ core config.log ll.txt \
 	     TestEmdros.class TestEmdros$$EMdFObject.class \
              TestEmdros$$Phrase.class TestEmdros$$Word.class \
              libjemdros.la \
-             $(SWIG_GENERATED_JAVAFILES) \
+             $(SWIG_GENERATED_JAVAFILES) jsource/* \
              $(SWIG_CLASSFILES) \
              $(BUILT_SOURCES)
 
