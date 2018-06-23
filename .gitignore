@@ -173,3 +173,6 @@ build/windows/Release/
 build/windows/ReleaseUnicode/
 build/windows/config.nsh
 include/win32-lconfig.h
+SWIG/csharp/cssource/
+SWIG/java/jsource/
+
