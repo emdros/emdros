@@ -23,6 +23,10 @@
 	that HAVE_CXX11 is #defined.  This helps SWIG navigate
 	include/emdf.h and select the right size for emdros_int64.
 
+	* SWIG/csharp/Makefile.am: Put the generated C# source files in
+	SWIG/csharp/cssource/.  Don't make or distribute the
+	CSharpSource.zip file.
+
 2018-06-11 Ulrik Sandborg-Petersen
 
 	* build/windows/body.mak: As part of the CLEAN routine, also erase

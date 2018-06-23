@@ -9,17 +9,19 @@ SWIG_PROGRAM = @SWIG_PROGRAM@
 
 SWIG_CSHARP_SRC = \
       libcsemdros_wrap.cxx \
-      CSharpSources.zip 
+      $(SWIG_GENERATED_CSHARPFILES)
+
 
 TestEmdros.cs: TestEmdros.cs.in
 	$(top_builddir)/config.status --file=TestEmdros.cs
 
 
 gen_files:
-	echo "SWIG_GENERATED_CSHARPFILES = \\" > ll.txt 
-	$(SWIG_PROGRAM) -namespace Emdros -c++ -csharp libcsemdros.i ; rm -f libcsemdros_wrap.cxx
-	ls -l *.cs | grep -v "TableRow.cs" | grep -v "TestEmdros.cs" | awk '{ print $$9; }' | sed -e 's/^/                /' | sed -e 's/$$/ \\/' >> ll.txt
-	echo "                TableRow.cs" >> ll.txt
+	rm -f cssource/*.cs
+	echo "SWIG_GENERATED_CSHARPFILES = \\" > ll.txt
+	$(SWIG_PROGRAM) -namespace Emdros -c++ -csharp -outdir cssource libcsemdros.i ; rm -f libcsemdros_wrap.cxx
+	ls -l cssource/*.cs | grep -v "TableRow.cs" | grep -v "TestEmdros.cs" | awk '{ print $$9; }' | sed -e 's/^/                /' | sed -e 's/$$/ \\/' >> ll.txt
+	echo "                cssource/TableRow.cs" >> ll.txt
 	echo "" >> ll.txt ; echo "" >> ll.txt
 #	ls -l *.cs | grep -v "TestEmdros.cs" | awk '{ print $$9 ": libcsemdros_wrap.cxx"; }' >> ll.txt
 	@echo "ll.txt created."
@@ -41,15 +43,12 @@ AM_CXXFLAGS = @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ @ADDITIONAL_CXXFLAGS@ @DEBUGFLAG@
 
 AM_CPPFLAGS = -I. -I$(top_srcdir)/lib/base -I. -I$(top_srcdir)/lib/base -I$(top_srcdir)/lib/EMdF -I$(top_srcdir)/lib/MQL -I$(top_srcdir)/lib/harvest  -I$(top_srcdir)/amalgamation -I$(top_srcdir)
 
-libcsemdros_wrap.cxx $(SWIG_GENERATED_CSHARPFILES): libcsemdros.i 
-	$(SWIG_PROGRAM) -namespace Emdros -c++ -csharp libcsemdros.i
+libcsemdros_wrap.cxx $(SWIG_GENERATED_CSHARPFILES): libcsemdros.i
+	rm -f cssource/*.cs
+	$(SWIG_PROGRAM) -namespace Emdros -c++ -csharp -outdir cssource libcsemdros.i
 
 EmdrosDotNet.dll: libcsemdros_wrap.cxx
 	$(MONOCOMPILER) -target:library -out:EmdrosDotNet.dll $(SWIG_GENERATED_CSHARPFILES)
-
-CSharpSources.zip: libcsemdros_wrap.cxx
-	rm -f CSharpSources.zip
-	zip CSharpSources.zip $(SWIG_GENERATED_CSHARPFILES)
 
 
 if CAN_DO_SWIG
@@ -76,7 +75,7 @@ libcsemdros_la_LDFLAGS = -version-info \
                          @DARWIN_LDFLAGS@ @SUN_LDFLAGS@
 libcsemdros_la_DEPENDENCIES = @EMDROS_DEPS_BACKBACK@ 
 
-install-exec-hook: EmdrosDotNet.dll CSharpSources.zip
+install-exec-hook: EmdrosDotNet.dll 
 	cp ./EmdrosDotNet.dll $(DESTDIR)/$(pkglibdir)
 	rm -f $(DESTDIR)$(pkglibdir)/libcsemdros.a
 
@@ -84,9 +83,9 @@ install-exec-hook: EmdrosDotNet.dll CSharpSources.zip
 uninstall-hook:
 	rm -f $(DESTDIR)$(pkglibdir)/EmdrosDotNet.dll
 
-macdist: TestEmdros.cs CSharpSources.zip
+macdist: TestEmdros.cs 
 	cp -fL README-csharp .libs/libcsemdros.dylib TestEmdros.cs EmdrosDotNet.dll $(MACDISTDIR)/development/SWIG/csharp
-	cp -fL CSharpSources.zip $(MACDISTDIR)/development/SWIG/csharp
+	cp -fL cssource/*.cs $(MACDISTDIR)/development/SWIG/csharp
 
 
 
