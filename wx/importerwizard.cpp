@@ -2,7 +2,7 @@
 // importerwizard.cpp
 // Martin Petersen and Ulrik Petersen
 // Created: 10/11-2006
-// Last update: 6/8-2018
+// Last update: 6/23-2018
 //
 //
 /************************************************************************
@@ -221,8 +221,11 @@ EmdrosImporterBase* ImporterWizard::GetImporter()
 	eImporter imp = m_pSummaryPage->GetImportFormat();
 	monad_m starting_monad;
 	id_d_t starting_id_d;
-	m_pSummaryPage->GetStartingMonad().ToLongLong(&starting_monad, 10);
-	m_pSummaryPage->GetStartingIDD().ToLongLong(&starting_id_d, 10);
+	wxLongLong_t tmp;
+	m_pSummaryPage->GetStartingMonad().ToLongLong(&tmp, 10);
+	starting_monad = (monad_m) tmp;
+	m_pSummaryPage->GetStartingIDD().ToLongLong(&tmp, 10);
+	starting_id_d = (id_d_t) tmp;
 	std::string myStdString = 
 		std::string((const char*)m_pSummaryPage->GetSFMImportFileName().mb_str(wxConvUTF8));
 	EmdrosImporterBase *pBase;
