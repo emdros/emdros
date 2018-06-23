@@ -1,7 +1,7 @@
 /*
  * libjemdros.i: Java bindings for Emdros using SWIG
  * Created: 2/8-2003 (February 8, 2003)
- * Last update: 5/29-2018
+ * Last update: 6/23-2018
  *
  */
 /************************************************************************
@@ -104,6 +104,7 @@
 #if defined(USE_AMALGAMATION) && USE_AMALGAMATION
 #include "emdros.h"
 #else
+#include "../../include/emdros-lconfig.h"
 #include "../../include/emdf.h"
 #include "../../include/exception_emdros.h"
 #include "../../include/string_list.h"
@@ -133,6 +134,7 @@
 %}
 
 // Include this before using emdros_int64, monad_m, id_d_t, etc.
+%include "../../include/emdros-lconfig.h"
 %include "../../include/emdf.h"
 
 
