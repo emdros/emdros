@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 5/28-2018
+ * Last update: 6/23-2018
  *
  */
 /************************************************************************
@@ -104,20 +104,8 @@
 #pragma warning( disable : 4290 ) 
 #endif
 
-#if defined(_MSC_VER) || defined(__BORLANDC__)
-  typedef __int64 emdros_int64;
-  typedef unsigned __int64 emdros_uint64;
-#else
-#if defined(HAVE_CXX11) && HAVE_CXX11
-  #include <cstdint>
-
-  typedef int_fast64_t emdros_int64;
-  typedef uint_fast64_t emdros_uint64;
-#else
-  typedef long long emdros_int64;
-  typedef unsigned long long emdros_uint64;
-#endif
-#endif
+typedef long long emdros_int64;
+typedef unsigned long long emdros_uint64;
 
 
 typedef emdros_int64 id_d_t;

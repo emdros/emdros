@@ -1,5 +1,12 @@
 ============ 4.0.0 ============
 
+2018-07-04 Ulrik Sandborg-Petersen
+
+	* include/emdf.h: Change the typedefs of emdros_int64 and
+	emdros_uint64 to be long long and unsigned long long respectively.
+
+	Most C++ compilers support this nowadays.
+
 2018-06-23 Ulrik Sandborg-Petersen
 
 	* harvest/templatelang.yxx: Silence some more warnings on VS C++.
