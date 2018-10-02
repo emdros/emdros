@@ -4,6 +4,9 @@
 
 	* configure.ac, debian/changelog: Bump to 3.6.1.
 
+	* win32/body.mak: Add support for WXUNICODE_PROGRAM7.  Not used in
+	Emdros for now, but added because other projects use it.
+
 ============ 3.6.0 ============
 
 2018-06-15 Ulrik Sandborg-Petersen
