@@ -27,6 +27,18 @@
 	* tests/htmlcanvastest.cpp: Silence a warning about
 	polymorphic QDException being caught by value.
 
+	* include/lzma_emdros.h, EMdF/lzma_emdros.cpp: Only compile the
+	body of these files if defined(USE_BPT) && USE_BPT.  The reasons
+	are:
+
+	- This is only used when we use the BPT engine.
+
+	- We don't want to cause code bloat with unused code if we are not
+	using the BPT engine.
+
+	- Old C++ compilers from pre-C++11 eras (such as Sun's CC compiler
+	on Solaris 10) aren't able to compile this file.
+
 2018-10-02 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.6.1.

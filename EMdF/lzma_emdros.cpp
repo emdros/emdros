@@ -2,7 +2,7 @@
  * LZMA encoding and decoding for Emdros.
  *
  * Created: 3/29-2018.
- * Last update: 4/3-2018.
+ * Last update: 10/4-2018.
  *
  * Based on the Public Domain parts of PDLzip by Antonio Diaz Diaz,
  * version 1.9 released 2018-02-05.  Downloaded from:
@@ -19,6 +19,12 @@
  * 
  *
  */
+
+#include <emdros-lconfig.h>
+
+#if defined(USE_BPT) && USE_BPT
+	
+
 
 #define _FILE_OFFSET_BITS 64
 
@@ -3665,3 +3671,4 @@ bool LzmaDec_Init(CLzmaDec *p, const uint8_t *raw_props)
   return true;
 }
 
+#endif // #if defined(USE_BPT) && USE_BPT
