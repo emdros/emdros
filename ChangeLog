@@ -46,6 +46,9 @@
 	whether to use the POSIX-compliant version or the
 	non-POSIX-compliant version.
 
+	* m4/emdrosswig.m4: Fix awk syntax on Darwin/macOS for determining
+	whether we can compile PHP5 and PHP7.
+
 2018-10-02 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.6.1.

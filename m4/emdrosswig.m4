@@ -1077,7 +1077,7 @@ if test x$DO_SWIG_PHP != xno; then
   AC_MSG_RESULT($PHP_VERNUM)
 
   AC_MSG_CHECKING([PHP 5 availability... ])
-  PHP5_AVAILABLE=`echo $PHP_VERNUM | awk '{a=1; VERNUM=$a+0; print VERNUM >= 50000 && VERNUM < 60000;}'`
+  PHP5_AVAILABLE=`echo $PHP_VERNUM | awk '{a=1; VERNUM=$a+0; cando = VERNUM >= 50000 && VERNUM < 60000; print cando;}'`
 
   if test "x$PHP5_AVAILABLE" = "x0"; then
      AC_MSG_WARN(["no, PHP5 not available. Can't do SWIG PHP bindings."])
@@ -1199,7 +1199,7 @@ if test x$DO_SWIG_PHP7 != xno; then
   AC_MSG_RESULT($PHP7_VERNUM)
 
   AC_MSG_CHECKING([PHP 7 availability... ])
-  PHP7_AVAILABLE=`echo $PHP7_VERNUM | awk '{a=1; VERNUM=$a+0; print VERNUM >= 70000 && VERNUM < 80000;}'`
+  PHP7_AVAILABLE=`echo $PHP7_VERNUM | awk '{a=1; VERNUM=$a+0; cando = VERNUM >= 70000 && VERNUM < 80000; print cando;}'`
 
   if test "x$PHP7_AVAILABLE" = "x0"; then
      AC_MSG_WARN(["no, PHP7 not available. Can't do SWIG PHP7 bindings."])
