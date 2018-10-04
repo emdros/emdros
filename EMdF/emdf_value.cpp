@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 1/18-2003
- * Last update: 5/24-2012
+ * Last update: 10/4-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2012  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -171,7 +171,7 @@ bool EMdFValue::compare(const EMdFValue& other, eComparisonOp op) const
 		break;
 	case kEVListOfInteger:
 	case kEVListOfID_D:
-		bResult = compareListOfIntegerWithAtomicValue(other, op);
+		bResult = compareListOfIntegerWithOther(other, op);
 		break;
 	case kEVSetOfMonads:
 		bResult = compareSetOfMonads(other, op);
@@ -228,7 +228,7 @@ bool EMdFValue::compareInt(const EMdFValue& other, eComparisonOp op) const
 	if (other.m_kind == kEVListOfID_D
 	    || other.m_kind == kEVListOfInteger) {
 		ASSERT_THROW(op == kIn, "operator is not kIn");
-		bResult = other.compareListOfIntegerWithAtomicValue(*this, op);
+		bResult = other.compareListOfIntegerWithOther(*this, op);
 	} else if (other.m_kind == kEVSetOfMonads) {
 		ASSERT_THROW(op == kIn, "operator is not kIn");
 		bResult = other.compareSetOfMonads(*this, op);
@@ -414,9 +414,7 @@ void EMdFValue::deleteContents()
 	}
 }
 
-
-
-bool EMdFValue::compareListOfIntegerWithAtomicValue(const EMdFValue& other, eComparisonOp op) const
+bool EMdFValue::compareListOfIntegerWithOther(const EMdFValue& other, eComparisonOp op) const
 {
 	bool bResult = false;
 	// We can only do HAS, IN, or = here.

@@ -5,13 +5,13 @@
  *
  * Ulrik Petersen
  * Created: 1/18-2003
- * Last update: 11/16-2011
+ * Last update: 10/4-2018
  *
  */
 /************************************************************************
  *
  *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2001-2011  Ulrik Sandborg-Petersen
+ *   Copyright (C) 2001-2018  Ulrik Sandborg-Petersen
  *
  *   This program is free software; you can redistribute it and/or
  *   modify it under the terms of the GNU General Public License as
@@ -142,7 +142,7 @@ public:
 private:
   bool compareInt(const EMdFValue& other, eComparisonOp op) const;
   bool compareString(const EMdFValue& other, eComparisonOp op) const;
-  bool compareListOfIntegerWithAtomicValue(const EMdFValue& other, eComparisonOp op) const;
+  bool compareListOfIntegerWithOther(const EMdFValue& other, eComparisonOp op) const;
   bool compareSetOfMonads(const EMdFValue& other, eComparisonOp op) const;
   void assign(const EMdFValue& other);
   void deleteContents();
