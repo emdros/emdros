@@ -9,7 +9,7 @@
 // Petersen dated August 13, 2004.
 //
 // Created: 3/29-2000
-// Last update: 4/7-2018
+// Last update: 10/4-2018
 //
 //
 /************************************************************************
@@ -579,7 +579,11 @@ void VTreeCanvas::DrawLines(wxDC* pDC, size_t item_index, int y, ViewMetrics* pM
 
 void VTreeCanvas::DrawLine(wxDC* pDC, size_t item_index, size_t indent_index, int y, ViewMetrics* pMetrics, const CTreeParameters& tp, bool bIsPrinting, int FirstLineInItem, int LastLineInItem)
 {
+#if wxCHECK_VERSION(3,0,0)
 	wxPen treePen(*wxLIGHT_GREY, tp.kTreeLineWidth, wxPENSTYLE_SOLID); //for tree lines
+#else
+	wxPen treePen(*wxLIGHT_GREY, tp.kTreeLineWidth, wxSOLID); //for tree lines
+#endif
 	pDC->SetPen(treePen);
     
 	CTreeItem* pItem;
@@ -666,16 +670,27 @@ void VTreeCanvas::DrawIcon(wxDC* pDC, size_t item_index, size_t indent_index, in
 	int starting_x = get_starting_x(indent_index, bIsPrinting);
 
 	// Make pens
+#if wxCHECK_VERSION(3,0,0)
 	wxPen blackPen(*wxBLACK, tp.kTreeLineWidth, wxPENSTYLE_SOLID); //for icon
 	wxPen whitePen(*wxWHITE, tp.kTreeLineWidth, wxPENSTYLE_SOLID); //for icon
 	wxPen treePen(*wxLIGHT_GREY, tp.kTreeLineWidth, wxPENSTYLE_SOLID); //for tree lines
+#else
+	wxPen blackPen(*wxBLACK, tp.kTreeLineWidth, wxSOLID); //for icon
+	wxPen whitePen(*wxWHITE, tp.kTreeLineWidth, wxSOLID); //for icon
+	wxPen treePen(*wxLIGHT_GREY, tp.kTreeLineWidth, wxSOLID); //for tree lines
+#endif
+	
 	const wxColour *pBorderPenColor;
 	if (bDrawHighlightedBox) {
 		pBorderPenColor = wxWHITE;
 	} else {
 		pBorderPenColor = wxLIGHT_GREY;
 	}
-	wxPen borderPen(*pBorderPenColor, tp.kTreeLineWidth, wxPENSTYLE_SOLID); 
+#if wxCHECK_VERSION(3,0,0)
+	wxPen borderPen(*pBorderPenColor, tp.kTreeLineWidth, wxPENSTYLE_SOLID);
+#else
+	wxPen borderPen(*pBorderPenColor, tp.kTreeLineWidth, wxSOLID);
+#endif
 
 	//draw the box and horizontal line
 	int leftBox = starting_x;
@@ -2117,7 +2132,11 @@ void VTreeCanvas::PrintHeaderFooterLine(wxDC* pDC, int yLine)
 	int nWidthOfLine = m_pPrintMetrics->Convert10thofMMtoLP(5);
 
 	// Create pen
+#if wxCHECK_VERSION(3,0,0)
 	wxPen penLine(*wxBLACK, nWidthOfLine, wxPENSTYLE_SOLID);
+#else
+	wxPen penLine(*wxBLACK, nWidthOfLine, wxSOLID);
+#endif
 
 	// Draw line
 	pDC->SetPen(penLine);

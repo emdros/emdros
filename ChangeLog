@@ -49,6 +49,16 @@
 	* m4/emdrosswig.m4: Fix awk syntax on Darwin/macOS for determining
 	whether we can compile PHP5 and PHP7.
 
+	* wxWidgets: Reinstate compileability with wxWidgets version
+	2.8.12.
+
+	Files affected:
+
+	modified:   wx/htreecanvas.cpp
+	modified:   wx/layout.cpp
+	modified:   wx/vtreecanvas.cpp
+
+
 2018-10-02 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.6.1.

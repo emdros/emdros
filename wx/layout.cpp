@@ -11,7 +11,7 @@
 // November 11, 2003.
 //
 // Created: 7/17-2005
-// Last update: 5/11-2018
+// Last update: 10/4-2018
 //
 /************************************************************************
  *
@@ -582,7 +582,11 @@ void BorderedStackedLatinLayoutBox::DrawBox(wxDC *pDC, int xLeftLP, int yTopLP)
 	int nPenWidth = getPenWidth(m_pMetrics->m_nMagnification);
 
 	// Make pen for border
+#if wxCHECK_VERSION(3,0,0)
 	wxPen penBorder(*wxBLACK, nPenWidth, wxPENSTYLE_SOLID);
+#else
+	wxPen penBorder(*wxBLACK, nPenWidth, wxSOLID);
+#endif
 
 	// Draw bracket or parenthesis itself
 	pDC->SetPen(penBorder);
@@ -857,7 +861,12 @@ void LayoutSymbolBox::Draw(wxDC *pDC, int x, int y)
         } else {
                 color = *wxBLACK;
         }
+
+#if wxCHECK_VERSION(3,0,0)
 	wxPen penSymbol(color, m_nLineWidth, wxPENSTYLE_SOLID);
+#else
+	wxPen penSymbol(color, m_nLineWidth, wxSOLID);
+#endif
 
 	// Draw null symbol
 	pDC->SetPen(penSymbol);
@@ -1005,7 +1014,11 @@ void LayoutBracketBox::Draw(wxDC *pDC, int x, int y)
 	}
 
 	// Make pen for bracket or parenthesis
+#if wxCHECK_VERSION(3,0,0)
 	wxPen penBracket(*wxBLACK, m_nLineWidth, wxPENSTYLE_SOLID);
+#else
+	wxPen penBracket(*wxBLACK, m_nLineWidth, wxSOLID);
+#endif
 
 	// Draw bracket or parenthesis itself
 	pDC->SetPen(penBracket);
@@ -1078,7 +1091,11 @@ void LayoutBracketBox::Draw(wxDC *pDC, int x, int y)
 		int yArrowWingHigh = yMiddle + m_pMetrics->nMMScaleFactor()*nArrowWingLength;
 
 		// Draw arrow
+#if wxCHECK_VERSION(3,0,0)
 		wxPen penArrow(*wxBLACK, m_nArrowLineWidth, wxPENSTYLE_SOLID);
+#else
+		wxPen penArrow(*wxBLACK, m_nArrowLineWidth, wxSOLID);
+#endif
 		pDC->SetPen(penArrow);
 		pDC->DrawLine(xArrowTail, yMiddle, xArrowHead, yMiddle);
 		pDC->DrawLine(xArrowHead, yMiddle, xArrowWing, yArrowWingHigh);
@@ -2565,7 +2582,11 @@ void HTMLTextBox::Draw(wxDC *pDC, int xLP, int yLP)
 
 	if (m_font_attr.m_bUnderline) {
 		int yUnderline = yLP + m_pMetrics->nMMScaleFactor()*m_nUnderlinePosition;
+#if wxCHECK_VERSION(3,0,0)
 		pDC->SetPen(wxPen(m_font_attr.m_color, 1, wxPENSTYLE_SOLID));
+#else
+		pDC->SetPen(wxPen(m_font_attr.m_color, 1, wxSOLID));
+#endif
 		pDC->DrawLine(xLP, yUnderline, xLP + m_xExtentLP, yUnderline);
 		pDC->SetPen(wxNullPen);
 	}
@@ -2606,7 +2627,11 @@ HTMLHRBox::~HTMLHRBox()
 
 void HTMLHRBox::Draw(wxDC *pDC, int xLP, int yLP)
 {
+#if wxCHECK_VERSION(3,0,0)
 	pDC->SetPen(wxPen(GRAY, 2, wxPENSTYLE_SOLID));
+#else
+	pDC->SetPen(wxPen(GRAY, 2, wxSOLID));
+#endif
 	pDC->DrawLine(xLP,
 		      yLP, 
 		      m_pMetrics->totalWidthLP - m_pMetrics->marginLP, 

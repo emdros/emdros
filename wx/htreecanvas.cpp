@@ -2,7 +2,7 @@
 // Horizontal Tree Canvas : implementation file
 //
 // Created: 9/8-2007
-// Last update: 3/1-2018
+// Last update: 10/4-2018
 //
 /************************************************************************
  *
@@ -494,7 +494,11 @@ void HTreeBox::Draw(wxDC *pDC, int xLP, int yLP)
 	const Monad2IDDMMap& roots = this->getRoots();
 
 	int nPenWidth = getPenWidth(m_pMetrics->m_nMagnification);
+#if wxCHECK_VERSION(3,0,0)
 	wxPen pen(*wxBLACK, nPenWidth, wxPENSTYLE_SOLID);
+#else
+	wxPen pen(*wxBLACK, nPenWidth, wxSOLID);
+#endif
 	
 	Monad2IDDMMap::const_iterator root_ci = roots.begin();
 	while (root_ci != roots.end()) {
