@@ -24,6 +24,9 @@
 	* src/qrytool/mainframe.cpp: Silence a warning about
 	polymorphic EmdrosException being caught by value.
 
+	* tests/htmlcanvastest.cpp: Silence a warning about
+	polymorphic QDException being caught by value.
+
 2018-10-02 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.6.1.

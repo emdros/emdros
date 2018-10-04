@@ -220,7 +220,7 @@ void MyFrame::CreateLayout()
 	try {
 		QDParser parser;
 		parser.parse(&dh, &istr);
-	} catch (QDException e) {
+	} catch (QDException& e) {
 		std::cerr << "UP200: e = " << e.what() << std::endl;
 	}
 }
