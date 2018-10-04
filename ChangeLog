@@ -42,6 +42,10 @@
 	* doc/MQL-Programmers-Guide.lyx: Add new MQL syntax introduced
 	today to Chapter 4.
 
+	* EMdF/logging.cpp: When calling ctime_r on Solaris, decide
+	whether to use the POSIX-compliant version or the
+	non-POSIX-compliant version.
+
 2018-10-02 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.6.1.

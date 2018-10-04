@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 11/21-2002
- * Last update: 2/7-2018
+ * Last update: 10/4-2018
  *
  */
 /************************************************************************
@@ -129,11 +129,14 @@ void get_time(std::string& mytime)
 	// Convert to string
 #if LINUX
 	ctime_r(pTime, szTime);
-#elif SUN
-	// This used to be ctime_r(pTime, szTime, BUFFER_LENGTH);
-	// but somewhere in the Solaris 10 series (I think),
-	// the last parameter was removed to be POSIX-compliant.		
+#elif SUN && defined(_POSIX_PTHREAD_SEMANTICS)
+	// This used to be ctime_r(pTime, szTime, BUFFER_LENGTH); but
+	// when _POSIX_PTHREAD_SEMANTICS is defined, the C library
+	// becomes POSIX-compliant on this front, so the last
+	// parameter is removed.
 	ctime_r(pTime, szTime);
+#elif SUN && !defined(_POSIX_PTHREAD_SEMANTICS)
+	ctime_r(pTime, szTime, BUFFER_LENGTH);
 #else // This should be Win32
 	strncpy(szTime, ctime(pTime), BUFFER_LENGTH-1);
 	szTime[BUFFER_LENGTH] = '\0';
