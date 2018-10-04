@@ -1,5 +1,26 @@
 ============ 3.6.1 ============
 
+2018-10-04 Ulrik Sandborg-Petersen
+
+	* include/emdf_values.h: EMdF/emdf_values.cpp: Rename private
+	function EMdFValue::compareListOfIntegerWithAtomicValue() to
+	EMdFValue::compareListOfIntegerWithOther().
+
+	* MQL: In SELECT ALL OBJECTS, allow FeatureComparison objects of
+	the following new forms:
+
+	- feature_name = ()
+	- feature_name = (<non-empty-list-of-integer>)
+	- feature_name = (<non-empty-list-of-id_d>)
+	- feature_name = (<non-empty-list-of-enum-const>)
+
+	Files affected:
+
+	modified:   MQL/mql.yxx
+	modified:   MQL/mql_query.cpp
+	modified:   include/mql_query.h
+	modified:   tests/mqlqa.h.in
+
 2018-10-02 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.6.1.

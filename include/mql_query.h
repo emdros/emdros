@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 5/11-2018
+ * Last update: 10/4-2018
  *
  */
 /************************************************************************
@@ -516,13 +516,15 @@ class FeatureComparison {
 	bool m_bContextHasBeenNegative;
 	node_number_t m_ffeatures_parent;
  public:
-	// For feature_name IN (enum_const1, enum_const2)
+	// For feature_name comparison_op (enum_const1, enum_const2)
 	FeatureComparison(std::string* feature_name,
-			  StringListNode *in_enum_list); 
+			  eComparisonOp m_comparison_op,
+			  StringList *in_enum_list); 
 
-	// For feature_name IN (integer, integer, ..., integer)
+	// For feature_name comparison_op (integer, integer, ..., integer)
 	FeatureComparison(std::string* feature_name,
-			  IntegerListNode *in_enum_list); 
+			  eComparisonOp m_comparison_op,
+			  IntegerList *in_enum_list); 
 
 	// For all others
 	FeatureComparison(std::string* feature_name,

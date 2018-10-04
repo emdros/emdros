@@ -2707,7 +2707,7 @@ WHERE
 [Phrase phrase_function IN (1,2,3)]
 ++++ answer failcompiler
 Typechecking failed with compiler error
-The feature phrase_function is being compared with a list of integers.  The feature is neither of type INTEGER nor of type ID_D.
+The feature phrase_function is being compared with a list of integers.  The feature is neither of type INTEGER, nor of type ID_D, or of type LIST OF INTEGER, nor of type LIST OF ID_D.
 ---- answer
 ++++ query topographic query on realistic db number 15.26
 SELECT ALL OBJECTS
@@ -2789,7 +2789,7 @@ WHERE
 [Word surface IN (1,2,3)]
 ++++ answer failcompiler
 Typechecking failed with compiler error
-The feature surface is being compared with a list of integers.  The feature is neither of type INTEGER nor of type ID_D.
+The feature surface is being compared with a list of integers.  The feature is neither of type INTEGER, nor of type ID_D, or of type LIST OF INTEGER, nor of type LIST OF ID_D.
 ---- answer
 ++++ query topographic query on realistic db number 15.34
 SELECT ALL OBJECTS
@@ -8651,6 +8651,138 @@ GO
 | willbeadded2          | integer               | '0'              | false           |
 +-----------------------+-----------------------+------------------+-----------------+
 ---- answer
+
+
+++++ query list equality with empty list 1
+SELECT ALL OBJECTS
+WHERE	  
+[otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah
+   mylistofenum = ()
+]
+GO
+++++ answer
+ //  <  < [ otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah 11000004 { 3 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+++++ query list equality with empty list 2
+SELECT ALL OBJECTS
+WHERE	  
+[otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah
+   mylistofid_d = ()
+]
+GO
+++++ answer
+ //  <  < [ otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah 11000005 { 4 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+++++ query list equality with empty list 3
+SELECT ALL OBJECTS
+WHERE	  
+[otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah
+   mylistofinteger = ()
+]
+GO
+++++ answer
+ // 
+---- answer 
+
+++++ query list equality with non-empty list 1
+SELECT ALL OBJECTS
+WHERE	  
+[otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah
+  mylistofenum = (VP,NP)
+]
+GO
+++++ answer
+ //  <  < [ otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah 11000002 { 1 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer
+
+++++ query list equality with non-empty list 2
+SELECT ALL OBJECTS
+WHERE	  
+[otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah
+  mylistofenum = (VP)
+]
+GO
+++++ answer
+ //  <  < [ otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah 11000005 { 4 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer
+
+++++ query list equality with non-empty list 3
+SELECT ALL OBJECTS
+WHERE	  
+[otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah
+  mylistofenum = (NP,VP)
+]
+GO
+++++ answer
+ //  <  < [ otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah 11000003 { 2 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer
+
+++++ query list equality with non-empty list 4
+SELECT ALL OBJECTS
+WHERE	  
+[otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah
+   mylistofinteger = (1,2,3)
+]
+GO
+++++ answer
+ //  <  < [ otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah 11000002 { 1 } false  //  <  > 
+ ]
+ > 
+ < [ otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah 11000004 { 3 } false  //  <  > 
+ ]
+ > 
+ < [ otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah 11000005 { 4 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer
+
+++++ query list equality with non-empty list 5
+SELECT ALL OBJECTS
+WHERE	  
+[otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah
+   mylistofid_d = (1,2,3)
+]
+GO
+++++ answer
+ //  <  < [ otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah 11000002 { 1 } false  //  <  > 
+ ]
+ > 
+ < [ otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah 11000004 { 3 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer
+
+++++ query list equality with non-empty list 6
+SELECT ALL OBJECTS
+WHERE	  
+[otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah
+   mylistofinteger = (1,2)
+]
+GO
+++++ answer
+ // 
+---- answer
+
+
 ++++ query DROP OBJECT TYPE on very long-named object type
 DROP OBJECT TYPE
 [otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah]

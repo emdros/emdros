@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 5/11-2018
+ * Last update: 10/4-2018
  *
  */
 /************************************************************************
@@ -1530,11 +1530,12 @@ FeatureComparison::FeatureComparison(std::string* feature_name,
 }
 
 FeatureComparison::FeatureComparison(std::string* feature_name,
-				     StringListNode *in_enum_list)
+				     eComparisonOp comparison_op,
+				     StringList *in_enum_list)
 	: m_feature_name(feature_name),
 	  m_object_type_name(""),
 	  m_object_type_id(NIL),
-	  m_comparison_op(kIn),
+	  m_comparison_op(comparison_op),
 	  m_value(0),
 	  m_in_enum_list(0),
 	  m_in_integer_list(0),
@@ -1546,24 +1547,20 @@ FeatureComparison::FeatureComparison(std::string* feature_name,
 	  m_bContextHasBeenNegative(false),
 	  m_ffeatures_parent(-1)
 {
-	// Copy in_enum_list to a StringList. This is in the right order,
-	// whereas in_enum_list is in reverse order (LALR-order).
-	m_in_enum_list = new StringList(in_enum_list);
-
-	// Now we can dispense with the input StringListNode "reverse" list.
-	delete in_enum_list;
+	m_in_enum_list = in_enum_list;
 
 	// Make a new EnumConstCache
 	m_in_enum_const_cache = new EnumConstCache();
 }
 
-// For feature_name IN (integer, integer, ..., integer)
+// For feature_name comparison_op (integer, integer, ..., integer)
 FeatureComparison::FeatureComparison(std::string* feature_name,
-				     IntegerListNode *in_integer_list)
+				     eComparisonOp comparison_op,
+				     IntegerList *in_integer_list)
 	: m_feature_name(feature_name),
 	  m_object_type_name(""),
 	  m_object_type_id(NIL),
-	  m_comparison_op(kIn),
+	  m_comparison_op(comparison_op),
 	  m_value(0),
 	  m_in_enum_list(0),
 	  m_in_integer_list(0),
@@ -1575,14 +1572,9 @@ FeatureComparison::FeatureComparison(std::string* feature_name,
 	  m_bContextHasBeenNegative(false),
 	  m_ffeatures_parent(-1)
 {
-	// Copy in_integer_list to an IntegerList. This is in the right order,
-	// whereas in_integer_list is in reverse order (LALR-order).
-	m_in_integer_list = new IntegerList(in_integer_list);
+	m_in_integer_list = in_integer_list;
 
 	m_in_integer_list_as_string = m_in_integer_list->getDelimitedString(DEFAULT_LIST_DELIMITER);
-
-	// Now we can dispense with the input IntegerListNode "reverse" list.
-	delete in_integer_list;
 }
 
 
@@ -2099,14 +2091,47 @@ bool FeatureComparison::type(MQLExecEnv *pEE, bool& bResult)
 	} else if (m_in_enum_list != 0) {
 		// Nothing to do: symbol has already checked that the enum exists.    
 	} else if (m_in_integer_list != 0) {
-		if (featureTypeIdIsINTEGER(ft)
-		    || featureTypeIdIsID_D(ft)) {
-			bResult = true;
+		if (m_comparison_op == kIn) {
+			if (featureTypeIdIsINTEGER(ft)
+			    || featureTypeIdIsID_D(ft)) {
+				bResult = true;
+			} else {
+				bResult = false;
+			}
+		} else if (m_comparison_op == kEqual) {
+			if (featureTypeIdIsListOfINTEGER(ft)
+			    || featureTypeIdIsListOfID_D(ft)) {
+				bResult = true;
+			} else if (featureTypeIdIsListOfENUM(ft)) {
+				if (m_in_integer_list->isEmpty()) {
+					// The MQL parser adds an
+					// empty IntegerList if the
+					// user gives an empty list.
+					// Therefore, if the left hand
+					// side is of type LIST OF
+					// enum, and the right hand
+					// side is empty, we need to
+					// report type success.
+					bResult = true;
+				} else {
+					// Left hand side is LIST OF
+					// enum, yet the right hand
+					// side is LIST OF INTEGER or
+					// LIST OF ID_D.
+					bResult = false;
+				}
+			} else {
+				// Neither LIST OF INTEGER,
+				// nor LIST OF ID_D,
+				// nor LIST OF enum with empty rhs list.
+				bResult = false;
+			}
 		} else {
-			bResult = false;
+			ASSERT_THROW(false,
+				     "Unknown comparison_op in FeatureComparison::type()");
 		}
 		if (!bResult) {
-			pEE->pError->appendError("The feature " + *m_feature_name + " is being compared with a list of integers.  The feature is neither of type INTEGER nor of type ID_D.\n");
+			pEE->pError->appendError("The feature " + *m_feature_name + " is being compared with a list of integers.  The feature is neither of type INTEGER, nor of type ID_D, or of type LIST OF INTEGER, nor of type LIST OF ID_D.\n");
 		}
 	} else {
 		// It should be either m_in_enum_list or m_in_integer_list or m_value.
@@ -2210,6 +2235,61 @@ bool FeatureComparison::compare(MQLExecEnv *pEE, const EMdFValue *left_value, No
 	std::string left_value_str;
 	const EMdFValue *pRightValue = 0;
 	switch (m_comparison_op) {
+	case kEqual:
+		if (m_in_enum_list != 0) {
+			if (m_in_enum_list->isEmpty()) {
+				bResult = left_value->getIntegerList()->isEmpty();
+			} else {
+				IntegerList *pEnumConstValueList = new IntegerList();
+				std::list<EnumConstInfo>::const_iterator ci = m_in_enum_const_info_list.begin();
+				while (ci != m_in_enum_const_info_list.end()) {
+					EnumConstInfo eci = *ci;
+
+					pEnumConstValueList->addValueBack(eci.getValue());
+					++ci;
+				}
+				EMdFValue rightValue(kEVListOfInteger, pEnumConstValueList);
+				bResult = left_value->compare(rightValue, m_comparison_op);
+			}
+		} else if (m_in_integer_list != 0) {
+			if (m_in_integer_list->isEmpty()) {
+				bResult = left_value->getIntegerList()->isEmpty();
+			} else {
+				IntegerList *pIntList = new IntegerList();
+				IntegerListConstIterator ci = m_in_integer_list->const_iterator();
+				while (ci.hasNext()) {
+					long value = ci.next();
+
+					pIntList->addValueBack(value);
+				}
+				EMdFValue rightValue(kEVListOfInteger, pIntList);
+				bResult = left_value->compare(rightValue, m_comparison_op);
+			}
+		} else if (m_value != 0) {
+			switch (m_value->getKind()) {
+			case kValEnumConst:
+				pRightValue = m_value->getEMdFValue();
+				bResult = left_value->compare(*pRightValue, m_comparison_op);
+				break;
+			case kValInteger:
+			case kValString:
+				pRightValue = m_value->getEMdFValue();
+				bResult = left_value->compare(*pRightValue, m_comparison_op);
+				break;
+			case kValObjectReferenceUsage:
+			
+				bResult = compareObjectReferenceUsage(left_value, pNonParentORDSolution);
+				break;
+			default:
+				ASSERT_THROW(false,
+					     "Unknown eValueKind");
+				break;
+			}
+		} else {
+			ASSERT_THROW(false,
+				     "No value to compare with in feature_comparison.");
+		}
+		break;
 	case kIn:
 		if (m_in_enum_list != 0) {
 			// It was an explicit enum-list
@@ -2240,7 +2320,6 @@ bool FeatureComparison::compare(MQLExecEnv *pEE, const EMdFValue *left_value, No
 		}
 		break;
 	case kHas:
-	case kEqual:
 	case kLessThan:
 	case kGreaterThan:
 	case kNotEqual:
@@ -2257,7 +2336,7 @@ bool FeatureComparison::compare(MQLExecEnv *pEE, const EMdFValue *left_value, No
 			bResult = left_value->compare(*pRightValue, m_comparison_op);
 			break;
 		case kValObjectReferenceUsage:
-
+			
 			bResult = compareObjectReferenceUsage(left_value, pNonParentORDSolution);
 			break;
 		default:
@@ -2346,15 +2425,33 @@ EMdFComparison *FeatureComparison::makeConstraints(EMdFDB *pDB, bool bContextHas
 						     m_comparison_op, 
 						     pRight_hand_side);
 	} else if (m_in_enum_list != 0) {
-		// If we got this far, we can return the feature comparison
-		pComparison = pDB->getEMdFComparison(*m_feature_name, type_id_d, 
-						     m_object_type_name, m_object_type_id,
-						     m_in_enum_const_info_list);
+		if (m_in_enum_list->isEmpty()) {
+			// If the enum list is empty, we can't
+			// (currently) pre-qery.
+
+			// TODO: Fix this in EMdFComparison
+		} else if (m_comparison_op != kIn) {
+			// The EMdFComparison can currently only do IN.
+		} else {
+			// If we got this far, we can return the feature comparison
+			pComparison = pDB->getEMdFComparison(*m_feature_name, type_id_d, 
+							     m_object_type_name, m_object_type_id,
+							     m_in_enum_const_info_list);
+		}
 	} else if (m_in_integer_list != 0) {
-		// If we got this far, we can return the feature comparison
-		pComparison = pDB->getEMdFComparison(*m_feature_name, type_id_d, 
-						     m_object_type_name, m_object_type_id,
-						     m_in_integer_list);
+		if (m_in_integer_list->isEmpty()) {
+			// If the integer list is empty, we can't
+			// (currently) pre-qery.
+
+			// TODO: Fix this in EMdFComparison
+		} else if (m_comparison_op != kIn) {
+			// The EMdFComparison can currently only do IN.
+		} else {
+			// If we got this far, we can return the feature comparison
+			pComparison = pDB->getEMdFComparison(*m_feature_name, type_id_d, 
+							     m_object_type_name, m_object_type_id,
+							     m_in_integer_list);
+		}
 	} else {
 		// It should be either m_value or m_in_enum_list
 		ASSERT_THROW(false,

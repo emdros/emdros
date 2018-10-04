@@ -7,7 +7,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 5/11-2018
+ * Last update: 10/4-2018
  *
  */
 /************************************************************************
@@ -953,10 +953,10 @@ aggregate_feature(F) ::= KEY_COUNT  KEY_OPEN_BRACKET aggregate_feature_compariso
 %destructor aggregate_feature_comparison {delete($$);}
 aggregate_feature_comparison(C) ::= feature_name(N) comparison_operator(O) value(V).
     { C = new FeatureComparison(N->extractString(), O, V); deleteToken(N); }
-aggregate_feature_comparison(C) ::= feature_name(N) KEY_IN KEY_OPEN_BRACKET list_of_identifier(S) KEY_CLOSE_BRACKET.
-    { C = new FeatureComparison(N->extractString(), S); deleteToken(N); }
-aggregate_feature_comparison(C) ::= feature_name(N) KEY_IN KEY_OPEN_BRACKET list_of_integer(S) KEY_CLOSE_BRACKET.
-    { C = new FeatureComparison(N->extractString(), S); deleteToken(N); }
+aggregate_feature_comparison(C) ::= feature_name(N) comparison_operator(O) KEY_OPEN_BRACKET list_of_identifier(S) KEY_CLOSE_BRACKET.
+    { C = new FeatureComparison(N->extractString(), O, new StringList(S)); deleteToken(N); delete S; }
+aggregate_feature_comparison(C) ::= feature_name(N) comparison_operator(O)  KEY_OPEN_BRACKET list_of_integer(S) KEY_CLOSE_BRACKET.
+    { C = new FeatureComparison(N->extractString(), O, new IntegerList(S)); deleteToken(N); delete S; }
 
 
 
@@ -1484,10 +1484,16 @@ ffactor(F) ::= feature_comparison(C).
 %destructor feature_comparison {delete($$);}
 feature_comparison(C) ::= feature_name(N) comparison_operator(O) value(V).
     { C = new FeatureComparison(N->extractString(), O, V); deleteToken(N); }
+feature_comparison(C) ::= feature_name(N) KEY_EQUALS KEY_OPEN_BRACKET KEY_CLOSE_BRACKET.
+    { C = new FeatureComparison(N->extractString(), kEqual, new IntegerList()); deleteToken(N); }
+feature_comparison(C) ::= feature_name(N) KEY_EQUALS KEY_OPEN_BRACKET list_of_identifier(S) KEY_CLOSE_BRACKET.
+    { C = new FeatureComparison(N->extractString(), kEqual, new StringList(S)); deleteToken(N); delete S; }
+feature_comparison(C) ::= feature_name(N) KEY_EQUALS KEY_OPEN_BRACKET list_of_integer(S) KEY_CLOSE_BRACKET.
+    { C = new FeatureComparison(N->extractString(), kEqual, new IntegerList(S)); deleteToken(N); delete S; }
 feature_comparison(C) ::= feature_name(N) KEY_IN KEY_OPEN_BRACKET list_of_identifier(S) KEY_CLOSE_BRACKET.
-    { C = new FeatureComparison(N->extractString(), S); deleteToken(N); }
+    { C = new FeatureComparison(N->extractString(), kIn, new StringList(S)); deleteToken(N); delete S; }
 feature_comparison(C) ::= feature_name(N) KEY_IN KEY_OPEN_BRACKET list_of_integer(S) KEY_CLOSE_BRACKET.
-    { C = new FeatureComparison(N->extractString(), S); deleteToken(N); }
+    { C = new FeatureComparison(N->extractString(), kIn, new IntegerList(S)); deleteToken(N); delete S; }
 feature_comparison(C) ::= feature_name(N) KEY_IN object_reference_usage(R).
     { C = new FeatureComparison(N->extractString(), kIn, new Value(R)); deleteToken(N); }
 
