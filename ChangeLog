@@ -58,6 +58,8 @@
 	modified:   wx/layout.cpp
 	modified:   wx/vtreecanvas.cpp
 
+	* NEWS: Add NEWS for 3.6.1.
+
 
 2018-10-02 Ulrik Sandborg-Petersen
 

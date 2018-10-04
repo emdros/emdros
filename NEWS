@@ -1,5 +1,44 @@
 This file is for release-notes for Emdros.
 
+- *** Version 3.6.1 *** 
+
+Release notes for Emdros 3.6.1
+==============================
+
+Emdros version 3.6.1 is a maintenance release with the following
+summary of changes since 3.6.0:
+
+- The MQL query language has been extended with the ability to compare
+  features with type LIST OF INTEGER, LIST OF ID_D, and LIST OF
+  <enum-type> with an explicit list (including the empty list) using
+  the "=" comparison operator.
+
+  For example:
+
+  SELECT ALL OBJECTS
+  WHERE
+  [Clause_atom
+     daughters = () // Test for empty list
+     OR
+     daughters = (12345,67891) // Test for explicit, non-empty list
+  ]
+  GO
+
+- Detection of PHP 5 and PHP 7 on macOS now works correctly.
+
+- Compileability on Solaris 10 with Sun's CC C++ compiler has been
+  restored.
+
+- Compatibility with wxWidget 2.8.12 has been restored.
+
+
+Enjoy!
+
+
+Ulrik Sandborg-Petersen
+
+
+
 - *** Version 3.6.0 *** 
 
 Release notes for Emdros 3.6.0
