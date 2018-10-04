@@ -86,7 +86,7 @@ EMDROS_ONLY=0
 # or MySQL (and ignore whichever isn't relevant)
 # ----------------------------------------------
 PGTOP=$(PROGRAMFILES)\PostgreSQL\8.4
-MYSQLTOP=C:\Program Files\MySQL\MySQL Connector.C 6.1
+MYSQLTOP=C:\Program Files\MySQL\MySQL Connector C 6.1
 
 
 # ----------------------------------------------
@@ -119,7 +119,7 @@ SQLITE3_NO_SYNC=1
 WITH_WXWIN=yes
 
 # Set this as appropriate
-WXWIN_HOME=c:\wxWidgets-3.0.4
+WXWIN_HOME=c:\wxWidgets-3.1.1
 
 # ----------------------------------------------
 # SWIG C# support
