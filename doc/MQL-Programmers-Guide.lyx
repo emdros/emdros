@@ -1,5 +1,5 @@
-#LyX 2.2 created this file. For more info see http://www.lyx.org/
-\lyxformat 508
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
 \begin_document
 \begin_header
 \save_transient_properties true
@@ -25,6 +25,8 @@
 \font_osf false
 \font_sf_scale 100 100
 \font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -54,6 +56,7 @@
 \suppress_date false
 \justification true
 \use_refstyle 0
+\use_minted 0
 \index Index
 \shortcut idx
 \color #008000
@@ -62,7 +65,10 @@
 \tocdepth 3
 \paragraph_separation indent
 \paragraph_indentation default
-\quotes_language english
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
@@ -263,14 +269,14 @@ Ulrik Sandborg-Petersen
 \end_layout
 
 \begin_layout Date
-July 19, 2016
+October 4, 2018
 \end_layout
 
 \begin_layout Standard
 \noindent
 
 \size larger
-Copyright (C) 2001-2016 Ulrik Sandborg-Petersen
+Copyright (C) 2001-2018 Ulrik Sandborg-Petersen
 \end_layout
 
 \begin_layout Standard
@@ -647,6 +653,7 @@ Doedens, Crist-Jan
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Doedens94"
+literal "true"
 
 \end_inset
 
@@ -4669,6 +4676,7 @@ m
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Doedens94"
+literal "true"
 
 \end_inset
 
@@ -4676,6 +4684,7 @@ key "Doedens94"
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Standard-MDF"
+literal "true"
 
 \end_inset
 
@@ -7903,6 +7912,7 @@ The CREATE DATABASE statement creates and initializes a database.
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Rel-EMdF"
+literal "true"
 
 \end_inset
 
@@ -15092,6 +15102,7 @@ m
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Standard-MDF"
+literal "true"
 
 \end_inset
 
@@ -15099,6 +15110,7 @@ key "Standard-MDF"
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Doedens94"
+literal "true"
 
 \end_inset
 
@@ -17898,6 +17910,7 @@ See
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Monad-Sets"
+literal "true"
 
 \end_inset
 
@@ -24678,6 +24691,7 @@ An easier-to-read MQL Query Guide is available from the Emdros website,
 \begin_inset CommandInset citation
 LatexCommand cite
 key "MQL-Query-Guide"
+literal "true"
 
 \end_inset
 
@@ -27088,6 +27102,58 @@ feature_comparison :
 \begin_inset Quotes eld
 \end_inset
 
+=
+\begin_inset Quotes erd
+\end_inset
+
+   ()
+\end_layout
+
+\begin_layout LyX-Code
+  | feature_name  
+\begin_inset Quotes eld
+\end_inset
+
+=
+\begin_inset Quotes erd
+\end_inset
+
+   enum_const_set
+\end_layout
+
+\begin_layout LyX-Code
+  | feature_name  
+\begin_inset Quotes eld
+\end_inset
+
+=
+\begin_inset Quotes erd
+\end_inset
+
+   
+\begin_inset Quotes eld
+\end_inset
+
+(
+\begin_inset Quotes eld
+\end_inset
+
+ list_of_integer 
+\begin_inset Quotes eld
+\end_inset
+
+)
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+  | feature_name  
+\begin_inset Quotes eld
+\end_inset
+
 IN
 \begin_inset Quotes erd
 \end_inset
@@ -28024,6 +28090,7 @@ There is a correspondence between the way an MQL query is structured and
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Doedens94"
+literal "true"
 
 \end_inset
 
@@ -35276,6 +35343,7 @@ Doedens, Crist-Jan
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Doedens94"
+literal "true"
 
 \end_inset
 
@@ -38968,6 +39036,7 @@ inner_sheaf : sheaf
 \begin_inset CommandInset citation
 LatexCommand cite
 key "Standard-MDF"
+literal "true"
 
 \end_inset
 
@@ -39055,6 +39124,7 @@ reference "SELECT_OBJECTS"
 LatexCommand bibitem
 label "Doedens94"
 key "Doedens94"
+literal "true"
 
 \end_inset
 
@@ -39085,6 +39155,7 @@ Text Databases, One Database Model and Several Retrieval Languages.
 LatexCommand bibitem
 label "Standard-MdF"
 key "Standard-MDF"
+literal "true"
 
 \end_inset
 
@@ -39106,6 +39177,7 @@ http://emdros.org/
 LatexCommand bibitem
 label "Relational-EMdF"
 key "Rel-EMdF"
+literal "true"
 
 \end_inset
 
@@ -39127,6 +39199,7 @@ http://emdros.org/
 LatexCommand bibitem
 label "MQLQueryGuide"
 key "MQL-Query-Guide"
+literal "true"
 
 \end_inset
 
@@ -39147,6 +39220,7 @@ http://emdros.org/
 LatexCommand bibitem
 label "Monad Sets"
 key "Monad-Sets"
+literal "true"
 
 \end_inset
 
@@ -39166,6 +39240,8 @@ http://emdros.org/
 \begin_inset CommandInset index_print
 LatexCommand printindex
 type "idx"
+name "Index"
+literal "true"
 
 \end_inset
 

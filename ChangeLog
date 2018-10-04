@@ -39,6 +39,9 @@
 	- Old C++ compilers from pre-C++11 eras (such as Sun's CC compiler
 	on Solaris 10) aren't able to compile this file.
 
+	* doc/MQL-Programmers-Guide.lyx: Add new MQL syntax introduced
+	today to Chapter 4.
+
 2018-10-02 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.6.1.
