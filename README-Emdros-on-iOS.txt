@@ -6,7 +6,7 @@ to thousands of users in at least one app on the App store.
 
 The following caveats apply:
 
-- You cannot use SQLite2, MySQL, or PostgreSQL as backends.
+- You cannot use MySQL, or PostgreSQL as backends.
 
 - You should use the SQLite3 provided by the system.  See below for
   how this works.
