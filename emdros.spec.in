@@ -165,10 +165,8 @@ This package contains development files.
 %doc %{_mandir}/man1/*.1*
 %doc %{_mandir}/man5/*.5*
 %doc README NEWS ChangeLog COPYING AUTHORS INSTALL
-%doc doc/ChangeLog-doc.txt
 %doc doc/HOW-TO-USE.txt
 %doc doc/MQL-README.txt
-%doc doc/NEWS-doc.txt
 %doc doc/README-doc.txt
 %doc doc/bootstrapping.txt
 %doc doc/emdftry.html
