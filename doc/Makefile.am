@@ -18,7 +18,7 @@ LYXFILES = Monad-Sets.lyx \
 PDFFILES = $(LYXFILES:.lyx=.pdf)
 
 TXTFILES = bootstrapping.txt HOW-TO-USE.txt MQL-README.txt \
-           README-doc.txt ChangeLog-doc.txt NEWS-doc.txt 
+           README-doc.txt 
 
 WIN32FILES = README.MySQL.Win32.txt 
 
