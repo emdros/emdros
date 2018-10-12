@@ -643,10 +643,8 @@ API.</P>
 <page ID="1051">
 
 <P>The following are some snippets from the mql(1) program.  They are
-placed under the GPL license as given at the beginning of the file
-src/mql.cpp in the Emdros <A
-HREF="http://sourceforge.net/project/showfiles.php?group_id=37219">sourcecode</A>
-package.</P>
+placed under the MIT license as given at the beginning of the file
+src/mql.cpp in the Emdros sourcecode package.</P>
 
 <PRE class="code">
 
@@ -767,8 +765,7 @@ ID="1035">previously</page_anchor>.</P>
 
 <h2>Examples and HOW-TOs</h2>
 
-<P>For <STRONG>code examples and HOW-TOs</STRONG>, please see the <A
-HREF="http://sourceforge.net/project/showfiles.php?group_id=37219">sources</A>,
+<P>For <STRONG>code examples and HOW-TOs</STRONG>, please see the sources,
 especially:</P>
 
 <UL>
@@ -4075,7 +4072,7 @@ terminology as an example) would be the following:</P>
 
 <P>If you do implement a generic in-memory EMdF database, please
 consider contributing it to the Emdros project.  Contact Ulrik
-Petersen &lt;ulrikp[at]users.sourceforge.net&gt; with any
+Sandborg-Petersen &lt;ulrikp[at]emdros{dot}org&gt; with any
 contributions.</P>
 
 
