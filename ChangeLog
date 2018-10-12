@@ -34,6 +34,11 @@
 	* util/pennlexer.lxx: Remove long-obsolete file.  Has been
 	superseded by util/pennlexer.re.
 
+	* Remove obsolete files:
+
+	- MQL/mql.lxx
+	- MQL/mql_get_query.lxx
+
 ============ 3.6.1 ============
 
 2018-10-04 Ulrik Sandborg-Petersen
