@@ -1,3 +1,9 @@
+============ 3.7.0 ============
+
+2018-10-12 Ulrik Sandborg-Petersen
+
+	* configure.ac, debian/changelog: Bump to 3.7.0.
+
 ============ 3.6.1 ============
 
 2018-10-04 Ulrik Sandborg-Petersen
