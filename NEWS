@@ -1,5 +1,18 @@
 This file is for release-notes for Emdros.
 
+- *** Version 3.7.0 *** 
+
+Release notes for Emdros 3.7.0
+==============================
+
+- Emdros has been relicensed under the MIT license.
+
+- All copyright in Emdros and related documentation and build scripts
+  has been assigned to Ulrik Sandborg-Petersen's holding company,
+  Sandborg-Petersen Holding ApS.  This is so as to be able to serve
+  customers better with support and other Emdros-related help.
+
+
 - *** Version 3.6.1 *** 
 
 Release notes for Emdros 3.6.1
