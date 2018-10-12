@@ -45,9 +45,12 @@
 
 	* SWIG/python3/Makefile.am: Put EmdrosPy3.py through
 
-	$(PYTHON3) -m py_compile EmdrosPy3.py
+	$(PYTHON3) -m ompilealll -f -b EmdrosPy3.py
 
-	Also, install EmdrosPy3.pyc and EmdrosPy3.pyo.
+	Also, install EmdrosPy3.pyc.
+
+	* generate_extrafiles.py.in: Don't distribute EmdrosPy3.pyo, since
+	it is not generated.
 
 ============ 3.6.1 ============
 
