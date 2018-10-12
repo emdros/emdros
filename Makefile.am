@@ -34,7 +34,7 @@ EXTRA_DIST = README INSTALL.Win32.txt INSTALL.Mac.txt \
 
 
 
-SUBDIRS = djgpp doc pcre zlib sqlite3 include \
+SUBDIRS = doc pcre zlib sqlite3 include \
           EMdF MQL harvest amalgamation util $(MAYBE_WX) \
           src tests examples \
 	  SWIG win32

@@ -36,7 +36,7 @@ CLEANFILES = *~ core $(srcdir)/lemon simplebibleschema.h pennschema.h \
              $(srcdir)/plaintextschema.h \
              $(srcdir)/slashedtextschema.h
 
-EXTRA_DIST = win32.mak mingw.mak djgpp.mak \
+EXTRA_DIST = win32.mak mingw.mak \
              emdfxml_dtd.h emdfxml.dtd \
              simplebibleschema.h simplebibleschema.mql \
              pennschema.h pennschema.mql pennschema_id_d.mql \

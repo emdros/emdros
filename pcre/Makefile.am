@@ -50,7 +50,7 @@ noinst_HEADERS = config.h  pcre.h  pcre_internal.h  ucp.h
 CLEANFILES = $(srcdir)/../include/pcre.h $(srcdir)/../include/pcre_config.h pcre_chartables.c *~ core
 
 EXTRA_DIST = win32.mak mingw.mak LICENCE NON-UNIX-USE README AUTHORS \
-             COPYING NEWS djgpp.mak \
+             COPYING NEWS \
              config.h.win32 pcre_emdros.h.win32
 
 AM_CPPFLAGS = 

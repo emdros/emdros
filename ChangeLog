@@ -27,6 +27,11 @@
 	modified:   src/Makefile.am
 	modified:   util/Makefile.am
 
+	* Build system: Remove all support for DJGPP.  Ulrik hasn't used
+	it for years, and now that SQLite2 is gone, it is doubtful that
+	Emdros will even compile under DJGPP.
+
+
 ============ 3.6.1 ============
 
 2018-10-04 Ulrik Sandborg-Petersen

@@ -24,7 +24,7 @@ TECkit_Compile_DEPENDENCIES = libteckit.la
 AM_CPPFLAGS = -I$(top_srcdir)/include -I.
 CLEANFILES = *~ core config.log
 
-EXTRA_DIST = win32.mak mingw.mak djgpp.mak README.txt \
+EXTRA_DIST = win32.mak mingw.mak README.txt \
              License_CPLv05.txt License_LGPLv21.txt LICENSING.txt \
              NormalizationData.c
 
