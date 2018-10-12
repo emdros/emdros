@@ -56,6 +56,17 @@ uninstall-hook:
 	rm -f $(DESTDIR)$(pkglibdir)/EmdrosPy3.py
 	rm -f $(DESTDIR)$(pkglibdir)/_EmdrosPy3.so* 
 
+install-python-lib: EmdrosPy.pyc
+	if test -h $(PYTHON3_SO_LINKNAME) -o -f $(PYTHON3_SO_LINKNAME); then rm -f $(PYTHON3_SO_LINKNAME); fi
+	rm -f $(PYTHON3_FILENAMES)
+	ln -s $(pkglibdir)/_EmdrosPy.so $(PYTHON3_SO_LINKNAME)
+	cp EmdrosPy3.py EmdrosPy3.pyc @PYTHON_SITE_PACKAGES_DIR@/
+
+uninstall-python-lib:
+	if test -h $(PYTHON3_SO_LINKNAME) -o -f $(PYTHON3_SO_LINKNAME); then rm -f $(PYTHON3_SO_LINKNAME); fi; 
+	rm -f $(PYTHON3_FILENAMES)
+
+
 
 macdist:
 	cp -fL README-Python3 EmdrosPy3.py .libs/_EmdrosPy3.so test3.py $(MACDISTDIR)/development/SWIG/python3/
