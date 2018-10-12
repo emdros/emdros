@@ -15,6 +15,18 @@
 	doesn't use them any more, and so they are unmaintained.  If
 	anyone needs them back, please let Ulrik know.
 
+	Also update all affected Makefile.am's (to not distribute *.pro):
+
+	modified:   EMdF/Makefile.am
+	modified:   MQL/Makefile.am
+	modified:   Makefile.am
+	modified:   harvest/Makefile.am
+	modified:   pcre/Makefile.am
+	modified:   sqlite3/Makefile.am
+	modified:   sqlite3/src/Makefile.am
+	modified:   src/Makefile.am
+	modified:   util/Makefile.am
+
 ============ 3.6.1 ============
 
 2018-10-04 Ulrik Sandborg-Petersen

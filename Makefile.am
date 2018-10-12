@@ -16,7 +16,6 @@ EXTRA_DIST = README INSTALL.Win32.txt INSTALL.Mac.txt \
              README-Emdros-on-Android.txt \
              README-Emdros-on-iOS.txt \
              valgrind.sh callgrind.sh \
-             Emdros.pro \
              debian/changelog \
              debian/compat \
              debian/control \

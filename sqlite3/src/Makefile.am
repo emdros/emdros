@@ -10,7 +10,7 @@ BUILT_SOURCES = sqlite3_localamalgam.c
 
 noinst_HEADERS = sqlite3ext.h sqlite3.h
 
-EXTRA_DIST = win32.mak mingw.mak src.pro \
+EXTRA_DIST = win32.mak mingw.mak \
              prefix.c encryption.c sqlite3.c sqlite3_localamalgam.c
 
 DISTCLEANFILES = *~ core sqlite3_localamalgam.c lempar.c

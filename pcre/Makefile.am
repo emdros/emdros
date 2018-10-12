@@ -51,7 +51,6 @@ CLEANFILES = $(srcdir)/../include/pcre.h $(srcdir)/../include/pcre_config.h pcre
 
 EXTRA_DIST = win32.mak mingw.mak LICENCE NON-UNIX-USE README AUTHORS \
              COPYING NEWS djgpp.mak \
-             pcre.pro \
              config.h.win32 pcre_emdros.h.win32
 
 AM_CPPFLAGS = 
