@@ -16,7 +16,7 @@ Version: %{ver}
 Release: %{rel}
 URL: %{home_page}
 Source0: emdros-@VERSION@.tar.gz
-License: GPLv2
+License: MIT
 Group: Applications/Databases
 Prefix: %{prefix}
 #BuildRoot: %{_tmppath}/%{name}-root
