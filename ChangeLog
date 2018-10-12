@@ -31,6 +31,8 @@
 	it for years, and now that SQLite2 is gone, it is doubtful that
 	Emdros will even compile under DJGPP.
 
+	* util/pennlexer.lxx: Remove long-obsolete file.  Has been
+	superseded by util/pennlexer.re.
 
 ============ 3.6.1 ============
 
