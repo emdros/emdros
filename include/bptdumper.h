@@ -9,19 +9,17 @@
  * Last update: 4/3-2018
  *
  */
-/************************************************************************
+
+/*
+ * Copyright (C) 2001-2018     Ulrik Sandborg-Petersen
+ * Copyright (C) 2018-present  Sandborg-Petersen Holding ApS, Denmark
  *
- *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 2010-2018  Ulrik Sandborg-Petersen
+ * Licensed under the MIT License.
  *
- *   This file is NOT under the GNU General Public License.  You must
- *   obtain a license from the author, Ulrik Sandborg-Petersen, in
- *   order to use and distribute this sourcecode, or binaries based on
- *   it.  Questions, including licensing inquiries, should be directed
- *   to:  ulrikp@emergence.dk.
+ * Please see the file COPYING in the root of the sources for more details.
  *
- *
- **************************************************************************/
+ */
+
 
 /**@file bptdumper.h
  *@brief Header file for BPTDumper (EMdF layer)

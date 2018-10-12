@@ -8,6 +8,17 @@
  * Last update: 5/22-2017
  *
  */
+
+/*
+ * Copyright (C) 2001-2018     Ulrik Sandborg-Petersen
+ * Copyright (C) 2018-present  Sandborg-Petersen Holding ApS, Denmark
+ *
+ * Licensed under the MIT License.
+ *
+ * Please see the file COPYING in the root of the sources for more details.
+ *
+ */
+
 #include <emdroslang_lexer.h>
 #include "emdroslangpars.h"
 #include <iostream>

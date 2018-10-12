@@ -1,6 +1,15 @@
 # -*- coding: utf-8 -*-
 #from __future__ import unicode_literals
 #from builtins import bytes
+#
+# Written by Ulrik Sandborg-Petersen
+#
+# Copyright 2018  Sandborg-Petersen Holding ApS
+#
+# Made available under the MIT License.
+#
+# See the file COPYING in the root of the sources for details.
+#
 import xml.sax
 import codecs
 import sys
