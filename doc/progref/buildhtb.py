@@ -327,7 +327,7 @@ var sc_remove_link=1;
         print >> f, "\\usepackage{ucs}"
         print >> f, "\\usepackage{html}"
         print >> f, "\\title{%s}" % title
-        print >> f, "\\author{Ulrik Petersen}"
+        print >> f, "\\author{Ulrik Sandborg-Petersen}"
 	try:
 	    print >> f, "\\date{}" % DOC_DATE
         except:
