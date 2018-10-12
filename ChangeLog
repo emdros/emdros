@@ -4,6 +4,13 @@
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.
 
+	* Relicense the code under the MIT license.
+
+	* LICENSE.md: Initial addition.
+
+	* Relicense the docs under the Creative Commons BY-SA 4.0
+	International Public License.
+
 ============ 3.6.1 ============
 
 2018-10-04 Ulrik Sandborg-Petersen
