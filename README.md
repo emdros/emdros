@@ -1,4 +1,4 @@
-# emdros
+# Emdros
 
 Emdros is a database engine for objects that exhibit the relations
 "is_inside" and "is_in_sequence".
