@@ -1,77 +1,46 @@
 Emdros
 ======
 
-Emdros - the database engine for analyzed or annotated text
-Copyright (C) 1999-2014  Ulrik Sandborg-Petersen
+Emdros - the database engine for objects in sequence or embedding relations
+
+Emdros is made available under the MIT license.
 
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License as
-published by the Free Software Foundation, license version 2.  
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA
-02111-1307 USA
+MIT license
+===========
 
 
-Special exception
-=================
+Copyright (C) 1999-2018 Ulrik Sandborg-Petersen
+Copyright (C) 2018-present Sandborg-Petersen Holding ApS
 
-In addition, as a special exception, Ulrik Sandborg-Petersen, the
-copyright holder of Emdros, gives permission to link Emdros, in whole
-or in part, with the libraries which are normally distributed with:
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
 
-a) Sun's Java platform,
-b) Python, 
-c) Jython,
-d) Ruby, and/or 
-e) Perl
-f) PostgreSQL
-g) OpenSSL
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
 
-(or with modified versions of these), and to distribute linked
-combinations including both Emdros, in whole or in part, and one
-or more of the libraries normally distributed with (a)-(g) above.
-
-Please note: This gives you special rights concerning the
-libraries which normally accompany the above pieces of software.
-It gives you no special rights concerning software that you write
-yourself.  You must obey the GNU General Public License in all
-respects for all of the code used other than the libraries
-normally distributed with (a)-(g) above.
-
-If you modify this file, you may extend this exception to your
-version of the file, but you are not obligated to do so. If you
-do not wish to do so, delete this exception statement from your
-version.
-
-
-Other licensing forms
-=====================
-
-If you wish to negotiate commercial licensing, please contact Ulrik
-Sandborg-Petersen at ulrikp[at]users.sourceforge.net.
-
-Licensing can also be negotiated if your organization is an
-educational, non-profit, charity, missionary or similar
-organization.
-
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 
 Documentation
 =============
 
-All Emdros documentation is provided under the Creative Commons
-Attribution-Sharealike license version 2.5.  See the Creative Commons
-website for the full details:
+All Emdros documentation is provided under the Creative Commons BY-SA
+license version 4.0 Unported.  See the Creative Commons website for
+the full details:
 
-http://creativecommons.org/licenses/by-sa/2.5/
+https://creativecommons.org/licenses/by-sa/4.0/
 
 
 PCRE
@@ -91,26 +60,13 @@ You can get the latest version of PCRE at the following location:
 
 
 
-SWIG support
-============
+SQLite3
+=======
 
-The SWIG support for Ruby was partially contributed by Kirk E. Lowery
-<klowery@wts.edu>, but Copyright (C) Ulrik Sandborg-Petersen.
-Dr. Lowery's contributions are covered by the GPL where the source
-files say so explicitly.
-
-The SWIG support for Perl was partially contributed by Chris Wilson,
-but Copyright (C) Ulrik Sandborg-Petersen.  The SWIG Perl bindings are
-covered by the GPL where the source files say so explicitly.
-
-
-
-SQLite
-======
-
-SQLite is one of the choices for backend, and is included in the
-Emdros sources.  SQLite itself is the work of D. Richard Hipp.  It is
-placed into the Public Domain by him.
+SQLite3 is one of the choices for backend, and is included in the
+Emdros sources.  SQLite itself is the work of D. Richard Hipp and
+others.  SQLite is placed into the Public Domain by the SQLite
+authors.
 
 
 LZMA compression codec
@@ -139,118 +95,6 @@ and are modified.  The full, original sources can be downloaded from:
 
 http://scripts.sil.org/TECkit
 
-or via Subversion:
-
-svn://scripts.sil.org/teckit
-
-TECkit is available under the disjunction of the CPL and the LGPL.
-Since the CPL is incompatible with the GPL (see the homepage of the
-Free Software Foundation), if you choose to link TECkit against Emdros
-(which is under the GPL), you must opt for using the LGPL.
-
-The CPL and the LGPL are available in src/qrytool/TECkit/ in the
-source code.
-
-
-PostgreSQL
-==========
-
-On Windows, some PostgreSQL libraries may be distributed with Emdros.
-In particular, libpq.dll.  The license for this appears below.
-
-If you did not receive Emdros as part of the official Win32 Emdros
-distribution, this license may not apply to you.
-
-
-PostgreSQL Database Management System
-(formerly known as Postgres, then as Postgres95)
-
-Portions Copyright (c) 1996-2005, PostgreSQL Global Development Group
-
-Portions Copyright (c) 1994, The Regents of the University of California
-
-Permission to use, copy, modify, and distribute this software and its
-documentation for any purpose, without fee, and without a written agreement
-is hereby granted, provided that the above copyright notice and this
-paragraph and the following two paragraphs appear in all copies.
-
-IN NO EVENT SHALL THE UNIVERSITY OF CALIFORNIA BE LIABLE TO ANY PARTY FOR
-DIRECT, INDIRECT, SPECIAL, INCIDENTAL, OR CONSEQUENTIAL DAMAGES, INCLUDING
-LOST PROFITS, ARISING OUT OF THE USE OF THIS SOFTWARE AND ITS
-DOCUMENTATION, EVEN IF THE UNIVERSITY OF CALIFORNIA HAS BEEN ADVISED OF THE
-POSSIBILITY OF SUCH DAMAGE.
-
-THE UNIVERSITY OF CALIFORNIA SPECIFICALLY DISCLAIMS ANY WARRANTIES,
-INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY
-AND FITNESS FOR A PARTICULAR PURPOSE.  THE SOFTWARE PROVIDED HEREUNDER IS
-ON AN "AS IS" BASIS, AND THE UNIVERSITY OF CALIFORNIA HAS NO OBLIGATIONS TO
-PROVIDE MAINTENANCE, SUPPORT, UPDATES, ENHANCEMENTS, OR MODIFICATIONS.
-
-
-
-OpenSSL
-=======
-
-On Windows, some PostgreSQL libraries are distributed with Emdros.  In
-particular, libpq.dll.  This DLL, in turn, links to some OpenSSL
-libraries.  The license for those libraries appears below.
-
-If you did not receive Emdros as part of the official Win32 Emdros
-distribution, this license may not apply to you.
-
-
-Copyright (c) 1998-2004 The OpenSSL Project.  All rights reserved.
---------------------------------------------------------------------
-
-Redistribution and use in source and binary forms, with or without
-modification, are permitted provided that the following conditions
-are met:
-
-1. Redistributions of source code must retain the above copyright
-   notice, this list of conditions and the following disclaimer.
-
-2. Redistributions in binary form must reproduce the above copyright
-   notice, this list of conditions and the following disclaimer in
-   the documentation and/or other materials provided with the
-   distribution.
-
-3. All advertising materials mentioning features or use of this
-   software must display the following acknowledgment:
-   "This product includes software developed by the OpenSSL Project
-   for use in the OpenSSL Toolkit. (http://www.openssl.org/)"
-
-4. The names "OpenSSL Toolkit" and "OpenSSL Project" must not be used to
-   endorse or promote products derived from this software without
-   prior written permission. For written permission, please contact
-   openssl-core@openssl.org.
-
-5. Products derived from this software may not be called "OpenSSL"
-   nor may "OpenSSL" appear in their names without prior written
-   permission of the OpenSSL Project.
-
-6. Redistributions of any form whatsoever must retain the following
-   acknowledgment:
-   "This product includes software developed by the OpenSSL Project
-   for use in the OpenSSL Toolkit (http://www.openssl.org/)"
-
-THIS SOFTWARE IS PROVIDED BY THE OpenSSL PROJECT ``AS IS'' AND ANY
-EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
-PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE OpenSSL PROJECT OR
-ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
-SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
-LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
-HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
-STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
-ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
-OF THE POSSIBILITY OF SUCH DAMAGE.
---------------------------------------------------------------------
-
-This product includes cryptographic software written by Eric Young
-(eay@cryptsoft.com).  This product includes software written by Tim
-Hudson (tjh@cryptsoft.com).
-
 
 MySQL
 =====
@@ -258,7 +102,7 @@ MySQL
 On Windows, one MySQL library is distributed with Emdros.  In
 particular, libmysql.dll.  The license for libmysql.dll used for
 distributing Emdros is the GNU GPL (which appears below).  The
-libmysql.dll library also is covered by some exceptions allowing
+libmysql.dll library is also covered by some exceptions allowing
 linkage with certain Open Source/Free/Libre software.  For the full
 terms, please see the file "EXCEPTIONS-CLIENT" in the MySQL
 installation or sources.
