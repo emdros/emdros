@@ -11,6 +11,10 @@
 	* Relicense the docs under the Creative Commons BY-SA 4.0
 	International Public License.
 
+	* Build system: Remove all .pro files (QMake for Qt).  Ulrik
+	doesn't use them any more, and so they are unmaintained.  If
+	anyone needs them back, please let Ulrik know.
+
 ============ 3.6.1 ============
 
 2018-10-04 Ulrik Sandborg-Petersen
