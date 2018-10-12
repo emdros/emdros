@@ -52,6 +52,10 @@
 	* generate_extrafiles.py.in: Don't distribute EmdrosPy3.pyo, since
 	it is not generated.
 
+	* configure.ac: Add warning at the end banner, saying that Perl
+	bindings are now deprecated, and will be removed in a future
+	release.
+
 ============ 3.6.1 ============
 
 2018-10-04 Ulrik Sandborg-Petersen

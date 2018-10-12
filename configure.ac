@@ -1571,3 +1571,7 @@ if test "x$DO_SWIG_RUBY" = "xyes"; then
   echo "SWIG Backend:         ruby"
 fi
 
+echo ""
+echo "WARNING: The Perl bindings are deprecated, and will be removed"
+echo "in a future release."
+echo ""
