@@ -3,8 +3,15 @@
 Emdros is a database engine for objects that exhibit the relations
 "is_inside" and "is_in_sequence".
 
-Example domains include: Text, DNA, historical events, health
-measurements, other physical measurements, stock tickers, etc.
+Example domains include:
+
+- Text
+- DNA
+- historical events
+- health measurements
+- other physical measurements
+- stock tickers
+- ... etc.
 
 ## Emdros in a nutshell
 
