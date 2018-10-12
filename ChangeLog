@@ -40,6 +40,9 @@
 	- MQL/mql_get_query.lxx
 	- examples/HAL/hallexer.l
 
+	* emdros.spec.in: Update license, and update for obsoleted/removed
+	files.
+
 ============ 3.6.1 ============
 
 2018-10-04 Ulrik Sandborg-Petersen
