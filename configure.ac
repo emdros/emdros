@@ -1430,7 +1430,6 @@ AC_CONFIG_FILES([Makefile
           include/emdros-lconfig.h 
           include/Makefile 
           debian/rules
-          djgpp/Makefile
           pcre/Makefile 
           zlib/Makefile 
           util/Makefile
