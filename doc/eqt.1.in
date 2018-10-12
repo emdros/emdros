@@ -83,9 +83,5 @@ mql(1), eqtc(1)
 
 
 .SH AUTHORS
-Copyright
-.Cr
-2005 by Ulrik Petersen (ulrikp<at>users.sourceforge.net).  Note that
-this software is distributed under the GNU GPL.  It comes with
-ABSOLUTELY NO WARRANTY!  See the sources for details.
+Written Ulrik Sandborg-Petersen (ulrikp@emdros.org).
 

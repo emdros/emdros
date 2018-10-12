@@ -142,11 +142,8 @@ to examine and for which you want a word-vector output.
 .BR 6 " Compiler error (error in MQL input)"
 
 .SH AUTHORS
-Copyright
-.Cr
-2005-2006 by Ulrik Petersen (ulrikp@users.sourceforge.net).  Note that
-this software is distributed under the GNU GPL.  See the sources for
-details.
+Written Ulrik Sandborg-Petersen (ulrikp@emdros.org).
+
 
 .SH REFERENCES
 
