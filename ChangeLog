@@ -43,6 +43,12 @@
 	* emdros.spec.in: Update license, and update for obsoleted/removed
 	files.
 
+	* SWIG/python3/Makefile.am: Put EmdrosPy3.py through
+
+	$(PYTHON3) -m py_compile EmdrosPy3.py
+
+	Also, install EmdrosPy3.pyc and EmdrosPy3.pyo.
+
 ============ 3.6.1 ============
 
 2018-10-04 Ulrik Sandborg-Petersen

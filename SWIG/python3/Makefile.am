@@ -18,7 +18,11 @@ EmdrosPy3.py py3emdros_wrap.cxx: py3emdros.i libemdfpython.i libmqlpython.i
 
 if SWIG_WITH_PYTHON3_WRAPPERS
 
-MAYBE_BUILT_SRC = $(SWIG_PY3_SRC) 
+MAYBE_BUILT_SRC = $(SWIG_PY3_SRC) EmdrosPy3.pyc EmdrosPy3.pyo
+
+EmdrosPy3.pyc EmdrosPy3.pyo: EmdrosPy3.py
+	$(PYTHON3) -m py_compile EmdrosPy3.py
+
 
 pkglib_LTLIBRARIES = _EmdrosPy3.la
 
@@ -40,7 +44,10 @@ _EmdrosPy3_la_DEPENDENCIES = $(top_builddir)/harvest/libharvest.la \
 
 PYTHON3_SO_LINKNAME = @PYTHON_SITE_PACKAGES_DIR@/_EmdrosPy3.so 
 
-PYTHON3_FILENAMES = @PYTHON_SITE_PACKAGES_DIR@/EmdrosPy3.py 
+PYTHON3_FILENAMES = @PYTHON_SITE_PACKAGES_DIR@/EmdrosPy3.py \
+                   @PYTHON_SITE_PACKAGES_DIR@/EmdrosPy3.pyc \
+                   @PYTHON_SITE_PACKAGES_DIR@/EmdrosPy3.pyo
+
 
 install-exec-hook:
 	cp EmdrosPy3.py $(DESTDIR)$(pkglibdir)
