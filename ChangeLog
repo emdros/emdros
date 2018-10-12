@@ -38,6 +38,7 @@
 
 	- MQL/mql.lxx
 	- MQL/mql_get_query.lxx
+	- examples/HAL/hallexer.l
 
 ============ 3.6.1 ============
 
