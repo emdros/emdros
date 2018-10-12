@@ -49,11 +49,12 @@ PYTHON3_FILENAMES = @PYTHON_SITE_PACKAGES_DIR@/EmdrosPy3.py \
 
 
 install-exec-hook:
-	cp EmdrosPy3.py $(DESTDIR)$(pkglibdir)
+	cp EmdrosPy3.py EmdrosPy3.pyc $(DESTDIR)$(pkglibdir)
 	rm -f $(DESTDIR)$(pkglibdir)/_EmdrosPy3.a
 
 uninstall-hook:
 	rm -f $(DESTDIR)$(pkglibdir)/EmdrosPy3.py
+	rm -f $(DESTDIR)$(pkglibdir)/EmdrosPy3.pyc
 	rm -f $(DESTDIR)$(pkglibdir)/_EmdrosPy3.so* 
 
 install-python-lib: EmdrosPy.pyc
