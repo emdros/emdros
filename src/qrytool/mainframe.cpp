@@ -6,7 +6,7 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 10/4-2018
+ * Last update: 29/10-2018
  *
  */
 
@@ -83,13 +83,13 @@
  */
 
 IMPLEMENT_CLASS( MainFrame, wxFrame )
-	IMPLEMENT_CLASS( MyTextCtrl, wxTextCtrl )
+IMPLEMENT_CLASS( MyTextCtrl, wxTextCtrl )
 
 /*!
  * MainFrame event table definition
  */
 
-	BEGIN_EVENT_TABLE( MainFrame, wxFrame )
+BEGIN_EVENT_TABLE( MainFrame, wxFrame )
 ////@begin MainFrame event table entries
 	EVT_MENU(wxID_ABOUT, MainFrame::OnAbout)
 	EVT_MENU(wxID_HELP, MainFrame::OnHelpContents)
@@ -131,14 +131,14 @@ IMPLEMENT_CLASS( MainFrame, wxFrame )
 
 ////@end MainFrame event table entries
 
-	END_EVENT_TABLE()
+END_EVENT_TABLE()
 
 
 
 
-	BEGIN_EVENT_TABLE( MyTextCtrl, wxTextCtrl )
-	EVT_CHAR(MyTextCtrl::OnChar)
-	END_EVENT_TABLE()
+BEGIN_EVENT_TABLE( MyTextCtrl, wxTextCtrl )
+EVT_CHAR(MyTextCtrl::OnChar)
+END_EVENT_TABLE()
 
 
 wxString getInputAreaFontName(Configuration *pConf)
@@ -207,7 +207,8 @@ MainFrame::MainFrame( wxWindow* parent,
 					   m_pOut->getInputAreaFontName());
 
 		//pFont->SetPointSize(m_pOut->getInputAreaFontSize());
-		
+
+		/*
 		wxTextAttr inputAreaTextAttr(*wxBLACK, wxNullColour,
 					     *pFont,
 					     wxTEXT_ALIGNMENT_LEFT);
@@ -218,8 +219,11 @@ MainFrame::MainFrame( wxWindow* parent,
 					   | wxTEXT_ATTR_FONT_ITALIC
 					   | wxTEXT_ATTR_FONT_UNDERLINE
 					   | wxTEXT_ATTR_ALIGNMENT);
-		m_pEditWindow->Clear();
+		*/
+		m_pEditWindow->ClearAll();
+		/*
 		m_pEditWindow->SetDefaultStyle(inputAreaTextAttr);
+		*/
 		m_pEditWindow->SetFont(*pFont);
 		delete pFont;
 		// m_pEditWindow->SetStyle(0, m_pEditWindow->GetLastPosition(), inputAreaTextAttr);
@@ -326,12 +330,22 @@ void MainFrame::CreateControls()
 
 	m_ctrlSplitterQueryResults = new wxSplitterWindow( m_ctrlSplitterLeftRight, ID_SPLITTERWINDOW, wxDefaultPosition, wxSize(100, 100), wxSP_3DBORDER|wxSP_3DSASH|wxNO_BORDER );
 
-	m_pEditWindow = new MyTextCtrl( m_ctrlSplitterQueryResults, 
-					ID_TEXTCTRL_EDIT_WINDOW,
+	/*
+	m_pEditWindow = new MyTextCtrl( m_ctrlSplitterQueryResults,
+ 					ID_TEXTCTRL_EDIT_WINDOW,
 					wxT(""), 
 					wxDefaultPosition, 
 					wxDefaultSize, 
 					wxTE_MULTILINE | wxTE_RICH2 | wxTE_PROCESS_TAB );
+	*/
+	m_pEditWindow = new wxStyledTextCtrl(m_ctrlSplitterQueryResults,
+					     ID_TEXTCTRL_EDIT_WINDOW,
+					     wxDefaultPosition, 
+					     wxDefaultSize,
+					     0); // style
+					 
+					 
+					 
 	m_pEditWindow->SetHelpText(wxT("For writing your query or configuration."));
 	/*
 	if (ShowToolTips())
@@ -672,17 +686,48 @@ void MainFrame::OnFileSaveOutputAs(wxCommandEvent& event)
 	}
 }
 
+void MainFrame::DoCopyOrCutOrPaste(int eventID, wxCommandEvent& event)
+{
+	wxWindow *pFocusWindow = wxWindow::FindFocus();
+	
+	if (eventID == wxID_COPY) {
+		if (pFocusWindow == m_pResultsWindow) {
+			// Cannot copy from results window
+			event.Skip();
+		} else if (pFocusWindow == m_pEditWindow) {
+			m_pEditWindow->Copy();
+		} else {
+			TreeControlCopyToClipboard(m_pSchemaTree);
+		}
+	} else if (eventID == wxID_CUT) {
+		if (pFocusWindow == m_pResultsWindow) {
+			// Cannot cut from results window
+			event.Skip();
+		} else if (pFocusWindow == m_pEditWindow) {
+			m_pEditWindow->Cut();
+		} else {
+			// Cannot cut from tree control
+			event.Skip();
+		}
+	} else if (eventID == wxID_PASTE) {
+		if (pFocusWindow == m_pResultsWindow) {
+			// Cannot paste to results window
+			event.Skip();
+		} else if (pFocusWindow == m_pEditWindow) {
+			m_pEditWindow->Paste();
+		} else {
+			// Cannot paste to tree control
+			event.Skip();
+		}
+	} else {
+		// Unknown eventID
+		event.Skip();
+	}
+}
+
 void MainFrame::OnEditCopy(wxCommandEvent& event)
 {
-	(void)(event); // Silence a warning	
-
-	wxTextCtrl *pFocusTextCtrl = GetFocusTextCtrl();
-	if (pFocusTextCtrl == NULL) {
-		// So it may be the tree control
-		TreeControlCopyToClipboard(m_pSchemaTree);
-	} else {
-		pFocusTextCtrl->Copy();
-	}
+	DoCopyOrCutOrPaste(wxID_COPY, event);
 }
 
 
@@ -713,22 +758,12 @@ void MainFrame::TreeControlCopyToClipboard(wxTreeCtrl* pTree)
 
 void MainFrame::OnEditCut(wxCommandEvent& event)
 {
-	(void)(event); // Silence a warning	
-
-	wxTextCtrl *pFocusTextCtrl = GetFocusTextCtrl();
-	if (pFocusTextCtrl != NULL) {
-		pFocusTextCtrl->Cut();
-	}
+	DoCopyOrCutOrPaste(wxID_CUT, event);
 }
 
 void MainFrame::OnEditPaste(wxCommandEvent& event)
 {
-	(void)(event); // Silence a warning	
-
-	wxTextCtrl *pFocusTextCtrl = GetFocusTextCtrl();
-	if (pFocusTextCtrl != NULL) {
-		pFocusTextCtrl->Paste();
-	} 
+	DoCopyOrCutOrPaste(wxID_PASTE, event);
 }
 
 
@@ -802,22 +837,9 @@ void MainFrame::OnFileExit(wxCommandEvent& event)
 	Close();
 }
 
-wxTextCtrl *MainFrame::GetFocusTextCtrl(void)
-{
-	wxWindow *pFocusWindow = wxWindow::FindFocus();
-	if (pFocusWindow == m_pResultsWindow) {
-		//return m_pResultsWindow;
-		return NULL;
-	} else if (pFocusWindow == m_pEditWindow) {
-		return m_pEditWindow;
-	} else {
-		return NULL;
-	}
-} 
-
 void MainFrame::ClearTextCtrls(void)
 {
-	m_pEditWindow->Clear();
+	m_pEditWindow->ClearAll();
 	m_pResultsWindow->Clear();
 	this->Refresh();
 }
@@ -847,15 +869,14 @@ void MainFrame::ReadQuery()
 	}
 }
 
-void MainFrame::SaveTextCtrl(const wxString& filename, wxTextCtrl *pTextCtrl)
+void MainFrame::SaveValueToFile(const wxString& filename, const wxString& value)
 {
 	std::ofstream fout;
 	fout.open(std::string((const char*)(filename.mb_str(wxConvUTF8))).c_str(), std::ios::out);
 	if (!fout) {
 		wxEmdrosErrorMessage(wxT("Could not open file for writing."));
 	} else  {
-		wxString strQuery = pTextCtrl->GetValue();
-		fout << std::string((const char*) strQuery.mb_str(wxConvUTF8));
+		fout << std::string((const char*) value.mb_str(wxConvUTF8));
 	}
 
 }
@@ -875,7 +896,7 @@ void MainFrame::SaveOutputAreaAsHTML(const wxString& filename)
 
 void MainFrame::SaveQuery()
 {
-	SaveTextCtrl(m_strCurFileName, m_pEditWindow);
+	SaveValueToFile(m_strCurFileName, m_pEditWindow->GetValue());
 }
 
 bool MainFrame::Connect()
@@ -949,6 +970,7 @@ bool MainFrame::Connect()
 		
 			wxTextAttr inputAreaTextAttr(*wxBLACK, wxNullColour,
 						     *pFont);
+			/*
 			inputAreaTextAttr.SetFlags(wxTEXT_ATTR_TEXT_COLOUR
 						   | wxTEXT_ATTR_FONT_FACE
 						   | wxTEXT_ATTR_FONT_SIZE
@@ -956,13 +978,16 @@ bool MainFrame::Connect()
 						   | wxTEXT_ATTR_FONT_ITALIC
 						   | wxTEXT_ATTR_FONT_UNDERLINE
 						   | wxTEXT_ATTR_ALIGNMENT);
+			*/
 			// This is necessary on Windows, where the MQL parser otherwise complains
 			// about a strange token 'character something'.
 			if (m_pEditWindow->GetValue().empty()) {
-				m_pEditWindow->Clear();
+				m_pEditWindow->ClearAll();
 			}
+			/*
 			m_pEditWindow->SetDefaultStyle(inputAreaTextAttr);
 			m_pEditWindow->SetStyle(0, m_pEditWindow->GetLastPosition(), inputAreaTextAttr);
+			*/
 			m_pEditWindow->SetFont(*pFont);
 			delete pFont;
 

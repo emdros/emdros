@@ -1,5 +1,12 @@
 ============ 3.7.0 ============
 
+2018-10-29 Ulrik Sandborg-Petersen
+
+	* src/qrytool/mainframe.cpp, src/qrytool/mainframe.h: Use a
+	wxStyleTextCtrl instead of a wxTextCtrl for the edit/query window.
+	This is because the wxTextCtrl gives the user a lot of problems on
+	the Mac.
+
 2018-10-12 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.

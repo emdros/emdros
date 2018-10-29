@@ -6,7 +6,7 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 2/28-2007
+ * Last update: 29/10-2018
  *
  */
 
@@ -42,6 +42,7 @@
 #include "wx/splitter.h"
 #include "wx/treectrl.h"
 #include "wx/wxhtml.h"
+#include "wx/stc/stc.h"
 #include <emdros_environment.h>
 #include <string>
 #include <conf.h>
@@ -192,12 +193,12 @@ public:
 	/// Retrieves bitmap resources
 	wxBitmap GetBitmapResource( const wxString& name );
 
-	wxTextCtrl *GetFocusTextCtrl(void);
+	void DoCopyOrCutOrPaste(int eventID, wxCommandEvent& event);
 	void ReadQuery();
 	void SaveQuery();
 	void readConfig();
 	void writeConfig();
-	void SaveTextCtrl(const wxString& filename, wxTextCtrl *pTextCtrl);
+	void SaveValueToFile(const wxString& filename, const wxString& value);
 	void SaveOutputAreaAsHTML(const wxString& filename);
 	void ClearTextCtrls(void);
 	void ClearOutputWindow(void);
@@ -226,7 +227,7 @@ public:
 	////@begin MainFrame member variables
 	wxSplitterWindow* m_ctrlSplitterQueryResults;
 	wxSplitterWindow* m_ctrlSplitterLeftRight;
-	MyTextCtrl* m_pEditWindow;
+	wxStyledTextCtrl* m_pEditWindow;
 	WXILLayoutCanvas* m_pResultsWindow;
 	wxTreeCtrl* m_pSchemaTree;
 	wxString m_strCurFileName;
