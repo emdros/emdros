@@ -21,7 +21,7 @@ if SWIG_WITH_PYTHON3_WRAPPERS
 MAYBE_BUILT_SRC = $(SWIG_PY3_SRC) EmdrosPy3.pyc
 
 EmdrosPy3.pyc: EmdrosPy3.py
-	$(PYTHON3) -m compilealll -f -b EmdrosPy3.py
+	$(PYTHON3) -m compileall -f -b EmdrosPy3.py
 
 
 pkglib_LTLIBRARIES = _EmdrosPy3.la
