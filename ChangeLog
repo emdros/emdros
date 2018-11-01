@@ -25,6 +25,8 @@
 
 	* EMdF/Makefile.am: Distribute smart_vector.cpp.
 
+	* pcre/: Upgrade to PCRE 8.42 from 2018-03-20.
+
 2018-10-29 Ulrik Sandborg-Petersen
 
 	* src/qrytool/mainframe.cpp, src/qrytool/mainframe.h: Use a

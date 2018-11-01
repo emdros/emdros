@@ -59,7 +59,7 @@ sure both macros are undefined; an emulation function will then be used. */
 /* #undef HAVE_BITS_TYPE_TRAITS_H */
 
 /* Define to 1 if you have the <bzlib.h> header file. */
-/* #undef HAVE_BZLIB_H */
+#define HAVE_BZLIB_H 1
 
 /* Define to 1 if you have the <dirent.h> header file. */
 #define HAVE_DIRENT_H 1
@@ -80,7 +80,7 @@ sure both macros are undefined; an emulation function will then be used. */
 #define HAVE_LIMITS_H 1
 
 /* Define to 1 if the system has the type `long long'. */
-/* #undef HAVE_LONG_LONG */
+#define HAVE_LONG_LONG 1
 
 /* Define to 1 if you have the `memmove' function. */
 #define HAVE_MEMMOVE 1
@@ -110,7 +110,7 @@ sure both macros are undefined; an emulation function will then be used. */
 #define HAVE_STRERROR 1
 
 /* Define to 1 if you have the <string> header file. */
-/* #undef HAVE_STRING */
+#define HAVE_STRING 1
 
 /* Define to 1 if you have the <strings.h> header file. */
 #define HAVE_STRINGS_H 1
@@ -125,7 +125,7 @@ sure both macros are undefined; an emulation function will then be used. */
 /* #undef HAVE_STRTOLL */
 
 /* Define to 1 if you have `strtoq'. */
-/* #undef HAVE_STRTOQ */
+#define HAVE_STRTOQ 1
 
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define HAVE_SYS_STAT_H 1
@@ -140,7 +140,7 @@ sure both macros are undefined; an emulation function will then be used. */
 #define HAVE_UNISTD_H 1
 
 /* Define to 1 if the system has the type `unsigned long long'. */
-/* #undef HAVE_UNSIGNED_LONG_LONG */
+#define HAVE_UNSIGNED_LONG_LONG 1
 
 /* Define to 1 if the compiler supports simple visibility declarations. */
 #define HAVE_VISIBILITY 1
@@ -212,25 +212,25 @@ sure both macros are undefined; an emulation function will then be used. */
 /* #undef NO_RECURSE */
 
 /* Name of package */
-#define PCRE_PACKAGE "pcre"
+#define PACKAGE "pcre"
 
 /* Define to the address where bug reports for this package should be sent. */
-#define PCRE_PACKAGE_BUGREPORT ""
+#define PACKAGE_BUGREPORT ""
 
 /* Define to the full name of this package. */
-#define PCRE_PACKAGE_NAME "PCRE"
+#define PACKAGE_NAME "PCRE"
 
 /* Define to the full name and version of this package. */
-#define PCRE_PACKAGE_STRING "PCRE 8.40"
+#define PACKAGE_STRING "PCRE 8.42"
 
 /* Define to the one symbol short name of this package. */
-#define PCRE_PACKAGE_TARNAME "pcre"
+#define PACKAGE_TARNAME "pcre"
 
 /* Define to the home page for this package. */
-#define PCRE_PACKAGE_URL ""
+#define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PCRE_PACKAGE_VERSION "8.40"
+#define PACKAGE_VERSION "8.42"
 
 /* The value of PARENS_NEST_LIMIT specifies the maximum depth of nested
    parentheses (of any kind) in a pattern. This limits the amount of system
@@ -335,7 +335,7 @@ sure both macros are undefined; an emulation function will then be used. */
 /* #undef SUPPORT_VALGRIND */
 
 /* Version number of package */
-#define PCRE_VERSION "8.40"
+#define VERSION "8.42"
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */
