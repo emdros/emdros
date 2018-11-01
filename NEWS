@@ -12,6 +12,17 @@ Release notes for Emdros 3.7.0
   Sandborg-Petersen Holding ApS.  This is so as to be able to serve
   customers better with support and other Emdros-related help.
 
+- A new construct was added to the topographic part of MQL: computed
+  features, which take a monad set and returns a monad or integer:
+
+  - first_monad(<monad_set_name>) returns the smallest (first) monad.
+  - last_monad(<monad_set_name>) returns the largest (last) monad.
+  - monad_count(<monad_set_mame>) returns the cardinality.
+  - monad_set_length(<monad_set_mame>) returns last_monad - first_monad + 1.
+
+  If the monad_set_name (and the parentheses) are missing, then the
+  privileged monad set "monads" is assumed.
+
 
 - *** Version 3.6.1 *** 
 
