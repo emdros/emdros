@@ -1,5 +1,10 @@
 ============ 3.7.0 ============
 
+2018-11-01 Ulrik Sandborg-Petersen
+
+	* Makefile.am: Change order of SUBDIRS such that util/ comes
+	before amalgamation/.  We need this because of changes to come.
+
 2018-10-29 Ulrik Sandborg-Petersen
 
 	* src/qrytool/mainframe.cpp, src/qrytool/mainframe.h: Use a
