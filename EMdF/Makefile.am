@@ -71,6 +71,7 @@ emdflib_src = arena.cpp \
        string_set_cache.cpp \
        table.cpp \
        utils.cpp \
+       smart_vector.cpp \
        json_classes.cpp \
        json_parser.cpp \
        json_lexer.cpp \

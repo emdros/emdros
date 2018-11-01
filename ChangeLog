@@ -23,6 +23,8 @@
 
 	If the Mono compiler does not work, do not do SWIG C#.
 
+	* EMdF/Makefile.am: Distribute smart_vector.cpp.
+
 2018-10-29 Ulrik Sandborg-Petersen
 
 	* src/qrytool/mainframe.cpp, src/qrytool/mainframe.h: Use a
