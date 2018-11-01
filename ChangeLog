@@ -30,6 +30,10 @@
 	* configure.ac: Downbump to 3.7.0.pre01 from 3.7.0.  I intend to
 	make at least one preview release before 3.7.0 is released.
 
+	* generate_extrafiles.py.in: Als distribute:
+
+	%{prefix}/lib/emdros/EmdrosPy3.pyo
+
 2018-10-29 Ulrik Sandborg-Petersen
 
 	* src/qrytool/mainframe.cpp, src/qrytool/mainframe.h: Use a
