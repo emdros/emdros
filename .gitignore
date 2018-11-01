@@ -73,13 +73,6 @@ SWIG/python3/EmdrosPy3.py
 SWIG/python3/py3emdros_wrap.cxx
 SWIG/ruby/rbemdros_wrap.cxx
 SWIG/ruby/test.rb
-amalgamation/emdros-config.h
-amalgamation/emdros-lconfig.h
-amalgamation/emdros.h
-amalgamation/emdros_amalgamation_1.cpp
-amalgamation/emdros_amalgamation_2.cpp
-amalgamation/emdros_c_amalgamation_1.c
-amalgamation/emdros_c_amalgamation_2.c
 autom4te.cache/
 aclocal.m4
 compile
@@ -285,7 +278,6 @@ util/simplebibleschema.h
 util/slashedtextschema.h
 win32/config.mak
 win32/emdros.nsi
-amalgamation/mkamalgamation
 SWIG/Android/jemdros-*.zip
 SWIG/Android/app/
 SWIG/Android/Java/
@@ -315,3 +307,13 @@ tests/test_json/test3.txt
 tests/test_json/testerror1.txt
 tests/test_json/testerror2.txt
 tests/test_json/testerror3.txt
+amalgamation/amalgamation_made.txt
+amalgamation/emdros-config.h
+amalgamation/emdros-lconfig.h
+amalgamation/emdros.h
+amalgamation/emdros_amalgamation_1_emdros.cpp
+amalgamation/emdros_amalgamation_2_importers.cpp
+amalgamation/emdros_c.h
+amalgamation/emdros_c_amalgamation_1.c
+amalgamation/emdros_c_amalgamation_2.c
+amalgamation/mkamalgamation
