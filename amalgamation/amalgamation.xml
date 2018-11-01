@@ -1,0 +1,415 @@
+<?xml version='1.0' encoding='utf-8' ?>
+<amalgamation>
+  <target_preambles>
+    <target_preamble language="C++">
+/************************************************************************
+ *
+ * Emdros - the database engine for analyzed or annotated text
+ *
+ * Copyright (C) 2001-2018     Ulrik Sandborg-Petersen
+ * Copyright (C) 2018-present  Sandborg-Petersen Holding ApS, Denmark
+ *
+ * Licensed under the MIT License.
+ *
+ * Please see the file COPYING in the root of the sources for more details.
+ *
+ */
+
+
+/****
+ * _GNU_SOURCE MUST be defined before _any_ standard headers are included. 
+ * Hence, we define it at the very top.
+ ****/
+#if defined(__GNUC__) &amp;&amp; !defined(_GNU_SOURCE)
+# define _GNU_SOURCE
+#endif
+
+#include "emdros-lconfig.h"
+#include "emdros-config.h"
+    </target_preamble>
+    <target_preamble language="C">
+
+/****
+ * _GNU_SOURCE MUST be defined before _any_ standard headers are included. 
+ * Hence, we define it at the very top.
+ ****/
+#if defined(__GNUC__) &amp;&amp; !defined(_GNU_SOURCE)
+# define _GNU_SOURCE
+#endif
+
+
+#ifndef HAVE_CONFIG_H
+#define HAVE_CONFIG_H  (1)
+#endif
+
+
+    </target_preamble>
+  </target_preambles>
+  <target_header_files>
+    <target_header_file language="C++" name="emdros.h"/>
+    <target_header_file language="C" name="emdros_c.h"/>
+  </target_header_files>
+  <ignored_header_files>
+    <ignored_header_file name="emdros-config.h"/>
+    <ignored_header_file name="emdros-lconfig.h"/>
+    <ignored_header_file name="negraschema.h"/>
+    <ignored_header_file name="pennschema.h"/>
+    <ignored_header_file name="plaintextschema.h"/>
+    <ignored_header_file name="simplebibleschema.h"/>
+    <ignored_header_file name="slashedtextschema.h"/>
+  </ignored_header_files>
+  <target_files>
+    <target_file language="C" name="emdros_c_amalgamation_1.c">
+      <code_prefixes>
+	<code_prefix name="pcre/pcre_compile.c">
+	  /*
+#undef NLBLOCK
+#undef PSSTART
+#undef PSEND
+*/
+	</code_prefix>
+	<code_prefix name="pcre/pcre_dfa_exec.c">
+	  /*
+#undef NLBLOCK
+#undef PSSTART
+#undef PSEND
+*/
+	</code_prefix>	  
+      </code_prefixes>
+      <header_files>
+        <header_file name="pcre/config.h" />
+        <header_file name="pcre/pcre.h" />
+        <header_file name="pcre/pcre_internal.h" />
+        <header_file name="pcre/ucp.h" />
+      </header_files>
+      <target_prefix>
+#ifndef USE_LOCAL_PCRE
+#define USE_LOCAL_PCRE 1
+#endif
+
+#if USE_LOCAL_PCRE
+#define PCRE_CODE_UNIT_WIDTH 8
+#define LINK_SIZE 2
+#undef SUPPORT_JIT
+#define SUPPORT_UNICODE 1
+      </target_prefix>
+      <source_files>
+        <source_file name="pcre/pcre_byte_order.c"/>
+        <source_file name="pcre/pcre_chartables.c"/>
+        <source_file name="pcre/pcre_compile.c"/>
+        <source_file name="pcre/pcre_config.c"/>
+        <source_file name="pcre/pcre_dfa_exec.c"/>
+        <source_file name="pcre/pcre_exec.c"/>
+        <source_file name="pcre/pcre_fullinfo.c"/>
+        <source_file name="pcre/pcre_get.c"/>
+        <source_file name="pcre/pcre_globals.c"/>
+        <source_file name="pcre/pcre_jit_compile.c"/>
+        <source_file name="pcre/pcre_maketables.c"/>
+        <source_file name="pcre/pcre_newline.c"/>
+        <source_file name="pcre/pcre_ord2utf8.c"/>
+        <source_file name="pcre/pcre_refcount.c"/>
+        <source_file name="pcre/pcre_string_utils.c"/>
+        <source_file name="pcre/pcre_study.c"/>
+        <source_file name="pcre/pcre_tables.c"/>
+        <source_file name="pcre/pcre_ucd.c"/>
+        <source_file name="pcre/pcre_valid_utf8.c"/>
+        <source_file name="pcre/pcre_version.c"/>
+        <source_file name="pcre/pcre_xclass.c"/> 
+      </source_files>
+      <target_suffix>
+#endif /* if USE_LOCAL_PCRE */
+      </target_suffix>
+    </target_file>
+    <target_file language="C" name="emdros_c_amalgamation_2.c">
+      <code_prefixes>
+      </code_prefixes>
+      <header_files>
+        <header_file name="sqlite3/src/sqlite3.h"/>
+      </header_files>
+      <target_prefix>
+#ifndef USE_SQLITE3
+#define USE_SQLITE3 1
+#endif
+
+#ifndef USE_SYSTEM_SQLITE3
+#define USE_SYSTEM_SQLITE3 0
+#endif
+
+
+#if (USE_SQLITE3) &amp;&amp; !(USE_SYSTEM_SQLITE3)
+
+#ifndef NDEBUG
+#define NDEBUG (1)
+#endif
+
+      </target_prefix>
+      <source_files>
+        <source_file name="sqlite3/src/prefix.c" />
+        <source_file name="sqlite3/src/sqlite3.c" />
+        <source_file name="sqlite3/src/encryption.c" />
+      </source_files>
+      <target_suffix>
+#endif /* if USE_SQLITE3 */
+      </target_suffix>
+    </target_file>
+    <target_file language="C++" name="emdros_amalgamation_1_emdros.cpp">
+      <code_prefixes>
+        <code_prefix name="harvest/harvest_fts.cpp">
+#undef MYMAX
+#undef MYMIN
+	</code_prefix>
+        <code_prefix name="harvest/harvest_fts2.cpp">
+#undef MYMAX
+#undef MYMIN
+	</code_prefix>
+        <code_prefix name="harvest/harvest_fts3.cpp">
+#undef MYMAX
+#undef MYMIN
+	</code_prefix>
+      </code_prefixes>
+      <header_files>
+        <header_file name="include/arena.h" />
+        <header_file name="include/crc32_emdros.h" />
+        <header_file name="include/debug.h" />
+        <header_file name="include/emdf.h" />
+        <header_file name="include/emdros-config.h" />
+        <header_file name="include/emdros-lconfig.h" />
+        <header_file name="include/emdros_reserved_words.h" />
+        <header_file name="include/encryption.h" />
+        <header_file name="include/exception_emdros.h" />
+        <header_file name="include/json_classes.h" />
+        <header_file name="include/json_lexer.h" />
+        <header_file name="include/llist.h" />
+        <header_file name="include/logging.h" />
+        <header_file name="include/minidom.h" />
+        <header_file name="include/pcre_emdros.h" />
+	<header_file name="pcre/pcre.h" />
+        <header_file name="include/qdxml.h" />
+        <header_file name="include/smart_vector.h" />
+        <header_file name="include/string_func.h" />
+        <header_file name="include/string_list.h" />
+        <header_file name="include/utils.h" />
+        <header_file name="include/zlib_emdros.h" />
+        <header_file name="zlib/zlib.h" />
+        <header_file name="include/version-emdros.h" />
+        <header_file name="include/bpt2emdfdb.h" />
+        <header_file name="include/bptemdfdb.h" />
+        <header_file name="include/conn.h" />
+        <header_file name="include/emdfdb.h" />
+        <header_file name="include/emdf_enums.h" />
+        <header_file name="include/emdf_exception.h" />
+        <header_file name="include/emdf_ffeatures.h" />
+        <header_file name="include/emdf_hash.h" />
+        <header_file name="include/emdf_output.h" />
+        <header_file name="include/emdf_primes.h" />
+        <header_file name="include/emdf_value.h" />
+        <header_file name="include/enum_const_cache.h" />
+        <header_file name="include/infos.h" />
+        <header_file name="include/inst.h" />
+        <header_file name="include/inst_object.h" />
+        <header_file name="include/monads.h" />
+        <header_file name="include/mysqlconn.h" />
+        <header_file name="include/mysqlemdfdb.h" />
+        <header_file name="include/pgconn.h" />
+        <header_file name="include/pgemdfdb.h" />
+        <header_file name="include/sqlite3conn.h" />
+        <header_file name="include/sqlite3emdfdb.h" />
+        <header_file name="include/sqlite3_emdros.h" />
+	<header_file name="sqlite3/src/sqlite3.h" />
+        <header_file name="include/string2som_map.h" />
+        <header_file name="include/string_set_cache.h" />
+        <header_file name="include/table.h" />
+	<header_file name="include/emdros_environment.h" />
+        <header_file name="include/zlib_emdros.h" />
+        <header_file name="zlib/zlib.h" />
+	<header_file name="include/mql_database_statements.h" />
+	<header_file name="include/mql_enumeration_statements.h" />
+	<header_file name="include/mql_enums.h" />
+	<header_file name="include/mql_error.h" />
+	<header_file name="include/mql_execute.h" />
+	<header_file name="include/mql_execution_environment.h" />
+	<header_file name="include/mql_extern.h" />
+	<header_file name="include/mql_features_statements.h" />
+	<header_file name="include/mql_gq.h" />
+	<header_file name="include/mql_lexer.h" />
+	<header_file name="include/mql_meta_statements.h" />
+	<header_file name="include/mql_monads_statements.h" />
+	<header_file name="include/mql_object.h" />
+	<header_file name="include/mql_object_statements.h" />
+	<header_file name="include/mql_object_type_statements.h" />
+	<header_file name="MQL/mqlpars.h" />
+	<header_file name="include/mql_query.h" />
+	<header_file name="include/mql_result.h" />
+	<header_file name="include/mql_R.h" />
+	<header_file name="include/mql_segment_statements.h" />
+	<header_file name="include/mql_select_statements.h" />
+	<header_file name="include/mql_sheaf.h" />
+	<header_file name="include/mql_types.h" />
+	<header_file name="include/mql_utility.h" />
+	<header_file name="include/mql_yylex.h" />
+        <header_file name="include/renderobjects.h" />
+        <header_file name="include/renderxml.h" />
+        <header_file name="include/harvest_fts.h" />
+        <header_file name="include/harvest_fts2.h" />
+        <header_file name="include/renderobjects.h" />
+        <header_file name="include/harvest_fts3.h" />
+        <header_file name="include/memobject.h" />
+        <header_file name="include/templatelang_classes.h" />
+        <header_file name="include/templatelang_lexer.h" />
+        <header_file name="include/conf.h" />
+        <header_file name="include/conf_ini.h" />
+        <header_file name="include/schema.h" />
+        <header_file name="include/messages.h" />
+        <header_file name="include/opt.h" />
+        <header_file name="include/erw.h" />
+        <header_file name="include/mql_exporter.h" />
+        <header_file name="include/bptdumper.h" />
+        <header_file name="include/bpt2dumper.h" />
+        <header_file name="include/md5_emdros.h" />
+        <header_file name="EMdF/json.h" />
+        <header_file name="EMdF/jsonpars.h" />
+        <header_file name="harvest/templatelangpars.h" />
+      </header_files>
+      <external_header_files>
+	<external_header_file name="pcre.h"/>
+	<external_header_file name="sqlite3.h"/>
+	<external_header_file name="zlib.h"/>
+      </external_header_files>
+      <unrenamed_files>
+	<unrenamed_file name="sqlite3/src/sqlite3.h" />
+	<unrenamed_file name="pcre/pcre.h" />
+	<unrenamed_file name="zlib/zlib.h" />
+      </unrenamed_files>
+      <target_prefix>
+
+#ifndef SQLITE3_EMDFDB_NO_FSYNC
+#define SQLITE3_EMDFDB_NO_FSYNC
+#endif
+
+      </target_prefix>
+      <source_files>
+        <source_file name="EMdF/arena.cpp" />
+        <source_file name="EMdF/encryption.cpp" />
+        <source_file name="EMdF/crc32_emdros.cpp" />
+        <source_file name="EMdF/json_classes.cpp" />
+        <source_file name="EMdF/json_lexer.cpp" />
+        <source_file name="EMdF/json_parser.cpp" />
+        <source_file name="EMdF/logging.cpp" />
+        <source_file name="EMdF/minidom.cpp" />
+        <source_file name="EMdF/qdxml.cpp" />
+        <source_file name="EMdF/smart_vector.cpp" />
+        <source_file name="EMdF/string_func.cpp" />
+        <source_file name="EMdF/string_list.cpp" />
+        <source_file name="EMdF/utils.cpp" />
+        <source_file name="EMdF/string_set_cache.cpp" />
+        <source_file name="EMdF/infos.cpp" />
+        <source_file name="EMdF/emdf_value.cpp" />
+        <source_file name="EMdF/emdf_ffeatures.cpp" />
+        <source_file name="EMdF/string2som_map.cpp" />
+        <source_file name="EMdF/inst_object.cpp" />
+        <source_file name="EMdF/inst.cpp" />
+        <source_file name="EMdF/emdf_hash.cpp" />
+        <source_file name="EMdF/monads.cpp" />
+        <source_file name="EMdF/emdf_output.cpp" />
+        <source_file name="EMdF/emdf_primes.cpp" />
+        <source_file name="EMdF/enum_const_cache.cpp" />
+        <source_file name="EMdF/table.cpp" />
+        <source_file name="EMdF/conn.cpp" />
+        <source_file name="EMdF/bptemdfdb.cpp" />
+        <source_file name="EMdF/sqlite3emdfdb.cpp" />
+        <source_file name="EMdF/mysqlemdfdb.cpp" />
+        <source_file name="EMdF/bpt2emdfdb.cpp" />
+        <source_file name="EMdF/pgconn.cpp" />
+        <source_file name="EMdF/mysqlconn.cpp" />
+        <source_file name="EMdF/pgemdfdb.cpp" />
+        <source_file name="EMdF/emdfdb.cpp" />
+        <source_file name="EMdF/sqlite3conn.cpp" />
+        <source_file name="MQL/emdros_environment.cpp" />
+        <source_file name="MQL/mql_database_statements.cpp" />
+        <source_file name="MQL/mql_enumeration_statements.cpp" />
+        <source_file name="MQL/mql_error.cpp" />
+        <source_file name="MQL/mql_execute.cpp" />
+        <source_file name="MQL/mql_execution_environment.cpp" />
+        <source_file name="MQL/mql_features_statements.cpp" />
+        <source_file name="MQL/mql_get_query.cpp" />
+        <source_file name="MQL/mql_helper_classes.cpp" />
+        <source_file name="MQL/mql_lexer.cpp" />
+        <source_file name="MQL/mql_meta_statements.cpp" />
+        <source_file name="MQL/mql_monads_statements.cpp" />
+        <source_file name="MQL/mql_object.cpp" />
+        <source_file name="MQL/mql_object_statements.cpp" />
+        <source_file name="MQL/mql_object_type_statements.cpp" />
+        <source_file name="MQL/mql_parser.cpp" />
+        <source_file name="MQL/mql_query.cpp" />
+        <source_file name="MQL/mql_R.cpp" />
+        <source_file name="MQL/mql_result.cpp" />
+        <source_file name="MQL/mql_segment_statements.cpp" />
+        <source_file name="MQL/mql_select_statements.cpp" />
+        <source_file name="MQL/mql_sheaf.cpp" />
+        <source_file name="MQL/mql_statement.cpp" />
+        <source_file name="MQL/mql_utility.cpp" />
+        <source_file name="MQL/mql_yylex.cpp" />
+        <source_file name="harvest/memobject.cpp" />
+        <source_file name="harvest/templatelang_classes.cpp" />
+        <source_file name="harvest/templatelang_lexer.cpp" />
+        <source_file name="harvest/templatelang_parser.cpp" />
+        <source_file name="harvest/renderobjects.cpp" />
+        <source_file name="harvest/renderxml.cpp" />
+        <source_file name="harvest/harvest_fts.cpp" />
+        <source_file name="harvest/harvest_fts2.cpp" />
+        <source_file name="harvest/harvest_fts3.cpp" />
+        <source_file name="util/messages.cpp" />
+        <source_file name="util/schema.cpp" />
+        <source_file name="util/conf.cpp" />
+        <source_file name="util/conf_ini.cpp" />
+        <source_file name="util/mql_exporter.cpp" />
+        <source_file name="util/opt.cpp" />
+        <source_file name="util/bptdumper.cpp" />
+        <source_file name="util/bpt2dumper.cpp" />
+        <source_file name="util/md5_emdros.cpp" />
+        <source_file name="util/erw.cpp" />
+      </source_files>
+      <target_suffix>
+      </target_suffix>
+    </target_file>
+    <target_file language="C++" name="emdros_amalgamation_2_importers.cpp">
+      <code_prefixes>
+      </code_prefixes>
+      <header_files>
+	<header_file name="include/boilerplate_license.h" />
+	<header_file name="include/negraimporter.h" />
+	<header_file name="include/pennimporter.h" />
+	<header_file name="util/pennparser.h" />
+	<header_file name="include/penn_yylex.h" />
+	<header_file name="include/plaintextimporter.h" />
+	<header_file name="include/sfm.h" />
+	<header_file name="include/sfmimporter.h" />
+	<header_file name="include/slashedtextimporter.h" />
+	<header_file name="include/tigerxmlimporter.h" />
+	<header_file name="include/unboundbibleimporter.h" />
+      </header_files>
+      <target_prefix>
+      </target_prefix>	
+      <source_files>
+        <source_file name="util/negraschema.h" />
+        <source_file name="util/pennschema.h" />
+        <source_file name="util/plaintextschema.h" />
+        <source_file name="util/simplebibleschema.h" />
+        <source_file name="util/slashedtextschema.h" />
+	<source_file name="util/negraimporter.cpp" />
+	<source_file name="util/pennimporter.cpp" />
+	<source_file name="util/pennlexer.cpp" />
+	<source_file name="util/pennparser.cpp" />
+	<source_file name="util/penn_yylex.cpp" />
+	<source_file name="util/plaintextimporter.cpp" />
+	<source_file name="util/sfm.cpp" />
+	<source_file name="util/sfmimporter.cpp" />
+	<source_file name="util/slashedtextimporter.cpp" />
+	<source_file name="util/tigerxmlimporter.cpp" />
+	<source_file name="util/unboundbibleimporter.cpp" />
+      </source_files>
+      <target_suffix>
+      </target_suffix>
+    </target_file>
+  </target_files>
+</amalgamation>

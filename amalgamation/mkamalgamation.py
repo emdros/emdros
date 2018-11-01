@@ -1,840 +1,536 @@
 # -*- coding: utf-8 -*-
-
-# Still TODO:
 #
-# - do emdros.h
+# This Python script is not very Pythonic.
+# This is because it was written as a prototype
+# for later translation into C++.
+#
 
+from __future__ import unicode_literals
 import sys
 import os
-import re
+import xml.sax
+import io
 
-ignored_header_files = [
-    "emdros-config.h",
-    "emdros-lconfig.h",
-    ]
-
-source_files_C_list = [
-    #{
-    #    'language' : 'C++',
-    #    'prefix' : '',
-    #    'suffix' : '',
-    #    'header_files' : ['include/emdros-lconfig.h'],
-    #    'source_files' : ['EMdF/emdros-lconfig.cpp'],
-    #},
+def match_include(uline):
+    START_OF_LINE = 0
+    EXPECT_INCLUDE = 1
+    EXPECT_OPEN_FILENAME = 2
+    READ_FILENAME = 3
     
-    #{
-    #    'language' : 'C',
-    #    'prefix' : """
-    ##ifndef PCRE2_CODE_UNIT_WIDTH
-    ##define PCRE2_CODE_UNIT_WIDTH 8
-    ##endif
-    #""",
-    #    'suffix' : '',
-    #    'header_files' : [
-    #        'pcre2-10.10/src/config.h',
-    #        'pcre2-10.10/src/pcre2.h',
-    #        'pcre2-10.10/src/pcre2_internal.h',
-    #        'pcre2-10.10/src/pcre2_intmodedep.h',
-    #        'pcre2-10.10/src/pcre2posix.h',
-    #        'pcre2-10.10/src/pcre2_ucp.h',
-    #        'pcre2-10.10/src/pcre2_jit_match.c',
-    #        'pcre2-10.10/src/pcre2_jit_misc.c',
-    #    ],
-    #    'source_files' : [
-    #        'pcre2-10.10/src/pcre2_compile.c',
-    #        'pcre2-10.10/src/pcre2_config.c',
-    #        'pcre2-10.10/src/pcre2_chartables.c',
-    #        'pcre2-10.10/src/pcre2_auto_possess.c',
-    #        'pcre2-10.10/src/pcre2_context.c',
-    #        'pcre2-10.10/src/pcre2_dfa_match.c',
-    #        'pcre2-10.10/src/pcre2_error.c',
-    #        'pcre2-10.10/src/pcre2_jit_compile.c',
-    #        'pcre2-10.10/src/pcre2_maketables.c',
-    #        'pcre2-10.10/src/pcre2_match.c',
-    #        'pcre2-10.10/src/pcre2_match_data.c',
-    #        'pcre2-10.10/src/pcre2_newline.c',
-    #        'pcre2-10.10/src/pcre2_ord2utf.c',
-    #        'pcre2-10.10/src/pcre2_pattern_info.c',
-    #        'pcre2-10.10/src/pcre2_serialize.c',
-    #        'pcre2-10.10/src/pcre2_string_utils.c',
-    #        'pcre2-10.10/src/pcre2_study.c',
-    #        'pcre2-10.10/src/pcre2_substitute.c',
-    #        'pcre2-10.10/src/pcre2_substring.c',
-    #        'pcre2-10.10/src/pcre2_tables.c',
-    #        'pcre2-10.10/src/pcre2_ucd.c',
-    #        'pcre2-10.10/src/pcre2_valid_utf.c',
-    #        'pcre2-10.10/src/pcre2_xclass.c',
-    #    ],
-    #    'code_prefix' : {
-    #        'pcre2-10.10/src/pcre2_match.c' : """
-    ##undef NLBLOCK
-    ##undef PSSTART
-    ##undef PSEND
-    #        """,
-    #        
-    #        'pcre2-10.10/src/pcre2_dfa_match.c' : """
-    ##undef NLBLOCK
-    ##undef PSSTART
-    ##undef PSEND
-    #        """,
-    #        
-    #        'pcre2-10.10/src/pcre2_auto_possess.c' : """
-    #
-    #/* opcode_possessify is defined in pcre2_auto_possess.c,
-    #but not used here. It is also defined in
-    #pcre2_compile.c. Redefine here so as to avoid a name
-    #clash. */
-    ##define opcode_possessify  auto_possess_opcode_possessify
-    # 
-    # """
-    #     },
-    # },
-
-    {
-        'language' : 'C',
-        'prefix' : """
-#ifndef USE_LOCAL_PCRE
-#define USE_LOCAL_PCRE 1
-#endif
-
-#if USE_LOCAL_PCRE
-        """,
-        'suffix' : '''
-#endif /* if USE_LOCAL_PCRE */
-''',
-        'header_files' : [
-            'pcre/config.h',
-            'pcre/pcre.h',
-            'pcre/internal.h',
-            'pcre/pcre_internal.h',
-            'pcre/pcreposix.h',
-            'pcre/ucp.h',
-            'pcre/ucpinternal.h',
-        ],
-        'source_files' : [
-            'pcre/pcre_byte_order.c',
-            'pcre/pcre_chartables.c',
-            'pcre/pcre_compile.c',
-            'pcre/pcre_config.c',
-            'pcre/pcre_dfa_exec.c',
-            'pcre/pcre_exec.c',
-            'pcre/pcre_fullinfo.c',
-            'pcre/pcre_get.c',
-            'pcre/pcre_globals.c',
-            'pcre/pcre_jit_compile.c',
-            'pcre/pcre_maketables.c',
-            'pcre/pcre_newline.c',
-            'pcre/pcre_ord2utf8.c',
-            'pcre/pcre_refcount.c',
-            'pcre/pcre_string_utils.c',
-            'pcre/pcre_study.c',
-            'pcre/pcre_tables.c',
-            'pcre/pcre_ucd.c',
-            'pcre/pcre_valid_utf8.c',
-            'pcre/pcre_version.c',
-            'pcre/pcre_xclass.c',
-        ],
-        'code_prefix' : {
-            'pcre/pcre_compile.c' : """
-    #undef NLBLOCK
-    #undef PSSTART
-    #undef PSEND
-            """,
-            'pcre/pcre_dfa_exec.c' : """
-    #undef NLBLOCK
-    #undef PSSTART
-    #undef PSEND
-            """,
-            
-            'pcre/pcre_exec.c' : """
-    #undef NLBLOCK
-    #undef PSSTART
-    #undef PSEND
-            """,
-        },
-    },
-    {
-        'language' : 'C',
-        'prefix' : """
-    #ifndef USE_SQLITE3
-    #define USE_SQLITE3 1
-    #endif
-
-    #ifndef USE_SYSTEM_SQLITE3
-    #define USE_SYSTEM_SQLITE3 0
-    #endif
-
-    #undef TK_SEMI
-    #undef TK_EXPLAIN
-    #undef TK_BEGIN
-    #undef TK_TRANSACTION
-    #undef TK_DEFERRED
-    #undef TK_IMMEDIATE
-    #undef TK_COMMIT
-    #undef TK_END
-    #undef TK_ROLLBACK
-    #undef TK_TABLE
-    #undef TK_CREATE
-    #undef TK_NOT
-    #undef TK_TEMP
-    #undef TK_LP
-    #undef TK_RP
-    #undef TK_AS
-    #undef TK_COMMA
-    #undef TK_ID
-    #undef TK_ABORT
-    #undef TK_AFTER
-    #undef TK_ASC
-    #undef TK_ATTACH
-    #undef TK_BEFORE
-    #undef TK_BY
-    #undef TK_CASCADE
-    #undef TK_CONFLICT
-    #undef TK_DATABASE
-    #undef TK_DESC
-    #undef TK_DETACH
-    #undef TK_EACH
-    #undef TK_FAIL
-    #undef TK_FOR
-    #undef TK_IGNORE
-    #undef TK_INITIALLY
-    #undef TK_INSTEAD
-    #undef TK_MATCH
-    #undef TK_KEY
-    #undef TK_OF
-    #undef TK_OFFSET
-    #undef TK_PRAGMA
-    #undef TK_RAISE
-    #undef TK_REPLACE
-    #undef TK_RESTRICT
-    #undef TK_ROW
-    #undef TK_TRIGGER
-    #undef TK_VACUUM
-    #undef TK_VIEW
-    #undef TK_OR
-    #undef TK_AND
-    #undef TK_IS
-    #undef TK_BETWEEN
-    #undef TK_IN
-    #undef TK_ISNULL
-    #undef TK_NOTNULL
-    #undef TK_NE
-    #undef TK_EQ
-    #undef TK_GT
-    #undef TK_LE
-    #undef TK_LT
-    #undef TK_GE
-    #undef TK_BITAND
-    #undef TK_BITOR
-    #undef TK_LSHIFT
-    #undef TK_RSHIFT
-    #undef TK_PLUS
-    #undef TK_MINUS
-    #undef TK_STAR
-    #undef TK_SLASH
-    #undef TK_REM
-    #undef TK_CONCAT
-    #undef TK_COLLATE
-    #undef TK_BITNOT
-    #undef TK_STRING
-    #undef TK_JOIN_KW
-    #undef TK_CONSTRAINT
-    #undef TK_DEFAULT
-    #undef TK_NULL
-    #undef TK_PRIMARY
-    #undef TK_UNIQUE
-    #undef TK_CHECK
-    #undef TK_REFERENCES
-    #undef TK_ON
-    #undef TK_INSERT
-    #undef TK_DELETE
-    #undef TK_UPDATE
-    #undef TK_SET
-    #undef TK_DEFERRABLE
-    #undef TK_FOREIGN
-    #undef TK_DROP
-    #undef TK_UNION
-    #undef TK_ALL
-    #undef TK_EXCEPT
-    #undef TK_INTERSECT
-    #undef TK_SELECT
-    #undef TK_VALUES
-    #undef TK_DISTINCT
-    #undef TK_DOT
-    #undef TK_FROM
-    #undef TK_JOIN
-    #undef TK_USING
-    #undef TK_ORDER
-    #undef TK_GROUP
-    #undef TK_HAVING
-    #undef TK_LIMIT
-    #undef TK_WHERE
-    #undef TK_INTO
-    #undef TK_INTEGER
-    #undef TK_FLOAT
-    #undef TK_VARIABLE
-    #undef TK_CASE
-    #undef TK_WHEN
-    #undef TK_THEN
-    #undef TK_ELSE
-    #undef TK_INDEX
-    #undef TK_END_OF_FILE
-    #undef TK_ILLEGAL
-    #undef TK_SPACE
-    #undef TK_UNCLOSED_STRING
-    #undef TK_FUNCTION
-    #undef TK_COLUMN
-    #undef TK_AGG_FUNCTION
-    #undef TK_UMINUS
-    #undef TK_UPLUS
-    #undef SCHEMA_TABLE
-    #undef ArraySize
-    #undef DbHasProperty
-    #undef DbHasAnyProperty
-    #undef DbSetProperty
-    #undef DbClearProperty
-    #undef DB_SchemaLoaded
-    #undef DB_UnresetViews
-    #undef SQLITE_InternChanges
-    #undef OE_Default
-    #undef EP_FromJoin
-    #undef ExprHasProperty
-    #undef JT_NATURAL
-    #undef JT_LEFT
-    #undef JT_RIGHT
-    #undef JT_OUTER
-    #undef JT_ERROR
-    #undef SRT_Union
-    #undef SRT_Except
-    #undef SRT_Discard
-    #undef SRT_Mem
-    #undef SRT_Set
-    #undef SRT_Table
-    #undef OPFLAG_NCHANGE
-    #undef OPFLAG_LASTROWID
-    #undef MEM_Dyn
-    #undef MEM_Static
-    #undef MEM_Ephem
-    #undef etSQLESCAPE
-    #undef etSQLESCAPE2
-    #undef etTOKEN
-    #undef etSRCLIST
-    #undef etBUFSIZE
-    #undef JOURNAL_PG_SZ
-    #undef JOURNAL_HDR_SZ
-    #undef MX_CELL
-    #undef EXTRA_SIZE
-    #undef Stringify
-    #undef Deephemeralize
-    #undef initMaskSet
-    #undef tkSEMI
-    #undef tkWS
-    #undef tkOTHER
-    #undef tkEXPLAIN
-    #undef tkCREATE
-    #undef tkTEMP
-    #undef tkTRIGGER
-    #undef tkEND
-    #undef TOKEN
-
-    /* #define'd in pcre. */
-    #undef SETBIT
-
-
-    #if (USE_SQLITE3) && !(USE_SYSTEM_SQLITE3)
-        """,
-        'suffix' : """
-    #endif /* if USE_SQLITE3 */
-        """,
-        'header_files' : [
-            'sqlite3/src/sqlite3.h',
-            'sqlite3/src/sqlite3ext.h',
-        ],
-        'source_files' : [
-            'sqlite3/src/sqlite3_localamalgam.c',
-        ],
-    },
-    #{
-    #    'language' : 'C',
-    #    'prefix' : """
-    #    """,
-    #    'suffix' : """
-    #    """,
-    #    'header_files' : {
-    #        'zlib/crc32.h',
-    #        'zlib/gzguts.h',
-    #        'zlib/inffixed.h',
-    #        'zlib/inftrees.h',
-    #        'zlib/zconf.h',
-    #        'zlib/zutil.h',
-    #        'zlib/deflate.h',
-    #        'zlib/inffast.h',
-    #        'zlib/inflate.h',
-    #        'zlib/trees.h',
-    #        'zlib/zlib.h',
-    #    },
-    #    'source_files' : [
-    #        'zlib/adler32.c',
-    #        'zlib/crc32.c',
-    #        'zlib/deflate.c',
-    #        'zlib/infback.c',
-    #        'zlib/inffast.c',
-    #        'zlib/inflate.c',
-    #        'zlib/inftrees.c',
-    #        'zlib/trees.c',
-    #        'zlib/zutil.c',
-    #        'zlib/compress.c',
-    #        'zlib/uncompr.c',
-    #        'zlib/gzclose.c',
-    #        'zlib/gzlib.c',
-    #        'zlib/gzread.c',
-    #        'zlib/gzwrite.c',
-    #    ],
-    #},
-]
-
-source_files_Cpp_list = [
-    {
-        'language' : 'C++',
-        'prefix' : '''
-#ifndef SQLITE3_EMDFDB_NO_FSYNC
-#define SQLITE3_EMDFDB_NO_FSYNC
-#endif
-
-''',
-        'suffix' : '',
-        'header_files' : [
-            'include/emdf.h',
-            'include/emdf_primes.h',
-            'include/arena.h',
-            'include/bpt2dumper.h',
-            'include/bpt2emdfdb.h',
-            'include/bptdumper.h',
-            'include/bptemdfdb.h',
-            'include/conn.h',
-            'include/crc32.h',
-            'include/debug.h',
-            'include/emdfdb.h',
-            'include/emdf_enums.h',
-            'include/emdf_exception.h',
-            'include/emdf_ffeatures.h',
-            'include/emdf_hash.h',
-            'include/emdf_output.h',
-            'include/emdf_value.h',
-            'include/emdros_environment.h',
-            'include/emdros_reserved_words.h',
-            'include/encryption.h',
-            'include/enum_const_cache.h',
-            'include/environment_emdros.h',
-            'include/exception_emdros.h',
-            'include/harvest_fts.h',
-            'include/harvest_fts2.h',
-            'include/harvest_fts3.h',
-            'include/infos.h',
-            'include/inst.h',
-            'include/inst_object.h',
-            'include/json_classes.h',
-            'include/json_lexer.h',
-            'include/llist.h',
-            'include/logging.h',
-            'include/md5_emdros.h',
-            'include/memobject.h',
-            'include/messages.h',
-            'include/minidom.h',
-            'include/monads.h',
-            'include/mql_database_statements.h',
-            'include/mql_enumeration_statements.h',
-            'include/mql_enums.h',
-            'include/mql_error.h',
-            'include/mql_execute.h',
-            'include/mql_execution_environment.h',
-            'include/mql_exporter.h',
-            'include/mql_extern.h',
-            'include/mql_features_statements.h',
-            'include/mql_gq.h',
-            'include/mql_lexer.h',
-            'include/mql_meta_statements.h',
-            'include/mql_monads_statements.h',
-            'include/mql_object.h',
-            'include/mql_object_statements.h',
-            'include/mql_object_type_statements.h',
-            'include/mqlpars.h',
-            'include/mql_query.h',
-            'include/mql_result.h',
-            'include/mql_R.h',
-            'include/mql_segment_statements.h',
-            'include/mql_select_statements.h',
-            'include/mql_sheaf.h',
-            'include/mql_types.h',
-            'include/mql_utility.h',
-            'include/mql_yylex.h',
-            'include/mysqlconn.h',
-            'include/mysqlemdfdb.h',
-            'include/pcre_config.h',
-            'include/pcre_emdros.h',
-            'include/pgconn.h',
-            'include/pgemdfdb.h',
-            'include/prefix_emdros.h',
-            'include/qdxml.h',
-            'include/renderobjects.h',
-            'include/renderxml.h',
-            'include/smart_vector.h',
-            'include/sqlite3conn.h',
-            'include/sqlite3emdfdb.h',
-            'include/sqlite3_emdros.h',
-            'include/string_func.h',
-            'include/string_list.h',
-            'include/string_set_cache.h',
-            'include/table.h',
-            'include/templatelang_classes.h',
-            'include/templatelang_lexer.h',
-            'include/utils.h',
-            'include/version-emdros.h',
-            'include/zlib_emdros.h',
-            'EMdF/jsonpars.h',
-            'harvest/templatelangpars.h',
-            'include/opt.h',
-            'include/messages.h',
-        ],
-        'source_files' : [
-            'EMdF/crc32.cpp',
-            'EMdF/emdf_primes.cpp',
-            'EMdF/logging.cpp',
-            'EMdF/encryption.cpp',
-            'EMdF/arena.cpp',
-            'EMdF/monads.cpp',
-            'EMdF/minidom.cpp',
-            'EMdF/qdxml.cpp',
-            'EMdF/infos.cpp',
-            'EMdF/table.cpp',
-            'EMdF/utils.cpp',
-            'EMdF/string_func.cpp',
-            'EMdF/string_list.cpp',
-            'EMdF/string_set_cache.cpp',
-            'EMdF/emdf_hash.cpp',
-            'EMdF/emdf_output.cpp',
-            'EMdF/emdf_value.cpp',
-            'EMdF/emdf_ffeatures.cpp',
-            'EMdF/enum_const_cache.cpp',
-            'EMdF/inst_object.cpp',
-            'EMdF/inst.cpp',
-            'EMdF/json_classes.cpp',
-            'EMdF/json_lexer.cpp',
-            'EMdF/json_parser.cpp',
-            'EMdF/conn.cpp',
-            'EMdF/emdfdb.cpp',
-            'EMdF/pgconn.cpp',
-            'EMdF/pgemdfdb.cpp',
-            'EMdF/mysqlconn.cpp',
-            'EMdF/mysqlemdfdb.cpp',
-            'EMdF/sqlite3conn.cpp',
-            'EMdF/sqlite3emdfdb.cpp',
-            'EMdF/bptemdfdb.cpp',
-            'EMdF/bpt2emdfdb.cpp',
-
-            'MQL/mql_error.cpp',
-            'MQL/mql_sheaf.cpp',
-            'MQL/mql_result.cpp',
-            'MQL/mql_execution_environment.cpp',
-            'MQL/mql_helper_classes.cpp',
-            'MQL/mql_object.cpp',
-            'MQL/mql_statement.cpp',
-            'MQL/mql_segment_statements.cpp',
-            'MQL/mql_select_statements.cpp',
-            'MQL/mql_utility.cpp',
-            'MQL/mql_database_statements.cpp',
-            'MQL/mql_enumeration_statements.cpp',
-            'MQL/mql_features_statements.cpp',
-            'MQL/mql_meta_statements.cpp',
-            'MQL/mql_monads_statements.cpp',
-            'MQL/mql_object_statements.cpp',
-            'MQL/mql_object_type_statements.cpp',
-            'MQL/mql_get_query.cpp',
-            'MQL/mql_yylex.cpp',
-            'MQL/mql_lexer.cpp',
-            'MQL/mql_parser.cpp',
-            'MQL/mql_query.cpp',
-            'MQL/mql_R.cpp',
-            'MQL/mql_execute.cpp',
-            'MQL/emdros_environment.cpp',
-
-            'harvest/memobject.cpp',
-            'harvest/templatelang_classes.cpp',
-            'harvest/templatelang_lexer.cpp',
-            'harvest/templatelang_parser.cpp',
-            'harvest/renderobjects.cpp',
-            'harvest/renderxml.cpp',
-            'harvest/harvest_fts.cpp',
-            'harvest/harvest_fts2.cpp',
-            'harvest/harvest_fts3.cpp',
-
-            #'util/agxml.cpp',
-            #'util/bpt2dumper.cpp',
-            #'util/bptdumper.cpp',
-            #'util/conf.cpp',
-            #'util/md5_emdros.cpp',
-            'util/messages.cpp',
-            #'util/mql_exporter.cpp',
-            #'util/negraimporter.cpp',
-            'util/opt.cpp',
-            #'util/pennimporter.cpp',
-            #'util/pennlexer.cpp',
-            #'util/pennparser.cpp',
-            #'util/penn_yylex.cpp',
-            #'util/plaintextimporter.cpp',
-            #'util/schema.cpp',
-            #'util/sfm.cpp',
-            #'util/sfmimporter.cpp',
-            #'util/slashedtextimporter.cpp',
-            #'util/tigerxmlimporter.cpp',
-            #'util/unboundbibleimporter.cpp',
-        ],
-        'code_prefix' : {
-            'harvest/harvest_fts.cpp' : """
-    #undef MYMAX
-    #undef MYMIN
-            """,
-
-            'harvest/harvest_fts2.cpp' : """
-    #undef MYMAX
-    #undef MYMIN
-            """,
-        },
-    },
+    FAILURE = ""
     
-]
+    state = START_OF_LINE
 
-def make_headers_available():
-    result = {}
-    for source_files_list in [source_files_C_list, source_files_Cpp_list]:
-        for obj in source_files_list:
-            for header_path in obj['header_files']:
+    index = 0
+    length = len(uline)
+
+    header_filename_start_index = -1
+    include_end_char = ' '
+    
+    while index < length:
+        c = uline[index]
+
+        if state == START_OF_LINE:
+            if c == " " or c == "\t":
+                state = START_OF_LINE
+            elif c == "#":
+                state = EXPECT_INCLUDE
+            else:
+                # Line does not match.
+                return FAILURE
+        elif state == EXPECT_INCLUDE:
+            if c == " " or c == "\t":
+                state = EXPECT_INCLUDE
+            elif c == "i":
+                if length - index > len("nclude <.>"):
+                    if uline[index:index+7] == "include":
+                        index += 7
+                        state = EXPECT_OPEN_FILENAME
+                    else:
+                        return FAILURE # Line does not match
+                else:
+                    # Not enough characters. Line does not match
+                    return FAILURE
+            else:
+                # Expecting include, not found.
+                return FAILURE
+        elif state == EXPECT_OPEN_FILENAME:
+            if c == ' ' or c == '\t':
+                state = EXPECT_OPEN_FILENAME
+            elif c == '<':
+                header_filename_start_index = index+1
+                include_end_char = '>'
+                state = READ_FILENAME
+            elif c == '"':
+                header_filename_start_index = index+1
+                include_end_char = '"'
+                state = READ_FILENAME
+            else:
+                return FAILURE
+        elif state == READ_FILENAME:
+            if c == include_end_char:
+                header_filename = uline[header_filename_start_index:index]
+                return header_filename
+            else:
+                pass
+        else:
+            assert False, "Unknown state = %d" % state
+
+        index += 1
+
+    # If we got here, the line did not match.
+    return FAILURE
+                
+        
+
+
+class TargetFile:
+    def __init__(self, language, name):
+        self.language = language
+        self.name = name
+        self.code_prefixes = {} # code_filename -> "code_prefix"
+        self.source_files = [] # list of filename-string
+        self.header_files = [] # list of filename-string
+        self.external_header_files = [] # list of external_header_filename-strings
+        self.unrenamed_files = [] # list of filename-string
+        self.target_prefix = ""
+        self.target_suffix = ""
+
+    def getLanguage(self):
+        return self.language
+
+    def getName(self):
+        return self.name
+
+    def getCodePrefix(self, code_filename):
+        if code_filename in self.code_prefixes:
+            return self.code_prefixes[code_filename]
+        else:
+            return ""
+
+    def addCodePrefix(self, code_filename, code_prefix):
+        self.code_prefixes[code_filename] = code_prefix
+
+    def addSourceFile(self, source_filename):
+        self.source_files.append(source_filename)
+
+    def addHeaderFile(self, header_filename):
+        self.header_files.append(header_filename)
+
+    def addExternalFile(self, external_filename):
+        self.external_header_files.append(external_filename)
+
+    def addUnrenamedFile(self, unrenamed_filename):
+        self.unrenamed_files.append(unrenamed_filename)
+
+    def setTargetPrefix(self, target_prefix):
+        self.target_prefix = target_prefix
+
+    def setTargetSuffix(self, target_suffix):
+        self.target_suffix = target_suffix
+        
+    def getTargetPrefix(self):
+        return self.target_prefix
+
+    def getTargetSuffix(self):
+        return self.target_suffix
+
+    def make_headers_available(self, result):
+        for header_path in self.header_files:
+            if header_path in self.unrenamed_files:
+                result.setdefault(header_path, header_path)
+            else:
                 header_filename = os.path.split(header_path)[-1]
                 result.setdefault(header_filename, header_path)
 
-    # Ignore these, and elide their inclusion.
-    for header_filename in ignored_header_files:
-        result[header_filename] = None        
+    def copy_file(self, fout, language, headers_available, source_filename):
+        fout.write("/**************** A copy of %s *****************/\n" % source_filename)
+        if language == 'C':
+            fout.write("#ifdef __cplusplus\nextern \"C\" {\n#endif\n")
 
-    return result
+        fout.write("\n\n#line 1 \"%s\"\n" % source_filename)
 
-include_re = re.compile(ur'^\s*#\s*include\s*[<"]([^>"]+)[>"].*$')
-
-
-def copy_file(fout, current_language, headers_available, source_filename):
-    fout.write("/**************** A copy of %s *****************/\n" % source_filename)
-    if current_language == 'C':
-        fout.write("""
-#ifdef __cplusplus
-extern "C" {\n
-#endif
-""")
-
-    fout.write("""
-
-#line 1 "%(source_filename)s"
-        """ % {
-            "source_filename" : source_filename,
-        })
-    line_count = 0
-    for line in open(os.path.join("..", source_filename), "rb"):
-        line_count += 1
+        line_count = 0
+        for line in open(os.path.join("..", source_filename), "rb"):
+            line_count += 1
         
-        uline = line.decode('utf-8')
+            uline = line.decode('utf-8')
 
-        include_mo = include_re.match(uline)
+            include_filename = match_include(uline)
 
-        if include_mo == None:
-            fout.write(uline.encode('utf-8'))
-        else:
-            header_filename = include_mo.group(1)
-            if header_filename not in headers_available:
+            if include_filename == "":
                 fout.write(uline.encode('utf-8'))
-            elif headers_available[header_filename] != None:
-                fout.write("/**************** leaving %s temporarily *****************/\n" % source_filename)
-
-                header_path = headers_available[header_filename]
-
-                # Make sure we don't emit this header again.
-                headers_available[header_filename] = None
-
-                # Copy the header
-                copy_file(fout, current_language, headers_available, header_path)
-
-                fout.write("/**************** continuing %s where we left off *****************/\n" % source_filename)
-                fout.write("""
-
-#line %(line_count)d "%(source_filename)s"
-        """ % {
-            "source_filename" : source_filename,
-            "line_count" : line_count,
-        })
             else:
-                fout.write("/**************** already included %s -- not including again *****************/\n" % header_filename)
-                fout.write("""
+                if include_filename in self.external_header_files:
+                    fout.write(uline.encode('utf-8'))
+                elif include_filename not in headers_available:
+                    fout.write(uline.encode('utf-8'))
+                elif headers_available[include_filename] != "":
+                    fout.write("/**************** leaving %s temporarily *****************/\n" % source_filename)
 
-#line %(line_count)d "%(source_filename)s"
-        """ % {
-            "source_filename" : source_filename,
-            "line_count" : line_count,
-        })
+                    header_path = headers_available[include_filename]
+
+                    # Make sure we don't emit this header again.
+                    headers_available[include_filename] = ""
+
+                    # Copy the header
+                    self.copy_file(fout, self.language, headers_available, header_path)
+
+                    fout.write("/**************** continuing %s where we left off *****************/\n" % source_filename)
+                    fout.write("\n\n#line %d \"%s\"\n" % (line_count, source_filename))
+                else:
+                    fout.write("/**************** already included %s -- not including again *****************/\n" % include_filename)
+                    fout.write("\n\n#line %d \"%s\"\n" % (line_count, source_filename))
                 
 
-    if current_language == 'C':
-        fout.write("""
-#ifdef __cplusplus
-} /* End of 'extern "C"'. */
-#endif
-""")
+        if language == 'C':
+            fout.write("#ifdef __cplusplus\n} /* End of 'extern \"C\"'. */\n#endif\n")
+
+    def write_h_amalgamation(self, fout, headers_available):
+        fout.write(self.target_prefix)
         
-
-def make_sourcecode_amalgamation(outfilename, match_language):
-    fout = open(outfilename, "wb")
-
-    if match_language == "C++":
-        source_files_list = source_files_Cpp_list
-        
-        fout.write("""
-/************************************************************************
- *
- *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 1999-2015  Ulrik Sandborg-Petersen
- *
- ***********************************************************************/
-
-/****
- * _GNU_SOURCE MUST be defined before _any_ standard headers are included. 
- * Hence, we define it at the very top.
- ****/
-#if defined(__GNUC__) && !defined(_GNU_SOURCE)
-# define _GNU_SOURCE
-#endif
-
-#include "emdros-lconfig.h"
-#include "emdros-config.h"
-
-""")
-    elif match_language == "C":
-        source_files_list = source_files_C_list
-
-        fout.write("""
-
-/****
- * _GNU_SOURCE MUST be defined before _any_ standard headers are included. 
- * Hence, we define it at the very top.
- ****/
-#if defined(__GNUC__) && !defined(_GNU_SOURCE)
-# define _GNU_SOURCE
-#endif
-
-
-#ifndef HAVE_CONFIG_H
-#define HAVE_CONFIG_H  (1)
-#endif
-
-#include "emdros-lconfig.h"
-#include "emdros-config.h"
-
-""")
-
-    headers_available = make_headers_available()
-
-    for obj in source_files_list:
-        current_language = obj['language']
-
-        if 'code_prefix' in obj:
-            code_prefix_dict = obj['code_prefix']
-        else:
-            code_prefix_dict = {}
-
-        if current_language == match_language:
-
-            if 'prefix' in obj:
-                fout.write(obj['prefix'])
-        
-            for source_filename in obj['source_files']:
-                if source_filename in code_prefix_dict:
-                    fout.write(code_prefix_dict[source_filename])
-                    
-                copy_file(fout, current_language, headers_available, source_filename)
-
-            if 'suffix' in obj:
-                fout.write(obj['suffix'])
-
-    fout.close()
-
-def make_h_amalgamation(outfilename):
-    fout = open(outfilename, "wb")
-
-    fout.write("""
-/************************************************************************
- *
- *   Emdros - the database engine for analyzed or annotated text
- *   Copyright (C) 1999-2015  Ulrik Sandborg-Petersen
- *
- ***********************************************************************/
-
-#ifndef EMDROS_H_
-#define EMDROS_H_
-
-/****
- * _GNU_SOURCE MUST be defined before _any_ standard headers are included. 
- * Hence, we define it at the very top.
- ****/
-#if defined(__GNUC__) && !defined(_GNU_SOURCE)
-# define _GNU_SOURCE
-#endif
-
-#include "emdros-lconfig.h"
-#include "emdros-config.h"
-
-""")
-    
-    headers_available = make_headers_available()
-
-    for obj in source_files_Cpp_list:
-        current_language = obj['language']
-
-        if 'code_prefix' in obj:
-            code_prefix_dict = obj['code_prefix']
-        else:
-            code_prefix_dict = {}
-
-        if 'prefix' in obj:
-            fout.write(obj['prefix'])
-        
-        for source_filename in obj['header_files']:
-            header_filename = os.path.split(source_filename)[-1]
-            if header_filename in headers_available:
-                bDoIt = headers_available[header_filename] != None
-                headers_available[header_filename] = None
-            else:
+        for source_filename in self.header_files:
+            if source_filename in self.external_header_files:
                 bDoIt = False
+            else:
+                if source_filename in self.unrenamed_files:
+                    header_filename = source_filename
+                else:
+                    header_filename = os.path.split(source_filename)[-1]
+
+                if header_filename in headers_available:
+                    bDoIt = headers_available[header_filename] != ""
+                    headers_available[header_filename] = ""
+                else:
+                    bDoIt = False
 
             if bDoIt:
-                if source_filename in code_prefix_dict:
-                    fout.write(code_prefix_dict[source_filename])
+                code_prefix = self.getCodePrefix(source_filename)
+                fout.write(code_prefix)
                     
-                copy_file(fout, current_language, headers_available, source_filename)
+                self.copy_file(fout, self.language, headers_available, source_filename)
             else:
                 pass
 
-        if 'suffix' in obj:
-            fout.write(obj['suffix'])
+        fout.write(self.target_suffix)
+
+
+    def process(self, preamble, headers_available):
+        fout = open(self.name, "wb")
+
+        fout.write(preamble)
+
+        prefix = self.getTargetPrefix()
+        fout.write(prefix)
+        
+        for source_filename in self.source_files:
+            code_prefix = self.getCodePrefix(source_filename)
+            fout.write(code_prefix)
+                
+            self.copy_file(fout, self.language, headers_available, source_filename)
+
+
+        suffix = self.getTargetSuffix()
+        fout.write(suffix)
+
+        fout.close()
+        
+
+    
+
+class AmalgamationCreator:
+    def __init__(self):
+        self.target_files = [] # List of TargetFile objects
+        self.target_header_files = {} # language-string -> target_header_filename-string
+        self.ignored_header_files = [] # list of ignored_header_filename-strings
+        
+        self.preambles = {} # language-string -> preamble-string
+
+    def addTargetHeaderFile(self, language, name):
+        self.target_header_files.setdefault(language, name)
+
+    def addIgnoredHeaderFile(self, name):
+        self.ignored_header_files.append(name)
+
+    def addTargetFile(self, target_file_obj):
+        self.target_files.append(target_file_obj)
+
+    def make_headers_available(self, language):
+        result = {} # header_filename-string -> header_path-string
+
+        # Gather header filenames from each TargetFile object
+        for target_file_obj in self.target_files:
+            language = target_file_obj.getLanguage()
             
+            target_file_obj.make_headers_available(result)
+
+        # Ignore these, and elide their inclusion.
+        for header_filename in self.ignored_header_files:
+            result[header_filename] = ""
+        
+        return result
+
+    def getPreamble(self, language):
+        if language in self.preambles:
+            return self.preambles[language]
+        else:
+            return ""
+
+    def addPreamble(self, language, preamble):
+        self.preambles[language] = preamble
+        
+    def process(self):
+        self.make_source_amalgamations()
+
+        self.make_h_amalgamations()
+
+    def make_source_amalgamations(self):
+        for target_file_obj in self.target_files:
+            language = target_file_obj.getLanguage()
+
+            preamble = self.getPreamble(language)
             
-    fout.write("""
+            headers_available = self.make_headers_available(language)
 
-#endif /* !defined(EMDROS_H_) */
-""")
-    fout.close()
+            target_file_obj.process(preamble, headers_available)
+
+    def make_h_amalgamations(self):
+        for language in self.target_header_files:
+            headers_available = self.make_headers_available(language)
+
+            target_header_filename = self.target_header_files[language]
+
+            fout = open(target_header_filename, "wb")
+
+            define_name = target_header_filename.upper().replace(".", "_")
+
+            fout.write("#ifndef %(define_name)s\n#define %(define_name)s\n\n" % {"define_name" : define_name})
+
+            preamble = self.getPreamble(language)
+            fout.write(preamble)
+
+            for target_file_obj in self.target_files:
+                target_file_language = target_file_obj.getLanguage()
+
+                if target_file_language == language:
+                    target_file_obj.write_h_amalgamation(fout, headers_available)
+
+            fout.write("\n#endif /* !defined(%s) */\n" % define_name)
+
+            fout.close()
 
 
-def doIt():
-    make_sourcecode_amalgamation('emdros_c_amalgamation.c', 'C')
-    make_sourcecode_amalgamation('emdros_amalgamation.cpp', 'C++')
-    make_h_amalgamation('emdros.h')
+
+        
+class AmalgamationXMLHandler(xml.sax.ContentHandler):
+    def __init__(self):
+        self.elemstack = []
+        self.charstack = []
+        self.objstack = []
+
+        self.nixed_elements = set([])
+        self.ignored_elements = set(["amalgamation",
+                                     "target_preambles",
+                                     "target_header_files",
+                                     "ignored_header_files",
+                                     "external_header_files",
+                                     "unrenamed_files",
+                                     "target_files",
+                                     "code_prefixes",
+                                     "header_files",
+                                     "source_files",
+                                     "target_prefix",
+                                     "target_suffix"])
+
+        self.nixing_stack = []
+
+        self.handled_elements = set(["target_preamble",
+                                     "target_header_file",
+                                     "ignored_header_file",
+                                     "external_header_file",
+                                     "unrenamed_file",
+                                     "target_file",
+                                     "code_prefix",
+                                     "header_file",
+                                     "source_file"])
+
+        self.char_handled_end_tags = set(["target_preamble",   
+                                          "code_prefix",
+                                          "target_prefix",
+                                          "target_suffix"])
+
+        self.ac_obj = AmalgamationCreator()
+                                  
+        
+    def startDocument(self):
+        pass
+
+    def endDocument(self):
+        pass
+
+    def characters(self, data):
+        self.charstack.append(data)
+
+    def getCurElement(self):
+        if len(self.elemstack) == 0:
+            return ""
+        else:
+            return self.elemstack[-1]
+
+    def handleChars(self, chars_before, bIsEndTag):
+        if len(self.nixing_stack) > 0:
+            bDoIt = False
+        else:
+            cur_element = self.getCurElement()
+
+            if bIsEndTag and cur_element in self.char_handled_end_tags:
+                bDoIt = True
+            else:
+                bDoIt = False
+                
+        if not bDoIt:
+            return
+
+        if cur_element == "code_prefix":
+            self.cur_target_file.addCodePrefix(self.cur_code_prefix_name, chars_before)
+        elif cur_element == "target_prefix":
+            self.cur_target_file.setTargetPrefix(chars_before)
+        elif cur_element == "target_suffix":
+            self.cur_target_file.setTargetSuffix(chars_before)
+        elif cur_element == "target_preamble":
+            self.ac_obj.addPreamble(self.curlang, chars_before)
+        else:
+            raise Exception("cur end-tag </" + cur_element + "> is not handled in handleChars().")
+            
+
+    def startElement(self, tag, attributes):
+        self.elemstack.append(tag)
+
+        chars = "".join(self.charstack)
+        del self.charstack
+        self.charstack = []
+
+        self.handleChars(chars, False)
+
+        if tag in self.nixed_elements:
+            self.nixing_stack.append(tag)
+        elif len(self.nixing_stack) != 0:
+            pass
+        elif tag in self.handled_elements:
+            self.handleElementStart(tag, attributes)
+        elif tag in self.ignored_elements:
+            pass
+        else:
+            raise Exception("Error: Unknown start-tag '<" + tag + ">'")
 
 
-doIt()
+    def handleElementStart(self, tag, attributes):
+        if tag == "target_preamble":
+            self.curlang = attributes["language"]
+        elif tag == "target_header_file":
+            language = attributes["language"]
+            name = attributes["name"]
+            self.ac_obj.addTargetHeaderFile(language, name)
+        elif tag == "ignored_header_file":
+            name = attributes["name"]
+            self.ac_obj.addIgnoredHeaderFile(name)
+        elif tag == "unrenamed_file":
+            name = attributes["name"]
+            self.cur_target_file.addUnrenamedFile(name)
+        elif tag == "external_header_file":
+            name = attributes["name"]
+            self.cur_target_file.addExternalFile(name)
+        elif tag == "target_file":
+            language = attributes["language"]
+            name = attributes["name"]
+            self.cur_target_file = TargetFile(language, name)
+        elif tag == "code_prefix":
+            self.cur_code_prefix_name = attributes["name"]
+        elif tag == "header_file":
+            name = attributes["name"]
+            self.cur_target_file.addHeaderFile(name)
+        elif tag == "source_file":
+            name = attributes["name"]
+            self.cur_target_file.addSourceFile(name)
+        else:
+            raise Exception("Unhandled element start: " + tag)
+
+    def handleElementEnd(self, tag):
+        if tag == "target_preamble":
+            pass # All done at start, and in handleChars()
+        elif tag == "target_header_file":
+            pass # All done at start
+        elif tag == "ignored_header_file":
+            pass # All done at start
+        elif tag == "external_header_file":
+            pass # All done at start
+        elif tag == "unrenamed_file":
+            pass # All done at start
+        elif tag == "target_file":
+            self.ac_obj.addTargetFile(self.cur_target_file)
+            self.cur_target_file = None
+        elif tag == "code_prefix":
+            self.cur_code_prefix_name = ""
+        elif tag == "header_file":
+            pass # All done at start
+        elif tag == "source_file":
+            pass # All done at start
+        else:
+            raise Exception("Unhandled element end: " + tag)
+
+
+
+
+    def endElement(self, tag):
+        chars = "".join(self.charstack)
+        del self.charstack
+        self.charstack = []
+
+        self.handleChars(chars, True)
+
+        if tag in self.nixed_elements:
+            oldTag = self.nixing_stack.pop()
+            assert tag == oldTag
+        elif len(self.nixing_stack) != 0:
+            pass
+        elif tag in self.handled_elements:
+            self.handleElementEnd(tag)
+        elif tag in self.ignored_elements:
+            pass
+        else:
+            raise Exception("Error: Unknown end-tag " + tag)
+
+        self.elemstack.pop()
+
+    def process(self):
+        self.ac_obj.process()
+
+def doIt(infilename):
+    handler = AmalgamationXMLHandler()
+
+    fin = io.open(infilename, "rb")
+    sys.stderr.write("Now reading: %s ...\n" % infilename)
+    xml.sax.parse(fin, handler)
+
+    handler.process()
+
+def usage(fout):
+    fout.write("\nUSAGE:\n    python mkamalgamation.py <amalgamation-xml-filename>\n\n")
+
+if __name__ == '__main__':
+    if len(sys.argv) != 2:
+        usage(sys.stderr)
+        sys.exit(1)
+    else:
+        arg = sys.argv[1]
+        if arg == "--help":
+            usage(sys.stderr)
+        else:
+            doIt(arg)
+        sys.exit(0)
+
+    
+
+
+
 
