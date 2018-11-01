@@ -23,6 +23,24 @@ Release notes for Emdros 3.7.0
   If the monad_set_name (and the parentheses) are missing, then the
   privileged monad set "monads" is assumed.
 
+  For example:
+
+  SELECT ALL OBJECTS
+  WHERE
+  [Clause
+     monad_set_length > 15 AND monad_count <= 15
+  ]
+
+  This also works with object references:
+
+  // Finds sentences and clauses which are co-extensive.
+  SELECT ALL OBJECTS
+  WHERE
+  [Sentence AS s1
+     [Clause monad_count = s1.monad_count]
+  ]
+
+
 
 - *** Version 3.6.1 *** 
 
