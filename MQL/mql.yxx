@@ -7,7 +7,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 10/4-2018
+ * Last update: 11/1-2018
  *
  */
 
@@ -1421,6 +1421,8 @@ ffactor(F) ::= feature_comparison(C).
 %destructor feature_comparison {delete($$);}
 feature_comparison(C) ::= feature_name(N) comparison_operator(O) value(V).
     { C = new FeatureComparison(N->extractString(), O, V); deleteToken(N); }
+feature_comparison(C) ::= computed_feature_name(N) comparison_operator(O) value(V).
+    { C = new FeatureComparison(N, O, V); }
 feature_comparison(C) ::= feature_name(N) KEY_EQUALS KEY_OPEN_BRACKET KEY_CLOSE_BRACKET.
     { C = new FeatureComparison(N->extractString(), kEqual, new IntegerList()); deleteToken(N); }
 feature_comparison(C) ::= feature_name(N) KEY_EQUALS KEY_OPEN_BRACKET list_of_identifier(S) KEY_CLOSE_BRACKET.
@@ -1431,8 +1433,19 @@ feature_comparison(C) ::= feature_name(N) KEY_IN KEY_OPEN_BRACKET list_of_identi
     { C = new FeatureComparison(N->extractString(), kIn, new StringList(S)); deleteToken(N); delete S; }
 feature_comparison(C) ::= feature_name(N) KEY_IN KEY_OPEN_BRACKET list_of_integer(S) KEY_CLOSE_BRACKET.
     { C = new FeatureComparison(N->extractString(), kIn, new IntegerList(S)); deleteToken(N); delete S; }
+feature_comparison(C) ::= computed_feature_name(N) KEY_IN KEY_OPEN_BRACKET list_of_integer(S) KEY_CLOSE_BRACKET.
+    { C = new FeatureComparison(N, kIn, new IntegerList(S)); delete S; }
 feature_comparison(C) ::= feature_name(N) KEY_IN object_reference_usage(R).
     { C = new FeatureComparison(N->extractString(), kIn, new Value(R)); deleteToken(N); }
+feature_comparison(C) ::= computed_feature_name(N) KEY_IN object_reference_usage(R).
+    { C = new FeatureComparison(N, kIn, new Value(R)); }
+
+%type computed_feature_name {ComputedFeatureName*}
+%destructor computed_feature_name { delete($$); }
+computed_feature_name(C) ::= feature_name(N) KEY_OPEN_BRACKET KEY_MONADS KEY_CLOSE_BRACKET .
+{ C = new ComputedFeatureName(*N->pString, "monads"); deleteToken(N); }
+computed_feature_name(C) ::= feature_name(N) KEY_OPEN_BRACKET monad_set_name(M) KEY_CLOSE_BRACKET .
+{ C = new ComputedFeatureName(*N->pString, *M->pString); deleteToken(N); deleteToken(M); }
 
 
 %type comparison_operator {eComparisonOp}

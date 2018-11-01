@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 10/4-2018
+ * Last update: 11/1-2018
  *
  */
 
@@ -427,6 +427,24 @@ class Value {
 	id_d_t getEnumId(void) const { return m_enum_id; };
 };
 
+class ComputedFeatureName {
+	std::string m_computed_feature_name;
+	std::string m_parameter1;
+	eComputedFeatureKind m_kind;
+public:
+	ComputedFeatureName(const std::string& computed_feature_name,
+			    const std::string& parameter1);
+	~ComputedFeatureName();
+
+	void weed(MQLExecEnv *pEE, bool& bResult);
+
+	std::string getBasisStoredFeatureName() const;
+
+	std::string getHumanReadableName() const;
+
+	EMdFValue *computeValue(const EMdFValue *pLeft_value);
+};
+
 /** AST member for a feature_comparison.
  *@ingroup Topograph
  *@internal
@@ -434,6 +452,7 @@ class Value {
 class FeatureComparison {
  private:
 	std::string* m_feature_name;
+	ComputedFeatureName *m_computed_feature_name;
 	std::string m_object_type_name;
 	id_d_t m_object_type_id;
 	FeatureInfo m_feature_info;
@@ -463,10 +482,20 @@ class FeatureComparison {
 			  eComparisonOp m_comparison_op,
 			  IntegerList *in_enum_list); 
 
+	FeatureComparison(ComputedFeatureName* computed_feature_name,
+			  eComparisonOp m_comparison_op,
+			  IntegerList *in_enum_list); 
+
+	// For computed_feature_name comparison_op value
+	FeatureComparison(ComputedFeatureName *computed_feature_name,
+			  eComparisonOp m_comparison_op,
+			  Value* value);
+
 	// For all others
 	FeatureComparison(std::string* feature_name,
 			  eComparisonOp comparison_op,
 			  Value* value);
+
 	virtual ~FeatureComparison();
 	bool getCanBePreQueried() const { return m_bCanBePreQueried; }
 	void weedFeatureConstraints(MQLExecEnv *pEE, bool& bResult, node_number_t node_number);

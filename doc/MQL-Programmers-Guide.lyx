@@ -269,7 +269,7 @@ Ulrik Sandborg-Petersen
 \end_layout
 
 \begin_layout Date
-October 12, 2018
+November 1, 2018
 \end_layout
 
 \begin_layout Standard
@@ -2678,42 +2678,30 @@ Acknowledgements
 \end_layout
 
 \begin_layout Subsection
-Westminster Hebrew Institute
+Thanks
 \end_layout
 
 \begin_layout Standard
-Emdros development is made possible in part by the generosity of the Westminster
- Hebrew Institute
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-See <
-\family typewriter
-http://whi.wts.edu/WHI
-\family default
->.
-\end_layout
-
-\end_inset
-
-, part of Westminster Theological Seminary
-\begin_inset Foot
-status open
-
-\begin_layout Plain Layout
-See <
-\family typewriter
-http://www.wts.edu
-\family default
->.
-\end_layout
-
-\end_inset
-
-, Philadelphia, Pennsylvania.
- The WHI grants me access to some seriously powerful hardware, which helps
- drive Emdros development, in particular the scalability of Emdros.
+Thanks to all the contributors mentioned in the AUTHORS file.
+ Special thanks go to Dr.
+ Crist-Jan Doedens, without whose PhD work, Emdros would not have existed.
+ Also thanks to Prof.
+ Dr.
+ Eep Talstra, Prof.
+ Dr.
+ Nicolai Winther-Nielsen, and Prof.
+ Dr.
+ Peter Øhrstrøm for encouragement along the way.
+ Thanks to Dr.
+ Kirk E.
+ Lowery for encouragement and other kinds of contributions.
+ Thanks to Claus Tøndering for code contributions and other encouragements.
+ Thanks to Constantijn Sikkel for encouragement and guidance, and for being
+ an avid user of and bug-reporter for Emdros.
+ Thanks to Prof.
+ Dr.
+ Oliver Glanz for being an avid user and requester of features.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -5582,6 +5570,197 @@ reference "DROP-MONAD-SET"
 \end_inset
 
 ).
+\end_layout
+
+\begin_layout Subsection
+Computed features (monad_set_length, monad_count, first_monad, last_monad)
+\end_layout
+
+\begin_layout Standard
+The following computed features can always be used on any object type, even
+ though they are never declared:
+\end_layout
+
+\begin_layout Itemize
+first_monad(<monad_set_name>)
+\end_layout
+
+\begin_layout Itemize
+last_monad(<monad_set_name>)
+\end_layout
+
+\begin_layout Itemize
+monad_count(<monad_set_name>)
+\end_layout
+
+\begin_layout Itemize
+monad_set_length(<monad_set_name>)
+\end_layout
+
+\begin_layout Standard
+The 
+\begin_inset Quotes eld
+\end_inset
+
+<monad_set_name>
+\begin_inset Quotes erd
+\end_inset
+
+ inside the parentheses must be a valid monad set name, such as the name
+ of a feature of type 
+\begin_inset Quotes eld
+\end_inset
+
+SET OF MONADS
+\begin_inset Quotes erd
+\end_inset
+
+, or the privileged monad set feature, 
+\begin_inset Quotes eld
+\end_inset
+
+monads
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+If the <monad_set_name> to be used is the privileged 
+\begin_inset Quotes eld
+\end_inset
+
+monads
+\begin_inset Quotes erd
+\end_inset
+
+ monad set feature, the parenteses and the name 
+\begin_inset Quotes eld
+\end_inset
+
+monads
+\begin_inset Quotes erd
+\end_inset
+
+ can be omitted, as a short-cut.
+\end_layout
+
+\begin_layout Standard
+The features mean the folllowing:
+\end_layout
+
+\begin_layout Description
+first_monad(<monad_set_name>): Retrieve the <monad_set_name> monad set,
+ and yield its smallest (first) monad.
+ For example, the monad set 
+\begin_inset Quotes eld
+\end_inset
+
+{1-3}
+\begin_inset Quotes erd
+\end_inset
+
+ has first_monad = 1.
+\end_layout
+
+\begin_layout Description
+last_monad(<monad_set_name>): Retrieve the <monad_set_name> monad set, and
+ yield its largest (last) monad.
+ For example, the monad set 
+\begin_inset Quotes eld
+\end_inset
+
+{1-3}
+\begin_inset Quotes erd
+\end_inset
+
+ has first_monad = 3.
+\end_layout
+
+\begin_layout Description
+monad_count(<monad_set_name>): Retrieve the <monad_set_name> monad set,
+ and yields the number of monads in it, i.e., its cardinality.
+ For example, the monad set 
+\begin_inset Quotes eld
+\end_inset
+
+{1-3, 5}
+\begin_inset Quotes erd
+\end_inset
+
+ has a monad_count of 4, since it has 4 monads in it (
+\begin_inset Quotes eld
+\end_inset
+
+1, 2, 3, 5
+\begin_inset Quotes erd
+\end_inset
+
+).
+ Also, the monad set 
+\begin_inset Quotes eld
+\end_inset
+
+{3}
+\begin_inset Quotes erd
+\end_inset
+
+ has a monad_count of 1, while the monad set 
+\begin_inset Quotes eld
+\end_inset
+
+{2-4}
+\begin_inset Quotes erd
+\end_inset
+
+ has a monad_count of 3 (
+\begin_inset Quotes eld
+\end_inset
+
+2, 3, 4
+\begin_inset Quotes erd
+\end_inset
+
+).
+\end_layout
+
+\begin_layout Description
+monad_set_length(<monad_set_name>): Retrieve the <monad_set_name> feature,
+ and yield the number 
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+last_monad(<monad_set_name>) - first_monad(<monad_set_name>) + 1
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+For example, the set 
+\begin_inset Quotes eld
+\end_inset
+
+{1-3, 5}
+\begin_inset Quotes erd
+\end_inset
+
+ has a monad_set_length of 5 - 1 + 1 = 5.
+ 
+\begin_inset Newline newline
+\end_inset
+
+Note that if the monad set has no gaps, then this will be the same as monad_coun
+t(<monad_set_name>).
+ If, on the other hand, the monad set has gaps, the monad_set_length(<monad_set_
+name>) will be strictly greater than monad_count(<monad_set_name>).
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -19661,7 +19840,7 @@ The default_value string in the result is a string representation of the
 \begin_layout Standard
 The computed boolean in the result shows whether the feature is computed
  or not.
- Currently, the only computed feature
+ Currently, the only computed features
 \begin_inset Index idx
 status collapsed
 
@@ -19671,7 +19850,7 @@ computed feature
 
 \end_inset
 
- is 
+ are: 
 \begin_inset Quotes eld
 \end_inset
 
@@ -19686,6 +19865,38 @@ self
 \end_inset
 
 
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+first_monad
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+last_monad
+\begin_inset Quotes erd
+\end_inset
+
+, 
+\begin_inset Quotes eld
+\end_inset
+
+monad_count
+\begin_inset Quotes erd
+\end_inset
+
+, and 
+\begin_inset Quotes eld
+\end_inset
+
+monad_set_length
 \begin_inset Quotes erd
 \end_inset
 
@@ -27098,11 +27309,11 @@ feature_comparison :
 \end_layout
 
 \begin_layout LyX-Code
-    feature_name  comparison_operator   value
+    comparison_feature_name  comparison_operator   value
 \end_layout
 
 \begin_layout LyX-Code
-  | feature_name  
+  | comparison_feature_name  
 \begin_inset Quotes eld
 \end_inset
 
@@ -27114,7 +27325,7 @@ feature_comparison :
 \end_layout
 
 \begin_layout LyX-Code
-  | feature_name  
+  | comparison_feature_name  
 \begin_inset Quotes eld
 \end_inset
 
@@ -27126,7 +27337,7 @@ feature_comparison :
 \end_layout
 
 \begin_layout LyX-Code
-  | feature_name  
+  | comparison_feature_name  
 \begin_inset Quotes eld
 \end_inset
 
@@ -27154,7 +27365,7 @@ feature_comparison :
 \end_layout
 
 \begin_layout LyX-Code
-  | feature_name  
+  | comparison_feature_name  
 \begin_inset Quotes eld
 \end_inset
 
@@ -27166,7 +27377,7 @@ IN
 \end_layout
 
 \begin_layout LyX-Code
-  | feature_name  
+  | comparison_feature_name  
 \begin_inset Quotes eld
 \end_inset
 
@@ -27194,7 +27405,7 @@ IN
 \end_layout
 
 \begin_layout LyX-Code
-  | feature_name  
+  | comparison_feature_name  
 \begin_inset Quotes eld
 \end_inset
 
@@ -27885,6 +28096,159 @@ _
 IDENTIFIER
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+;
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+comparison_feature_name : feature_name
+\end_layout
+
+\begin_layout LyX-Code
+           | computed_feature_name
+\end_layout
+
+\begin_layout LyX-Code
+;
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+computed_feature_name : 
+\end_layout
+
+\begin_layout LyX-Code
+             
+\begin_inset Quotes eld
+\end_inset
+
+first_monad
+\begin_inset Quotes erd
+\end_inset
+
+ computed_feature_monad_set_name
+\end_layout
+
+\begin_layout LyX-Code
+           | 
+\begin_inset Quotes eld
+\end_inset
+
+last_monad
+\begin_inset Quotes erd
+\end_inset
+
+ computed_feature_monad_set_name
+\end_layout
+
+\begin_layout LyX-Code
+           | 
+\begin_inset Quotes eld
+\end_inset
+
+monad_count
+\begin_inset Quotes erd
+\end_inset
+
+ computed_feature_monad_set_name
+\end_layout
+
+\begin_layout LyX-Code
+           | 
+\begin_inset Quotes eld
+\end_inset
+
+monad_set_length
+\begin_inset Quotes erd
+\end_inset
+
+ computed_feature_monad_set_name
+\end_layout
+
+\begin_layout LyX-Code
+;
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+computed_feature_monad_set_name : /* empty: Means 
+\begin_inset Quotes eld
+\end_inset
+
+(monads)
+\begin_inset Quotes erd
+\end_inset
+
+.
+ */
+\end_layout
+
+\begin_layout LyX-Code
+           | 
+\begin_inset Quotes eld
+\end_inset
+
+(
+\begin_inset Quotes eld
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+monads
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset Quotes eld
+\end_inset
+
+)
+\begin_inset Quotes erd
+\end_inset
+
+ /* Means: 
+\begin_inset Quotes eld
+\end_inset
+
+(monads)
+\begin_inset Quotes erd
+\end_inset
+
+
+\end_layout
+
+\begin_layout LyX-Code
+           | 
+\begin_inset Quotes eld
+\end_inset
+
+(
+\begin_inset Quotes eld
+\end_inset
+
+ monad_set_name 
+\begin_inset Quotes eld
+\end_inset
+
+)
+\begin_inset Quotes erd
 \end_inset
 
 

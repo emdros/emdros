@@ -1,5 +1,5 @@
-#LyX 2.2 created this file. For more info see http://www.lyx.org/
-\lyxformat 508
+#LyX 2.3 created this file. For more info see http://www.lyx.org/
+\lyxformat 544
 \begin_document
 \begin_header
 \save_transient_properties true
@@ -24,6 +24,8 @@
 \font_osf false
 \font_sf_scale 100 100
 \font_tt_scale 100 100
+\use_microtype false
+\use_dash_ligatures true
 \graphics default
 \default_output_format default
 \output_sync 0
@@ -53,6 +55,7 @@
 \suppress_date false
 \justification true
 \use_refstyle 0
+\use_minted 0
 \index Index
 \shortcut idx
 \color #008000
@@ -61,7 +64,10 @@
 \tocdepth 3
 \paragraph_separation indent
 \paragraph_indentation default
-\quotes_language english
+\is_math_indent 0
+\math_numbering_side default
+\quotes_style english
+\dynamic_quotes 0
 \papercolumns 1
 \papersides 1
 \paperpagestyle default
@@ -79,7 +85,7 @@ Emdros Query Guide
 \end_layout
 
 \begin_layout Date
-October 4, 2016
+November 1, 2017
 \end_layout
 
 \begin_layout Author
@@ -4548,10 +4554,6 @@ FIRST AND LAST
 \end_layout
 
 \begin_layout Subsubsection
-Example
-\end_layout
-
-\begin_layout Subsubsection
 Examples
 \end_layout
 
@@ -4646,6 +4648,339 @@ Romeo
 
 \begin_layout LyX-Code
 ]
+\end_layout
+
+\begin_layout Subsection
+Computed features (first_monad, last_monad, monad_count, monad_set_length)
+\end_layout
+
+\begin_layout Subsubsection
+Computed features
+\end_layout
+
+\begin_layout Standard
+There are four 
+\begin_inset Quotes eld
+\end_inset
+
+computed
+\begin_inset Quotes erd
+\end_inset
+
+ features which take a monad set and return an integer.
+ These computed features are:
+\end_layout
+
+\begin_layout Description
+first_monad(<monad_set_name>): Retrieves the monad set <monad_set_name>
+ and returns the smallest (i.e., first) monad in the monad set.
+\end_layout
+
+\begin_layout Description
+last_monad(<monad_set_name>): Retrieves the monad set <monad_set_name> and
+ returns the largest (i.e., last) monad in the monad set.
+\end_layout
+
+\begin_layout Description
+monad_count(<monad_set_name>): Retrieves the monad set <monad_set_name>
+ and returns the number of monads in the monad set (also called the 
+\begin_inset Quotes eld
+\end_inset
+
+cardinality
+\begin_inset Quotes erd
+\end_inset
+
+).
+ For example, the monad set 
+\begin_inset Quotes eld
+\end_inset
+
+{2}
+\begin_inset Quotes erd
+\end_inset
+
+ has a monad_count of 1, the monad set 
+\begin_inset Quotes eld
+\end_inset
+
+{2-4}
+\begin_inset Quotes erd
+\end_inset
+
+ has a monad_count of 3 (
+\begin_inset Quotes eld
+\end_inset
+
+2, 3, 4
+\begin_inset Quotes erd
+\end_inset
+
+), and the monad set 
+\begin_inset Quotes eld
+\end_inset
+
+{2-4, 6}
+\begin_inset Quotes erd
+\end_inset
+
+ has a monad count of 4, since the monads are: 
+\begin_inset Quotes eld
+\end_inset
+
+2, 3, 4, 6
+\begin_inset Quotes erd
+\end_inset
+
+.
+ This means that gaps are excluded from the monad count.
+\end_layout
+
+\begin_layout Description
+first_monad(<monad_set_name>): Retrieves the monad set <monad_set_name>
+ and returns the number calculated as last_monad(<monad_set_name>) - first_monad
+(<monad_set_name>) + 1.
+ That is, it is the 
+\begin_inset Quotes eld
+\end_inset
+
+length
+\begin_inset Quotes erd
+\end_inset
+
+ of the monad set, from the first to the last.
+ One monad is added, since, for example, the monad set {2-4} has a length
+ of 4 - 2 + 1 = 3.
+ Gaps are included in this length, as can be seen by the example just given.
+\end_layout
+
+\begin_layout Standard
+If the monad_set_name is 
+\begin_inset Quotes eld
+\end_inset
+
+monads
+\begin_inset Quotes erd
+\end_inset
+
+, it can be omitted, along with the parentheses.
+\end_layout
+
+\begin_layout Subsubsection
+Examples
+\end_layout
+
+\begin_layout LyX-Code
+// Retrieve those verses whose monad count is <= 40
+\end_layout
+
+\begin_layout LyX-Code
+SELECT ALL OBJECTS
+\end_layout
+
+\begin_layout LyX-Code
+WHERE
+\end_layout
+
+\begin_layout LyX-Code
+[Verse
+\end_layout
+
+\begin_layout LyX-Code
+    monad_count <= 40
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout LyX-Code
+GO
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+// Retrive those verses whose length is >= 20
+\end_layout
+
+\begin_layout LyX-Code
+SELECT ALL OBJECTS
+\end_layout
+
+\begin_layout LyX-Code
+WHERE
+\end_layout
+
+\begin_layout LyX-Code
+[Verse
+\end_layout
+
+\begin_layout LyX-Code
+    monad_set_length >= 20
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout LyX-Code
+GO
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+// Retrive those verses whose length is >= 20 and also <= 40
+\end_layout
+
+\begin_layout LyX-Code
+SELECT ALL OBJECTS
+\end_layout
+
+\begin_layout LyX-Code
+WHERE
+\end_layout
+
+\begin_layout LyX-Code
+[Verse
+\end_layout
+
+\begin_layout LyX-Code
+    monad_set_length >= 20 AND monad_set_length <= 40
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout LyX-Code
+GO
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+// Retrive those verses whose length is in the list (20, 25, 30)
+\end_layout
+
+\begin_layout LyX-Code
+SELECT ALL OBJECTS
+\end_layout
+
+\begin_layout LyX-Code
+WHERE
+\end_layout
+
+\begin_layout LyX-Code
+[Verse
+\end_layout
+
+\begin_layout LyX-Code
+    // The following is equivalent to: monad_set_length IN (20, 25, 30),
+\end_layout
+
+\begin_layout LyX-Code
+    // since, if the monad set name is omitted, it is assumed to be
+\end_layout
+
+\begin_layout LyX-Code
+    // the privileged monad set, 
+\begin_inset Quotes eld
+\end_inset
+
+monads
+\begin_inset Quotes erd
+\end_inset
+
+.
+\end_layout
+
+\begin_layout LyX-Code
+    monad_set_length(monads) IN (20, 25, 30)
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout LyX-Code
+GO
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+// Retrive those verses whose first_monad = 1
+\end_layout
+
+\begin_layout LyX-Code
+SELECT ALL OBJECTS
+\end_layout
+
+\begin_layout LyX-Code
+WHERE
+\end_layout
+
+\begin_layout LyX-Code
+[Verse
+\end_layout
+
+\begin_layout LyX-Code
+    first_monad = 1
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout LyX-Code
+GO
+\end_layout
+
+\begin_layout LyX-Code
+
+\end_layout
+
+\begin_layout LyX-Code
+// Retrive those verses whose last_monad >= 100 OR whose first_monad <=
+ 30
+\end_layout
+
+\begin_layout LyX-Code
+SELECT ALL OBJECTS
+\end_layout
+
+\begin_layout LyX-Code
+WHERE
+\end_layout
+
+\begin_layout LyX-Code
+[Verse
+\end_layout
+
+\begin_layout LyX-Code
+    last_monad >= 100 OR first_monad <= 30
+\end_layout
+
+\begin_layout LyX-Code
+]
+\end_layout
+
+\begin_layout LyX-Code
+GO
+\end_layout
+
+\begin_layout LyX-Code
+
 \end_layout
 
 \begin_layout Section

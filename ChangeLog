@@ -34,6 +34,24 @@
 
 	%{prefix}/lib/emdros/EmdrosPy3.pyo
 
+	* Add the possibility to query computed features:
+
+	- first_monad(<monad_set_name>)
+	- last_monad(<monad_set_name>)
+	- monad_count(<monad_set_name>)
+	- monad_set_length(<monad_set_name>)
+
+	Also, document this. Also, add tests.
+
+	modified:   MQL/mql.yxx
+	modified:   MQL/mql_query.cpp
+	modified:   doc/MQL-Programmers-Guide.lyx
+	modified:   doc/MQL-Query-Guide.lyx
+	modified:   include/mql_enums.h
+	modified:   include/mql_query.h
+	modified:   tests/bptqa.h.in
+	modified:   tests/mqlqa.h.in
+
 2018-10-29 Ulrik Sandborg-Petersen
 
 	* src/qrytool/mainframe.cpp, src/qrytool/mainframe.h: Use a
