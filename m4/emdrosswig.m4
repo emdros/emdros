@@ -988,9 +988,33 @@ else
      fi
 fi
 
-
-
 AC_SUBST(MONOCOMPILER)
+
+if test "x$MONOCOMPILER" != "xno"; then
+   TEST_MONO_COMPILER_CS="test-mono-compiler.cs"
+   TEST_MONO_COMPILER_EXE="test-mono-compiler.exe"
+   cat > $TEST_MONO_COMPILER_CS <<EOF
+using System;
+namespace MyMonoCompilerTest {
+   class MyMonoCompilerTest {
+      static int Main(string[[]] args) {
+         System.Console.WriteLine("Hello from C-sharp!");
+         return 0;
+      }
+   }
+}
+EOF
+   AC_MSG_CHECKING([that mono compiler "$MONOCOMPILER" works])
+   MONOCMPILER_RUN=`$MONOCOMPILER $TEST_MONO_COMPILER_CS"`;
+   if test $?; then
+      AC_MSG_WARN([No, the mono compiler throws an error. Not doing SWIG C-sharp])
+      DO_SWIG_CSHARP="no"
+   else
+     AC_MSG_RESULT(yes); 
+   fi
+   rm -f "$TEST_MONO_COMPILER_CS"
+   rm -f "$TEST_MONO_COMPILER_EXE"
+fi
 
 if test x$DO_SWIG_CSHARP = xyes; then
   DO_AT_LEAST_ONE_SWIG=yes

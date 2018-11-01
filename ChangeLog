@@ -17,6 +17,12 @@
 	The mkamalgamation.cpp program was ported from Python to C++ via
 	the new mkamalgamation.py.
 
+	* m4/emdrosswig.m4: Test the Mono compiler, to see if it works at
+	all.  On Fedora 29, mcs always throws an error, due to a bug in
+	Mono 4.8, which is what ships with Fedora 29.
+
+	If the Mono compiler does not work, do not do SWIG C#.
+
 2018-10-29 Ulrik Sandborg-Petersen
 
 	* src/qrytool/mainframe.cpp, src/qrytool/mainframe.h: Use a
