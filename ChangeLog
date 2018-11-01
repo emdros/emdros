@@ -1,4 +1,4 @@
-============ 3.7.0 ============
+============ 3.7.0.pre01 ============
 
 2018-11-01 Ulrik Sandborg-Petersen
 
@@ -26,6 +26,9 @@
 	* EMdF/Makefile.am: Distribute smart_vector.cpp.
 
 	* pcre/: Upgrade to PCRE 8.42 from 2018-03-20.
+
+	* configure.ac: Downbump to 3.7.0.pre01 from 3.7.0.  I intend to
+	make at least one preview release before 3.7.0 is released.
 
 2018-10-29 Ulrik Sandborg-Petersen
 
