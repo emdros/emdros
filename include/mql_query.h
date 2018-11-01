@@ -339,6 +339,25 @@ typedef enum { kOptGapBlock,           /**< [gap?] block. */
 	       kPowerBlock             /**< .. power block. */
 } eBlockKind;
 
+class ComputedFeatureName {
+	std::string m_computed_feature_name;
+	std::string m_parameter1;
+	eComputedFeatureKind m_kind;
+public:
+	ComputedFeatureName(const std::string& computed_feature_name,
+			    const std::string& parameter1);
+	~ComputedFeatureName();
+
+	void weed(MQLExecEnv *pEE, bool& bResult);
+
+	std::string getBasisStoredFeatureName() const;
+
+	std::string getHumanReadableName() const;
+
+	EMdFValue *computeValue(const EMdFValue *pLeft_value) const;
+};
+
+
 
 /** An object reference usage
  *@ingroup Topograph
@@ -348,6 +367,7 @@ class ObjectReferenceUsage {
  private:
 	std::string* m_object_reference;
 	std::string* m_feature_name;
+	ComputedFeatureName *m_computed_feature_name;
 	std::string m_object_reference_lower;
 	FeatureInfo m_feature_info;
 	node_number_t m_controlling_object_block_node_number;
@@ -360,9 +380,13 @@ class ObjectReferenceUsage {
 	bool m_bORDIsParent;
  public:
 	ObjectReferenceUsage(std::string* object_reference, std::string* feature_name);
+	ObjectReferenceUsage(std::string* object_reference, ComputedFeatureName *computed_feature_name);
 	virtual ~ObjectReferenceUsage();
 	bool getORDIsParent(void) const { return m_bORDIsParent; };
 	id_d_t getFeatureTypeId(void) const { return m_feature_info.getType(); };
+	const ComputedFeatureName *getComputedFeatureName() const { return m_computed_feature_name; }
+	
+	void weed(MQLExecEnv *pEE, bool& bResult);
 	bool symbol(MQLExecEnv *pEE, node_number_t ffeatures_parent, bool& bResult);
 	bool symbolObjectReferences2(MQLExecEnv *pEE);
 	const std::string& getObjectReference() { return m_object_reference_lower; };
@@ -425,24 +449,6 @@ class Value {
 	 * @return the value if m_enum_id. 
 	 */
 	id_d_t getEnumId(void) const { return m_enum_id; };
-};
-
-class ComputedFeatureName {
-	std::string m_computed_feature_name;
-	std::string m_parameter1;
-	eComputedFeatureKind m_kind;
-public:
-	ComputedFeatureName(const std::string& computed_feature_name,
-			    const std::string& parameter1);
-	~ComputedFeatureName();
-
-	void weed(MQLExecEnv *pEE, bool& bResult);
-
-	std::string getBasisStoredFeatureName() const;
-
-	std::string getHumanReadableName() const;
-
-	EMdFValue *computeValue(const EMdFValue *pLeft_value);
 };
 
 /** AST member for a feature_comparison.

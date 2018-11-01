@@ -1482,6 +1482,8 @@ enum_const(C) ::=  IDENTIFIER(I). { C = I; }
 %destructor object_reference_usage {delete($$);}
 object_reference_usage(U) ::= object_reference(R) KEY_DOT feature_name(N).
     { U = new ObjectReferenceUsage(R->extractString(), N->extractString()); deleteToken(R); deleteToken(N); }
+object_reference_usage(U) ::= object_reference(R) KEY_DOT computed_feature_name(N).
+    { U = new ObjectReferenceUsage(R->extractString(), N); deleteToken(R);  }
 
 
 %type opt_blocks {Blocks*}

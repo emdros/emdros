@@ -1043,6 +1043,26 @@ StartMonadIterator* Block::getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const S
 }
 
 
+eComputedFeatureKind getComputedFeatureKindFromComputedFeatureName(const std::string& computed_feature_name)
+{
+	eComputedFeatureKind kind = kCFKNone;
+	
+	if (strcmp_nocase(computed_feature_name, "first_monad") == 0) {
+		kind = kCFKFirstMonad;
+	} else if (strcmp_nocase(computed_feature_name, "last_monad") == 0) {
+		kind = kCFKLastMonad;
+	} else if (strcmp_nocase(computed_feature_name, "monad_count") == 0) {
+		kind = kCFKMonadCount;
+	} else if (strcmp_nocase(computed_feature_name, "monad_set_length") == 0) {
+		kind = kCFKMonadSetLength;
+	} else {
+		kind = kCFKNone;
+	}
+	
+	return kind;
+}
+	
+
 
 ////////////////////////////////////////////////////////////
 //
@@ -1053,6 +1073,31 @@ ObjectReferenceUsage::ObjectReferenceUsage(std::string* object_reference,
 					   std::string* feature_name)
 	: m_object_reference(object_reference),
 	  m_feature_name(feature_name),
+	  m_computed_feature_name(0),
+	  m_controlling_object_block_node_number(0),
+	  m_controlling_object_block_object(0),
+	  m_ffeatures_parent(-1),
+	  m_block_string2_parent(-1),
+	  m_index_of_feature_in_MQLObject(0),
+	  m_index_of_feature_in_MatchedObject(0),
+	  m_matched_object_index(0),
+	  m_bORDIsParent(false)
+{
+	str_tolower(*m_object_reference, m_object_reference_lower);
+
+	eComputedFeatureKind computed_feature_kind = getComputedFeatureKindFromComputedFeatureName(*m_feature_name);
+	if (computed_feature_kind != kCFKNone) {
+		m_computed_feature_name = new ComputedFeatureName(*m_feature_name, "monads");
+		delete m_feature_name;
+		m_feature_name = new std::string(m_computed_feature_name->getBasisStoredFeatureName());
+	}
+}
+
+ObjectReferenceUsage::ObjectReferenceUsage(std::string* object_reference, 
+					   ComputedFeatureName *computed_feature_name)
+	: m_object_reference(object_reference),
+	  m_feature_name(new std::string(computed_feature_name->getBasisStoredFeatureName())),
+	  m_computed_feature_name(computed_feature_name),
 	  m_controlling_object_block_node_number(0),
 	  m_controlling_object_block_object(0),
 	  m_ffeatures_parent(-1),
@@ -1069,6 +1114,17 @@ ObjectReferenceUsage::~ObjectReferenceUsage()
 {
 	delete m_object_reference;
 	delete m_feature_name;
+	delete m_computed_feature_name;
+}
+
+void ObjectReferenceUsage::weed(MQLExecEnv *pEE, bool& bResult)
+{
+	if (m_computed_feature_name != 0) {
+		m_computed_feature_name->weed(pEE, bResult);
+		if (!bResult) {
+			pEE->pError->appendError("This happened in the object reference usage: " + *m_object_reference + "." + m_computed_feature_name->getHumanReadableName() + "\n");
+		}
+	}
 }
 
 //
@@ -1358,7 +1414,7 @@ EMdFValue *Value::getAsNewedEMdFValue() const
 	return pResult;
 }
 
-const EMdFValue *getEMdFValueFromObjectReferenceUsage(const Value *pValueObject, NonParentORDSolution *pNonParentSolution)
+const EMdFValue *getEMdFValueFromObjectReferenceUsage(const Value *pValueObject, NonParentORDSolution *pNonParentSolution, bool& bShouldDeleteEMdFValue)
 {
 	const ObjectReferenceUsage *pORU = pValueObject->getObjectReferenceUsageConst();	
 	const EMdFValue *pValue = 0;
@@ -1373,6 +1429,14 @@ const EMdFValue *getEMdFValueFromObjectReferenceUsage(const Value *pValueObject,
 			(*pNonParentSolution)[pORU->getMatchedObjectIndex()];
 		pValue = pMatchedObject->getEMdFValue(pORU->getFeatureIndexInMatchedObject());
 	}
+
+	const ComputedFeatureName *pComputedFeatureName = pORU->getComputedFeatureName();
+	if (pComputedFeatureName == 0) {
+		bShouldDeleteEMdFValue = false;
+	} else {
+		bShouldDeleteEMdFValue = true;
+		pValue = pComputedFeatureName->computeValue(pValue);
+	}	
 	return pValue;
 }
 
@@ -1383,7 +1447,6 @@ std::string Value::getAsString(MQLExecEnv *pEE, NonParentORDSolution *pNonParent
 	UNUSED(pEE);
 
 	std::string result;
-	const EMdFValue* pValue;
 	switch (m_kind) {
 	case kValEnumConst:
 		result = long2string(m_enum_const_value);
@@ -1395,10 +1458,22 @@ std::string Value::getAsString(MQLExecEnv *pEE, NonParentORDSolution *pNonParent
 		result = *m_string;
 		break;
 	case kValObjectReferenceUsage:
-		pValue = getEMdFValueFromObjectReferenceUsage(this, pNonParentORDSolution);
-		result = pValue->toString();
+		{
+			const EMdFValue* pValue;
+			bool bShouldDeleteEMdFValue = false;
+			
+			pValue = getEMdFValueFromObjectReferenceUsage(this, pNonParentORDSolution, bShouldDeleteEMdFValue);
+			result = pValue->toString();
+			
+			if (bShouldDeleteEMdFValue) {
+				delete pValue;
+			}
+			
+		}
+		
 		break;
 	}
+
 
 	// Return result;
 	return result;
@@ -1439,25 +1514,6 @@ const ObjectReferenceUsage* Value::getObjectReferenceUsageConst() const
 	return m_object_reference_usage;
 }
 
-eComputedFeatureKind getComputedFeatureKindFromComputedFeatureName(const std::string& computed_feature_name)
-{
-	eComputedFeatureKind kind = kCFKNone;
-	
-	if (strcmp_nocase(computed_feature_name, "first_monad") == 0) {
-		kind = kCFKFirstMonad;
-	} else if (strcmp_nocase(computed_feature_name, "last_monad") == 0) {
-		kind = kCFKLastMonad;
-	} else if (strcmp_nocase(computed_feature_name, "monad_count") == 0) {
-		kind = kCFKMonadCount;
-	} else if (strcmp_nocase(computed_feature_name, "monad_set_length") == 0) {
-		kind = kCFKMonadSetLength;
-	} else {
-		kind = kCFKNone;
-	}
-	
-	return kind;
-}
-	
 
 
 
@@ -1515,7 +1571,7 @@ std::string ComputedFeatureName::getHumanReadableName() const
 	return m_computed_feature_name + "(" + m_parameter1 + ")";
 }
 
-EMdFValue *ComputedFeatureName::computeValue(const EMdFValue *pLeft_value)
+EMdFValue *ComputedFeatureName::computeValue(const EMdFValue *pLeft_value) const
 {
 	ASSERT_THROW(pLeft_value->getKind() == kEVSetOfMonads,
 		     "ERROR: ComputedFeatureName::computeValue() called with left value\nwhich is not a set of monads.\n");
@@ -1709,6 +1765,19 @@ FeatureComparison::~FeatureComparison()
 //
 void FeatureComparison::weedFeatureConstraints(MQLExecEnv *pEE, bool& bResult, node_number_t ffeatures_parent)
 {
+	if (m_value != 0 && m_value->getKind() == kValObjectReferenceUsage) {
+		ObjectReferenceUsage *pORU = m_value->getObjectReferenceUsage();
+		pORU->weed(pEE, bResult);
+		if (!bResult) {
+			if (m_computed_feature_name == 0) {
+				pEE->pError->appendError("This happened in the feature comparison for feature name: " + *m_feature_name + "\n");
+			} else {
+				pEE->pError->appendError("This happened in the feature comparison for computed feature name: " + m_computed_feature_name->getHumanReadableName() + "\n");
+			}
+			return;
+		}
+	}
+
 	m_ffeatures_parent = ffeatures_parent;
 	if (m_comparison_op == kTilde || m_comparison_op == kNotTilde) {
 		// kTilde and kNotTilde only occur with m_value, not with
@@ -2212,10 +2281,15 @@ bool FeatureComparison::type(MQLExecEnv *pEE, bool& bResult)
 						bResult = false;
 					}
 				} else if (featureTypeIdIsSOM(ft) && featureTypeIdIsSOM(oru_ft)) {
-					bResult = m_comparison_op == kEqual;
-					if (!bResult) {
-						pEE->pError->appendError("The feature " + *m_feature_name + " is being compared with an object reference usage. Both are sets of monads, so you must use = as the comparison operator.\n");
-						
+					if (m_computed_feature_name != 0
+					    && pORU->getComputedFeatureName() != 0) {
+						// Both are computed features. OK
+					} else {
+						bResult = m_comparison_op == kEqual;
+						if (!bResult) {
+							pEE->pError->appendError("The feature " + *m_feature_name + " is being compared with an object reference usage. Both are sets of monads, so you must use = as the comparison operator.\n");
+							
+						}
 					}
 				} else if (featureTypeIdIsSOM(ft) && featureTypeIdIsINTEGER(oru_ft)) {
 					if (m_computed_feature_name == 0) {
@@ -2381,11 +2455,16 @@ bool FeatureComparison::hasORU()
 }
 
 bool FeatureComparison::compareObjectReferenceUsage(const EMdFValue* left_value, NonParentORDSolution *pNonParentORDSolution)
-{	
-	const EMdFValue *pRightValue = getEMdFValueFromObjectReferenceUsage(m_value, pNonParentORDSolution);
+{
+	bool bShouldDeleteEMdFValue = false;	
+	const EMdFValue *pRightValue = getEMdFValueFromObjectReferenceUsage(m_value, pNonParentORDSolution, bShouldDeleteEMdFValue);
 	ASSERT_THROW(pRightValue != 0,
 		     "pRightValue was 0!");
-	return left_value->compare(*pRightValue, m_comparison_op);
+	bool bResult = left_value->compare(*pRightValue, m_comparison_op);
+	if (bShouldDeleteEMdFValue) {
+		delete pRightValue;
+	}
+	return bResult;
 }
 
 

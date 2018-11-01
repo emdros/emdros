@@ -31210,3 +31210,51 @@ GO
 ---- answer 
  
 	  
+	  
+
+++++ query first_monad > ORU.last_monad
+SELECT ALL OBJECTS
+WHERE	  
+[Title AS t1
+]
+..
+[Verse
+   first_monad > t1.last_monad
+   AND last_monad <= 20
+]
+GO
+++++ answer
+ //  <  < [ title 19 { 1-7 } false  //  <  > 
+ ]
+[ verse 23 { 8-17 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+	  
+
+++++ query monad_count >= ORU.monad_count AND monad_set_length <= 14
+SELECT ALL OBJECTS
+WHERE	  
+[Title AS t1
+]
+..
+[Verse
+    monad_count(monads) >= t1.monad_count(monads)
+    AND monad_set_length <= 14
+]
+GO
+++++ answer
+ //  <  < [ title 19 { 1-7 } false  //  <  > 
+ ]
+[ verse 23 { 8-17 } false  //  <  > 
+ ]
+ > 
+ < [ title 19 { 1-7 } false  //  <  > 
+ ]
+[ verse 25 { 46-56 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer 

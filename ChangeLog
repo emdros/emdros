@@ -52,6 +52,15 @@
 	modified:   tests/bptqa.h.in
 	modified:   tests/mqlqa.h.in
 
+	* Extend the computed feature comparisons to also use Object
+	Reference Usages.
+
+	modified:   MQL/mql.yxx
+	modified:   MQL/mql_query.cpp
+	modified:   include/mql_query.h
+	modified:   tests/bptqa.h.in
+	modified:   tests/mqlqa.h.in
+
 2018-10-29 Ulrik Sandborg-Petersen
 
 	* src/qrytool/mainframe.cpp, src/qrytool/mainframe.h: Use a
