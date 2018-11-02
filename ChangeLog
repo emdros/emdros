@@ -35,6 +35,8 @@
 	* win32/config.mak.in: Make it explicit that you can nowadays only
 	have MySQL support on Windows if you are making X64 binaries.
 
+	* EMdF/Makefile.am: Add json.c to CLEANFILES.
+
 2018-11-01 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Change order of SUBDIRS such that util/ comes
