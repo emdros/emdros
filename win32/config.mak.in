@@ -10,15 +10,19 @@ TARGET_CPU = X64
 # ---------------------
 
 SQLITE3=1
+
+!IF "$TARGET_CPU" = "X64"
+# You modify this...
 MYSQL=1
+!ELSE
+# But not this...
+MYSQL=0
+!ENDIF
 
 # PostgreSQL support is not provided in the official binaries,
 # due to library conflicts between PostgreSQL and MySQL,
 # and due to licensing restrictions posed on the libraries
 # shipped with PostreSQL.
-#
-# Feel free to enable PostgreSQL support in your own binaries,
-# by setting the following variable to 1
 PGSQL=0
 
 #
