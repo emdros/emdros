@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/14-2003
- * Last update: 4/18-2018
+ * Last update: 11/2-2018
  *
  */
 
@@ -114,6 +114,10 @@ void EmdrosEnv::init(std::ostream* output_stream,
 	EMdFOutput *pOut = new EMdFOutput(charset, output_stream, output_kind, 3);
   
 	m_pEE = new MQLExecEnv(pDB, pOut);
+#if !USE_MYSQL && !USE_POSTGRESQL
+	UNUSED(hostname); // Silence a warning
+	UNUSED(user); // Silence a warning
+#endif
 }
 
 /**The full constructor.

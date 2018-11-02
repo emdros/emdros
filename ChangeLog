@@ -24,6 +24,8 @@
 	modified:   include/mysqlconn.h
 	modified:   include/pgconn.h
 
+	* MQL/emdros_environment.cpp: Silence some warnings.
+
 2018-11-01 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Change order of SUBDIRS such that util/ comes
