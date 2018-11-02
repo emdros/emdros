@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 3/2-2005
- * Last update: 6/23-2017
+ * Last update: 11/2-2017
  *
  */
 
@@ -311,7 +311,7 @@ class Bigstring : protected Arena {
 		size_t nCharsLeft = nchars;
 		const char *pStrLocal = pSrc;
 		while (nCharsLeft > 0) {
-			int nCharsAdded = 0;
+			size_t nCharsAdded = 0;
 			size_t left_in_chunk = m_tail->getChunkSize() - m_tail->m_index;
 
 			if (left_in_chunk == 0) {

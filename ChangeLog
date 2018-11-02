@@ -42,6 +42,9 @@
 	* amalgamation/amalgamation.xml: Add some #undefs to two
 	<code_prefix>...</code_prefix> element in the PCRE C amalgamation.
 
+	* include/arena.h: Make the Microsoft MSVC compiler less
+	warning-angry.
+
 2018-11-01 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Change order of SUBDIRS such that util/ comes
