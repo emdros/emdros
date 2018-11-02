@@ -26,6 +26,12 @@
 
 	* MQL/emdros_environment.cpp: Silence some warnings.
 
+	* win32/lconfig.h.win32: Delete.
+
+	* win32/lconfig.h.win32.in: Initial addition. Also, flesh it out
+	further than the old win32/lconfig.h.win32.  Also, built the
+	latter from the former in the Makefile.am.
+
 2018-11-01 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Change order of SUBDIRS such that util/ comes

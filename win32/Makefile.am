@@ -1,11 +1,12 @@
 EXTRA_DIST = win32.mak mingw.mak body.mak mingw-body.mak \
    config.h.win32 lconfig.h.win32 \
    config.mak.in config.mak README.txt \
-   emdros.nsi.in emdros-logo-installer.bmp emdros.nsi
+   lconfig.h.win32 lconfig.h.win32.in \
+   emdros.nsi.in emdros-logo-installer.bmp emdros.nsi 
 
 CLEANFILES = *~ core config.mak emdros.nsi
 
-BUILT_SOURCES = config.mak emdros.nsi
+BUILT_SOURCES = config.mak emdros.nsi lconfig.h.win32
 
 
 config.mak: config.mak.in Makefile
@@ -14,3 +15,6 @@ config.mak: config.mak.in Makefile
 
 emdros.nsi: emdros.nsi.in
 	$(top_builddir)/config.status --file=$(srcdir)/emdros.nsi
+
+lconfig.h.win32: lconfig.h.win32.in
+	$(top_builddir)/config.status --file=$(srcdir)/lconfig.h.win32
