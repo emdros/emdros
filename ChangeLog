@@ -1,5 +1,10 @@
 ============ 3.7.0.pre01 ============
 
+2018-11-02 Ulrik Sandborg-Petersen
+
+	* amalgamation/amalgamation.xml: Remove redundant EMdF/json.h.  It
+	is there already as EMdF/jsonpars.h.
+
 2018-11-01 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Change order of SUBDIRS such that util/ comes

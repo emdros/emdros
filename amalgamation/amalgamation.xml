@@ -266,7 +266,6 @@
         <header_file name="include/bptdumper.h" />
         <header_file name="include/bpt2dumper.h" />
         <header_file name="include/md5_emdros.h" />
-        <header_file name="EMdF/json.h" />
         <header_file name="EMdF/jsonpars.h" />
         <header_file name="harvest/templatelangpars.h" />
       </header_files>
