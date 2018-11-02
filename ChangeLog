@@ -39,6 +39,9 @@
 
 	* win32/Makefile.am: Add lconfig.win32.h to CLEANFILES.
 
+	* amalgamation/amalgamation.xml: Add some #undefs to two
+	<code_prefix>...</code_prefix> element in the PCRE C amalgamation.
+
 2018-11-01 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Change order of SUBDIRS such that util/ comes

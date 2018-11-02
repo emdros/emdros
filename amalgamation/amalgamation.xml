@@ -62,18 +62,14 @@
     <target_file language="C" name="emdros_c_amalgamation_1.c">
       <code_prefixes>
 	<code_prefix name="pcre/pcre_compile.c">
-	  /*
 #undef NLBLOCK
 #undef PSSTART
 #undef PSEND
-*/
 	</code_prefix>
 	<code_prefix name="pcre/pcre_dfa_exec.c">
-	  /*
 #undef NLBLOCK
 #undef PSSTART
 #undef PSEND
-*/
 	</code_prefix>	  
       </code_prefixes>
       <header_files>
