@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 5/11-2018
+ * Last update: 11/2-2018
  *
  */
 
@@ -786,6 +786,7 @@ bool EMdFDB::getSchemaVersion(/* out */ long& schema_version)
 				return false;
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getSchemaVersion");
 			// There was a NULL value exception, hence we return an error
 			return false;
@@ -1475,6 +1476,7 @@ bool EMdFDB::getLargestObjectLengthFromOT_objects(const std::string& object_type
 						return false;
 					}
 				} catch (EMdFNULLValueException& e) {
+					UNUSED(e);
 					DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getLargestObjectLengthFromOT_objects");
 					// There was a NULL value exception, hence we return an error
 					return false;
@@ -1547,6 +1549,7 @@ bool EMdFDB::getLargestObjectLength(const std::string& object_type_name,
 					return false;
 				}
 			} catch (EMdFNULLValueException& e) {
+				UNUSED(e);
 				DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getLargestObjectLength");
 				// There was a NULL value exception, hence we return an error
 				return false;
@@ -1741,6 +1744,7 @@ bool EMdFDB::objectTypeExists(id_d_t object_type_id,
 					}
 				}
 			} catch (EMdFNULLValueException& e) {
+				UNUSED(e);
 				DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::objectTypeExists");
 				// There was a NULL value exception, hence we return an error
 				return false;
@@ -1864,6 +1868,7 @@ bool EMdFDB::objectTypeExists(const std::string& object_type_name,
 				}
 
 			} catch (EMdFNULLValueException& e) {
+				UNUSED(e);
 				DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::objectTypeExists");
 
 				// There was a NULL value exception, hence we return an error
@@ -2097,6 +2102,7 @@ bool EMdFDB::enumExists(id_d_t enum_id,
 					return false;
 				}
 			} catch (EMdFNULLValueException& e) {
+				UNUSED(e);
 				DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::enumExists");
 				// There was a NULL value exception, hence we return an error
 				return false;
@@ -2168,6 +2174,7 @@ bool EMdFDB::enumExists(const std::string& enum_name,
 					return false;
 				}
 			} catch (EMdFNULLValueException& e) {
+				UNUSED(e);
 				DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::enumExists");
 				// There was a NULL value exception, hence we return an error
 				return false;
@@ -2243,6 +2250,7 @@ bool EMdFDB::getDefault(id_d_t enum_id,
 					return false;
 				}
 			} catch (EMdFNULLValueException& e) {
+				UNUSED(e);
 				DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getDefault");
 				// There was a NULL value exception, hence we return an error
 				return false;
@@ -2416,6 +2424,7 @@ bool EMdFDB::enumConstExists(const std::string& enum_const_name,
 						return false;
 					}
 				} catch (EMdFNULLValueException& e) {
+					UNUSED(e);
 					DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::enumConstExists");
 					// There was a NULL value exception, hence we return an error
 					return false;
@@ -2537,6 +2546,7 @@ bool EMdFDB::getEnumConstNameFromValue(long value,
 					return false;
 				}
 			} catch (EMdFNULLValueException& e) {
+				UNUSED(e);
 				DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::enumConstExists");
 				// There was a NULL value exception, hence we return an error
 				return false;
@@ -2632,6 +2642,7 @@ bool EMdFDB::enumConstExists(long value,
 				}
 
 			} catch (EMdFNULLValueException& e) {
+				UNUSED(e);
 				DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::enumConstExists");
 				// There was a NULL value exception, hence we return an error
 				return false;
@@ -3528,6 +3539,7 @@ bool EMdFDB::featureExists(const std::string& feature_name,
 					return false;
 				}
 			} catch (EMdFNULLValueException& e) {
+				UNUSED(e);
 				DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::featureExists");
 				// There was a NULL value exception, hence we return an error
 				return false;
@@ -3610,7 +3622,7 @@ bool EMdFDB::getFeatures(const std::string& object_type_name,
 			return false;
 		}
 
-		int no_of_features_to_get = feature_names_vec.size();
+		int no_of_features_to_get = (int) feature_names_vec.size();
 
 		std::ostringstream query_stream;
 		query_stream 
@@ -3951,7 +3963,7 @@ bool EMdFDB::getFeaturesByQueryExec(const std::string query,
 	UNUSED(normalized_object_type_name);
 	UNUSED(object_type_id);
 	
-	int no_of_features_to_get = feature_names_vec.size();
+	int no_of_features_to_get = (int) feature_names_vec.size();
 
 	unsigned int feature_name_index = 0;
 
@@ -4121,6 +4133,7 @@ bool EMdFDB::getFeaturesByQueryExec(const std::string query,
 		delete[] pFeature_values;
 
 	} catch (EMdFNULLValueException& e) {
+		UNUSED(e);
 		DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getFeaturesByQueryExec");
 		// There was a NULL value exception, hence we return an error
 		return false;
@@ -4403,6 +4416,7 @@ bool EMdFDB::loadStringSetIntoCache(const std::string& object_type_name,
 			// Add it to the cache
 			pSSC->addPair(id_d, string_value);
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::loadStringSetIntoCache");
 			// There was a NULL value exception, hence we return an error
 			return false;
@@ -4617,6 +4631,7 @@ bool EMdFDB::getID_DFromStringSet(const std::string& normalized_object_type_name
 				return false;
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getID_DFromStringSet");
 			// There was a NULL value exception, hence we return an error
 			return false;
@@ -4966,6 +4981,7 @@ bool EMdFDB::selectMonadSets(/* out */ std::list<std::string>& monad_set_names)
 				}
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::selectMonadSets");
 			// There was a NULL value exception, hence we return an error
 			return false;
@@ -5073,6 +5089,7 @@ bool EMdFDB::monadSetExists(const std::string& monad_set_name,
 				}
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::monadSetExists");
 			// There was a NULL value exception, hence we return an error
 			return false;
@@ -5219,6 +5236,7 @@ bool EMdFDB::dropMonadSet(const std::string& monad_set_name)
 				pConn->finalize();
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::monadSetExists");
 			// There was a NULL value exception, hence we return an error
 			return false;
@@ -5516,6 +5534,7 @@ bool EMdFDB::getObjectsHavingMonadsInMonadSet(const std::string object_type_name
 			}
 		}
 	} catch (EMdFNULLValueException& e) {
+		UNUSED(e);
 		DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getObjectsHavingMonadsInMonadSet");
 		// There was a NULL value exception, hence we return an error
 		return false;
@@ -5669,7 +5688,7 @@ bool EMdFDB::getObjectsHavingMonadsInExec(const std::string& OTN,
 		return false;
 	}
 	LOG_WRITE_TIME("EMdFDB::getObjectsHavingMonadsInExec", "Query finished.");
-	int no_of_features_to_get = feature_names_vec.size();
+	int no_of_features_to_get = (int) feature_names_vec.size();
 
 	LOG_WRITE_TIME("EMdFDB::getObjectsHavingMonadsInExec", "Retrieval starting.");
 	InstObject *pObj = 0;
@@ -5832,10 +5851,12 @@ bool EMdFDB::getObjectsHavingMonadsInExec(const std::string& OTN,
 			}
 		} // end of iteration over query-results
 	} catch (EMdFNULLValueException& e) {
+		UNUSED(e);
 		DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getObjectsHavingMonadsInExec");
 		// There was a NULL value exception, hence we return an error
 		return false;
 	} catch (BadMonadsException& e) {
+		UNUSED(e);
 		DEBUG_X_FAILED("EMdFDB::getObjectsHavingMonadsInExec", "Bad monads exception: " + e.what());
 		// There was a NULL value exception, hence we return an error
 		return false;
@@ -6147,7 +6168,7 @@ bool EMdFDB::getObjectsHavingMonadsInFromSingleUniqueMonadExec(const std::string
 		return false;
 	}
 	LOG_WRITE_TIME("EMdFDB::getObjectsHavingMonadsInFromSingleUniqueMonadExec", "Query finished.");
-	int no_of_features_to_get = feature_names_vec.size();
+	int no_of_features_to_get = (int) feature_names_vec.size();
 
 	LOG_WRITE_TIME("EMdFDB::getObjectsHavingMonadsInFromSingleUniqueMonadExec", "Retrieval starting.");
 	InstObject *pObj = 0;
@@ -6234,6 +6255,7 @@ bool EMdFDB::getObjectsHavingMonadsInFromSingleUniqueMonadExec(const std::string
 			}
 		} // end of iteration over query-results
 	} catch (EMdFNULLValueException& e) {
+		UNUSED(e);
 		DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getObjectsHavingMonadsInFromSingleUniqueMonadExec");
 		// There was a NULL value exception, hence we return an error
 		return false;
@@ -7312,7 +7334,7 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 		}
 		
 		//LOG_WRITE_TIME("EMdFDB::getInst", "Query finished.");
-			int no_of_features_to_get = features_to_get.size();
+		int no_of_features_to_get = (int) features_to_get.size();
 
 
 		LOG_WRITE_TIME("EMdFDB::getInst", "Retrieval starting.");
@@ -7494,6 +7516,7 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 				}
 			} // end of iteration over query-results
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getInst");
 			// There was a NULL value exception, hence we return an error
 			return false;
@@ -7569,6 +7592,7 @@ bool EMdFDB::getObjectsStartingAtSm(const std::string& object_type_name,
 				}
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getObjectsStartingAtSm");
 			// There was a NULL value exception, hence we return an error
 			return false;
@@ -7786,6 +7810,7 @@ bool EMdFDB::getMonadsFromID_Ds(const SetOfMonads& id_ds_set,
 					}
 				}
 			} catch (EMdFNULLValueException& e) {
+				UNUSED(e);
 				DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getMonadsFromID_Ds");
 				// There was a NULL value exception, hence we return an error
 				return false;
@@ -7906,6 +7931,7 @@ bool EMdFDB::getSOMForObject(const std::string& object_type_name,
 				}
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getSOMForObject");
 			// There was a NULL value exception, hence we return an error
 			return false;
@@ -7961,6 +7987,7 @@ bool EMdFDB::getObjectTypes(/* out */ std::list<std::string>& Result)
 				}
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getObjectTypes");
 			// There was a NULL value exception, hence we return an error
 			return false;
@@ -8114,6 +8141,7 @@ bool EMdFDB::getFeaturesForObjectType(id_d_t object_type_id,
 				}
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getFeaturesForObjectType");
 			// There was a NULL value exception, hence we return an error
 			return false;
@@ -8173,6 +8201,7 @@ bool EMdFDB::getEnumerations(/* out */ std::list<std::string>& Result)
 				}
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getEnumerations");
 			// There was a NULL value exception, hence we return an error
 			return false;
@@ -8265,6 +8294,7 @@ bool EMdFDB::loadEnumConstantsIntoCache(id_d_t enum_id)
 				}
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::loadEnumConstantsIntoCache");
 			// There was a NULL value exception, hence we return an error
 			return false;
@@ -8365,6 +8395,7 @@ bool EMdFDB::getEnumConstants(id_d_t enum_id,
 				}
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getEnumConstants");
 			// There was a NULL value exception, hence we return an error
 			return false;
@@ -8441,6 +8472,7 @@ bool EMdFDB::getObjectTypesUsingEnumeration(id_d_t enum_id,
 				}
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getObjectTypesUsingEnumeration");
 			// There was a NULL value exception, hence we return an error
 			return false;
@@ -8527,6 +8559,7 @@ bool EMdFDB::getObjectsWithinMonads(const SetOfMonads& monads,
 				}
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getObjectsWithinMonads");
 			// There was a NULL value exception, hence we return an error
 			return false;
@@ -9816,7 +9849,7 @@ std::string EMdFDB::normalizeTableName(const std::string& table_name, bool bChec
 	std::string salt1 = "ZCGwYkCLCl";
 	std::string salt2 = "8Ktc9lTiU3";
 	std::string salted_table_name = salt1 + table_name + salt2;
-	unsigned long crc32 = emdros_crc32_calc((const unsigned char*) salted_table_name.c_str(), salted_table_name.length());
+	unsigned long crc32 = emdros_crc32_calc((const unsigned char*) salted_table_name.c_str(), (int) salted_table_name.length());
 	std::string crc32_string = ulong2hex(crc32);
 	
 	new_table_name = table_name.substr(0, m_max_table_name_length - crc32_string.length() - 1) + "_" + crc32_string;
@@ -10157,6 +10190,7 @@ bool EMdFDB::setMin_max_m_fromObjectType(const std::string& object_type_name,
 				return false;
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			// There was a NULL Value exception, so the object type
 			// was probably empty.
 			// Do not set min/max
@@ -10233,6 +10267,7 @@ bool EMdFDB::getMax_m(monad_m& /* out */ max_m)
 				return false;
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getMax_m");
 			// There was a NULL value exception, hence we return an error
 			return false;
@@ -10337,6 +10372,7 @@ bool EMdFDB::getMin_m(monad_m& /* out */ min_m)
 				return false;
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getMin_m");
 			// There was a NULL value exception, hence we return an error
 			return false;

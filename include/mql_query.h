@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 11/1-2018
+ * Last update: 11/2-2018
  *
  */
 
@@ -708,7 +708,7 @@ class ObjectBlockBase : public QueryNode {
 	const std::string& getObjectTypeName() const { return *m_object_type_name; };
 	monad_m getLargestObjectLength() const { return m_largest_object_length; };
 	int getNoOfGETFeatures() { return m_nNoOfGET_features; };
-	int getNoOfFeatureRetrievalFeatures(void) const { return m_Feature_retrieval_vec.size(); };
+	int getNoOfFeatureRetrievalFeatures(void) const { return (int) m_Feature_retrieval_vec.size(); };
 	Feature* getFeatureRetrievalFeature(unsigned int index);
 	bool isNOTEXIST(void) const { return m_bIsNOTEXIST; }
 	eRetrieval getRetrieval() const { return m_retrieval; };

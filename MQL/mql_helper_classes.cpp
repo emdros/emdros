@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 3/1-2017
+ * Last update: 11/2-2018
  *
  */
 
@@ -422,14 +422,14 @@ int FeatureEnv::findFeatureIndex(const std::string& locase_feature_name) const
 MQLType* FeatureEnv::findMQLType(int feature_index) const
 {
 	ASSERT_THROW(feature_index >= 0 && feature_index < (int) m_MQLType_vec.size(),
-		"Error in FeatureEnv::findMQLType(" + int2string(feature_index) + "): Index out of range (" + int2string(m_MQLType_vec.size()) + ").");
+		     "Error in FeatureEnv::findMQLType(" + int2string(feature_index) + "): Index out of range (" + int2string((int) m_MQLType_vec.size()) + ").");
 	return m_MQLType_vec[feature_index];
 }
 
 const FeatureInfo& FeatureEnv::getFeatureInfoConstRef(int feature_index) const
 {
 	ASSERT_THROW(feature_index >= 0 && feature_index < (int) m_FeatureInfo_vec.size(),
-		"Error in FeatureEnv::getFeatureInfoConstRef(" + int2string(feature_index) + "): Index out of range (" + int2string(m_FeatureInfo_vec.size()) + ").");
+		     "Error in FeatureEnv::getFeatureInfoConstRef(" + int2string(feature_index) + "): Index out of range (" + int2string((int) m_FeatureInfo_vec.size()) + ").");
 	return m_FeatureInfo_vec[feature_index];
 }
 

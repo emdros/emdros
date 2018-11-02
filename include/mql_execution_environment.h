@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 5/1-2001 (1st of May, 2001)
- * Last update: 1/22-2014
+ * Last update: 11/2-2018
  *
  */
 
@@ -377,7 +377,7 @@ class MQLExecEnv {
 	QueryNodeVector m_node_vector;
 	node_number_t getNextNodeNumber(QueryNode* pNode);
 	QueryNode* getNodeFromNodeNumber(node_number_t node_number);
-	node_number_t getHighestNodeNumber(void) const { return m_node_vector.size() - 1; };
+	node_number_t getHighestNodeNumber(void) const { return ((int) m_node_vector.size()) - 1; };
 	
 	void progress(void); // Called to show progress
 #endif // !defined SWIG

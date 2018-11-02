@@ -45,6 +45,15 @@
 	* include/arena.h: Make the Microsoft MSVC compiler less
 	warning-angry.
 
+	* EMdF/emdfdb.cpp: Silence several Microsoft MSVC compiler
+	warnings.
+
+	Also affected:
+
+	modified:   MQL/mql_helper_classes.cpp
+	modified:   include/mql_execution_environment.h
+	modified:   include/mql_query.h
+
 2018-11-01 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Change order of SUBDIRS such that util/ comes
