@@ -98,10 +98,12 @@ ORIGINAL_DO_SWIG_RUBY=$DO_SWIG_RUBY
 
 dnl If we can't do SWIG; don't do SWIG Ruby bindings
 if test x$CAN_DO_SWIG == xno; then
-   if test -f SWIG/ruby/rbemdros_wrap.cxx; then
-     DO_SWIG_RUBY=yes;
-   else
-     DO_SWIG_RUBY=no;
+   if test "x$DO_SWIG_RUBY" != "xno"; then
+      if test -f SWIG/ruby/rbemdros_wrap.cxx; then
+        DO_SWIG_RUBY=yes;
+	   else
+        DO_SWIG_RUBY=no;
+      fi
    fi
 fi
 
@@ -211,10 +213,12 @@ ORIGINAL_DO_SWIG_PERL=$DO_SWIG_PERL
 
 dnl If we can't do SWIG, don't do SWIG Perl bindings.
 if test x$CAN_DO_SWIG == xno; then
-   if test -f SWIG/perl/plemdros_wrap.cxx -a -f SWIG/perl/EmdrosPerl.pm; then
-     DO_SWIG_PERL=yes;
-   else
-     DO_SWIG_PERL=no;
+   if test "x$DO_SWIG_PERL" != "xno"; then
+     if test -f SWIG/perl/plemdros_wrap.cxx -a -f SWIG/perl/EmdrosPerl.pm; then
+        DO_SWIG_PERL=yes;
+      else
+        DO_SWIG_PERL=no;
+      fi
    fi
 fi
 
@@ -330,10 +334,12 @@ ORIGINAL_DO_SWIG_PYTHON=$DO_SWIG_PYTHON
 
 dnl If we can't do SWIG, don't do SWIG Python bindings.
 if test x$CAN_DO_SWIG == xno; then
-   if test -f SWIG/python/pyemdros_wrap.cxx -a -f SWIG/python/EmdrosPy.py ; then
-     DO_SWIG_PYTHON=yes;
-   else
-     DO_SWIG_PYTHON=no;
+   if test "x$DO_SWIG_PYTHON" != "xno"; then
+      if test -f SWIG/python/pyemdros_wrap.cxx -a -f SWIG/python/EmdrosPy.py ; then
+         DO_SWIG_PYTHON=yes;
+      else
+         DO_SWIG_PYTHON=no;
+      fi
    fi
 fi
 
@@ -467,10 +473,12 @@ ORIGINAL_DO_SWIG_PYTHON3=$DO_SWIG_PYTHON3
 
 dnl If we can't do SWIG, don't do SWIG Python3 bindings.
 if test x$CAN_DO_SWIG == xno; then
-   if test -f SWIG/python3/py3emdros_wrap.cxx -a -f SWIG/python3/EmdrosPy3.py; then
-     DO_SWIG_PYTHON3=yes;
-   else
-     DO_SWIG_PYTHON3=no;
+   if test "x$DO_SWIG_PYTHON3" != "xno"; then
+      if test -f SWIG/python3/py3emdros_wrap.cxx -a -f SWIG/python3/EmdrosPy3.py; then
+         DO_SWIG_PYTHON3=yes;
+      else
+         DO_SWIG_PYTHON3=no;
+      fi
    fi
 fi
 
@@ -603,10 +611,12 @@ ORIGINAL_DO_SWIG_JAVA=$DO_SWIG_JAVA
 
 dnl If we can't do SWIG, don't do SWIG Java bindings.
 if test x$CAN_DO_SWIG == xno; then
-   if test -f SWIG/java/libjemdros_wrap.cxx -a -f SWIG/java/jemdros.jar; then
-     DO_SWIG_JAVA=yes;
-   else
-     DO_SWIG_JAVA=no;
+   if test "x$DO_SWIG_JAVA" != "xno"; then
+      if test -f SWIG/java/libjemdros_wrap.cxx -a -f SWIG/java/jemdros.jar; then
+         DO_SWIG_JAVA=yes;
+      else
+         DO_SWIG_JAVA=no;
+      fi
    fi
 fi
 
@@ -916,10 +926,12 @@ ORIGINAL_DO_SWIG_CSHARP=$DO_SWIG_CSHARP
 
 dnl If we can't do SWIG, don't do SWIG C-Sharp bindings.
 if test x$CAN_DO_SWIG == xno; then
-   if test -f SWIG/csharp/libcsemdros_wrap.cxx -a -f SWIG/csharp/CSharpSources.zip; then
-     DO_SWIG_CSHARP=yes;
-   else
-     DO_SWIG_CSHARP=no;
+   if test "x$DO_SWIG_CSHARP" != "xno"; then
+      if test -f SWIG/csharp/libcsemdros_wrap.cxx -a -f SWIG/csharp/CSharpSources.zip; then
+         DO_SWIG_CSHARP=yes;
+      else
+         DO_SWIG_CSHARP=no;
+      fi
    fi
 fi
 
@@ -1040,13 +1052,15 @@ ORIGINAL_DO_SWIG_PHP=$DO_SWIG_PHP
 
 dnl If we can't do SWIG, don't do SWIG PHP bindings.
 if test x$CAN_DO_SWIG == xno; then
-   AC_MSG_CHECKING([if we have PHP5 SWIG bindings already...])
-   if test -f SWIG/php/phpemdros_wrap.cpp -a -f SWIG/php/EmdrosPHP.php; then
-     DO_SWIG_PHP=yes;
-     AC_MSG_RESULT([yes, so we don't need swig(1).]);
-   else
-     DO_SWIG_PHP=no;
-     AC_MSG_RESULT([no, so we do need swig(1), which we don't have. Not doing SWIG PHP5 bindings.]);
+   if test "x$DO_SWIG_PHP" != "xno"; then
+      AC_MSG_CHECKING([if we have PHP5 SWIG bindings already...])
+      if test -f SWIG/php/phpemdros_wrap.cpp -a -f SWIG/php/EmdrosPHP.php; then
+         DO_SWIG_PHP=yes;
+         AC_MSG_RESULT([yes, so we don't need swig(1).]);
+      else
+         DO_SWIG_PHP=no;
+         AC_MSG_RESULT([no, so we do need swig(1), which we don't have. Not doing SWIG PHP5 bindings.]);
+      fi
    fi
 fi
 
@@ -1165,13 +1179,15 @@ ORIGINAL_DO_SWIG_PHP7=$DO_SWIG_PHP7
 
 dnl If SWIG can't do PHP7, don't do them, unless we have the sources already.
 if test x$CAN_SWIG_DO_PHP7 == xno; then
-   AC_MSG_CHECKING([if we have PHP7 SWIG bindings already...])
-   if test -f SWIG/php7/php7emdros_wrap.cxx -a -f SWIG/php7/EmdrosPHP7.php; then
-     DO_SWIG_PHP7=yes;
-     AC_MSG_RESULT([yes, so we don't need swig(1).]);
-   else
-     DO_SWIG_PHP7=no;
-     AC_MSG_RESULT([no, so we do need swig(1), which we don't have. Not doing SWIG PHP7 bindings.]);
+   if test "x$DO_SWIG_PHP7" != "xno"; then
+      AC_MSG_CHECKING([if we have PHP7 SWIG bindings already...])
+      if test -f SWIG/php7/php7emdros_wrap.cxx -a -f SWIG/php7/EmdrosPHP7.php; then
+         DO_SWIG_PHP7=yes;
+         AC_MSG_RESULT([yes, so we don't need swig(1).]);
+      else
+         DO_SWIG_PHP7=no;
+         AC_MSG_RESULT([no, so we do need swig(1), which we don't have. Not doing SWIG PHP7 bindings.]);
+      fi
    fi
 fi
 

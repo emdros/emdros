@@ -54,6 +54,14 @@
 	modified:   include/mql_execution_environment.h
 	modified:   include/mql_query.h
 
+	* m4/emdrosswig.m4: Force ./configure to obey a
+	--without-swig-language-XYZ and --with-swig-language-XYZ=no
+	switch.
+
+	* util/pennparser.yxx: Don't #define assert(X).  This was likely
+	introduced with an earlier version of the lemon tool or the bison
+	tool.  Nowadays, it only causes trouble for the amalgamation.
+
 2018-11-01 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Change order of SUBDIRS such that util/ comes
