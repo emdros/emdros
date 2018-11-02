@@ -6,7 +6,7 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 4/18-2018
+ * Last update: 11/2-2018
  *
  */
 
@@ -236,16 +236,16 @@ void ConnectionPanel::CreateControls()
 
 
 	m_sizerSimple = new wxBoxSizer(wxVERTICAL);
-	m_sizerAll->Add(m_sizerSimple, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_sizerAll->Add(m_sizerSimple, 0, wxALIGN_LEFT|wxALL, 5);
 
 	m_sizerNonSimple = new wxFlexGridSizer(5, 2, 0, 0);
-	m_sizerAll->Add(m_sizerNonSimple, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_sizerAll->Add(m_sizerNonSimple, 0, wxALIGN_LEFT|wxALL, 5);
 
 	
 	wxBoxSizer *pBackendSizer = new wxBoxSizer(wxHORIZONTAL);
-	m_sizerSimple->Add(pBackendSizer, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_sizerSimple->Add(pBackendSizer, 0, wxALIGN_LEFT|wxALL, 5);
 	wxStaticText* itemStaticTextBackendCB = new wxStaticText( itemDialog1, wxID_STATIC, _("Backend:"), wxDefaultPosition, wxDefaultSize, 0 );
-	pBackendSizer->Add(itemStaticTextBackendCB, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	pBackendSizer->Add(itemStaticTextBackendCB, 0, wxALL, 5);
 
 	const int number_of_backends = USE_SQLITE3 + USE_POSTGRESQL + USE_MYSQL + USE_BPT;
 	wxString choices[number_of_backends + 1] = {
@@ -268,62 +268,62 @@ void ConnectionPanel::CreateControls()
 	m_cbBackendCB->SetHelpText(_("The name of the SQL backend database engine to use.\nUse (the) one that is installed on your system.\nSQLite3 is included in Emdros by default."));
 	if (ShowToolTips())
 		m_cbBackendCB->SetToolTip(_("The name of the SQL backend database engine to use.\nUse (the) one that is installed on your system.\nSQLite3 is included in Emdros by default."));
-	pBackendSizer->Add(m_cbBackendCB, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	pBackendSizer->Add(m_cbBackendCB, 0, wxALIGN_LEFT|wxALL, 5);
 
 
 	m_sizerConfiguration = new wxBoxSizer(wxHORIZONTAL);
 
 	wxStaticText* itemStaticText13 = new wxStaticText( itemDialog1, wxID_STATIC, _("Configuration:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_sizerConfiguration->Add(itemStaticText13, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_sizerConfiguration->Add(itemStaticText13, 0, wxALL, 5);
 	
 
-	m_sizerSimple->Add(m_sizerConfiguration, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+	m_sizerSimple->Add(m_sizerConfiguration, 0, wxALIGN_LEFT|wxALL, 0);
 		
 	m_ctrlConfiguration = new wxTextCtrl( itemDialog1, ID_TEXTCTRL5, wxT(""), wxDefaultPosition, sizeBroad, 0 );
 	m_ctrlConfiguration->SetHelpText(_("The name and path of the configuration file."));
 	if (ShowToolTips())
 		m_ctrlConfiguration->SetToolTip(_("The name and path of the configuration file."));
-	m_sizerConfiguration->Add(m_ctrlConfiguration, 0, wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_sizerConfiguration->Add(m_ctrlConfiguration, 0, wxALL, 5);
 	
 	m_btnBrowseConfiguration = new wxButton( itemDialog1, ID_BUTTON_BROWSE_CONF, _("Browse..."), wxDefaultPosition, wxDefaultSize, 0 );
-	m_sizerConfiguration->Add(m_btnBrowseConfiguration, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0);
+	m_sizerConfiguration->Add(m_btnBrowseConfiguration, 0, wxALL, 0);
  
 	wxBoxSizer *pDBSizer = new wxBoxSizer(wxHORIZONTAL);
-	m_sizerSimple->Add(pDBSizer, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_sizerSimple->Add(pDBSizer, 0, wxALIGN_RIGHT|wxALL, 5);
 	
 	wxStaticText* itemStaticText11 = new wxStaticText( itemDialog1, wxID_STATIC, _("database:"), wxDefaultPosition, wxDefaultSize, 0 );
-	pDBSizer->Add(itemStaticText11, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	pDBSizer->Add(itemStaticText11, 0, wxALL, 5);
 
 	m_ctrlDatabase = new wxTextCtrl( itemDialog1, ID_TEXTCTRL4, wxT(""), wxDefaultPosition, sizeBroad, 0 );
-	pDBSizer->Add(m_ctrlDatabase, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	pDBSizer->Add(m_ctrlDatabase, 0, wxALIGN_LEFT|wxALL, 5);
 
 	m_btnBrowseDatabase = new wxButton( itemDialog1, ID_BUTTON_BROWSE_DATABASE, _("Browse..."), wxDefaultPosition, wxDefaultSize, 0 );
-	pDBSizer->Add(m_btnBrowseDatabase, 0, wxALIGN_CENTER_VERTICAL|wxALL, 0);
+	pDBSizer->Add(m_btnBrowseDatabase, 0, wxALL, 0);
 
 
 	wxStaticText* itemStaticText3 = new wxStaticText( itemDialog1, wxID_STATIC, wxT("host:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_sizerNonSimple->Add(itemStaticText3, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_sizerNonSimple->Add(itemStaticText3, 0, wxALIGN_RIGHT|wxALL, 5);
 
 	m_itemTextCtrlHost = new wxTextCtrl( itemDialog1, ID_TEXTCTRL, wxT(""), wxDefaultPosition, wxDefaultSize, 0 );
-	m_sizerNonSimple->Add(m_itemTextCtrlHost, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_sizerNonSimple->Add(m_itemTextCtrlHost, 0, wxALIGN_LEFT|wxALL, 5);
 
 	wxStaticText* itemStaticText7 = new wxStaticText( itemDialog1, wxID_STATIC, wxT("user:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_sizerNonSimple->Add(itemStaticText7, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_sizerNonSimple->Add(itemStaticText7, 0, wxALIGN_RIGHT|wxALL, 5);
 
 	m_itemTextCtrlUser = new wxTextCtrl( itemDialog1, ID_TEXTCTRL2, wxT(""), wxDefaultPosition, sizeBroad, 0 );
 	m_itemTextCtrlUser->SetHelpText(wxT("The database user to connect to the backend database as."));
 	if (ShowToolTips())
 		m_itemTextCtrlUser->SetToolTip(wxT("The database user to connect\nto the backend database as."));
-	m_sizerNonSimple->Add(m_itemTextCtrlUser, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_sizerNonSimple->Add(m_itemTextCtrlUser, 0, wxALIGN_LEFT|wxALL, 5);
 
 	wxStaticText* itemStaticText9 = new wxStaticText( itemDialog1, wxID_STATIC, _("password:"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_sizerNonSimple->Add(itemStaticText9, 0, wxALIGN_RIGHT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_sizerNonSimple->Add(itemStaticText9, 0, wxALIGN_RIGHT|wxALL, 5);
 
 	m_itemTextCtrlPassword = new wxTextCtrl( itemDialog1, ID_TEXTCTRL3, wxT(""), wxDefaultPosition, wxDefaultSize, wxTE_PASSWORD );
 	m_itemTextCtrlPassword->SetHelpText(_("The password to use when connecting to the backend database."));
 	if (ShowToolTips())
 		m_itemTextCtrlPassword->SetToolTip(_("The password to use when connecting\nto the backend database."));
-	m_sizerNonSimple->Add(m_itemTextCtrlPassword, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	m_sizerNonSimple->Add(m_itemTextCtrlPassword, 0, wxALIGN_LEFT|wxALL, 5);
 
 
 	// Set validators
@@ -781,16 +781,16 @@ void ConnectionDialog::CreateControls()
 	m_pConnectionPanel = new ConnectionPanel(m_conf_check_callback,
 						 m_bHasConfiguration,
 						 this);
-	pSizerAll->Add(m_pConnectionPanel, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+	pSizerAll->Add(m_pConnectionPanel, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
 
 	wxBoxSizer* itemBoxSizer7 = new wxBoxSizer(wxHORIZONTAL);
-	pSizerAll->Add(itemBoxSizer7, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL|wxALL, 0);
+	pSizerAll->Add(itemBoxSizer7, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
 
 	wxButton* itemButton17 = new wxButton( itemDialog1, wxID_OK, _("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer7->Add(itemButton17, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	itemBoxSizer7->Add(itemButton17, 0, wxALIGN_LEFT|wxALL, 5);
 
 	wxButton* itemButton18 = new wxButton( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer7->Add(itemButton18, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	itemBoxSizer7->Add(itemButton18, 0, wxALIGN_LEFT|wxALL, 5);
 
 	////@end ConnectionDialog content construction
 }

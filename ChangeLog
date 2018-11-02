@@ -62,6 +62,8 @@
 	introduced with an earlier version of the lemon tool or the bison
 	tool.  Nowadays, it only causes trouble for the amalgamation.
 
+	* wx/conndlg.cpp: Remove asserts on macOS.
+
 2018-11-01 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Change order of SUBDIRS such that util/ comes
