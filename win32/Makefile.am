@@ -4,7 +4,7 @@ EXTRA_DIST = win32.mak mingw.mak body.mak mingw-body.mak \
    lconfig.h.win32 lconfig.h.win32.in \
    emdros.nsi.in emdros-logo-installer.bmp emdros.nsi 
 
-CLEANFILES = *~ core config.mak emdros.nsi
+CLEANFILES = *~ core config.mak emdros.nsi lconfig.h.win32
 
 BUILT_SOURCES = config.mak emdros.nsi lconfig.h.win32
 
