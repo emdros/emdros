@@ -5,12 +5,14 @@
 
 TOPSRCDIR = ..
 
-!INCLUDE $(TOPSRCDIR)\win32\config.mak
+WIN32DIR = $(TOPSRCDIR)\win32
+
+!INCLUDE $(WIN32DIR)\config.mak
 
 
 LOCAL_CPPFLAGS = -I. -DHAVE_CONFIG_H -DDEFAULT_BACKEND_ENUM=$(DEFAULT_BACKEND_ENUM)
 LIBTARGET = libemdros_amalgamation.lib
-TARGETS = emdros-config.h  emdros-lconfig.h  "$(OUTDIR)\$(LIBTARGET)"
+TARGETS = $(PROGRAM1) emdros_amalgamation_1_emdros.cpp emdros-config.h  emdros-lconfig.h  "$(OUTDIR)\$(LIBTARGET)"
 
 LIBTARGET_OBJS= \
           "$(INTDIR)\emdros_amalgamation_1_emdros.obj" \
@@ -24,23 +26,23 @@ LIBTARGET_OBJS= \
 LOCAL_LIBFLAGS = \
  $(DBLIB) $(PROGRAM_DEPENDENCIES)
 
-#PROGRAM1 = .\mkamalgamation.exe
-#PROGRAM1_OBJS = "$(INTDIR)\mkamalgamation.obj"
-#PROGRAM1_DEPENDENCIES = $(PROGRAM_DEPENDENCIES)
+PROGRAM1 = .\mkamalgamation.exe
+PROGRAM1_OBJS = "$(INTDIR)\mkamalgamation.obj"
+PROGRAM1_DEPENDENCIES = $(PROGRAM_DEPENDENCIES)
 
 
-!INCLUDE $(TOPSRCDIR)\windows\build\body-vc.mak
+!INCLUDE $(TOPSRCDIR)\win32\body.mak
 
 
-#emdros_amalgamation_1.cpp: .\mkamalgamation.exe amalgamation.json
-#	.\mkamalgamation.exe amalgamation.json
+emdros_amalgamation_1_emdros.cpp: $(PROGRAM1) amalgamation.xml
+	$(PROGRAM1) amalgamation.xml
 
 
 
 emdros_config_h: emdros-config.h emdros-lconfig.h
 
-emdros-config.h: $(WINBUILDDIR)\windows-emdros-config.h
-	copy /Y /B $(WINBUILDDIR)\windows-emdros-config.h .\emdros-config.h
+emdros-config.h: $(TOPSRCDIR)\win32\config.h.win32
+	copy /Y /B $(TOPSRCDIR)\win32\config.h.win32 .\emdros-config.h
 
-emdros-lconfig.h: $(WINBUILDDIR)\windows-emdros-lconfig.h
-	copy /Y /B $(WINBUILDDIR)\windows-emdros-lconfig.h .\emdros-lconfig.h
+emdros-lconfig.h: $(TOPSRCDIR)\win32\lconfig.h.win32
+	copy /Y /B $(TOPSRCDIR)\win32\lconfig.h.win32  .\emdros-lconfig.h
