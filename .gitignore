@@ -278,6 +278,7 @@ util/simplebibleschema.h
 util/slashedtextschema.h
 win32/config.mak
 win32/emdros.nsi
+win32/lconfig.h.win32
 SWIG/Android/jemdros-*.zip
 SWIG/Android/app/
 SWIG/Android/Java/
