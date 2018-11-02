@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 4/17-2018
+ * Last update: 11/2-2018
  *
  */
 
@@ -69,6 +69,11 @@ MySQLEMdFConnection::MySQLEMdFConnection(const std::string& host, const std::str
 
 	// connect using the member variables just set
 	connect();
+#else
+	UNUSED(host);
+	UNUSED(user);
+	UNUSED(passwd);
+	UNUSED(db);
 #endif
 }
 
@@ -171,6 +176,7 @@ bool MySQLEMdFConnection::execSelect(const std::string& query)
 		}
 	}
 #else
+	UNUSED(query);
 	return false;
 #endif
 }
@@ -232,6 +238,7 @@ bool MySQLEMdFConnection::execCommand(const std::string& query)
 		} 
 	}
 #else
+	UNUSED(query);
 	return false;
 #endif
 }
@@ -255,6 +262,7 @@ bool MySQLEMdFConnection::errorMessage(std::string& out)
 			return false;
 	}
 #else
+	UNUSED(out);
 	return false;
 #endif
 }
@@ -359,6 +367,7 @@ bool MySQLEMdFConnection::useDatabase(const std::string& db_name, const std::str
 	}
 #else
 	UNUSED(db_name); // Silence a warning
+	UNUSED(key); // Silence a warning
 	return false;
 #endif
 }
@@ -407,6 +416,7 @@ std::string MySQLEMdFConnection::escapeStringForSQL(const std::string& str)
 
 	return result;
 #else
+	UNUSED(str); // Silence a warning
 	return "";
 #endif
 }

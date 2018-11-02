@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 5/11-2018
+ * Last update: 11/2-2018
  *
  */
 
@@ -65,6 +65,10 @@ PgEMdFDB::PgEMdFDB(std::string host,
 		    std::string("") // empty key... we don't use keys on PostgreSQL
 		    );
 #else
+	UNUSED(host);
+	UNUSED(user);
+	UNUSED(passwd);
+	UNUSED(database_name);
 	; // FIXME: What to do if it is not implemented
 #endif
 }

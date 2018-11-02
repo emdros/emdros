@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 4/17-2018
+ * Last update: 11/2-2018
  *
  */
 
@@ -119,6 +119,7 @@ public:
     // Return success      
     return true;
 #else
+    UNUSED(bMoreTuples);
     return false;
 #endif
   };
@@ -149,6 +150,8 @@ public:
       return true;
     }
 #else
+    UNUSED(field_no);
+    UNUSED(result);
     return false;
 #endif
   };
@@ -180,6 +183,8 @@ public:
       return true;
     }
 #else
+    UNUSED(field_no);
+    UNUSED(result);
     return false;
 #endif
   };
@@ -205,6 +210,8 @@ public:
       return true;
     }
 #else
+    UNUSED(field_no);
+    UNUSED(result);
     return false;
 #endif
   };

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 4/13-2016
+ * Last update: 11/2-2018
  *
  */
 
@@ -201,6 +201,7 @@ bool PgEMdFConnection::execSelect(const std::string& query)
     }
   }
 #else
+  UNUSED(query);
   return false;
 #endif
 }
@@ -249,6 +250,7 @@ bool PgEMdFConnection::execCommand(const std::string& query)
       || (status == PGRES_COPY_IN);
   }
 #else
+  UNUSED(query);
   return false;
 #endif
 }
@@ -346,6 +348,7 @@ bool PgEMdFConnection::execCOPY(std::string& copy_data)
     return true;
   }
 #else
+  UNUSED(copy_data);
   return false;
 #endif
 }
@@ -369,6 +372,7 @@ bool PgEMdFConnection::errorMessage(std::string& out)
       return false;
   }
 #else
+  UNUSED(out);
   return false;
 #endif
 }
@@ -440,6 +444,7 @@ bool PgEMdFConnection::vacuum(bool bAnalyze)
     return execCommand(Query);
   }
 #else
+  UNUSED(bAnalyze);
   return false;
 #endif
 }

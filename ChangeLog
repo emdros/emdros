@@ -11,6 +11,19 @@
 	partially, by prefixinf those config variables which clash with
 	Emdros's emdros-config.h with "PCRE_".
 
+	* Reinstate amalgamation compileability when MySQL is not used,
+	and silence some warnings related to not using MySQL and/or
+	PostgreSQL.
+
+	Files affected:
+
+	modified:   EMdF/mysqlconn.cpp
+	modified:   EMdF/mysqlemdfdb.cpp
+	modified:   EMdF/pgconn.cpp
+	modified:   EMdF/pgemdfdb.cpp
+	modified:   include/mysqlconn.h
+	modified:   include/pgconn.h
+
 2018-11-01 Ulrik Sandborg-Petersen
 
 	* Makefile.am: Change order of SUBDIRS such that util/ comes

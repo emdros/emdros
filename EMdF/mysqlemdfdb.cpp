@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 5/11-2018
+ * Last update: 11/2-2018
  *
  */
 
@@ -35,9 +35,7 @@
 #include <string_list.h>
 
 
-#if defined(USE_MYSQL) && USE_MYSQL
 #include <mysqlconn.h>
-#endif
 
 
 /** Construct a MySQLEMdFDB object
@@ -64,6 +62,10 @@ MySQLEMdFDB::MySQLEMdFDB(std::string host,
 	pConn = new MySQLEMdFConnection(host, user, passwd, database_name);
 	useDatabase(database_name, std::string(""), false);
 #else
+	UNUSED(host);
+	UNUSED(user);
+	UNUSED(passwd);
+	UNUSED(database_name);
 	; // FIXME: What to do if not implemented?
 #endif
 }
