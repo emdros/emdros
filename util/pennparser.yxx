@@ -7,7 +7,7 @@
  *
  * Ulrik Petersen
  * Created: 2/17-2006
- * Last update: 11/2-2018
+ * Last update: 11/5-2018
  *
  */
 
@@ -25,9 +25,12 @@
 
 #include <iostream>
 #include <string>
+#include <cassert>
+
 #include <pennimporter.h>
 #include <penn_yylex.h>
 #include <string_list.h>
+
 
 
 } // end include
