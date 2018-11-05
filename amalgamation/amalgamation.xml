@@ -178,6 +178,7 @@
         <header_file name="include/llist.h" />
         <header_file name="include/logging.h" />
         <header_file name="include/minidom.h" />
+        <header_file name="include/pcre_config.h" />
         <header_file name="include/pcre_emdros.h" />
 	<header_file name="pcre/pcre.h" />
         <header_file name="include/qdxml.h" />
@@ -215,6 +216,7 @@
         <header_file name="include/string2som_map.h" />
         <header_file name="include/string_set_cache.h" />
         <header_file name="include/table.h" />
+	<header_file name="include/environment_emdros.h" />
 	<header_file name="include/emdros_environment.h" />
         <header_file name="include/zlib_emdros.h" />
         <header_file name="zlib/zlib.h" />

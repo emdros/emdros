@@ -17,6 +17,12 @@
 	* util/pennparser.yxx: #include <cassert>, fixing a compilation
 	error.
 
+	* amalgamation/amalgamation.xml: Add the files below to the list
+	of headers.  This reinstates usability of the amalgamation.
+
+	- include/pcre_config.h
+	- include/environment_emdros.h
+
 2018-11-02 Ulrik Sandborg-Petersen
 
 	* amalgamation/amalgamation.xml: Remove redundant EMdF/json.h.  It
