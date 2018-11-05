@@ -7,7 +7,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 5/11-2018
+ * Last update: 11/5-2018
  *
  */
 
@@ -74,6 +74,8 @@ template_list_element(T) ::= KEY_ID_D .
 { T = new TemplateSimpleNode(kTemplateID_D); }
 template_list_element(T) ::= KEY_FIRSTMONAD .
 { T = new TemplateSimpleNode(kTemplateFirstMonad); }
+template_list_element(T) ::= KEY_LASTMONAD .
+{ T = new TemplateSimpleNode(kTemplateLastMonad); }
 template_list_element(T) ::= KEY_FEATURE KEY_SPACE INTEGER(I) KEY_BB_CLOSE .
 { T = new TemplateFeature(I->integer, kMKXML); delete I; }
 template_list_element(T) ::= KEY_FEATUREJSONMANGLE KEY_SPACE INTEGER(I) KEY_BB_CLOSE .

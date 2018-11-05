@@ -1,5 +1,19 @@
 ============ 3.7.0.pre01 ============
 
+2018-11-05 Ulrik Sandborg-Petersen
+
+	* harvest template language: Add template construct {{ lastmonad
+	}}, which is analogous to the template construct {{ firstmonad }},
+	except it emits the last, not the first, monad of the object's
+	monad set.
+
+	modified:   doc/progref/Content.txt
+	modified:   doc/progref/config.py.in
+	modified:   harvest/templatelang.re
+	modified:   harvest/templatelang.yxx
+	modified:   harvest/templatelang_classes.cpp
+	modified:   include/templatelang_classes.h
+
 2018-11-02 Ulrik Sandborg-Petersen
 
 	* amalgamation/amalgamation.xml: Remove redundant EMdF/json.h.  It

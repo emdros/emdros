@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 11/16-2016
+ * Last update: 11/5-2018
  *
  */
 
@@ -138,6 +138,7 @@ int TemplateLanguageScanner::scan(Token *pYYLVAL)
 "{{ endif }}"             { TEMPLATELANG_TOKEN_RETURN("endif", T_TEMPLATELANG_KEY_ENDIF); }
 "{{ id_d }}"              { TEMPLATELANG_TOKEN_RETURN("id_d", T_TEMPLATELANG_KEY_ID_D); }
 "{{ firstmonad }}"        { TEMPLATELANG_TOKEN_RETURN("firstmonad", T_TEMPLATELANG_KEY_FIRSTMONAD); }
+"{{ lastmonad }}"        { TEMPLATELANG_TOKEN_RETURN("lastmonad", T_TEMPLATELANG_KEY_LASTMONAD); }
 "{{ dbname }}"            { TEMPLATELANG_TOKEN_RETURN("dbname", T_TEMPLATELANG_KEY_DBNAME); }
 "{{ dictlookup"           { TEMPLATELANG_TOKEN_RETURN("dictlookup", T_TEMPLATELANG_KEY_DICTLOOKUP); }
 "{{ counter"           { TEMPLATELANG_TOKEN_RETURN("counter", T_TEMPLATELANG_KEY_COUNTER); }

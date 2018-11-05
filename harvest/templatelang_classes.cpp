@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 12/21-2017
+ * Last update: 11/5-2018
  *
  */
 
@@ -110,6 +110,9 @@ void TemplateSimpleNode::exec(TemplateLangExecEnv *pEE)
 		break;
 	case kTemplateFirstMonad:
 		pEE->addToOutput(monad_m2string(pEE->m_pObject->first()));
+		break;
+	case kTemplateLastMonad:
+		pEE->addToOutput(monad_m2string(pEE->m_pObject->last()));
 		break;
 	case kTemplateDBName:
 		pEE->addToOutput(pEE->getDBName());

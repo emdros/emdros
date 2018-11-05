@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 12/21-2017
+ * Last update: 11/5-2018
  *
  */
 
@@ -56,6 +56,7 @@ class TemplateASTNode {
 typedef enum {
 	kTemplateID_D,
 	kTemplateFirstMonad,
+	kTemplateLastMonad,
 	kTemplateDBName
 } eTemplateSimpleNodeKind;
 

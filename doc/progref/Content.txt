@@ -36,7 +36,7 @@ covered:</P>
 
 <h2>Appliccable version</h2>
 
-<P>This guide documents Emdros version <strong>3.5.22</strong>
+<P>This guide documents Emdros version <strong>3.7.0</strong>
 and later.</P>
 
 
@@ -4609,6 +4609,13 @@ follows.  It is a list of the following kinds of string:</p>
   {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the first monad of the
   object under consideration.  This is done in base-10, so that if an
   object has a set of objects with first monad "3", then "3" is
+  emitted (without the quotes).<br/><b>Only available in
+  RenderObjects, not RenderXML.</b></p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} lastmonad
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the last monad of the
+  object under consideration.  This is done in base-10, so that if an
+  object has a set of objects with last monad "3", then "3" is
   emitted (without the quotes).<br/><b>Only available in
   RenderObjects, not RenderXML.</b></p>
 
