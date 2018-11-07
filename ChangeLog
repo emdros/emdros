@@ -1,5 +1,12 @@
 ============ 3.7.0.pre01 ============
 
+2018-11-07 Ulrik Sandborg-Petersen
+
+	* amalgamation/amalgamation.xml: Also include:
+
+	include/lzma_emdros.h
+	EMdF/lzma_emdros.cpp
+
 2018-11-05 Ulrik Sandborg-Petersen
 
 	* harvest template language: Add template construct {{ lastmonad
