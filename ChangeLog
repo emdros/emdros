@@ -21,6 +21,9 @@
 	- include/emdf_enus.h
 	- EMdF/emdf_enums.cpp <== NEW FILE
 	- amalgamation/amalgamation.xml
+	- EMdF/Makefile.am
+	- EMdF/mingw.mak
+	- EMdF/win32.mak
 
 
 2018-11-07 Ulrik Sandborg-Petersen

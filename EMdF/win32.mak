@@ -72,6 +72,7 @@ LIBTARGET_OBJS= \
 	"$(INTDIR)\minidom.obj" \
 	"$(INTDIR)\monads.obj" \
 	"$(INTDIR)\qdxml.obj" \
+	"$(INTDIR)\emdf_enums.obj" \
 	"$(INTDIR)\string_func.obj" \
 	"$(INTDIR)\string2som_map.obj" \
 	"$(INTDIR)\string_list.obj" \

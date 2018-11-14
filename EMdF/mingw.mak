@@ -73,6 +73,7 @@ LIBTARGET_OBJS= \
 	minidom.o \
 	monads.o \
 	qdxml.o \
+	emdf_enums.o \
 	string_func.o \
 	string2som_map.o \
 	string_list.o \

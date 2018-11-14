@@ -67,6 +67,7 @@ emdflib_src = arena.cpp \
        string_func.cpp \
        string2som_map.cpp \
        string_list.cpp \
+       emdf_enums.cpp \
        bpa.cpp \
        string_set_cache.cpp \
        table.cpp \
