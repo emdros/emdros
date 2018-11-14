@@ -12,6 +12,17 @@
 
 	Still missing: GET AGGREGATE FEATURES...
 
+	* Move the eComputedFeatureKind, as a part of a bigger scheme to
+	move towards putting the computed features into the EMdF layer.
+
+	Affected files:
+
+	- include/mql_enums.h
+	- include/emdf_enus.h
+	- EMdF/emdf_enums.cpp <== NEW FILE
+	- amalgamation/amalgamation.xml
+
+
 2018-11-07 Ulrik Sandborg-Petersen
 
 	* amalgamation/amalgamation.xml: Also include:
