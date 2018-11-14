@@ -539,6 +539,20 @@ GO
 | 5           | towards          | preposition       | 13            |
 +-------------+------------------+-------------------+---------------+
 ---- answer
+++++ query getting features from word object 1
+GET FEATURES surface, first_monad, last_monad(monads), monad_count(monads), monad_set_length
+FROM OBJECTS WITH ID_DS = 2,5
+[Word]
+GO
+++++ answer
++-------------+------------------+------------------------+------------------------+------------------------+------------------------+
+| id_d : id_d | surface : string | monads : set_of_monads | monads : set_of_monads | monads : set_of_monads | monads : set_of_monads |
++-------------+------------------+------------------------+------------------------+------------------------+------------------------+
+| 2           | door,            |  { 2 }                 |  { 2 }                 |  { 2 }                 |  { 2 }                 |
+| 5           | towards          |  { 5 }                 |  { 5 }                 |  { 5 }                 |  { 5 }                 |
++-------------+------------------+------------------------+------------------------+------------------------+------------------------+
+---- answer
+	  
 ++++ query getting features from word object 2
 GET FEATURES surface, pos, parent
 FROM OBJECTS WITH ID_DS = 1,2,2,2,3,3,4
