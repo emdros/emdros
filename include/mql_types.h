@@ -421,6 +421,8 @@ public:
 	std::string getHumanReadableName() const;
 
 	EMdFValue *computeValue(const EMdFValue *pLeft_value) const;
+protected:
+	void setParameter1IfEmpty();	
 };
 
 

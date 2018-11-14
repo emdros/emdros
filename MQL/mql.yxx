@@ -1274,6 +1274,8 @@ feature_list_member(L) ::= feature_name(N).
     { L = new GrammarFeature(N->extractString(), 0, 0); deleteToken(N); }
 feature_list_member(L) ::= feature_name(N) KEY_OPEN_BRACKET IDENTIFIER(I) KEY_CLOSE_BRACKET.
     { L = new GrammarFeature(N->extractString(), I->extractString(), 0); deleteToken(N); deleteToken(I); }
+feature_list_member(L) ::= feature_name(N) KEY_OPEN_BRACKET KEY_MONADS KEY_CLOSE_BRACKET.
+    { L = new GrammarFeature(N->extractString(), new std::string("monads"), 0); deleteToken(N); }
 
 
 %type quit_statement {Statement*}

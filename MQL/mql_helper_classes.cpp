@@ -2613,7 +2613,7 @@ Feature::Feature(std::string* feature, Feature* next)
 
 	eComputedFeatureKind computed_feature_kind = getComputedFeatureKindFromComputedFeatureName(*m_feature);
 	if (computed_feature_kind != kCFKNone) {
-		m_computed_feature_name = new ComputedFeatureName(*m_feature, "monads");
+		m_computed_feature_name = new ComputedFeatureName(*m_feature, "");
 		delete m_feature;
 		m_feature = new std::string(m_computed_feature_name->getBasisStoredFeatureName());
 		m_is_computed = true;
@@ -2623,17 +2623,19 @@ Feature::Feature(std::string* feature, Feature* next)
 Feature::Feature(std::string* feature, std::string *parameter1, Feature* next)
 {
 	m_feature = feature;
-	m_computed_feature_name = new ComputedFeatureName(*feature, (parameter1 == 0) ? "" : *parameter1);
+	m_computed_feature_name = 0;
 	m_next = next;
 	m_length = -1;
 	m_feature_index_inst = -1;
 	m_list_index = -1;
 	eComputedFeatureKind computed_feature_kind = getComputedFeatureKindFromComputedFeatureName(*m_feature);
 	if (computed_feature_kind != kCFKNone) {
+		m_computed_feature_name = new ComputedFeatureName(*m_feature, (parameter1 == 0) ? "" : *parameter1);
 		delete m_feature;
 		m_feature = new std::string(m_computed_feature_name->getBasisStoredFeatureName());
 		m_is_computed = true;
 	}
+	delete parameter1;
 }
 
 
@@ -2653,7 +2655,7 @@ Feature *Feature::FromGrammarFeature(GrammarFeature *pGrammarFeature)
 	std::list<GrammarFeature*>::iterator it = mylist.begin();
 	while (it != mylist.end()) {
 		pCurGF = *it;
-		pCurF = new Feature(new std::string (pCurGF->getFeature()), pCurF);
+		pCurF = new Feature(new std::string (pCurGF->getFeature()), new std::string(pCurGF->getParameter1()), pCurF);
 		++it;
 	}
 
@@ -3375,6 +3377,7 @@ ComputedFeatureName::ComputedFeatureName(const std::string& computed_feature_nam
 	str_tolower(parameter1, m_parameter1);
 
 	m_kind = getComputedFeatureKindFromComputedFeatureName(m_computed_feature_name);
+	setParameter1IfEmpty();
 }
 
 ComputedFeatureName::ComputedFeatureName(const ComputedFeatureName& other)
@@ -3390,6 +3393,29 @@ ComputedFeatureName::~ComputedFeatureName()
 {
 	// Nothing to do
 }
+
+void ComputedFeatureName::setParameter1IfEmpty()
+{
+	if (m_parameter1.empty()) {
+		switch (m_kind) {
+		case kCFKNone:
+			break;
+		case kCFKFirstMonad:
+			m_parameter1 = "monads";
+			break;
+		case kCFKLastMonad:
+			m_parameter1 = "monads";
+			break;
+		case kCFKMonadCount:
+			m_parameter1 = "monads";
+			break;
+		case kCFKMonadSetLength:
+			m_parameter1 = "monads";
+			break;
+		}
+	}
+}
+
 
 void ComputedFeatureName::weed(MQLExecEnv *pEE, bool& bResult)
 {
