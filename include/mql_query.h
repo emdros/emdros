@@ -339,23 +339,6 @@ typedef enum { kOptGapBlock,           /**< [gap?] block. */
 	       kPowerBlock             /**< .. power block. */
 } eBlockKind;
 
-class ComputedFeatureName {
-	std::string m_computed_feature_name;
-	std::string m_parameter1;
-	eComputedFeatureKind m_kind;
-public:
-	ComputedFeatureName(const std::string& computed_feature_name,
-			    const std::string& parameter1);
-	~ComputedFeatureName();
-
-	void weed(MQLExecEnv *pEE, bool& bResult);
-
-	std::string getBasisStoredFeatureName() const;
-
-	std::string getHumanReadableName() const;
-
-	EMdFValue *computeValue(const EMdFValue *pLeft_value) const;
-};
 
 
 
@@ -389,6 +372,9 @@ class ObjectReferenceUsage {
 	void weed(MQLExecEnv *pEE, bool& bResult);
 	bool symbol(MQLExecEnv *pEE, node_number_t ffeatures_parent, bool& bResult);
 	bool symbolObjectReferences2(MQLExecEnv *pEE);
+	
+	bool type(MQLExecEnv *pEE, bool& bResult);
+	
 	const std::string& getObjectReference() { return m_object_reference_lower; };
 	const std::string& getFeatureName() { return *m_feature_name; };
 	const FeatureInfo &getFeatureInfo() const { return m_feature_info; };
@@ -435,6 +421,7 @@ class Value {
 	Value(ObjectReferenceUsage* object_reference_usage);
 	virtual ~Value();
 	bool symbol(MQLExecEnv *pEE, id_d_t feature_type_id, node_number_t ffeatures_parent, bool& bResult);
+	bool type(MQLExecEnv *pEE, bool& bResult);
 	eValueKind getKind() { return m_kind; };
 	const std::string& getEnumConst();
 	std::string getAsString(MQLExecEnv *pEE, NonParentORDSolution *pNonParentORDSolution) const;
@@ -716,8 +703,9 @@ class ObjectBlockBase : public QueryNode {
 	bool isToBeRetrieved(void) const { return m_retrieval != kNoRetrieve; };
 	id_d_t getObjectTypeId() const { return m_object_type_id; };
 	std::string getMarkString(void) const { return *m_mark; };
-	void weed(MQLExecEnv *pEE);
+	void weed(MQLExecEnv *pEE, bool& bResult);
 	bool symbol(MQLExecEnv *pEE, bool& bResult);
+	bool type(MQLExecEnv *pEE, bool& bResult);
  protected:
 	bool symbolObjectTypeExists(MQLExecEnv *pEE, bool& bObjectTypeExists);
  private:

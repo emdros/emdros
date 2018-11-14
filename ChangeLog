@@ -1,5 +1,17 @@
 ============ 3.7.0.pre01 ============
 
+2018-11-14 Ulrik Sandborg-Petersen
+
+	* Add ComputedFeatureName as a valid option whenever we have a
+	feature_list in the MQL grammar.  This enables the inclusion of
+	computed features in the following statement kinds:
+
+	- SELECT ALL OBJECTS: Enabled in the GET clause.
+	- GET FEATURES
+	- GET OBJECTS HAVING MONADS IN
+
+	Still missing: GET AGGREGATE FEATURES...
+
 2018-11-07 Ulrik Sandborg-Petersen
 
 	* amalgamation/amalgamation.xml: Also include:

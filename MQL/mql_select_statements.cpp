@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/6-2001 (March 6, 2001)
- * Last update: 5/11-2018
+ * Last update: 11/14-2018
  *
  */
 
@@ -617,6 +617,13 @@ void GetObjectsHavingMonadsInStatement::weed(bool& bResult)
 	if (!bResult)
 		return;
 
+	if (m_pFeaturesToGet != 0) {
+		m_pFeaturesToGet->weed(m_pEE, bResult);
+		if (!bResult) {
+			return;
+		}
+	}
+
 	// If we got this far, there were no compiler errors
 	bResult = true;
 	return;
@@ -940,7 +947,18 @@ void GetAggregateFeaturesStatement::weed(bool& bResult)
 
 	if (m_aggregate_feature_list != 0) {
 		m_aggregate_feature_list->weed(m_pEE, bResult);
+		if (!bResult) {
+			return;
+		}
 	}
+
+	if (m_pFeaturesToGet != 0) {
+		m_pFeaturesToGet->weed(m_pEE, bResult);
+		if (!bResult) {
+			return;
+		}
+	}
+
 	return;
 }
 

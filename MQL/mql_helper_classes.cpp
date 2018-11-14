@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 11/2-2018
+ * Last update: 11/14-2018
  *
  */
 
@@ -2605,10 +2605,35 @@ void ID_D::execMakeList(std::list<id_d_t>& result)
 Feature::Feature(std::string* feature, Feature* next)
 {
 	m_feature = feature;
+	m_computed_feature_name = 0;
 	m_next = next;
 	m_length = -1;
 	m_feature_index_inst = -1;
 	m_list_index = -1;
+
+	eComputedFeatureKind computed_feature_kind = getComputedFeatureKindFromComputedFeatureName(*m_feature);
+	if (computed_feature_kind != kCFKNone) {
+		m_computed_feature_name = new ComputedFeatureName(*m_feature, "monads");
+		delete m_feature;
+		m_feature = new std::string(m_computed_feature_name->getBasisStoredFeatureName());
+		m_is_computed = true;
+	}
+}
+
+Feature::Feature(std::string* feature, std::string *parameter1, Feature* next)
+{
+	m_feature = feature;
+	m_computed_feature_name = new ComputedFeatureName(*feature, (parameter1 == 0) ? "" : *parameter1);
+	m_next = next;
+	m_length = -1;
+	m_feature_index_inst = -1;
+	m_list_index = -1;
+	eComputedFeatureKind computed_feature_kind = getComputedFeatureKindFromComputedFeatureName(*m_feature);
+	if (computed_feature_kind != kCFKNone) {
+		delete m_feature;
+		m_feature = new std::string(m_computed_feature_name->getBasisStoredFeatureName());
+		m_is_computed = true;
+	}
 }
 
 
@@ -2646,6 +2671,11 @@ Feature::Feature(const Feature& other)
 	m_feature = new std::string(*other.m_feature);
 	m_feature_type_id = other.m_feature_type_id;
 	m_is_computed = other.m_is_computed;
+	if (other.m_computed_feature_name == 0) {
+		m_computed_feature_name = 0;
+	} else {
+		m_computed_feature_name = new ComputedFeatureName(*other.m_computed_feature_name);
+	}
 	m_tc_type = other.m_tc_type;
 	m_enum_name = other.m_enum_name;
 	m_list_index = other.m_list_index;
@@ -2670,6 +2700,7 @@ Feature::~Feature()
 {
 	delete m_next;
 	delete m_feature;
+	delete m_computed_feature_name;
 }
 
 // Returns the head, and turns the list around.
@@ -2700,6 +2731,25 @@ Feature::~Feature()
   }
 */
 
+void Feature::weed(MQLExecEnv *pEE, bool& bResult)
+{
+	if (m_computed_feature_name != 0) {
+		m_computed_feature_name->weed(pEE, bResult);
+		if (!bResult) {
+			return;
+		}
+	}
+
+
+	// Then with prev
+	if (m_next != 0) {
+		m_next->weed(pEE, bResult);
+		if (!bResult) {
+			return;
+		}
+	}
+}
+
 void Feature::symbolAddFeaturesToSet(std::set<std::string>& myset) const
 {
 	std::string lowercase_feature_name;
@@ -2718,9 +2768,21 @@ bool Feature::symbolFeaturesExist(MQLExecEnv *pEE, id_d_t object_type_id, bool& 
 				     m_is_computed))
 		return false;
 	if (!bResult) {
-	  pEE->pError->appendError(std::string("Feature '") + *m_feature + "' does not exist for the given object type.\n");
+		pEE->pError->appendError(std::string("Feature '") + *m_feature + "' does not exist for the given object type.\n");
 		return true;
 	}
+
+	//
+	// Deal with computed feature name, if any
+	// 
+	if (m_computed_feature_name != 0) {
+		if (!m_computed_feature_name->symbol(pEE, object_type_id, bResult)) {
+			return false;
+		}
+		if (!bResult) {
+			return true;
+		}
+	} 
 
 	// Get enum consts if necessary
 	if (featureTypeIdIsENUM(m_feature_type_id)
@@ -2760,14 +2822,28 @@ void Feature::symbolAddToObject(MQLExecEnv *pEE, MQLObject *pObj)
 {
 	// Deal with ourselves first
 
-	// Create FeatureInfo
-	FeatureInfo info(*m_feature, m_feature_type_id, "", m_is_computed);
+	if (m_computed_feature_name != 0) {
+		std::string basis_feature = m_computed_feature_name->getBasisStoredFeatureName();
+		id_d_t basis_feature_type_id = m_computed_feature_name->getBasisFeatureTypeId();
+		
+		// Create FeatureInfo
+		FeatureInfo info(basis_feature, basis_feature_type_id, "", m_is_computed);
 
-	// Add to pObj
-	pObj->addFeature(info);
+		// Add to pObj
+		pObj->addFeature(info);
 
-	// Get indexes
-	m_feature_index_inst = pObj->getFeatureIndex(*m_feature);
+		// Get indexes
+		m_feature_index_inst = pObj->getFeatureIndex(basis_feature);
+	} else {
+		// Create FeatureInfo
+		FeatureInfo info(*m_feature, m_feature_type_id, "", m_is_computed);
+
+		// Add to pObj
+		pObj->addFeature(info);
+
+		// Get indexes
+		m_feature_index_inst = pObj->getFeatureIndex(*m_feature);
+	}
 
 	// Then with prev
 	if (m_next != 0) {
@@ -2786,6 +2862,18 @@ bool Feature::typeFeatureName(MQLExecEnv *pEE, bool& bResult)
 	if (!bResult) {
 		pEE->pError->appendError("Enumeration does not exist for the given object type.\n");
 		return true;
+	}
+
+	//
+	// Then deal with the computed feature, if any.
+	// 
+	if (m_computed_feature_name != 0) {
+		if (!m_computed_feature_name->type(pEE, bResult)) {
+			return false;
+		}
+		if (!bResult) {
+			return true;
+		}
 	}
 
 	// Then deal with next
@@ -3109,7 +3197,6 @@ void AggregateFeature::weed(MQLExecEnv *pEE, bool& bResult)
 	if (m_feature_comparison != 0) {
 		m_feature_comparison->weedFeatureConstraints(pEE, bResult, 0);
 	}
-
 	if (!bResult) {
 		return;
 	}
@@ -3250,5 +3337,239 @@ void AggregateFeature::exec(MQLExecEnv *pEE, const InstObject *pInstObj)
 
 
 
+//////////////////////////////////////////////////////////////
+//
+// ComputedFeatureName
+//
+//////////////////////////////////////////////////////////////
 
 
+eComputedFeatureKind getComputedFeatureKindFromComputedFeatureName(const std::string& computed_feature_name)
+{
+	eComputedFeatureKind kind = kCFKNone;
+	
+	if (strcmp_nocase(computed_feature_name, "first_monad") == 0) {
+		kind = kCFKFirstMonad;
+	} else if (strcmp_nocase(computed_feature_name, "last_monad") == 0) {
+		kind = kCFKLastMonad;
+	} else if (strcmp_nocase(computed_feature_name, "monad_count") == 0) {
+		kind = kCFKMonadCount;
+	} else if (strcmp_nocase(computed_feature_name, "monad_set_length") == 0) {
+		kind = kCFKMonadSetLength;
+	} else {
+		kind = kCFKNone;
+	}
+	
+	return kind;
+}
+
+
+ComputedFeatureName::ComputedFeatureName(const std::string& computed_feature_name,
+					 const std::string& parameter1)
+	: m_computed_feature_name(computed_feature_name),
+	  m_object_type_id(NIL),
+	  m_parameter1_feature_type_id(NIL),
+	  m_kind(kCFKNone)
+{
+	// Set m_parameter1 to the lower-case version of parameter1
+	str_tolower(parameter1, m_parameter1);
+
+	m_kind = getComputedFeatureKindFromComputedFeatureName(m_computed_feature_name);
+}
+
+ComputedFeatureName::ComputedFeatureName(const ComputedFeatureName& other)
+{
+	m_computed_feature_name = other.m_computed_feature_name;
+	m_parameter1 = other.m_parameter1;
+	m_object_type_id = other.m_object_type_id;
+	m_parameter1_feature_type_id = other.m_parameter1_feature_type_id;
+	m_kind = other.m_kind;
+}
+
+ComputedFeatureName::~ComputedFeatureName()
+{
+	// Nothing to do
+}
+
+void ComputedFeatureName::weed(MQLExecEnv *pEE, bool& bResult)
+{
+	if (m_parameter1.empty()) {
+		bResult = false;
+		pEE->pError->appendError("Error weeding computed feature: parameter is empty: " + getHumanReadableName() + "\n");
+	}
+
+	if (bResult) {
+		if (m_kind == kCFKNone) {
+			// m_kind was set in the c'tor to kCFKNone if
+			// the computed feature name was unknown.
+			bResult = false;
+			pEE->pError->appendError("Error weeding computed feature:\nUnknown feature name: " + getHumanReadableName() + "\n");
+		}
+	}
+}
+
+id_d_t ComputedFeatureName::getComputedFeatureTypeId() const
+{
+	switch (m_kind) {
+	case kCFKFirstMonad:
+	case kCFKLastMonad:
+	case kCFKMonadCount:
+	case kCFKMonadSetLength:
+		return FEATURE_TYPE_INTEGER;
+		break;
+	case kCFKNone:
+		return FEATURE_TYPE_INTEGER;
+		break;
+	}	
+	return FEATURE_TYPE_INTEGER;
+}
+
+
+id_d_t ComputedFeatureName::getBasisFeatureTypeId() const
+{
+	switch (m_kind) {
+	case kCFKFirstMonad:
+	case kCFKLastMonad:
+	case kCFKMonadCount:
+	case kCFKMonadSetLength:
+		return FEATURE_TYPE_SET_OF_MONADS;
+		break;
+	case kCFKNone:
+		return FEATURE_TYPE_INTEGER;
+		break;
+	}	
+	return FEATURE_TYPE_INTEGER;
+}
+
+std::string ComputedFeatureName::getBasisStoredFeatureName() const
+{
+	switch (m_kind) {
+	case kCFKFirstMonad:
+	case kCFKLastMonad:
+	case kCFKMonadCount:
+	case kCFKMonadSetLength:
+		return m_parameter1;
+		break;
+	case kCFKNone:
+		return "@UNKNOWN_COMPUTED_FEATURE_BASIS@";
+		break;
+	}
+	return "@UNKNOWN_COMPUTED_FEATURE_BASIS@";
+}
+
+std::string ComputedFeatureName::getHumanReadableName() const
+{
+	return m_computed_feature_name + "(" + m_parameter1 + ")";
+}
+
+
+bool ComputedFeatureName::symbol(MQLExecEnv *pEE, id_d_t enclosing_object_type_id, bool& bResult)
+{
+	m_object_type_id = enclosing_object_type_id;
+	
+	switch (m_kind) {
+	case kCFKNone:
+		bResult = false;
+		pEE->pError->appendError("Error symbol-checking computed feature:\nweed() did not stop the process.\nUnknown feature name: " + getHumanReadableName() + "\n");
+		break;
+	case kCFKFirstMonad:
+	case kCFKLastMonad:
+	case kCFKMonadCount:
+	case kCFKMonadSetLength:
+		{
+			std::string monad_set_name;
+			if (m_parameter1.empty()) {
+				// It is "monads".
+				// "monads" always exists.
+				// Everything A-OK.
+				m_parameter1_feature_type_id = FEATURE_TYPE_SET_OF_MONADS;				
+			} else if (strcmp_nocase(m_parameter1, "monads") == 0) {
+				// It is "monads".
+				// "monads" always exists.
+				// Everything A-OK.
+				m_parameter1_feature_type_id = FEATURE_TYPE_SET_OF_MONADS;				
+			} else {
+				bool bFeatureExists;
+				std::string dummy_default_value;
+				bool dummy_is_computed;
+				if (!pEE->pDB->featureExists(m_parameter1,
+							     m_object_type_id,
+							     bFeatureExists,
+							     m_parameter1_feature_type_id,
+							     dummy_default_value,
+							     dummy_is_computed)) {
+					pEE->pError->appendError("DB error checking feature existence for feature " + m_parameter1 + " for computed feature " + getHumanReadableName() + "\n");
+					return false;
+				}
+				if (!bFeatureExists) {
+					pEE->pError->appendError("The feature " + getHumanReadableName() + " does not exist on the enclosing object type.\n");
+					bResult = false;
+				} else {
+					// Everything A-OK
+				}
+			}
+		}
+		break;
+	}
+
+	// No DB error
+	return true;
+}
+
+bool ComputedFeatureName::type(MQLExecEnv *pEE, bool& bResult)
+{
+	switch (m_kind) {
+	case kCFKNone:
+		bResult = false;
+		pEE->pError->appendError("Error symbol-checking computed feature:\nweed() did not stop the process.\nUnknown feature name: " + getHumanReadableName() + "\n");
+		break;
+	case kCFKFirstMonad:
+	case kCFKLastMonad:
+	case kCFKMonadCount:
+	case kCFKMonadSetLength:
+		{
+			if (!featureTypeIdIsSOM(m_parameter1_feature_type_id)) {
+				pEE->pError->appendError("The feature inside the parentheses in the feature name " + getHumanReadableName() + "\nis not of type 'SET OF MONADS'.\n");
+				bResult = false;
+
+			} else {
+				// Everything A-OK
+			}
+		}
+		break;
+	}
+
+	// No DB error
+	return true;
+}
+
+
+EMdFValue *ComputedFeatureName::computeValue(const EMdFValue *pLeft_value) const
+{
+	ASSERT_THROW(pLeft_value->getKind() == kEVSetOfMonads,
+		     "ERROR: ComputedFeatureName::computeValue() called with left value\nwhich is not a set of monads.\n");
+
+	SetOfMonads som = pLeft_value->getSOM();
+
+	monad_m result_monad = 0;
+	switch (m_kind) {
+	case kCFKNone:
+		ASSERT_THROW(false,
+			     "ERROR: ComputedFeatureName::computeValue() called with an invalid feature name.\n");
+		break;
+	case kCFKFirstMonad:
+		result_monad = som.first();
+		break;
+	case kCFKLastMonad:
+		result_monad = som.last();
+		break;
+	case kCFKMonadCount:
+		result_monad = som.getCardinality();
+		break;
+	case kCFKMonadSetLength:
+		result_monad = som.last() - som.first() + 1;
+		break;
+	}
+	EMdFValue *pResult = new EMdFValue(kEVInt, result_monad);
+	return pResult;
+}

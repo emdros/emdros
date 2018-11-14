@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 11/22-2002
- * Last update: 10/19-2013
+ * Last update: 11/14-2018
  *
  */
 
@@ -26,8 +26,8 @@
  */
 
 
-#ifndef MQL_XXX__H__
-#define MQL_XXX__H__
+#ifndef MQL_FEATURES_STATEMENT__H__
+#define MQL_FEATURES_STATEMENT__H__
 
 #include "mql_types.h"
 #include "mql_execution_environment.h"
@@ -36,37 +36,38 @@
 // GET FEATURES
 class GetFeaturesStatement : public Statement {
 private:
-  ID_D *m_id_ds;
-  Feature *m_features;
-  std::string *m_object_type_name;
-  id_d_t m_object_type_id;
-  eObjectRangeType m_objectRangeType;
+	ID_D *m_id_ds;
+	Feature *m_features;
+	std::string *m_object_type_name;
+	id_d_t m_object_type_id;
+	eObjectRangeType m_objectRangeType;
 public:
-  GetFeaturesStatement(MQLExecEnv *pEE, 
-		       GrammarFeature* feature_list,
-		       ID_D* id_ds,
-		       std::string* object_type_name);
-  virtual ~GetFeaturesStatement();
-  virtual bool symbol(bool& bResult);
-  virtual bool type(bool& bResult);
-  virtual bool exec();
+	GetFeaturesStatement(MQLExecEnv *pEE, 
+			     GrammarFeature* feature_list,
+			     ID_D* id_ds,
+			     std::string* object_type_name);
+	virtual ~GetFeaturesStatement();
+	virtual void weed(bool& bResult);
+	virtual bool symbol(bool& bResult);
+	virtual bool type(bool& bResult);
+	virtual bool exec();
 };
 
 
 // GET FEATURES
 class GetSetFromFeatureStatement : public ObjectTypeStatement {
 private:
-  std::string *m_feature_name;
-  id_d_t m_feature_type_id;
+	std::string *m_feature_name;
+	id_d_t m_feature_type_id;
 public:
-  GetSetFromFeatureStatement(MQLExecEnv *pEE, 
-			     std::string *pObjectTypeName,
-			     std::string *pFeatureName);
-  virtual ~GetSetFromFeatureStatement();
-  virtual bool symbol(bool& bResult);
-  virtual bool type(bool& bResult);
-  virtual bool exec();
+	GetSetFromFeatureStatement(MQLExecEnv *pEE, 
+				   std::string *pObjectTypeName,
+				   std::string *pFeatureName);
+	virtual ~GetSetFromFeatureStatement();
+	virtual bool symbol(bool& bResult);
+	virtual bool type(bool& bResult);
+	virtual bool exec();
 };
 
 
-#endif /* MQL_XXX__H__ */
+#endif /* MQL_FEATURES_STATEMENT__H__ */

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 7/19-2016
+ * Last update: 11/14-2018
  *
  */
 
@@ -380,21 +380,56 @@ class GrammarFeature {
  protected:
 	GrammarFeature *m_next;
 	std::string* m_feature;
+	std::string* m_parameter1;
  public:
-	GrammarFeature(std::string* feature, GrammarFeature* next) {
+	GrammarFeature(std::string* feature, std::string *parameter1, GrammarFeature* next) {
 		m_feature = feature;
+		m_parameter1 = parameter1;
 		m_next = next;
 	};
-	~GrammarFeature() { delete m_feature; delete m_next; };
+	~GrammarFeature() { delete m_feature; delete m_parameter1; delete m_next; };
 	std::string getFeature(void) const { if (m_feature != 0) return *m_feature; else return "";};
+	std::string getParameter1(void) const { if (m_parameter1 != 0) return *m_parameter1; else return "";};
 	GrammarFeature *getNext() { return m_next; };
+	void setNext(GrammarFeature *next) { m_next = next; };
 };
+
+class ComputedFeatureName {
+	std::string m_computed_feature_name;
+	std::string m_parameter1;
+	id_d_t m_object_type_id;
+	id_d_t m_parameter1_feature_type_id;
+	eComputedFeatureKind m_kind;
+public:
+	ComputedFeatureName(const std::string& computed_feature_name,
+			    const std::string& parameter1);
+	ComputedFeatureName(const ComputedFeatureName& other);
+	~ComputedFeatureName();
+
+	void weed(MQLExecEnv *pEE, bool& bResult);
+
+	bool symbol(MQLExecEnv *pEE, id_d_t enclosing_object_type_id, bool& bResult);
+
+	bool type(MQLExecEnv *pEE, bool& bResult);	
+
+	std::string getBasisStoredFeatureName() const;
+
+	id_d_t getBasisFeatureTypeId() const;
+
+	id_d_t getComputedFeatureTypeId() const;
+
+	std::string getHumanReadableName() const;
+
+	EMdFValue *computeValue(const EMdFValue *pLeft_value) const;
+};
+
 
 // Helper class
 class Feature {
  private:
 	Feature *m_next;
 	std::string* m_feature;
+	ComputedFeatureName *m_computed_feature_name;
 	id_d_t m_feature_type_id;
 	bool m_is_computed;
 	TableColumnType m_tc_type;
@@ -405,6 +440,7 @@ class Feature {
 	int m_length;
  public:
 	Feature(std::string* feature, Feature* next);
+	Feature(std::string* feature, std::string *parameter1, Feature* next);
 	static Feature *FromGrammarFeature(GrammarFeature *pGrammarFeature);
 	Feature(const Feature& other);
 	virtual ~Feature();
@@ -415,6 +451,7 @@ class Feature {
 	Feature* getNext() { return m_next; };
 	void setNext(Feature* next) { m_next = next; };
 	int getLength(void) { return m_length = getLength(1); };
+	void weed(MQLExecEnv *pEE, bool& bResult);
 	bool symbolFeaturesExist(MQLExecEnv *pEE, id_d_t object_type_id, bool& bResult);
 	bool typeFeatureName(MQLExecEnv *pEE, bool& bResult);
 	void execMakeFeatureList(std::list<FeatureInfo>& FeatureInfos);
@@ -437,6 +474,7 @@ class Feature {
 		} 
 	};
 };
+
 
 class AggregateFeature {
  protected:	
@@ -473,6 +511,7 @@ class AggregateFeature {
 };
 
 
+eComputedFeatureKind getComputedFeatureKindFromComputedFeatureName(const std::string& computed_feature_name);
 
 #endif // !defined SWIG
 #endif /* MQL_TYPES__H__ */

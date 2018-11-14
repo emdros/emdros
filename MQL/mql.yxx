@@ -7,7 +7,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 11/1-2018
+ * Last update: 11/14-2018
  *
  */
 
@@ -1263,10 +1263,17 @@ choice_number_FEATURES(S) ::= KEY_FEATURES. {S=0;} /* Same thing; syntactic suga
 
 %type feature_list {GrammarFeature*}
 %destructor feature_list {delete($$);}
-feature_list(L) ::= feature_name(N).
-    { L = new GrammarFeature(N->extractString(), 0); deleteToken(N); }
-feature_list(L) ::= feature_list(R) KEY_COMMA feature_name(N).
-    { L = new GrammarFeature(N->extractString(), R); deleteToken(N); }
+feature_list(L) ::= feature_list_member(M) .
+    { L = M; }
+feature_list(L) ::= feature_list(R) KEY_COMMA feature_list_member(M).
+    { L = M; L->setNext(R); }
+
+%type feature_list_member {GrammarFeature*}
+%destructor feature_list_member {delete($$);}
+feature_list_member(L) ::= feature_name(N).
+    { L = new GrammarFeature(N->extractString(), 0, 0); deleteToken(N); }
+feature_list_member(L) ::= feature_name(N) KEY_OPEN_BRACKET IDENTIFIER(I) KEY_CLOSE_BRACKET.
+    { L = new GrammarFeature(N->extractString(), I->extractString(), 0); deleteToken(N); deleteToken(I); }
 
 
 %type quit_statement {Statement*}

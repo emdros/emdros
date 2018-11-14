@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 11/1-2018
+ * Last update: 11/14-2018
  *
  */
 
@@ -1043,24 +1043,6 @@ StartMonadIterator* Block::getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const S
 }
 
 
-eComputedFeatureKind getComputedFeatureKindFromComputedFeatureName(const std::string& computed_feature_name)
-{
-	eComputedFeatureKind kind = kCFKNone;
-	
-	if (strcmp_nocase(computed_feature_name, "first_monad") == 0) {
-		kind = kCFKFirstMonad;
-	} else if (strcmp_nocase(computed_feature_name, "last_monad") == 0) {
-		kind = kCFKLastMonad;
-	} else if (strcmp_nocase(computed_feature_name, "monad_count") == 0) {
-		kind = kCFKMonadCount;
-	} else if (strcmp_nocase(computed_feature_name, "monad_set_length") == 0) {
-		kind = kCFKMonadSetLength;
-	} else {
-		kind = kCFKNone;
-	}
-	
-	return kind;
-}
 	
 
 
@@ -1183,6 +1165,17 @@ bool ObjectReferenceUsage::symbol(MQLExecEnv *pEE, node_number_t ffeatures_paren
 	// Create feature-info
 	m_feature_info = FeatureInfo(*m_feature_name, feature_type_id, default_value, is_computed);
 
+	//
+	// Check computed feature, if it is there
+	//
+	if (m_computed_feature_name != 0) {
+		m_computed_feature_name->symbol(pEE, pObjectBlock->getObjectTypeId(), bResult);
+		if (!bResult) {
+			pEE->pError->appendError("This happened in the object reference usage: " + *m_object_reference + "." + m_computed_feature_name->getHumanReadableName() + "\n");
+			return true;
+		}
+	}
+
 	// If we got this far, there were no DB errors and no compiler-errors
 	bResult = true;
 	return true;
@@ -1209,6 +1202,22 @@ bool ObjectReferenceUsage::symbolObjectReferences2(MQLExecEnv *pEE)
 		// of the feature in the ObjectBlock's
 		// m_Feature_retrieval_vec.
 		pObjectBlock->addFeatureToBeRetrieved(pEE, m_feature_info, m_index_of_feature_in_MatchedObject);
+	}
+
+	return true;
+}
+
+bool ObjectReferenceUsage::type(MQLExecEnv *pEE, bool& bResult)
+{
+	if (m_computed_feature_name != 0) {
+		if (!m_computed_feature_name->type(pEE, bResult)) {
+			pEE->pError->appendError("This happened in the object reference usage: " + *m_object_reference + "." + m_computed_feature_name->getHumanReadableName() + "\n");
+			return false;
+		}
+		if (!bResult) {
+			pEE->pError->appendError("This happened in the object reference usage: " + *m_object_reference + "." + m_computed_feature_name->getHumanReadableName() + "\n");
+			return true;
+		}
 	}
 
 	return true;
@@ -1361,6 +1370,21 @@ bool Value::symbol(MQLExecEnv *pEE, id_d_t feature_type_id, node_number_t ffeatu
 	bResult = true;
 	return true;
 }
+
+bool Value::type(MQLExecEnv *pEE, bool& bResult)
+{
+	if (m_kind == kValObjectReferenceUsage) {
+		if (!m_object_reference_usage->type(pEE, bResult)) {
+			return false;
+		}
+		if (!bResult) {
+			return false;
+		}
+	}
+	
+	return true;
+}
+
 
 const EMdFValue* Value::getEMdFValue(void)
 {
@@ -1517,89 +1541,6 @@ const ObjectReferenceUsage* Value::getObjectReferenceUsageConst() const
 
 
 
-ComputedFeatureName::ComputedFeatureName(const std::string& computed_feature_name,
-					 const std::string& parameter1)
-	: m_computed_feature_name(computed_feature_name),
-	  m_kind(kCFKNone)
-{
-	// Set m_parameter1 to the lower-case version of parameter1
-	str_tolower(parameter1, m_parameter1);
-
-	m_kind = getComputedFeatureKindFromComputedFeatureName(m_computed_feature_name);
-}
-
-ComputedFeatureName::~ComputedFeatureName()
-{
-	// Nothing to do
-}
-
-void ComputedFeatureName::weed(MQLExecEnv *pEE, bool& bResult)
-{
-	if (m_parameter1.empty()) {
-		bResult = false;
-		pEE->pError->appendError("Error weeding computed feature: parameter is empty: " + getHumanReadableName() + "\n");
-	}
-
-	if (bResult) {
-		if (m_kind == kCFKNone) {
-			// m_kind was set in the c'tor to kCFKNone if
-			// the computed feature name was unknown.
-			bResult = false;
-			pEE->pError->appendError("Error weeding computed feature:\nUnknown feature name: " + getHumanReadableName() + "\n");
-		}
-	}
-}
-
-std::string ComputedFeatureName::getBasisStoredFeatureName() const
-{
-	switch (m_kind) {
-	case kCFKFirstMonad:
-	case kCFKLastMonad:
-	case kCFKMonadCount:
-	case kCFKMonadSetLength:
-		return m_parameter1;
-		break;
-	case kCFKNone:
-		return "@UNKNOWN_COMPUTED_FEATURE_BASIS@";
-		break;
-	}
-	return "@UNKNOWN_COMPUTED_FEATURE_BASIS@";
-}
-
-std::string ComputedFeatureName::getHumanReadableName() const
-{
-	return m_computed_feature_name + "(" + m_parameter1 + ")";
-}
-
-EMdFValue *ComputedFeatureName::computeValue(const EMdFValue *pLeft_value) const
-{
-	ASSERT_THROW(pLeft_value->getKind() == kEVSetOfMonads,
-		     "ERROR: ComputedFeatureName::computeValue() called with left value\nwhich is not a set of monads.\n");
-
-	SetOfMonads som = pLeft_value->getSOM();
-
-	monad_m result_monad = 0;
-	switch (m_kind) {
-	case kCFKNone:
-		ASSERT_THROW(false,
-			     "ERROR: ComputedFeatureName::computeValue() called with an invalid feature name.\n");
-		break;
-	case kCFKFirstMonad:
-		result_monad = som.first();
-		break;
-	case kCFKLastMonad:
-		result_monad = som.last();
-		break;
-	case kCFKMonadCount:
-		result_monad = som.getCardinality();
-		break;
-	case kCFKMonadSetLength:
-		result_monad = som.last() - som.first() + 1;
-		break;
-	}
-	EMdFValue *pResult = new EMdFValue(kEVInt, result_monad);
-	return pResult;
-}
 
 ////////////////////////////////////////////////////////////
 //
@@ -2089,7 +2030,6 @@ bool FeatureComparison::symbolSetFeatureIndex(const std::vector<std::string>& fe
 	return true;
 }
 
-
 bool FeatureComparison::type(MQLExecEnv *pEE, bool& bResult)
 {
 	// Assume everything went well
@@ -2101,6 +2041,17 @@ bool FeatureComparison::type(MQLExecEnv *pEE, bool& bResult)
 	// Only do stuff to m_value if we are doing a non-IN comparison
 	if (m_value != 0) {
 		const ObjectReferenceUsage *pORU = 0;
+
+		if (!m_value->type(pEE, bResult)) {
+			pEE->pError->appendError("The feature " + *m_feature_name + " is being compared with a value.\nThat value's type checking failed with a DB error.\n");
+			return false;
+		}
+		
+		if (!bResult) {
+			pEE->pError->appendError("The feature " + *m_feature_name + " is being compared with a value.\nThat value's type checking failed with a compiler error.\n");
+			return true;
+		}
+		
 		// What is value's kind?
 		switch (m_value->getKind()) {
 		case kValEnumConst:
@@ -2405,8 +2356,14 @@ void FeatureComparison::pretty(std::ostream *pOut, int indent, NonParentORDSolut
 	print_indent(pOut, indent);
 	(*pOut) << "FeatureComparison {\n";
 	print_indent(pOut, indent+1);
-	(*pOut) << "feature_name = '" << *m_feature_name << "' ";
+	if (m_computed_feature_name == 0) {
+		(*pOut) << "feature_name = '" << *m_feature_name << "' ";
+	} else {
+		(*pOut) << "feature_name = '" << m_computed_feature_name->getHumanReadableName() << "' ";
+	}
+
 	(*pOut) << getStringFromeComparisonOp(m_comparison_op) << " ";
+	
 	if (m_value != 0) {
 		(*pOut) << m_value->getAsString(0, pNonParentORDSolution) << '\n';
 	} else if (m_in_enum_list != 0) {
@@ -3771,10 +3728,21 @@ Feature* ObjectBlockBase::getFeatureRetrievalFeature(unsigned int index)
 }
 
 
-void ObjectBlockBase::weed(MQLExecEnv *pEE)
+void ObjectBlockBase::weed(MQLExecEnv *pEE, bool& bResult)
 {
 	// Set m_node_number, and add to pEE->m_node_vector.
 	pEE->getNextNodeNumber(this);
+
+	for (unsigned int i = 0; 
+	     i < m_Feature_retrieval_vec.size(); ++i) {
+		Feature *pFeature = m_Feature_retrieval_vec[i];
+
+		pFeature->weed(pEE, bResult);
+		if (!bResult) {
+			return;
+		}		
+	}
+	
 }
 
 // The feature is assumed to exist on the object type!
@@ -3895,6 +3863,29 @@ bool ObjectBlockBase::symbolObjectTypeExists(MQLExecEnv *pEE, bool& bObjectTypeE
 	return true;
 }
 
+bool ObjectBlockBase::type(MQLExecEnv *pEE, bool& bResult)
+{
+	//
+	// - Check feature_retrieval
+	//
+	if (m_Feature_retrieval_vec.size() != 0) {
+		for (unsigned int index = 0;
+		     index < m_Feature_retrieval_vec.size();
+		     ++index) {
+			Feature *pFeature = m_Feature_retrieval_vec[index];
+			// Check that feature type is OK.
+			if (!pFeature->typeFeatureName(pEE, bResult))
+				return false;
+			if (!bResult)
+				return true;
+		}
+	}
+
+	// If we got this far, there were no DB errors and no compiler errors
+	bResult = true;
+	return true;
+}
+
 
 
 
@@ -4003,7 +3994,7 @@ void ObjectBlock::weedFeatureConstraints(MQLExecEnv *pEE, bool& bResult)
 //
 void ObjectBlock::weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, node_number_t block_string2_parent)
 {
-	ObjectBlockBase::weed(pEE);
+	ObjectBlockBase::weed(pEE, bResult);
 	
 	m_block_string2_parent = block_string2_parent;
 
@@ -4226,6 +4217,8 @@ bool ObjectBlock::symbolObjectReferences2(MQLExecEnv *pEE)
 bool ObjectBlock::type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool& bResult)
 {
 	UNUSED(contextRangeType);
+
+	ObjectBlockBase::type(pEE, bResult);
 
 	// Check ffeatures
 	if (m_feature_constraints != 0) {
