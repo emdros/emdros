@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 8/21-2003
- * Last update: 11/1-2018
+ * Last update: 11/14-2018
  *
  */
 
@@ -65,13 +65,6 @@ enum eAggregateFunction {
 	kAFCOUNT_FEATURE_COMPARISON
 };
 
-enum eComputedFeatureKind {
-       kCFKNone,			   
-       kCFKFirstMonad,			   
-       kCFKLastMonad,			   
-       kCFKMonadCount,			   
-       kCFKMonadSetLength			   
-};
 
 
 #endif /* MQL_ENUMS__H__ */

@@ -296,6 +296,7 @@
         <source_file name="EMdF/minidom.cpp" />
         <source_file name="EMdF/qdxml.cpp" />
         <source_file name="EMdF/smart_vector.cpp" />
+        <source_file name="EMdF/emdf_enums.cpp" />
         <source_file name="EMdF/string_func.cpp" />
         <source_file name="EMdF/string_list.cpp" />
         <source_file name="EMdF/utils.cpp" />

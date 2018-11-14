@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 8/21-2003
- * Last update: 4/18-2018
+ * Last update: 11/14-2018
  *
  */
 
@@ -193,6 +193,15 @@ enum eMonadSetRelationOperation {
 	kMSROPartOf,
 	kMSROOverlap,
 	kMSROStartsIn
+};
+
+
+enum eComputedFeatureKind {
+       kCFKNone,			   
+       kCFKFirstMonad,			   
+       kCFKLastMonad,			   
+       kCFKMonadCount,			   
+       kCFKMonadSetLength			   
 };
 
 
