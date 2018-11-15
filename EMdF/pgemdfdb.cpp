@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/2-2018
+ * Last update: 11/15-2018
  *
  */
 
@@ -665,13 +665,15 @@ void PgEMdFDB::createObjectsOT_objects_data(const std::string object_type_name,
 		const EMdFValue *pValue = pObject->getFeature(index);
 
 		// Get feature's type
-		id_d_t feature_type_id = ci->getType();
+		id_d_t feature_type_id = ci->getRetrievedType();
 		IntegerList *pIntegerList = 0;
 		switch (feature_type_id & FEATURE_TYPE_TYPE_MASK) {
 		case FEATURE_TYPE_ASCII:
 			try {
 				if (featureTypeIdIsFromSet(feature_type_id)) {
-					FeatureInfo myfi(ci->getName(), ci->getType(), pValue->getString(), ci->getIsComputed());
+					FeatureInfo myfi(ci->getRetrievedFeatureName(),
+							 "",
+							 ci->getRetrievedType(), pValue->getString());
 					// The penultimate "true" on FeatureInfo2SQLvalue means that 
 					// we must create any IDD-String association if it is not 
 					// there in the OT_mdf_FEATURE_NAME_set table.
@@ -687,7 +689,9 @@ void PgEMdFDB::createObjectsOT_objects_data(const std::string object_type_name,
 		case FEATURE_TYPE_STRING:
 			try {
 				if (featureTypeIdIsFromSet(feature_type_id)) {
-					FeatureInfo myfi(ci->getName(), ci->getType(), pValue->getString(), ci->getIsComputed());
+					FeatureInfo myfi(ci->getFeatureName(),
+							 "",
+							 ci->getRetrievedType(), pValue->getString());
 					// The penultimate "true" on FeatureInfo2SQLvalue means that 
 					// we must create any IDD-String association if it is not 
 					// there in the OT_mdf_FEATURE_NAME_set table.
@@ -783,9 +787,9 @@ bool PgEMdFDB::createObjectsOT_objects_DB(const std::string& object_type_name,
 	std::list<FeatureInfo>::const_iterator cend = object_type_features.end();
 	while (ci != cend) {
 		query += ", ";
-		query += encodeFeatureName(ci->getName());
-		if (featureTypeIdIsSOM(ci->getType())) {
-			query += ", first_monad_" + encodeFeatureName(ci->getName());
+		query += encodeFeatureName(ci->getRetrievedFeatureName());
+		if (featureTypeIdIsSOM(ci->getRetrievedType())) {
+			query += ", first_monad_" + encodeFeatureName(ci->getRetrievedFeatureName());
 		}
 		++ci;
 	}
