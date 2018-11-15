@@ -3,9 +3,9 @@
  *
  * classes FeatureInfo, EnumConstInfo, ObjectTypeInfo
  *
- * Ulrik Petersen
+ * Ulrik Sandborg Petersen
  * Created: 2/26-2001
- * Last update: 11/14-2018
+ * Last update: 11/15-2018
  *
  */
 
@@ -32,30 +32,42 @@
 
 
 #include "emdf.h"
+#include "emdf_value.h"
 #include <list>
 #include <string>
+
 
 class FeatureInfo {
 private:
 	std::string m_name;
 	std::string m_parameter1;
-	id_d_t m_type;
 	std::string m_default_value;
-	bool m_is_computed;
+	id_d_t m_output_type;
+	id_d_t m_retrieved_type;
+	std::string m_retrieved_feature_name;
+	eComputedFeatureKind m_computed_feature_kind;
 public:
-	FeatureInfo(std::string name,
-		    id_d_t type,
-		    std::string default_value, bool is_computed);
+	FeatureInfo(const std::string& name,
+		    const std::string& parameter1,
+		    id_d_t retrieved_type,
+		    const std::string& default_value);
 	FeatureInfo(const FeatureInfo& other);
-	FeatureInfo() : m_name(), m_type(0), m_default_value(), m_is_computed(false) {};
+	FeatureInfo() : m_name(), m_parameter1(), m_default_value(), m_output_type(0), m_retrieved_type(0), m_retrieved_feature_name(), m_computed_feature_kind(kCFKNone) {};
 	FeatureInfo& operator=(const FeatureInfo& other);
 	bool operator==(const FeatureInfo& other) const;
 	void copyOther(const FeatureInfo& other);
 	~FeatureInfo();
-	const std::string& getName(void) const;
-	id_d_t getType(void) const;
-	const std::string& getDefaultValue(void) const;
-	bool getIsComputed(void) const;
+	eComputedFeatureKind getComputedFeatureKind() const { return m_computed_feature_kind; };
+	const std::string& getFeatureName() const;
+	const std::string& getParameter1() const;
+	id_d_t getOutputType(void) const;
+	id_d_t getRetrievedType(void) const;
+	const std::string& getDefaultValue() const;
+	const std::string& getRetrievedFeatureName() const;
+	std::string getHumanReadableFeatureName() const;
+	bool getIsComputed() const;
+	bool canBePreQueried() const;
+	void changeIntoComputedValue(EMdFValue *pValue) const;
 };
 
 

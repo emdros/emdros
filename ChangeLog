@@ -1,5 +1,16 @@
 ============ 3.7.0.pre01 ============
 
+2018-11-15 Ulrik Sandborg-Petersen
+
+	* Major restructuring to put all computed features into the EMdF
+	layer, not the MQL layer.
+
+	* EMdF/infos.cpp: FeatureInfo now has an extra parameter,
+	"parameter1", which may be empty.  The FeatureInfo object computes
+	whether the feature is computed or not, and is able to distinguish
+	between retrieved feature name/type and output feature name /
+	type.
+
 2018-11-14 Ulrik Sandborg-Petersen
 
 	* Add ComputedFeatureName as a valid option whenever we have a
@@ -25,6 +36,11 @@
 	- EMdF/mingw.mak
 	- EMdF/win32.mak
 
+	* EMdF/emdfdb.cpp, include/emdfdb.h: Remove the following methods,
+	since they were no longer used:
+
+	- EMdFDB::getComputedFeature()
+	- EMdFDB::getComputedFeatures()
 
 2018-11-07 Ulrik Sandborg-Petersen
 
