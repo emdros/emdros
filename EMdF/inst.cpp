@@ -291,6 +291,46 @@ Inst::Inst(const std::vector<std::string>& feature_names)
 	m_bDoDelete = true;
 }
 
+/** Constructor: Create an empty Inst.
+ *
+ * @param feature_names The names of the features in each InstObject
+ * (if any).
+ *
+ */
+Inst::Inst(const std::list<std::string>& feature_names)
+{
+	std::vector<std::string> feature_names_vec;
+	std::list<std::string>::const_iterator fn_ci = feature_names.begin();
+	std::list<std::string>::const_iterator fn_cend = feature_names.end();
+	while (fn_ci != fn_cend) {
+		std::string feature_name = *fn_ci;
+		feature_names_vec.push_back(feature_name);
+		++fn_ci;
+	}
+	m_pContents = new InstContents(feature_names_vec);
+	m_bDoDelete = true;
+}
+
+/** Constructor: Create an empty Inst.
+ *
+ * @param feature_infos The names of the features in each InstObject
+ * (if any).
+ *
+ */
+Inst::Inst(const std::list<FeatureInfo>& feature_infos)
+{
+	std::vector<std::string> feature_names_vec;
+	std::list<FeatureInfo>::const_iterator fi_ci = feature_infos.begin();
+	std::list<FeatureInfo>::const_iterator fi_cend = feature_infos.end();
+	while (fi_ci != fi_cend) {
+		std::string feature_name = fi_ci->getHumanReadableFeatureName();
+		feature_names_vec.push_back(feature_name);
+		++fi_ci;
+	}
+	m_pContents = new InstContents(feature_names_vec);
+	m_bDoDelete = true;
+}
+
 /** Destructor.
  */
 Inst::~Inst()

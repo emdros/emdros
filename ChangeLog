@@ -20,6 +20,34 @@
 	parameter1 as a part of the feature name to all c'tors of
 	EMdFComparison.
 
+	* EMdF/emdfdb.cpp, include/emdfdb.h: A lot of changes:
+
+	- Finish the transition to putting the computed features into the
+	  EMdF layer, not the MQL layer.
+
+	- Reimplement EMdFDB::getFeatures() such that it uses getInst() as
+	the underlying implementation, instead of its own implementation.
+
+	- Alter getFeatureVectors() such that it is able to prepare for
+	getting the computed features.
+
+	- Alter getFeatureValues() such that it computes the value of the
+	computed features.
+
+	- EMdFDB::createFeature() now takes a FeatureInfo parameter,
+	rather than distinct parameters for the feature information.
+
+	- EMdFDB::encodeFeatureNameForPrequeryString() now takes the
+	feature name, parameter1, and the feature type id as parameters.
+
+	- EMdFDB::getEMdFComparison() now takes an extra "parameter1"
+	parameter.
+
+	* EMdF/inst.cpp, include/inst.h: Add a new c'tor to the Inst
+	class:
+
+	Inst::Inst(const std::list<FeatureInfo>& feature_infos)
+
 
 2018-11-14 Ulrik Sandborg-Petersen
 

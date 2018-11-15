@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 5/11-2018
+ * Last update: 11/14-2018
  *
  */
 
@@ -298,12 +298,9 @@ class EMdFDB {
 
 	//
 	// Feature manipulation
-	virtual bool createFeature(const std::string& feature_name,
-				   const std::string& object_type_name,
-				   id_d_t object_type_id, 
-				   id_d_t feature_type_id, 
-				   const std::string& default_value, 
-				   bool computed);  // Assumes it does not
+	virtual bool createFeature(const std::string& object_type_name,
+				   id_d_t object_type_id,
+				   const FeatureInfo& feature_info);
 	// exist
 	virtual bool addFeature(const std::string& object_type_name,
 				id_d_t object_type_id,
@@ -337,41 +334,18 @@ class EMdFDB {
 				 id_d_t object_type_id,
 				 eObjectRangeType objectRangeType, 
 				 const std::list<FeatureInfo>& FeatureInfos,
-				 id_d_t object_id_d,
-				 /* out */ std::list<EMdFValue*>& results); 
-	virtual bool getFeatures(const std::string& object_type_name,
-				 id_d_t object_type_id,
-				 eObjectRangeType objectRangeType, 
-				 const std::list<FeatureInfo>& FeatureInfos,
 				 const SetOfMonads& object_id_ds_set,
 				 /* out */ std::list<std::list<std::string> >& results);
+protected:
+	virtual bool getFeaturesExec(const std::string& object_type_name,
+				     id_d_t object_type_id,
+				     eObjectRangeType objectRangeType, 
+				     const std::list<FeatureInfo>& FeatureInfos,
+				     const SetOfMonads& all_m_1,
+				     const IntegerList *pID_D_List,
+				     /* out */ std::list<std::list<std::string> >& results);
+public:
 
-
- protected:
-	virtual bool getFeaturesByQuery(const std::string& object_type_name,
-					id_d_t object_type_id,
-					eObjectRangeType objectRangeType,
-					const std::list<FeatureInfo>& FeatureInfos,
-					const SetOfMonads& object_id_ds_set,
-					/* out */ std::list<std::list<std::string> >& results);
-	virtual bool getFeaturesByQueryExec(const std::string query, 
-					    const std::string& normalized_object_type_name,
-					    id_d_t object_type_id,
-					    eObjectRangeType objectRangeType,
-					    const std::list<FeatureInfo>& FeatureInfos,
-					    const std::vector<id_d_t>& feature_types_vec,
-					    const std::vector<std::string>& feature_names_vec,
-					    const std::vector<StringSetCache*>& string_set_caches_vec,
-					    /* out */ std::list<std::list<std::string> >& results);
-	virtual bool getComputedFeatures(const std::string& object_type_name,
-					 const std::list<FeatureInfo>& FeatureInfos,
-					 const SetOfMonads& object_id_ds_set,
-					 /* out */ std::list<std::list<std::string> >& results);
-	virtual bool getComputedFeature(const std::string& object_type_name, 
-					const FeatureInfo& fi, 
-					id_d_t object_id_d, 
-					/* out */ std::string& comp_result);
-  
 	virtual void addStringToSetCacheIfNotAlreadyThere(id_d_t object_type_id,
 							  const std::string& encoded_feature_name,
 							  id_d_t set_id_d,
@@ -498,6 +472,7 @@ class EMdFDB {
 							       id_d_t object_type_id,
 							       const std::string& str_monad_constraint1,
 							       const std::string& query_prefix,
+							       const std::list<FeatureInfo>& features_to_get,
 							       const std::string& str_features_to_get,
 							       const std::vector<id_d_t>& feature_types_vec,
 							       const std::vector<std::string>& feature_names_vec,
@@ -511,7 +486,7 @@ class EMdFDB {
 					  const std::string& query_prefix,
 					  const FastSetOfMonads& original_som,
 					  eObjectRangeType objectRangeType,
-				  
+					  const std::list<FeatureInfo>& features_to_get,
 					  const std::string& str_features_to_get,
 					  const std::vector<id_d_t>& feature_types_vec,
 					  const std::vector<std::string>& feature_names_vec,
@@ -539,6 +514,7 @@ class EMdFDB {
 				      const FastSetOfMonads& original_som,
 				      const SetOfMonads& all_m_1,
 				      const std::string& pre_query_string,
+				      const std::list<FeatureInfo>& features_to_get,
 				      const std::string& str_features_to_get,
 				      const std::vector<id_d_t>& feature_types_vec,
 				      const std::vector<std::string>& feature_names_vec,
@@ -587,6 +563,7 @@ class EMdFDB {
 	virtual bool getFeatureValues(int no_of_features_to_get,
 				      eObjectRangeType objectRangeType,	
 				      int feature_column_index,
+				      const std::list<FeatureInfo>& feature_infos,
 				      const std::vector<id_d_t>& feature_types_vec,
 				      const std::vector<std::string>& feature_names_vec,
 				      const std::vector<StringSetCache*>& string_set_caches_vec,
@@ -685,9 +662,11 @@ class EMdFDB {
 
 	//
 	// Feature name encoding/decoding
-	static std::string encodeFeatureName(const std::string feature_name);
-	static std::string decodeFeatureName(const std::string coded_feature_name);
-	static std::string encodeFeatureNameForPrequeryString(const std::string feature_name);
+	static std::string encodeFeatureName(const std::string& feature_name);
+	static std::string decodeFeatureName(const std::string& coded_feature_name);
+	static std::string encodeFeatureNameForPrequeryString(const std::string& feature_name,
+							      const std::string& parameter1,
+							      id_d_t retrieved_feature_type_id);
 
 	//
 	// SQL production
@@ -704,17 +683,20 @@ class EMdFDB {
 	// Comparisons
 #ifndef SWIG
 	virtual EMdFComparison *getEMdFComparison(const std::string& left_feature_name, 
+						  const std::string& left_feature_parameter1,
 						  id_d_t left_type_id_d, 
 						  const std::string& object_type_name, 
 						  id_d_t object_type_id, 
 						  eComparisonOp e, 
 						  EMdFValue *right_hand_side);
 	virtual EMdFComparison *getEMdFComparison(const std::string& left_feature_name, 
+						  const std::string& left_feature_parameter1,
 						  id_d_t left_type_id_d, 
 						  const std::string& object_type_name,
 						  id_d_t object_type_id,
 						  const std::list<EnumConstInfo>& in_enum_list);
 	virtual EMdFComparison *getEMdFComparison(const std::string& left_feature_name, 
+						  const std::string& left_feature_parameter1,
 						  id_d_t left_type_id_d, 
 						  const std::string& object_type_name,
 						  id_d_t object_type_id,

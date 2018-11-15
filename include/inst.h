@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/26-2001
- * Last update: 5/10-2018
+ * Last update: 11/14-2018
  *
  */
 
@@ -29,6 +29,7 @@
 #define INST__H__
 
 #include "emdf.h"
+#include "infos.h"
 #include "inst_object.h"
 #include "arena.h"
 #include "monads.h"
@@ -285,6 +286,8 @@ class Inst {
 	typedef InstContents::const_iterator const_iterator; 
 	Inst(Inst* pOther);
 	Inst(const std::vector<std::string>& feature_names);
+	Inst(const std::list<std::string>& feature_names);
+	Inst(const std::list<FeatureInfo>& feature_infos);	
  private:
 	Inst(const Inst& other);
 	Inst& operator=(const Inst& other);

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/2-2018
+ * Last update: 11/15-2018
  *
  */
 
@@ -35,6 +35,7 @@
 #include <conn.h>
 #include <inst.h>
 #include <monads.h>
+#include <infos.h>
 #include <emdfdb.h>
 #include <emdf_value.h>
 #include <emdf_ffeatures.h>
@@ -906,10 +907,10 @@ void EMdFDB::makeFeatureSQLType(std::ostringstream& OT_Objects_stream,
 {
 	if (!fi.getIsComputed()) {
 		// Output feature name
-		OT_Objects_stream << "    " << encodeFeatureName(fi.getName()) << " ";
+		OT_Objects_stream << "    " << encodeFeatureName(fi.getRetrievedFeatureName()) << " ";
     
 		// Output feature type
-		id_d_t feature_type = fi.getType();
+		id_d_t feature_type = fi.getRetrievedType();
 		switch(feature_type & FEATURE_TYPE_TYPE_MASK) {
 		case FEATURE_TYPE_INTEGER:
 		case FEATURE_TYPE_ID_D:
@@ -1101,8 +1102,8 @@ bool EMdFDB::createObjectTypeOT_objects(const std::string& object_type_name,
 		// Make SQL type
 		makeFeatureSQLType(OT_Objects_stream, *f_it, true);
 
-		if (featureTypeIdIsSOM(f_it->getType())) {
-			OT_Objects_stream << ",\n    first_monad_" << encodeFeatureName(f_it->getName()) << " INT NOT NULL";
+		if (featureTypeIdIsSOM(f_it->getRetrievedType())) {
+			OT_Objects_stream << ",\n    first_monad_" << encodeFeatureName(f_it->getRetrievedFeatureName()) << " INT NOT NULL";
 		}
 		
 		// Advance iterator
@@ -1130,16 +1131,19 @@ bool EMdFDB::createObjectTypeOT_objects(const std::string& object_type_name,
  * Create object type in meta-data, as tables, and with indexes.
  *
  * @param object_type_name The object type name to create.
- * @param FeatureInfos The list of feature infos describing the 
- *        object type's features.
-
+ *
+ * @param FeatureInfos The list of features (FeatureInfo objects)
+ *        describing the object type's non-computed features.
+ *
  * @param objectRangeType Used to tell whether the objects of this
  * type should be "multiple range objects", "single range objects", or
  * "single monad objects".  This will have an effect on how the
  * OT_objects table is generated, and also on whether the OT_monad_ms
  * table is generated.
+ *
  * @param object_type_id Used to return the object type id of the newly 
  *        created object type.
+ *
  * @return True on no database error, false if a database error occurred.
  */
 bool EMdFDB::createObjectType(const std::string& object_type_name,
@@ -1242,12 +1246,9 @@ bool EMdFDB::createObjectType(const std::string& object_type_name,
 		std::list<FeatureInfo>::const_iterator f_it(FeatureInfos.begin());
 		std::list<FeatureInfo>::const_iterator f_iend(FeatureInfos.end());
 		while (f_it != f_iend) {
-			if (!createFeature(f_it->getName(),
-					   object_type_name,
+			if (!createFeature(object_type_name,
 					   object_type_id,
-					   f_it->getType(),
-					   f_it->getDefaultValue(),
-					   f_it->getIsComputed() != 0)) {
+					   *f_it)) {
 				DEBUG_X_FAILED("EMdFDB::createObjectType", "Creating feature");
 				if (bDoCommit)
 					pConn->abortTransaction();
@@ -1260,17 +1261,48 @@ bool EMdFDB::createObjectType(const std::string& object_type_name,
 		}
 
 		// Create "self" feature
-		if (!createFeature("self",
-				   object_type_name,
+		if (!createFeature(object_type_name,
 				   object_type_id,
-				   FEATURE_TYPE_ID_D,
-				   NIL_AS_STRING,
-				   true)) {
+				   FeatureInfo("self",
+					       "",
+					       FEATURE_TYPE_ID_D,
+					       NIL_AS_STRING))) {
 			DEBUG_X_FAILED("EMdFDB::createObjectType", "Creating feature 'self'");
 			if (bDoCommit)
 				pConn->abortTransaction();
 			return false;
 		}
+
+		/*
+		// For now, don't create these.
+		std::list<std::string> computed_feature_list;
+		computed_feature_list.push_back("first_monad");
+		computed_feature_list.push_back("last_monad");
+		computed_feature_list.push_back("monad_count");
+		computed_feature_list.push_back("monad_set_length");
+		
+		std::list<std::string>::const_iterator cfl_ci = computed_feature_list.begin();
+		std::list<std::string>::const_iterator cfl_cend = computed_feature_list.end();
+		while (cfl_ci != cfl_cend) {
+			std::string feature_name = *cfl_ci;
+
+			// Create computed monad feature
+			if (!createFeature(object_type_name,
+					   object_type_id,
+					   FeatureInfo(feature_name,
+						       "monads",
+						       FEATURE_TYPE_SET_OF_MONADS,
+						       "1"))) {
+				    DEBUG_X_FAILED("EMdFDB::createObjectType", "Creating feature '" + feature_name + "'");
+				    if (bDoCommit)
+					    pConn->abortTransaction();
+				    return false;
+			}
+			
+			++cfl_ci;
+		}
+		*/
+			    
     
 		// Create indices on OT_objects    
 		if (!createIndicesOnOTObjects(OTN)) {
@@ -2863,24 +2895,18 @@ bool EMdFDB::setDefaultEnumConst(id_d_t enum_id,
  *
  * @return True on no database error, false if a database error occurred.
  */
-bool EMdFDB::createFeature(const std::string& feature_name,
-			   const std::string& object_type_name,
-                           id_d_t object_type_id, 
-                           id_d_t feature_type_id, 
-                           const std::string& default_value, 
-                           bool computed)  // Assumes it does not
-// exist
+bool EMdFDB::createFeature(const std::string& object_type_name,
+                           id_d_t object_type_id,
+			   const FeatureInfo& feature_info)
 {
+	// This function assumes the feature to be created does not
+	// exist
 	if (pConn == 0)
 		return false;
 	else {
 		// Make sure it is lower-case
 		std::string lowercase_feature_name;
-		str_tolower(feature_name, lowercase_feature_name);
-
-		// Build FeatureInfo
-		FeatureInfo fi(lowercase_feature_name, feature_type_id, 
-			       default_value, computed);
+		str_tolower(feature_info.getFeatureName(), lowercase_feature_name);
 
 		// Build and execute query
 		std::ostringstream query_stream;
@@ -2895,9 +2921,9 @@ bool EMdFDB::createFeature(const std::string& feature_name,
 			<< "VALUES (\n"
 			<< "    " << long2string(object_type_id)
 			<< ", '" << encodeFeatureName(lowercase_feature_name)
-			<< "', " << long2string(feature_type_id)
-			<< ", " << escapeStringForSQL(default_value)
-			<< ", '" << bool2char(computed)
+			<< "', " << long2string(feature_info.getOutputType())
+			<< ", " << escapeStringForSQL(feature_info.getDefaultValue())
+			<< ", '" << bool2char(feature_info.getIsComputed())
 			<< "'\n"
 			<< ")";
 		if (!pConn->execCommand(query_stream.str())) {
@@ -2906,7 +2932,7 @@ bool EMdFDB::createFeature(const std::string& feature_name,
 		}
 
 		// Create OT_mdf_FEATURE_NAME_table if necessary
-		if (featureTypeIdIsFromSet(feature_type_id)) {
+		if (featureTypeIdIsFromSet(feature_info.getRetrievedType())) {
 			if (!createStringSetTable(object_type_name, lowercase_feature_name)) {
 				DEBUG_X_FAILED("EMdFDB::createFeature", "Creating OT_mdf_FEATURE_NAME_set table for object type " + object_type_name + " and feature " + lowercase_feature_name);
 				return false;
@@ -2919,7 +2945,7 @@ bool EMdFDB::createFeature(const std::string& feature_name,
 			return false;
 
 		// Add to cache
-		addFeatureToCacheIfNotAlreadyThere(object_type_id, lowercase_feature_name, feature_type_id, default_value, computed);
+		addFeatureToCacheIfNotAlreadyThere(object_type_id, lowercase_feature_name, feature_info.getOutputType(), feature_info.getDefaultValue(), feature_info.getIsComputed());
 
 		// If we got this far, the command succeeded.
 		return true;
@@ -3028,7 +3054,7 @@ bool EMdFDB::addFeatureToOT_objects(const std::string& object_type_name,
 				bAddDefault = true;
 			}
 
-			id_d_t feature_type = fi.getType();
+			id_d_t feature_type = fi.getOutputType();
 			if (featureTypeIdIsListOf(feature_type)) {
 				bAddDefault = false;
 			} else if (featureTypeIdIsASCII(feature_type)
@@ -3044,7 +3070,7 @@ bool EMdFDB::addFeatureToOT_objects(const std::string& object_type_name,
 				bool bExists;
 				bool bDummyIsDefault;
 				if (!enumConstExists(fi.getDefaultValue(),
-						     fi.getType(),
+						     fi.getOutputType(),
 						     bExists,
 						     enum_value,
 						     bDummyIsDefault)) {
@@ -3074,10 +3100,10 @@ bool EMdFDB::addFeatureToOT_objects(const std::string& object_type_name,
 				// value by ALTER TABLE in MySQL.
 				bAddDefault = false;
 				bUseSecondaryQuery = true;
-				secondary_query += " first_monad_" + encodeFeatureName(fi.getName()) + " INT NOT NULL";
+				secondary_query += " first_monad_" + encodeFeatureName(fi.getRetrievedFeatureName()) + " INT NOT NULL";
 			} else {
 				DEBUG_X_IS_WRONG("EMdFDB::addFeatureToOT_objects", 
-						 "Feature type with number " + long2string(fi.getType())
+						 "Feature type with number " + long2string(feature_type)
 						 + " is unknown. Please report this bug\nto Ulrik Petersen via <http://emdros.org/contact.html> and mention this error message.");
 				return false;
 			}
@@ -3108,8 +3134,8 @@ bool EMdFDB::addFeatureToOT_objects(const std::string& object_type_name,
 			std::ostringstream query_stream;
 			query_stream
 				<< "UPDATE " << normalizeTableName(OTN + "_objects", false) << " SET "
-				<< encodeFeatureName(fi.getName()) << " = ";
-			if (featureTypeIdIsENUM(fi.getType())) {
+				<< encodeFeatureName(fi.getRetrievedFeatureName()) << " = ";
+			if (featureTypeIdIsENUM(fi.getOutputType())) {
 				query_stream << long2string(enum_value);
 			} else {
 				// The penultimate "true" on FeatureInfo2SQLvalue means that 
@@ -3128,13 +3154,13 @@ bool EMdFDB::addFeatureToOT_objects(const std::string& object_type_name,
 		}
 
 		// Create index if necessary
-		if (featureTypeIdIsWithIndex(fi.getType())) {
+		if (featureTypeIdIsWithIndex(fi.getOutputType())) {
 			std::string table_name;
 			std::string index_name;
 			std::list<std::pair<std::string, unsigned int> > column_list2;
-			column_list2.push_back(std::pair<std::string, unsigned int>(encodeFeatureName(fi.getName()), MAX_TEXT_INDEX_CHARS));
+			column_list2.push_back(std::pair<std::string, unsigned int>(encodeFeatureName(fi.getRetrievedFeatureName()), MAX_TEXT_INDEX_CHARS));
 			getIndexAndTableNameForFeature(object_type_name, 
-						       fi.getName(),
+						       fi.getRetrievedFeatureName(),
 						       table_name, 
 						       index_name);
 			createIndex(index_name, table_name, column_list2);
@@ -3207,12 +3233,9 @@ bool EMdFDB::addFeature(const std::string& object_type_name,
 			// since otherwise, addFeatureToOT_objects
 			// fail if the feature is a STRING|ASCII FROM SET.
 			//
-			if (!createFeature(fi.getName(),
-					   object_type_name,
+			if (!createFeature(object_type_name,
 					   object_type_id,
-					   fi.getType(),
-					   fi.getDefaultValue(),
-					   fi.getIsComputed() != 0)) {
+					   fi)) {
 				DEBUG_X_FAILED("EMdFDB::addFeature", "Creating feature");
 				if (bDoCommit)
 					pConn->abortTransaction();
@@ -3247,12 +3270,9 @@ bool EMdFDB::addFeature(const std::string& object_type_name,
 				return false;
 			}
 
-			if (!createFeature(fi.getName(),
-					   object_type_name,
+			if (!createFeature(object_type_name,
 					   object_type_id,
-					   fi.getType(),
-					   fi.getDefaultValue(),
-					   fi.getIsComputed() != 0)) {
+					   fi)) {
 				DEBUG_X_FAILED("EMdFDB::addFeature", "Creating feature");
 				if (bDoCommit)
 					pConn->abortTransaction();
@@ -3277,7 +3297,7 @@ bool EMdFDB::addFeature(const std::string& object_type_name,
 			return false;
 
 		// Add to cache
-		addFeatureToCacheIfNotAlreadyThere(object_type_id, fi.getName(), fi.getType(), fi.getDefaultValue(), fi.getIsComputed());
+		addFeatureToCacheIfNotAlreadyThere(object_type_id, fi.getFeatureName(), fi.getOutputType(), fi.getDefaultValue(), fi.getIsComputed());
 
 		// If we got this far, the command succeeded.
 		return true;
@@ -3491,7 +3511,69 @@ bool EMdFDB::featureExists(const std::string& feature_name,
 			is_computed = false;
 			result = true;
 			return true;
-		} 
+		}
+		std::list<std::string> computed_features;
+		computed_features.push_back("first_monad");
+		computed_features.push_back("last_monad");
+		computed_features.push_back("monad_count");
+		computed_features.push_back("monad_set_length");
+
+		std::list<std::string>::const_iterator cf_ci = computed_features.begin();
+		std::list<std::string>::const_iterator cf_cend = computed_features.end();
+		std::list<std::string> feature_name_arr;
+		split_string(feature_name, "()", feature_name_arr);
+		std::string computed_feature_name;
+		std::string computed_feature_parameter1;
+		if (feature_name_arr.empty()) {
+			ASSERT_THROW(false, "Unknown result from split_string."); 
+		} else if (feature_name_arr.size() == 1) {
+			computed_feature_name = *feature_name_arr.begin();
+			computed_feature_parameter1 = "monads";
+		} else if (feature_name_arr.size() == 2) {
+			std::list<std::string>::const_iterator fna_ci = feature_name_arr.begin();
+			computed_feature_name = *fna_ci;
+			++fna_ci;
+			computed_feature_parameter1 = *fna_ci;
+		} else {
+			ASSERT_THROW(false, "Unknown feature name structure: " + feature_name); 
+		}
+				
+		
+		while (cf_ci != cf_cend) {
+			std::string computed_feature = *cf_ci;
+
+			if (strcmp_nocase(computed_feature_name, computed_feature) == 0) {
+				bool bParameter1Exists = false;
+				id_d_t parameter1_feature_type_id;
+				std::string parameter1_default_value;
+				bool parameter1_is_computed;
+				if (!featureExists(computed_feature_parameter1,
+						   object_type_id,
+						   bParameter1Exists,
+						   parameter1_feature_type_id,
+						   parameter1_default_value,
+						   parameter1_is_computed)) {
+					DEBUG_X_IS_WRONG("EMdFDB::featureExists", "parameter1 feature did not exist for feature " + feature_name);
+				}
+				
+				if (bParameter1Exists
+				    && featureTypeIdIsSOM(parameter1_feature_type_id)) {
+					feature_type_id = FEATURE_TYPE_INTEGER;
+					default_value = "1";
+					is_computed = true;
+					result = true;
+					return true;
+				} else {
+					DEBUG_X_IS_WRONG("EMdFDB::featureExists", "parameter1 of " + feature_name + " did not exist, or was not a set of monads.");
+					result = false;
+					return true;
+				}
+			}
+
+			++cf_ci;
+		}
+
+
 
 		// Then try the cache
 		TableIterator i;
@@ -3567,139 +3649,6 @@ bool EMdFDB::featureExists(const std::string& feature_name,
 }
 
 
-// Assumes everything exists 
-// TODO: Make this work with computed features
-/** Get feature values from a single object.
- *@internal
- *
- * This is the incarnation used in MQLObject::retrieveFeatureValues().
- *
- * @see MQLObject::retrieveFeatureValues().
- *
- * @param object_type_name The name of the object type of the object to query.
- * @param object_type_id The id_d of the object type.
- * @param FeatureInfos List of FeatureInfo objects telling us which
- *        features to get.
- * @param object_id_d The id_d of the object to query.
- * @param results List of EMdFValue containing the values of the features, 
- *        in the same order as in FeatureInfos.
- * @return True on no database error, false if a database error occurred.
- */
-bool EMdFDB::getFeatures(const std::string& object_type_name,
-			 id_d_t object_type_id,
-			 eObjectRangeType objectRangeType, 
-			 const std::list<FeatureInfo>& FeatureInfos,
-			 id_d_t object_id_d,
-			 /* out */ std::list<EMdFValue*>& results)
-{
-	if (pConn == 0)
-		return false;
-	else {
-		// Normalize object type name
-		std::string OTN = normalizeOTName(object_type_name);  
-
-		//
-		// Build query
-		//
-		std::string str_features_to_get;
-		std::vector<id_d_t> feature_types_vec;
-		std::vector<std::string> feature_names_vec;
-		std::vector<StringSetCache*> string_set_caches_vec;
-		std::string join_string;
-		std::string from_string;
-	
-		if (!getFeatureVectors(FeatureInfos,
-				       OTN,
-				       object_type_id,
-				       objectRangeType, 
-				       str_features_to_get,
-				       feature_types_vec,
-				       feature_names_vec,
-				       string_set_caches_vec,
-				       join_string,
-				       from_string)) {
-			DEBUG_X_FAILED("getFeatures", "getting feature vectors");
-			return false;
-		}
-
-		int no_of_features_to_get = (int) feature_names_vec.size();
-
-		std::ostringstream query_stream;
-		query_stream 
-			<< "SELECT object_id_d"
-			<< str_features_to_get
-			<< "\n"
-			<< "FROM " << from_string;
-
-  
-		// Add the WHERE clauses
-		query_stream << "\nWHERE ";
-		if (!join_string.empty()) {
-			query_stream << join_string << " AND ";
-		}
-		query_stream << "OS.object_id_d = " << long2string(object_id_d)
-			     << "\n";
-
-		// Execute query
-		if (!pConn->execSelect(query_stream.str())) {
-			DEBUG_SELECT_QUERY_FAILED("EMdFDB::getFeatures", query_stream.str());
-			return false;
-		}
-  
-		// Check that there were results
-		if (!pConn->hasRow()) {
-			DEBUG_X_IS_WRONG("EMdFDB::getFeatures", "No results from SQL-query");
-			return false;
-		}
-
-		// Due to the first selected column being 'object_id_d'
-		int first_feature_column_index = 1;
-  
-		//
-		// Get results
-		//
-		EMdFValue *pFeature_values;
-
-		// This uses the () constructor, which gives us a kEVInt with 
-		// value 0.
-		pFeature_values = new EMdFValue[no_of_features_to_get]();
-
-		if (!getFeatureValues(no_of_features_to_get,
-				      objectRangeType,
-				      first_feature_column_index,
-				      feature_types_vec,
-				      feature_names_vec,
-				      string_set_caches_vec,
-				      pFeature_values)) {
-			DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::getFeatures");
-			pConn->finalize();
-			return false;
-		}
-    
-		// Iterate through features
-		std::list<FeatureInfo>::const_iterator fi_i = FeatureInfos.begin();
-		std::list<FeatureInfo>::const_iterator fi_iend = FeatureInfos.end();
-		int feature_name_index = 0;
-		while (fi_i != fi_iend) {
-			const EMdFValue *pValue = &(pFeature_values[feature_name_index]);
-
-			// Push back the value
-			results.push_back(new EMdFValue(*pValue));
-
-			// Advance iterators
-			++fi_i;
-			++feature_name_index;
-		}
-
-		// Release results
-		pConn->finalize();
-
-		delete[] pFeature_values;
-
-		// If we got this far, there were no DB errors
-		return true;
-	}
-}
 
 /** Convert a std::list<id_d_t> to a list of list of std::string
  *
@@ -3739,10 +3688,6 @@ void local_make_id_d_list(const std::list<id_d_t> object_id_ds, std::list<std::l
  *@internal
  *
  * This is the incarnation used in the MQL statement "GET FEATURES".
- *
- * Uses EMdFDB::getFeaturesByQuery().
- * 
- * @see EMdFDB::getFeaturesByQuery(), GetFeaturesStatement::exec().
  *
  * @param object_type_name The name of the object type of the object to query.
  *
@@ -3788,7 +3733,7 @@ bool EMdFDB::getFeatures(const std::string& object_type_name,
 		std::list<FeatureInfo>::const_iterator fiiend(FeatureInfos.end());
 		while (fii != fiiend) {
 			// Get enumeration names
-			id_d_t feature_type_id = fii->getType();
+			id_d_t feature_type_id = fii->getOutputType();
 			if (featureTypeIdIsENUM(feature_type_id)
 			    || featureTypeIdIsListOfENUM(feature_type_id)) {
 				enumeration_id_ds.push_back(feature_type_id);
@@ -3810,458 +3755,152 @@ bool EMdFDB::getFeatures(const std::string& object_type_name,
 			}
 		}
 
-		if (!getFeaturesByQuery(object_type_name, object_type_id,
-					objectRangeType,
-					FeatureInfos, object_id_ds_set, results)) {
+		SetOfMonads all_m_1;
+		if (!getAll_m_1(all_m_1)) {
+			DEBUG_X_FAILED("getFeatures", "Loading all_m_1");
 			return false;
-		} else {
-			return true;
-		}
-	}
-}
-
-/** Get features from the backend
- *@internal
- *
- * Is used by EMdFDB::getFeatures().  Uses getFeaturesByQueryExec().
- *
- * @see EMdFDB::getFeatures(), EMdFDB::getFeaturesByQueryExec().
- *
- * @param object_type_name The name of the object type of the object to query.
- *
- * @param object_type_id The id_d of the object type.
- *
- * @param FeatureInfos List of FeatureInfo objects telling us which
- *        features to get.
- *
- * @param object_id_ds The set of id_ds to query.  Even though this is
- * a SetOfMonads, it is really id_ds that are in there.
- *
- * @param results List of List of string containing the values of the
- * features, in the same order as in FeatureInfos.
- *
- * @return True on no database error, false if a database error occurred.
- */
-bool EMdFDB::getFeaturesByQuery(const std::string& object_type_name,
-				id_d_t object_type_id,
-				eObjectRangeType objectRangeType, 
-				const std::list<FeatureInfo>& FeatureInfos,
-				const SetOfMonads& object_id_ds,
-				/* out */ std::list<std::list<std::string> >& results)
-{
-	// Normalize object type name
-	std::string OTN = normalizeOTName(object_type_name);  
-
-	//
-	// Build query
-	//
-	std::string str_features_to_get;
-	std::vector<id_d_t> feature_types_vec;
-	std::vector<std::string> feature_names_vec;
-	std::vector<StringSetCache*> string_set_caches_vec;
-	std::string join_string;
-	std::string from_string;
-	
-	if (!getFeatureVectors(FeatureInfos,
-			       OTN,
-			       object_type_id,
-			       objectRangeType, 
-			       str_features_to_get,
-			       feature_types_vec,
-			       feature_names_vec,
-			       string_set_caches_vec,
-			       join_string,
-			       from_string)) {
-		DEBUG_X_FAILED("EMdFDB::getFeaturesByQuery", "getting feature vectors");
-		return false;
-	}
-
-	std::ostringstream query_stream;
-	query_stream 
-		<< "SELECT OS.object_id_d"
-		<< str_features_to_get
-		<< "\n"
-		<< "FROM " << from_string;
-		query_stream << "\nWHERE ";
-		if (!join_string.empty()) {
-			query_stream << join_string << " AND ";
 		}
 
-  
-	// Add the FROM and WHERE clauses
-	query_stream << "\n";
-	if (!join_string.empty()) {
-		query_stream << "(\n";
-	}
-	SOMConstIterator id_dci = object_id_ds.const_iterator();
-	while (id_dci.hasNext()) {
-		MonadSetElement mse = id_dci.next();
-		if (mse.first() == mse.last()) {
-			query_stream << "OS.object_id_d = " << long2string(mse.first());
-		} else {
-			query_stream << "(OS.object_id_d>=" 
-				     << long2string(mse.first())
-				     << " AND OS.object_id_d<=" 
-				     << long2string(mse.last())
-				     << ")";
-      
-		}
-		if (id_dci.hasNext()) {
-			query_stream << "\n OR ";
-		} else {
-			query_stream << '\n';
-		}
-	}
-	if (!join_string.empty()) {
-		query_stream << ")";
-	}
+		SOMConstMonadIterator som_ci(object_id_ds_set);
+		int inner_list_member_count = 0;
+		IntegerList *pID_D_List = new IntegerList();
+		while (som_ci.hasNext()) {
+			id_d_t object_id_d = (id_d_t) som_ci.next();
 
-	// Actually execute query
-	return getFeaturesByQueryExec(query_stream.str(), 
-				      OTN, object_type_id,
-				      objectRangeType,
-				      FeatureInfos, 
-				      feature_types_vec,
-				      feature_names_vec,
-				      string_set_caches_vec,
-				      results);
-}
+			pID_D_List->addIntegerBack(object_id_d);
 
-/** Get features from the backend
- *@internal
- *
- * Is used by getFeaturesByQuery().
- *
- * @see EMdFDB::getFeaturesByQuery().
- *
- * @param query The query to execute
- *
- * @param normalized_object_type_name The name of the object type to
- * query.  It must have been run through normalizeOTName().
- *
- * @param object_type_id The id_d of the object type.  Must be for the
- * same object type as normalized_object_type_name.
- *
- * @param FeatureInfos List of FeatureInfo objects telling us which
- *        features to get.
- *
- * @param results List of List of string containing the values of the
- * features, in the same order as in FeatureInfos.
- *
- * @return True on no database error, false if a database error occurred.
- */
-bool EMdFDB::getFeaturesByQueryExec(const std::string query,
-				    const std::string& normalized_object_type_name,
-				    id_d_t object_type_id,
-				    eObjectRangeType objectRangeType,
-				    const std::list<FeatureInfo>& FeatureInfos,
-				    const std::vector<id_d_t>& feature_types_vec,
-				    const std::vector<std::string>& feature_names_vec,
-				    const std::vector<StringSetCache*>& string_set_caches_vec,
-				    /* out */ std::list<std::list<std::string> >& results)
-{
-	UNUSED(normalized_object_type_name);
-	UNUSED(object_type_id);
-	
-	int no_of_features_to_get = (int) feature_names_vec.size();
+			++inner_list_member_count;
 
-	unsigned int feature_name_index = 0;
-
-	// Execute query
-	if (!pConn->execSelect(query)) {
-		DEBUG_SELECT_QUERY_FAILED("EMdFDB::getFeaturesByQueryExec", query);
-		return false;
-	}
-  
-  
-	try {  
-		// Get results
-		bool bMoreRows = pConn->hasRow();
-		int first_feature_column_index = 1;
-
-		// This uses the () constructor, which gives us a kEVInt with 
-		// value 0.
-		EMdFValue *pFeature_values = new EMdFValue[no_of_features_to_get]();
-
-		int emdf_value_index;
-
-		while (bMoreRows) {
-			// Add list so that we have something to fill
-			results.push_back(std::list<std::string>());
-      
-			// Get object id_d from DB
-			long field_no = 0;
-			std::string object_id_d;
-			if (!pConn->accessTuple(field_no, object_id_d)) {
-				DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::getFeaturesByQueryExec");
-				return false;
-			}
-      
-			results.rbegin()->push_back(object_id_d);
-			++field_no;
-
-			// Iterate through features
-
-			if (!getFeatureValues(no_of_features_to_get,
-					      objectRangeType,
-					      first_feature_column_index,
-					      feature_types_vec,
-					      feature_names_vec,
-					      string_set_caches_vec,
-					      pFeature_values)) {
-				DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::getFeatures");
-				pConn->finalize();
-				return false;
-			}
-    
-			// Iterate through features
-			std::list<FeatureInfo>::const_iterator fi_i = FeatureInfos.begin();
-			std::list<FeatureInfo>::const_iterator fi_iend = FeatureInfos.end();
-			feature_name_index = 0;
-			while (fi_i != fi_iend) {
-				const EMdFValue *pValue = &(pFeature_values[feature_name_index]);
-
-				// Push back the real value
-				id_d_t feature_type = fi_i->getType();
-				if (featureTypeIdIsListOf(feature_type)) {
-					if (!featureTypeIdIsListOfENUM(feature_type)) {
-						// List of integer or list of id_d
-						results.rbegin()->push_back(pValue->toString());
-					} else {
-						IntegerList *pMyIntegerList = pValue->getIntegerList();
-						IntegerListConstIterator ci = pMyIntegerList->const_iterator();
-						// Is it empty?
-						if (!ci.hasNext()) {
-							// Yes, it's empty.  So push the empty string.
-							results.rbegin()->push_back("");
-						} else {
-							// No, the list is not empty
-							std::string mylistresult;
-							while (ci.hasNext()) {
-								long enum_const_value = ci.next();
-								std::string enum_const_name;
-								// First try the cache
-								const EnumConstInfo *pECI = m_enum_const_cache->find(feature_type, enum_const_value);
-								if (pECI != 0) {
-									enum_const_name = pECI->getName();
-								} else {
-									bool bEnumConstExists;
-									bool bDummyIsDefault;
-									
-									if (!enumConstExists(enum_const_value,
-											     feature_type,
-											     bEnumConstExists,
-											     enum_const_name,
-											     bDummyIsDefault)) {
-										DEBUG_X_FAILED("EMdFDB::getFeaturesByQueryExec", 
-											       "Getting enum const name");
-										return false;
-									}
-									if (!bEnumConstExists) {
-										DEBUG_X_IS_WRONG("EMdFDB::getFeaturesByQueryExec", 
-												 "Enum const with value " + pValue->toString() + " did not exist.");
-										return false;
-									}
-								}
-								mylistresult += DEFAULT_LIST_DELIMITER + enum_const_name;
-							}
-							mylistresult += DEFAULT_LIST_DELIMITER;
-							results.rbegin()->push_back(mylistresult);
-						}
-					}
-				} else if (featureTypeIdIsENUM(feature_type)) {
-					long enum_const_value = pValue->getEnum();
-					std::string enum_const_name;
-					// First try the cache
-					const EnumConstInfo *pECI = m_enum_const_cache->find(feature_type, enum_const_value);
-					if (pECI != 0) {
-						enum_const_name = pECI->getName();
-					} else {
-						bool bEnumConstExists;
-						bool bDummyIsDefault;
-						
-						if (!enumConstExists(enum_const_value,
-								     feature_type,
-								     bEnumConstExists,
-								     enum_const_name,
-								     bDummyIsDefault)) {
-							DEBUG_X_FAILED("EMdFDB::getFeaturesByQueryExec", 
-								       "Getting enum const name");
-							return false;
-						}
-						if (!bEnumConstExists) {
-							DEBUG_X_IS_WRONG("EMdFDB::getFeaturesByQueryExec", 
-									 "Enum const with value " + pValue->toString() + " did not exist, 2.");
-							return false;
-						}
-					}
-					results.rbegin()->push_back(enum_const_name);
-				} else {
-					// A catch-all
-					results.rbegin()->push_back(pValue->toString());
+			if (inner_list_member_count == 20) {
+				if (!getFeaturesExec(object_type_name,
+						     object_type_id,
+						     objectRangeType, 
+						     FeatureInfos,
+						     all_m_1,
+						     pID_D_List,
+						     results)) {
+					DEBUG_X_FAILED("EMdFDB::getFeatures", "getting features.");
+					return false;
 				}
-
-				// Advance iterators
-				++fi_i;
-				++feature_name_index;
-			}
-
-			// Get next tuple
-			if (!pConn->getNextTuple(bMoreRows)) {
-				DEBUG_GET_NEXT_TUPLE_FAILED("EMdFDB::getFeaturesByQueryExec");
-				return false;
-			}
-
-			if (bMoreRows) {
-				// If we have more rows, it is
-				// important to call the d'tor of all
-				// EMdFValues; otherwise, we will get
-				// memory leaks for those EMdFValues
-				// which allocate memory, such as
-				// EMdFValue(SetOfMonads).
-				for (emdf_value_index = 0;
-				     emdf_value_index < no_of_features_to_get;
-				     ++emdf_value_index) {
-					pFeature_values[emdf_value_index].~EMdFValue();
-				}
+				inner_list_member_count = 0;
+				pID_D_List = new IntegerList();
 			}
 		}
 
-		// Release results
-		pConn->finalize();
-
-		delete[] pFeature_values;
-
-	} catch (EMdFNULLValueException& e) {
-		UNUSED(e);
-		DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getFeaturesByQueryExec");
-		// There was a NULL value exception, hence we return an error
-		return false;
-	}
-
-	// If we got this far, there were no DB errors
-	return true;
-}
-
-
-//
-//
-/** Get computed features
- *@internal
- *
- * Is used by getFeatures() when there are no backend-features to get.
- *
- * @see EMdFDB::getFeatures(), EMdFDB::getComputedFeature().
- *
- * @param object_type_name The name of the object type to query.
- *
- * @param FeatureInfos List of FeatureInfo objects telling us which
- *        features to get.
- *
- * @param object_id_ds_set The set of id_ds to query.  Even though
- * this is a SetOfMonads, it is really id_ds that are in there.
- *
- * @param results List of List of string containing the values of the
- * features, in the same order as in FeatureInfos.
- *
- * @return True on no database error, false if a database error occurred.
- */
-bool EMdFDB::getComputedFeatures(const std::string& object_type_name,
-				 const std::list<FeatureInfo>& FeatureInfos,
-				 const SetOfMonads& object_id_ds_set,
-				 /* out */ std::list<std::list<std::string> >& results)
-{
-	// Get list of object id_ds
-	// (Yes, I know, I know, but id_d_t is typedef'd the same way
-	// as monad_m, and so it doesn't matter.  For now, at least.)
-	std::list<id_d_t> object_id_ds;
-	object_id_ds_set.getMonad_mList(object_id_ds);
-
-	// Get object id_d from list
-	std::list<id_d_t>::const_iterator id_di(object_id_ds.begin());
-	std::list<id_d_t>::const_iterator id_diend(object_id_ds.end());
-	while (id_di != id_diend) {
-		// Add list so we have something to fill
-		results.push_back(std::list<std::string>());
-
-		// Add id_d
-		results.rbegin()->push_back(id_d2string(*id_di));
-
-		// Iterate through features
-		std::list<FeatureInfo>::const_iterator fii(FeatureInfos.begin());
-		std::list<FeatureInfo>::const_iterator fiiend(FeatureInfos.end());
-		while (fii != fiiend) {
-			// Get result
-			std::string comp_result;
-			if (!getComputedFeature(object_type_name, *fii, *id_di, comp_result)) {
-				DEBUG_X_FAILED("EMdFDB::getComputedFeatures", "");
+		if (pID_D_List->isEmpty()) {
+			delete pID_D_List;
+		} else {
+			if (!getFeaturesExec(object_type_name,
+					     object_type_id,
+					     objectRangeType, 
+					     FeatureInfos,
+					     all_m_1,
+					     pID_D_List,
+					     results)) {
+				DEBUG_X_FAILED("EMdFDB::getFeatures", "getting features.");
 				return false;
 			}
-
-			// Add result
-			results.rbegin()->push_back(comp_result);
-
-			// Advance iterator
-			++fii;
 		}
 
-		// Advance iterator
-		++id_di;
-	}
-  
-	// If we got this far, there were no DB errors
-	return true;
-}
-
-/** Get computed feature.
- *@internal
- *
- * Is used by getComputedFeatures().
- *
- * @see EMdFDB::getComputedFeatures().
- *
- * @param object_type_name The name of the object type to query.
- *
- * @param fi The feature_info of the feature to get.
- *
- * @param object_id_d The object id_d of the object to query.
- *
- * @param comp_result The string representation of the computed
- * result.
- *
- * @return True on no database error, false if a database error occurred.
- */
-bool EMdFDB::getComputedFeature(const std::string& object_type_name, 
-				const FeatureInfo& fi, 
-				id_d_t object_id_d, 
-				/* out */ std::string& comp_result)
-{
-	UNUSED(object_type_name);
-	
-	// We must be computed
-	if (!fi.getIsComputed()) {
-		DEBUG_X_IS_WRONG("EMdFDB::getComputedFeature", 
-				 "Function called with a non-computed feature.\n"
-				 "This is an internal error.  Please contact Ulrik Petersen\n"
-				 "at <ulrikp{a-t}users.sourceforge.net> with a description\n"
-				 "of the problem.");
-		return false;
-	}
-
-	if (strcmp_nocase(fi.getName(), "self") == 0) {
-		// Feature is "self"
-		// Push back id_d
-		comp_result = id_d2string(object_id_d);
-
-		// If we got this far, there were no DB errors
 		return true;
-	} else {
-		// We don't yet support computed features other than "self"
-		DEBUG_X_IS_WRONG("EMdFDB::getComputedFeature", 
-				 "Computed features other than 'self' not yet supported.");
-		return false;
 	}
 }
+
+bool EMdFDB::getFeaturesExec(const std::string& object_type_name,
+			     id_d_t object_type_id,
+			     eObjectRangeType objectRangeType, 
+			     const std::list<FeatureInfo>& FeatureInfos,
+			     const SetOfMonads& all_m_1,
+			     const IntegerList *pID_D_List,
+			     /* out */ std::list<std::list<std::string> >& results)
+{
+	UNUSED(objectRangeType);
+
+	if (pID_D_List->isEmpty()) {
+		delete pID_D_List;
+		return true;
+	}
+
+	Inst *pInst = new Inst(FeatureInfos);
+	EMdFComparison *pComparison =
+		getEMdFComparison("self",
+				  "",
+				  FEATURE_TYPE_ID_D,
+				  object_type_name,
+				  object_type_id,
+				  pID_D_List);
+
+	// ignored in EMdFDB. Used by BPTEMdFDB. We might get to
+	// BPTEMdFDB from here, so we compute it.  We don't call the
+	// c'tor for EMdFFFeatures, EMDFFTerm, EMdFFFactor, or
+	// EMDFComparison directly.  Instead, we call
+	// this->getEMdFFFeatures, etc., in order to create the right
+	// subclass of EMdFFFeatures etc., based on the virtual table
+	// of what we actually are ourselves.  In particular, the
+	// BPTEMdFDB subclass will create different subclasses of
+	// EMdFFFeatures etc. than the implementation in EMdFDB.
+	EMdFFFeatures *pre_query_constraints =
+		getEMdFFFeatures(0, getEMdFFTerm(0, getEMdFFFactor(pComparison)));
+	std::string pre_query_string = pre_query_constraints->makeConstraints(this);
+
+	if (!getInst(object_type_name,
+		     object_type_id,
+		     all_m_1,
+		     all_m_1,
+		     pre_query_string,
+		     pre_query_constraints,
+		     FeatureInfos,
+		     "monads",
+		     kMSROPartOf,
+		     *pInst)) {
+		delete pInst;
+		delete pre_query_constraints;
+		DEBUG_X_FAILED("EMdFDB::getFeaturesExec", "quering the DB.");
+		return false;
+	}
+
+	// Extract info from the Inst.
+	pInst->set_current_universe(all_m_1);
+
+	const unsigned int feature_value_arr_size = (unsigned int) FeatureInfos.size();
+	unsigned int index;
+	
+	Inst::const_iterator inst_ci = pInst->begin();
+	while (inst_ci.hasNext()) {
+		const InstObject *pObj = inst_ci.next();
+		id_d_t object_id_d = pObj->getID_D();
+		index = 0;
+		std::list<std::string> feature_value_list;
+
+		// Always add the id_d as the first column
+		feature_value_list.push_back(id_d2string(object_id_d));
+
+		// Iterator over the features
+		std::list<FeatureInfo>::const_iterator feature_info_ci = FeatureInfos.begin();
+		while (index < feature_value_arr_size) {
+			const FeatureInfo& fi = *feature_info_ci;
+			const EMdFValue* pEMdFValue = pObj->getFeature(index);
+			id_d_t feature_type_id = fi.getOutputType();
+			
+			if (featureTypeIdIsENUM(feature_type_id)
+			    || featureTypeIdIsListOfENUM(feature_type_id)) {
+				feature_value_list.push_back(pEMdFValue->toString(feature_type_id, m_enum_const_cache));
+			} else {
+				feature_value_list.push_back(pEMdFValue->toString());
+			}
+			++index;
+			++feature_info_ci;
+		}
+
+		results.push_back(feature_value_list);
+	}
+	
+	return true;
+}
+
+
+
+
 
 
 /** Add string set value to cache if not already there.
@@ -5661,7 +5300,7 @@ bool EMdFDB::getObjectsHavingMonadsInExec(const std::string& OTN,
 					  const std::string& query_prefix,
 					  const FastSetOfMonads& original_som,
 					  eObjectRangeType objectRangeType,
-
+					  const std::list<FeatureInfo>& features_to_get,
 					  const std::string& str_features_to_get,
 					  const std::vector<id_d_t>& feature_types_vec,
 					  const std::vector<std::string>& feature_names_vec,
@@ -5799,6 +5438,7 @@ bool EMdFDB::getObjectsHavingMonadsInExec(const std::string& OTN,
 					if (!getFeatureValues(no_of_features_to_get,
 							      objectRangeType,
 							      first_feature_column_index,
+							      features_to_get,
 							      feature_types_vec,
 							      feature_names_vec,
 							      string_set_caches_vec,
@@ -6032,6 +5672,7 @@ bool EMdFDB::getObjectsHavingMonadsIn(const std::string OTN,
 				      const FastSetOfMonads& original_som,
 				      const SetOfMonads& all_m_1,
 				      const std::string& pre_query_string,
+				      const std::list<FeatureInfo>& features_to_get,
 				      const std::string& str_features_to_get,
 				      const std::vector<id_d_t>& feature_types_vec,
 				      const std::vector<std::string>& feature_names_vec,
@@ -6129,7 +5770,7 @@ bool EMdFDB::getObjectsHavingMonadsIn(const std::string OTN,
 					  query_prefix,
 					  original_som,
 					  objectRangeType,
-					  
+					  features_to_get,
 					  str_features_to_get,
 					  feature_types_vec,
 					  feature_names_vec,
@@ -6149,6 +5790,7 @@ bool EMdFDB::getObjectsHavingMonadsInFromSingleUniqueMonadExec(const std::string
 							       id_d_t object_type_id,
 							       const std::string& str_monad_constraint1,
 							       const std::string& query_prefix,
+							       const std::list<FeatureInfo>& features_to_get,
 							       const std::string& str_features_to_get,
 							       const std::vector<id_d_t>& feature_types_vec,
 							       const std::vector<std::string>& feature_names_vec,
@@ -6226,6 +5868,7 @@ bool EMdFDB::getObjectsHavingMonadsInFromSingleUniqueMonadExec(const std::string
 				if (!getFeatureValues(no_of_features_to_get,
 						      kORTSingleMonad,
 						      first_feature_column_index,
+						      features_to_get,
 						      feature_types_vec,
 						      feature_names_vec,
 						      string_set_caches_vec,
@@ -6351,6 +5994,7 @@ bool EMdFDB::getObjectsHavingMonadsInFromSingleUniqueMonadOT(const std::string o
 								       object_type_id,
 								       str_monad_constraint1.str(),
 								       query_prefix,
+								       features_to_get,
 								       str_features_to_get,
 								       feature_types_vec,
 								       feature_names_vec,
@@ -6538,6 +6182,7 @@ bool EMdFDB::getObjectsHavingMonadsIn(const std::string object_type_name,
 						      fast_monad_ms,
 						      all_m_1,
 						      pre_query_string,
+						      features_to_get,
 						      str_features_to_get,
 						      feature_types_vec,
 						      feature_names_vec,
@@ -6593,7 +6238,7 @@ bool EMdFDB::getFeatureVectors(const std::list<FeatureInfo>& features_to_get,
 	while (ci != cend) {
 		// Get lowercase name
 		std::string locase_name;
-		str_tolower(ci->getName(), locase_name);
+		str_tolower(ci->getRetrievedFeatureName(), locase_name);
 
 		if (locase_name == "self") {
 			// Is it self?
@@ -6614,7 +6259,7 @@ bool EMdFDB::getFeatureVectors(const std::list<FeatureInfo>& features_to_get,
 			}
 			feature_names_vec[feature_names_index] = "monads";
 		} else {
-			if (featureTypeIdIsFromSet(ci->getType())) {
+			if (featureTypeIdIsFromSet(ci->getRetrievedType())) {
 				if (feature_is_from_set_table_alias_number < getMaxNoOfJoins()) {
 					std::string alias = std::string("FIFS") + long2string(feature_is_from_set_table_alias_number);
 					++feature_is_from_set_table_alias_number;
@@ -6646,7 +6291,7 @@ bool EMdFDB::getFeatureVectors(const std::list<FeatureInfo>& features_to_get,
 		}
 
 		// Add type to feature_types_vec
-		feature_types_vec.push_back(ci->getType());
+		feature_types_vec.push_back(ci->getRetrievedType());
 
 		// Advance iterators
 		++ci;
@@ -6660,6 +6305,7 @@ bool EMdFDB::getFeatureVectors(const std::list<FeatureInfo>& features_to_get,
 bool EMdFDB::getFeatureValues(int no_of_features_to_get,
 			      eObjectRangeType objectRangeType,	
 			      int first_feature_column_index,
+			      const std::list<FeatureInfo>& feature_infos,
 			      const std::vector<id_d_t>& feature_types_vec,
 			      const std::vector<std::string>& feature_names_vec,
 			      const std::vector<StringSetCache*>& string_set_caches_vec,
@@ -6668,7 +6314,12 @@ bool EMdFDB::getFeatureValues(int no_of_features_to_get,
 	int feature_index, column_index;
 	std::string value_str;
 	long value_long;
+	std::list<FeatureInfo>::const_iterator feature_info_ci = feature_infos.begin();
 	for (feature_index = 0, column_index=0; feature_index < no_of_features_to_get; ++feature_index, ++column_index) {
+		const FeatureInfo& feature_info = *feature_info_ci++;
+		bool bIsComputed = feature_info.getIsComputed();
+		bool bIsSelf = feature_info.getIsSelf();
+		
 		id_d_t feature_type = feature_types_vec[feature_index];
 		if (featureTypeIdIsListOf(feature_type)) {
 			if (!pConn->accessTuple(first_feature_column_index + column_index, 
@@ -6761,12 +6412,13 @@ bool EMdFDB::getFeatureValues(int no_of_features_to_get,
 						
 						// Get feature_mse_last
 						if (objectRangeType == kORTSingleMonad) {
-							/* If this iw WITH SINGLE MONAD OBJECTS, then we don't 
+							/* If this is WITH SINGLE MONAD OBJECTS, then we don't 
 							 * retrive feature_mse_last.  Instead, we just get it
 							 * from feature_mse_first.
 							 */
 							feature_mse_last = feature_mse_first;
 						} else {
+							// It is kORTSingleRange, so we get the feature_mse_last from the next column.
 							++column_index;
 							if (!pConn->accessTuple(first_feature_column_index + column_index, feature_mse_last)) {
 								DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::getFeatureValues");
@@ -6793,6 +6445,11 @@ bool EMdFDB::getFeatureValues(int no_of_features_to_get,
 				ASSERT_THROW(false, "Unknown FEATURE_TYPE.");
 				break;
 			}
+		}
+
+		if (bIsComputed && !bIsSelf) {
+			EMdFValue *pOldValue = &(pFeature_values[feature_index]);
+			feature_info.changeIntoComputedValue(pOldValue);
 		}
 	}
 	
@@ -6979,84 +6636,6 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 		}
 		    
 
-		/*
-		std::string str_features_to_get;
-		std::vector<id_d_t> feature_types_vec;
-		std::vector<std::string> feature_names_vec(features_to_get.size());
-		std::vector<StringSetCache*> string_set_caches_vec(features_to_get.size(), 0);
-		std::list<FeatureInfo>::const_iterator ci(features_to_get.begin());
-		std::list<FeatureInfo>::const_iterator cend(features_to_get.end());
-		unsigned int feature_names_index = 0;
-		unsigned int feature_is_from_set_table_alias_number = 0;
-		std::string join_string;
-		std::string from_string = OTN + "_objects OS";
-		while (ci != cend) {
-			// Get lowercase name
-			std::string locase_name;
-			str_tolower(ci->getName(), locase_name);
-
-			if (locase_name == "self") {
-				// Is it self?
-				// TODO: We should check for computed status when we add
-				// ability to do computed features.
-				str_features_to_get += ", OS.object_id_d";
-				feature_names_vec[feature_names_index] = "object_id_d";
-			} else if (locase_name == "monads") {
-				// Is it 'monads'?
-				if (objectRangeType == kORTSingleRange) {
-					str_features_to_get += ", OS.first_monad, OS.last_monad";
-				} else if (objectRangeType == kORTSingleMonad) {
-					str_features_to_get += ", OS.first_monad";
-				} else if (objectRangeType == kORTMultipleRange) {
-					str_features_to_get += ", OS.monads";
-				} else {
-					ASSERT_THROW(false, "Logic error: Emdros has been extended with objectRangeType " + long2string((long)objectRangeType) + " without changing this part of the code.");
-				}
-				feature_names_vec[feature_names_index] = "monads";
-			} else {
-				if (featureTypeIdIsFromSet(ci->getType())) {
-					if (feature_is_from_set_table_alias_number < getMaxNoOfJoins()) {
-						std::string alias = std::string("FIFS") + long2string(feature_is_from_set_table_alias_number);
-						++feature_is_from_set_table_alias_number;
-
-						str_features_to_get += ", " + alias + ".string_value";
-						//feature_names_vec[feature_names_index] = encodeFeatureName(locase_name);
-						if (join_string.length() > 0) {
-							join_string += " AND ";
-						}
-						join_string += "OS." + encodeFeatureName(locase_name) + " = " + alias + ".id_d";
-						from_string += ", " + OTN + "_" + encodeFeatureName(locase_name) + "_set" + " " + alias;
-						
-					} else {
-						str_features_to_get += ", OS." + encodeFeatureName(locase_name);
-						//feature_names_vec[feature_names_index] = encodeFeatureName(locase_name);
-					
-						if (!loadStringSetIntoCache(OTN,
-									    object_type_id,
-									    locase_name)) {
-							DEBUG_X_FAILED("EMdFDB::getInst", ("getting string set cache for " + OTN + "." + locase_name));
-							return false;
-						}
-						
-						StringSetCache *pSSC = m_string_sets_cache->getSSC(object_type_id, encodeFeatureName(locase_name));
-						string_set_caches_vec[feature_names_index] = pSSC;
-					}
-				} else {
-					str_features_to_get += ", OS." + encodeFeatureName(locase_name);
-				}
-				feature_names_vec[feature_names_index] = locase_name;
-			}
-
-			// Add type to feature_types_vec
-			feature_types_vec.push_back(ci->getType());
-
-			// Advance iterators
-			++ci;
-			++feature_names_index;
-		}
-		*/
-		
-
 		
 		from_string += "\n";
 
@@ -7091,12 +6670,13 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 							  << " AND OS.first_monad<=" 
 							  << long2string(last_monad);
 			} else {
-				// NOTE: It is NOT a good idea to not to use BETWEEN here...
-				// For some reason, BETWEEN is faster on SQLite2,
-				// even though BETWEEN makes it impossible to use the
-				// index.
-				//monad_constraint_stream1  << "OS.first_monad BETWEEN " << first_monad
-				//			  << " AND " << last_monad);
+				// NOTE from the early 2000's: It is
+				// NOT a good idea to not to use
+				// BETWEEN here...  as in...
+				//
+				// monad_constraint_stream1
+				// << "OS.first_monad BETWEEN " << first_monad
+				// << " AND " << last_monad);
 				
 				// NOTE: We do not need to consider 
 				// largest_object_length in getInst().
@@ -7423,6 +7003,7 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 					if (!getFeatureValues(no_of_features_to_get,
 							      objectRangeType,
 							      first_feature_column_index,
+							      features_to_get,
 							      feature_types_vec,
 							      feature_names_vec,
 							      string_set_caches_vec,
@@ -8047,11 +7628,13 @@ bool EMdFDB::getFeaturesForObjectType(id_d_t object_type_id,
 				std::string feature_name = m_feature_cache->getColumn(i, 2);
 				id_d_t feature_type_id = string2id_d(m_feature_cache->getColumn(i, 3));
 				std::string default_value = m_feature_cache->getColumn(i, 4);
-				bool is_computed = string2bool(m_feature_cache->getColumn(i, 5));
+				// bool is_computed = string2bool(m_feature_cache->getColumn(i, 5));
 	
 				// Make FeatureInfo
-				FeatureInfo f_info(feature_name, feature_type_id, 
-						   default_value, is_computed);
+				FeatureInfo f_info(feature_name,
+						   "",
+						   feature_type_id, 
+						   default_value);
 
 				// Include it in result
 				Result.push_back(f_info);
@@ -8124,7 +7707,7 @@ bool EMdFDB::getFeaturesForObjectType(id_d_t object_type_id,
 				}
 
 				/* Construct FeatureInfo and push on the back. */
-				FeatureInfo f_info(name, feature_type, default_value, is_computed);
+				FeatureInfo f_info(name, "", feature_type, default_value);
 				Result.push_back(f_info);
 
 				// Add it to the feature cache if not already there.
@@ -8751,9 +8334,9 @@ bool EMdFDB::createObject(id_d_t object_id_d,
 			std::list<FeatureInfo>::const_iterator fiend(features.end());
 			while (fi != fiend) {
 				if (!fi->getIsComputed()) {
-					strQuery << "," << encodeFeatureName(fi->getName());
-					if (featureTypeIdIsSOM(fi->getType())) {
-						strQuery << ",first_monad_" + encodeFeatureName(fi->getName());
+					strQuery << "," << encodeFeatureName(fi->getRetrievedFeatureName());
+					if (featureTypeIdIsSOM(fi->getRetrievedType())) {
+						strQuery << ",first_monad_" + encodeFeatureName(fi->getRetrievedFeatureName());
 					}
 				}
 				++fi;
@@ -8779,7 +8362,7 @@ bool EMdFDB::createObject(id_d_t object_id_d,
 					// we must create any IDD-String association if it is not 
 					// there in the OT_mdf_FEATURE_NAME_set table.
 					strQuery << ',' << FeatureInfo2SQLvalue(OTN, object_type_id, true, *fi);
-					if (featureTypeIdIsSOM(fi->getType())) {
+					if (featureTypeIdIsSOM(fi->getRetrievedType())) {
 						SetOfMonads som;
 						som.fromString(fi->getDefaultValue());
 						if (som.isEmpty()) {
@@ -8895,14 +8478,14 @@ bool EMdFDB::updateObject(id_d_t object_id_d,
 				// The penultimate "true" on FeatureInfo2SQLvalue means that 
 				// we must create any IDD-String association if it is not 
 				// there in the OT_mdf_FEATURE_NAME_set table.
-				query_stream << encodeFeatureName(ci->getName()) << " = " << FeatureInfo2SQLvalue(OTN, object_type_id, true, *ci);
-				if (featureTypeIdIsSOM(ci->getType())) {
+				query_stream << encodeFeatureName(ci->getRetrievedFeatureName()) << " = " << FeatureInfo2SQLvalue(OTN, object_type_id, true, *ci);
+				if (featureTypeIdIsSOM(ci->getRetrievedType())) {
 					SetOfMonads som;
 					som.fromString(ci->getDefaultValue());
 					if (som.isEmpty()) {
-						query_stream << ",first_monad_" << encodeFeatureName(ci->getName()) << '=' << monad_m2string(MAX_MONAD);
+						query_stream << ",first_monad_" << encodeFeatureName(ci->getRetrievedFeatureName()) << '=' << monad_m2string(MAX_MONAD);
 					} else {
-						query_stream << ",first_monad_" << encodeFeatureName(ci->getName()) << '=' << monad_m2string(som.first());
+						query_stream << ",first_monad_" << encodeFeatureName(ci->getRetrievedFeatureName()) << '=' << monad_m2string(som.first());
 					}
 				}
 				
@@ -10677,7 +10260,7 @@ bool EMdFDB::abortTransaction(void)
  *
  * @return The encoded feature name.
  */
-std::string EMdFDB::encodeFeatureName(const std::string feature_name)
+std::string EMdFDB::encodeFeatureName(const std::string& feature_name)
 {
 	// Get lowercase name
 	std::string locase_name;
@@ -10703,14 +10286,37 @@ std::string EMdFDB::encodeFeatureName(const std::string feature_name)
  *
  * @return The encoded feature name.
  */
-std::string EMdFDB::encodeFeatureNameForPrequeryString(const std::string feature_name)
+std::string EMdFDB::encodeFeatureNameForPrequeryString(const std::string& feature_name,
+						       const std::string& parameter1,
+						       id_d_t retrieved_feature_type_id)
 {
+	
 	std::string strResult;
-	if (strcmp_nocase(feature_name, "self") == 0) {
+	FeatureInfo fi(feature_name, parameter1, retrieved_feature_type_id, "");
+	eComputedFeatureKind fiKind = fi.getComputedFeatureKind();
+	std::string retrieved_feature_name = fi.getRetrievedFeatureName();
+	
+	switch (fiKind) {
+	case kCFKNone:
+		strResult = std::string("OS.") + encodeFeatureName(retrieved_feature_name);
+		break;
+	case kCFKSelf:
 		strResult = "OS.object_id_d";
-	} else {
-		strResult = std::string("OS.") + encodeFeatureName(feature_name);
+		break;
+	case kCFKFirstMonad:
+	case kCFKLastMonad:
+	case kCFKMonadCount:
+	case kCFKMonadSetLength:
+		// This is where we decide we cannot do pre-querying
+		// of these computed feature kinds.  What would we do
+		// if retrieved_feature_name was "monads"?  We would
+		// need to retrieve more than one column, if the
+		// objectRangeType wasn't kORTSingleMonad.
+		ASSERT_THROW(false,
+			     "Error in EMdFDB::encodeFeatureNameForPrequeryString: Attempting to pre-query a computed feature which cannot be pre-queried.\n");
+		break;
 	}
+
 	return strResult;
 }
 
@@ -10727,7 +10333,7 @@ std::string EMdFDB::encodeFeatureNameForPrequeryString(const std::string feature
  *
  * @return The decoded feature-name.
  */
-std::string EMdFDB::decodeFeatureName(const std::string coded_feature_name)
+std::string EMdFDB::decodeFeatureName(const std::string& coded_feature_name)
 {
 	return coded_feature_name.substr(4);
 }
@@ -11095,20 +10701,20 @@ bool EMdFDB::createIndicesOnOTObjects(const std::string& object_type_name)
 	std::list<FeatureInfo>::const_iterator ci = FeatureInfos.begin();
 	std::list<FeatureInfo>::const_iterator cend = FeatureInfos.end();
 	while (ci != cend) {
-		if (featureTypeIdIsWithIndex(ci->getType())) {
+		if (featureTypeIdIsWithIndex(ci->getRetrievedType())) {
 			std::string table_name;
 			std::string index_name;
 			std::list<std::pair<std::string, unsigned int> > column_list2;
-			column_list2.push_back(std::pair<std::string, unsigned int>(encodeFeatureName(ci->getName()), MAX_TEXT_INDEX_CHARS));
+			column_list2.push_back(std::pair<std::string, unsigned int>(encodeFeatureName(ci->getRetrievedFeatureName()), MAX_TEXT_INDEX_CHARS));
 			getIndexAndTableNameForFeature(object_type_name, 
-						       ci->getName(),
+						       ci->getRetrievedFeatureName(),
 						       table_name, 
 						       index_name);
 			createIndex(index_name, table_name, column_list2);
 			column_list2.pop_back();
 
 			/*
-			if (featureTypeIdIsFromSet(ci->getType())) {
+			if (featureTypeIdIsFromSet(ci->getRetrievedType())) {
 				if (!createIndicesOnStringSetTable(object_type_name,
 								   ci->getName())) {
 					DEBUG_X_FAILED("EMdFDB::createIndicesOnOTObjects",
@@ -11412,17 +11018,17 @@ bool EMdFDB::dropIndicesOnOTObjects(const std::string& object_type_name)
 	std::list<FeatureInfo>::const_iterator ci = FeatureInfos.begin();
 	std::list<FeatureInfo>::const_iterator cend = FeatureInfos.end();
 	while (ci != cend) {
-		if (featureTypeIdIsWithIndex(ci->getType())) {
+		if (featureTypeIdIsWithIndex(ci->getRetrievedType())) {
 			std::string table_name;
 			std::string index_name;
 			getIndexAndTableNameForFeature(object_type_name, 
-						       ci->getName(),
+						       ci->getRetrievedFeatureName(),
 						       table_name, 
 						       index_name);
 			dropIndex(index_name, table_name);
 		}
 		/*
-		if (featureTypeIdIsFromSet(ci->getType())) {
+		if (featureTypeIdIsFromSet(ci->getRetrievedType())) {
 			if (!dropIndicesOnStringSetTable(object_type_name,
 							 ci->getName())) {
 				DEBUG_X_FAILED("EMdFDB::dropIndicesOnOTObjects",
@@ -11548,14 +11154,17 @@ std::string EMdFDB::getBackendName(void)
  *
  * @return The newly created EMdFComparison.
  */
-EMdFComparison* EMdFDB::getEMdFComparison(const std::string& left_feature_name, 
+EMdFComparison* EMdFDB::getEMdFComparison(const std::string& left_feature_name,
+					  const std::string& left_feature_parameter1,
 					  id_d_t left_type_id_d, 
 					  const std::string& object_type_name, 
 					  id_d_t object_type_id, 
 					  eComparisonOp e, 
 					  EMdFValue *right_hand_side)
 {
-	return new EMdFComparison(left_feature_name, left_type_id_d, 
+	return new EMdFComparison(left_feature_name,
+				  left_feature_parameter1,
+				  left_type_id_d, 
 				  object_type_name, object_type_id, 
 				  e, 
 				  right_hand_side);
@@ -11583,13 +11192,16 @@ EMdFComparison* EMdFDB::getEMdFComparison(const std::string& left_feature_name,
  *
  * @return The newly created EMdFComparison.
  */
-EMdFComparison *EMdFDB::getEMdFComparison(const std::string& left_feature_name, 
+EMdFComparison *EMdFDB::getEMdFComparison(const std::string& left_feature_name,
+					  const std::string& left_feature_parameter1,
 					  id_d_t left_type_id_d, 
 					  const std::string& object_type_name,
 					  id_d_t object_type_id,
 					  const IntegerList *pIntegerList)
 {
-	return new EMdFComparison(left_feature_name, left_type_id_d, 
+	return new EMdFComparison(left_feature_name,
+				  left_feature_parameter1,
+				  left_type_id_d, 
 				  object_type_name, object_type_id,
 				  pIntegerList);
 }
@@ -11617,13 +11229,16 @@ EMdFComparison *EMdFDB::getEMdFComparison(const std::string& left_feature_name,
  *
  * @return The newly created EMdFComparison.
  */
-EMdFComparison *EMdFDB::getEMdFComparison(const std::string& left_feature_name, 
+EMdFComparison *EMdFDB::getEMdFComparison(const std::string& left_feature_name,
+					  const std::string& left_feature_parameter1,
 					  id_d_t left_type_id_d, 
 					  const std::string& object_type_name,
 					  id_d_t object_type_id,
 					  const std::list<EnumConstInfo>& in_enum_list)
 {
-	return new EMdFComparison(left_feature_name, left_type_id_d, 
+	return new EMdFComparison(left_feature_name,
+				  left_feature_parameter1,
+				  left_type_id_d, 
 				  object_type_name, object_type_id,
 				  in_enum_list);
 }
@@ -11921,7 +11536,7 @@ std::string EMdFDB::FeatureInfo2SQLvalue(const std::string& OTN,
 	std::string result;
 
 	// Get feature type
-	id_d_t ft = fi.getType();
+	id_d_t ft = fi.getRetrievedType();
 
 	// Make string
 	if (featureTypeIdIsASCIIorSTRING(ft)) {
@@ -11929,12 +11544,12 @@ std::string EMdFDB::FeatureInfo2SQLvalue(const std::string& OTN,
 			std::string default_value = fi.getDefaultValue();
 			if (!getID_DFromStringSet(OTN, 
 						  object_type_id,
-						  encodeFeatureName(fi.getName()),
+						  encodeFeatureName(fi.getRetrievedFeatureName()),
 						  escapeStringForSQL(default_value),
 						  default_value,
 						  bCreateStringIDDIfNotThere,
 						  result)) {
-				throw EMdFDBDBError("Could not get ID_D from set in object type '" + OTN + "' and from feature '" + fi.getName() + "'.");
+				throw EMdFDBDBError("Could not get ID_D from set in object type '" + OTN + "' and from feature '" + fi.getRetrievedFeatureName() + "'.");
 			}
 		} else {
 			result = escapeStringForSQL(fi.getDefaultValue());
