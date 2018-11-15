@@ -294,7 +294,7 @@ std::string EMdFValue::toString(id_d_t feature_type_id, EnumConstCache *pEnumCac
 			return toString();
 		} else {
 			id_d_t enum_id = STRIP_ENUM_ID_OF_LOWER_BITS(feature_type_id);
-			std::string result("(");
+			std::string result(" ");
 			IntegerList *pList = getIntegerList();
 			IntegerListConstIterator ilci = pList->const_iterator();
 			if (ilci.hasNext()) {
@@ -304,14 +304,14 @@ std::string EMdFValue::toString(id_d_t feature_type_id, EnumConstCache *pEnumCac
 			}
 			
 			while (ilci.hasNext()) {
-				result += ',';
+				result += ' ';
 				
 				long next_enum = ilci.next();
 				const EnumConstInfo* pECI = pEnumCache->find(enum_id, next_enum);
 				result += pECI->getName();
 			}
 			
-			result += ')';
+			result += ' ';
 			return result;
 		}
 	} else {
