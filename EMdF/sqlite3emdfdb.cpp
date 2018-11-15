@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 5/11-2018
+ * Last update: 11/15-2018
  *
  */
 
@@ -521,13 +521,14 @@ bool SQLite3EMdFDB::createDatabase(const std::string& db_name, eCharsets charset
 
 
 // See p. 515 in Stroustrup, "TC++PL", 3rd edition.
-class SQLite3_Feature_info_nocase_equals_predicate : public std::unary_function<FeatureInfo, bool> {
+class SQLite3_Feature_info_nocase_equals_or_is_computed_predicate : public std::unary_function<FeatureInfo, bool> {
 private:
 	std::string m_other;
 public:
-	SQLite3_Feature_info_nocase_equals_predicate(const std::string& str) : m_other(str) {};
-	bool operator()(const FeatureInfo& fi) { return strcmp_nocase(m_other, fi.getName()) == 0; };
+	SQLite3_Feature_info_nocase_equals_or_is_computed_predicate(const std::string& str) : m_other(str) {};
+	bool operator()(const FeatureInfo& fi) { return fi.getIsComputed() || strcmp_nocase(m_other, fi.getRetrievedFeatureName()) == 0; };
 };
+
 
 /** My own implementation of the std::remove_if algorithm.
  *
@@ -547,8 +548,8 @@ public:
 void my_remove_if_sqlite3(std::list<FeatureInfo>& FeatureInfos, const std::string& name_to_remove)
 {
 	// Generate predicate
-	SQLite3_Feature_info_nocase_equals_predicate Pred = 
-		SQLite3_Feature_info_nocase_equals_predicate(name_to_remove);
+	SQLite3_Feature_info_nocase_equals_or_is_computed_predicate Pred = 
+		SQLite3_Feature_info_nocase_equals_or_is_computed_predicate(name_to_remove);
 
 	// Traverse list
 	std::list<FeatureInfo>::iterator i(FeatureInfos.begin());
@@ -855,6 +856,7 @@ bool SQLite3EMdFDB::dropFeatureFromOT_objects(const std::string& object_type_nam
 	// Remove "our" feature from the list, as well as 'self'
 	my_remove_if_sqlite3(FeatureInfos, std::string(feature_name));
 	my_remove_if_sqlite3(FeatureInfos, std::string("self"));
+	my_remove_if_sqlite3(FeatureInfos, std::string("monads"));
 
 
 	// Normalize object type name
@@ -889,8 +891,8 @@ bool SQLite3EMdFDB::dropFeatureFromOT_objects(const std::string& object_type_nam
 		// Make SQL type
 		makeFeatureSQLType(OT_Objects_stream, *f_it, true);
 
-		if (featureTypeIdIsSOM(f_it->getType())) {
-			OT_Objects_stream << ",\n    first_monad_" << encodeFeatureName(f_it->getName()) << " INT NOT NULL";
+		if (featureTypeIdIsSOM(f_it->getRetrievedType())) {
+			OT_Objects_stream << ",\n    first_monad_" << encodeFeatureName(f_it->getRetrievedFeatureName()) << " INT NOT NULL";
 		}
 
 		// Advance iterator
@@ -921,10 +923,10 @@ bool SQLite3EMdFDB::dropFeatureFromOT_objects(const std::string& object_type_nam
 	f_it = FeatureInfos.begin();
 	f_iend = FeatureInfos.end();
 	while (f_it != f_iend) {
-		INSERT_INTO_stream << ", " << encodeFeatureName(f_it->getName());
+		INSERT_INTO_stream << ", " << encodeFeatureName(f_it->getRetrievedFeatureName());
 
-		if (featureTypeIdIsSOM(f_it->getType())) {
-			INSERT_INTO_stream << ", first_monad_" << encodeFeatureName(f_it->getName());
+		if (featureTypeIdIsSOM(f_it->getRetrievedType())) {
+			INSERT_INTO_stream << ", first_monad_" << encodeFeatureName(f_it->getRetrievedFeatureName());
 		}
 		
 		// Advance iterator
@@ -1117,17 +1119,18 @@ bool SQLite3EMdFDB::addFeatureToOT_objects(const std::string& object_type_name,
 	bool bUseSecondary_ALTER_TABLE_query = false;
 	makeFeatureSQLType(ALTER_TABLE_query_str, fi, true);
 	ALTER_TABLE_query_str << " DEFAULT ";
-	if (featureTypeIdIsListOf(fi.getType())) {
+	id_d_t feature_type_id = fi.getRetrievedType();
+	if (featureTypeIdIsListOf(feature_type_id)) {
 		// We cannot at present have default values for lists, so
 		// we just add '', the empty list
 		ALTER_TABLE_query_str << "''";
 	} else {
-		if (featureTypeIdIsSTRING(fi.getType())
-		    || featureTypeIdIsASCII(fi.getType())) {
+		if (featureTypeIdIsSTRING(feature_type_id)
+		    || featureTypeIdIsASCII(feature_type_id)) {
 			ALTER_TABLE_query_str << escapeStringForSQL(fi.getDefaultValue());
-		} else if (featureTypeIdIsSOM(fi.getType())) {
+		} else if (featureTypeIdIsSOM(feature_type_id)) {
 			ALTER_TABLE_query_str << escapeStringForSQL(fi.getDefaultValue());
-			secondary_ALTER_TABLE_query += " first_monad_" + encodeFeatureName(fi.getName()) + " INT DEFAULT ";
+			secondary_ALTER_TABLE_query += " first_monad_" + encodeFeatureName(fi.getRetrievedFeatureName()) + " INT DEFAULT ";
 			SetOfMonads som;
 			som.fromString(fi.getDefaultValue());
 			if (som.isEmpty()) {
@@ -1136,13 +1139,13 @@ bool SQLite3EMdFDB::addFeatureToOT_objects(const std::string& object_type_name,
 				secondary_ALTER_TABLE_query += monad_m2string(som.first()); // first_monad_mdf_FEATURE_NAME
 			}
 			bUseSecondary_ALTER_TABLE_query = true;
-		} else if (featureTypeIdIsENUM(fi.getType())) {
+		} else if (featureTypeIdIsENUM(feature_type_id)) {
 			// Find the value of the enumeration constant.
 			bool bExists;
 			bool bDummyIsDefault;
 			long enum_value;
 			if (!enumConstExists(fi.getDefaultValue(),
-					     fi.getType(),
+					     feature_type_id,
 					     bExists,
 					     enum_value,
 					     bDummyIsDefault)) {
@@ -1189,18 +1192,18 @@ bool SQLite3EMdFDB::addFeatureToOT_objects(const std::string& object_type_name,
 	UPDATE_query_str << "UPDATE "
 			 << normalizeTableName(OTN + "_objects", false)
 			 << " SET "
-			 << encodeFeatureName(fi.getName())
+			 << encodeFeatureName(fi.getRetrievedFeatureName())
 			 << " = ";
-	if (featureTypeIdIsListOf(fi.getType())) {
+	if (featureTypeIdIsListOf(feature_type_id)) {
 		// We cannot at present have default values for lists, so
 		// we just add '', the empty list
 		UPDATE_query_str << "''";
-	} else if (featureTypeIdIsSTRING(fi.getType())
-		   || featureTypeIdIsASCII(fi.getType())) {
+	} else if (featureTypeIdIsSTRING(feature_type_id)
+		   || featureTypeIdIsASCII(feature_type_id)) {
 		UPDATE_query_str << escapeStringForSQL(fi.getDefaultValue());
-	} else if (featureTypeIdIsSOM(fi.getType())) {
+	} else if (featureTypeIdIsSOM(feature_type_id)) {
 		UPDATE_query_str << escapeStringForSQL(fi.getDefaultValue())
-				 << ", first_monad_" << encodeFeatureName(fi.getName())
+				 << ", first_monad_" << encodeFeatureName(fi.getRetrievedFeatureName())
 				 << " = ";
 		SetOfMonads som;
 		som.fromString(fi.getDefaultValue());
@@ -1209,13 +1212,13 @@ bool SQLite3EMdFDB::addFeatureToOT_objects(const std::string& object_type_name,
 		} else {
 			UPDATE_query_str << monad_m2string(som.first()); // first_monad_mdf_FEATURE_NAME
 		}
-	} else if (featureTypeIdIsENUM(fi.getType())) {
+	} else if (featureTypeIdIsENUM(feature_type_id)) {
 		// Find the value of the enumeration constant.
 		bool bExists;
 		bool bDummyIsDefault;
 		long enum_value;
 		if (!enumConstExists(fi.getDefaultValue(),
-				     fi.getType(),
+				     feature_type_id,
 				     bExists,
 				     enum_value,
 				     bDummyIsDefault)) {
@@ -1495,9 +1498,9 @@ bool SQLite3EMdFDB::createObjectsOT_objects(const std::string& object_type_name,
 	std::list<FeatureInfo>::const_iterator cend = object_type_features.end();
 	while (ci != cend) {
 		OT_objects_data += ',';
-		OT_objects_data += encodeFeatureName(ci->getName());
-		if (featureTypeIdIsSOM(ci->getType())) {
-			OT_objects_data += ",first_monad_" + encodeFeatureName(ci->getName());
+		OT_objects_data += encodeFeatureName(ci->getRetrievedFeatureName());
+		if (featureTypeIdIsSOM(ci->getRetrievedType())) {
+			OT_objects_data += ",first_monad_" + encodeFeatureName(ci->getRetrievedFeatureName());
 		}
 		++ci;
 	}
@@ -1530,12 +1533,14 @@ bool SQLite3EMdFDB::createObjectsOT_objects(const std::string& object_type_name,
 		const EMdFValue *pValue = pObject->getFeature(index);
 
 		// Get feature's type
-		id_d_t feature_type_id = ci->getType();
+		id_d_t feature_type_id = ci->getRetrievedType();
 		IntegerList *pIntegerList = 0;
 		switch (feature_type_id & FEATURE_TYPE_TYPE_MASK) {
 		case FEATURE_TYPE_ASCII:
 			if (featureTypeIdIsFromSet(feature_type_id)) {
-				FeatureInfo myfi(ci->getName(), ci->getType(), pValue->getString(), ci->getIsComputed());
+				FeatureInfo myfi(ci->getFeatureName(),
+						 "",
+						 ci->getRetrievedType(), pValue->getString());
 				// The penultimate "true" on FeatureInfo2SQLvalue means that 
 				// we must create any IDD-String association if it is not 
 				// there in the OT_mdf_FEATURE_NAME_set table.
@@ -1546,7 +1551,9 @@ bool SQLite3EMdFDB::createObjectsOT_objects(const std::string& object_type_name,
 			break;
 		case FEATURE_TYPE_STRING:
 			if (featureTypeIdIsFromSet(feature_type_id)) {
-				FeatureInfo myfi(ci->getName(), ci->getType(), pValue->getString(), ci->getIsComputed());
+				FeatureInfo myfi(ci->getFeatureName(),
+						 "",
+						 ci->getRetrievedType(), pValue->getString());
 				// The penultimate "true" on FeatureInfo2SQLvalue means that 
 				// we must create any IDD-String association if it is not 
 				// there in the OT_mdf_FEATURE_NAME_set table.

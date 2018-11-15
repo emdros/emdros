@@ -54,6 +54,9 @@
 	* EMdF/pgemdfdb.cpp: Adjust to the new reality of computed
 	features in the EMdF layer.
 
+	* EMdF/sqlite3emdfdb.cpp: Adjust to the new reality of computed
+	features in the EMdF layer.
+
 2018-11-14 Ulrik Sandborg-Petersen
 
 	* Add ComputedFeatureName as a valid option whenever we have a
