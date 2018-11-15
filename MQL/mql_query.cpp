@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 11/14-2018
+ * Last update: 11/15-2018
  *
  */
 
@@ -1052,10 +1052,11 @@ StartMonadIterator* Block::getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const S
 //
 ////////////////////////////////////////////////////////////
 ObjectReferenceUsage::ObjectReferenceUsage(std::string* object_reference, 
-					   std::string* feature_name)
+					   std::string* feature_name,
+					   std::string* parameter1)
 	: m_object_reference(object_reference),
 	  m_feature_name(feature_name),
-	  m_computed_feature_name(0),
+	  m_parameter1(parameter1),
 	  m_controlling_object_block_node_number(0),
 	  m_controlling_object_block_object(0),
 	  m_ffeatures_parent(-1),
@@ -1066,47 +1067,24 @@ ObjectReferenceUsage::ObjectReferenceUsage(std::string* object_reference,
 	  m_bORDIsParent(false)
 {
 	str_tolower(*m_object_reference, m_object_reference_lower);
-
-	eComputedFeatureKind computed_feature_kind = getComputedFeatureKindFromComputedFeatureName(*m_feature_name);
-	if (computed_feature_kind != kCFKNone) {
-		m_computed_feature_name = new ComputedFeatureName(*m_feature_name, "monads");
-		delete m_feature_name;
-		m_feature_name = new std::string(m_computed_feature_name->getBasisStoredFeatureName());
+	if (m_parameter1 == 0) {
+		m_parameter1 = new std::string("");
 	}
 }
 
-ObjectReferenceUsage::ObjectReferenceUsage(std::string* object_reference, 
-					   ComputedFeatureName *computed_feature_name)
-	: m_object_reference(object_reference),
-	  m_feature_name(new std::string(computed_feature_name->getBasisStoredFeatureName())),
-	  m_computed_feature_name(computed_feature_name),
-	  m_controlling_object_block_node_number(0),
-	  m_controlling_object_block_object(0),
-	  m_ffeatures_parent(-1),
-	  m_block_string2_parent(-1),
-	  m_index_of_feature_in_MQLObject(0),
-	  m_index_of_feature_in_MatchedObject(0),
-	  m_matched_object_index(0),
-	  m_bORDIsParent(false)
-{
-	str_tolower(*m_object_reference, m_object_reference_lower);
-}
 
 ObjectReferenceUsage::~ObjectReferenceUsage()
 {
 	delete m_object_reference;
 	delete m_feature_name;
-	delete m_computed_feature_name;
 }
 
 void ObjectReferenceUsage::weed(MQLExecEnv *pEE, bool& bResult)
 {
-	if (m_computed_feature_name != 0) {
-		m_computed_feature_name->weed(pEE, bResult);
-		if (!bResult) {
-			pEE->pError->appendError("This happened in the object reference usage: " + *m_object_reference + "." + m_computed_feature_name->getHumanReadableName() + "\n");
-		}
-	}
+	UNUSED(pEE);
+	UNUSED(bResult);
+
+	// Nothing to do
 }
 
 //
@@ -1143,13 +1121,15 @@ bool ObjectReferenceUsage::symbol(MQLExecEnv *pEE, node_number_t ffeatures_paren
 	node_number_t ObjectBlockNodeNumber =
 		pEE->m_ORD2NodeNumberMap[m_object_reference_lower];
 	ObjectBlock *pObjectBlock = (ObjectBlock*) pEE->getNodeFromNodeNumber(ObjectBlockNodeNumber);
-	
+
+	FeatureInfo dummy_feature_info(*m_feature_name, *m_parameter1, FEATURE_TYPE_INTEGER, "0");
+	std::string retrieved_feature_name = dummy_feature_info.getRetrievedFeatureName();
 
 	bool bFeatureExists;
 	id_d_t feature_type_id;
 	std::string default_value;
 	bool is_computed;
-	if (!pEE->pDB->featureExists(*m_feature_name,
+	if (!pEE->pDB->featureExists(retrieved_feature_name,
 				     pObjectBlock->getObjectTypeId(),
 				     bFeatureExists,
 				     feature_type_id,
@@ -1157,24 +1137,13 @@ bool ObjectReferenceUsage::symbol(MQLExecEnv *pEE, node_number_t ffeatures_paren
 				     is_computed))
 		return false;
 	if (!bFeatureExists) {
-		pEE->pError->appendError("The feature does not exist on the object type of the object reference\nin the object reference usage '" + *m_object_reference + "." + *m_feature_name + "'.\n");
+		pEE->pError->appendError("The feature does not exist on the object type of the object reference\nin the object reference usage '" + *m_object_reference + "." + dummy_feature_info.getHumanReadableFeatureName() + "'.\n");
 		bResult = false;
 		return true;
 	}
 
-	// Create feature-info
-	m_feature_info = FeatureInfo(*m_feature_name, feature_type_id, default_value, is_computed);
-
-	//
-	// Check computed feature, if it is there
-	//
-	if (m_computed_feature_name != 0) {
-		m_computed_feature_name->symbol(pEE, pObjectBlock->getObjectTypeId(), bResult);
-		if (!bResult) {
-			pEE->pError->appendError("This happened in the object reference usage: " + *m_object_reference + "." + m_computed_feature_name->getHumanReadableName() + "\n");
-			return true;
-		}
-	}
+	// Create real feature-info
+	m_feature_info = FeatureInfo(*m_feature_name, *m_parameter1, feature_type_id, default_value);
 
 	// If we got this far, there were no DB errors and no compiler-errors
 	bResult = true;
@@ -1192,7 +1161,7 @@ bool ObjectReferenceUsage::symbolObjectReferences2(MQLExecEnv *pEE)
 		// if not already there
 		MQLObject *pMQLObject = pObjectBlock->getObject();
 		pMQLObject->addFeature(m_feature_info);
-		m_index_of_feature_in_MQLObject = pMQLObject->getFeatureIndex(m_feature_info.getName());
+		m_index_of_feature_in_MQLObject = pMQLObject->getFeatureIndex(m_feature_info.getHumanReadableFeatureName());
 		pObjectBlock->addFeatureToBeRetrieved(pEE, m_feature_info, m_index_of_feature_in_MatchedObject);
 	} else {
 		// Add Feature to the controlling ObjectBlock's
@@ -1209,17 +1178,10 @@ bool ObjectReferenceUsage::symbolObjectReferences2(MQLExecEnv *pEE)
 
 bool ObjectReferenceUsage::type(MQLExecEnv *pEE, bool& bResult)
 {
-	if (m_computed_feature_name != 0) {
-		if (!m_computed_feature_name->type(pEE, bResult)) {
-			pEE->pError->appendError("This happened in the object reference usage: " + *m_object_reference + "." + m_computed_feature_name->getHumanReadableName() + "\n");
-			return false;
-		}
-		if (!bResult) {
-			pEE->pError->appendError("This happened in the object reference usage: " + *m_object_reference + "." + m_computed_feature_name->getHumanReadableName() + "\n");
-			return true;
-		}
-	}
-
+	UNUSED(pEE);
+	UNUSED(bResult);
+	
+	// Nothing to do, for now
 	return true;
 }
 
@@ -1438,7 +1400,7 @@ EMdFValue *Value::getAsNewedEMdFValue() const
 	return pResult;
 }
 
-const EMdFValue *getEMdFValueFromObjectReferenceUsage(const Value *pValueObject, NonParentORDSolution *pNonParentSolution, bool& bShouldDeleteEMdFValue)
+const EMdFValue *getEMdFValueFromObjectReferenceUsage(const Value *pValueObject, NonParentORDSolution *pNonParentSolution)
 {
 	const ObjectReferenceUsage *pORU = pValueObject->getObjectReferenceUsageConst();	
 	const EMdFValue *pValue = 0;
@@ -1454,13 +1416,6 @@ const EMdFValue *getEMdFValueFromObjectReferenceUsage(const Value *pValueObject,
 		pValue = pMatchedObject->getEMdFValue(pORU->getFeatureIndexInMatchedObject());
 	}
 
-	const ComputedFeatureName *pComputedFeatureName = pORU->getComputedFeatureName();
-	if (pComputedFeatureName == 0) {
-		bShouldDeleteEMdFValue = false;
-	} else {
-		bShouldDeleteEMdFValue = true;
-		pValue = pComputedFeatureName->computeValue(pValue);
-	}	
 	return pValue;
 }
 
@@ -1484,15 +1439,9 @@ std::string Value::getAsString(MQLExecEnv *pEE, NonParentORDSolution *pNonParent
 	case kValObjectReferenceUsage:
 		{
 			const EMdFValue* pValue;
-			bool bShouldDeleteEMdFValue = false;
 			
-			pValue = getEMdFValueFromObjectReferenceUsage(this, pNonParentORDSolution, bShouldDeleteEMdFValue);
+			pValue = getEMdFValueFromObjectReferenceUsage(this, pNonParentORDSolution);
 			result = pValue->toString();
-			
-			if (bShouldDeleteEMdFValue) {
-				delete pValue;
-			}
-			
 		}
 		
 		break;
@@ -1548,10 +1497,11 @@ const ObjectReferenceUsage* Value::getObjectReferenceUsageConst() const
 //
 ////////////////////////////////////////////////////////////
 FeatureComparison::FeatureComparison(std::string* feature_name,
+				     std::string* parameter1,
 				     eComparisonOp comparison_op,
 				     Value* value)
 	: m_feature_name(feature_name),
-	  m_computed_feature_name(0),
+	  m_parameter1(parameter1),
 	  m_object_type_name(""),
 	  m_object_type_id(NIL),
 	  m_comparison_op(comparison_op),
@@ -1566,43 +1516,20 @@ FeatureComparison::FeatureComparison(std::string* feature_name,
 	  m_bContextHasBeenNegative(false),
 	  m_ffeatures_parent(-1)
 {
-	eComputedFeatureKind computed_feature_kind = getComputedFeatureKindFromComputedFeatureName(*m_feature_name);
-	if (computed_feature_kind != kCFKNone) {
-		m_computed_feature_name = new ComputedFeatureName(*m_feature_name, "monads");
-		delete m_feature_name;
-		m_feature_name = new std::string(m_computed_feature_name->getBasisStoredFeatureName());
+	if (parameter1 == 0) {
+		m_parameter1 = new std::string("");
 	}
 }
 
-// For computed_feature_name comparison_op value
-FeatureComparison::FeatureComparison(ComputedFeatureName* computed_feature_name,
-				     eComparisonOp comparison_op,
-				     Value *pValue)
-	: m_feature_name(new std::string(computed_feature_name->getBasisStoredFeatureName())),
-	  m_computed_feature_name(computed_feature_name),
-	  m_object_type_name(""),
-	  m_object_type_id(NIL),
-	  m_comparison_op(comparison_op),
-	  m_value(pValue),
-	  m_in_enum_list(0),
-	  m_in_integer_list(0),
-	  m_in_enum_const_cache(0),
-	  m_pcre(NULL), m_pcre_extra(NULL), 
-	  m_ovector(0), m_ovectorsize(0),
-	  m_feature_index(-1), 
-	  m_bCanBePreQueried(false),
-	  m_bContextHasBeenNegative(false),
-	  m_ffeatures_parent(-1)
-{
-}
 
 
 
 FeatureComparison::FeatureComparison(std::string* feature_name,
+				     std::string* parameter1,
 				     eComparisonOp comparison_op,
 				     StringList *in_enum_list)
 	: m_feature_name(feature_name),
-	  m_computed_feature_name(0),
+	  m_parameter1(parameter1),
 	  m_object_type_name(""),
 	  m_object_type_id(NIL),
 	  m_comparison_op(comparison_op),
@@ -1617,6 +1544,10 @@ FeatureComparison::FeatureComparison(std::string* feature_name,
 	  m_bContextHasBeenNegative(false),
 	  m_ffeatures_parent(-1)
 {
+	if (parameter1 == 0) {
+		m_parameter1 = new std::string("");
+	}
+	
 	m_in_enum_list = in_enum_list;
 
 	// Make a new EnumConstCache
@@ -1625,10 +1556,11 @@ FeatureComparison::FeatureComparison(std::string* feature_name,
 
 // For feature_name comparison_op (integer, integer, ..., integer)
 FeatureComparison::FeatureComparison(std::string* feature_name,
+				     std::string* parameter1,
 				     eComparisonOp comparison_op,
 				     IntegerList *in_integer_list)
 	: m_feature_name(feature_name),
-	  m_computed_feature_name(0),
+	  m_parameter1(parameter1),
 	  m_object_type_name(""),
 	  m_object_type_id(NIL),
 	  m_comparison_op(comparison_op),
@@ -1643,38 +1575,10 @@ FeatureComparison::FeatureComparison(std::string* feature_name,
 	  m_bContextHasBeenNegative(false),
 	  m_ffeatures_parent(-1)
 {
-	m_in_integer_list = in_integer_list;
-
-	m_in_integer_list_as_string = m_in_integer_list->getDelimitedString(DEFAULT_LIST_DELIMITER);
-
-	eComputedFeatureKind computed_feature_kind = getComputedFeatureKindFromComputedFeatureName(*m_feature_name);
-	if (computed_feature_kind != kCFKNone) {
-		m_computed_feature_name = new ComputedFeatureName(*m_feature_name, "monads");
-		delete m_feature_name;
-		m_feature_name = new std::string(m_computed_feature_name->getBasisStoredFeatureName());
+	if (parameter1 == 0) {
+		m_parameter1 = new std::string("");
 	}
-}
-
-// For computed_feature_name comparison_op (integer, integer, ..., integer)
-FeatureComparison::FeatureComparison(ComputedFeatureName* computed_feature_name,
-				     eComparisonOp comparison_op,
-				     IntegerList *in_integer_list)
-	: m_feature_name(new std::string(computed_feature_name->getBasisStoredFeatureName())),
-	  m_computed_feature_name(computed_feature_name),
-	  m_object_type_name(""),
-	  m_object_type_id(NIL),
-	  m_comparison_op(comparison_op),
-	  m_value(0),
-	  m_in_enum_list(0),
-	  m_in_integer_list(0),
-	  m_in_enum_const_cache(0),
-	  m_pcre(NULL), m_pcre_extra(NULL), 
-	  m_ovector(0), m_ovectorsize(0),
-	  m_feature_index(-1), 
-	  m_bCanBePreQueried(false),
-	  m_bContextHasBeenNegative(false),
-	  m_ffeatures_parent(-1)
-{
+	
 	m_in_integer_list = in_integer_list;
 
 	m_in_integer_list_as_string = m_in_integer_list->getDelimitedString(DEFAULT_LIST_DELIMITER);
@@ -1685,7 +1589,7 @@ FeatureComparison::FeatureComparison(ComputedFeatureName* computed_feature_name,
 FeatureComparison::~FeatureComparison()
 {
 	delete m_feature_name;
-	delete m_computed_feature_name;
+	delete m_parameter1;
 	delete m_value;
 	delete m_in_enum_list;
 	delete m_in_integer_list;
@@ -1710,10 +1614,10 @@ void FeatureComparison::weedFeatureConstraints(MQLExecEnv *pEE, bool& bResult, n
 		ObjectReferenceUsage *pORU = m_value->getObjectReferenceUsage();
 		pORU->weed(pEE, bResult);
 		if (!bResult) {
-			if (m_computed_feature_name == 0) {
+			if (m_parameter1->empty()) {
 				pEE->pError->appendError("This happened in the feature comparison for feature name: " + *m_feature_name + "\n");
 			} else {
-				pEE->pError->appendError("This happened in the feature comparison for computed feature name: " + m_computed_feature_name->getHumanReadableName() + "\n");
+				pEE->pError->appendError("This happened in the feature comparison for computed feature name: " + *m_feature_name + "(" + *m_parameter1 + ")" + "\n");
 			}
 			return;
 		}
@@ -1776,12 +1680,6 @@ void FeatureComparison::weedFeatureConstraints(MQLExecEnv *pEE, bool& bResult, n
 		bResult = true;
 	}
 
-	if (bResult) {
-		if (m_computed_feature_name != 0) {
-			m_computed_feature_name->weed(pEE, bResult);
-		}
-	}
-
 	// Check that enclosing_object_reference is not in ourselves.
 	/*
         // This requirement has been lifted by the new object reference
@@ -1830,7 +1728,7 @@ bool FeatureComparison::symbol(MQLExecEnv *pEE,
 		bResult = false;
 		return true;
 	}
-	m_feature_info = FeatureInfo(*m_feature_name, feature_type_id, default_value, is_computed);
+	m_feature_info = FeatureInfo(*m_feature_name, *m_parameter1, feature_type_id, default_value);
 
 	// Check that it is in the enclosing object
   
@@ -2009,7 +1907,7 @@ void FeatureComparison::symbolAddFeatures(MQLObject* pObj, EMdFDB *pDB)
 	//
 
 	pObj->addFeature(m_feature_info);
-	m_feature_index = pObj->getFeatureIndex(*m_feature_name);
+	m_feature_index = pObj->getFeatureIndex(m_feature_info.getHumanReadableFeatureName());
 }
 
 bool FeatureComparison::symbolSetFeatureIndex(const std::vector<std::string>& feature_name_vec, bool& bResult)
@@ -2018,7 +1916,7 @@ bool FeatureComparison::symbolSetFeatureIndex(const std::vector<std::string>& fe
 	     i < feature_name_vec.size(); ++i) {
 		std::string feature_name = feature_name_vec[i];
 
-		if (strcmp_nocase(feature_name, m_feature_info.getName()) == 0) {
+		if (strcmp_nocase(feature_name, m_feature_info.getHumanReadableFeatureName()) == 0) {
 			m_feature_index = i;
 			bResult = true;
 			return true;
@@ -2036,7 +1934,7 @@ bool FeatureComparison::type(MQLExecEnv *pEE, bool& bResult)
 	bResult = true;
 
 	// Get feature type
-	id_d_t ft = m_feature_info.getType();
+	id_d_t ft = m_feature_info.getOutputType();
 
 	// Only do stuff to m_value if we are doing a non-IN comparison
 	if (m_value != 0) {
@@ -2086,28 +1984,23 @@ bool FeatureComparison::type(MQLExecEnv *pEE, bool& bResult)
 					}
 				}
 			} else if (featureTypeIdIsSOM(ft)) {
-				if (m_computed_feature_name == 0) {
+				switch (m_comparison_op) {
+				case kEqual:
+				case kLessThan:
+				case kGreaterThan:
+				case kNotEqual:
+				case kLessThanOrEqual:
+				case kGreaterThanOrEqual:
+					break;
+				case kTilde:
+				case kNotTilde:
+				case kIn:
+				case kHas:
 					bResult = false;
-					pEE->pError->appendError("The set-of-monads feature " + *m_feature_name + " is being compared with a integer.\nCannot compare a set of monads with an integer.\n");
-				} else {
-					switch (m_comparison_op) {
-					case kEqual:
-					case kLessThan:
-					case kGreaterThan:
-					case kNotEqual:
-					case kLessThanOrEqual:
-					case kGreaterThanOrEqual:
-						break;
-					case kTilde:
-					case kNotTilde:
-					case kIn:
-					case kHas:
-						bResult = false;
-						break;
-					}
-					if (!bResult) {
-						pEE->pError->appendError("The computed feature " + m_computed_feature_name->getHumanReadableName() + " is being compared with a integer,\nbut the comparison operator is not one of: =, <>, <, <=, >, >=.\n");
-					}
+					break;
+				}
+				if (!bResult) {
+					pEE->pError->appendError("The computed feature " + m_feature_info.getHumanReadableFeatureName() + " is being compared with a integer,\nbut the comparison operator is not one of: =, <>, <, <=, >, >=.\n");
 				}
 			} else {
 				// !Listof(ft) && !SOM(ft)
@@ -2126,7 +2019,7 @@ bool FeatureComparison::type(MQLExecEnv *pEE, bool& bResult)
 			break;
 		case kValObjectReferenceUsage:
 			pORU = m_value->getObjectReferenceUsage();
-			id_d_t oru_ft = pORU->getFeatureTypeId();
+			id_d_t oru_ft = pORU->getOutputFeatureTypeId();
 			if (m_comparison_op == kHas) {
 				if (featureTypeIdIsListOf(ft)
 				    && !featureTypeIdIsListOf(oru_ft)) {
@@ -2177,14 +2070,9 @@ bool FeatureComparison::type(MQLExecEnv *pEE, bool& bResult)
 							pEE->pError->appendError("The feature " + *m_feature_name + " is being compared\nusing IN and an object reference usage. The feature is an id_d, but\nthe object reference usage is not a list of id_d.\n");
 						}
 					} else if (featureTypeIdIsSOM(ft)) {
-						if (m_computed_feature_name == 0) {
+						if (!featureTypeIdIsListOfINTEGER(oru_ft)) {
 							bResult = false;
-							pEE->pError->appendError("The feature " + *m_feature_name + " is being compared\nusing IN and an object reference usage. The feature is a set of monads, which cannot be compared with the object reference usage's list of integer or id_d.\n");
-						} else {
-							if (!featureTypeIdIsINTEGER(oru_ft)) {
-								bResult = false;
-								pEE->pError->appendError("The computed feature " + m_computed_feature_name->getHumanReadableName() + " is being compared\nusing IN and an object reference usage. The computed feature yields an\ninteger, but the object reference usage is not a LIST OF INTEGER.\n");
-							}
+							pEE->pError->appendError("The computed feature " + m_feature_info.getHumanReadableFeatureName() + " is being compared\nusing IN and an object reference usage. The computed feature yields an\ninteger, but the object reference usage is not a LIST OF INTEGER.\n");
 						}
 					} else if (featureTypeIdIsENUM(ft)) {
 						if (featureTypeIdIsListOfENUM(oru_ft)) {
@@ -2232,40 +2120,14 @@ bool FeatureComparison::type(MQLExecEnv *pEE, bool& bResult)
 						bResult = false;
 					}
 				} else if (featureTypeIdIsSOM(ft) && featureTypeIdIsSOM(oru_ft)) {
-					if (m_computed_feature_name != 0
-					    && pORU->getComputedFeatureName() != 0) {
-						// Both are computed features. OK
-					} else {
-						bResult = m_comparison_op == kEqual;
-						if (!bResult) {
-							pEE->pError->appendError("The feature " + *m_feature_name + " is being compared with an object reference usage. Both are sets of monads, so you must use = as the comparison operator.\n");
-							
-						}
+					bResult = m_comparison_op == kEqual;
+					if (!bResult) {
+						pEE->pError->appendError("The feature " + *m_feature_name + " is being compared with an object reference usage. Both are sets of monads, so you must use = as the comparison operator.\n");
+						
 					}
 				} else if (featureTypeIdIsSOM(ft) && featureTypeIdIsINTEGER(oru_ft)) {
-					if (m_computed_feature_name == 0) {
-						bResult = false;
-						pEE->pError->appendError("The set-of-monads feature " + *m_feature_name + " is being compared with\nan object reference whose type is INTEGER.\nCannot compare a set of monads with an integer.\n");
-					} else {
-						switch (m_comparison_op) {
-						case kEqual:
-						case kLessThan:
-						case kGreaterThan:
-						case kNotEqual:
-						case kLessThanOrEqual:
-						case kGreaterThanOrEqual:
-							break;
-						case kTilde:
-						case kNotTilde:
-						case kIn:
-						case kHas:
-							bResult = false;
-							break;
-						}
-						if (!bResult) {
-							pEE->pError->appendError("The computed feature " + m_computed_feature_name->getHumanReadableName() + " is being compared with\nan object reference whose type is INTEGER, but the comparison operator\nis not one of: =, <>, <, <=, >, >=.\n");
-						}
-					}
+					bResult = false;
+					pEE->pError->appendError("The set-of-monads feature " + *m_feature_name + " is being compared with\nan object reference whose type is INTEGER.\nCannot compare a set of monads with an integer.\n");
 				} else {
 					bResult = false;
 				}
@@ -2292,10 +2154,7 @@ bool FeatureComparison::type(MQLExecEnv *pEE, bool& bResult)
 			    || featureTypeIdIsID_D(ft)) {
 				bResult = true;
 			} else if (featureTypeIdIsSOM(ft)) {
-				if (m_computed_feature_name == 0) {
-					bResult = false;
-					pEE->pError->appendError("The set-of-monads feature " + *m_feature_name + " is being compared with a list of integer, using IN.\nCannot compare a set of monads with a list of integer.\n");
-				} 
+				pEE->pError->appendError("The set-of-monads feature " + *m_feature_name + " is being compared with a list of integer, using IN.\nCannot compare a set of monads with a list of integer.\n");
 			} else {
 				bResult = false;
 			}
@@ -2356,10 +2215,10 @@ void FeatureComparison::pretty(std::ostream *pOut, int indent, NonParentORDSolut
 	print_indent(pOut, indent);
 	(*pOut) << "FeatureComparison {\n";
 	print_indent(pOut, indent+1);
-	if (m_computed_feature_name == 0) {
+	if (m_parameter1->empty()) {
 		(*pOut) << "feature_name = '" << *m_feature_name << "' ";
 	} else {
-		(*pOut) << "feature_name = '" << m_computed_feature_name->getHumanReadableName() << "' ";
+		(*pOut) << "feature_name = '" << m_feature_info.getHumanReadableFeatureName() << "' ";
 	}
 
 	(*pOut) << getStringFromeComparisonOp(m_comparison_op) << " ";
@@ -2413,14 +2272,11 @@ bool FeatureComparison::hasORU()
 
 bool FeatureComparison::compareObjectReferenceUsage(const EMdFValue* left_value, NonParentORDSolution *pNonParentORDSolution)
 {
-	bool bShouldDeleteEMdFValue = false;	
-	const EMdFValue *pRightValue = getEMdFValueFromObjectReferenceUsage(m_value, pNonParentORDSolution, bShouldDeleteEMdFValue);
+	const EMdFValue *pRightValue = getEMdFValueFromObjectReferenceUsage(m_value, pNonParentORDSolution);
 	ASSERT_THROW(pRightValue != 0,
 		     "pRightValue was 0!");
 	bool bResult = left_value->compare(*pRightValue, m_comparison_op);
-	if (bShouldDeleteEMdFValue) {
-		delete pRightValue;
-	}
+
 	return bResult;
 }
 
@@ -2447,11 +2303,7 @@ bool FeatureComparison::compare(MQLExecEnv *pEE, const EMdFValue *left_value, No
 	std::string left_value_str;
 
 	const EMdFValue *real_left_value;
-	if (m_computed_feature_name == 0) {
-		real_left_value = left_value;
-	} else {
-		real_left_value = m_computed_feature_name->computeValue(left_value);
-	}
+	real_left_value = left_value;
 	
 	const EMdFValue *pRightValue = 0;
 	switch (m_comparison_op) {
@@ -2515,7 +2367,7 @@ bool FeatureComparison::compare(MQLExecEnv *pEE, const EMdFValue *left_value, No
 			// It was an explicit enum-list
 			// symbol has already checked that left-hand-side is an enum
 			// with the correct type id.
-			if (m_in_enum_const_cache->find(m_feature_info.getType(), 
+			if (m_in_enum_const_cache->find(m_feature_info.getOutputType(), 
 							real_left_value->getEnum()) 
 			    != 0) {
 				bResult = true;
@@ -2591,10 +2443,6 @@ bool FeatureComparison::compare(MQLExecEnv *pEE, const EMdFValue *left_value, No
 			     "Unknown operator kind");
 	}
 
-	if (m_computed_feature_name != 0) {
-		delete real_left_value;
-	}
-
 	// Return result
 	return bResult;
 }
@@ -2619,13 +2467,8 @@ EMdFComparison *FeatureComparison::makeConstraints(EMdFDB *pDB, bool bContextHas
 		return 0;
 	}
 
-	// Computed feature names cannot be made into constraints.
-	if (m_computed_feature_name != 0) {
-		return 0;
-	}
-  
 	// Get eEVkind for left-hand side
-	id_d_t type_id_d = m_feature_info.getType();
+	id_d_t type_id_d = m_feature_info.getOutputType();
 	eEVkind EVkind = pDB->getEVkindFromTypeID_D(type_id_d);
 
 	// Comparison operator must have a counterpart in SQL
@@ -2647,7 +2490,8 @@ EMdFComparison *FeatureComparison::makeConstraints(EMdFDB *pDB, bool bContextHas
 
 
 		// If we got this far, we can return the feature comparison
-		pComparison = pDB->getEMdFComparison(*m_feature_name, 
+		pComparison = pDB->getEMdFComparison(*m_feature_name,
+						     *m_parameter1,
 						     type_id_d, 
 						     m_object_type_name,
 						     m_object_type_id,
@@ -2663,8 +2507,11 @@ EMdFComparison *FeatureComparison::makeConstraints(EMdFDB *pDB, bool bContextHas
 			// The EMdFComparison can currently only do IN.
 		} else {
 			// If we got this far, we can return the feature comparison
-			pComparison = pDB->getEMdFComparison(*m_feature_name, type_id_d, 
-							     m_object_type_name, m_object_type_id,
+			pComparison = pDB->getEMdFComparison(*m_feature_name,
+							     *m_parameter1,
+							     type_id_d, 
+							     m_object_type_name,
+							     m_object_type_id,
 							     m_in_enum_const_info_list);
 		}
 	} else if (m_in_integer_list != 0) {
@@ -2677,7 +2524,9 @@ EMdFComparison *FeatureComparison::makeConstraints(EMdFDB *pDB, bool bContextHas
 			// The EMdFComparison can currently only do IN.
 		} else {
 			// If we got this far, we can return the feature comparison
-			pComparison = pDB->getEMdFComparison(*m_feature_name, type_id_d, 
+			pComparison = pDB->getEMdFComparison(*m_feature_name,
+							     *m_parameter1,
+							     type_id_d, 
 							     m_object_type_name, m_object_type_id,
 							     m_in_integer_list);
 		}
@@ -3708,13 +3557,27 @@ void ObjectBlockBase::copyFeatureRetrievalToVector(Feature *pFeature)
 {
 	m_Feature_retrieval_vec.clear();
 	while (pFeature != 0) {
-		m_Feature_retrieval_vec.push_back(pFeature);
-		
 		Feature *pNextFeature = pFeature->getNext();
 
 		// Break the chain
 		pFeature->setNext(0);
 
+		// We do it this way so as to benefit from
+		// FeatureInfo's smarts about getting the parameter1
+		// right.  If pFeature's getParameter1() return "",
+		// FeatureInfo might turn that into "monads"
+		// if pFeature's getFeature() is a computed feature.
+		FeatureInfo dummy_feature_info(pFeature->getFeature(),
+					       pFeature->getParameter1(),
+					       FEATURE_TYPE_INTEGER,
+					       "0");
+		Feature *pNewFeature = new Feature(new std::string(dummy_feature_info.getFeatureName()),
+						   new std::string(dummy_feature_info.getParameter1()),
+						   0);
+		m_Feature_retrieval_vec.push_back(pNewFeature);
+
+		delete pFeature;
+		
 		// Iterate
 		pFeature = pNextFeature;
 	}
@@ -3757,7 +3620,7 @@ void ObjectBlock::addFeatureToBeRetrieved(MQLExecEnv *pEE, const FeatureInfo& fe
 	for (unsigned int i = 0; 
 	     i < m_Feature_retrieval_vec.size(); ++i) {
 		Feature *pFeature = m_Feature_retrieval_vec[i];
-		if (strcmp_nocase(pFeature->getFeature(), feature_info.getName()) == 0) {
+		if (strcmp_nocase(pFeature->getHumanReadableFeatureName(), feature_info.getHumanReadableFeatureName()) == 0) {
 			index_assigned = i;
 			return;
 		}
@@ -3767,7 +3630,8 @@ void ObjectBlock::addFeatureToBeRetrieved(MQLExecEnv *pEE, const FeatureInfo& fe
 	// add it to the end
 	index_assigned = m_Feature_retrieval_vec.size();
 
-	Feature *pNewFeature = new Feature(new std::string(feature_info.getName()),
+	Feature *pNewFeature = new Feature(new std::string(feature_info.getFeatureName()),
+					   new std::string(feature_info.getParameter1()),
 					   0); // 0 = next
 
 	// We assume that it has already been checked, so we don't
@@ -3813,10 +3677,14 @@ bool ObjectBlockBase::symbol(MQLExecEnv *pEE, bool& bResult)
 		     ++index) {
 			Feature *pFeature = m_Feature_retrieval_vec[index];
 			// Check that feature exists
-			if (!pFeature->symbolFeaturesExist(pEE, m_object_type_id, bResult))
+			if (!pFeature->symbolFeaturesExist(pEE, m_object_type_id, bResult)) {
+				pEE->pError->appendError("DB error occurred while symbol checking\nobject block [" + *m_object_type_name + "]\n");
 				return false;
-			if (!bResult)
+			}
+			if (!bResult) {
+				pEE->pError->appendError("Compiler error occurred while symbol checking\nobject block [" + *m_object_type_name + "]\n");
 				return true;
+			}
 		}
 	}
 

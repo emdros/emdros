@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/6-2001 (March 6, 2001)
- * Last update: 3/1-2017
+ * Last update: 11/15-2018
  *
  */
 
@@ -89,7 +89,8 @@ bool local_getFeatureEnv(MQLExecEnv *pEE,
 	int feature_env_size = 0;
 	std::list<FeatureInfo>::const_iterator it = object_type_features.begin();
 	while (it != object_type_features.end()) {
-		if (!is_self(it->getName())) {
+		// Skip computed features
+		if (!it->getIsComputed()) {
 			++feature_env_size;
 		}
 		++it;
@@ -98,16 +99,18 @@ bool local_getFeatureEnv(MQLExecEnv *pEE,
 	int feature_index = 0;
 	it = object_type_features.begin();
 	while (it != object_type_features.end()) {
-		id_d_t feature_type_id;
-		feature_type_id = it->getType();
-		
-		std::string lowercase_feature_name;
-		str_tolower(it->getName(), lowercase_feature_name);
-
-		if (is_self(lowercase_feature_name)) {
+		// Skip computed features
+		if (it->getIsComputed()) {
 			++it;
 			continue;
 		}
+
+		id_d_t feature_type_id;
+		feature_type_id = it->getOutputType();
+		
+		std::string lowercase_feature_name;
+		str_tolower(it->getHumanReadableFeatureName(), lowercase_feature_name);
+
 
 		
 		bool bEnumExists;
@@ -159,10 +162,10 @@ bool local_getFeatureEnv(MQLExecEnv *pEE,
 			delete pMQLType;
 			return false;
 		}
-		FeatureInfo myfi(lowercase_feature_name,
-				 it->getType(),
-				 it->getDefaultValue(),
-				 it->getIsComputed());
+		FeatureInfo myfi(it->getFeatureName(),
+				 it->getParameter1(),
+				 it->getRetrievedType(),
+				 it->getDefaultValue());
 		feature_env.addEntry(feature_index, myfi, pMQLType);
 		++feature_index;
 		++it;
@@ -771,6 +774,21 @@ bool CreateObjectsStatement::symbol(bool& bResult)
 						  m_object_type_features))
 		return false;
 
+	// Remove computed features from m_object_type_features.  This
+	// is so that we do not assign anything to these features.
+	// m_object_type_features (the features which the object type
+	// has) is not the same as m_object_spec_list (the actual data
+	// to put in each feature).  Computed features have already
+	// been weeded out of that if they were there.
+	std::list<FeatureInfo>::iterator it = m_object_type_features.begin();
+	while (it != m_object_type_features.end()) {
+		// If this is a computed feature, then erase it and
+		// resume after the removed element.
+		if (it->getIsComputed()) {
+			it = m_object_type_features.erase(it);
+		}
+		++it;
+	}
 
 	// This must be done before any other operation on
 	// m_object_creation_spec that uses m_feature_env or which
@@ -847,24 +865,6 @@ bool CreateObjectsStatement::exec()
 	m_result->newline();
 
   
-	// Remove 'self' from m_object_type_features.
-	// This is so that we do not assign anything to it.
-	// m_object_type_features (the features which the object type has)
-	// is not the same as m_object_spec_list (the actual data to put in
-	// each feature).  Self has already been weeded out of that
-	// if it was there.
-	std::list<FeatureInfo>::iterator it = m_object_type_features.begin();
-	while (it != m_object_type_features.end()) {
-		// If this is "self", then erase it and break out of the while loop,
-		// since we are done.  All we want is to removed "self" 
-		// from the list of features which the object type has.
-		if (is_self(it->getName())) {
-			m_object_type_features.erase(it);
-			break;
-		}
-		++it;
-	}
-
 	// Start transaction if possible
 	bool bDoCommit;
 	bDoCommit = m_pEE->pDB->beginTransaction();

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/2-2001
- * Last update: 1/9-2009
+ * Last update: 11/15-2018
  *
  */
 
@@ -50,7 +50,7 @@ void MQLObject::addFeature(const FeatureInfo& fi)
 {
 	// Get feature name
 	std::string feature_name;
-	feature_name = fi.getName();
+	feature_name = fi.getHumanReadableFeatureName();
 
 	// Get which it is
 	std::list<FeatureInfo> *pList;
@@ -61,7 +61,7 @@ void MQLObject::addFeature(const FeatureInfo& fi)
 	std::list<FeatureInfo>::const_iterator cend(pList->end());
 	while (ci != cend) {
 		// Check if this is the one
-		if (strcmp_nocase(ci->getName(), feature_name) == 0) {
+		if (strcmp_nocase(ci->getHumanReadableFeatureName(), feature_name) == 0) {
 			// It was, so return without adding.
 			return;
 		}
@@ -120,7 +120,7 @@ const std::vector<std::string>& MQLObject::getFeatureNames()
 		std::list<FeatureInfo>::const_iterator fi_i(pList->begin());
 		std::list<FeatureInfo>::const_iterator fi_iend(pList->end());
 		while (fi_i != fi_iend) {
-			(*pVec)[index] = fi_i->getName();
+			(*pVec)[index] = fi_i->getHumanReadableFeatureName();
 			++index;
 			++fi_i;
 		}
@@ -142,7 +142,7 @@ short int MQLObject::getFeatureIndex(const std::string& feature_name) const
 	std::list<FeatureInfo>::const_iterator fi_iend(pList->end());
 	short int index = 0;
 	while (fi_i != fi_iend) {
-		if (strcmp_nocase(fi_i->getName(), feature_name) == 0)
+		if (strcmp_nocase(fi_i->getHumanReadableFeatureName(), feature_name) == 0)
 			return index;
 		++index;
 		++fi_i;

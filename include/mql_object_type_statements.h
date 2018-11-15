@@ -100,7 +100,7 @@ public:
   bool typeTypeCompatibility(MQLExecEnv *pEE, bool& bResult);
   bool execAdd(MQLExecEnv *pEE, const std::string& object_type_name, id_d_t object_type_id);
 private:
-  void weedSelfNotDeclared(MQLExecEnv *pEE, bool& bResult);
+  void weedComputedFeatureNotDeclared(MQLExecEnv *pEE, bool& bResult);
 };
 
 

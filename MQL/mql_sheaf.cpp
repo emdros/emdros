@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/8-2001
- * Last update: 12/2-2017
+ * Last update: 11/15-2018
  *
  */
 
@@ -495,7 +495,7 @@ std::string MatchedObject::getFeatureAsString(int index) const
 			break;
 		case kEVListOfInteger: {
 			Feature *pFeature = m_pObjectBlock->getFeatureRetrievalFeature(index);
-			id_d_t feature_type_id = pFeature->getFeatureTypeID();
+			id_d_t feature_type_id = pFeature->getOutputFeatureTypeID();
 			if (featureTypeIdIsListOfENUM(feature_type_id)) {
 				std::string result("(");
 				IntegerList *pList = pValue->getIntegerList();
@@ -796,7 +796,7 @@ std::string MatchedObject::getEnumLabel(int index) const
 		Feature *pFeature = m_pObjectBlock->getFeatureRetrievalFeature(index);
 		
 		// Check that it is ENUM
-		id_d_t feature_type_id = pFeature->getFeatureTypeID();
+		id_d_t feature_type_id = pFeature->getOutputFeatureTypeID();
 		if (featureTypeIdIsENUM(feature_type_id)
 		    || featureTypeIdIsListOfENUM(feature_type_id)) {
 			// It was an enum
@@ -1070,11 +1070,11 @@ void MatchedObject::printConsole(EMdFOutput *pOut, bool bIsForFullSheaf) const
 				Feature *pFeature = m_pObjectBlock->getFeatureRetrievalFeature(i);
 
 				// Output feature name
-				outstr.append(pFeature->getFeature());
+				outstr.append(pFeature->getHumanReadableFeatureName());
 				outstr.append("=\"", 2);
 
 				// Output string based on type
-				id_d_t feature_type_id = pFeature->getFeatureTypeID();
+				id_d_t feature_type_id = pFeature->getOutputFeatureTypeID();
 				if (featureTypeIdIsListOf(feature_type_id)) {
 					const IntegerList *pIntegerList = pValue->getIntegerList();
 					if (pIntegerList == 0) {
@@ -1222,12 +1222,12 @@ void MatchedObject::printXML(EMdFOutput* pOut, bool bIsForFullSheaf) const
 				Feature *pFeature = m_pObjectBlock->getFeatureRetrievalFeature(i);
 
 				// Get feature name
-				const std::string& feature_name = pFeature->getFeature();
+				const std::string& feature_name = pFeature->getHumanReadableFeatureName();
 
 				// Get feature type and valstring
 				std::string feature_type;
 				std::string enum_name;
-				id_d_t feature_type_id = pFeature->getFeatureTypeID();
+				id_d_t feature_type_id = pFeature->getOutputFeatureTypeID();
 				std::string valstring;
 
 				if (featureTypeIdIsListOf(feature_type_id)) {
@@ -1403,12 +1403,12 @@ void MatchedObject::printJSON(EMdFOutput* pOut, bool bIsForFullSheaf) const
 				Feature *pFeature = m_pObjectBlock->getFeatureRetrievalFeature(i);
 
 				// Get feature name
-				const std::string& feature_name = pFeature->getFeature();
+				const std::string& feature_name = pFeature->getHumanReadableFeatureName();
 
 				// Get feature type and valstring
 				std::string feature_type;
 				std::string enum_name;
-				id_d_t feature_type_id = pFeature->getFeatureTypeID();
+				id_d_t feature_type_id = pFeature->getOutputFeatureTypeID();
 				std::string valstring;
 
 				if (featureTypeIdIsListOf(feature_type_id)) {

@@ -350,7 +350,7 @@ class ObjectReferenceUsage {
  private:
 	std::string* m_object_reference;
 	std::string* m_feature_name;
-	ComputedFeatureName *m_computed_feature_name;
+	std::string* m_parameter1;
 	std::string m_object_reference_lower;
 	FeatureInfo m_feature_info;
 	node_number_t m_controlling_object_block_node_number;
@@ -362,13 +362,10 @@ class ObjectReferenceUsage {
 	unsigned int m_matched_object_index; // In NonParentORDSolution
 	bool m_bORDIsParent;
  public:
-	ObjectReferenceUsage(std::string* object_reference, std::string* feature_name);
-	ObjectReferenceUsage(std::string* object_reference, ComputedFeatureName *computed_feature_name);
+	ObjectReferenceUsage(std::string* object_reference, std::string* feature_name, std::string *parameter1);
 	virtual ~ObjectReferenceUsage();
 	bool getORDIsParent(void) const { return m_bORDIsParent; };
-	id_d_t getFeatureTypeId(void) const { return m_feature_info.getType(); };
-	const ComputedFeatureName *getComputedFeatureName() const { return m_computed_feature_name; }
-	
+	id_d_t getOutputFeatureTypeId(void) const { return m_feature_info.getOutputType(); };
 	void weed(MQLExecEnv *pEE, bool& bResult);
 	bool symbol(MQLExecEnv *pEE, node_number_t ffeatures_parent, bool& bResult);
 	bool symbolObjectReferences2(MQLExecEnv *pEE);
@@ -445,7 +442,7 @@ class Value {
 class FeatureComparison {
  private:
 	std::string* m_feature_name;
-	ComputedFeatureName *m_computed_feature_name;
+	std::string* m_parameter1;
 	std::string m_object_type_name;
 	id_d_t m_object_type_id;
 	FeatureInfo m_feature_info;
@@ -467,25 +464,19 @@ class FeatureComparison {
  public:
 	// For feature_name comparison_op (enum_const1, enum_const2)
 	FeatureComparison(std::string* feature_name,
+			  std::string* parameter1,
 			  eComparisonOp m_comparison_op,
 			  StringList *in_enum_list); 
 
 	// For feature_name comparison_op (integer, integer, ..., integer)
 	FeatureComparison(std::string* feature_name,
+			  std::string* parameter1,
 			  eComparisonOp m_comparison_op,
 			  IntegerList *in_enum_list); 
-
-	FeatureComparison(ComputedFeatureName* computed_feature_name,
-			  eComparisonOp m_comparison_op,
-			  IntegerList *in_enum_list); 
-
-	// For computed_feature_name comparison_op value
-	FeatureComparison(ComputedFeatureName *computed_feature_name,
-			  eComparisonOp m_comparison_op,
-			  Value* value);
 
 	// For all others
 	FeatureComparison(std::string* feature_name,
+			  std::string* parameter1,
 			  eComparisonOp comparison_op,
 			  Value* value);
 

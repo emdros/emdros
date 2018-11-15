@@ -7,7 +7,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 11/14-2018
+ * Last update: 11/15-2018
  *
  */
 
@@ -889,11 +889,11 @@ aggregate_feature(F) ::= KEY_COUNT  KEY_OPEN_BRACKET aggregate_feature_compariso
 %type aggregate_feature_comparison {FeatureComparison*}
 %destructor aggregate_feature_comparison {delete($$);}
 aggregate_feature_comparison(C) ::= feature_name(N) comparison_operator(O) value(V).
-    { C = new FeatureComparison(N->extractString(), O, V); deleteToken(N); }
+    { C = new FeatureComparison(N->extractString(), 0, O, V); deleteToken(N); }
 aggregate_feature_comparison(C) ::= feature_name(N) comparison_operator(O) KEY_OPEN_BRACKET list_of_identifier(S) KEY_CLOSE_BRACKET.
-    { C = new FeatureComparison(N->extractString(), O, new StringList(S)); deleteToken(N); delete S; }
+    { C = new FeatureComparison(N->extractString(), 0, O, new StringList(S)); deleteToken(N); delete S; }
 aggregate_feature_comparison(C) ::= feature_name(N) comparison_operator(O)  KEY_OPEN_BRACKET list_of_integer(S) KEY_CLOSE_BRACKET.
-    { C = new FeatureComparison(N->extractString(), O, new IntegerList(S)); deleteToken(N); delete S; }
+    { C = new FeatureComparison(N->extractString(), 0, O, new IntegerList(S)); deleteToken(N); delete S; }
 
 
 
@@ -1429,32 +1429,30 @@ ffactor(F) ::= feature_comparison(C).
 %type feature_comparison {FeatureComparison*}
 %destructor feature_comparison {delete($$);}
 feature_comparison(C) ::= feature_name(N) comparison_operator(O) value(V).
-    { C = new FeatureComparison(N->extractString(), O, V); deleteToken(N); }
+    { C = new FeatureComparison(N->extractString(), 0, O, V); deleteToken(N); }
 feature_comparison(C) ::= computed_feature_name(N) comparison_operator(O) value(V).
-    { C = new FeatureComparison(N, O, V); }
+    { C = new FeatureComparison(new std::string(N->getFeatureName()), new std::string(N->getParameter1()), O, V); delete N; }
 feature_comparison(C) ::= feature_name(N) KEY_EQUALS KEY_OPEN_BRACKET KEY_CLOSE_BRACKET.
-    { C = new FeatureComparison(N->extractString(), kEqual, new IntegerList()); deleteToken(N); }
+    { C = new FeatureComparison(N->extractString(), 0, kEqual, new IntegerList()); deleteToken(N); }
 feature_comparison(C) ::= feature_name(N) KEY_EQUALS KEY_OPEN_BRACKET list_of_identifier(S) KEY_CLOSE_BRACKET.
-    { C = new FeatureComparison(N->extractString(), kEqual, new StringList(S)); deleteToken(N); delete S; }
+    { C = new FeatureComparison(N->extractString(), 0, kEqual, new StringList(S)); deleteToken(N); delete S; }
 feature_comparison(C) ::= feature_name(N) KEY_EQUALS KEY_OPEN_BRACKET list_of_integer(S) KEY_CLOSE_BRACKET.
-    { C = new FeatureComparison(N->extractString(), kEqual, new IntegerList(S)); deleteToken(N); delete S; }
+    { C = new FeatureComparison(N->extractString(), 0, kEqual, new IntegerList(S)); deleteToken(N); delete S; }
 feature_comparison(C) ::= feature_name(N) KEY_IN KEY_OPEN_BRACKET list_of_identifier(S) KEY_CLOSE_BRACKET.
-    { C = new FeatureComparison(N->extractString(), kIn, new StringList(S)); deleteToken(N); delete S; }
+    { C = new FeatureComparison(N->extractString(), 0, kIn, new StringList(S)); deleteToken(N); delete S; }
 feature_comparison(C) ::= feature_name(N) KEY_IN KEY_OPEN_BRACKET list_of_integer(S) KEY_CLOSE_BRACKET.
-    { C = new FeatureComparison(N->extractString(), kIn, new IntegerList(S)); deleteToken(N); delete S; }
+    { C = new FeatureComparison(N->extractString(), 0, kIn, new IntegerList(S)); deleteToken(N); delete S; }
 feature_comparison(C) ::= computed_feature_name(N) KEY_IN KEY_OPEN_BRACKET list_of_integer(S) KEY_CLOSE_BRACKET.
-    { C = new FeatureComparison(N, kIn, new IntegerList(S)); delete S; }
+    { C = new FeatureComparison(new std::string(N->getFeatureName()), new std::string(N->getParameter1()), kIn, new IntegerList(S)); delete S; delete N; }
 feature_comparison(C) ::= feature_name(N) KEY_IN object_reference_usage(R).
-    { C = new FeatureComparison(N->extractString(), kIn, new Value(R)); deleteToken(N); }
+    { C = new FeatureComparison(N->extractString(), 0, kIn, new Value(R)); deleteToken(N); }
 feature_comparison(C) ::= computed_feature_name(N) KEY_IN object_reference_usage(R).
-    { C = new FeatureComparison(N, kIn, new Value(R)); }
+    { C = new FeatureComparison(new std::string(N->getFeatureName()), new std::string(N->getParameter1()), kIn, new Value(R)); delete N; }
 
 %type computed_feature_name {ComputedFeatureName*}
 %destructor computed_feature_name { delete($$); }
-computed_feature_name(C) ::= feature_name(N) KEY_OPEN_BRACKET KEY_MONADS KEY_CLOSE_BRACKET .
-{ C = new ComputedFeatureName(*N->pString, "monads"); deleteToken(N); }
-computed_feature_name(C) ::= feature_name(N) KEY_OPEN_BRACKET monad_set_name(M) KEY_CLOSE_BRACKET .
-{ C = new ComputedFeatureName(*N->pString, *M->pString); deleteToken(N); deleteToken(M); }
+computed_feature_name(C) ::= feature_name(N) KEY_OPEN_BRACKET feature_name(M) KEY_CLOSE_BRACKET .
+{ C = new ComputedFeatureName(N->extractString(), M->extractString()); deleteToken(N); deleteToken(M); }
 
 
 %type comparison_operator {eComparisonOp}
@@ -1490,9 +1488,9 @@ enum_const(C) ::=  IDENTIFIER(I). { C = I; }
 %type object_reference_usage {ObjectReferenceUsage*}
 %destructor object_reference_usage {delete($$);}
 object_reference_usage(U) ::= object_reference(R) KEY_DOT feature_name(N).
-    { U = new ObjectReferenceUsage(R->extractString(), N->extractString()); deleteToken(R); deleteToken(N); }
+    { U = new ObjectReferenceUsage(R->extractString(), N->extractString(), 0); deleteToken(R); deleteToken(N); }
 object_reference_usage(U) ::= object_reference(R) KEY_DOT computed_feature_name(N).
-    { U = new ObjectReferenceUsage(R->extractString(), N); deleteToken(R);  }
+    { U = new ObjectReferenceUsage(R->extractString(), new std::string(N->getFeatureName()), new std::string(N->getParameter1())); deleteToken(R); delete N; }
 
 
 %type opt_blocks {Blocks*}

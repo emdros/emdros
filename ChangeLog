@@ -57,6 +57,27 @@
 	* EMdF/sqlite3emdfdb.cpp: Adjust to the new reality of computed
 	features in the EMdF layer.
 
+	* MQL layer: Adjust to the new reality of computed features being
+	pushed down into the EMdF layer.
+
+	Files affected:
+
+	modified:   MQL/mql.yxx
+	modified:   MQL/mql_helper_classes.cpp
+	modified:   MQL/mql_object.cpp
+	modified:   MQL/mql_object_statements.cpp
+	modified:   MQL/mql_query.cpp
+	modified:   MQL/mql_select_statements.cpp
+	modified:   MQL/mql_sheaf.cpp
+	modified:   include/mql_object_type_statements.h
+	modified:   include/mql_query.h
+	modified:   include/mql_types.h
+
+	Note especially that the Sheaf grammar for the console output
+	needs to change, since the features that are in the GET clauses
+	can now be of the form "feature_name(feature_name)", e.g.,
+	"first_monad(monads)".
+
 2018-11-14 Ulrik Sandborg-Petersen
 
 	* Add ComputedFeatureName as a valid option whenever we have a

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 11/14-2018
+ * Last update: 11/15-2018
  *
  */
 
@@ -373,7 +373,26 @@ class FeatureAssignment {
 	void setIsComputed(bool is_computed) { m_is_computed = is_computed; };
 	bool getIsComputed(void) const { return m_is_computed; };
  protected:
-	void weedSelfNotAssigned(MQLExecEnv *pEE, bool& bResult);
+	void weedComputedFeatureNotAssigned(MQLExecEnv *pEE, bool& bResult);
+};
+
+class ComputedFeatureName {
+protected:
+	std::string *m_feature_name;
+	std::string *m_parameter1;
+public:
+	ComputedFeatureName(std::string *feature_name,
+			    std::string *parameter1) {
+		m_feature_name = feature_name;
+		m_parameter1 = parameter1;
+	}
+	~ComputedFeatureName() {
+		delete m_feature_name;
+		delete m_parameter1;
+	}
+	std::string getFeatureName() const { return *m_feature_name; }
+	std::string getParameter1() const { return (m_parameter1 == 0) ? "" : *m_parameter1; };
+
 };
 
 class GrammarFeature {
@@ -394,45 +413,16 @@ class GrammarFeature {
 	void setNext(GrammarFeature *next) { m_next = next; };
 };
 
-class ComputedFeatureName {
-	std::string m_computed_feature_name;
-	std::string m_parameter1;
-	id_d_t m_object_type_id;
-	id_d_t m_parameter1_feature_type_id;
-	eComputedFeatureKind m_kind;
-public:
-	ComputedFeatureName(const std::string& computed_feature_name,
-			    const std::string& parameter1);
-	ComputedFeatureName(const ComputedFeatureName& other);
-	~ComputedFeatureName();
-
-	void weed(MQLExecEnv *pEE, bool& bResult);
-
-	bool symbol(MQLExecEnv *pEE, id_d_t enclosing_object_type_id, bool& bResult);
-
-	bool type(MQLExecEnv *pEE, bool& bResult);	
-
-	std::string getBasisStoredFeatureName() const;
-
-	id_d_t getBasisFeatureTypeId() const;
-
-	id_d_t getComputedFeatureTypeId() const;
-
-	std::string getHumanReadableName() const;
-
-	EMdFValue *computeValue(const EMdFValue *pLeft_value) const;
-protected:
-	void setParameter1IfEmpty();	
-};
-
 
 // Helper class
 class Feature {
  private:
 	Feature *m_next;
 	std::string* m_feature;
-	ComputedFeatureName *m_computed_feature_name;
-	id_d_t m_feature_type_id;
+	std::string* m_parameter1;
+	FeatureInfo m_feature_info;
+	id_d_t m_retrieved_feature_type_id;
+	id_d_t m_output_feature_type_id;
 	bool m_is_computed;
 	TableColumnType m_tc_type;
 	std::string m_enum_name;
@@ -441,13 +431,16 @@ class Feature {
 	std::map<long, std::string> m_enum_const_cache;
 	int m_length;
  public:
-	Feature(std::string* feature, Feature* next);
 	Feature(std::string* feature, std::string *parameter1, Feature* next);
 	static Feature *FromGrammarFeature(GrammarFeature *pGrammarFeature);
 	Feature(const Feature& other);
-	virtual ~Feature();
+	~Feature();
 	const std::string& getFeature() { return *m_feature; };
-	id_d_t getFeatureTypeID(void) const { return m_feature_type_id; };
+	std::string getParameter1() { return (m_parameter1 == 0) ? "" : *m_parameter1; };
+	std::string getHumanReadableFeatureName();
+
+	id_d_t getOutputFeatureTypeID(void) const { return m_output_feature_type_id; };
+	id_d_t getRetrievedFeatureTypeID(void) const { return m_retrieved_feature_type_id; };
 	const std::string& getEnumName(void) const { return m_enum_name; };
 	const std::string& getEnumConstNameFromValue(long value) { return m_enum_const_cache[value]; };
 	Feature* getNext() { return m_next; };
@@ -512,8 +505,6 @@ class AggregateFeature {
 	virtual void exec(MQLExecEnv *pEE, const InstObject *pInstObj);
 };
 
-
-eComputedFeatureKind getComputedFeatureKindFromComputedFeatureName(const std::string& computed_feature_name);
 
 #endif // !defined SWIG
 #endif /* MQL_TYPES__H__ */

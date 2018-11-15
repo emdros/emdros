@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/6-2001 (March 6, 2001)
- * Last update: 11/14-2018
+ * Last update: 11/15-2018
  *
  */
 
@@ -636,9 +636,11 @@ void GetObjectsHavingMonadsInStatement::weed(bool& bResult)
 bool GetObjectsHavingMonadsInStatement::symbol(bool& bResult)
 {
 	if (!ObjectTypeStatement::symbolObjectTypeExists(bResult)) {
+		m_pEE->pError->appendError("Database error checking existence of object type '" + *m_object_type_name + "'.\n");
 		return false;
 	}
 	if (!bResult) {
+		m_pEE->pError->appendError("Compiler error checking existence of object type '" + *m_object_type_name + "'.\n");
 		return true;
 	}
 
@@ -652,10 +654,10 @@ bool GetObjectsHavingMonadsInStatement::symbol(bool& bResult)
 		}
 		std::list<FeatureInfo>::reverse_iterator feat_rci = features_of_OT.rbegin();
 		while (feat_rci != features_of_OT.rend()) {
-			std::string featureName = feat_rci->getName();
+			std::string featureName = feat_rci->getRetrievedFeatureName();
 
 			// We even add "self"
-			Feature *pNewFeature = new Feature(new std::string(featureName), m_pFeaturesToGet);
+			Feature *pNewFeature = new Feature(new std::string(featureName), new std::string(feat_rci->getParameter1()), m_pFeaturesToGet);
 			m_pFeaturesToGet = pNewFeature;
 
 			feat_rci++;
@@ -669,10 +671,14 @@ bool GetObjectsHavingMonadsInStatement::symbol(bool& bResult)
 
 		if (!m_pFeaturesToGet->symbolFeaturesExist(m_pEE, 
 							   m_object_type_id, 
-							   bResult))
+							   bResult)) {
+			m_pEE->pError->appendError("Database error checking existence of features\non object type '" + *m_object_type_name + "'.\n");
 			return false;
-		if (!bResult)
+		}
+		if (!bResult) {
+			m_pEE->pError->appendError("Compiler error checking existence of features\non object type '" + *m_object_type_name + "'.\n");
 			return true;
+		} 
 	}
 
 	if (m_pFeaturesToGet != 0) {
@@ -695,9 +701,11 @@ bool GetObjectsHavingMonadsInStatement::symbol(bool& bResult)
 	m_pEE->pOBBVec->push_back(m_pObjectBlockBase);
   
 	if (!m_pObjectBlockBase->symbol(m_pEE, bResult)) {
+		m_pEE->pError->appendError("Database error symbol checking object block base for [" + *m_object_type_name + "].\n");
 		return false;
 	}
 	if (!bResult) {
+		m_pEE->pError->appendError("Compiler error symbol checking object block base for [" + *m_object_type_name + "].\n");
 		return true;
 	}
 
@@ -707,11 +715,11 @@ bool GetObjectsHavingMonadsInStatement::symbol(bool& bResult)
 		std::string default_value;   // Dummy variable
 		bool is_computed;            // Dummy variable
 		if (!m_pEE->pDB->featureExists(*m_monads_feature,
-					     m_object_type_id,
-					     bMonadFeatureExists,
-					     monad_feature_type_id,
-					     default_value,
-					     is_computed))
+					       m_object_type_id,
+					       bMonadFeatureExists,
+					       monad_feature_type_id,
+					       default_value,
+					       is_computed))
 			return false;
 		if (!bMonadFeatureExists) {
 			m_pEE->pError->appendError("Monad feature " + *m_monads_feature + " does not exist on object type " + *m_object_type_name);
@@ -1022,7 +1030,9 @@ bool GetAggregateFeaturesStatement::symbol(bool& bResult)
 	Feature *pNextFeature = 0;
 	while (fns_ci != fns_cend) {
 		std::string *feature_name = new std::string(*fns_ci);
-		m_pFeaturesToGet = new Feature(feature_name, pNextFeature);
+		m_pFeaturesToGet = new Feature(feature_name,
+					       new std::string(""), // parameter1
+					       pNextFeature);
 		pNextFeature = m_pFeaturesToGet;
 		++fns_ci;
 	}
@@ -1469,11 +1479,11 @@ bool SelectFeaturesStatement::exec()
 	std::list<FeatureInfo>::const_iterator cend(FeatureInfos.end());
 	while (ci != cend) {
 		// Name
-		m_result->append(ci->getName());
+		m_result->append(ci->getHumanReadableFeatureName());
 
 		// Type
 		std::string strType_id;
-		bool bTypeIDGottenOK = m_pEE->pDB->typeIdToString(ci->getType(), strType_id);
+		bool bTypeIDGottenOK = m_pEE->pDB->typeIdToString(ci->getOutputType(), strType_id);
 		m_result->append(strType_id);
 
 		// Default value
