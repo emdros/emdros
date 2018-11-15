@@ -20655,6 +20655,8 @@ WHERE
 ++++ answer failcompiler
 Symbolchecking failed with compiler error
 Feature 'does_not_exist' does not exist for the given object type.
+Compiler error occurred while symbol checking
+object block [phrase]
 ---- answer
 ++++ query topographic query on realistic db number 15.111
 SELECT ALL OBJECTS
@@ -20678,6 +20680,8 @@ WHERE
 ++++ answer failcompiler
 Symbolchecking failed with compiler error
 Feature 'does_not_exist' does not exist for the given object type.
+Compiler error occurred while symbol checking
+object block [phrase]
 ---- answer
 	
 
