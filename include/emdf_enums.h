@@ -30,6 +30,7 @@
 #ifndef EMDF_ENUMS__H__
 #define EMDF_ENUMS__H__
 
+#include <string>
 
 
 // From emdf_output.h
@@ -197,7 +198,8 @@ enum eMonadSetRelationOperation {
 
 
 enum eComputedFeatureKind {
-       kCFKNone,			   
+       kCFKNone,
+       kCFKSelf,
        kCFKFirstMonad,			   
        kCFKLastMonad,			   
        kCFKMonadCount,			   
@@ -205,5 +207,6 @@ enum eComputedFeatureKind {
 };
 
 
+extern eComputedFeatureKind getComputedFeatureKindFromComputedFeatureName(const std::string& computed_feature_name);
 
 #endif /* EMDF_ENUMS__H__ */
