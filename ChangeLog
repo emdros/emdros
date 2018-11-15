@@ -11,6 +11,11 @@
 	between retrieved feature name/type and output feature name /
 	type.
 
+	* include/emdf_value.h: Reindent.
+
+	* include/emdf_value.h, EMdF/emdf_value.cpp: Add new toString()
+	variant, which converts enumeration constants.
+
 2018-11-14 Ulrik Sandborg-Petersen
 
 	* Add ComputedFeatureName as a valid option whenever we have a

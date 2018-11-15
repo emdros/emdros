@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/18-2003
- * Last update: 10/4-2018
+ * Last update: 11/15-2018
  *
  */
 
@@ -25,15 +25,11 @@
  */
 
 
-#ifdef __DJGPP__
-#include <emdf_v~1.h>
-#include <string~1.h>
-#include <string~2.h>
-#else
 #include <emdf_value.h>
+#include <emdfdb.h>
 #include <string_func.h>
 #include <string_list.h>
-#endif
+#include <enum_const_cache.h>
 #include <monads.h>
 #include <debug.h>
 #include <iostream>
@@ -282,6 +278,48 @@ std::string EMdFValue::toString() const
 	return result;
 }
 
+std::string EMdFValue::toString(id_d_t feature_type_id, EnumConstCache *pEnumCache) const
+{
+	if (featureTypeIdIsENUM(feature_type_id)) {
+		if (m_kind != kEVEnum) {
+			return toString();
+		} else {
+			id_d_t enum_id = STRIP_ENUM_ID_OF_LOWER_BITS(feature_type_id);
+			long enum_value = getInt();
+			const EnumConstInfo* pECI = pEnumCache->find(enum_id, enum_value);
+			return pECI->getName();
+		}
+	} else if (featureTypeIdIsListOfENUM(feature_type_id)) {
+		if (m_kind != kEVListOfInteger) {
+			return toString();
+		} else {
+			id_d_t enum_id = STRIP_ENUM_ID_OF_LOWER_BITS(feature_type_id);
+			std::string result("(");
+			IntegerList *pList = getIntegerList();
+			IntegerListConstIterator ilci = pList->const_iterator();
+			if (ilci.hasNext()) {
+				long first_enum = ilci.next();
+				const EnumConstInfo* pECI = pEnumCache->find(enum_id, first_enum);
+				result += pECI->getName();
+			}
+			
+			while (ilci.hasNext()) {
+				result += ',';
+				
+				long next_enum = ilci.next();
+				const EnumConstInfo* pECI = pEnumCache->find(enum_id, next_enum);
+				result += pECI->getName();
+			}
+			
+			result += ')';
+			return result;
+		}
+	} else {
+		// It isn't enum or list of enum. Do the normal thing.
+		return toString();
+	}
+}
+
 void EMdFValue::assign(const EMdFValue& other)
 {
 	m_kind = other.m_kind;
@@ -366,8 +404,8 @@ bool EMdFValue::compareListOfIntegerWithOther(const EMdFValue& other, eCompariso
 
 	// Other must be an atomic value of either Int, ID_D, or Enum type.
 	ASSERT_THROW((((op == kHas || op == kIn) 
-		      && (other.m_kind == kEVInt || other.m_kind == kEVID_D
-			  || other.m_kind == kEVEnum))
+		       && (other.m_kind == kEVInt || other.m_kind == kEVID_D
+			   || other.m_kind == kEVEnum))
 		      || 
 		      ((op == kEqual)
 		       && (other.m_kind == kEVListOfInteger || m_kind == kEVListOfID_D))),
