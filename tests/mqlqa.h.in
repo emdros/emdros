@@ -545,12 +545,12 @@ FROM OBJECTS WITH ID_DS = 2,5
 [Word]
 GO
 ++++ answer
-+-------------+------------------+------------------------+------------------------+------------------------+------------------------+
-| id_d : id_d | surface : string | monads : set_of_monads | monads : set_of_monads | monads : set_of_monads | monads : set_of_monads |
-+-------------+------------------+------------------------+------------------------+------------------------+------------------------+
-| 2           | door,            |  { 2 }                 |  { 2 }                 |  { 2 }                 |  { 2 }                 |
-| 5           | towards          |  { 5 }                 |  { 5 }                 |  { 5 }                 |  { 5 }                 |
-+-------------+------------------+------------------------+------------------------+------------------------+------------------------+
++-------------+------------------+-----------------------+----------------------+-----------------------+----------------------------+
+| id_d : id_d | surface : string | first_monad : integer | last_monad : integer | monad_count : integer | monad_set_length : integer |
++-------------+------------------+-----------------------+----------------------+-----------------------+----------------------------+
+| 2           | door,            | 2                     | 2                    | 1                     | 1                          |
+| 5           | towards          | 5                     | 5                    | 1                     | 1                          |
++-------------+------------------+-----------------------+----------------------+-----------------------+----------------------------+
 ---- answer
 	  
 ++++ query getting features from word object 2
@@ -3785,6 +3785,8 @@ WHERE
 ++++ answer failcompiler
 Symbolchecking failed with compiler error
 Feature 'does_not_exist' does not exist for the given object type.
+Compiler error occurred while symbol checking
+object block [phrase]
 ---- answer
 ++++ query topographic query on realistic db number 15.111
 SELECT ALL OBJECTS
@@ -3808,6 +3810,8 @@ WHERE
 ++++ answer failcompiler
 Symbolchecking failed with compiler error
 Feature 'does_not_exist' does not exist for the given object type.
+Compiler error occurred while symbol checking
+object block [phrase]
 ---- answer
 	
 
@@ -8479,6 +8483,28 @@ GO
  > 
  >
 ---- answer
+
+++++ query get objects having monads in MONADS feature non-MONADS feature #5
+GET OBJECTS HAVING MONADS IN
+ { 2-40201, 40203-50000 }
+USING MONAD FEATURE described_SOM
+[Describer
+ GET monad_count(described_SOM), monad_set_length(monads), first_monad(described_som), last_monad(monads), described_SOM
+ ]
+GO
+++++ answer
+ // <  < [ Describer 240000 { 40201 } false (monad_count(described_SOM)="1",monad_set_length(monads)="396",first_monad(described_som)="40201",last_monad(monads)="396",described_SOM=" { 40201 } ") //  <  > 
+ ]
+[ Describer 240001 { 40201-40400 } false (monad_count(described_SOM)="200",monad_set_length(monads)="154",first_monad(described_som)="40201",last_monad(monads)="550",described_SOM=" { 40201-40400 } ") //  <  > 
+ ]
+[ Describer 240002 { 40201-40400 } false (monad_count(described_SOM)="200",monad_set_length(monads)="254",first_monad(described_som)="40201",last_monad(monads)="804",described_SOM=" { 40201-40400 } ") //  <  > 
+ ]
+[ Describer 240004 { 40202-44400 } false (monad_count(described_SOM)="4199",monad_set_length(monads)="40",first_monad(described_som)="40202",last_monad(monads)="1038",described_SOM=" { 40202-44400 } ") //  <  > 
+ ]
+ > 
+ >
+---- answer
+
 ++++ query create object type with extremely long name...
 CREATE OBJECT TYPE
 [otn_3fc9d95dd5a854b05a28ab398468d0128d646062c2262cd2933c5b7fd31fe45e_c2d3738c477fc43fc372a94dad2c08d1904127383d9fcf5518ca774ad21ada2a_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_3c1ec19080a981e00f915798113abcf454fa05b0911ac5d9aa5cc7442c079f74_blah_blah
