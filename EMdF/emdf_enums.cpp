@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 11/14-2018
- * Last update: 11/14-2018
+ * Last update: 11/15-2018
  *
  */
 
@@ -31,7 +31,9 @@ eComputedFeatureKind getComputedFeatureKindFromComputedFeatureName(const std::st
 {
 	eComputedFeatureKind kind = kCFKNone;
 	
-	if (strcmp_nocase(computed_feature_name, "first_monad") == 0) {
+	if (strcmp_nocase(computed_feature_name, "self") == 0) {
+		kind = kCFKSelf;
+	} else if (strcmp_nocase(computed_feature_name, "first_monad") == 0) {
 		kind = kCFKFirstMonad;
 	} else if (strcmp_nocase(computed_feature_name, "last_monad") == 0) {
 		kind = kCFKLastMonad;
