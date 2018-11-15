@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/2-2018
+ * Last update: 11/15-2018
  *
  */
 
@@ -647,12 +647,12 @@ bool MySQLEMdFDB::lockTablesForCreateObjects(const std::string& object_type_name
 		std::list<FeatureInfo>::const_iterator cend = object_type_features.end();
 		while (ci != cend) {
 			// Get feature's type
-			id_d_t feature_type_id = ci->getType();
+			id_d_t feature_type_id = ci->getRetrievedType();
 			switch (feature_type_id & FEATURE_TYPE_TYPE_MASK) {
 			case FEATURE_TYPE_ASCII:
 			case FEATURE_TYPE_STRING:
 				if (featureTypeIdIsFromSet(feature_type_id)) {
-					std::string feature_name = ci->getName();
+					std::string feature_name = ci->getRetrievedFeatureName();
 					std::string encoded_feature_name = encodeFeatureName(feature_name);
 					std::string table_name = object_type_name 
 						+ "_" + encoded_feature_name + "_set";
@@ -764,12 +764,14 @@ void MySQLEMdFDB::createObjectsOT_objects_data(const std::string object_type_nam
 		const EMdFValue *pValue = pObject->getFeature(index);
 
 		// Get feature's type
-		id_d_t feature_type_id = ci->getType();
+		id_d_t feature_type_id = ci->getRetrievedType();
 		IntegerList *pIntegerList = 0;
 		switch (feature_type_id & FEATURE_TYPE_TYPE_MASK) {
 		case FEATURE_TYPE_ASCII:
 			if (featureTypeIdIsFromSet(feature_type_id)) {
-				FeatureInfo myfi(ci->getName(), ci->getType(), pValue->getString(), ci->getIsComputed());
+				FeatureInfo myfi(ci->getFeatureName(),
+						 "",
+						 ci->getRetrievedType(), pValue->getString());
 				// The penultimate "true" on FeatureInfo2SQLvalue means that 
 				// we must create any IDD-String association if it is not 
 				// there in the OT_mdf_FEATURE_NAME_set table.
@@ -780,7 +782,9 @@ void MySQLEMdFDB::createObjectsOT_objects_data(const std::string object_type_nam
 			break;
 		case FEATURE_TYPE_STRING:
 			if (featureTypeIdIsFromSet(feature_type_id)) {
-				FeatureInfo myfi(ci->getName(), ci->getType(), pValue->getString(), ci->getIsComputed());
+				FeatureInfo myfi(ci->getFeatureName(),
+						 "",
+						 ci->getRetrievedType(), pValue->getString());
 				// The penultimate "true" on FeatureInfo2SQLvalue means that 
 				// we must create any IDD-String association if it is not 
 				// there in the OT_mdf_FEATURE_NAME_set table.
@@ -880,9 +884,9 @@ bool MySQLEMdFDB::createObjectsOT_objects_DB(const std::string& object_type_name
 	std::list<FeatureInfo>::const_iterator cend = object_type_features.end();
 	while (ci != cend) {
 		query += ',';
-		query += encodeFeatureName(ci->getName());
-		if (featureTypeIdIsSOM(ci->getType())) {
-			query += ",first_monad_" + encodeFeatureName(ci->getName());
+		query += encodeFeatureName(ci->getRetrievedFeatureName());
+		if (featureTypeIdIsSOM(ci->getRetrievedType())) {
+			query += ",first_monad_" + encodeFeatureName(ci->getRetrievedFeatureName());
 		}
 		++ci;
 	}
