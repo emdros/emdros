@@ -98,6 +98,10 @@
 	* tests/bptqa.h.in: Add a lot of tests of the new computed
 	features, and update some error messages.
 
+	* EMdF/bptemdfdb.cpp, include/bptemdfdb.h: Remove an obsolete
+	incarnation of BPTEMdFDB::getFeatures(), and change the signature
+	of BPTEMdFDB::createFeature().
+
 2018-11-14 Ulrik Sandborg-Petersen
 
 	* Add ComputedFeatureName as a valid option whenever we have a

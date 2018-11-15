@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 5/10-2018
+ * Last update: 11/15-2018
  *
  */
 
@@ -172,12 +172,10 @@ class BPTEMdFDB : public EMdFDB {
 
 	//
 	// Feature manipulation
-	virtual bool createFeature(const std::string& feature_name,
-				   const std::string& object_type_name,
-				   id_d_t object_type_id, 
-				   id_d_t feature_type_id, 
-				   const std::string& default_value, 
-				   bool computed);  // Assumes it does not
+	virtual bool createFeature(const std::string& object_type_name,
+				   id_d_t object_type_id,
+				   const FeatureInfo& feature_info);
+
 	// exist
 	virtual bool addFeature(const std::string& object_type_name,
 				id_d_t object_type_id,
@@ -207,11 +205,6 @@ class BPTEMdFDB : public EMdFDB {
 	// Assumes everything exists 
 
   
-	virtual bool getFeatures(const std::string& object_type_name,
-				 id_d_t object_type_id,
-				 const std::list<FeatureInfo>& FeatureInfos,
-				 id_d_t object_id_d,
-				 /* out */ std::list<EMdFValue*>& results); 
 	virtual bool getFeatures(const std::string& object_type_name,
 				 id_d_t object_type_id,
 				 const std::list<FeatureInfo>& FeatureInfos,

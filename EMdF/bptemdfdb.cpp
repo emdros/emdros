@@ -12,7 +12,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 5/10-2018
+ * Last update: 11/15-2018
  *
  */
 
@@ -855,21 +855,15 @@ bool BPTEMdFDB::setDefaultEnumConst(id_d_t enum_id,
  *
  * @return True on no database error, false if a database error occurred.
  */
-bool BPTEMdFDB::createFeature(const std::string& feature_name,
-			   const std::string& object_type_name,
-                           id_d_t object_type_id, 
-                           id_d_t feature_type_id, 
-                           const std::string& default_value, 
-                           bool computed)  // Assumes it does not exist
+bool BPTEMdFDB::createFeature(const std::string& object_type_name,
+			      id_d_t object_type_id,
+			      const FeatureInfo& feature_info)
 {
-	UNUSED(feature_name);
 	UNUSED(object_type_name);
 	UNUSED(object_type_id);
-	UNUSED(feature_type_id);
-	UNUSED(default_value);
-	UNUSED(computed);
+	UNUSED(feature_info);
 
-	DEBUG_X_IS_WRONG("BPTEMdFDB::", "The BPT backend is not present in the Open Source version of Emdros.\nFor licensing the BPT backend, please contact Ulrik Sandborg-Petersen:\nulrikp-at-emdros{dot}org ... thanks!");
+	DEBUG_X_IS_WRONG("BPTEMdFDB::createFeature", "The BPT backend is not present in the Open Source version of Emdros.\nFor licensing the BPT backend, please contact Ulrik Sandborg-Petersen:\nulrikp-at-emdros{dot}org ... thanks!");
 	return false;
 }
 
@@ -1025,40 +1019,6 @@ bool BPTEMdFDB::featureExists(const std::string& feature_name,
 	return false;
 }
 
-
-// Assumes everything exists 
-// TODO: Make this work with computed features
-/** Get feature values from a single object.
- *@internal
- *
- * This is the incarnation used in MQLObject::retrieveFeatureValues().
- *
- * @see MQLObject::retrieveFeatureValues().
- *
- * @param object_type_name The name of the object type of the object to query.
- * @param object_type_id The id_d of the object type.
- * @param FeatureInfos List of FeatureInfo objects telling us which
- *        features to get.
- * @param object_id_d The id_d of the object to query.
- * @param results List of EMdFValue containing the values of the features, 
- *        in the same order as in FeatureInfos.
- * @return True on no database error, false if a database error occurred.
- */
-bool BPTEMdFDB::getFeatures(const std::string& object_type_name,
-			    id_d_t object_type_id,
-			    const std::list<FeatureInfo>& FeatureInfos,
-			    id_d_t object_id_d,
-			    /* out */ std::list<EMdFValue*>& results)
-{
-	UNUSED(object_type_name);
-	UNUSED(object_type_id);
-	UNUSED(FeatureInfos);
-	UNUSED(object_id_d);
-	UNUSED(results);
-
-	DEBUG_X_IS_WRONG("BPTEMdFDB::", "The BPT backend is not present in the Open Source version of Emdros.\nFor licensing the BPT backend, please contact Ulrik Sandborg-Petersen:\nulrikp-at-emdros{dot}org ... thanks!");
-	return false;
-}
 
 
 // Assumes everything exists 
