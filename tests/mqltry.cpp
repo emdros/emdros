@@ -3,7 +3,7 @@
  *
  * Trial of MQL and EMdF framework
  * Created: 3/6-2001 (March 6, 2001)
- * Last update: 5/11-2018
+ * Last update: 11/15-2018
  *
  */
 
@@ -224,6 +224,7 @@ bool exec_QueryAnswer(EmdrosEnv *pEE, const QueryAnswer& qa, eBackendKind backen
 		}
 	}
 	std::string mql_query = qa.m_query;
+	std::cerr << "MQL query =\n" << mql_query << std::endl;
 	if (!pEE->executeString(mql_query, bResult, true, false)) {
 		if (qa.m_bDBSuccessExpected) {
 			DB_ERROR;
@@ -971,7 +972,7 @@ int testall(EmdrosEnv *pEE, eBackendKind backend_kind, const std::string& passwo
 	// Select features
 	mql_query = 
 		"SELECT FEATURES FROM OBJECT TYPE [Word] GO";
-	if (!exec_string_check_no_of_rows(pEE, mql_query, "selecting features",8))
+	if (!exec_string_check_no_of_rows(pEE, mql_query, "selecting features", 8))
 		goto end;
 
 	// Select enumerations

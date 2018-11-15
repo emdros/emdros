@@ -3,7 +3,7 @@
  *
  * Trial of EMdF framework
  * Created: 1/27-2001
- * Last update: 5/11-2018
+ * Last update: 11/15-2018
  *
  */
 
@@ -2031,19 +2031,31 @@ int test_backend(eBackendKind backend_kind,
 	id_d_t phrase_object_type_id;
 	std::list<FeatureInfo> FeatureInfos;
 	// feature "phrase_type"
-	FeatureInfo f_info_phrase_type("phrase_type", enum_id | FEATURE_TYPE_ENUM, "-1", false);
+	FeatureInfo f_info_phrase_type("phrase_type",
+				       "",
+				       enum_id | FEATURE_TYPE_ENUM,
+				       "-1");
 	FeatureInfos.push_back(f_info_phrase_type);
 
 	// feature "NP_type"
-	FeatureInfo f_info_NP_type("NP_type", FEATURE_TYPE_INTEGER, "0", false);
+	FeatureInfo f_info_NP_type("NP_type",
+				   "",
+				   FEATURE_TYPE_INTEGER,
+				   "0");
 	FeatureInfos.push_back(f_info_NP_type);
 
 	// feature "Description"
-	FeatureInfo f_info_description("Description", FEATURE_TYPE_STRING, "This is a missing description!",false);
+	FeatureInfo f_info_description("Description",
+				       "",
+				       FEATURE_TYPE_STRING,
+				       "This is a missing description!");
 	FeatureInfos.push_back(f_info_description);
 
 	// feature "Parent"
-	FeatureInfo f_info_parent("Parent", FEATURE_TYPE_ID_D, "0", false);
+	FeatureInfo f_info_parent("Parent",
+				  "",
+				  FEATURE_TYPE_ID_D,
+				  "0");
 	FeatureInfos.push_back(f_info_parent);
 
 	if (bContinue) {
@@ -2125,21 +2137,28 @@ int test_backend(eBackendKind backend_kind,
 	// Create "Word" object type
 	FeatureInfos.erase(FeatureInfos.begin(), FeatureInfos.end());
 	// feature "surface"
-	FeatureInfo f_info_surface("surface", 
-				   FEATURE_TYPE_STRING | FEATURE_TYPE_FROM_SET, 
-				   "", false);
+	FeatureInfo f_info_surface("surface",
+				   "",
+				   FEATURE_TYPE_STRING | FEATURE_TYPE_FROM_SET,
+				   "");
 	FeatureInfos.push_back(f_info_surface);
 
 	// feature "lemma"
-	FeatureInfo f_info_lemma("lemma", FEATURE_TYPE_STRING, "", false);
+	FeatureInfo f_info_lemma("lemma",
+				 "",
+				 FEATURE_TYPE_STRING,
+				 "");
 	FeatureInfos.push_back(f_info_lemma);
 
 	// feature "Description"
-	FeatureInfo f_info_description2("Description", FEATURE_TYPE_STRING, "This is a missing description!", false);
+	FeatureInfo f_info_description2("Description",
+					"",
+					FEATURE_TYPE_STRING,
+					"This is a missing description!");
 	FeatureInfos.push_back(f_info_description2);
 
 	// feature "Parent"
-	FeatureInfo f_info_parent2("Parent", FEATURE_TYPE_ID_D, NIL_AS_STRING, false);
+	FeatureInfo f_info_parent2("Parent", "", FEATURE_TYPE_ID_D, NIL_AS_STRING);
 	FeatureInfos.push_back(f_info_parent2);
 
 	long word_object_type_id;
@@ -2176,7 +2195,9 @@ int test_backend(eBackendKind backend_kind,
 
 	// Check adding feature
 	// feature "Parallax"
-	FeatureInfo f_info_parallax("Parallax", FEATURE_TYPE_ID_D, NIL_AS_STRING, false);
+	FeatureInfo f_info_parallax("Parallax",
+				    "",
+				    FEATURE_TYPE_ID_D, NIL_AS_STRING);
 	if (bContinue) {
 		if (pDB->addFeature("Word", word_object_type_id, f_info_parallax)) {
 			std::cout << "SUCCESS: Adding feature parallax.\n";
@@ -2336,10 +2357,10 @@ int test_backend(eBackendKind backend_kind,
 	SetOfMonads monads3;
 	monads3.add(1,2);
 	std::list<FeatureInfo> features;
-	features.push_back(FeatureInfo("phrase_type", enum_id | FEATURE_TYPE_ENUM, "1", false));
-	features.push_back(FeatureInfo("NP_type", FEATURE_TYPE_INTEGER, "0", false));
-	features.push_back(FeatureInfo("Description", FEATURE_TYPE_STRING, "This is a missing description!",false));
-	features.push_back(FeatureInfo("Parent", FEATURE_TYPE_ID_D, NIL_AS_STRING, false));
+	features.push_back(FeatureInfo("phrase_type", "", enum_id | FEATURE_TYPE_ENUM, "1"));
+	features.push_back(FeatureInfo("NP_type", "", FEATURE_TYPE_INTEGER, "0"));
+	features.push_back(FeatureInfo("Description", "", FEATURE_TYPE_STRING, "This is a missing description!"));
+	features.push_back(FeatureInfo("Parent", "", FEATURE_TYPE_ID_D, NIL_AS_STRING));
 	if (bContinue) {
 		if (pDB->createObject(phrase1, "Phrase", phrase_object_type_id, monads3, kORTMultipleRange, features)) {
 			std::cout << "SUCCESS: creating object of type Phrase\n";
@@ -2361,10 +2382,13 @@ int test_backend(eBackendKind backend_kind,
 	features.erase(features.begin(), features.end());
 	std::string word1_surface_value = "Very";
 	std::string word1_lemma_value = "very";
-	features.push_back(FeatureInfo("surface", FEATURE_TYPE_STRING | FEATURE_TYPE_FROM_SET, word1_surface_value, false));
-	features.push_back(FeatureInfo("lemma", FEATURE_TYPE_STRING, word1_lemma_value, false));
-	features.push_back(FeatureInfo("Description", FEATURE_TYPE_STRING, "Adverb", false));
-	features.push_back(FeatureInfo("Parent", FEATURE_TYPE_ID_D, NIL_AS_STRING, false));
+	features.push_back(FeatureInfo("surface",
+				       "",
+				       FEATURE_TYPE_STRING | FEATURE_TYPE_FROM_SET, word1_surface_value));
+	features.push_back(FeatureInfo("lemma",
+				       "", FEATURE_TYPE_STRING, word1_lemma_value));
+	features.push_back(FeatureInfo("Description", "", FEATURE_TYPE_STRING, "Adverb"));
+	features.push_back(FeatureInfo("Parent", "", FEATURE_TYPE_ID_D, NIL_AS_STRING));
 	if (bContinue) {
 		if (pDB->createObject(word1, "Word", word_object_type_id, monads1, kORTSingleMonad, features)) {
 			std::cout << "SUCCESS: creating 1st object of type Word\n";
@@ -2384,10 +2408,10 @@ int test_backend(eBackendKind backend_kind,
 		}
 	}
 	SetOfMonads monads2(2);
-	features.push_back(FeatureInfo("surface", FEATURE_TYPE_STRING | FEATURE_TYPE_FROM_SET, "good", false));
-	features.push_back(FeatureInfo("lemma", FEATURE_TYPE_STRING, "good", false));
-	features.push_back(FeatureInfo("Description", FEATURE_TYPE_STRING, "Adjective", false));
-	features.push_back(FeatureInfo("Parent", FEATURE_TYPE_ID_D, NIL_AS_STRING, false));
+	features.push_back(FeatureInfo("surface", "", FEATURE_TYPE_STRING | FEATURE_TYPE_FROM_SET, "good"));
+	features.push_back(FeatureInfo("lemma", "", FEATURE_TYPE_STRING, "good"));
+	features.push_back(FeatureInfo("Description", "", FEATURE_TYPE_STRING, "Adjective"));
+	features.push_back(FeatureInfo("Parent", "", FEATURE_TYPE_ID_D, NIL_AS_STRING));
 	if (bContinue) {
 		if (pDB->createObject(word2, "Word", word_object_type_id, monads2, kORTSingleMonad, features)) {
 			std::cout << "SUCCESS: creating 2nd object of type Word\n";
@@ -2419,56 +2443,39 @@ int test_backend(eBackendKind backend_kind,
 	// Check getting features from object
 	if (bContinue) {
 		FeatureInfos.clear();
-		FeatureInfos.push_back(FeatureInfo("surface", 
+		FeatureInfos.push_back(FeatureInfo("surface",
+						   "",
 						   FEATURE_TYPE_STRING | FEATURE_TYPE_FROM_SET,
-						   "", // It doesn't matter what we use as default value
-						   false // it is not computed
-						   )
+						   "") // It doesn't matter what we use as default value
 				       ); 
-		FeatureInfos.push_back(FeatureInfo("lemma", 
+		FeatureInfos.push_back(FeatureInfo("lemma",
+						   "",
 						   FEATURE_TYPE_STRING,
-						   "", // It doesn't matter what we use as default value
-						   false // it is not computed
-						   )
+						   "") // It doesn't matter what we use as default value
 				       ); 
-		std::list<EMdFValue*> results;
+		std::list<std::list<std::string> > results;
 		if (pDB->getFeatures("word", word_object_type_id, objectRangeType, FeatureInfos, word1, results)) {
-			std::list<EMdFValue*>::iterator it = results.begin();
-			EMdFValue *pSurfaceValue = *it;
-			if (pSurfaceValue == 0) {
-				std::cerr << "FAILURE: getting feature 'surface' for word with id_d " << word1 << " returned nil for the surface value." << std::endl;
-				VALUE_ERROR;
-			} else if (pSurfaceValue->getKind() != kEVString) {
-				std::cerr << "FAILURE: getting feature 'surface' for word with id_d " << word1 << " did not return a string. The kind was: " << pSurfaceValue->getKind() << std::endl;
-				VALUE_ERROR;
-			} else if (pSurfaceValue->getString() != word1_surface_value) {
-				std::cerr << "FAILURE: getting feature 'surface' for word with id_d " << word1 << " did not return the right string. The string returned was '" << pSurfaceValue->getString() << "'. I expected the string '" << word1_surface_value << "'." << std::endl;
+			std::list<std::list<std::string> >::iterator it = results.begin();
+			std::list<std::string> inner_list = *it;
+			std::list<std::string>::const_iterator inner_list_ci = inner_list.begin();
+			// Skip object_id_d
+			++inner_list_ci;
+			std::string surface_value = *inner_list_ci;
+			if (surface_value != word1_surface_value) {
+				std::cerr << "FAILURE: getting feature 'surface' for word with id_d " << word1 << " did not return the right string. The string returned was '" << surface_value << "'. I expected the string '" << word1_surface_value << "'." << std::endl;
 				VALUE_ERROR;
 			} else {
 				std::cout << "SUCCESS: getting feature 'surface' for word with id_d " << word1 << " returned the correct string.\n";
 			}
-			++it;
-			EMdFValue *pLemmaValue = *it;
-			if (pLemmaValue == 0) {
-				std::cerr << "FAILURE: getting feature 'lemma' for word with id_d " << word1 << " returned nil for the lemma value." << std::endl;
-				VALUE_ERROR;
-			} else if (pLemmaValue->getKind() != kEVString) {
-				std::cerr << "FAILURE: getting feature 'lemma' for word with id_d " << word1 << " did not return a string. The kind was: " << pLemmaValue->getKind() << std::endl;
-				VALUE_ERROR;
-			} else if (pLemmaValue->getString() != word1_lemma_value) {
-				std::cerr << "FAILURE: getting feature 'lemma' for word with id_d " << word1 << " did not return the right string. The string returned was '" << pLemmaValue->getString() << "'. I expected the string '" << word1_lemma_value << "'." << std::endl;
+			++inner_list_ci;
+			std::string lemma_value = *inner_list_ci;
+			if (lemma_value != word1_lemma_value) {
+				std::cerr << "FAILURE: getting feature 'lemma' for word with id_d " << word1 << " did not return the right string. The string returned was '" << lemma_value << "'. I expected the string '" << word1_lemma_value << "'." << std::endl;
 				VALUE_ERROR;
 			} else {
 				std::cout << "SUCCESS: getting feature 'lemma' for word with id_d " << word1 << " returned the correct string.\n";
 			}
-
-
-			it = results.begin();
-			while (it != results.end()) {
-				delete *it;
-				++it;
-			}
-			results.clear();
+			++it;
 		} else {
 			std::cerr << "FAILURE: Could not get features from word object with id_d " << word1 << std::endl;
 			DB_ERROR_MESSAGE;
@@ -2582,7 +2589,7 @@ int test_backend(eBackendKind backend_kind,
 			std::list<FeatureInfo>::const_iterator ci;
 			ci = features.begin();
 			while (ci != features.end()) {
-				std::cout << "         ('" << ci->getName() << "', " << ci->getType() << ", '" << ci->getDefaultValue() << "', " << ci->getIsComputed() << ")\n";
+				std::cout << "         ('" << ci->getRetrievedFeatureName() << "', " << ci->getRetrievedType() << ", '" << ci->getDefaultValue() << "', " << ci->getIsComputed() << ")\n";
 				++ci;
 			}
 		} else {
