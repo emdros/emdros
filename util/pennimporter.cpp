@@ -3,7 +3,7 @@
  *
  * Functions and classes for importing Penn Treebank-style data
  * Created: 2/18-2006
- * Last update: 7/11-2013
+ * Last update: 11/15-2018
  *
  */
 
@@ -165,31 +165,31 @@ bool EmdrosMemObject::putMQL(std::ostream *pOut, const std::list<FeatureInfo>& f
 		ci = feature_infos.begin();
 		cend = feature_infos.end();
 		while (ci != cend) {
-			bool bHasValue = hasFeature(ci->getName());
+			bool bHasValue = hasFeature(ci->getRetrievedFeatureName());
 			if (bHasValue) {
 				std::string value;
 				std::string default_value;
-				id_d_t feature_type = ci->getType();
+				id_d_t feature_type = ci->getRetrievedType();
 				
 				switch(feature_type & FEATURE_TYPE_TYPE_MASK) {
 				case FEATURE_TYPE_INTEGER:
 				case FEATURE_TYPE_ID_D:
-					value = long2string(string2long(getFeature(ci->getName())));
+					value = long2string(string2long(getFeature(ci->getRetrievedFeatureName())));
 					default_value = ci->getDefaultValue();
 					break;
 				case FEATURE_TYPE_ENUM:
-					value = getFeature(ci->getName());
+					value = getFeature(ci->getRetrievedFeatureName());
 					default_value = ci->getDefaultValue();
 					break;
 				case FEATURE_TYPE_LIST_OF_INTEGER:
 				case FEATURE_TYPE_LIST_OF_ID_D:
 				case FEATURE_TYPE_LIST_OF_ENUM:
-					value = getFeature(ci->getName());
+					value = getFeature(ci->getRetrievedFeatureName());
 					default_value = ci->getDefaultValue();
 					break;
 				case FEATURE_TYPE_STRING:
 				case FEATURE_TYPE_ASCII:
-					value = "\"" + encodeSTRINGstring(getFeature(ci->getName())) + "\"";
+					value = "\"" + encodeSTRINGstring(getFeature(ci->getRetrievedFeatureName())) + "\"";
 					default_value = "\"" + ci->getDefaultValue() + "\"";
 					break;
 				default:
@@ -197,7 +197,7 @@ bool EmdrosMemObject::putMQL(std::ostream *pOut, const std::list<FeatureInfo>& f
 					break;
 				}
 				if (value != default_value) {
-					(*pOut) << "  " << ci->getName() << ":=" << value << ";\n";
+					(*pOut) << "  " << ci->getRetrievedFeatureName() << ":=" << value << ";\n";
 				}
 			}
 			++ci;
@@ -516,10 +516,10 @@ void PennTreebankImporter::putCorpusAsMQL(std::ostream *pOut)
 			<< "////////////////////////////////\n";
 		std::list<FeatureInfo> document_feature_infos;
 		if (m_bUseIntegerDocIDs) {
-			document_feature_infos.push_back(FeatureInfo("docid", 
+			document_feature_infos.push_back(FeatureInfo("docid",
+								     "",
 								     FEATURE_TYPE_INTEGER, 
-								     "0", 
-								     false));
+								     "0"));
 		}
 		(*pOut) << "CREATE OBJECTS WITH OBJECT TYPE [Document]\n";
 		for (ci = m_docs.begin();
@@ -540,19 +540,19 @@ void PennTreebankImporter::putCorpusAsMQL(std::ostream *pOut)
 			<< "////////////////////////////////\n";
 		std::list<FeatureInfo> root_feature_infos; // This is empty!
 		if (m_bUseIntegerDocIDs) {
-			root_feature_infos.push_back(FeatureInfo("docid", 
+			root_feature_infos.push_back(FeatureInfo("docid",
+								 "",
 								 FEATURE_TYPE_INTEGER, 
-								 "0", 
-								 false));
-			root_feature_infos.push_back(FeatureInfo("parent", 
+								 "0"));
+			root_feature_infos.push_back(FeatureInfo("parent",
+								 "",
 								 FEATURE_TYPE_INTEGER, 
-								 "0", 
-								 false));
+								 "0"));
 		} else {
-			root_feature_infos.push_back(FeatureInfo("parent", 
+			root_feature_infos.push_back(FeatureInfo("parent",
+								 "",
 								 FEATURE_TYPE_ID_D, 
-								 "nil", 
-								 false));
+								 "nil"));
 		}
 		(*pOut) << "CREATE OBJECTS WITH OBJECT TYPE [DocumentRoot]\n";
 		for (ci = m_root_trees.begin();
@@ -644,40 +644,40 @@ void PennTreebankImporter::putCorpusAsMQL(std::ostream *pOut)
 
 		std::list<FeatureInfo> token_feature_infos;
 		if (m_bUseIntegerDocIDs) {
-			token_feature_infos.push_back(FeatureInfo("docid", 
+			token_feature_infos.push_back(FeatureInfo("docid",
+								  "",
 								  FEATURE_TYPE_INTEGER, 
-								  "0", 
-								  false));
-			token_feature_infos.push_back(FeatureInfo("parent", 
+								  "0"));
+			token_feature_infos.push_back(FeatureInfo("parent",
+								  "",
 								  FEATURE_TYPE_INTEGER, 
-								  "0", 
-								  false));
-			token_feature_infos.push_back(FeatureInfo("coref", 
+								  "0"));
+			token_feature_infos.push_back(FeatureInfo("coref",
+								  "",
 								  FEATURE_TYPE_LIST_OF_INTEGER, 
-								  "()", 
-								  false));
+								  "()"));
 		} else {
-			token_feature_infos.push_back(FeatureInfo("parent", 
+			token_feature_infos.push_back(FeatureInfo("parent",
+								  "",
 								  FEATURE_TYPE_ID_D, 
-								  "nil", 
-								  false));
-			token_feature_infos.push_back(FeatureInfo("coref", 
+								  "nil"));
+			token_feature_infos.push_back(FeatureInfo("coref",
+								  "",
 								  FEATURE_TYPE_LIST_OF_ID_D, 
-								  "()", 
-								  false));
+								  "()"));
 		}
-		token_feature_infos.push_back(FeatureInfo("surface", 
+		token_feature_infos.push_back(FeatureInfo("surface",
+							  "",
 							  FEATURE_TYPE_STRING, 
-							  "", 
-							  false));
-		token_feature_infos.push_back(FeatureInfo("mytype", 
+							  ""));
+		token_feature_infos.push_back(FeatureInfo("mytype",
+							  "",
 							  FEATURE_TYPE_STRING, 
-							  "", 
-							  false));
-		token_feature_infos.push_back(FeatureInfo("function", 
+							  ""));
+		token_feature_infos.push_back(FeatureInfo("function",
+							  "",
 							  FEATURE_TYPE_STRING, 
-							  "", 
-							  false));
+							  ""));
 		bTransactionInProgress = true;
 		//(*pOut) << "BEGIN TRANSACTION GO\n";
 		(*pOut) << "CREATE OBJECTS WITH OBJECT TYPE [Token]\n";
@@ -801,38 +801,38 @@ void PennTreebankImporter::putNonterminals(std::ostream *pOut, const PEMOList& n
 		<< "////////////////////////////////\n";
 	std::list<FeatureInfo> nonterminal_feature_infos;
 	if (m_bUseIntegerDocIDs) {
-		nonterminal_feature_infos.push_back(FeatureInfo("docid", 
+		nonterminal_feature_infos.push_back(FeatureInfo("docid",
+								"",
 								FEATURE_TYPE_INTEGER, 
-								"0", 
-								false));
-		nonterminal_feature_infos.push_back(FeatureInfo("parent", 
+								"0"));
+		nonterminal_feature_infos.push_back(FeatureInfo("parent",
+								"",
 								FEATURE_TYPE_INTEGER, 
-								"0", 
-								false));
-		nonterminal_feature_infos.push_back(FeatureInfo("coref", 
+								"0"));
+		nonterminal_feature_infos.push_back(FeatureInfo("coref",
+								"",
 								FEATURE_TYPE_LIST_OF_INTEGER, 
-								"()", 
-								false));
+								"()"));
 	} else {
-		nonterminal_feature_infos.push_back(FeatureInfo("parent", 
+		nonterminal_feature_infos.push_back(FeatureInfo("parent",
+								"",
 								FEATURE_TYPE_ID_D, 
-								"nil", 
-								false));
-		nonterminal_feature_infos.push_back(FeatureInfo("coref", 
+								"nil"));
+		nonterminal_feature_infos.push_back(FeatureInfo("coref",
+								"",
 								FEATURE_TYPE_LIST_OF_ID_D, 
-								"()", 
-								false));
+								"()"));
 	}
 	if (!m_bEmitNonTerminalsAsDistinctObjectTypes) {
-		nonterminal_feature_infos.push_back(FeatureInfo("nttype", 
+		nonterminal_feature_infos.push_back(FeatureInfo("nttype",
+								"",
 								FEATURE_TYPE_STRING, 
-								"", 
-								false));
+								""));
 	}
-	nonterminal_feature_infos.push_back(FeatureInfo("function", 
+	nonterminal_feature_infos.push_back(FeatureInfo("function",
+							"",
 							FEATURE_TYPE_STRING, 
-							"", 
-							false));
+							""));
 	(*pOut) << "BEGIN TRANSACTION GO\n";
 	bTransactionInProgress = true;
 	(*pOut) << "CREATE OBJECTS WITH OBJECT TYPE [" << objectTypeName << "]\n";

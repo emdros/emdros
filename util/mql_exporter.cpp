@@ -3,7 +3,7 @@
  *
  * A class to dump Emdros databases in MQL
  * Created: 5/1-2001 (1st of May, 2001)
- * Last update: 3/1-2017
+ * Last update: 11/15-2018
  *
  */
 
@@ -486,10 +486,10 @@ bool MQLExporter::DumpObjectType(std::string object_type_name, bool& bCompilerRe
 	std::list<FeatureInfo>::const_iterator cend(FeatureInfos.end());
 	while (ci != cend) {
 		// Name
-		std::string feature_name = ci->getName();
+		std::string feature_name = ci->getFeatureName();
 
 		// Type
-		id_d_t feature_type_id = ci->getType();
+		id_d_t feature_type_id = ci->getRetrievedType();
 		std::string strType_id;
 		bool bTypeIDGottenOK = m_pEE->getMQLEE()->pDB->typeIdToString(feature_type_id, strType_id);
 		if (!bTypeIDGottenOK) {
@@ -550,8 +550,8 @@ bool MQLExporter::DumpObjectType(std::string object_type_name, bool& bCompilerRe
 		// Is_computed: Only added here for future use
 		// bool is_computed = string2bool(bool_alpha2string(ci->getIsComputed()));
 
-		// Emit feature if it isn't self
-		if (feature_name != "self") {
+		// Emit feature if it isn't computed
+		if (!ci->getIsComputed()) {
 			(*m_ostr) << "  " << feature_name 
 			     << " : " << strType_id
 			     << strFromSet 
@@ -667,7 +667,7 @@ bool MQLExporter::DumpObjectDataSingleObject(std::string object_type_name, const
 	unsigned int feature_index = 0;
 	while (ci != cend) {
 		// Feature name
-		std::string feature_name = ci->getName();
+		std::string feature_name = ci->getFeatureName();
     
 		// EMdFValue
 		const EMdFValue *pValue = pObject->getFeature(feature_index);
@@ -676,7 +676,7 @@ bool MQLExporter::DumpObjectDataSingleObject(std::string object_type_name, const
 		ASSERT_THROW(pValue != 0, "pValue is 0");
 
 		// Type
-		id_d_t feature_type_id = ci->getType();
+		id_d_t feature_type_id = ci->getRetrievedType();
 		id_d_t feature_type_id_for_getting_string_represenation;
 		if (featureTypeIdIsListOfENUM(feature_type_id)) {
 			feature_type_id_for_getting_string_represenation = GET_ENUM_FEATURE_ID_FROM_LIST_OF_ENUM_FEATURE_ID(feature_type_id);
@@ -739,8 +739,8 @@ bool MQLExporter::DumpObjectDataSingleObject(std::string object_type_name, const
 			ASSERT_THROW(false, "Unknown feature_type_id: " + id_d2string(feature_type_id));
 		}
 
-		// Emit feature if it isn't self
-		if (feature_name != "self") {
+		// Emit feature if it isn't computed
+		if (!ci->getIsComputed()) {
 			(*m_ostr) << feature_name 
 			     << ":=" << value_as_string
 			     << ";\n";
@@ -845,10 +845,10 @@ bool MQLExporter::DumpObjectDataForObjectType(std::string object_type_name, bool
 	std::list<FeatureInfo>::const_iterator cend(FeatureInfos.end());
 	while (ci != cend) {
 		// Name
-		std::string feature_name = ci->getName();
+		std::string feature_name = ci->getFeatureName();
 
-		// Push back in feature_name_vec if it isn't self
-		if (feature_name != "self") {
+		// Push back in feature_name_vec if it isn't computed
+		if (!ci->getIsComputed()) {
 			feature_name_vec.push_back(feature_name);
 		}
 

@@ -4,7 +4,7 @@
  * A class to import TIGER XML files into Emdros
  *
  * Created: 4/4-2007
- * Last update: 1/16-2013
+ * Last update: 11/15-2018
  *
  */
 
@@ -805,36 +805,36 @@ void TIGERXMLDocHandler::getFeatureInfos(std::list<FeatureInfo>& terminal_fis,
 	std::list<FeatureInfo> feature_infos_NT;
 
 	FeatureInfo parent_fi("parent",
+			      "",
 			      FEATURE_TYPE_ID_D,
-			      "0",  // default
-			      false); // Not computed
+			      "0");  // default
 	feature_infos_T.push_back(parent_fi);
 	feature_infos_NT.push_back(parent_fi);
 
 	FeatureInfo edge_fi("edge",
-			      FEATURE_TYPE_STRING
-			      | FEATURE_TYPE_FROM_SET,
-			      "",  // default
-			      false); // Not computed
+			    "",
+			    FEATURE_TYPE_STRING
+			    | FEATURE_TYPE_FROM_SET,
+			    "");  // default
 	feature_infos_T.push_back(edge_fi);
 	feature_infos_NT.push_back(edge_fi);
 
 	for (long i = 1; i <= m_max_secedges; ++i) {
 		FeatureInfo secedge_label_fi = 
 			FeatureInfo("secedge_label" + long2string(i),
+				    "",
 				    FEATURE_TYPE_STRING
 				    | FEATURE_TYPE_FROM_SET,
-				    "",  // default
-				    false); // Not computed
+				    "");  // default
 		
 		feature_infos_T.push_back(secedge_label_fi);
 		feature_infos_NT.push_back(secedge_label_fi);
 
 		FeatureInfo secedge_parent_fi = 
 			FeatureInfo("secedge_parent" + long2string(i),
+				    "",
 				    FEATURE_TYPE_ID_D,
-				    "0",  // default
-				    false); // Not computed
+				    "0");  // default
 		
 		feature_infos_T.push_back(secedge_parent_fi);
 		feature_infos_NT.push_back(secedge_parent_fi);
@@ -850,10 +850,10 @@ void TIGERXMLDocHandler::getFeatureInfos(std::list<FeatureInfo>& terminal_fis,
 
 		FeatureInfo feature_fi = 
 			FeatureInfo(key,
+				    "",
 				    FEATURE_TYPE_STRING
 				    | FEATURE_TYPE_FROM_SET,
-				    "",  // default
-				    false); // Not computed
+				    "");  // default
 		
 		feature_infos_T.push_back(feature_fi);
 		if (bHasNonterminalRenaming) {
@@ -877,10 +877,10 @@ void TIGERXMLDocHandler::getFeatureInfos(std::list<FeatureInfo>& terminal_fis,
 		std::string key = ci->first;
 		FeatureInfo feature_fi = 
 			FeatureInfo(key,
+				    "",
 				    FEATURE_TYPE_STRING
 				    | FEATURE_TYPE_FROM_SET,
-				    "",  // default
-				    false); // Not computed
+				    "");  // default
 		
 		terminal_fis.push_back(feature_fi);
 		++ci;
@@ -897,10 +897,10 @@ void TIGERXMLDocHandler::getFeatureInfos(std::list<FeatureInfo>& terminal_fis,
 		std::string key = ci->first;
 		FeatureInfo feature_fi = 
 			FeatureInfo(key,
+				    "",
 				    FEATURE_TYPE_STRING
 				    | FEATURE_TYPE_FROM_SET,
-				    "",  // default
-				    false); // Not computed
+				    "");  // default
 
 		if (bHasNonterminalRenaming) {
 			if (key != m_pImp->m_nonterminal_object_type_feature) {
@@ -915,9 +915,9 @@ void TIGERXMLDocHandler::getFeatureInfos(std::list<FeatureInfo>& terminal_fis,
 
 	FeatureInfo sentence_id_fi = 
 		FeatureInfo("id",
+			    "",
 			    FEATURE_TYPE_STRING,
-			    "",   // default
-			    false); // not computed
+			    "");   // default
 
 	sentence_fis.push_back(sentence_id_fi);
 }

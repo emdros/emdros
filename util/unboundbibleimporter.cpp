@@ -3,7 +3,7 @@
  *
  * A class to import Unbound Bible files into Emdros
  * Created: 12/16-2005
- * Last update: 4/27-2013
+ * Last update: 11/15-2018
  *
  */
 
@@ -268,10 +268,11 @@ void UnboundBibleImporter::putCorpusAsMQL(std::ostream *pOut)
 		<< "////////////////////////////////\n";
 	(*pOut) << "BEGIN TRANSACTION GO\n";
 	std::list<FeatureInfo> book_feature_infos;
-	book_feature_infos.push_back(FeatureInfo("book", 
+	book_feature_infos.push_back(FeatureInfo("book",
+						 "",
 						 FEATURE_TYPE_ENUM, 
-						 "Genesis", 
-						 false));
+						 "Genesis"));
+
 	(*pOut) << "CREATE OBJECTS WITH OBJECT TYPE [Book]\n";
 	for (ci = m_books.begin();
 	     ci != m_books.end();
@@ -289,14 +290,14 @@ void UnboundBibleImporter::putCorpusAsMQL(std::ostream *pOut)
 		<< "////////////////////////////////\n";
 	(*pOut) << "BEGIN TRANSACTION GO\n";
 	std::list<FeatureInfo> chapter_feature_infos;
-	chapter_feature_infos.push_back(FeatureInfo("book", 
+	chapter_feature_infos.push_back(FeatureInfo("book",
+						    "",
 						    FEATURE_TYPE_ENUM, 
-						    "Genesis", 
-						    false));
-	chapter_feature_infos.push_back(FeatureInfo("chapter", 
+						    "Genesis"));
+	chapter_feature_infos.push_back(FeatureInfo("chapter",
+						    "",
 						    FEATURE_TYPE_INTEGER,
-						    "1", 
-						    false));
+						    "1"));
 	(*pOut) << "CREATE OBJECTS WITH OBJECT TYPE [Chapter]\n";
 	for (ci = m_chapters.begin();
 	     ci != m_chapters.end();
@@ -314,18 +315,18 @@ void UnboundBibleImporter::putCorpusAsMQL(std::ostream *pOut)
 		<< "////////////////////////////////\n";
 	(*pOut) << "BEGIN TRANSACTION GO\n";
 	std::list<FeatureInfo> verse_feature_infos;
-	verse_feature_infos.push_back(FeatureInfo("book", 
+	verse_feature_infos.push_back(FeatureInfo("book",
+						  "",
 						  FEATURE_TYPE_ENUM, 
-						  "Genesis", 
-						  false));
-	verse_feature_infos.push_back(FeatureInfo("chapter", 
+						  "Genesis"));
+	verse_feature_infos.push_back(FeatureInfo("chapter",
+						  "",
 						  FEATURE_TYPE_INTEGER,
-						  "1", 
-						  false));
-	verse_feature_infos.push_back(FeatureInfo("verse", 
+						  "1"));
+	verse_feature_infos.push_back(FeatureInfo("verse",
+						  "",
 						  FEATURE_TYPE_INTEGER,
-						  "1", 
-						  false));
+						  "1"));
 	(*pOut) << "CREATE OBJECTS WITH OBJECT TYPE [Verse]\n";
 	for (ci = m_verses.begin();
 	     ci != m_verses.end();
@@ -341,14 +342,14 @@ void UnboundBibleImporter::putCorpusAsMQL(std::ostream *pOut)
 		<< "//\n"
 		<< "////////////////////////////////\n";
 	std::list<FeatureInfo> word_feature_infos;
-	word_feature_infos.push_back(FeatureInfo("surface", 
+	word_feature_infos.push_back(FeatureInfo("surface",
+						 "",
 						 FEATURE_TYPE_STRING, 
-						 "", 
-						 false));
-	word_feature_infos.push_back(FeatureInfo("stripped_surface", 
+						 ""));
+	word_feature_infos.push_back(FeatureInfo("stripped_surface",
+						 "",
 						 FEATURE_TYPE_STRING, 
-						 "", 
-						 false));
+						 ""));
 	bool bTransactionInProgress = true;
 	(*pOut) << "BEGIN TRANSACTION GO\n";
 	(*pOut) << "CREATE OBJECTS WITH OBJECT TYPE [Word]\n";

@@ -4,7 +4,7 @@
  * A class to import plain text files
  * into Emdros
  * Created: 8/8-2006
- * Last update: 12/26-2006
+ * Last update: 11/15-2018
  *
  */
 
@@ -153,18 +153,18 @@ void PlainTextImporter::emitMQLParagraphs(std::ostream *pOut)
 void PlainTextImporter::emitMQLWords(std::ostream *pOut)
 {
 	std::list<FeatureInfo> feature_infos_word;
-	feature_infos_word.push_back(FeatureInfo("surface", 
+	feature_infos_word.push_back(FeatureInfo("surface",
+						 "",
 						 FEATURE_TYPE_STRING 
 						 | FEATURE_TYPE_FROM_SET 
 						 | FEATURE_TYPE_WITH_INDEX, 
-						 "", 
-						 false));
-	feature_infos_word.push_back(FeatureInfo("stripped_surface", 
+						 ""));
+	feature_infos_word.push_back(FeatureInfo("stripped_surface",
+						 "",
 						 FEATURE_TYPE_STRING 
 						 | FEATURE_TYPE_FROM_SET 
 						 | FEATURE_TYPE_WITH_INDEX, 
-						 "", 
-						 false));
+						 ""));
 	emitMQLObjects(pOut, feature_infos_word, m_words, "Word");
 }
             

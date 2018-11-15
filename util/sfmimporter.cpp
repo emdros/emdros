@@ -4,7 +4,7 @@
  * A class to import SFM files
  * into Emdros
  * Created: 8/8-2006
- * Last update: 12/26-2006
+ * Last update: 11/15-2018
  *
  */
 
@@ -242,17 +242,18 @@ void SFMImporter::putCorpusAsMQL(std::ostream *pOut)
 			std::string feature_type = features[index+2];
 		       
 			if (feature_type == "integer") {
-				feature_infos.push_back(FeatureInfo(feature_name, 
+				feature_infos.push_back(FeatureInfo(feature_name,
+								    "",
 								    FEATURE_TYPE_INTEGER,
-								    "0", 
-								    false));
+								    "0"));
+
 			} else {
-				feature_infos.push_back(FeatureInfo(feature_name, 
+				feature_infos.push_back(FeatureInfo(feature_name,
+								    "",
 								    FEATURE_TYPE_STRING 
 								    | FEATURE_TYPE_FROM_SET 
 								    | FEATURE_TYPE_WITH_INDEX, 
-								    "", 
-								    false));
+								    ""));
 			}
 
 		}

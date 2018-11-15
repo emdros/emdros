@@ -78,6 +78,18 @@
 	can now be of the form "feature_name(feature_name)", e.g.,
 	"first_monad(monads)".
 
+	* Util layer/importers: Adjust to the new reality described above.
+
+	Files affected:
+
+	modified:   util/mql_exporter.cpp
+	modified:   util/pennimporter.cpp
+	modified:   util/plaintextimporter.cpp
+	modified:   util/sfmimporter.cpp
+	modified:   util/slashedtextimporter.cpp
+	modified:   util/tigerxmlimporter.cpp
+	modified:   util/unboundbibleimporter.cpp
+
 2018-11-14 Ulrik Sandborg-Petersen
 
 	* Add ComputedFeatureName as a valid option whenever we have a
