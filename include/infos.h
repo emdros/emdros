@@ -66,6 +66,7 @@ public:
 	const std::string& getRetrievedFeatureName() const;
 	std::string getHumanReadableFeatureName() const;
 	bool getIsComputed() const;
+	bool getIsSelf() const;
 	bool canBePreQueried() const;
 	void changeIntoComputedValue(EMdFValue *pValue) const;
 };

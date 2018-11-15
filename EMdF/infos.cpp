@@ -167,17 +167,17 @@ void FeatureInfo::changeIntoComputedValue(EMdFValue *pValue) const
 		break;
 	case kCFKSelf:
 		ASSERT_THROW(pValue->getKind() == kEVInt,
-		     "ERROR: FeatureInfo::computeValue() called with left value\nwhich is not an integer.\n");
+			     "ERROR: FeatureInfo::changeIntoComputedValue() called with left value\nwhich is not an integer, but " + int2string((int) pValue->getKind())+ "\n");
 		break;
 	case kCFKFirstMonad:
 	case kCFKLastMonad:
 	case kCFKMonadCount:
 	case kCFKMonadSetLength:
 		ASSERT_THROW(pValue->getKind() == kEVSetOfMonads,
-		     "ERROR: FeatureInfo::computeValue() called with left value\nwhich is not a set of monads.\n");
+		     "ERROR: FeatureInfo::changeIntoComputedValue() called with left value\nwhich is not a set of monads.\n");
 		break;
 	}
-	
+
 	long result = 0;
 	switch (m_computed_feature_kind) {
 	case kCFKNone:
@@ -215,9 +215,6 @@ void FeatureInfo::changeIntoComputedValue(EMdFValue *pValue) const
 		}
 		break;
 	}
-
-	ASSERT_THROW(false,
-		     "Unimplemented eComputedFeatureKind in FeatureInfo::computeValue().");
 }
 
        
@@ -264,6 +261,12 @@ bool FeatureInfo::getIsComputed() const
 {
 	return m_computed_feature_kind != kCFKNone;
 }
+
+bool FeatureInfo::getIsSelf() const
+{
+	return m_computed_feature_kind == kCFKSelf;
+}
+
 
 
 
