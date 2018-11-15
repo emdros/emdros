@@ -3894,6 +3894,8 @@ bool EMdFDB::getFeaturesExec(const std::string& object_type_name,
 
 		results.push_back(feature_value_list);
 	}
+
+	delete pInst;
 	
 	return true;
 }
