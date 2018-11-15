@@ -41,6 +41,7 @@ class EMdFComparison {
 	friend class EMdFDB;
 	// Members
 	std::string m_feature_name;
+	std::string m_parameter1;
 	id_d_t m_feature_type_id;
 	std::string m_object_type_name;
 	id_d_t m_object_type_id;
@@ -51,6 +52,7 @@ class EMdFComparison {
  public:
 	// Constructor for enum_feature IN (enum_const1, enum_const2)
 	EMdFComparison(const std::string& feature_name,
+		       const std::string& parameter1,
 		       id_d_t feature_type_id,
 		       const std::string& object_type_name, 
 		       id_d_t object_type_id, 
@@ -58,6 +60,7 @@ class EMdFComparison {
 	
 	// Constructor for enum_feature IN (integer1, integer2)
 	EMdFComparison(const std::string& feature_name,
+		       const std::string& parameter1,
 		       id_d_t feature_type_id,
 		       const std::string& object_type_name, 
 		       id_d_t object_type_id, 
@@ -65,6 +68,7 @@ class EMdFComparison {
 	
 	// Constructor for all others
 	EMdFComparison(const std::string& feature_name,
+		       const std::string& parameter1,
 		       id_d_t feature_type_id,
 		       const std::string& object_type_name, 
 		       id_d_t object_type_id, 

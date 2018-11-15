@@ -49,12 +49,14 @@
 //
 ////////////////////////////////////////////////////////////
 EMdFComparison::EMdFComparison(const std::string& feature_name,
+			       const std::string& parameter1,
 			       id_d_t feature_type_id,
 			       const std::string& object_type_name,
 			       id_d_t object_type_id,
 			       eComparisonOp comparison_op,
 			       EMdFValue* value)
 	: m_feature_name(feature_name),
+	  m_parameter1(parameter1),
 	  m_feature_type_id(feature_type_id),
 	  m_object_type_id(object_type_id),
 	  m_comparison_op(comparison_op),
@@ -65,11 +67,13 @@ EMdFComparison::EMdFComparison(const std::string& feature_name,
 }
 
 EMdFComparison::EMdFComparison(const std::string& feature_name,
+			       const std::string& parameter1,
 			       id_d_t feature_type_id,
 			       const std::string& object_type_name,
 			       id_d_t object_type_id,
 			       const std::list<EnumConstInfo>& in_enum_list)
 	: m_feature_name(feature_name),
+	  m_parameter1(parameter1),
 	  m_feature_type_id(feature_type_id),
 	  m_object_type_id(object_type_id),
 	  m_comparison_op(kIn),
@@ -82,11 +86,13 @@ EMdFComparison::EMdFComparison(const std::string& feature_name,
 
 
 EMdFComparison::EMdFComparison(const std::string& feature_name,
+			       const std::string& parameter1,
 			       id_d_t feature_type_id,
 			       const std::string& object_type_name,
 			       id_d_t object_type_id,
 			       const IntegerList *pIn_integer_list)
 	: m_feature_name(feature_name),
+	  m_parameter1(parameter1),
 	  m_feature_type_id(feature_type_id),
 	  m_object_type_id(object_type_id),
 	  m_comparison_op(kIn),
@@ -107,7 +113,7 @@ std::string EMdFComparison::makeConstraints(EMdFDB *pDB) const
 {
 	// Construct SQL feature name
 	std::string SQL_feature_name;
-	SQL_feature_name = EMdFDB::encodeFeatureNameForPrequeryString(m_feature_name);
+	SQL_feature_name = EMdFDB::encodeFeatureNameForPrequeryString(m_feature_name, m_parameter1, m_feature_type_id);
 
 	// Create feature comparison
 	std::string result;
@@ -117,10 +123,9 @@ std::string EMdFComparison::makeConstraints(EMdFDB *pDB) const
 	result += " ";
 
 	if (m_value != 0) {
-		bool bIsComputed = false;
 		std::string value_string = m_value->toString();
 		if (featureTypeIdIsFromSet(m_feature_type_id)) {
-			FeatureInfo myfi(m_feature_name, m_feature_type_id, value_string, bIsComputed);
+			FeatureInfo myfi(m_feature_name, m_parameter1, m_feature_type_id, value_string);
 			// The penultimate "false" on FeatureInfo2SQLvalue means that 
 			// we must note create any IDD-String association in the 
 			// OT_mdf_FEATURE_NAME_set table, but since this feature

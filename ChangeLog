@@ -16,6 +16,11 @@
 	* include/emdf_value.h, EMdF/emdf_value.cpp: Add new toString()
 	variant, which converts enumeration constants.
 
+	* EMdF/emdf_ffeatures.cpp, include/emdf_ffeatures.h: Add
+	parameter1 as a part of the feature name to all c'tors of
+	EMdFComparison.
+
+
 2018-11-14 Ulrik Sandborg-Petersen
 
 	* Add ComputedFeatureName as a valid option whenever we have a
