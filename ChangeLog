@@ -95,6 +95,9 @@
 	* SWIG/java/Makefile.inc, SWIG/csharp/Makefile.inc: Adjust to the
 	new reality.
 
+	* tests/bptqa.h.in: Add a lot of tests of the new computed
+	features, and update some error messages.
+
 2018-11-14 Ulrik Sandborg-Petersen
 
 	* Add ComputedFeatureName as a valid option whenever we have a

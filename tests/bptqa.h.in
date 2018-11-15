@@ -19591,7 +19591,7 @@ WHERE
 [Phrase phrase_function IN (1,2,3)]
 ++++ answer failcompiler
 Typechecking failed with compiler error
-The feature phrase_function is being compared with a list of integers.  The feature is neither of type INTEGER nor of type ID_D.
+The feature phrase_function is being compared with a list of integers.  The feature is neither of type INTEGER, nor of type ID_D, or of type LIST OF INTEGER, nor of type LIST OF ID_D.
 ---- answer
 ++++ query topographic query on realistic db number 15.26
 SELECT ALL OBJECTS
@@ -19673,7 +19673,7 @@ WHERE
 [Word surface IN (1,2,3)]
 ++++ answer failcompiler
 Typechecking failed with compiler error
-The feature surface is being compared with a list of integers.  The feature is neither of type INTEGER nor of type ID_D.
+The feature surface is being compared with a list of integers.  The feature is neither of type INTEGER, nor of type ID_D, or of type LIST OF INTEGER, nor of type LIST OF ID_D.
 ---- answer
 ++++ query topographic query on realistic db number 15.34
 SELECT ALL OBJECTS
@@ -31214,6 +31214,397 @@ GO
 ---- answer 
  
 	  
+	  
+
+++++ query first_monad > ORU.last_monad
+SELECT ALL OBJECTS
+WHERE	  
+[Title AS t1
+]
+..
+[Verse
+   first_monad > t1.last_monad
+   AND last_monad <= 20
+]
+GO
+++++ answer
+ //  <  < [ title 19 { 1-7 } false  //  <  > 
+ ]
+[ verse 23 { 8-17 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+	  
+
+++++ query monad_count >= ORU.monad_count AND monad_set_length <= 14
+SELECT ALL OBJECTS
+WHERE	  
+[Title AS t1
+]
+..
+[Verse
+    monad_count(monads) >= t1.monad_count(monads)
+    AND monad_set_length <= 14
+]
+GO
+++++ answer
+ //  <  < [ title 19 { 1-7 } false  //  <  > 
+ ]
+[ verse 23 { 8-17 } false  //  <  > 
+ ]
+ > 
+ < [ title 19 { 1-7 } false  //  <  > 
+ ]
+[ verse 25 { 46-56 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+
+++++ query IN (ID_D)
+SELECT ALL OBJECTS
+WHERE	  
+[title self IN (19)]
+GO
+++++ answer
+ //  <  < [ title 19 { 1-7 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer
+
+++++ query IN (ENUM) (1)
+SELECT ALL OBJECTS
+WHERE	  
+[title divtype IN (book)]
+GO
+++++ answer
+ //  <  < [ title 19 { 1-7 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer
+
+++++ query IN (ENUM) (2)
+SELECT ALL OBJECTS
+WHERE	  
+[title divtype IN (book, chapter)]
+GO
+++++ answer
+ //  <  < [ title 19 { 1-7 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer
+
+++++ query IN (ID_D) (1)
+SELECT ALL OBJECTS
+WHERE	  
+[title self IN (19)]
+GO
+++++ answer
+ //  <  < [ title 19 { 1-7 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer
+
+++++ query IN (ID_D) (2)
+SELECT ALL OBJECTS
+WHERE	  
+[token self IN (156, 158)]
+GO
+++++ answer
+ //  <  < [ token 156 { 54 } false  //  <  > 
+ ]
+ > 
+ < [ token 158 { 56 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer
+
+++++ query first_monad < 10
+SELECT ALL OBJECTS
+WHERE	  
+[Verse first_monad < 10
+]
+GO
+++++ answer
+ //  <  < [ verse 23 { 8-17 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+++++ query first_monad(monads) <= 30
+SELECT ALL OBJECTS
+WHERE	  
+[Verse first_monad(monads) <= 30
+]
+GO
+++++ answer
+ //  <  < [ verse 23 { 8-17 } false  //  <  > 
+ ]
+ > 
+ < [ verse 24 { 18-45 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+
+++++ query last_monad >= 28
+SELECT ALL OBJECTS
+WHERE	  
+[Verse last_monad >=28
+]
+GO
+++++ answer
+ //  <  < [ verse 24 { 18-45 } false  //  <  > 
+ ]
+ > 
+ < [ verse 25 { 46-56 } false  //  <  > 
+ ]
+ > 
+ < [ verse 26 { 57-73 } false  //  <  > 
+ ]
+ > 
+ < [ verse 27 { 74-95 } false  //  <  > 
+ ]
+ > 
+ < [ verse 28 { 96-118 } false  //  <  > 
+ ]
+ > 
+ < [ verse 29 { 119-144 } false  //  <  > 
+ ]
+ > 
+ < [ verse 30 { 145-161 } false  //  <  > 
+ ]
+ > 
+ < [ verse 31 { 162-186 } false  //  <  > 
+ ]
+ > 
+ < [ verse 32 { 187-210 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+++++ query last_monad(monads) >= 28
+SELECT ALL OBJECTS
+WHERE	  
+[Verse last_monad(monads) >=28
+]
+GO
+++++ answer
+ //  <  < [ verse 24 { 18-45 } false  //  <  > 
+ ]
+ > 
+ < [ verse 25 { 46-56 } false  //  <  > 
+ ]
+ > 
+ < [ verse 26 { 57-73 } false  //  <  > 
+ ]
+ > 
+ < [ verse 27 { 74-95 } false  //  <  > 
+ ]
+ > 
+ < [ verse 28 { 96-118 } false  //  <  > 
+ ]
+ > 
+ < [ verse 29 { 119-144 } false  //  <  > 
+ ]
+ > 
+ < [ verse 30 { 145-161 } false  //  <  > 
+ ]
+ > 
+ < [ verse 31 { 162-186 } false  //  <  > 
+ ]
+ > 
+ < [ verse 32 { 187-210 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+	 
+++++ query monad_count = 10
+SELECT ALL OBJECTS
+WHERE	  
+[Verse monad_count = 10
+]
+GO
+++++ answer
+ //  <  < [ verse 23 { 8-17 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+++++ query monad_count(monads) = 10
+SELECT ALL OBJECTS
+WHERE	  
+[Verse monad_count(monads) = 10
+]
+GO
+++++ answer
+ //  <  < [ verse 23 { 8-17 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+++++ query monad_set_length = 10
+SELECT ALL OBJECTS
+WHERE	  
+[Verse monad_set_length = 10
+]
+GO
+++++ answer
+ //  <  < [ verse 23 { 8-17 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+++++ query monad_set_length(monads) = 10
+SELECT ALL OBJECTS
+WHERE	  
+[Verse monad_set_length(monads) = 10
+]
+GO
+++++ answer
+ //  <  < [ verse 23 { 8-17 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+++++ query monad_set_length(monads) IN (10, 12)
+SELECT ALL OBJECTS
+WHERE	  
+[Verse monad_set_length(monads) IN (10, 12)
+]
+GO
+++++ answer
+ //  <  < [ verse 23 { 8-17 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+++++ query monad_set_length(monads) IN (10, 11)
+SELECT ALL OBJECTS
+WHERE	  
+[Verse monad_set_length(monads) IN (10, 11)
+]
+GO
+++++ answer
+ //  <  < [ verse 23 { 8-17 } false  //  <  > 
+ ]
+ > 
+ < [ verse 25 { 46-56 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+++++ query monad_count(monads) IN (10, 11)
+SELECT ALL OBJECTS
+WHERE	  
+[Verse monad_count(monads) IN (10, 11)
+]
+GO
+++++ answer
+ //  <  < [ verse 23 { 8-17 } false  //  <  > 
+ ]
+ > 
+ < [ verse 25 { 46-56 } false  //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+ 
+
+
+++++ query first_monad = ORU.xmlindex
+// This query does not make much sense, since Token.xmlindex
+// is not a monad, but it does work.
+SELECT ALL OBJECTS
+WHERE	  
+[Verse AS v1
+   [Token
+       first_monad = v1.xmlindex GET wholesurface
+   ]
+]
+GO
+++++ answer
+ //  <  < [ verse 23 { 8-17 } false  //  <  < [ token 115 { 13 } false (wholesurface="the ") //  <  > 
+ ]
+ > 
+ > 
+ ]
+ > 
+ < [ verse 24 { 18-45 } false  //  <  < [ token 126 { 24 } false (wholesurface="void; ") //  <  > 
+ ]
+ > 
+ > 
+ ]
+ > 
+ < [ verse 25 { 46-56 } false  //  <  < [ token 155 { 53 } false (wholesurface="and ") //  <  > 
+ ]
+ > 
+ > 
+ ]
+ > 
+ < [ verse 26 { 57-73 } false  //  <  < [ token 167 { 65 } false (wholesurface="good: ") //  <  > 
+ ]
+ > 
+ > 
+ ]
+ > 
+ < [ verse 27 { 74-95 } false  //  <  < [ token 185 { 83 } false (wholesurface="he ") //  <  > 
+ ]
+ > 
+ > 
+ ]
+ > 
+ < [ verse 28 { 96-118 } false  //  <  < [ token 209 { 107 } false (wholesurface="of ") //  <  > 
+ ]
+ > 
+ > 
+ ]
+ > 
+ < [ verse 29 { 119-144 } false  //  <  < [ token 233 { 131 } false (wholesurface="the ") //  <  > 
+ ]
+ > 
+ > 
+ ]
+ > 
+ < [ verse 30 { 145-161 } false  //  <  < [ token 260 { 158 } false (wholesurface="morning, ") //  <  > 
+ ]
+ > 
+ > 
+ ]
+ > 
+ < [ verse 31 { 162-186 } false  //  <  < [ token 279 { 177 } false (wholesurface="and ") //  <  > 
+ ]
+ > 
+ > 
+ ]
+ > 
+ < [ verse 32 { 187-210 } false  //  <  < [ token 305 { 203 } false (wholesurface="Seas: ") //  <  > 
+ ]
+ > 
+ > 
+ ]
+ > 
+ > 
+---- answer 
+ 
 	  
 
 ++++ query first_monad > ORU.last_monad
