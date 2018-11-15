@@ -90,6 +90,10 @@
 	modified:   util/tigerxmlimporter.cpp
 	modified:   util/unboundbibleimporter.cpp
 
+	* Test layer: Adjust to the new reality described above.
+
+	Files affected:
+
 2018-11-14 Ulrik Sandborg-Petersen
 
 	* Add ComputedFeatureName as a valid option whenever we have a
