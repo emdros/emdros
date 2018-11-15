@@ -11,6 +11,7 @@ SWIG_GENERATED_JAVAFILES = \
                 eBackendKind.java \
                 eCharsets.java \
                 eComparisonOp.java \
+                eComputedFeatureKind.java \
                 eEVkind.java \
                 EMdFDBDBError.java \
                 EMdFDBException.java \
@@ -70,6 +71,7 @@ SWIG_GENERATED_JAVAFILES = \
                 StringListConstIterator.java \
                 StringList.java \
                 StringVector.java \
+                SWIGTYPE_p_EnumConstCache.java \
                 SWIGTYPE_p_JSONValue.java \
                 SWIGTYPE_p_std__istream.java \
                 SWIGTYPE_p_std__listT_std__string_t.java \

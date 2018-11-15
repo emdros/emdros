@@ -92,7 +92,8 @@
 
 	* Test layer: Adjust to the new reality described above.
 
-	Files affected:
+	* SWIG/java/Makefile.inc, SWIG/csharp/Makefile.inc: Adjust to the
+	new reality.
 
 2018-11-14 Ulrik Sandborg-Petersen
 

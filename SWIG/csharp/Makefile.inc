@@ -13,6 +13,7 @@ SWIG_GENERATED_CSHARPFILES = \
                 eBackendKind.cs \
                 eCharsets.cs \
                 eComparisonOp.cs \
+                eComputedFeatureKind.cs \
                 eEVkind.cs \
                 EMdFDB.cs \
                 EMdFDBDBError.cs \
@@ -69,6 +70,7 @@ SWIG_GENERATED_CSHARPFILES = \
                 StringListConstIterator.cs \
                 StringList.cs \
                 StringVector.cs \
+                SWIGTYPE_p_EnumConstCache.cs \
                 SWIGTYPE_p_JSONValue.cs \
                 SWIGTYPE_p_std__istream.cs \
                 SWIGTYPE_p_std__listT_std__string_t.cs \
