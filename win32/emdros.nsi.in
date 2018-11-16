@@ -111,11 +111,9 @@ Section "Programs and documentation" SecFiles
   File "doc\HOW-TO-USE.txt"
   File "doc\bootstrapping.txt"
   File "doc\NEWS.txt"
-  File "doc\NEWS-doc.txt"
   File "doc\README.txt"
   File "doc\README-doc.txt"
   File "doc\ChangeLog.txt"
-  File "doc\ChangeLog-doc.txt"
   File "doc\config.mak" 
   File "doc\emdftry.html"
   File "doc\jsontry.html"
@@ -271,10 +269,8 @@ Section "Start Menu Shortcuts" SecShortcuts
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\HOW-TO-USE.txt.lnk" "$INSTDIR\doc\HOW-TO-USE.txt" "" "$INSTDIR\doc\HOW-TO-USE.txt" 0
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\bootstrapping.txt.lnk" "$INSTDIR\doc\bootstrapping.txt" "" "$INSTDIR\doc\bootstrapping.txt" 0
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\NEWS.txt.lnk" "$INSTDIR\doc\NEWS.txt" "" "$INSTDIR\doc\NEWS.txt" 0
-  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\NEWS-doc.txt.lnk" "$INSTDIR\doc\NEWS-doc.txt" "" "$INSTDIR\doc\NEWS-doc.txt" 0
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\README.txt.lnk" "$INSTDIR\doc\README.txt" "" "$INSTDIR\doc\README.txt" 0
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\README-doc.txt.lnk" "$INSTDIR\doc\README-doc.txt" "" "$INSTDIR\doc\README-doc.txt" 0
-  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\ChangeLog.txt.lnk" "$INSTDIR\doc\ChangeLog.txt" "" "$INSTDIR\doc\ChangeLog.txt" 0
 
   ; PDF
   CreateDirectory "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation"

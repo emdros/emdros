@@ -6,6 +6,10 @@
 	is necessary because the Emdros Query Tool recently started using
 	wxScintilla.
 
+	* win32/win32.mak, win32/emdros.nsi.in: Remove files that are no
+	longer present in doc/ from the dist Makefile target and
+	installation files.
+
 2018-11-15 Ulrik Sandborg-Petersen
 
 	* Major restructuring to put all computed features into the EMdF

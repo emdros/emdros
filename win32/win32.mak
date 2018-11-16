@@ -130,7 +130,7 @@ DISTCLEAN: CLEAN
 
 
 DIST_DOC_DOC_FILES=bootstrapping.txt HOW-TO-USE.txt MQL-README.txt \
-                   README-doc.txt ChangeLog-doc.txt NEWS-doc.txt \
+                   README-doc.txt \
                    mql.html mqldump.html manage_indices.html upgrade_db.html \
                    emdftry.html jsontry.html mqltry.html mqllingtry.html \
                    hal_build_db.html mqlhal.html \
