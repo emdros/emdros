@@ -1,5 +1,11 @@
 ============ 3.7.0.pre01 ============
 
+2018-11-16 Ulrik Sandborg-Petersen
+
+	* win32/body.mak: Also link against wxScintilla on Windows. This
+	is necessary because the Emdros Query Tool recently started using
+	wxScintilla.
+
 2018-11-15 Ulrik Sandborg-Petersen
 
 	* Major restructuring to put all computed features into the EMdF

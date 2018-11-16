@@ -316,6 +316,7 @@ WX_LINKFLAGS=/DEBUG
 WX_LIBS_UNICODE=$(WX_LIBS) \
    $(WXLIBDIR)\wxregexud.lib \
    $(WXLIBDIR)\wxmsw28ud.lib \
+   $(WXLIBDIR)\wxscintillad.lib \
    $(WXLIBDIR)\wxzlibd.lib $(WXLIBDIR)\wxjpegd.lib $(WXLIBDIR)\wxpngd.lib $(WXLIBDIR)\wxtiffd.lib   
 
 !ELSEIF "$(WXVERSION)" == "29"
@@ -326,6 +327,7 @@ WX_LIBS_UNICODE=$(WX_LIBS) \
    wxmsw29ud_adv.lib wxmsw29ud_propgrid.lib wxmsw29ud_xrc.lib \
    wxmsw29ud_aui.lib wxmsw29ud_qa.lib wxregexud.lib \
    wxmsw29ud_core.lib wxmsw29ud_ribbon.lib \
+   wxscintillad.lib \
    wxzlibd.lib wxjpegd.lib wxpngd.lib wxtiffd.lib   
    
 !ELSEIF "$(WXVERSION)" == "30"
@@ -336,6 +338,7 @@ WX_LIBS_UNICODE=$(WX_LIBS) \
    wxmsw30ud_adv.lib wxmsw30ud_propgrid.lib wxmsw30ud_xrc.lib \
    wxmsw30ud_aui.lib wxmsw30ud_qa.lib wxregexud.lib \
    wxmsw30ud_core.lib wxmsw30ud_ribbon.lib \
+   wxscintillad.lib \
    wxzlibd.lib wxjpegd.lib wxpngd.lib wxtiffd.lib   
 
 !ELSEIF "$(WXVERSION)" == "31"
@@ -346,6 +349,7 @@ WX_LIBS_UNICODE=$(WX_LIBS) \
    wxmsw31ud_adv.lib wxmsw31ud_propgrid.lib wxmsw31ud_xrc.lib \
    wxmsw31ud_aui.lib wxmsw31ud_qa.lib wxregexud.lib \
    wxmsw31ud_core.lib wxmsw31ud_ribbon.lib \
+   wxscintillad.lib \
    wxzlibd.lib wxjpegd.lib wxpngd.lib wxtiffd.lib
    
 !ELSE
@@ -362,6 +366,7 @@ WX_LINKFLAGS=/RELEASE
 WX_LIBS_UNICODE=$(WX_LIBS) \
    $(WXLIBDIR)\wxregexu.lib \
    $(WXLIBDIR)\wxmsw28u.lib \
+   $(WXLIBDIR)\wxscintilla.lib \
    wxzlib.lib wxjpeg.lib wxpng.lib wxtiff.lib
 
 !ELSEIF "$(WXVERSION)" == "29"
@@ -372,6 +377,7 @@ WX_LIBS_UNICODE=$(WX_LIBS) \
    wxmsw29u_adv.lib wxmsw29u_propgrid.lib wxmsw29u_xrc.lib \
    wxmsw29u_aui.lib wxmsw29u_qa.lib wxregexu.lib \
    wxmsw29u_core.lib wxmsw29u_ribbon.lib \
+   wxscintilla.lib \
    wxzlib.lib wxjpeg.lib wxpng.lib wxtiff.lib
    
 !ELSEIF "$(WXVERSION)" == "30"
@@ -382,6 +388,7 @@ WX_LIBS_UNICODE=$(WX_LIBS) \
    wxmsw30u_adv.lib wxmsw30u_propgrid.lib wxmsw30u_xrc.lib \
    wxmsw30u_aui.lib wxmsw30u_qa.lib wxregexu.lib \
    wxmsw30u_core.lib wxmsw30u_ribbon.lib \
+   wxscintilla.lib \
    wxzlib.lib wxjpeg.lib wxpng.lib wxtiff.lib
 
 !ELSEIF "$(WXVERSION)" == "31"
@@ -392,6 +399,7 @@ WX_LIBS_UNICODE=$(WX_LIBS) \
    wxmsw31u_adv.lib wxmsw31u_propgrid.lib wxmsw31u_xrc.lib \
    wxmsw31u_aui.lib wxmsw31u_qa.lib wxregexu.lib \
    wxmsw31u_core.lib wxmsw31u_ribbon.lib \
+   wxscintilla.lib \
    wxzlib.lib wxjpeg.lib wxpng.lib wxtiff.lib
 
 !ELSE
