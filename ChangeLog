@@ -41,6 +41,19 @@
 	- string2int()
 	- string2emdf_ivalue()
 
+	* Change the API of EMdFConnection, so that it takes an
+	emdf_ivalue instead of a long whenever getting an integer into /
+	out of the database.
+
+	Files affected:
+
+	modified:   include/conn.h
+	modified:   include/mysqlconn.h
+	modified:   include/pgconn.h
+	modified:   include/sqlite3conn.h
+	modified:   EMdF/sqlite3conn.cpp
+
+
 2018-11-20 Ulrik Sandborg-Petersen
 
 	* configure.ac: Bump to 3.7.0.pre02.

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/2-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -157,7 +157,7 @@ public:
   };
 
   virtual bool accessTuple(int field_no, 
-			   long& result) {
+			   emdf_ivalue& result) {
 #if USE_MYSQL
     if (m_Row == NULL) {
       // Return failure
@@ -176,7 +176,7 @@ public:
 	throw EMdFNULLValueException();
       } else {
 	// It wasn't NULL.  Convert result
-	result = atol(pField);
+	result = atoi(pField);
       }
 	
       // Return success      

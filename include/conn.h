@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/10-2005
+ * Last update: 11/30-2018
  *
  */
 
@@ -103,7 +103,7 @@ public:
   virtual bool accessTuple(int field_no, 
 			   bool& result) = 0;
   virtual bool accessTuple(int field_no, 
-			   long& result) = 0;
+			   emdf_ivalue& result) = 0;
   virtual bool accessTuple(int field_no, 
 			   std::string& result) = 0;
 

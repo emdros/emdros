@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/2-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -176,7 +176,7 @@ public:
   };
 
   virtual bool accessTuple(int field_no, 
-			   long& result) {
+			   emdf_ivalue& result) {
 #if USE_POSTGRESQL
     const char *szTemp = PQgetvalue((PGresult*) m_pResult, m_current_tuple, field_no); 
 
@@ -192,7 +192,7 @@ public:
     } else {
       // Convert result
       // result = strtol(szTemp, (char **)NULL, 10);
-      result = atol(szTemp);
+      result = atoi(szTemp);
 
       // Return success
       return true;

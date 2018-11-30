@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 6/22-2015
+ * Last update: 11/30-2018
  *
  */
 
@@ -179,13 +179,13 @@ class SQLite3EMdFConnection : public EMdFConnection {
 	};
 
 	virtual bool accessTuple(int field_no, 
-				 long& result) {
+				 emdf_ivalue& result) {
 #if USE_SQLITE3
 		if (!m_bHasRow) {
 			// Return failure
 			return false;
 		} else {
-			result = (long) sqlite3_column_int(m_pVM, field_no); // FIXME: Should we use long long int and sqlite3_column_int64?
+			result = sqlite3_column_int(m_pVM, field_no);
 			if (result == 0) {
 				if (sqlite3_column_type(m_pVM, field_no) == SQLITE_NULL) {
 					throw EMdFNULLValueException();
@@ -247,7 +247,7 @@ class SQLite3EMdFConnection : public EMdFConnection {
 	// UseDatabase
 	virtual bool useDatabaseSQLite3(const std::string& database_name, const std::string& key, bool bIsCreating);
 
-	void get_last_insert_rowid(long& result /* out */);
+	void get_last_insert_rowid(emdf_ivalue& result /* out */);
 
 	// Vacuum
 	bool vacuum(bool bAnalyze);

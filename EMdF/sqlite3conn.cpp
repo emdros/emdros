@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 4/10-2017
+ * Last update: 11/30-2018
  *
  */
 
@@ -498,10 +498,10 @@ bool SQLite3EMdFConnection::useDatabaseSQLite3(const std::string& database_name,
 #endif /* USE_SQLITE3 */
 }
 
-void SQLite3EMdFConnection::get_last_insert_rowid(long& result /* out */)
+void SQLite3EMdFConnection::get_last_insert_rowid(emdf_ivalue& result /* out */)
 {
 #if USE_SQLITE3
-	result = (long) sqlite3_last_insert_rowid(m_pDB);
+	result = (emdf_ivalue) sqlite3_last_insert_rowid(m_pDB);
 #else
 	result = 0;
 #endif
