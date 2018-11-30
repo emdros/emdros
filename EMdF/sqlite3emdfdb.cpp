@@ -229,6 +229,7 @@ bool SQLite3EMdFDB::getNextID(int sequence, id_d_t& out)
 				}
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("SQLite3EMdFDB::getNextID");
 
 			// Abort transaction if in progress
@@ -316,6 +317,7 @@ bool SQLite3EMdFDB::setNextObjectID_DIfNotHigher(id_d_t next_id_d)
 				}
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			DEBUG_NULL_VALUE_EXCEPTION("SQLite3EMdFDB::getNextID");
 
 			// Abort transaction if in progress
@@ -742,6 +744,7 @@ bool SQLite3EMdFDB::getIndices(const std::string& object_type_name,
 				return false;
 			}
 		} catch (EMdFNULLValueException& e) {
+			UNUSED(e);
 			// There was a NULL value exception, but this is not an error:
 			// The primary key will return NULL.
 			// Do one more round

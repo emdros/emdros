@@ -124,6 +124,11 @@
 	- php
 	- ruby
 
+	* tests/emdftry.cpp: Reinstate compileabulity on Win32.
+
+	* EMdF/sqlite3emdfdb.cpp: Silence some warnings on Windows by
+	using UNUSED().
+
 2018-11-20 Ulrik Sandborg-Petersen
 
 	* configure.ac: Bump to 3.7.0.pre02.

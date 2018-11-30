@@ -613,12 +613,12 @@ int test_backend(eBackendKind backend_kind,
 	if (bContinue) {
 		EMdFValue toBeAssigned;
 		EMdFValue evString(std::string("String"));
-		EMdFValue evInt1(kEVInt, 1);
-		EMdFValue evIntMinus1(kEVInt, -1);
-		EMdFValue evID_DNIL(kEVID_D, (id_d_t) NIL);
-		EMdFValue evID_D(kEVID_D, 1);
-		EMdFValue evEnum1(kEVEnum, 1);
-		EMdFValue evEnumMinus1(kEVEnum, -1);
+		EMdFValue evInt1(kEVInt, (long) 1);
+		EMdFValue evIntMinus1(kEVInt, (long) -1);
+		EMdFValue evID_DNIL(kEVID_D, (long) NIL);
+		EMdFValue evID_D(kEVID_D, (long) 1);
+		EMdFValue evEnum1(kEVEnum, (long) 1);
+		EMdFValue evEnumMinus1(kEVEnum, (long) -1);
 		IntegerList *pILInt = new IntegerList();
 		pILInt->addValueBack(1);
 		pILInt->addValueBack(2);
@@ -638,6 +638,7 @@ int test_backend(eBackendKind backend_kind,
 			bContinue = false;
 			std::cerr << "FAILURE: evID_D.getString() didn't throw an exception, which it should!" << std::endl;
 		} catch (EmdrosException& e) {
+			UNUSED(e);
 			// This is what it should do.
 		}
 		if (bContinue && evInt1.getInt() != 1) {
@@ -704,6 +705,7 @@ int test_backend(eBackendKind backend_kind,
 			bContinue = false;
 			std::cerr << "FAILURE: Getting row 1, column 3 of the table did NOT fail, as it should!" << std::endl;
 		} catch (TableColumnException& e) {
+			UNUSED(e);
 			// This is what it should do!
 		}
 
@@ -712,6 +714,7 @@ int test_backend(eBackendKind backend_kind,
 			bContinue = false;
 			std::cerr << "FAILURE: Getting row 1, column 0 of the table did NOT fail, as it should!" << std::endl;
 		} catch (TableColumnException& e) {
+			UNUSED(e);
 			// This is what it should do!
 		}
 
@@ -1544,6 +1547,7 @@ int test_backend(eBackendKind backend_kind,
 			fsom.addMSE(MonadSetElement(0,1));
 			std::cout << "SUCCESS: FastSetOfMonads: removeMSE() followed by addMSE() succeeded!\n";
 		} catch (EmdrosException& e) {
+			UNUSED(e);
 			bContinue = false;
 			std::cerr << "FAILURE: FastSetOfMonads: removeMSE() followed by addMSE() failed!" << std::endl;
 		}
