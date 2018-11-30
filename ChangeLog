@@ -116,6 +116,14 @@
 	* wx/importerwizard.cpp: Adapt to using id_d_t or monad_m instead
 	of long.
 
+	* configure.ac: Warn that the following SWIG interfaces are
+	deprecated, and will be removed in a future release:
+
+	- Android
+	- perl
+	- php
+	- ruby
+
 2018-11-20 Ulrik Sandborg-Petersen
 
 	* configure.ac: Bump to 3.7.0.pre02.

@@ -1572,6 +1572,16 @@ if test "x$DO_SWIG_RUBY" = "xyes"; then
 fi
 
 echo ""
-echo "WARNING: The Perl bindings are deprecated, and will be removed"
-echo "in a future release."
+echo "WARNING: The following SWIG bindings are deprecated, and will be"
+echo "removed in a future release:"
 echo ""
+echo "- perl"
+echo "- php 5"
+echo "- Android"
+echo "- ruby"
+echo ""
+echo "If you happen to need one or more of these, please do not hesitate"
+echo "to write to Ulrik via https://emdros.org/contact.html to tell"
+echo "him your need."
+echo ""
+
