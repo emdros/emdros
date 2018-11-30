@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 6/23-2007
- * Last update: 4/29-2013
+ * Last update: 11/30-2018
  *
  */
 
@@ -94,7 +94,7 @@ char *MQLGQScanner::fill(char *cursor)
 {
         if(!eof)
         {
-                unsigned int cnt = tok - bot;
+                size_t cnt = tok - bot;
 	        if(cnt)
                 {
                         memcpy(bot, tok, lim - tok);

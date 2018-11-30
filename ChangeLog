@@ -133,14 +133,20 @@
 	wxFONTSTYLE_XXX, and wxFONTWEIGHT_XXX constants where applicable,
 	also on Windows.
 
-	* examples/HAL: Silence some warnings on Windows by better usage
-	of types that are 32-bit vs. 64-bit.
+	* Silence some warnings on Windows by better usage of types that
+	are 32-bit vs. 64-bit.
 
-	* include/encryption.h: Silence a warning on Windows by better
-	usage of types that are 32-bit vs. 64-bit.
+	Files affected:
 
-	* EMdF/qdxml.cpp: Silence a warning on Windows by better usage of
-	types that are 32-bit vs. 64-bit.
+	include/encryption.h
+	EMdF/string_func.cpp
+	EMdF/qdxml.cpp
+	MQL/mql.yxx
+	MQL/mql_gq.re
+	util/pennlexer.re
+	examples/HAL/hallexer.re
+	examples/HAL/HALSpace.cpp
+
 
 2018-11-20 Ulrik Sandborg-Petersen
 

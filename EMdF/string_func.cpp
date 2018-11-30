@@ -336,7 +336,7 @@ std::string monad_m2string(monad_m m)
  */
 monad_m string2monad_m(const std::string& str)
 {
-	return strtoll(str.c_str(), (char **)NULL, 10);
+	return (monad_m) strtoll(str.c_str(), (char **)NULL, 10);
 }
 
 /** Convert an id_d to a string, that has "NIL" for the numerical
@@ -560,7 +560,7 @@ id_d_t string2id_d(const std::string& str)
 	if (str == NIL_AS_VISIBLE_STRING) {
 		id_d = NIL;
 	} else {
-		id_d = strtoll(str.c_str(), (char **)NULL, 10);
+		id_d = (id_d_t) strtoll(str.c_str(), (char **)NULL, 10);
 	}
 	return id_d;
 }

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/17-2006
- * Last update: 6/17-2011
+ * Last update: 11/30-2018
  *
  */
 
@@ -83,7 +83,7 @@ unsigned char *PennScanner::fill(unsigned char *cursor)
 {
         if(!eof)
         {
-                unsigned int cnt = tok - bot;
+                size_t cnt = tok - bot;
                 if(cnt)
                 {
                         memcpy(bot, tok, lim - tok);
