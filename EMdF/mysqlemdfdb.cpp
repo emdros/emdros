@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/15-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -425,7 +425,7 @@ bool MySQLEMdFDB::setNextObjectID_DIfNotHigher(id_d_t next_id_d)
 				// Update value
 				sprintf(szQuery, 
 					"UPDATE sequence_%d\n"
-					"SET sequence_value = LAST_INSERT_ID(%ld);",
+					"SET sequence_value = LAST_INSERT_ID(%d);",
 					SEQUENCE_OBJECT_ID_DS, next_id_d-1);
 				if (!pConn->execCommand(szQuery)) {
 					DEBUG_COMMAND_QUERY_FAILED("MySQLEMdFDB::setNextObjectID_DIfNotHigher", szQuery);

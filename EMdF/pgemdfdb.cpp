@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/15-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -442,7 +442,7 @@ bool PgEMdFDB::setNextObjectID_DIfNotHigher(id_d_t next_id_d)
 			if (current_id_d < next_id_d-1) {
 				// Set current value to one less than next_id_d, so that
 				// next time, we will increment to next_id_d.
-				sprintf(szQuery, "SELECT setval('sequence_%d', %ld);", SEQUENCE_OBJECT_ID_DS, next_id_d-1);
+				sprintf(szQuery, "SELECT setval('sequence_%d', %d);", SEQUENCE_OBJECT_ID_DS, next_id_d-1);
 				if (!pConn->execSelect(szQuery)) {
 					DEBUG_SELECT_QUERY_FAILED("PgEMdFDB::setNextObjectID_DIfNotHigher", szQuery);
 					return false;

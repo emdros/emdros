@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/15-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -298,7 +298,7 @@ bool SQLite3EMdFDB::setNextObjectID_DIfNotHigher(id_d_t next_id_d)
 			if (current_id_d < next_id_d-1) {
 				// Update value
 				sprintf(szQuery, 
-					"UPDATE sequence_%d SET sequence_value = %ld;", 
+					"UPDATE sequence_%d SET sequence_value = %d;", 
 					SEQUENCE_OBJECT_ID_DS, next_id_d-1);
 				if (!pConn->execCommand(szQuery)) {
 					DEBUG_COMMAND_QUERY_FAILED("SQLite3EMdFDB::getNextID", szQuery);
@@ -1143,7 +1143,7 @@ bool SQLite3EMdFDB::addFeatureToOT_objects(const std::string& object_type_name,
 			// Find the value of the enumeration constant.
 			bool bExists;
 			bool bDummyIsDefault;
-			long enum_value;
+			emdf_ivalue enum_value;
 			if (!enumConstExists(fi.getDefaultValue(),
 					     feature_type_id,
 					     bExists,
@@ -1216,7 +1216,7 @@ bool SQLite3EMdFDB::addFeatureToOT_objects(const std::string& object_type_name,
 		// Find the value of the enumeration constant.
 		bool bExists;
 		bool bDummyIsDefault;
-		long enum_value;
+		emdf_ivalue enum_value;
 		if (!enumConstExists(fi.getDefaultValue(),
 				     feature_type_id,
 				     bExists,
@@ -1357,7 +1357,7 @@ bool SQLite3EMdFDB::createObjects(const std::string& object_type_name,
 				 const std::list<FeatureInfo>& object_type_features,
 				 std::list<InstObject*>& object_list,
 				 eObjectRangeType objectRangeType,
-				 /* out */ long& object_count)
+				 /* out */ emdf_ivalue& object_count)
 {
 	if (pConn == 0) {
 		return false;
@@ -1563,13 +1563,13 @@ bool SQLite3EMdFDB::createObjectsOT_objects(const std::string& object_type_name,
 			}
 			break;
 		case FEATURE_TYPE_INTEGER:
-			OT_objects_data += long2string(pValue->getInt());
+			OT_objects_data += int2string(pValue->getInt());
 			break;
 		case FEATURE_TYPE_ID_D:
 			OT_objects_data += id_d2number_string(pValue->getID_D());
 			break;
 		case FEATURE_TYPE_ENUM:
-			OT_objects_data += long2string(pValue->getEnum());
+			OT_objects_data += int2string(pValue->getEnum());
 			break;
 		case FEATURE_TYPE_SET_OF_MONADS:
 			{

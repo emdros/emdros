@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 10/3-2011
+ * Last update: 11/30-2018
  *
  */
 
@@ -92,7 +92,7 @@ class SQLite3EMdFDB : public EMdFDB {
 				   const std::list<FeatureInfo>& object_type_features,
 				   std::list<InstObject*>& object_list,
 				   eObjectRangeType objectRangeType,
-				   /* out */ long& object_count);
+				   /* out */ emdf_ivalue& object_count);
 
  protected:
 	// Sequence manipulation

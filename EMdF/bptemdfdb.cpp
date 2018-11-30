@@ -12,7 +12,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/15-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -289,7 +289,7 @@ bool BPTEMdFDB::dbIsInitialized(bool& bIsInitialized)
  * @param schema_version Used to return the schema version.
  * @return True on no database error, false if a database error occurred.
  */
-bool BPTEMdFDB::getSchemaVersion(/* out */ long& schema_version)
+bool BPTEMdFDB::getSchemaVersion(/* out */ emdf_ivalue& schema_version)
 {
 	UNUSED(schema_version);
 	
@@ -304,7 +304,7 @@ bool BPTEMdFDB::getSchemaVersion(/* out */ long& schema_version)
  * @param new_schema_version The schema version to set to.
  * @return True on no database error, false if a database error occurred.
  */
-bool BPTEMdFDB::setSchemaVersion(long new_schema_version)
+bool BPTEMdFDB::setSchemaVersion(emdf_ivalue new_schema_version)
 {
 	UNUSED(new_schema_version);
 	
@@ -319,7 +319,7 @@ bool BPTEMdFDB::setSchemaVersion(long new_schema_version)
  * @param initial_schema_version The initial schema version to use.
  * @return True on no database error, false if a database error occurred.
  */
-bool BPTEMdFDB::createSchemaVersionTable(long initial_schema_version)
+bool BPTEMdFDB::createSchemaVersionTable(emdf_ivalue initial_schema_version)
 {
 	UNUSED(initial_schema_version);
 
@@ -690,7 +690,7 @@ bool BPTEMdFDB::createEnumConstant(id_d_t enum_id,
 bool BPTEMdFDB::enumConstExists(const std::string& enum_const_name, 
 			     id_d_t enum_id, 
                              /* out */ bool& result,
-                             /* out */ long& value,
+                             /* out */ emdf_ivalue& value,
                              /* out */ bool& is_default)
 {
 	UNUSED(enum_const_name);
@@ -720,7 +720,7 @@ bool BPTEMdFDB::enumConstExists(const std::string& enum_const_name,
  *        constant if found.
  * @return True on no database error, false if a database error occurred.
  */
-bool BPTEMdFDB::getEnumConstNameFromValue(long value,
+bool BPTEMdFDB::getEnumConstNameFromValue(emdf_ivalue value,
 					  const std::string& enum_name,
 					  /* out */ std::string& enum_const_name)
   
@@ -748,7 +748,7 @@ bool BPTEMdFDB::getEnumConstNameFromValue(long value,
  *         (true means it is). Only valid if \p result is true.
  * @return True on no database error, false if a database error occurred.
  */
-bool BPTEMdFDB::enumConstExists(long value,
+bool BPTEMdFDB::enumConstExists(emdf_ivalue value,
 				id_d_t enum_id,
 				bool& bExists,
 				/* out */ std::string& enum_const_name,
@@ -777,7 +777,7 @@ bool BPTEMdFDB::enumConstExists(long value,
  */
 bool BPTEMdFDB::dropEnumConst(id_d_t enum_id, 
 			      const std::string& enum_const_name, 
-			      long value)
+			      emdf_ivalue value)
 {
 	UNUSED(enum_id);
 	UNUSED(enum_const_name);
@@ -800,8 +800,8 @@ bool BPTEMdFDB::dropEnumConst(id_d_t enum_id,
  */
 bool BPTEMdFDB::updateEnumConst(const std::string& enum_const_name, 
 			     id_d_t enum_id,
-			     long old_value,
-			     long new_value)
+			     emdf_ivalue old_value,
+			     emdf_ivalue new_value)
 {
 	UNUSED(enum_const_name);
 	UNUSED(enum_id);
@@ -2202,7 +2202,7 @@ bool BPTEMdFDB::createObjects(const std::string& object_type_name,
 			      const std::list<FeatureInfo>& object_type_features,
 			      std::list<InstObject*>& object_list,
 			      eObjectRangeType objectRangeType,
-			      /* out */ long& object_count)
+			      /* out */ emdf_ivalue& object_count)
 {
 	UNUSED(object_type_name);
 	UNUSED(object_type_id);
@@ -3085,7 +3085,7 @@ std::string BPTEMdFDB::FeatureInfo2SQLvalue(const std::string& OTN,
 bool BPTEMdFDB::getStringOffset(const std::string& object_type_name,
 				const std::string& feature_name,
 				const std::string& instr,
-				long& out_offset)
+				emdf_ivalue& out_offset)
 {
 	UNUSED(object_type_name);
 	UNUSED(feature_name);

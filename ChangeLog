@@ -53,6 +53,28 @@
 	modified:   include/sqlite3conn.h
 	modified:   EMdF/sqlite3conn.cpp
 
+	* Change the API of EMdFDB so that it takes an emdf_ivalue instead
+	of a long whenever it needs to get an integer value into/out of
+	the database.
+
+	Also, be more careful about which XXX2string() and string2XXX()
+	functions it uses, e.g., id_d2number_string() instead of
+	int2string() whenever appropriate.
+
+	Files affected:
+
+	modified:   EMdF/emdfdb.cpp
+	modified:   EMdF/bpt2emdfdb.cpp
+	modified:   EMdF/bptemdfdb.cpp
+	modified:   EMdF/mysqlemdfdb.cpp
+	modified:   EMdF/pgemdfdb.cpp
+	modified:   EMdF/sqlite3emdfdb.cpp
+	modified:   include/emdfdb.h
+	modified:   include/bpt2emdfdb.h
+	modified:   include/bptemdfdb.h
+	modified:   include/sqlite3emdfdb.h
+
+
 
 2018-11-20 Ulrik Sandborg-Petersen
 

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/14-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -49,12 +49,12 @@
 class ObjectTypeCacheInfo {
  public:
 	id_d_t m_object_type_id;
-	long m_object_type_flags;
+	emdf_ivalue m_object_type_flags;
 	monad_m m_largest_object_length;
-        ObjectTypeCacheInfo(id_d_t object_type_id, long object_type_flags, monad_m largest_object_length) : m_object_type_id(object_type_id), m_object_type_flags(object_type_flags), m_largest_object_length(largest_object_length) {};
+        ObjectTypeCacheInfo(id_d_t object_type_id, emdf_ivalue object_type_flags, monad_m largest_object_length) : m_object_type_id(object_type_id), m_object_type_flags(object_type_flags), m_largest_object_length(largest_object_length) {};
 };
 
-/** A std::map mapping an id_d_t to a std::pair of std::string and long.
+/** A std::map mapping an id_d_t to a std::pair of std::string and emdf_ivalue.
  *@internal
  */
 typedef std::map<std::string, ObjectTypeCacheInfo> String2OTCacheInfoMap;
@@ -143,7 +143,7 @@ class EMdFDB {
 	Table *m_feature_cache;
 	String2OTCacheInfoMap m_object_type_cache_map;
 	StringSetsCache *m_string_sets_cache;
-	long m_schema_version;
+	emdf_ivalue m_schema_version;
 	friend class EMdFComparison;
 	eBackendKind m_backend_kind;
 	int m_max_table_name_length;
@@ -205,10 +205,10 @@ class EMdFDB {
 	virtual bool dbIsInitialized(bool& bIsInitialized);
 
 #ifndef SWIG
-	virtual bool getSchemaVersion(/* out */ long& schema_version);
+	virtual bool getSchemaVersion(/* out */ emdf_ivalue& schema_version);
  protected:
-	virtual bool setSchemaVersion(long new_schema_version);
-	virtual bool createSchemaVersionTable(long initial_schema_version);
+	virtual bool setSchemaVersion(emdf_ivalue new_schema_version);
+	virtual bool createSchemaVersionTable(emdf_ivalue initial_schema_version);
  public:
 #endif
 
@@ -276,23 +276,23 @@ class EMdFDB {
 	virtual bool enumConstExists(const std::string& enum_const_name, 
 				     id_d_t enum_id, 
 				     /* out */ bool& result,
-				     /* out */ long& value,
+				     /* out */ emdf_ivalue& value,
 				     /* out */ bool& is_default);
-	virtual bool enumConstExists(long value,
+	virtual bool enumConstExists(emdf_ivalue value,
 				     id_d_t enum_id,
 				     bool& bExists,
 				     /* out */ std::string& enum_const_name,
 				     /* out */ bool& is_default);
 	// Returns the string-representation of an enumeration constant in 
 	// enum enum_name with the value value.
-	virtual bool getEnumConstNameFromValue(long value,
+	virtual bool getEnumConstNameFromValue(emdf_ivalue value,
 					       const std::string& enum_name, 
 					       /* out */ std::string& enum_const_name);
-	virtual bool dropEnumConst(id_d_t enum_id, const std::string& enum_const_name, long value);
+	virtual bool dropEnumConst(id_d_t enum_id, const std::string& enum_const_name, emdf_ivalue value);
 	virtual bool updateEnumConst(const std::string& enum_const_name, 
 				     id_d_t enum_id,
-				     long old_value,
-				     long new_value);
+				     emdf_ivalue old_value,
+				     emdf_ivalue new_value);
 	virtual bool setDefaultEnumConst(id_d_t enum_id,
 					 const std::string& enum_value_name);
 
@@ -640,7 +640,7 @@ public:
 				   const std::list<FeatureInfo>& object_type_features,
 				   std::list<InstObject*>& object_list,
 				   eObjectRangeType objectRangeType,
-				   /* out */ long& object_count);
+				   /* out */ emdf_ivalue& object_count);
  protected:
 	virtual bool lockTablesForCreateObjects(const std::string& object_type_name, const std::list<FeatureInfo>& object_type_features) { UNUSED(object_type_name); UNUSED(object_type_features); return true; };
 	virtual bool unlockTablesForCreateObjects(const std::string& object_type_name) { UNUSED(object_type_name); return true; };
@@ -783,8 +783,8 @@ public:
 	 */
 	virtual bool createSequenceTables() { return false; };
 	void addEnumToCache(id_d_t enum_id, const std::string& enum_name);
-	void addObjectTypeToCache(id_d_t object_type_id, const std::string& object_type_name, long object_type_flags, monad_m largest_object_length);
-	bool addEnumConstToCache(id_d_t enum_id, const std::string& enum_name, const std::string& enum_const_name, long value, bool is_default);
+	void addObjectTypeToCache(id_d_t object_type_id, const std::string& object_type_name, emdf_ivalue object_type_flags, monad_m largest_object_length);
+	bool addEnumConstToCache(id_d_t enum_id, const std::string& enum_name, const std::string& enum_const_name, emdf_ivalue value, bool is_default);
 	void addFeatureToCache(id_d_t object_type_id, const std::string& feature_name, id_d_t feature_type_id, const std::string& default_value, bool is_computed);
 	void addFeatureToCacheIfNotAlreadyThere(id_d_t object_type_id, const std::string& feature_name, id_d_t feature_type_id, const std::string& default_value, bool is_computed);
 	void deleteObjectTypeFromCache(const std::string& object_type_name);

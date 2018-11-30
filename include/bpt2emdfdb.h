@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 5/10-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -77,10 +77,10 @@ class BPT2EMdFDB : public EMdFDB {
 	virtual bool dbIsInitialized(bool& bIsInitialized);
 
 #ifndef SWIG
-	virtual bool getSchemaVersion(/* out */ long& schema_version);
+	virtual bool getSchemaVersion(/* out */ emdf_ivalue& schema_version);
  protected:
-	virtual bool setSchemaVersion(long new_schema_version);
-	virtual bool createSchemaVersionTable(long initial_schema_version);
+	virtual bool setSchemaVersion(emdf_ivalue new_schema_version);
+	virtual bool createSchemaVersionTable(emdf_ivalue initial_schema_version);
  public:
 #endif
 
@@ -148,23 +148,23 @@ class BPT2EMdFDB : public EMdFDB {
 	virtual bool enumConstExists(const std::string& enum_const_name, 
 				     id_d_t enum_id, 
 				     /* out */ bool& result,
-				     /* out */ long& value,
+				     /* out */ emdf_ivalue& value,
 				     /* out */ bool& is_default);
-	virtual bool enumConstExists(long value,
+	virtual bool enumConstExists(emdf_ivalue value,
 				     id_d_t enum_id,
 				     bool& bExists,
 				     /* out */ std::string& enum_const_name,
 				     /* out */ bool& is_default);
 	// Returns the string-representation of an enumeration constant in 
 	// enum enum_name with the value value.
-	virtual bool getEnumConstNameFromValue(long value,
+	virtual bool getEnumConstNameFromValue(emdf_ivalue value,
 					       const std::string& enum_name, 
 					       /* out */ std::string& enum_const_name);
-	virtual bool dropEnumConst(id_d_t enum_id, const std::string& enum_const_name, long value);
+	virtual bool dropEnumConst(id_d_t enum_id, const std::string& enum_const_name, emdf_ivalue value);
 	virtual bool updateEnumConst(const std::string& enum_const_name, 
 				     id_d_t enum_id,
-				     long old_value,
-				     long new_value);
+				     emdf_ivalue old_value,
+				     emdf_ivalue new_value);
 	virtual bool setDefaultEnumConst(id_d_t enum_id,
 					 const std::string& enum_value_name);
 
@@ -249,7 +249,7 @@ class BPT2EMdFDB : public EMdFDB {
 	bool getStringOffset(const std::string& object_type_name,
 			     const std::string& feature_name,
 			     const std::string& instr,
-			     long& out_offset);
+			     emdf_ivalue& out_offset);
  public:
 
 	//
@@ -404,7 +404,7 @@ class BPT2EMdFDB : public EMdFDB {
 				   const std::list<FeatureInfo>& object_type_features,
 				   std::list<InstObject*>& object_list,
 				   eObjectRangeType objectRangeType,
-				   /* out */ long& object_count);
+				   /* out */ emdf_ivalue& object_count);
  protected:
 	virtual void createObjectsOT_objects_data(const std::string object_type_name, 
 						  id_d_t object_type_id,

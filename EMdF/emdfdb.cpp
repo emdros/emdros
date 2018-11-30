@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/15-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -93,8 +93,8 @@ static void sleep(short int milliseconds)
  *
  *@return The right eObjectRangeType enumeration constant.
  */
-inline eObjectRangeType get_object_range_type_from_OT_flags(long object_type_flags) {
-	long masked_OT_flags = object_type_flags & OT_RANGE_MASK;
+inline eObjectRangeType get_object_range_type_from_OT_flags(emdf_ivalue object_type_flags) {
+	emdf_ivalue masked_OT_flags = object_type_flags & OT_RANGE_MASK;
 	switch (masked_OT_flags) {
 	case OT_WITH_MULTIPLE_RANGE_OBJECTS:
 		return kORTMultipleRange;
@@ -121,8 +121,8 @@ inline eObjectRangeType get_object_range_type_from_OT_flags(long object_type_fla
  *@return The right eMonadUniquenessType enumeration constant.
  *
  */
-inline eMonadUniquenessType get_monad_uniqueness_type_from_OT_flags(long object_type_flags) {
-	long masked_OT_flags = object_type_flags & OT_MONAD_UNIQUENESS_MASK;
+inline eMonadUniquenessType get_monad_uniqueness_type_from_OT_flags(emdf_ivalue object_type_flags) {
+	emdf_ivalue masked_OT_flags = object_type_flags & OT_MONAD_UNIQUENESS_MASK;
 	switch (masked_OT_flags) {
 	case OT_WITHOUT_UNIQUE_MONADS:
 		return kMUTNonUniqueMonads;
@@ -758,7 +758,7 @@ bool EMdFDB::dbIsInitialized(bool& bIsInitialized)
  * @param schema_version Used to return the schema version.
  * @return True on no database error, false if a database error occurred.
  */
-bool EMdFDB::getSchemaVersion(/* out */ long& schema_version)
+bool EMdFDB::getSchemaVersion(/* out */ emdf_ivalue& schema_version)
 {
 	// If pConn isn't initialized, return false
 	if (pConn == 0) {
@@ -811,7 +811,7 @@ bool EMdFDB::getSchemaVersion(/* out */ long& schema_version)
  * @param new_schema_version The schema version to set to.
  * @return True on no database error, false if a database error occurred.
  */
-bool EMdFDB::setSchemaVersion(long new_schema_version)
+bool EMdFDB::setSchemaVersion(emdf_ivalue new_schema_version)
 {
 	// If pConn isn't initialized, return false
 	if (pConn == 0) {
@@ -823,7 +823,7 @@ bool EMdFDB::setSchemaVersion(long new_schema_version)
 		std::ostringstream query_stream;
 		query_stream 
 			<< "UPDATE schema_version\n"
-			<< "SET schema_version = " << long2string(new_schema_version) << '\n'
+			<< "SET schema_version = " << emdf_ivalue2string(new_schema_version) << '\n'
 			<< "WHERE dummy_id = 0";
 		if (!pConn->execCommand(query_stream.str())) {
 			DEBUG_COMMAND_QUERY_FAILED("EMdFDB::setSchemaVersion", query_stream.str());
@@ -842,7 +842,7 @@ bool EMdFDB::setSchemaVersion(long new_schema_version)
  * @param initial_schema_version The initial schema version to use.
  * @return True on no database error, false if a database error occurred.
  */
-bool EMdFDB::createSchemaVersionTable(long initial_schema_version)
+bool EMdFDB::createSchemaVersionTable(emdf_ivalue initial_schema_version)
 {
 	// If pConn isn't initialized, return false
 	if (pConn == 0) {
@@ -876,7 +876,7 @@ bool EMdFDB::createSchemaVersionTable(long initial_schema_version)
 			query_stream
 				<< "INSERT INTO schema_version (dummy_id, schema_version)\n"
 				<< "VALUES ( 0, "
-				<< long2string(initial_schema_version)
+				<< emdf_ivalue2string(initial_schema_version)
 				<< " )";
 			if (!pConn->execCommand(query_stream.str())) {
 				DEBUG_COMMAND_QUERY_FAILED("EMdFDB::createSchemaVersionTable", query_stream.str());
@@ -1171,7 +1171,7 @@ bool EMdFDB::createObjectType(const std::string& object_type_name,
 		std::string OTN = normalizeOTName(object_type_name);
 
 		// Create object_type_flags
-		long object_type_flags = 0;
+		emdf_ivalue object_type_flags = 0;
 		switch (objectRangeType) {
 		case kORTMultipleRange:
 			// object_type_flags |= OT_WITH_MULTIPLE_RANGE_OBJECTS;
@@ -1187,7 +1187,7 @@ bool EMdFDB::createObjectType(const std::string& object_type_name,
 			break;
 		}
 
-		long monad_uniqueness_flags = 0;
+		emdf_ivalue monad_uniqueness_flags = 0;
 		switch (monadUniquenessType) {
 		case kMUTNonUniqueMonads:
 			monad_uniqueness_flags = OT_WITHOUT_UNIQUE_MONADS;
@@ -1218,9 +1218,9 @@ bool EMdFDB::createObjectType(const std::string& object_type_name,
 			query_stream 
 				<< "INSERT INTO object_types "
 				<< "(object_type_id, object_type_name, object_type_flags, largest_object_length)\n"
-				<< "VALUES ( " << long2string(object_type_id) << ", "
+				<< "VALUES ( " << id_d2number_string(object_type_id) << ", "
 				<< "'" << OTN  << "', " 
-				<< long2string(object_type_flags) << ", "
+				<< emdf_ivalue2string(object_type_flags) << ", "
 				<< "0" 
 				<< ")\n";
 			if (!pConn->execCommand(query_stream.str())) {
@@ -1334,7 +1334,7 @@ bool EMdFDB::createObjectType(const std::string& object_type_name,
  * @param object_type_flags the object type flags
  * @param largest_object_length the length (in monads) of the longest object
  */
-void EMdFDB::addObjectTypeToCache(id_d_t object_type_id, const std::string& object_type_name, long object_type_flags, monad_m largest_object_length)
+void EMdFDB::addObjectTypeToCache(id_d_t object_type_id, const std::string& object_type_name, emdf_ivalue object_type_flags, monad_m largest_object_length)
 {
 	// Normalize object type name
 	std::string OTN = normalizeOTName(object_type_name);
@@ -1391,7 +1391,7 @@ bool EMdFDB::dropObjectType(const std::string& object_type_name, id_d_t object_t
 			query_stream
 				<< "DELETE FROM features\n"
 				<< "WHERE object_type_id = " 
-				<< long2string(object_type_id);
+				<< id_d2number_string(object_type_id);
 			if (!pConn->execCommand(query_stream.str())) {
 				DEBUG_COMMAND_QUERY_FAILED("EMdFDB::dropObjectType", query_stream.str());
 				if (bDoCommit)
@@ -1406,7 +1406,7 @@ bool EMdFDB::dropObjectType(const std::string& object_type_name, id_d_t object_t
 			query_stream
 				<< "DELETE FROM object_types\n"
 				<< "WHERE object_type_id = " 
-				<< long2string(object_type_id);
+				<< id_d2number_string(object_type_id);
 			if (!pConn->execCommand(query_stream.str())) {
 				DEBUG_COMMAND_QUERY_FAILED("EMdFDB::dropObjectType", query_stream.str());
 				if (bDoCommit)
@@ -1658,7 +1658,7 @@ bool EMdFDB::setLargestObjectLengthIfNecessary(const std::string& object_type_na
 			std::ostringstream query_stream;
 			query_stream << "UPDATE object_types\n"
 				     << "SET largest_object_length = " 
-				     << long2string(new_largest_object_length) << '\n'
+				     << monad_m2string(new_largest_object_length) << '\n'
 				     << "WHERE object_type_name = '" << OTN << "'";
 			if (!pConn->execCommand(query_stream.str())) {
 				DEBUG_COMMAND_QUERY_FAILED("EMdFDB::setLargestObjectLength", query_stream.str());
@@ -1713,7 +1713,7 @@ bool EMdFDB::objectTypeExists(id_d_t object_type_id,
 	if (pConn == 0)
 		return false;
 	else {
-		long object_type_flags;
+		emdf_ivalue object_type_flags;
 
 		// First try the map cache
 		String2OTCacheInfoMap::const_iterator mi, mend;
@@ -1746,7 +1746,7 @@ bool EMdFDB::objectTypeExists(id_d_t object_type_id,
 				<< "\n"
 				<< "FROM object_types\n"
 				<< "WHERE object_type_id = "
-				<< long2string(object_type_id);
+				<< id_d2number_string(object_type_id);
 			if (!pConn->execSelect(query_stream.str())) {
 				DEBUG_SELECT_QUERY_FAILED("EMdFDB::objectTypeExists", query_stream.str());
 				return false;
@@ -1841,7 +1841,7 @@ bool EMdFDB::objectTypeExists(const std::string& object_type_name,
 	if (pConn == 0)
 		return false;
 	else {
-		long object_type_flags;
+		emdf_ivalue object_type_flags;
 
 		// Normalize object type name
 		std::string OTN = normalizeOTName(object_type_name);
@@ -1976,7 +1976,7 @@ bool EMdFDB::createEnum(const std::string& enum_name,
 		query_stream 
 			<< "INSERT INTO enumerations (enum_id, enum_name)\n"
 			<< "VALUES ( " 
-			<< long2string(enum_id) 
+			<< emdf_ivalue2string(enum_id) 
 			<< ", '" 
 			<< enum_name
 			<< "' )";
@@ -2042,7 +2042,7 @@ bool EMdFDB::dropEnum(id_d_t enum_id)
 		query_stream1
 			<< "DELETE\n"
 			<< "FROM enumeration_constants\n"
-			<< "WHERE enum_id = " << long2string(enum_id);
+			<< "WHERE enum_id = " << id_d2number_string(enum_id);
 		if (!pConn->execCommand(query_stream1.str())) {
 			DEBUG_COMMAND_QUERY_FAILED("EMdFDB::dropEnum", query_stream1.str());
 			if (bDoCommit)
@@ -2055,7 +2055,7 @@ bool EMdFDB::dropEnum(id_d_t enum_id)
 		query_stream2 
 			<< "DELETE\n"
 			<< "FROM enumerations\n"
-			<< "WHERE enum_id = " << long2string(enum_id);
+			<< "WHERE enum_id = " << id_d2number_string(enum_id);
 		if (!pConn->execCommand(query_stream2.str())) {
 			DEBUG_COMMAND_QUERY_FAILED("EMdFDB::dropEnum", query_stream2.str());
 			if (bDoCommit)
@@ -2119,7 +2119,7 @@ bool EMdFDB::enumExists(id_d_t enum_id,
 		query_stream 
 			<< "SELECT enum_name\n"
 			<< "FROM enumerations\n"
-			<< "WHERE enum_id = " << long2string(enum_id);
+			<< "WHERE enum_id = " << id_d2number_string(enum_id);
 		if (!pConn->execSelect(query_stream.str())) {
 			DEBUG_SELECT_QUERY_FAILED("EMdFDB::enumExists", query_stream.str());
 			return false;
@@ -2266,7 +2266,7 @@ bool EMdFDB::getDefault(id_d_t enum_id,
 		query_stream
 			<< "SELECT enum_value_name\n"
 			<< "FROM enumeration_constants\n"
-			<< "WHERE enum_id = " << long2string(enum_id) << "\n"
+			<< "WHERE enum_id = " << id_d2number_string(enum_id) << "\n"
 			<< "      AND is_default = 'Y'";
 		if (!pConn->execSelect(query_stream.str())) {
 			DEBUG_SELECT_QUERY_FAILED("EMdFDB::getDefault", query_stream.str());
@@ -2337,9 +2337,9 @@ bool EMdFDB::createEnumConstant(id_d_t enum_id,
 			<< "    is_default\n"
 			<< ")\n"
 			<< "VALUES (\n"
-			<< "    "  << long2string(enum_id)
+			<< "    "  << id_d2number_string(enum_id)
 			<< ", '" << ec_info.getName()
-			<< "', " << long2string(ec_info.getValue())
+			<< "', " << emdf_ivalue2string(ec_info.getValue())
 			<< ", '" << bool2char(ec_info.getIsDefault()) << "'\n"
 			<< ")";
 		if (!pConn->execCommand(query_stream.str())) {
@@ -2371,7 +2371,7 @@ bool EMdFDB::createEnumConstant(id_d_t enum_id,
  *         Note that false does not mean error.  It may have been there 
  *         already.
  */
-bool EMdFDB::addEnumConstToCache(id_d_t enum_id, const std::string& enum_name, const std::string& enum_const_name, long value, bool is_default)
+bool EMdFDB::addEnumConstToCache(id_d_t enum_id, const std::string& enum_name, const std::string& enum_const_name, emdf_ivalue value, bool is_default)
 {
 	// Strip the lower bits off that aren't part of the enum_id
 	enum_id = STRIP_ENUM_ID_OF_LOWER_BITS(enum_id);
@@ -2395,7 +2395,7 @@ bool EMdFDB::addEnumConstToCache(id_d_t enum_id, const std::string& enum_name, c
 bool EMdFDB::enumConstExists(const std::string& enum_const_name, 
 			     id_d_t enum_id, 
                              /* out */ bool& result,
-                             /* out */ long& value,
+                             /* out */ emdf_ivalue& value,
                              /* out */ bool& is_default)
 {
 	if (pConn == 0)
@@ -2418,7 +2418,7 @@ bool EMdFDB::enumConstExists(const std::string& enum_const_name,
 		std::ostringstream query_stream;
 		query_stream << "SELECT enum_value_name, value, is_default\n"
 			     << "FROM enumeration_constants\n"
-			     << "WHERE enum_id = " << long2string(enum_id)
+			     << "WHERE enum_id = " << id_d2number_string(enum_id)
 			     << " AND enum_value_name = " 
 			     << getMYSQL_BINARY() << "'" << enum_const_name << "'\n";
 		if (!pConn->execSelect(query_stream.str())) {
@@ -2522,7 +2522,7 @@ bool EMdFDB::enumConstExists(const std::string& enum_const_name,
  *        constant if found.
  * @return True on no database error, false if a database error occurred.
  */
-bool EMdFDB::getEnumConstNameFromValue(long value,
+bool EMdFDB::getEnumConstNameFromValue(emdf_ivalue value,
 				       const std::string& enum_name,
 				       /* out */ std::string& enum_const_name)
   
@@ -2555,7 +2555,7 @@ bool EMdFDB::getEnumConstNameFromValue(long value,
 		std::ostringstream query_stream;
 		query_stream << "SELECT enum_value_name, is_default\n"
 			     << "FROM enumeration_constants\n"
-			     << "WHERE enum_id = " << long2string(enum_id)
+			     << "WHERE enum_id = " << id_d2number_string(enum_id)
 			     << " AND value = " << value << "\n";
 		if (!pConn->execSelect(query_stream.str())) {
 			DEBUG_SELECT_QUERY_FAILED("EMdFDB::getEnumConstNameFromValue", query_stream.str());
@@ -2598,7 +2598,7 @@ bool EMdFDB::getEnumConstNameFromValue(long value,
 
 				return false;
 		} else {
-			DEBUG_X_IS_WRONG("EMdFDB::getEnumConstNameFromValue", "enumeration constant with value " + long2string(value) + " did not exist");
+			DEBUG_X_IS_WRONG("EMdFDB::getEnumConstNameFromValue", "enumeration constant with value " + emdf_ivalue2string(value) + " did not exist");
 			return false;
 		}
       
@@ -2623,7 +2623,7 @@ bool EMdFDB::getEnumConstNameFromValue(long value,
  *         (true means it is). Only valid if \p result is true.
  * @return True on no database error, false if a database error occurred.
  */
-bool EMdFDB::enumConstExists(long value,
+bool EMdFDB::enumConstExists(emdf_ivalue value,
 			     id_d_t enum_id,
 			     bool& bExists,
 			     /* out */ std::string& enum_const_name,
@@ -2651,8 +2651,8 @@ bool EMdFDB::enumConstExists(long value,
 		std::ostringstream query_stream;
 		query_stream << "SELECT enum_value_name, is_default\n"
 			     << "FROM enumeration_constants\n"
-			     << "WHERE enum_id = " << long2string(enum_id)
-			     << " AND value = " << long2string(value) << "\n";
+			     << "WHERE enum_id = " << id_d2number_string(enum_id)
+			     << " AND value = " << emdf_ivalue2string(value) << "\n";
 		if (!pConn->execSelect(query_stream.str())) {
 			DEBUG_SELECT_QUERY_FAILED("EMdFDB::enumConstExists", query_stream.str());
 			return false;
@@ -2727,7 +2727,7 @@ bool EMdFDB::enumConstExists(long value,
  */
 bool EMdFDB::dropEnumConst(id_d_t enum_id, 
 			   const std::string& enum_const_name, 
-			   long value)
+			   emdf_ivalue value)
 {
 	if (pConn == 0)
 		return false;
@@ -2739,10 +2739,10 @@ bool EMdFDB::dropEnumConst(id_d_t enum_id,
 		std::ostringstream query_stream;
 		query_stream << "DELETE\n"
 			     << "FROM enumeration_constants\n"
-			     << "WHERE enum_id = " << long2string(enum_id)
+			     << "WHERE enum_id = " << id_d2number_string(enum_id)
 			     << " AND enum_value_name = "
 			     << getMYSQL_BINARY() << "'" << enum_const_name << "'"
-			     << " AND value = " << long2string(value);
+			     << " AND value = " << emdf_ivalue2string(value);
 		if (!pConn->execCommand(query_stream.str())) {
 			DEBUG_COMMAND_QUERY_FAILED("EMdFDB::dropEnumConst", query_stream.str());
 			return false;
@@ -2769,8 +2769,8 @@ bool EMdFDB::dropEnumConst(id_d_t enum_id,
  */
 bool EMdFDB::updateEnumConst(const std::string& enum_const_name, 
 			     id_d_t enum_id,
-			     long old_value,
-			     long new_value)
+			     emdf_ivalue old_value,
+			     emdf_ivalue new_value)
 {
 	if (pConn == 0)
 		return false;
@@ -2784,11 +2784,11 @@ bool EMdFDB::updateEnumConst(const std::string& enum_const_name,
 		std::ostringstream query_stream;
 		query_stream 
 			<< "UPDATE enumeration_constants\n"
-			<< "SET value = " << long2string(new_value) << "\n"
-			<< "WHERE enum_id = " << long2string(enum_id) << "\n"
+			<< "SET value = " << emdf_ivalue2string(new_value) << "\n"
+			<< "WHERE enum_id = " << id_d2number_string(enum_id) << "\n"
 			<< "      AND enum_value_name = "
 			<< getMYSQL_BINARY() << "'" << enum_const_name << "'\n"
-			<< "      AND value = " << long2string(old_value);
+			<< "      AND value = " << emdf_ivalue2string(old_value);
 		if (!pConn->execCommand(query_stream.str())) {
 			DEBUG_COMMAND_QUERY_FAILED("EMdFDB::updateEnumConst", query_stream.str());
 			return false;
@@ -2833,7 +2833,7 @@ bool EMdFDB::setDefaultEnumConst(id_d_t enum_id,
 		query_stream1
 			<< "UPDATE enumeration_constants\n"
 			<< "SET is_default = 'N'\n"
-			<< "WHERE enum_id = " << long2string(enum_id);
+			<< "WHERE enum_id = " << id_d2number_string(enum_id);
 		if (!pConn->execCommand(query_stream1.str())) {
 			DEBUG_COMMAND_QUERY_FAILED("EMdFDB::setDefaultEnumConst", query_stream1.str());
 			if (bDoCommit)
@@ -2846,7 +2846,7 @@ bool EMdFDB::setDefaultEnumConst(id_d_t enum_id,
 		query_stream2
 			<< "UPDATE enumeration_constants\n"
 			<< "SET is_default = 'Y'\n"
-			<< "WHERE enum_id = " << long2string(enum_id) << "\n"
+			<< "WHERE enum_id = " << id_d2number_string(enum_id) << "\n"
 			<< "      AND enum_value_name = "
 			<< getMYSQL_BINARY() << "'" << enum_const_name << "'";
 		if (!pConn->execCommand(query_stream2.str())) {
@@ -2919,9 +2919,9 @@ bool EMdFDB::createFeature(const std::string& object_type_name,
 			<< "    computed\n"
 			<< ")\n"
 			<< "VALUES (\n"
-			<< "    " << long2string(object_type_id)
+			<< "    " << id_d2number_string(object_type_id)
 			<< ", '" << encodeFeatureName(lowercase_feature_name)
-			<< "', " << long2string(feature_info.getOutputType())
+			<< "', " << id_d2number_string(feature_info.getOutputType())
 			<< ", " << escapeStringForSQL(feature_info.getDefaultValue())
 			<< ", '" << bool2char(feature_info.getIsComputed())
 			<< "'\n"
@@ -3027,7 +3027,7 @@ bool EMdFDB::addFeatureToOT_objects(const std::string& object_type_name,
 	UNUSED(objectRangeType);
 	UNUSED(monadUniquenessType);
 	
-	long enum_value;
+	emdf_ivalue enum_value;
   
 	// Normalize object type name
 	std::string OTN = normalizeOTName(object_type_name);
@@ -3083,7 +3083,7 @@ bool EMdFDB::addFeatureToOT_objects(const std::string& object_type_name,
 							 "Enum constant with name '" + fi.getDefaultValue() + "' did not exist.");
 					return false;
 				} else {
-					default_value = long2string(enum_value);
+					default_value = emdf_ivalue2string(enum_value);
 				}
 			} else if (featureTypeIdIsINTEGER(feature_type)
 				   || featureTypeIdIsID_D(feature_type)) {
@@ -3103,7 +3103,7 @@ bool EMdFDB::addFeatureToOT_objects(const std::string& object_type_name,
 				secondary_query += " first_monad_" + encodeFeatureName(fi.getRetrievedFeatureName()) + " INT NOT NULL";
 			} else {
 				DEBUG_X_IS_WRONG("EMdFDB::addFeatureToOT_objects", 
-						 "Feature type with number " + long2string(feature_type)
+						 "Feature type with number " + id_d2number_string(feature_type)
 						 + " is unknown. Please report this bug\nto Ulrik Petersen via <http://emdros.org/contact.html> and mention this error message.");
 				return false;
 			}
@@ -3136,7 +3136,7 @@ bool EMdFDB::addFeatureToOT_objects(const std::string& object_type_name,
 				<< "UPDATE " << normalizeTableName(OTN + "_objects", false) << " SET "
 				<< encodeFeatureName(fi.getRetrievedFeatureName()) << " = ";
 			if (featureTypeIdIsENUM(fi.getOutputType())) {
-				query_stream << long2string(enum_value);
+				query_stream << emdf_ivalue2string(enum_value);
 			} else {
 				// The penultimate "true" on FeatureInfo2SQLvalue means that 
 				// we must create any IDD-String association if it is not 
@@ -3448,7 +3448,7 @@ bool EMdFDB::dropFeature(const std::string& object_type_name,
 			query_stream
 				<< "DELETE FROM features\n"
 				<< "WHERE object_type_id = " 
-				<< long2string(object_type_id) << "\n"
+				<< id_d2number_string(object_type_id) << "\n"
 				<< "      AND feature_name = '" << encodeFeatureName(feature_name) << "'";
 			if (!pConn->execCommand(query_stream.str())) {
 				DEBUG_COMMAND_QUERY_FAILED("EMdFDB::dropFeature", query_stream.str());
@@ -3592,7 +3592,7 @@ bool EMdFDB::featureExists(const std::string& feature_name,
 			<< "SELECT feature_type_id, default_value, computed\n"
 			<< "FROM features\n"
 			<< "WHERE object_type_id = " 
-			<< long2string(object_type_id) << "\n"
+			<< id_d2number_string(object_type_id) << "\n"
 			<< "      AND feature_name = '" << encodeFeatureName(feature_name) << "'";
 		if (!pConn->execSelect(query_stream.str())) {
 			DEBUG_SELECT_QUERY_FAILED("EMdFDB::featureExists", query_stream.str());
@@ -3787,9 +3787,7 @@ bool EMdFDB::getFeatures(const std::string& object_type_name,
 			}
 		}
 
-		if (pID_D_List->isEmpty()) {
-			delete pID_D_List;
-		} else {
+		if (!pID_D_List->isEmpty()) {
 			if (!getFeaturesExec(object_type_name,
 					     object_type_id,
 					     objectRangeType, 
@@ -3798,9 +3796,12 @@ bool EMdFDB::getFeatures(const std::string& object_type_name,
 					     pID_D_List,
 					     results)) {
 				DEBUG_X_FAILED("EMdFDB::getFeatures", "getting features.");
+				delete pID_D_List;
 				return false;
 			}
 		}
+
+		delete pID_D_List;
 
 		return true;
 	}
@@ -3896,6 +3897,8 @@ bool EMdFDB::getFeaturesExec(const std::string& object_type_name,
 	}
 
 	delete pInst;
+
+	delete pre_query_constraints;
 	
 	return true;
 }
@@ -4314,7 +4317,7 @@ bool EMdFDB::getID_DFromStringSet(const std::string& normalized_object_type_name
 	if (bAddToCacheIfNotThere) {
 		addStringToSetCacheIfNotAlreadyThere(object_type_id,
 						     encoded_feature_name,
-						     string2long(result),
+						     string2int(result),
 						     original_string);
 	}
 
@@ -4697,7 +4700,7 @@ bool EMdFDB::monadSetExists(const std::string& monad_set_name,
 
 				// Make SQL statement
 				std::ostringstream query_stream2;
-				query_stream2 << "SELECT mse_first, mse_last FROM monad_sets_monads WHERE monad_set_id = " << long2string(monad_set_id);
+				query_stream2 << "SELECT mse_first, mse_last FROM monad_sets_monads WHERE monad_set_id = " << id_d2number_string(monad_set_id);
 				if (!pConn->execSelect(query_stream2.str())) {
 					DEBUG_SELECT_QUERY_FAILED("EMdFDB::monadSetExists", query_stream2.str());
 					return false;
@@ -4779,7 +4782,7 @@ bool EMdFDB::createMonadSet(const std::string& monad_set_name, const SetOfMonads
 			query_stream << "INSERT INTO monad_sets "
 				     << "(monad_set_id, monad_set_name) "
 				     << "VALUES (" 
-				     << long2string(monad_set_id) << ","
+				     << id_d2number_string(monad_set_id) << ","
 				     << "'" << lowercase_name << "'"
 				     << ")";
 			if (!pConn->execCommand(query_stream.str())) {
@@ -4801,9 +4804,9 @@ bool EMdFDB::createMonadSet(const std::string& monad_set_name, const SetOfMonads
 			query_stream << "INSERT INTO monad_sets_monads " 
 				     << "(monad_set_id, mse_first, mse_last) "
 				     << "VALUES (" 
-				     << long2string(monad_set_id) << ","
-				     << long2string(mse.first()) << ", "
-				     << long2string(mse.last())
+				     << id_d2number_string(monad_set_id) << ","
+				     << monad_m2string(mse.first()) << ", "
+				     << monad_m2string(mse.last())
 				     << ")";
 			if (!pConn->execCommand(query_stream.str())) {
 				DEBUG_COMMAND_QUERY_FAILED("EMdFDB::createMonadSet", query_stream.str());
@@ -4891,7 +4894,7 @@ bool EMdFDB::dropMonadSet(const std::string& monad_set_name)
 			std::ostringstream query_stream;
 			query_stream << "DELETE\n"
 				     << "FROM monad_sets_monads\n"
-				     << "WHERE monad_set_id = " << long2string(monad_set_id);
+				     << "WHERE monad_set_id = " << id_d2number_string(monad_set_id);
 			if (!pConn->execCommand(query_stream.str())) {
 				DEBUG_COMMAND_QUERY_FAILED("EMdFDB::dropMonadSet", query_stream.str());
 				if (bDoCommit)
@@ -4905,7 +4908,7 @@ bool EMdFDB::dropMonadSet(const std::string& monad_set_name)
 			std::ostringstream query_stream;
 			query_stream << "DELETE\n"
 				     << "FROM monad_sets\n"
-				     << "WHERE monad_set_id = " << long2string(monad_set_id);
+				     << "WHERE monad_set_id = " << id_d2number_string(monad_set_id);
 			if (!pConn->execCommand(query_stream.str())) {
 				DEBUG_COMMAND_QUERY_FAILED("EMdFDB::dropMonadSet", query_stream.str());
 				if (bDoCommit)
@@ -5063,11 +5066,11 @@ bool EMdFDB::getObjectsHavingMonadsInMonadSet(const std::string object_type_name
 	// Only do the long thing if there is more than one MSE
 	bool bHasOnlyOneMSE = monad_ms.hasOnlyOneMSE();
 	if (bHasOnlyOneMSE) {
-		where_clause << firstm << " <= " << long2string(monad_ms.last())
-			     << " AND " << lastm << " >= " << long2string(monad_ms.first());
+		where_clause << firstm << " <= " << monad_m2string(monad_ms.last())
+			     << " AND " << lastm << " >= " << monad_m2string(monad_ms.first());
 	} else {
-		where_clause << firstm << " <= " << long2string(monad_ms.last())
-			     << " AND " << lastm << " >= " << long2string(monad_ms.first())
+		where_clause << firstm << " <= " << monad_m2string(monad_ms.last())
+			     << " AND " << lastm << " >= " << monad_m2string(monad_ms.first())
 			     << " AND (" << '\n';
 
 		SOMConstIterator monad_ci = monad_ms.const_iterator();
@@ -5076,10 +5079,10 @@ bool EMdFDB::getObjectsHavingMonadsInMonadSet(const std::string object_type_name
 			where_clause 
 				<< "("
 				<< firstm << " <= "
-				<< long2string(mse.last())
+				<< monad_m2string(mse.last())
 				<< " AND "
 				<< lastm << " >= " 
-				<< long2string(mse.first())
+				<< monad_m2string(mse.first())
 				<< ")"
 				;
 			if (monad_ci.hasNext()) {
@@ -5730,7 +5733,7 @@ bool EMdFDB::getObjectsHavingMonadsIn(const std::string OTN,
 		// exactly.
 		str_monad_constraint1 
 			<< "(first_monad_" << encodeFeatureName(monad_set_name) << "<="
-				<< long2string(mse_last_monad)
+				<< monad_m2string(mse_last_monad)
 			<< ')';
 	} else if (bUseMonadConstraints) {
 		// + 1 because, if we want all objects which can
@@ -5760,8 +5763,8 @@ bool EMdFDB::getObjectsHavingMonadsIn(const std::string OTN,
 
 		str_monad_constraint1 
 			<< "(first_monad<="
-			<< long2string(last_monad)
-			<< " AND first_monad>=" << long2string(first_monad)
+			<< monad_m2string(last_monad)
+			<< " AND first_monad>=" << monad_m2string(first_monad)
 			<< ")"
 			;
         }
@@ -5981,13 +5984,13 @@ bool EMdFDB::getObjectsHavingMonadsInFromSingleUniqueMonadOT(const std::string o
 		monad_m last_monad = mse.last();
 		if (first_monad == last_monad) {
 			str_monad_constraint1 << "(first_monad=" 
-					      << long2string(first_monad)
+					      << monad_m2string(first_monad)
 					      << ')';
 		} else {
 			str_monad_constraint1 << "(first_monad>=" 
-					      << long2string(first_monad)
+					      << monad_m2string(first_monad)
 					      << " AND first_monad<=" 
-					      << long2string(last_monad)
+					      << monad_m2string(last_monad)
 					      << ')';
 		}
                 
@@ -6257,13 +6260,13 @@ bool EMdFDB::getFeatureVectors(const std::list<FeatureInfo>& features_to_get,
 			} else if (objectRangeType == kORTMultipleRange) {
 				str_features_to_get += ", OS.monads";
 			} else {
-				ASSERT_THROW(false, "Logic error: Emdros has been extended with objectRangeType " + long2string((long)objectRangeType) + " without changing this part of the code.");
+				ASSERT_THROW(false, "Logic error: Emdros has been extended with objectRangeType " + int2string((int)objectRangeType) + " without changing this part of the code.");
 			}
 			feature_names_vec[feature_names_index] = "monads";
 		} else {
 			if (featureTypeIdIsFromSet(ci->getRetrievedType())) {
 				if (feature_is_from_set_table_alias_number < getMaxNoOfJoins()) {
-					std::string alias = std::string("FIFS") + long2string(feature_is_from_set_table_alias_number);
+					std::string alias = std::string("FIFS") + uint2string(feature_is_from_set_table_alias_number);
 					++feature_is_from_set_table_alias_number;
 
 					str_features_to_get += ", " + alias + ".string_value";
@@ -6315,7 +6318,7 @@ bool EMdFDB::getFeatureValues(int no_of_features_to_get,
 {
 	int feature_index, column_index;
 	std::string value_str;
-	long value_long;
+	int value_int;
 	std::list<FeatureInfo>::const_iterator feature_info_ci = feature_infos.begin();
 	for (feature_index = 0, column_index=0; feature_index < no_of_features_to_get; ++feature_index, ++column_index) {
 		const FeatureInfo& feature_info = *feature_info_ci++;
@@ -6357,7 +6360,7 @@ bool EMdFDB::getFeatureValues(int no_of_features_to_get,
 				if (featureTypeIdIsFromSet(feature_type)
 				    && string_set_caches_vec[feature_index] != 0) {
 					std::string newValue;
-					id_d_t id_d = string2long(value_str);
+					id_d_t id_d = string2id_d(value_str);
 					if (!string_set_caches_vec[feature_index]->getStringFromID_D(id_d, newValue)) {
 						DEBUG_X_FAILED("EMdFDB::getFeatureValues", "Getting string from set.");
 						return false;
@@ -6369,27 +6372,27 @@ bool EMdFDB::getFeatureValues(int no_of_features_to_get,
 				break;
 			case FEATURE_TYPE_INTEGER:
 				if (!pConn->accessTuple(first_feature_column_index + column_index, 
-							value_long)) {
+							value_int)) {
 					DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::getFeatureValues");
 					return false;
 				}
-				new (&pFeature_values[feature_index]) EMdFValue(kEVInt, value_long);
+				new (&pFeature_values[feature_index]) EMdFValue(kEVInt, value_int);
 				break;
 			case FEATURE_TYPE_ID_D:
 				if (!pConn->accessTuple(first_feature_column_index + column_index, 
-							value_long)) {
+							value_int)) {
 					DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::getFeatureValues");
 					return false;
 				}
-				new (&pFeature_values[feature_index]) EMdFValue(kEVID_D, value_long);
+				new (&pFeature_values[feature_index]) EMdFValue(kEVID_D, value_int);
 				break;
 			case FEATURE_TYPE_ENUM:
 				if (!pConn->accessTuple(first_feature_column_index + column_index, 
-							value_long)) {
+							value_int)) {
 					DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::getFeatureValues");
 					return false;
 				}
-				new (&pFeature_values[feature_index]) EMdFValue(kEVEnum, value_long);
+				new (&pFeature_values[feature_index]) EMdFValue(kEVEnum, value_int);
 				break;
 			case FEATURE_TYPE_SET_OF_MONADS:
 				if (feature_names_vec[feature_index] == "monads") {
@@ -6662,15 +6665,15 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 			// largest_object_length.
 			std::string first_monad_column_name = "first_monad_" + encodeFeatureName(monad_set_name);
 			monad_constraint_stream1 << "OS." << first_monad_column_name << ">=" 
-						 << long2string(first_monad) 
+						 << monad_m2string(first_monad) 
 						 << " AND OS." << first_monad_column_name << "<=" 
-						 << long2string(last_monad);
+						 << monad_m2string(last_monad);
 		} else {
 			if (objectRangeType == kORTSingleMonad) {
 				monad_constraint_stream1  << "OS.first_monad>=" 
-							  << long2string(first_monad)
+							  << monad_m2string(first_monad)
 							  << " AND OS.first_monad<=" 
-							  << long2string(last_monad);
+							  << monad_m2string(last_monad);
 			} else {
 				// NOTE from the early 2000's: It is
 				// NOT a good idea to not to use
@@ -6698,9 +6701,9 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 				// largest_object_length.
 				
 				monad_constraint_stream1 << "OS.first_monad>=" 
-							 << long2string(first_monad) 
+							 << monad_m2string(first_monad) 
 							 << " AND OS.first_monad<=" 
-							 << long2string(last_monad);
+							 << monad_m2string(last_monad);
 			}
 		}
 
@@ -7149,7 +7152,7 @@ bool EMdFDB::getObjectsStartingAtSm(const std::string& object_type_name,
 		query_stream
 			<< "SELECT object_id_d\n"
 			<< "FROM " << normalizeTableName(OTN + "_objects", true) << "\n"
-			<< "WHERE first_monad = " << long2string(Sm);
+			<< "WHERE first_monad = " << monad_m2string(Sm);
 
 		// Execute query
 		if (!pConn->execSelect(query_stream.str())) {
@@ -7309,11 +7312,11 @@ bool EMdFDB::getMonadsFromID_Ds(const SetOfMonads& id_ds_set,
 				MonadSetElement mse = id_dci.next();
 				if (mse.first() == mse.last()) {
 					query_stream_where << "object_id_d = " 
-							   << long2string(mse.first());
+							   << monad_m2string(mse.first());
 				} else {
 					query_stream_where << "(object_id_d>= " 
-							   << long2string(mse.first())
-							   << " AND object_id_d<=" << long2string(mse.last())
+							   << monad_m2string(mse.first())
+							   << " AND object_id_d<=" << monad_m2string(mse.last())
 							   << ")";
 				}
 				if (id_dci.hasNext() && i < (WHERE_MAX_ID_DS-1)) {
@@ -7465,7 +7468,7 @@ bool EMdFDB::getSOMForObject(const std::string& object_type_name,
 		query_stream
 			<< "\n"
 			<< "FROM " << normalizeTableName(OTN + "_objects", true) << "\n"
-			<< "WHERE object_id_d = " << long2string(object_id_d);
+			<< "WHERE object_id_d = " << id_d2number_string(object_id_d);
 		if (!pConn->execSelect(query_stream.str())) {
 			// Possibly emit debug message
 			DEBUG_SELECT_QUERY_FAILED("EMdFDB::getSOMForObject", query_stream.str());
@@ -7663,7 +7666,7 @@ bool EMdFDB::getFeaturesForObjectType(id_d_t object_type_id,
 		query_stream
 			<< "SELECT feature_name, feature_type_id, default_value, computed\n"
 			<< "FROM features\n"
-			<< "WHERE object_type_id = " << long2string(object_type_id)
+			<< "WHERE object_type_id = " << id_d2number_string(object_type_id)
 			<< "\nORDER BY feature_type_id";
 		if (!pConn->execSelect(query_stream.str())) {
 			DEBUG_SELECT_QUERY_FAILED("EMdFDB::getFeaturesForObjectType", query_stream.str());
@@ -7833,7 +7836,7 @@ bool EMdFDB::loadEnumConstantsIntoCache(id_d_t enum_id)
 		query_stream
 			<< "SELECT enum_value_name, value, is_default\n"
 			<< "FROM enumeration_constants\n"
-			<< "WHERE enum_id = " << long2string(enum_id);
+			<< "WHERE enum_id = " << id_d2number_string(enum_id);
 		if (!pConn->execSelect(query_stream.str())) {
 			// Possibly emit debug message
 			DEBUG_SELECT_QUERY_FAILED("EMdFDB::loadEnumConstantsIntoCache", query_stream.str());
@@ -7845,7 +7848,7 @@ bool EMdFDB::loadEnumConstantsIntoCache(id_d_t enum_id)
 			bool bMoreRows = pConn->hasRow();
 			while (bMoreRows) {
 				std::string name;
-				long value;
+				emdf_ivalue value;
 				bool is_default;
       
 				/* Get name. */
@@ -7929,7 +7932,7 @@ bool EMdFDB::getEnumConstants(id_d_t enum_id,
 		query_stream
 			<< "SELECT enum_value_name, value, is_default\n"
 			<< "FROM enumeration_constants\n"
-			<< "WHERE enum_id = " << long2string(enum_id)
+			<< "WHERE enum_id = " << id_d2number_string(enum_id)
 			<< "\nORDER BY enum_value_name";
 		if (!pConn->execSelect(query_stream.str())) {
 			// Possibly emit debug message
@@ -7942,7 +7945,7 @@ bool EMdFDB::getEnumConstants(id_d_t enum_id,
 			bool bMoreRows = pConn->hasRow();
 			while (bMoreRows) {
 				std::string name;
-				long value;
+				emdf_ivalue value;
 				bool is_default;
       
 				/* Get name. */
@@ -8028,8 +8031,8 @@ bool EMdFDB::getObjectTypesUsingEnumeration(id_d_t enum_id,
 			<< "SELECT DISTINCT OT.object_type_name\n"
 			<< "FROM object_types OT, features F\n"
 			<< "WHERE OT.object_type_id = F.object_type_id \n"
-			<< "      AND (F.feature_type_id = " << long2string(enum_feature_id) << "\n"
-			<< "           OR F.feature_type_id = " << long2string(list_of_enum_feature_id) << ")";
+			<< "      AND (F.feature_type_id = " << id_d2number_string(enum_feature_id) << "\n"
+			<< "           OR F.feature_type_id = " << id_d2number_string(list_of_enum_feature_id) << ")";
 		if (!pConn->execSelect(query_stream.str())) {
 			DEBUG_SELECT_QUERY_FAILED("EMdFDB::getObjectTypesUsingEnumeration", query_stream.str());
 			return false;
@@ -8188,7 +8191,7 @@ bool EMdFDB::objectID_DExistsInType(id_d_t object_id_d,
 		query_stream
 			<< "SELECT object_id_d\n" 
 			<< "FROM " << normalizeTableName(OTN + "_objects", true) << "\n" //     
-			<< "WHERE object_id_d = " << long2string(object_id_d);
+			<< "WHERE object_id_d = " << id_d2number_string(object_id_d);
 		if (!pConn->execSelect(query_stream.str())) {
 			DEBUG_SELECT_QUERY_FAILED("EMdFDB::objectID_DExistsInType", query_stream.str());
 			return false;
@@ -8347,10 +8350,10 @@ bool EMdFDB::createObject(id_d_t object_id_d,
 
 			// Add values
 			strQuery << "VALUES ( ";
-			strQuery << long2string(object_id_d) << ",";
-			strQuery << long2string(monads.first());
+			strQuery << id_d2number_string(object_id_d) << ",";
+			strQuery << monad_m2string(monads.first());
 			if (objectRangeType != kORTSingleMonad) {
-				strQuery << "," << long2string(monads.last());
+				strQuery << "," << monad_m2string(monads.last());
 			}
 			if (objectRangeType == kORTMultipleRange) {
 				strQuery << "," 
@@ -8503,7 +8506,7 @@ bool EMdFDB::updateObject(id_d_t object_id_d,
 			}
 
 			// Add WHERE
-			query_stream << "WHERE object_id_d = " << long2string(object_id_d);
+			query_stream << "WHERE object_id_d = " << id_d2number_string(object_id_d);
 
 			if (!pConn->execCommand(query_stream.str())) {
 				DEBUG_COMMAND_QUERY_FAILED("EMdFDB::updateObject", query_stream.str());
@@ -8560,7 +8563,7 @@ bool EMdFDB::dropObject(id_d_t object_id_d,
 			query_stream 
 				<< "DELETE\n"
 				<< "FROM " << normalizeTableName(OTN + "_objects", true) << "\n"
-				<< "WHERE object_id_d = " << long2string(object_id_d);
+				<< "WHERE object_id_d = " << id_d2number_string(object_id_d);
 			if (!pConn->execCommand(query_stream.str())) {
 				DEBUG_COMMAND_QUERY_FAILED("EMdFDB::dropObject", query_stream.str());
 				if (bDoCommit)
@@ -8820,7 +8823,7 @@ bool EMdFDB::createObjects(const std::string& object_type_name,
 			   const std::list<FeatureInfo>& object_type_features,
 			   std::list<InstObject*>& object_list,
 			   eObjectRangeType objectRangeType,
-			   /* out */ long& object_count)
+			   /* out */ emdf_ivalue& object_count)
 {
 	if (pConn == 0) {
 		return false;
@@ -9144,7 +9147,7 @@ bool EMdFDB::getCurrentDatabaseVersion(const std::string& database_name,
 			// table.
 
 			// Get version
-			long schema_version;
+			emdf_ivalue schema_version;
 			if (!getSchemaVersion(schema_version)) {
 				bCanUpgrade = false;
 				return false;
@@ -9576,7 +9579,7 @@ bool EMdFDB::createMin_max_m_table(void)
 			std::ostringstream query_stream;
 			query_stream 
 				<< "INSERT INTO min_m (dummy_id, min_m)\n"
-				<< "VALUES ( 0 , " << long2string(MAX_MONAD) << " )";
+				<< "VALUES ( 0 , " << monad_m2string(MAX_MONAD) << " )";
 			if (!pConn->execCommand(query_stream.str())) {
 				DEBUG_COMMAND_QUERY_FAILED("EMdFDB::createMin_max_m_table", query_stream.str());
 				return false;
@@ -9904,7 +9907,7 @@ bool EMdFDB::setMax_m(monad_m max_m_candidate, bool bSetUnconditionally)
 				std::ostringstream query_stream;
 				query_stream 
 					<< "UPDATE max_m\n"
-					<< "SET max_m = " << long2string(max_m_candidate) << '\n'
+					<< "SET max_m = " << monad_m2string(max_m_candidate) << '\n'
 					<< "WHERE dummy_id = 0";
 				if (!pConn->execCommand(query_stream.str())) {
 					DEBUG_COMMAND_QUERY_FAILED("EMdFDB::setMax_m", query_stream.str());
@@ -10008,7 +10011,7 @@ bool EMdFDB::setMin_m(monad_m min_m_candidate, bool bSetUnconditionally)
 				std::ostringstream query_stream;
 				query_stream 
 					<< "UPDATE min_m\n"
-					<< "SET min_m = " << long2string(min_m_candidate) << '\n'
+					<< "SET min_m = " << monad_m2string(min_m_candidate) << '\n'
 					<< "WHERE dummy_id = 0";
 				if (!pConn->execCommand(query_stream.str())) {
 					DEBUG_COMMAND_QUERY_FAILED("EMdFDB::setMin_m", query_stream.str());
