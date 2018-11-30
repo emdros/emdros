@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/4-2007
- * Last update: 3/7-2017
+ * Last update: 11/30-2018
  *
  */
 
@@ -642,7 +642,7 @@ void QDParser::fillBuffer()
 		top = bot + BUF_SIZE;
 		readIntoBuffer();
 	} else if (!eof) {
-                long long cnt = lim - cur;
+                size_t cnt = lim - cur;
 		if (cnt > 0) {
                         memcpy(bot, cur, cnt);
 			lim = bot + cnt;
