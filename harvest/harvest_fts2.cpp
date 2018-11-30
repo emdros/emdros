@@ -6,7 +6,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 8/25-2010
- * Last update: 5/11-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -322,7 +322,7 @@ bool BookcaseIndexer2::process_bookcase(monad_m first_monad, monad_m last_monad)
 		}
 		
 
-		unsigned int no_of_indexed_feature_names = m_indexed_feature_name_list.size();
+		unsigned int no_of_indexed_feature_names = (unsigned int) m_indexed_feature_name_list.size();
 		unsigned int i;
 		SheafConstIterator indexed_OT_sheaf_ci = pIndexedOTSheaf->const_iterator();
 

@@ -6,7 +6,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 22/4-2007
- * Last update: 5/11-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -623,7 +623,7 @@ void RenderObjects::endElement(MemObject *pObj, long OTN_surrogate)
 bool RenderObjects::loadObjectsFromMonads(long OTN_surrogate, const std::string& OTN, const SetOfMonads& som, const std::list<std::string>& featuresToGet)
 {
 	std::string getClause;
-	int nNoOfFeaturesToGet = featuresToGet.size();
+	int nNoOfFeaturesToGet = (int) featuresToGet.size();
 
 	if (nNoOfFeaturesToGet > 0) {
 		// Join list with ',' in between.

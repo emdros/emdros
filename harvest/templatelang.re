@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 11/5-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -248,8 +248,8 @@ void TemplateLanguageScanner::addToken(void)
 
 void TemplateLanguageScanner::addInteger(void)
 {
-	const unsigned int MAX_INTEGER_CHARS = 12;
-	unsigned int cnt = cur - tok;
+	const size_t MAX_INTEGER_CHARS = 12;
+	size_t cnt = cur - tok;
 	if (cnt > MAX_INTEGER_CHARS) {
 	   	std::string mystring;
 		const char *p;

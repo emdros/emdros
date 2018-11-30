@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/9-2005
- * Last update: 6/9-2014
+ * Last update: 11/30-2018
  *
  */
 
@@ -509,7 +509,7 @@ MyTable *Harvest::getTable(const SetOfMonads& mset,
 			   const std::string& unit, 
 			   const StringVec& features)
 {
-	unsigned int features_size = features.size();
+	unsigned int features_size = (unsigned int) features.size();
 	bool bAddFeatures = features_size > 0;
 	// Add features 
 	std::string feature_string;

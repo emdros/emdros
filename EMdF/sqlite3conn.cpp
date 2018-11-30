@@ -460,7 +460,7 @@ bool SQLite3EMdFConnection::useDatabaseSQLite3(const std::string& database_name,
 				result = sqlite3_open(database_name.c_str(), &m_pDB);
 			} else {
 				result = sqlite3_open_encrypted(database_name.c_str(), 
-								(const void*) key.c_str(), key.length(),
+								(const void*) key.c_str(), (int) key.length(),
 								&m_pDB);
 				if (result != SQLITE_OK) {
 					appendLocalError(std::string(sqlite3_errmsg(m_pDB)));
@@ -471,7 +471,7 @@ bool SQLite3EMdFConnection::useDatabaseSQLite3(const std::string& database_name,
 
 				result = sqlite3_key(m_pDB,
 						     (const void*) key.c_str(),
-						     key.length());
+						     (int) key.length());
 			}
 #endif
       

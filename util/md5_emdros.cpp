@@ -298,7 +298,7 @@ std::string emdros_MD5Digest(const std::string& instring)
 	// Get message md5 digest
 	emdros_MD5Context md5context;
 	emdros_MD5Init(&md5context);
-	emdros_MD5Update(&md5context, (const unsigned char*) instring.c_str(), instring.length());
+	emdros_MD5Update(&md5context, (const unsigned char*) instring.c_str(), (unsigned int) instring.length());
 
 	unsigned char digest[17];
 	emdros_MD5Final(digest, &md5context);
@@ -337,7 +337,7 @@ main (int argc, char **argv)
 	{
 		printf ("MD5 (\"%s\") = ", argv[j]);
 		emdros_MD5Init (&context);
-		emdros_MD5Update (&context, argv[j], strlen (argv[j]));
+		emdros_MD5Update (&context, argv[j], strlen(argv[j]));
 		emdros_MD5Final (checksum, &context);
 		for (i = 0; i < 16; i++)
 		{

@@ -4,7 +4,7 @@
  * A class to import NeGRA files (such as the TIGERCorpus)
  * into Emdros
  * Created: 12/16-2005
- * Last update: 4/11-2017
+ * Last update: 11/30-2018
  *
  */
 
@@ -149,7 +149,7 @@ void NEGRATerminal::emitMQL(std::ostream *pOut)
 	(*pOut) << "  parent:=" <<  m_parentID_D << ";\n";
 	(*pOut) << "  parents:=(" << joinList(",", m_parents) << ");\n";
 
-	int secedgeslen = m_secedges_by_id_d.size();
+	int secedgeslen = (int) m_secedges_by_id_d.size();
 	int index = 0;
 	while (index < secedgeslen) {
 		(*pOut) << "  secedge" << index+1 << ":=\"" << encodeSTRINGstring(m_secedges_by_id_d[index].first) << "\";\n";
@@ -212,7 +212,7 @@ void NEGRANonTerminal::emitMQL(std::ostream *pOut)
 	(*pOut) << "  parent:=" << m_parentID_D << ";\n";
 	(*pOut) << "  parents:=(" << joinList(",", m_parents) << ");\n";
 
-	int secedgeslen = m_secedges_by_id_d.size();
+	int secedgeslen = (int) m_secedges_by_id_d.size();
 	int index = 0;
 	while (index < secedgeslen) {
 		(*pOut) << "  secedge" << index+1 << ":=\"" << encodeSTRINGstring(m_secedges_by_id_d[index].first) << "\";\n";

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 5/1-2001 (1st of May, 2001)
- * Last update: 2/1-2014
+ * Last update: 11/30-2018
  *
  */
 
@@ -287,7 +287,7 @@ bool MQLExecEnv::updateAll_m_1()
 node_number_t MQLExecEnv::getNextNodeNumber(QueryNode* pNode)
 {
 	m_node_vector.push_back(pNode);
-	node_number_t node_number = m_node_vector.size() - 1;
+	node_number_t node_number = (node_number_t) m_node_vector.size() - 1;
 	pNode->setNodeNumber(node_number);
 	return node_number;
 }

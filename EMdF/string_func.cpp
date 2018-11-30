@@ -471,7 +471,7 @@ std::string longlong2string_format(long long l, const std::string& format)
 	std::string tmp_result = std::string(szResult, nLength);
 
 	if (nMinLength > -1) {
-		int numPad = nMinLength - tmp_result.length();
+		int numPad = nMinLength - (int) tmp_result.length();
 		if (numPad > 0) {
 			std::string real_result;
 			for (int i = 0; i < numPad; ++i) {

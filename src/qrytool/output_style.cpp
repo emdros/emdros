@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/9-2005
- * Last update: 3/1-2017
+ * Last update: 11/30-2018
  *
  */
 
@@ -187,7 +187,7 @@ void Output_style::do_data(monad_m m,
 	}
 
 	int index2;
-	for (index2 = objects.size()-1;
+	for (index2 = ((int) objects.size()) -1;
 	     index2 >= 0;
 	     --index2) {
 		std::string unit = objects[index2].second;
@@ -831,7 +831,7 @@ void XML_Output_style::do_data(monad_m m,
 	}
 
 	int index2;
-	for (index2 = objects.size()-1;
+	for (index2 = ((int) objects.size())-1;
 	     index2 >= 0;
 	     --index2) {
 		std::string unit = objects[index2].second;

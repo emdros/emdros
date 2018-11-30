@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 6/23-2007
- * Last update: 7/30-2016
+ * Last update: 11/30-2018
  *
  */
 
@@ -327,8 +327,8 @@ void MQLScanner::addToken(void)
 
 void MQLScanner::addInteger(void)
 {
-	const unsigned int MAX_INTEGER_CHARS = 12;
-	unsigned int cnt = cur - tok;
+	const size_t MAX_INTEGER_CHARS = 12;
+	size_t cnt = cur - tok;
 	if (cnt > MAX_INTEGER_CHARS) {
 	   	std::string mystring;
 		const char *p;

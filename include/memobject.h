@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: Sometime in 2005 or 2006.
- * Last update: 3/21-2013
+ * Last update: 11/30-2018
  *
  */
 
@@ -56,7 +56,7 @@ class MemObject {
 	monad_m first(void) const { return m_first; };
 	monad_m last(void) const { return m_last; };
 
-	unsigned int getNoOfFeatures(void) const { return m_features.size(); };
+	unsigned int getNoOfFeatures(void) const { return (unsigned int) m_features.size(); };
 
 	void setObjectTypeSurrogate(long surrogate) { m_OTN_surrogate = surrogate; };
 	long getObjectTypeSurrogate(void) const { return m_OTN_surrogate; };

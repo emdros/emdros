@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 5/5-2001
- * Last update: 1/19-2013
+ * Last update: 11/30-2018
  *
  */
 
@@ -258,7 +258,7 @@ std::string TableRow::getColumn(int column)
  */
 unsigned int TableRow::size() const
 {
-	return ((std::list<std::string>*) this)->size();
+	return (unsigned int) (((std::list<std::string>*) this)->size());
 }
 
 /** Tests for equality with another TableRow.
@@ -841,7 +841,7 @@ std::string Table::getColumn(TableIterator& i, int column_index)
  */
 long Table::size() const
 {
-	return m_list->size();
+	return (long) (m_list->size());
 }
 
 

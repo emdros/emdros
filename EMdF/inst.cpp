@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/26-2001
- * Last update: 1/6-2014
+ * Last update: 11/30-2018
  *
  */
 
@@ -70,7 +70,7 @@ IDDList::const_iterator IDDList::end() const
  */
 long IDDList::length() const
 {
-	return m_list.size();
+	return (long) m_list.size();
 }
 
 /** Erase all members of the list.

@@ -6,7 +6,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 3/19-2016
- * Last update: 5/11-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -276,7 +276,7 @@ void TokenMonadList::merge_with_bookcases(const BookcaseMonadList& bookcase_mona
 
 long TokenMonadList::size()
 {
-	return m_mylist.size();
+	return (long) m_mylist.size();
 }
 
 

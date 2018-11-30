@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/2-2001
- * Last update: 11/15-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -39,7 +39,7 @@ MQLObject::MQLObject() :
 MQLObject::~MQLObject()
 {
 	delete m_feature_name_vec_inst;
-	unsigned int feature_value_vec_size = m_feature_value_vec_inst.size();
+	unsigned int feature_value_vec_size = (unsigned int) m_feature_value_vec_inst.size();
 	unsigned int i;
 	for (i = 0; i < feature_value_vec_size; ++i) {
 		delete m_feature_value_vec_inst[i];

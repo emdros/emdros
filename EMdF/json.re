@@ -230,8 +230,8 @@ void JSONScanner::addToken(void)
 
 void JSONScanner::addInteger(void)
 {
-	const unsigned int MAX_INTEGER_CHARS = 12;
-	unsigned int cnt = cur - tok;
+	const size_t MAX_INTEGER_CHARS = 12;
+	size_t cnt = cur - tok;
 	if (cnt > MAX_INTEGER_CHARS) {
 	   	std::string mystring;
 		const char *p;

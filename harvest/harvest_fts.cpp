@@ -875,7 +875,7 @@ bool BookcaseIndexer::process_bookcase(const SetOfMonads& bookcase_som)
 		}
 		
 
-		unsigned int no_of_indexed_feature_names = m_indexed_feature_name_list.size();
+		unsigned int no_of_indexed_feature_names = (unsigned int) m_indexed_feature_name_list.size();
 		unsigned int i;
 		SheafConstIterator indexed_OT_sheaf_ci = pIndexedOTSheaf->const_iterator();
 
@@ -1230,7 +1230,7 @@ int BookcaseHitList::getHitCount()
 
 int BookcaseHitList::getBookcaseCount()
 {
-	return m_hits.size();
+	return (int) m_hits.size();
 }
 
 bool BookcaseHitList::empty() const

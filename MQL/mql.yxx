@@ -646,7 +646,7 @@ signed_integer(S) ::= KEY_NIL. { S = NIL; }
 
 %type unsigned_integer {emdf_ivalue}
 %destructor unsigned_integer {;}
-unsigned_integer(U) ::= INTEGER(I). { U = I->integer; deleteToken(I); }
+unsigned_integer(U) ::= INTEGER(I). { U = (emdf_ivalue) I->integer; deleteToken(I); }
 
 
 %type drop_enumeration_statement {Statement*}
@@ -824,7 +824,7 @@ select_objects_at_statement(S) ::=
 %type single_monad_specification {monad_m}
 %destructor single_monad_specification {;}
 single_monad_specification(S) ::= KEY_MONAD KEY_EQUALS INTEGER(I).
-    { S = I->integer; deleteToken(I); }
+    { S = (monad_m) I->integer; deleteToken(I); }
 
 
 %type select_objects_having_monads_in_statement {Statement*}

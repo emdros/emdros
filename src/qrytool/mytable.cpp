@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/9-2005
- * Last update: 11/30-2006
+ * Last update: 11/30-2018
  *
  */
 
@@ -69,7 +69,7 @@ std::string MyTable::toString() const
 
 unsigned int MyTable::length(void) const
 {
-	return m_rows.size();
+	return (unsigned int) m_rows.size();
 }
 
 void MyTable::set_universe(monad_m start_monad, monad_m end_monad)

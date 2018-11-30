@@ -365,8 +365,8 @@ NonParentORDSolution::NonParentORDSolution()
 
 NonParentORDSolution::NonParentORDSolution(NonParentORDSolution& other)
 {
-	unsigned int other_size = other.m_vec.size();
-	for (unsigned int index = 0;
+	int other_size = (int) other.m_vec.size();
+	for (int index = 0;
 	     index < other_size;
 	     ++index) {
 		m_vec.push_back(other[index]);
@@ -376,8 +376,8 @@ NonParentORDSolution::NonParentORDSolution(NonParentORDSolution& other)
 // Extends pOther with myself, i.e., appends all in me to pOther
 void NonParentORDSolution::extendWithMe(NonParentORDSolution *pOther)
 {
-	unsigned int my_size = m_vec.size();
-	for (unsigned int index = 0;
+	MOVec::size_type my_size = m_vec.size();
+	for (MOVec::size_type index = 0;
 	     index < my_size;
 	     ++index) {
 		pOther->m_vec.push_back(m_vec[index]);
@@ -2421,7 +2421,7 @@ bool FeatureComparison::compare(MQLExecEnv *pEE, const EMdFValue *left_value, No
 	case kTilde:
 		right_value = m_value->getAsString(pEE, pNonParentORDSolution);
 		left_value_str = real_left_value->getString();
-		pcre_result = pcre_exec(m_pcre, m_pcre_extra, left_value_str.c_str(), left_value_str.length(), start_offset, 0, m_ovector, m_ovectorsize);
+		pcre_result = pcre_exec(m_pcre, m_pcre_extra, left_value_str.c_str(), (int) left_value_str.length(), start_offset, 0, m_ovector, m_ovectorsize);
 		if (pcre_result <= 0) {
 			bResult = false;
 		} else {
@@ -2431,7 +2431,7 @@ bool FeatureComparison::compare(MQLExecEnv *pEE, const EMdFValue *left_value, No
 	case kNotTilde:
 		right_value = m_value->getAsString(pEE, pNonParentORDSolution);
 		left_value_str = real_left_value->getString();
-		pcre_result = pcre_exec(m_pcre, m_pcre_extra, left_value_str.c_str(), left_value_str.length(), start_offset, 0, m_ovector, m_ovectorsize);
+		pcre_result = pcre_exec(m_pcre, m_pcre_extra, left_value_str.c_str(), (int) left_value_str.length(), start_offset, 0, m_ovector, m_ovectorsize);
 		if (pcre_result <= 0) {
 			bResult = true;
 		} else {
@@ -3303,7 +3303,7 @@ unsigned int FFeatures::getMatchedObjectIndex(MQLExecEnv *pEE,
 	m_NonParentORDOBBMustBeRetrieved[ORDObjectBlockNodeNumber] = true;
 
 	// Now return the index of the newly created entry.
-	return m_ORDOBBNodeNumber_vector.size() - 1;
+	return (unsigned int) (m_ORDOBBNodeNumber_vector.size() - 1);
 }
 
 
@@ -3538,10 +3538,10 @@ ObjectBlockBase::ObjectBlockBase(const ObjectBlockBase& other)
 	m_mark = new std::string(*other.m_mark);
 	m_nNoOfGET_features = other.m_nNoOfGET_features;
 
-	unsigned int vector_length = other.m_Feature_retrieval_vec.size();
+	std::vector<Feature*>::size_type  vector_length = other.m_Feature_retrieval_vec.size();
 	if (vector_length != 0) {
 		m_Feature_retrieval_vec.resize(vector_length, 0);
-		for (unsigned int index = 0;
+		for (std::vector<Feature*>::size_type index = 0;
 		     index < vector_length;
 		     ++index) {
 			m_Feature_retrieval_vec[index] =
@@ -3586,8 +3586,8 @@ void ObjectBlockBase::copyFeatureRetrievalToVector(Feature *pFeature)
 
 Feature* ObjectBlockBase::getFeatureRetrievalFeature(unsigned int index)
 {
-	ASSERT_THROW(index < m_Feature_retrieval_vec.size(),
-		     "ObjectBlockBase::getFeatureRetrievalFeature(): index " + long2string(index) + " out of range, should be within 0-" + long2string(m_Feature_retrieval_vec.size()-1));
+	ASSERT_THROW(((std::vector<Feature*>::size_type) index) < m_Feature_retrieval_vec.size(),
+		     "ObjectBlockBase::getFeatureRetrievalFeature(): index " + long2string(index) + " out of range, should be within 0-" + long2string((long)(m_Feature_retrieval_vec.size()-1)));
 	return m_Feature_retrieval_vec[index];
 }
 
@@ -3629,7 +3629,7 @@ void ObjectBlock::addFeatureToBeRetrieved(MQLExecEnv *pEE, const FeatureInfo& fe
 
 	// If we got this far, it wasn't in the list already, so we must
 	// add it to the end
-	index_assigned = m_Feature_retrieval_vec.size();
+	index_assigned = (unsigned int) m_Feature_retrieval_vec.size();
 
 	Feature *pNewFeature = new Feature(new std::string(feature_info.getFeatureName()),
 					   new std::string(feature_info.getParameter1()),

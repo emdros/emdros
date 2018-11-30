@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/8-2001
- * Last update: 11/15-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -214,7 +214,7 @@ MatchedObject::MatchedObject(const MatchedObject& other)
 		} else {
 			//m_values.m_pValue_vec = new value_vec_t;
 			m_values.m_pValue_vec = 0; // It will be created in addEMdFValue...
-			for (unsigned int i = 0; i < other.m_values.m_pValue_vec->size(); i++) {
+			for (value_vec_t::size_type i = 0; i < other.m_values.m_pValue_vec->size(); i++) {
 				EMdFValue *pValue = new EMdFValue(*((*other.m_values.m_pValue_vec)[i]));
 				addEMdFValue(i, pValue);
 			}
@@ -235,7 +235,7 @@ MatchedObject::~MatchedObject()
 
 	if (!isInstObject()) {
 		if (m_values.m_pValue_vec != 0) {
-			for (unsigned int i = 0; i < m_values.m_pValue_vec->size(); i++) {
+			for (value_vec_t::size_type i = 0; i < m_values.m_pValue_vec->size(); i++) {
 				delete (*m_values.m_pValue_vec)[i];
 				(*m_values.m_pValue_vec)[i] = 0;
 			}
@@ -725,8 +725,8 @@ int MatchedObject::getEMdFValueIndex(const std::string& feature_name) const
 			return -1;
 		} else {
 			// Iterate through vector
-			int size = m_values.m_pValue_vec->size();
-			for (int i = 0; i < size; ++i) {
+			value_vec_t::size_type size = m_values.m_pValue_vec->size();
+			for (value_vec_t::size_type i = 0; i < size; ++i) {
 				Feature *pFeature = m_pObjectBlock->getFeatureRetrievalFeature(i);
 				const std::string& v_feature_name = pFeature->getFeature();
 				
@@ -2252,7 +2252,7 @@ Sheaf::~Sheaf()
 {
 	delete m_plist;
 	if (m_pOBBVec != 0) {
-		for (unsigned int i = 0; i < m_pOBBVec->size(); ++i) {
+		for (OBBVec::size_type i = 0; i < m_pOBBVec->size(); ++i) {
 			delete ((*m_pOBBVec)[i]);
 		}
 		delete m_pOBBVec;
@@ -3131,7 +3131,7 @@ FlatSheaf::~FlatSheaf()
 	}
 	m_map.clear();
 	if (m_pOBBVec != 0) {
-		for (unsigned int i = 0; i < m_pOBBVec->size(); ++i) {
+		for (OBBVec::size_type i = 0; i < m_pOBBVec->size(); ++i) {
 			delete ((*m_pOBBVec)[i]);
 		}
 		delete m_pOBBVec;

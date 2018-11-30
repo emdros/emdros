@@ -118,7 +118,7 @@ bool QTOutputBase::compileTECkits(Configuration *pConf, const std::string& objec
 			bool bResult;
 			UInt32 lenArrTECkit;
 			Byte *arrTECkit;
-			if (TECkit_CompileOpt(szBuf, mapping.length(),
+			if (TECkit_CompileOpt(szBuf, (UInt32) mapping.length(),
 					      0,
 					      0,
 					      &arrTECkit,
@@ -220,10 +220,10 @@ std::string QTOutputBase::applyTECkit(const std::string& object_type_name, unsig
 				TECkit_Status status = 
 					TECkit_ConvertBufferOpt(ci2->second,
 								szInBuffer,
-								length,
+								(UInt32) length,
 								&inUsed,
 								szOutBuffer,
-								nOutBufferLength,
+								(UInt32) nOutBufferLength,
 								&outUsed,
 								kOptionsUnmapped_UseReplacementCharWithWarning
 								| kOptionsMask_InputComplete,
@@ -305,7 +305,7 @@ bool QTOutputBase::getConfigurationValues(Configuration *pConf, EmdrosSchema *pS
 				int nNoOfUnitNames = 0;
 				int nLine = 0;
 				if (m_data_names.find(object_type_name) != m_data_names.end()) {
-					nNoOfUnitNames = m_data_names[object_type_name].size();
+					nNoOfUnitNames = (int) m_data_names[object_type_name].size();
 					nLine += nNoOfUnitNames;
 					
 				}
