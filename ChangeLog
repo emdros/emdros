@@ -94,7 +94,7 @@
 	modified:   SWIG/csharp/Makefile.inc
 	modified:   SWIG/java/Makefile.inc
 
-	* Adapt util/  to use emdf_ivalue instead of int  or long whenever
+	* Adapt util/  to use emdf_ivalue instead of int or long whenever
 	appropriate.
 
 	Files affected:
@@ -102,6 +102,13 @@
 	modified:   include/pennimporter.h
 	modified:   util/pennimporter.cpp
 
+	* Adapt harvest/ to use emdf_ivalue instead of int or long whenever
+	appropriate.
+
+	Files affected:
+
+	modified:   harvest/harvest_fts.cpp
+	modified:   include/harvest_fts.h
 
 2018-11-20 Ulrik Sandborg-Petersen
 

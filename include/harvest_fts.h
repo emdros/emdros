@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 8/25-2010
- * Last update: 2/13-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -584,7 +584,7 @@ class BookcaseHarvester {
 	std::string m_indexed_OTN;
 	std::list<std::string> m_indexed_feature_name_list;
 
-	long m_bookcase_largest_object_length;
+	monad_m m_bookcase_largest_object_length;
 };
 
 

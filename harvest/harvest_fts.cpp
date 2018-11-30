@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 8/25-2010
- * Last update: 5/11-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -1871,7 +1871,7 @@ void BookcaseHarvester::process(const SetOfMonads& substrate, const StringList& 
 
 	// Find out whether there is more than one
 	StringListConstIterator token_list_ci = token_list.const_iterator();
-	unsigned int token_list_size = 0;
+	monad_m token_list_size = 0;
 	while (token_list_ci.hasNext()) {
 		++token_list_size;
 		token_list_ci.next();
@@ -1907,7 +1907,7 @@ void BookcaseHarvester::process(const SetOfMonads& substrate, const StringList& 
 		FastSetOfMonads masterSOM;
 
 		token_list_ci = token_list.const_iterator();
-		unsigned int token_list_index = 0;
+		monad_m token_list_index = 0;
 		while (token_list_ci.hasNext()) {
 			std::string feature_value = token_list_ci.next();
 			int mydict_index = tokenindex2mydict_map[token_list_index];
