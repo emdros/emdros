@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/1-2001
- * Last update: 5/29-2017
+ * Last update: 11/30-2018
  *
  */
 
@@ -48,7 +48,9 @@ extern std::string bool2string(bool b);
 extern bool string2bool(const std::string& str);
 extern std::string bool_alpha2string(bool b);
 extern bool string2bool_alpha(const std::string& str);
+extern std::string emdf_ivalue2string(emdf_ivalue i);
 extern std::string int2string(int i);
+extern std::string uint2string(unsigned int i);
 extern std::string id_d2string(id_d_t i);
 extern std::string id_d2number_string(id_d_t i);
 extern id_d_t string2id_d(const std::string& str);
@@ -163,6 +165,8 @@ extern long long string2longlong(const std::string& str);
 extern std::string long2string(long l);
 extern std::string long2string_format(long l, const std::string& format);
 extern long string2long(const std::string& str);
+extern int string2int(const std::string& str);
+extern emdf_ivalue string2emdf_ivalue(const std::string& str);
 extern std::string encodeSTRINGstring(const std::string& str);
 extern bool is_other_than_whitespace(const std::string& str);
 

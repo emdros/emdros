@@ -32,6 +32,15 @@
 	* src/qrytool/mainframe.cpp: Use the new wxFONTFAMILY_XXX,
 	wxFONTSTYLE_XXX, and wxFONTWEIGHT_XXX constants where applicable.
 
+	* EMdF/string_func.cpp, include/string_func.h:
+
+	Introduce the following, new functions:
+
+	- emdf_ivalue2string()
+	- uint2string()
+	- string2int()
+	- string2emdf_ivalue()
+
 2018-11-20 Ulrik Sandborg-Petersen
 
 	* configure.ac: Bump to 3.7.0.pre02.

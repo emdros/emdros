@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/1-2001
- * Last update: 5/18-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -270,6 +270,17 @@ bool string2bool_alpha(const std::string& str)
 	return str == "true";
 }
 
+/** Convert an emdf_ivalue to a string, base 10.
+ *
+ * @param i The emdf_ivalue to convert.
+ *
+ * @return The input emdf_ivalue, converted to a string.
+ */
+std::string emdf_ivalue2string(emdf_ivalue i)
+{
+	return longlong2string(i);
+}
+
 /** Convert an int to a string, base 10.
  *
  * @param i The int to convert.
@@ -279,6 +290,17 @@ bool string2bool_alpha(const std::string& str)
 std::string int2string(int i)
 {
 	return longlong2string(i);
+}
+
+/** Convert an unsigned int to a string, base 10.
+ *
+ * @param i The unsigned int to convert.
+ *
+ * @return The input unsigned int, converted to a string.
+ */
+std::string int2string(unsigned int i)
+{
+	return longlong2string((long long) i);
 }
 
 /** Convert a double to a string, base 10.
@@ -500,6 +522,28 @@ long long string2longlong(const std::string& str)
 long string2long(const std::string& str)
 {
 	return (long) sz2longlong(str.c_str());
+}
+
+/** Convert a string to an int.
+ *
+ * @param str The input string, base 10.
+ *
+ * @return The input string, converted to an int.
+ */
+int string2int(const std::string& str)
+{
+	return (int) sz2longlong(str.c_str());
+}
+
+/** Convert a string to an emdf_ivalue.
+ *
+ * @param str The input string, base 10.
+ *
+ * @return The input string, converted to an emdf_ivalue.
+ */
+emdf_ivalue string2emdf_ivalue(const std::string& str)
+{
+	return (emdf_ivalue) sz2longlong(str.c_str());
 }
 
 /** Convert a string to an ID_D.
@@ -1901,8 +1945,8 @@ std::string joinVector(const std::string& between, const std::vector<std::string
 std::string joinList(const std::string& between, const std::list<id_d_t>& l)
 {
 	Bigstring bigstring;
-	std::list<long>::const_iterator ci = l.begin();	
-	std::list<long>::const_iterator cend = l.end();
+	std::list<id_d_t>::const_iterator ci = l.begin();	
+	std::list<id_d_t>::const_iterator cend = l.end();
 	std::string::size_type between_length = between.length();
 	char szLongDigits[30];
 	if (ci != cend) {
