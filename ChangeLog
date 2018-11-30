@@ -194,6 +194,7 @@
 	modified:   util/md5_emdros.cpp
 	modified:   util/negraimporter.cpp
 
+	* tests/mqltry.cpp: Remove warning about unused local variable.
 
 2018-11-20 Ulrik Sandborg-Petersen
 

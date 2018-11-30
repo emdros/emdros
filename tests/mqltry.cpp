@@ -3,7 +3,7 @@
  *
  * Trial of MQL and EMdF framework
  * Created: 3/6-2001 (March 6, 2001)
- * Last update: 11/15-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -1460,6 +1460,7 @@ int testall(EmdrosEnv *pEE, eBackendKind backend_kind, const std::string& passwo
 			delete pMySheaf;
 			goto end;
 		} catch (EmdrosException& e) {
+			UNUSED(e);
 			// This is what it should do!
 			std::cout << "SUCCESS: SheafConstIterator::next() threw an exception, which it should!" << std::endl;
 		}
