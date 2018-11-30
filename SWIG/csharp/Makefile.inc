@@ -71,6 +71,7 @@ SWIG_GENERATED_CSHARPFILES = \
                 StringList.cs \
                 StringVector.cs \
                 SWIGTYPE_p_EnumConstCache.cs \
+                SWIGTYPE_p_int.cs \
                 SWIGTYPE_p_JSONValue.cs \
                 SWIGTYPE_p_std__istream.cs \
                 SWIGTYPE_p_std__listT_std__string_t.cs \

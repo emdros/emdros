@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/6-2001 (March 6, 2001)
- * Last update: 11/15-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -881,7 +881,7 @@ bool CreateObjectsStatement::exec()
 		}
 
 		// Say in result that 0 were created
-		m_result->append(long2string(0));
+		m_result->append(int2string(0));
 
 		// Delete objects in list
 		LocalDeleteObjectList(object_list);
@@ -891,7 +891,7 @@ bool CreateObjectsStatement::exec()
 	}
  
 	// Create objects
-	long object_count = 0;
+	emdf_ivalue object_count = 0;
 	if (!m_pEE->pDB->createObjects(*m_pObject_type_name,
 				       m_object_type_id,
 				       m_object_type_features,
@@ -905,10 +905,10 @@ bool CreateObjectsStatement::exec()
 		if (bDoCommit) {
 			m_pEE->pDB->abortTransaction();
 			// Say in result that 0 were created
-			m_result->append(long2string(0));
+			m_result->append(int2string(0));
 		} else {
 			// Say in result how many were created
-			m_result->append(long2string(object_count));
+			m_result->append(int2string(object_count));
 		}
 
 		// Delete objects in list
@@ -925,7 +925,7 @@ bool CreateObjectsStatement::exec()
 			m_pEE->pError->appendError(std::string("Could not commit transaction.\n"));
 
 			// Say in result that 0 were created
-			m_result->append(long2string(0));
+			m_result->append(int2string(0));
 
 			// Delete objects in list
 			LocalDeleteObjectList(object_list);
@@ -936,7 +936,7 @@ bool CreateObjectsStatement::exec()
 	}
 
 	// Say in result how many were created
-	m_result->append(long2string(object_count));
+	m_result->append(int2string(object_count));
 
 	// Delete objects in list
 	LocalDeleteObjectList(object_list);

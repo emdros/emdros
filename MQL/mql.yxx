@@ -7,7 +7,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 11/15-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -366,7 +366,7 @@ opt_from_set(S) ::= KEY_FROM  KEY_SET. {S = true;}
 opt_from_set(S) ::= . {S = false;}
 
 
-%type opt_string_length {long}
+%type opt_string_length {emdf_ivalue}
 %destructor opt_string_length {;}
 opt_string_length(L) ::= . /* empty */ 
     { L = 0; }
@@ -599,10 +599,10 @@ opt_DEFAULT(D) ::= . /* empty: Ec is not explicitly default. */
 %destructor ec_name { deleteToken($$);  }
 ec_name(N) ::= IDENTIFIER(I). { N = I; }
 
-%type opt_ec_initialization {long*}
+%type opt_ec_initialization {emdf_ivalue*}
 %destructor opt_ec_initialization {delete($$);}
 opt_ec_initialization(O) ::= ec_initialization(I).
-    { O = new long(I); }
+    { O = new emdf_ivalue(I); }
 opt_ec_initialization(O) ::= . /* empty : no initialization; ec gets its value from
                the sequence of the ecs. */
     { O = 0; }
@@ -634,17 +634,17 @@ ec_update(U) ::= KEY_REMOVE ec_name(N).
     { U = new ECUpdate(false, N->extractString(), 0, kRemove, 0); deleteToken(N); }
 
 
-%type ec_initialization {long}
+%type ec_initialization {emdf_ivalue}
 %destructor ec_initialization {;}
 ec_initialization(E) ::= KEY_EQUALS signed_integer(I). { E = I; }
 
-%type signed_integer {long}
+%type signed_integer {emdf_ivalue}
 %destructor signed_integer {;}
 signed_integer(S) ::= INTEGER(I). { S = I->integer; deleteToken(I); }
 signed_integer(S) ::= KEY_DASH INTEGER(I). { S = -(I->integer); deleteToken(I); }
 signed_integer(S) ::= KEY_NIL. { S = NIL; }
 
-%type unsigned_integer {long}
+%type unsigned_integer {emdf_ivalue}
 %destructor unsigned_integer {;}
 unsigned_integer(U) ::= INTEGER(I). { U = I->integer; deleteToken(I); }
 

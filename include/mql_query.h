@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 11/2-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -192,14 +192,14 @@ class StartMonadIterator {
 
 class UsingRange {
  protected:
-	long m_start;
-	long m_end;
+	emdf_ivalue m_start;
+	emdf_ivalue m_end;
  public:
-	UsingRange(long start, long end);
+	UsingRange(emdf_ivalue start, emdf_ivalue end);
 	virtual ~UsingRange() {};
 	void weed(MQLExecEnv *pEE, bool& bResult);
-	long getStart() { return m_start; }
-	long getEnd()  { return m_end; }
+	emdf_ivalue getStart() { return m_start; }
+	emdf_ivalue getEnd()  { return m_end; }
  protected:
 	// Disallow assignment, copy construction, and default construction
 	UsingRange() {};
@@ -407,14 +407,14 @@ class Value {
 	EMdFValue *m_emdf_value;
 	ObjectReferenceUsage* m_object_reference_usage;
 	std::string* m_enum_const;
-	long m_integer;
+	emdf_ivalue m_integer;
 	std::string* m_string;
 	eValueKind m_kind;
 	id_d_t m_enum_id;
-	long m_enum_const_value;
+	emdf_ivalue m_enum_const_value;
  public:
 	Value(std::string* str, eValueKind kind); // for enum_const and string
-	Value(long integer);
+	Value(emdf_ivalue integer);
 	Value(ObjectReferenceUsage* object_reference_usage);
 	virtual ~Value();
 	bool symbol(MQLExecEnv *pEE, id_d_t feature_type_id, node_number_t ffeatures_parent, bool& bResult);
@@ -423,7 +423,7 @@ class Value {
 	const std::string& getEnumConst();
 	std::string getAsString(MQLExecEnv *pEE, NonParentORDSolution *pNonParentORDSolution) const;
 	EMdFValue *getAsNewedEMdFValue() const;
-	long getInteger();
+	emdf_ivalue getInteger();
 	const std::string& getString();
 	const EMdFValue* getEMdFValue(void);
 	ObjectReferenceUsage* getObjectReferenceUsage();
@@ -820,15 +820,15 @@ class Block : public ByMonads {
 
 class Power {
  private:
-	long m_limit_low;
-	long m_limit_high;
+	emdf_ivalue m_limit_low;
+	emdf_ivalue m_limit_high;
  public:
-	Power(long limit); // m_limit_low is 0, m_limit_high is limit
-	Power(long limit_low, long limit_high);
+	Power(emdf_ivalue limit); // m_limit_low is 0, m_limit_high is limit
+	Power(emdf_ivalue limit_low, emdf_ivalue limit_high);
 	virtual ~Power();
 	void weed(bool &bResult);
-	long getLimitLow() const { return m_limit_low; };
-	long getLimitHigh() const { return m_limit_high; };
+	emdf_ivalue getLimitLow() const { return m_limit_low; };
+	emdf_ivalue getLimitHigh() const { return m_limit_high; };
 };
 
 
@@ -1001,7 +1001,7 @@ class ObjectBlockString {
 
 	ObjectBlockString *getObjectBlockString() { return m_object_block_string; };
 	ObjectBlock* getObjectBlock() { return m_object_block; };
-	long getObjectBlockCount();
+	emdf_ivalue getObjectBlockCount();
 
 	void weed(MQLExecEnv *pEE, bool& bResult, node_number_t block_string2_parent);
 	bool symbol(MQLExecEnv *pEE, bool& bResult);
@@ -1033,7 +1033,7 @@ class UnorderedGroup {
 	bool symbol(MQLExecEnv *pEE, bool& bResult);
 	bool symbolObjectReferences(MQLExecEnv *pEE, bool& bResult, std::set<std::string>& ORD_set);
 	bool symbolObjectReferences2(MQLExecEnv *pEE);
-	long getObjectBlockCount() { return m_object_block_string->getObjectBlockCount(); };
+	emdf_ivalue getObjectBlockCount() { return m_object_block_string->getObjectBlockCount(); };
 	
 	bool type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool& bResult);
 	bool aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristic_set, const SetOfMonads& Su, eAggregateQueryStrategy strategy, monad_m largest_object_length_above, String2COBPtrMMap& mmap);

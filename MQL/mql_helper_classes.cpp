@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 11/14-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -463,7 +463,7 @@ Expression::Expression(const SetOfMonads& som) // For kExprSetOfMonads
 	m_pMQLMSE = 0;
 }
 
-Expression::Expression(long integer) // For kExprSetOfMonads
+Expression::Expression(emdf_ivalue integer) // For kExprSetOfMonads
 {
 	m_string = 0;
 	m_list_of_identifier = 0;
@@ -556,7 +556,7 @@ void Expression::weed(MQLExecEnv *pEE, bool& bResult)
 	}
 }
 
-long Expression::getInteger()
+emdf_ivalue Expression::getInteger()
 {
 	ASSERT_THROW(m_type == kExprInteger,
 		     "type was not kExprInteger");
@@ -586,7 +586,7 @@ const std::string& Expression::getIdentifier()
 	return *m_string;
 }
 
-long Expression::getEnumValue()
+emdf_ivalue Expression::getEnumValue()
 {
 	ASSERT_THROW(m_type == kExprIdentifier,
 		     "Type is not kExprIdentifier");
@@ -684,7 +684,7 @@ bool Expression::typeTypeCompatibility(MQLExecEnv *pEE, MQLType* other_type, boo
 		ci = m_list_of_identifier->const_iterator();
 		while (ci.hasNext()) {
 			std::string enum_const = ci.next();
-			long enum_value;
+			emdf_ivalue enum_value;
 			bool bExists;
 
 			if (!pEE->pDB->enumConstExists(enum_const, m_enum_id, bExists, 
@@ -717,7 +717,7 @@ bool Expression::getAsString(MQLExecEnv *pEE, std::string& result, bool bConvert
 	std::ostringstream mystrstream;
 	bool bEnumConstExists;
 	bool dummy_is_default;
-	long value;
+	emdf_ivalue value;
 	switch(m_type) {
 	case kExprInteger:
 		mystrstream << m_integer;
@@ -895,7 +895,7 @@ bool FeatureDeclaration::symbolEnumConstantsExist(MQLExecEnv *pEE, bool& bResult
 		if (m_default_specification != 0 
 		    && m_default_specification->getKind() == kExprIdentifier) {
 			id_d_t enum_id = m_type->getTypeId();
-			long value;
+			emdf_ivalue value;
 			bool is_default;
 			if (!pEE->pDB->enumConstExists(m_default_specification->getIdentifier(),
 						       enum_id, bResult, value, is_default)) {
@@ -993,7 +993,7 @@ bool FeatureDeclaration::typeTypeCompatibility(MQLExecEnv *pEE, bool& bResult)
 		std::string *pDefault_string;
 		switch (m_type->getType()) {
 		case kInteger:
-			m_default_specification = new Expression((long) 0);
+			m_default_specification = new Expression((emdf_ivalue) 0);
 			break;
 		case kString:
 			pDefault_string = new std::string("");
@@ -1983,10 +1983,10 @@ bool ObjectSpecBase::symbolAllFeaturesMustBeAssigned(MQLExecEnv *pEE,
 			// Decide type
 			switch (fi.getOutputType() & FEATURE_TYPE_TYPE_MASK) {
 			case FEATURE_TYPE_INTEGER:
-				pExpr = new Expression(string2long(fi.getDefaultValue()));
+				pExpr = new Expression(string2int(fi.getDefaultValue()));
 				break;
 			case FEATURE_TYPE_ID_D:
-				pExpr = new Expression(string2long(fi.getDefaultValue()));
+				pExpr = new Expression(string2int(fi.getDefaultValue()));
 				break;
 			case FEATURE_TYPE_STRING:
 				pString = new std::string(fi.getDefaultValue());
@@ -2673,7 +2673,7 @@ Feature::Feature(const Feature& other)
 	m_list_index = other.m_list_index;
 	m_feature_index_inst = other.m_feature_index_inst;
 	if (other.m_enum_const_cache.size() > 0) {
-		std::map<long, std::string>::const_iterator 
+		std::map<emdf_ivalue, std::string>::const_iterator 
 			ci = other.m_enum_const_cache.begin();
 		while (ci != other.m_enum_const_cache.end()) {
 			m_enum_const_cache[ci->first] = ci->second;
@@ -2788,7 +2788,7 @@ bool Feature::symbolFeaturesExist(MQLExecEnv *pEE, id_d_t object_type_id, bool& 
 		std::list<EnumConstInfo>::const_iterator ci = enumConsts.begin();
 		std::list<EnumConstInfo>::const_iterator cend = enumConsts.end();
 		while (ci != cend) {
-			// m_enum_const_cache.insert(std::pair<long, std::string>(ci->getValue(), std::string(ci->getHumanReadableFeatureName())));
+			// m_enum_const_cache.insert(std::pair<emdf_ivalue, std::string>(ci->getValue(), std::string(ci->getHumanReadableFeatureName())));
 			m_enum_const_cache[ci->getValue()] = std::string(ci->getName());
 			++ci;
 		}
@@ -3086,7 +3086,7 @@ AggregateFeature::AggregateFeature(eAggregateFunction func)
 	  m_next(0)
 {
 	ASSERT_THROW(func == kAFCOUNT_ALL,
-		     "AggregateFeature(eAggregateFunction) called with illegal func = " + long2string((long) func));
+		     "AggregateFeature(eAggregateFunction) called with illegal func = " + int2string((int) func));
 }
 
 
@@ -3108,14 +3108,14 @@ AggregateFeature::AggregateFeature(eAggregateFunction func, std::string *feature
 				0);
 	
 	if (func == kAFMIN) {
-		m_result = LONG_MAX;
+		m_result = INT_MAX;
 	} else if (func == kAFMAX) {
-		m_result = LONG_MIN;
+		m_result = INT_MIN;
 	} else if (func == kAFSUM) {
 		m_result = 0;
 	} else {
 		ASSERT_THROW(false,
-			     "AggregateFeature(eAggregateFunction, std::string *) called with illegal func = " + long2string((long) func));
+			     "AggregateFeature(eAggregateFunction, std::string *) called with illegal func = " + int2string((int) func));
 	}
 
 }
@@ -3133,7 +3133,7 @@ AggregateFeature::AggregateFeature(eAggregateFunction func, FeatureComparison *f
 	
 {
 	ASSERT_THROW(func == kAFCOUNT_FEATURE_COMPARISON,
-		     "AggregateFeature(eAggregateFunction, FeatureComparison *) called with illegal func = " + long2string((long) func));
+		     "AggregateFeature(eAggregateFunction, FeatureComparison *) called with illegal func = " + int2string((int) func));
 	ASSERT_THROW(m_feature_comparison != 0,
 		     "AggregateFeature(eAggregateFunction, FeatureComparison *) called with illegal FeatureComparison * == 0");
 }
@@ -3263,7 +3263,7 @@ bool AggregateFeature::type(MQLExecEnv *pEE, bool& bResult)
 
 void AggregateFeature::exec(MQLExecEnv *pEE, const InstObject *pInstObj)
 {
-	long feature_value = 0;
+	emdf_ivalue feature_value = 0;
 	const EMdFValue *pEMdFValue = 0;
 	switch (m_function) {
 	case kAFMIN:

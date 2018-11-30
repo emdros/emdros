@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 11/15-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -220,7 +220,7 @@ std::string MonadSetRelationClause::calculateCharacteristicString() const
 //
 ////////////////////////////////////////////////////////////
 
-UsingRange::UsingRange(long start, long end)
+UsingRange::UsingRange(emdf_ivalue start, emdf_ivalue end)
 	: m_start(start),
 	  m_end(end)
 {
@@ -230,11 +230,11 @@ void UsingRange::weed(MQLExecEnv *pEE, bool& bResult)
 {
 	if (m_start < 0 
 	    || m_end < 0) {
-		pEE->pError->appendError("The RANGE(" + long2string(m_start) + "," + long2string(m_end) + ") cannot use negative numbers.\n");
+		pEE->pError->appendError("The RANGE(" + emdf_ivalue2string(m_start) + "," + emdf_ivalue2string(m_end) + ") cannot use negative numbers.\n");
 		bResult = false;
 	}
 	if (m_start > m_end) {
-		pEE->pError->appendError("The RANGE(" + long2string(m_start) + "," + long2string(m_end) + ") cannot have start > end.\n");
+		pEE->pError->appendError("The RANGE(" + emdf_ivalue2string(m_start) + "," + emdf_ivalue2string(m_end) + ") cannot have start > end.\n");
 		bResult = false;
 	}
 }
@@ -1077,6 +1077,7 @@ ObjectReferenceUsage::~ObjectReferenceUsage()
 {
 	delete m_object_reference;
 	delete m_feature_name;
+	delete m_parameter1;
 }
 
 void ObjectReferenceUsage::weed(MQLExecEnv *pEE, bool& bResult)
@@ -1258,7 +1259,7 @@ Value::Value(std::string* str, eValueKind kind) // for enum_const and string
 	}
 }
 
-Value::Value(long integer)
+Value::Value(emdf_ivalue integer)
 	: m_emdf_value(0),
 	  m_object_reference_usage(0),
 	  m_enum_const(0),
@@ -1428,10 +1429,10 @@ std::string Value::getAsString(MQLExecEnv *pEE, NonParentORDSolution *pNonParent
 	std::string result;
 	switch (m_kind) {
 	case kValEnumConst:
-		result = long2string(m_enum_const_value);
+		result = emdf_ivalue2string(m_enum_const_value);
 		break;
 	case kValInteger:
-		result = long2string(m_integer);
+		result = emdf_ivalue2string(m_integer);
 		break;
 	case kValString:
 		result = *m_string;
@@ -1459,7 +1460,7 @@ const std::string& Value::getEnumConst()
 	return *m_enum_const;
 }
 
-long Value::getInteger()
+emdf_ivalue Value::getInteger()
 {
 	ASSERT_THROW(m_kind == kValInteger,
 		     "value kind was not integer");
@@ -1766,7 +1767,7 @@ bool FeatureComparison::symbol(MQLExecEnv *pEE,
 
 			// Check that it exists
 			bool bEnumConstExists;
-			long enum_const_value;
+			emdf_ivalue enum_const_value;
 			bool bIsDefault;
 			if (!pEE->pDB->enumConstExists(cur_enum_const,
 						       feature_type_id,
@@ -2330,7 +2331,7 @@ bool FeatureComparison::compare(MQLExecEnv *pEE, const EMdFValue *left_value, No
 				IntegerList *pIntList = new IntegerList();
 				IntegerListConstIterator ci = m_in_integer_list->const_iterator();
 				while (ci.hasNext()) {
-					long value = ci.next();
+					emdf_ivalue value = ci.next();
 
 					pIntList->addValueBack(value);
 				}
@@ -4633,12 +4634,12 @@ void ObjectBlock::addOBBToVec(OBBVec *pOBBVec)
 ////////////////////////////////////////////////////////////
 // This gets called by the parser when it is ".. (<|<=) integer".
 // "<" gets "integer-1", "<=" gets "integer".
-Power::Power(long limit)
+Power::Power(emdf_ivalue limit)
 	: m_limit_low(0), m_limit_high(limit)
 {
 }
 
-Power::Power(long limit_low, long limit_high)
+Power::Power(emdf_ivalue limit_low, emdf_ivalue limit_high)
 	: m_limit_low(limit_low), m_limit_high(limit_high)
 {
 }
@@ -5712,7 +5713,7 @@ ObjectBlockString::~ObjectBlockString()
 }
 
 
-long ObjectBlockString::getObjectBlockCount()
+emdf_ivalue ObjectBlockString::getObjectBlockCount()
 {
 	if (m_object_block_string == 0) {
 		return 1;

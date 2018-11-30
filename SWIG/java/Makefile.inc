@@ -72,6 +72,7 @@ SWIG_GENERATED_JAVAFILES = \
                 StringList.java \
                 StringVector.java \
                 SWIGTYPE_p_EnumConstCache.java \
+                SWIGTYPE_p_int.java \
                 SWIGTYPE_p_JSONValue.java \
                 SWIGTYPE_p_std__istream.java \
                 SWIGTYPE_p_std__listT_std__string_t.java \

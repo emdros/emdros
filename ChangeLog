@@ -78,6 +78,21 @@
 	use an emdf_ivalue instead of a long in EMdFOutput::jsonOutValue()
 	and EMdFOutput::jsonOutValueOrNull().
 
+	* MQL: Adapt to using emdf_ivalue instead of long or int whenever
+	appropriate.
+
+	Files affected:
+
+	modified:   MQL/mql.yxx
+	modified:   MQL/mql_enumeration_statements.cpp
+	modified:   MQL/mql_helper_classes.cpp
+	modified:   MQL/mql_object_statements.cpp
+	modified:   MQL/mql_query.cpp
+	modified:   include/mql_enumeration_statements.h
+	modified:   include/mql_query.h
+	modified:   include/mql_types.h
+	modified:   SWIG/csharp/Makefile.inc
+	modified:   SWIG/java/Makefile.inc
 
 2018-11-20 Ulrik Sandborg-Petersen
 
