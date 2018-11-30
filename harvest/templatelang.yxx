@@ -77,11 +77,11 @@ template_list_element(T) ::= KEY_FIRSTMONAD .
 template_list_element(T) ::= KEY_LASTMONAD .
 { T = new TemplateSimpleNode(kTemplateLastMonad); }
 template_list_element(T) ::= KEY_FEATURE KEY_SPACE INTEGER(I) KEY_BB_CLOSE .
-{ T = new TemplateFeature(I->integer, kMKXML); delete I; }
+{ T = new TemplateFeature((long) I->integer, kMKXML); delete I; }
 template_list_element(T) ::= KEY_FEATUREJSONMANGLE KEY_SPACE INTEGER(I) KEY_BB_CLOSE .
-{ T = new TemplateFeature(I->integer, kMKJSON); delete I; }
+{ T = new TemplateFeature((long) I->integer, kMKJSON); delete I; }
 template_list_element(T) ::= KEY_FEATURENOMANGLE KEY_SPACE INTEGER(I) KEY_BB_CLOSE .
-{ T = new TemplateFeature(I->integer, kMKNone); delete I; }
+{ T = new TemplateFeature((long) I->integer, kMKNone); delete I; }
 template_list_element(T) ::= KEY_DBNAME .
 { T = new TemplateSimpleNode(kTemplateDBName); }
 template_list_element(T) ::= KEY_ATTRIB KEY_SPACE IDENTIFIER(I) KEY_BB_CLOSE .
@@ -151,11 +151,11 @@ template_list_element(T) ::= template_dictlookup_counter(A) .
 %type template_dictlookup_feature {TemplateDictlookupFeature*}
 %destructor template_dictlookup_feature {delete ($$);}
 template_dictlookup_feature(T) ::= KEY_DICTLOOKUP KEY_SPACE STRING(S) KEY_SPACE KEY_BARE_FEATURE KEY_SPACE INTEGER(I) KEY_SPACE STRING(D) KEY_BB_CLOSE .
-{ T = new TemplateDictlookupFeature(S->extractString(), I->integer, D->extractString(), true); 
+{ T = new TemplateDictlookupFeature(S->extractString(), (long) I->integer, D->extractString(), true); 
   delete S; delete I; delete D;
 }
 template_dictlookup_feature(T) ::= KEY_DICTLOOKUP KEY_SPACE STRING(S) KEY_SPACE KEY_BARE_FEATURENOMANGLE KEY_SPACE INTEGER(I) KEY_SPACE STRING(D) KEY_BB_CLOSE .
-{ T = new TemplateDictlookupFeature(S->extractString(), I->integer, D->extractString(), false); 
+{ T = new TemplateDictlookupFeature(S->extractString(), (long) I->integer, D->extractString(), false); 
   delete S; delete I; delete D;
 }
 
@@ -199,7 +199,7 @@ template_setnixing(T) ::= KEY_SETNIXING_OFF .
 %type template_if_featureequal {TemplateIfFeatureEqual*}
 %destructor template_if_featureequal {delete ($$);}
 template_if_featureequal(T) ::= KEY_IF_FEATUREEQUAL KEY_SPACE INTEGER(I) KEY_SPACE STRING(S) KEY_BB_CLOSE .
-{ T = new TemplateIfFeatureEqual(I->integer, S->extractString()); 
+{ T = new TemplateIfFeatureEqual((long) I->integer, S->extractString()); 
   delete S; delete I;			     
 }
 

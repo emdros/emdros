@@ -647,7 +647,7 @@ void QDParser::fillBuffer()
                         memcpy(bot, cur, cnt);
 			lim = bot + cnt;
 			cur = bot;
-		} else if (cnt < 0) {
+		} else if (cur > lim) {
 			// std::cerr << "UP200: lim = " << (void*) lim << ", cur = " << (void*) cur << ", cnt = " << cnt << std::endl;
 			ASSERT_THROW_X(false, QDException, "QDParser::fillBuffer(): cnt < 0");
 		} else {

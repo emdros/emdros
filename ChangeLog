@@ -154,6 +154,13 @@
 	modified:   MQL/mql_query.cpp
 	modified:   MQL/mql_select_statements.cpp
 
+	* Better usage of 32-bit vs- 64-bit and unsigned vs. signed types.
+
+	Files affected:
+
+	- EMdF/qdxml.cpp
+	- harvest/templatelang.yxx
+
 2018-11-20 Ulrik Sandborg-Petersen
 
 	* configure.ac: Bump to 3.7.0.pre02.
