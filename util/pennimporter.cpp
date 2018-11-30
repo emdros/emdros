@@ -3,7 +3,7 @@
  *
  * Functions and classes for importing Penn Treebank-style data
  * Created: 2/18-2006
- * Last update: 11/15-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -420,7 +420,7 @@ bool PennTreebankImporter::readDocumentFromStream(std::istream *pIn)
 		id_d_t doc_id_d = m_cur_id_d;
 		++m_cur_id_d;
 		m_cur_docid = 0;
-		long doc_docid = m_cur_docid;
+		id_d_t doc_docid = m_cur_docid;
 		++m_cur_docid;
 		monad_m doc_first_monad = m_cur_monad;
 
@@ -504,7 +504,7 @@ void PennTreebankImporter::putCorpusAsMQL(std::ostream *pOut)
 {
 	PEMOList::const_iterator ci, cend, ctmp;
 	bool bTransactionInProgress = false;
-	long counter = 1;
+	emdf_ivalue counter = 1;
 
 	// Documents
 	if (!m_docs.empty()) {
@@ -712,15 +712,15 @@ void PennTreebankImporter::putCorpusAsMQL(std::ostream *pOut)
 void doAddCorefToMap(PennTreeNode *pNode, CorefMap& mymap, bool bUseIntegerDocIDs)
 {
 	if (pNode->getStrCoref() != "") {
-		long coref = string2long(pNode->getStrCoref());
+		emdf_ivalue coref = string2int(pNode->getStrCoref());
 		if (mymap.find(coref) == mymap.end()) {
 			mymap[coref] = std::list<id_d_t>();
 		}
 		if (bUseIntegerDocIDs) {
-			long mydocid = pNode->getDocID();
+			emdf_ivalue mydocid = pNode->getDocID();
 			mymap[coref].push_back(mydocid);
 		} else {
-			long mydocid = pNode->getID_D();
+			emdf_ivalue mydocid = pNode->getID_D();
 			mymap[coref].push_back(mydocid);
 		}
 	} 
@@ -729,16 +729,16 @@ void doAddCorefToMap(PennTreeNode *pNode, CorefMap& mymap, bool bUseIntegerDocID
 void doAddCorefsToNode(PennTreeNode *pNode, CorefMap& mymap, bool bUseIntegerDocIDs)
 {
 	if (pNode->getStrCoref() != "") {
-		long coref = string2long(pNode->getStrCoref());
-		long mydocid;
+		emdf_ivalue coref = string2int(pNode->getStrCoref());
+		emdf_ivalue mydocid;
 		if (bUseIntegerDocIDs) {
 			mydocid = pNode->getDocID();
 		} else {
 			mydocid = pNode->getID_D();
 		}
-		const std::list<long>& mylist = mymap[coref];
-		std::list<long>::const_iterator ci = mylist.begin();
-		std::list<long>::const_iterator cend = mylist.end();
+		const std::list<emdf_ivalue>& mylist = mymap[coref];
+		std::list<emdf_ivalue>::const_iterator ci = mylist.begin();
+		std::list<emdf_ivalue>::const_iterator cend = mylist.end();
 		while (ci != cend) {
 			if (*ci != mydocid) {
 				pNode->getCorefs().push_back(*ci);
@@ -789,7 +789,7 @@ void PennTreebankImporter::putNonterminals(std::ostream *pOut, const PEMOList& n
 {	
 	PEMOList::const_iterator ci, cend, ctmp;
 	bool bTransactionInProgress = false;
-	long counter = 1;
+	emdf_ivalue counter = 1;
 	(*pOut) << "////////////////////////////////\n"
 		<< "//\n";
 	if (m_bEmitNonTerminalsAsDistinctObjectTypes) {
@@ -902,10 +902,10 @@ EmdrosMemObject *PennTreebankImporter::createTerminal(PennTreeNode *pNode, PennT
 {
 	EmdrosMemObject *pObj = new EmdrosMemObject(pParent->getMonads(), pParent->getID_D());
 	if (m_bUseIntegerDocIDs) {
-		pObj->setFeature("docid", long2string(pParent->getDocID()));
-		pObj->setFeature("parent", long2string(pParent->getParentDocID()));
+		pObj->setFeature("docid", emdf_ivalue2string(pParent->getDocID()));
+		pObj->setFeature("parent", emdf_ivalue2string(pParent->getParentDocID()));
 	} else {
-		pObj->setFeature("parent", long2string(pParent->getParentDocID()));
+		pObj->setFeature("parent", emdf_ivalue2string(pParent->getParentDocID()));
 	}
 	if (!pNode->getCorefs().empty()) {
 		pObj->setFeature("coref", std::string("(") + joinList(",", pNode->getCorefs()) + ")");
@@ -922,10 +922,10 @@ EmdrosMemObject *PennTreebankImporter::createNonTerminal(PennTreeNode *pNode)
 {
 	EmdrosMemObject *pObj = new EmdrosMemObject(pNode->getMonads(), pNode->getID_D());
 	if (m_bUseIntegerDocIDs) {
-		pObj->setFeature("docid", long2string(pNode->getDocID()));
-		pObj->setFeature("parent", long2string(pNode->getParentDocID()));
+		pObj->setFeature("docid", emdf_ivalue2string(pNode->getDocID()));
+		pObj->setFeature("parent", emdf_ivalue2string(pNode->getParentDocID()));
 	} else {
-		pObj->setFeature("parent", long2string(pNode->getParentDocID()));
+		pObj->setFeature("parent", emdf_ivalue2string(pNode->getParentDocID()));
 	}
 	if (!pNode->getCorefs().empty()) {
 		pObj->setFeature("coref", std::string("(") + joinList(",", pNode->getCorefs()) + ")");
@@ -941,10 +941,10 @@ EmdrosMemObject *PennTreebankImporter::createRootTree(PennTreeNode *pNode)
 {
 	EmdrosMemObject *pObj = new EmdrosMemObject(pNode->getMonads(), pNode->getID_D());
 	if (m_bUseIntegerDocIDs) {
-		pObj->setFeature("docid", long2string(pNode->getDocID()));
-		pObj->setFeature("parent", long2string(pNode->getParentDocID()));
+		pObj->setFeature("docid", emdf_ivalue2string(pNode->getDocID()));
+		pObj->setFeature("parent", emdf_ivalue2string(pNode->getParentDocID()));
 	} else {
-		pObj->setFeature("parent", long2string(pNode->getParentDocID()));
+		pObj->setFeature("parent", emdf_ivalue2string(pNode->getParentDocID()));
 	}
 	m_root_trees.push_back(pObj);
 	return pObj;
@@ -976,18 +976,18 @@ void PennTreebankImporter::clearPEMOList(PEMOList& mylist)
 }
 
 
-EmdrosMemObject *PennTreebankImporter::createDoc(monad_m first, monad_m last, id_d_t id_d, long doc_docid)
+EmdrosMemObject *PennTreebankImporter::createDoc(monad_m first, monad_m last, id_d_t id_d, emdf_ivalue doc_docid)
 {
 	SetOfMonads monads(first, last);
 	EmdrosMemObject *pObj = new EmdrosMemObject(monads, id_d);
 	if (m_bUseIntegerDocIDs) {
-		pObj->setFeature("docid", long2string(doc_docid));
+		pObj->setFeature("docid", emdf_ivalue2string(doc_docid));
 	}
 	m_docs.push_back(pObj);
 	return pObj;
 }
 
-SetOfMonads PennTreebankImporter::assignMonadsAndID_Ds(PennTreeNode *pNode, SetOfMonads& sibling_monads, id_d_t parent_id_d, long parent_docid)
+SetOfMonads PennTreebankImporter::assignMonadsAndID_Ds(PennTreeNode *pNode, SetOfMonads& sibling_monads, id_d_t parent_id_d, emdf_ivalue parent_docid)
 {
 	if (pNode->getType() == kPennTerminal) {
 		// Don't increase m_cur_id_d here, 

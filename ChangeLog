@@ -94,6 +94,15 @@
 	modified:   SWIG/csharp/Makefile.inc
 	modified:   SWIG/java/Makefile.inc
 
+	* Adapt util/  to use emdf_ivalue instead of int  or long whenever
+	appropriate.
+
+	Files affected:
+
+	modified:   include/pennimporter.h
+	modified:   util/pennimporter.cpp
+
+
 2018-11-20 Ulrik Sandborg-Petersen
 
 	* configure.ac: Bump to 3.7.0.pre02.
