@@ -113,6 +113,9 @@
 	* tests/emdftry.cpp: Adapt to using emdf_ivalue or id_d_t instead
 	of int or long whenever appropriate.
 
+	* wx/importerwizard.cpp: Adapt to using id_d_t or monad_m instead
+	of long.
+
 2018-11-20 Ulrik Sandborg-Petersen
 
 	* configure.ac: Bump to 3.7.0.pre02.
