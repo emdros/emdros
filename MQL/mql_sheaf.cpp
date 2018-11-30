@@ -216,7 +216,7 @@ MatchedObject::MatchedObject(const MatchedObject& other)
 			m_values.m_pValue_vec = 0; // It will be created in addEMdFValue...
 			for (value_vec_t::size_type i = 0; i < other.m_values.m_pValue_vec->size(); i++) {
 				EMdFValue *pValue = new EMdFValue(*((*other.m_values.m_pValue_vec)[i]));
-				addEMdFValue(i, pValue);
+				addEMdFValue((unsigned int) i, pValue);
 			}
 		}
 	}
@@ -727,12 +727,12 @@ int MatchedObject::getEMdFValueIndex(const std::string& feature_name) const
 			// Iterate through vector
 			value_vec_t::size_type size = m_values.m_pValue_vec->size();
 			for (value_vec_t::size_type i = 0; i < size; ++i) {
-				Feature *pFeature = m_pObjectBlock->getFeatureRetrievalFeature(i);
+				Feature *pFeature = m_pObjectBlock->getFeatureRetrievalFeature((unsigned int) i);
 				const std::string& v_feature_name = pFeature->getFeature();
 				
 				// If this was the one, return i
 				if (strcmp_nocase(feature_name, v_feature_name) == 0) {
-					return i;
+					return (int) i;
 				}
 			}
 			
@@ -860,7 +860,7 @@ unsigned int MatchedObject::getNoOfEMdFValues(void) const
 		if (m_values.m_pValue_vec == 0) {
 			return 0;
 		} else {
-			return m_values.m_pValue_vec->size();
+			return (unsigned int) m_values.m_pValue_vec->size();
 		}
 	}
 }

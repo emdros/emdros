@@ -199,6 +199,19 @@
 	* win32/config.mak.in: Don't compile C# bindings on Windows by
 	default.
 
+	* Better usage of 32-bit vs- 64-bit and unsigned vs. signed types.
+
+	This Removes some warnings on Windows.
+
+	Files affected:
+
+	modified:   EMdF/json.re
+	modified:   MQL/mql_gq.re
+	modified:   MQL/mql_sheaf.cpp
+	modified:   examples/HAL/hallexer.re
+	modified:   util/conf_ini.cpp
+	modified:   util/pennlexer.re
+
 2018-11-20 Ulrik Sandborg-Petersen
 
 	* configure.ac: Bump to 3.7.0.pre02.

@@ -71,7 +71,7 @@ char *HALScanner::fill(char *cursor)
 {
         if(!eof)
         {
-                size_t cnt = tok - bot;
+                std::streamsize cnt = tok - bot;
                 if(cnt)
                 {
                         memcpy(bot, tok, lim - tok);

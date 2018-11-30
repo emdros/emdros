@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 7/30-2016
+ * Last update: 11/30-2018
  *
  */
 
@@ -276,8 +276,7 @@ std::string JSONScanner::getInputScannedSoFar()
 	if (cur == 0 || sz == 0) {
 	        return "";
         } else {
-                long length = cur - sz;
-	        if (length < 0) {
+	        if (sz > cur) {
 	              return "";
             	} else {
 	              std::string result;

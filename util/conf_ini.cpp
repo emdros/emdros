@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/9-2005
- * Last update: 4/10-2017
+ * Last update: 11/30-2018
  *
  */
 
@@ -76,7 +76,7 @@ ConfigurationINI::ConfigurationINI(std::istream *cf)
 			pcre_exec(commentpattern,  
 				  commentpat_extra,    
 				  szLine,  /* the subject string */
-				  strlen(szLine),  /* the length of the subject string */
+				  (int) strlen(szLine),  /* the length of the subject string */
 				  0,       /* start at offset 0 in the subject */
 				  0,       /* default options */
 				  ovector, /* vector of integers for substring information */
@@ -94,7 +94,7 @@ ConfigurationINI::ConfigurationINI(std::istream *cf)
 		rc = pcre_exec(assignmentpattern_section,  
 			       assignpat_section_extra,    
 			       szLineWOutComment,  /* the subject string */
-			       strlen(szLineWOutComment),  /* the length of the subject string */
+			       (int) strlen(szLineWOutComment),  /* the length of the subject string */
 			       0,       /* start at offset 0 in the subject */
 			       0,       /* default options */
 			       ovector, /* vector of integers for substring information */
@@ -111,7 +111,7 @@ ConfigurationINI::ConfigurationINI(std::istream *cf)
 			rc = pcre_exec(assignmentpattern,  
 				       assignpat_extra,    
 				       szLineWOutComment,  /* the subject string */
-				       strlen(szLineWOutComment),  /* the length of the subject string */
+				       (int) strlen(szLineWOutComment),  /* the length of the subject string */
 				       0,       /* start at offset 0 in the subject */
 				       0,       /* default options */
 				       ovector, /* vector of integers for substring information */
