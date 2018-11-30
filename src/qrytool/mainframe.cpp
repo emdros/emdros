@@ -353,14 +353,14 @@ void MainFrame::CreateControls()
 	*/
 
 #ifdef __WXMSW__
-	wxFont *pFont = new wxFont(12, wxMODERN, wxNORMAL, wxNORMAL, FALSE, wxT("Courier New"));
+	wxFont *pFont = new wxFont(12, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, FALSE, wxT("Courier New"));
 	pFont->SetPointSize(12);
 	m_pEditWindow->SetFont(*pFont);
 	delete pFont;
 
 #else  // Not windows
 
-	wxFont *pFont = new wxFont(12, wxMODERN, wxNORMAL, wxNORMAL, FALSE, wxT("Courier New"));
+	wxFont *pFont = new wxFont(12, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, FALSE, wxT("Courier New"));
 	pFont->SetPointSize(12);
 	m_pEditWindow->SetFont(*pFont);
 	delete pFont;
@@ -958,9 +958,9 @@ bool MainFrame::Connect()
 		// Set size and font name of input area
 		if (m_pOut != 0) {
 			wxFont *pFont = new wxFont(m_pOut->getInputAreaFontSize(), 
-						   wxMODERN, 
-						   wxNORMAL, 
-						   wxNORMAL, 
+						   wxFONTFAMILY_MODERN, 
+						   wxFONTSTYLE_NORMAL, 
+						   wxFONTWEIGHT_NORMAL, 
 						   FALSE, 
 						   m_pOut->getInputAreaFontName());
 
