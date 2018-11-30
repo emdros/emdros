@@ -161,6 +161,8 @@
 	- EMdF/qdxml.cpp
 	- harvest/templatelang.yxx
 
+	* debian/changelog: Bump to 3.7.0.pre02.
+
 2018-11-20 Ulrik Sandborg-Petersen
 
 	* configure.ac: Bump to 3.7.0.pre02.

@@ -1,8 +1,8 @@
-emdros (3.7.0) unstable; urgency=low
+emdros (3.7.0.pre02) unstable; urgency=low
 
-  * Upgrade to 3.7.0
+  * Upgrade to 3.7.0.pre02
 
- -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Fri, 12 Oct 2018 20:24:44 +0200
+ -- Ulrik Sandborg-Petersen <ulrikp@emdros.org>  Fri, 30 Nov 2018 12:57:43 +0200
 
 emdros (3.6.1) unstable; urgency=low
 
