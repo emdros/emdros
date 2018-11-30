@@ -130,7 +130,7 @@ WXWIN_HOME=c:\wxWidgets-3.1.1
 # ----------------------------------------------
 
 # uncomment to enable C sharp
-WITH_SWIG_CSHARP=yes
+#WITH_SWIG_CSHARP=yes
 
 
 # ----------------------------------------------

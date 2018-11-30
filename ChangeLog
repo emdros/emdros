@@ -196,6 +196,9 @@
 
 	* tests/mqltry.cpp: Remove warning about unused local variable.
 
+	* win32/config.mak.in: Don't compile C# bindings on Windows by
+	default.
+
 2018-11-20 Ulrik Sandborg-Petersen
 
 	* configure.ac: Bump to 3.7.0.pre02.
