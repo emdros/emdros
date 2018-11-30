@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/6-2001 (March 6, 2001)
- * Last update: 11/15-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -179,6 +179,7 @@ bool QueryBase::myMonads(MQLExecEnv *pEE, bool& bResult)
 			return false;
 		}
 	} catch (BadMonadsException& e) {
+		UNUSED(e);
 		bAllM1IsEmptyDatabase = true;
 	}
 
@@ -304,6 +305,7 @@ bool QueryBase::myExec(MQLExecEnv *pEE, MQLResult **ppMQLResult)
 		try {
 			pSheaf = R_topograph(pEE, U, m_Su, m_max_range->getMaxRange(), m_query);
 		} catch (EMdFDBException& e) {
+			UNUSED(e);
 			return false;
 		}
 
@@ -805,6 +807,7 @@ bool GetObjectsHavingMonadsInStatement::exec()
 			return false;
 		}
 	} catch (BadMonadsException& e) {
+		UNUSED(e);
 		bAllM1IsEmptyDatabase = true;
 	}
   
@@ -1247,6 +1250,7 @@ bool GetAggregateFeaturesStatement::exec()
 			return false;
 		}
 	} catch (BadMonadsException& e) {
+		UNUSED(e);
 		bAllM1IsEmptyDatabase = true;
 	}
   

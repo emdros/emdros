@@ -147,6 +147,12 @@
 	examples/HAL/hallexer.re
 	examples/HAL/HALSpace.cpp
 
+	* Silence some warnings on Windows by using UNUSED().
+
+	Files affected:
+
+	modified:   MQL/mql_query.cpp
+	modified:   MQL/mql_select_statements.cpp
 
 2018-11-20 Ulrik Sandborg-Petersen
 

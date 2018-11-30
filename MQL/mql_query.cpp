@@ -4169,6 +4169,7 @@ bool ObjectBlock::makeInst(MQLExecEnv *pEE, const SetOfMonads& Su, eMonadSetRela
 			m_inst = R_inst(pEE, Su, this, pMonadSetOperation);
 			m_inst->setIsAggregate(true);
 		} catch (EMdFDBException& e) {
+			UNUSED(e);	
 			return false;
 		}
 	}
@@ -4233,6 +4234,7 @@ EMdFFFeatures *ObjectBlock::getEMdFConstraints(EMdFDB *pDB)
 			return m_feature_constraints->getEMdFConstraints(pDB);
 		}
 	} catch (EMdFDBDBError& e) {
+		UNUSED(e);
 		// If we come here, there was a DB error.
 		return 0;
 	}
@@ -4251,6 +4253,7 @@ bool ObjectBlock::calculatePreQueryString(EMdFDB *pDB)
 		// If we came this far, there were no DB errors
 		return true;
 	} catch (EMdFDBDBError& e) {
+		UNUSED(e);
 		// If we come here, there was a DB error.
 		return false;
 	}
