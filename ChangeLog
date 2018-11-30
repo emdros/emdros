@@ -1,3 +1,9 @@
+============ 3.7.0.rc1 ============
+
+2018-11-30 Ulrik Sandborg-Petersen
+
+	* configure.ac, debian/changelog: Bump to 3.7.0.rc1.
+
 ============ 3.7.0.pre02 ============
 
 2018-11-30 Ulrik Sandborg-Petersen
