@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 10/21-2001
- * Last update: 4/9-2010
+ * Last update: 11/30-2018
  *
  */
 
@@ -542,18 +542,19 @@ void EMdFOutput::jsonOutValue()
     m_emit_comma = true;
 }
 
-void EMdFOutput::jsonOutValue(long i)
+void EMdFOutput::jsonOutValue(emdf_ivalue i)
 {
-    out(long2string(i));
+    out(emdf_ivalue2string(i));
     m_emit_comma = true;
 }
 
-void EMdFOutput::jsonOutValueOrNull(long i)
+void EMdFOutput::jsonOutValueOrNull(emdf_ivalue i)
 {
     if (i == NIL)
         jsonOutValue();
     else
         jsonOutValue(i);
 }
+
 
 

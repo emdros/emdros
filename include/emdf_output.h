@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 10/21-2001
- * Last update: 11/27-2012
+ * Last update: 11/30-2018
  *
  */
 
@@ -144,12 +144,12 @@ class EMdFOutput {
 	void out(const char* s) { *m_pStream << s; };
 #endif
 	void outCharData(const std::string& s);
-    void jsonOutValue(const std::string& s);
-    void jsonOutValue(const char* s);
-    void jsonOutValue(bool b);
-    void jsonOutValue(long i);
-    void jsonOutValue();
-    void jsonOutValueOrNull(long i);
+	void jsonOutValue(const std::string& s);
+	void jsonOutValue(const char* s);
+	void jsonOutValue(bool b);
+	void jsonOutValue(emdf_ivalue i);
+	void jsonOutValue();
+	void jsonOutValueOrNull(emdf_ivalue i);
 	/** flush stream.
 	 * @internal
 	 */
