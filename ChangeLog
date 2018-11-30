@@ -1,5 +1,34 @@
 ============ 3.7.0.pre02 ============
 
+2018-11-30 Ulrik Sandborg-Petersen
+
+	* include/emdf.h: Add the following typedefs:
+
+	- emdros_i32
+	- emdros_u32
+	- emdros_i64
+	- emdros_u64
+
+	Set the appropriately for WIN32+MSVC vs. all others.
+
+	* include/emdf.h: Change the typedef of monad_m and id_d_t from
+	long to emdros_i32.
+
+	On Windows, they are the same underlying 32-bit type.  On Linux,
+	long is 64 bits, and int is 32 bits.  We have never exploited the
+	upper 32 bits.
+
+	Ulrik currently doesn't think we should move Emdros in the
+	direction of raising MAX_MONAD from the current 2100000000
+	(just short of 2^31).  Instead, we should move in the direction of
+	many smaller databases, each with its own unique (UUID) db_id.
+
+	* include/emdf.h: Introduce a new typedef, emdf_ivalue, which is
+	meant to hold all integer values that come into / out of the EMdF
+	layer.  For now, it is typedef'd to be emdros_i32.
+
+	typedef emdros_i32 emdf_ivalue;
+
 2018-11-20 Ulrik Sandborg-Petersen
 
 	* configure.ac: Bump to 3.7.0.pre02.

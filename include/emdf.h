@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 3/1-2017
+ * Last update: 11/30-2018
  *
  */
 
@@ -41,8 +41,22 @@
 #pragma warning( disable : 4290 ) 
 #endif
 
-typedef long id_d_t;
-typedef long monad_m;
+
+#if defined(WIN32) && defined(__MSVC__)
+typedef __int32 emdros_i32;
+typedef unsigned __int32 emdros_u32;
+typedef __int64 emdros_i64;
+typedef unsigned __int64 emdros_u64;
+#else
+typedef int emdros_i32;
+typedef unsigned int emdros_u32;
+typedef long long emdros_i64;
+typedef unsigned long long emdros_u64;
+#endif
+
+typedef emdros_i32 emdf_ivalue;
+typedef emdros_i32 id_d_t;
+typedef emdros_i32 monad_m;
 
 #define SEQUENCE_OBJECT_ID_DS   (0)
 #define SEQUENCE_TYPE_IDS       (1)
@@ -68,7 +82,7 @@ typedef long monad_m;
 #define MAX_DBNAME_CHARS         (32)
 #define MAX_IDENTIFIER_CHARS     (512)
 
-#define MAX_MONAD               (2100000000L)
+#define MAX_MONAD               (2100000000)
 
 
 /* The maximum chars to put in an index on MySQL for 
@@ -79,7 +93,7 @@ typedef long monad_m;
 /* FEATURE_TYPE_TYPE_MASK doesn't catch enums: They need to be caught
  * by checking for FEATURE_TYPE_ENUM.
  */
-#define FEATURE_TYPE_TYPE_MASK  (0x000000FFL)
+#define FEATURE_TYPE_TYPE_MASK  (0x000000FF)
 #define FEATURE_TYPE_INTEGER              (0)
 #define FEATURE_TYPE_STRING               (1)
 #define FEATURE_TYPE_ASCII                (2)
@@ -98,9 +112,9 @@ typedef long monad_m;
  * SEQUENCE_TYPE_IDS_FREE_LOWER_BITS, so if you change that, please
  * change this comment.
  */
-#define FEATURE_TYPE_FLAGS_MASK (0x0000FF00L)
-#define FEATURE_TYPE_WITH_INDEX (0x00000100L)
-#define FEATURE_TYPE_FROM_SET   (0x00000200L)
+#define FEATURE_TYPE_FLAGS_MASK (0x0000FF00)
+#define FEATURE_TYPE_WITH_INDEX (0x00000100)
+#define FEATURE_TYPE_FROM_SET   (0x00000200)
 
 #undef NIL
 #define NIL                     (0)
