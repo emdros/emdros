@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/4-2003 (January 4, 2003)
- * Last update: 1/4-2008
+ * Last update: 11/30-2018
  *
  */
 
@@ -56,7 +56,7 @@ inline unsigned char encryptChar(unsigned char c, unsigned char prev_char)
   int rol_bits = ROL_BITS;
   i = (i ^ (unsigned int) prev_char) & 0xFF;
   std::string eor_string = EOR_STRING;
-  for (int f = eor_string.length() - 1; f >= 0; f--) {
+  for (int f = (int) eor_string.length() - 1; f >= 0; f--) {
     i = (i ^ (unsigned int) eor_string[f]) & 0xFF;
     if ((f % (eor_string.length()/2)) == 1)
       i = ror(i, rol_bits);
