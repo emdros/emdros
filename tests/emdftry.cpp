@@ -3,7 +3,7 @@
  *
  * Trial of EMdF framework
  * Created: 1/27-2001
- * Last update: 11/15-2018
+ * Last update: 11/30-2018
  *
  */
 
@@ -615,7 +615,7 @@ int test_backend(eBackendKind backend_kind,
 		EMdFValue evString(std::string("String"));
 		EMdFValue evInt1(kEVInt, 1);
 		EMdFValue evIntMinus1(kEVInt, -1);
-		EMdFValue evID_DNIL(kEVID_D, (long) NIL);
+		EMdFValue evID_DNIL(kEVID_D, (id_d_t) NIL);
 		EMdFValue evID_D(kEVID_D, 1);
 		EMdFValue evEnum1(kEVEnum, 1);
 		EMdFValue evEnumMinus1(kEVEnum, -1);
@@ -1679,7 +1679,7 @@ int test_backend(eBackendKind backend_kind,
 		}
 	}
 
-	long schema_version;
+	emdf_ivalue schema_version;
 	if (bContinue) {
 		if (pDB->getSchemaVersion(schema_version)) {
 			// Note: You should not set this to EMDROS_VERSION_CURRENT.
@@ -1746,7 +1746,7 @@ int test_backend(eBackendKind backend_kind,
 	}
   
 	// Create enumeration
-	long enum_id;
+	emdf_ivalue enum_id;
 	if (bContinue) {
 		if (pDB->createEnum("phrase_type_t", enum_id)) {
 			std::cout << "SUCCESS: creating enum \n";
@@ -1758,7 +1758,7 @@ int test_backend(eBackendKind backend_kind,
 
 	// Check that enum exists
 	bool enum_exists;
-	long second_enum_id;
+	emdf_ivalue second_enum_id;
 	if (bContinue) {
 		if (pDB->enumExists("phrase_type_t", enum_exists, second_enum_id)) {
 			if (enum_exists && second_enum_id == enum_id)
@@ -1804,7 +1804,7 @@ int test_backend(eBackendKind backend_kind,
 
 	// Check that constant exists
 	bool enum_const_exists_result;
-	long NP_enum_const_value;
+	emdf_ivalue NP_enum_const_value;
 	bool is_default;
 	if (bContinue) {
 		if (pDB->enumConstExists("NP", 
@@ -2068,7 +2068,7 @@ int test_backend(eBackendKind backend_kind,
 	}
 
 	// Check existence
-	long second_phrase_object_type_id;
+	id_d_t second_phrase_object_type_id;
 	bool object_type_exists_result;
 	eObjectRangeType objectRangeType;
 	eMonadUniquenessType monadUniquenessType;
@@ -2161,7 +2161,7 @@ int test_backend(eBackendKind backend_kind,
 	FeatureInfo f_info_parent2("Parent", "", FEATURE_TYPE_ID_D, NIL_AS_STRING);
 	FeatureInfos.push_back(f_info_parent2);
 
-	long word_object_type_id;
+	id_d_t word_object_type_id;
 	if (bContinue) {
 		if (pDB->createObjectType("Word", FeatureInfos, kORTSingleMonad, kMUTNonUniqueMonads, word_object_type_id)) {
 			std::cout << "SUCCESS: creating object type 'Word' with id_d " << word_object_type_id << std::endl;
