@@ -298,7 +298,7 @@ std::string int2string(int i)
  *
  * @return The input unsigned int, converted to a string.
  */
-std::string int2string(unsigned int i)
+std::string uint2string(unsigned int i)
 {
 	return longlong2string((long long) i);
 }
