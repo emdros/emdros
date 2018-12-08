@@ -8,6 +8,8 @@
 	* include/memobject.h: Add new implementations
 	MemObjectFromMatchedObject and MemObjectWithOwnedMatchedObject.
 
+	* include/arena.h: Fix bugs in Arena::allocate_align4().
+
 2018-11-30 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.rc1.

@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 3/2-2005
- * Last update: 11/2-2017
+ * Last update: 12/8-2018
  *
  */
 
@@ -177,9 +177,8 @@ class Arena {
 			alignment = 4 - alignment;
 		}
 		int new_size = size + alignment;
-		if (alignment + new_size > m_chunk_size) {
-			growAtLeast(size);
-			new_size = size;
+		if (m_tail->m_index + new_size > m_chunk_size) {
+			growAtLeast(new_size);
 			alignment = 0;
 		}
 		ASSERT_THROW(m_tail->m_index + new_size <= m_tail->getChunkSize(),
