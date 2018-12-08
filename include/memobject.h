@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: Sometime in 2005 or 2006.
- * Last update: 11/30-2018
+ * Last update: 12/8-2018
  *
  */
 
@@ -24,6 +24,7 @@
 
 #include "emdf.h"
 #include "monads.h"
+#include "mql_sheaf.h"
 #include <map>
 #include <vector>
 #include <string>
@@ -32,46 +33,93 @@ typedef std::vector<std::string> FeatureVector;
 
 class MemEMdFDB; // Forward declaration
 
-class MemObject {
- private:
-	monad_m m_first, m_last;
+class MemObjectBase {
+protected:
 	long m_OTN_surrogate;
 	long m_special_long;
+public:
+	MemObjectBase() : m_OTN_surrogate(0), m_special_long(0) { };
+	MemObjectBase(const MemObjectBase& other) : m_OTN_surrogate(other.m_OTN_surrogate), m_special_long(other.m_special_long) {}
+	virtual ~MemObjectBase() {};
+
+	virtual std::string getFeature(unsigned int nFeatureNo) = 0;
+
+	virtual monad_m first(void) const = 0;
+	virtual monad_m last(void) const = 0;
+
+	virtual unsigned int getNoOfFeatures(void) const = 0;
+
+	virtual void setObjectTypeSurrogate(long surrogate) { m_OTN_surrogate = surrogate; };
+	virtual long getObjectTypeSurrogate(void) const { return m_OTN_surrogate; };
+
+	virtual void setSpecialLong(long special_long) { m_special_long = special_long; };
+	virtual long getSpecialLong(void) const { return m_special_long; };
+
+	virtual id_d_t getID_D(void) const = 0;
+};
+
+class MemObject : public MemObjectBase {
+protected:
+	monad_m m_first, m_last;
 	id_d_t m_id_d;
 	FeatureVector m_features;
  public:
 	MemObject(int nNoOfFeatures);
 	MemObject(const MemObject& other);
-	~MemObject();
+	virtual ~MemObject();
 
-	void setFeature(unsigned int nFeatureNo, const std::string& featureVal);
-	std::string getFeature(unsigned int nFeatureNo);
+	virtual void setFeature(unsigned int nFeatureNo, const std::string& featureVal);
+	virtual std::string getFeature(unsigned int nFeatureNo);
 
-	void setFirstLast(monad_m first, monad_m last)
+	virtual void setFirstLast(monad_m first, monad_m last)
 	{
 		m_first = first;
 		m_last = last;
 	};
 
-	monad_m first(void) const { return m_first; };
-	monad_m last(void) const { return m_last; };
+	virtual monad_m first(void) const { return m_first; };
+	virtual monad_m last(void) const { return m_last; };
 
-	unsigned int getNoOfFeatures(void) const { return (unsigned int) m_features.size(); };
+	virtual unsigned int getNoOfFeatures(void) const { return (unsigned int) m_features.size(); };
 
-	void setObjectTypeSurrogate(long surrogate) { m_OTN_surrogate = surrogate; };
-	long getObjectTypeSurrogate(void) const { return m_OTN_surrogate; };
-
-	void setSpecialLong(long special_long) { m_special_long = special_long; };
-	long getSpecialLong(void) const { return m_special_long; };
-
-	void setID_D(id_d_t id_d)
+	virtual void setID_D(id_d_t id_d)
 	{
 		m_id_d = id_d;		
 	};
-	id_d_t getID_D(void) const
+	virtual id_d_t getID_D(void) const
 	{ 
 		return m_id_d; 
 	};
+};
+
+// This variant DOES NOT own the m_pMO.
+class MemObjectFromMatchedObject : public MemObjectBase {
+protected:
+	const MatchedObject *m_pMO;
+ public:
+	MemObjectFromMatchedObject(const MatchedObject *pMO) : m_pMO(pMO) {};
+	MemObjectFromMatchedObject(const MemObjectFromMatchedObject& other) : MemObjectBase(other), m_pMO(other.m_pMO) {};
+	virtual ~MemObjectFromMatchedObject() {}; // We do not own the m_pMO
+
+	virtual std::string getFeature(unsigned int nFeatureNo) { return m_pMO->getFeatureAsString(nFeatureNo); }
+
+	virtual monad_m first(void) const { return m_pMO->getFirst(); };
+	virtual monad_m last(void) const { return m_pMO->getLast(); };
+
+	virtual unsigned int getNoOfFeatures(void) const { return m_pMO->getNoOfEMdFValues(); };
+
+	virtual id_d_t getID_D(void) const
+	{ 
+		return m_pMO->getID_D();
+	};
+};
+
+// This variant DOES own the m_pMO.
+class MemObjectWithOwnedMatchedObject : public MemObjectFromMatchedObject {
+ public:
+	MemObjectWithOwnedMatchedObject(const MatchedObject *pMO) : MemObjectFromMatchedObject(pMO) {};
+	MemObjectWithOwnedMatchedObject(const MemObjectWithOwnedMatchedObject& other) : MemObjectFromMatchedObject(new MatchedObject(*other.m_pMO)) {};
+	virtual ~MemObjectWithOwnedMatchedObject() { delete m_pMO; }; // We DO own the m_pMO
 };
 
 #endif // MEMOBJECT_H__

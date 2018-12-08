@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: Sometime in 2005 or 2006.
- * Last update: 3/21-2013
+ * Last update: 12/8-2018
  *
  */
 
@@ -26,7 +26,7 @@
 #include <debug.h>
 
 MemObject::MemObject(int nNoOfFeatures)
-	: m_OTN_surrogate(0), m_id_d(NIL)
+	: MemObjectBase()
 {
 	if (nNoOfFeatures > 0) {
 		m_features.resize(nNoOfFeatures);
@@ -35,9 +35,9 @@ MemObject::MemObject(int nNoOfFeatures)
 
 
 MemObject::MemObject(const MemObject& other)
-	: m_first(other.m_first),
+	: MemObjectBase(other),
+	  m_first(other.m_first),
 	  m_last(other.m_last),
-	  m_OTN_surrogate(other.m_OTN_surrogate),
 	  m_id_d(other.m_id_d),
 	  m_features(other.m_features)
 {

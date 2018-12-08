@@ -1,5 +1,13 @@
 ============ 3.7.0.rc1 ============
 
+2018-12-08 Ulrik Sandborg-Petersen
+
+	* include/memobject.h, harvest/memobject.cpp: Split MemObject into
+	MemObjectBase and MemObject.
+
+	* include/memobject.h: Add new implementations
+	MemObjectFromMatchedObject and MemObjectWithOwnedMatchedObject.
+
 2018-11-30 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.rc1.
