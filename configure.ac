@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT([emdros],[3.7.0.rc1])
+AC_INIT([emdros],[3.7.0.pre03])
 AC_CONFIG_SRCDIR(src/mql.cpp)
 AM_INIT_AUTOMAKE
 AC_PREREQ(2.63)

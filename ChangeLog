@@ -1,4 +1,8 @@
-============ 3.7.0.rc1 ============
+============ 3.7.0.pre03 ============
+
+2018-12-11 Ulrik Sandborg-Petersen
+
+	* configure.ac, debian/changelog: Demote to 3.7.0.pre03 from 3.7.0.rc1.
 
 2018-12-08 Ulrik Sandborg-Petersen
 
