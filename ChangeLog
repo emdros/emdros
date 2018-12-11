@@ -4,6 +4,13 @@
 
 	* configure.ac, debian/changelog: Demote to 3.7.0.pre03 from 3.7.0.rc1.
 
+	* wx/wxemdros.m4: Add support for building on macOS version 10.13
+	(High Sierra) and 10.14 (Mojave).
+
+	Note that Xcode 10 // SDK for macOS 10.14 no longer contains
+	support for compiling i386 applications.  This means that I must
+	compile with Xcode 9.4 or earlier in order to retain i386 support.
+
 2018-12-08 Ulrik Sandborg-Petersen
 
 	* include/memobject.h, harvest/memobject.cpp: Split MemObject into
