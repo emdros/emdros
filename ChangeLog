@@ -1,5 +1,11 @@
 ============ 3.7.0.pre03 ============
 
+2019-01-15 Ulrik Sandborg-Petersen
+
+	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
+
+============ 3.7.0.pre03 ============
+
 2018-12-11 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Demote to 3.7.0.pre03 from 3.7.0.rc1.
