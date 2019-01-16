@@ -278,6 +278,40 @@
 
 	* doc/man1/eqtu.1.in: Rewrite, so as not to mention eqt(1).
 
+	* doc/Makefile.am: Update for the new m4 infrastructure.
+
+	AS A RESULT:
+
+	1) Remove all *.lyx files from the distribution.
+	2) Remove all *.txt files from the distribution.
+	3) Use the new doc/man1/ and doc/man5/ directory structure.
+
+	Files affected:
+
+	deleted:    doc/Getting-Started.lyx
+	deleted:    doc/HOW-TO-USE.txt
+	deleted:    doc/MQL-Programmers-Guide.lyx
+	deleted:    doc/MQL-Query-Guide.lyx
+	deleted:    doc/MQL-Query-subset.lyx
+	deleted:    doc/MQL-README.txt
+	modified:   doc/Makefile.am
+	deleted:    doc/Monad-Sets.lyx
+	deleted:    doc/New-EMdF.lyx
+	deleted:    doc/README-doc.txt
+	deleted:    doc/README.MySQL.Win32.txt
+	deleted:    doc/Rel-EMdF.lyx
+	deleted:    doc/Standard-MdF.lyx
+	deleted:    doc/TheDoor.fig
+	deleted:    doc/ThisDoor.html
+	deleted:    doc/bootstrapping.txt
+	deleted:    doc/xinetd.mql
+
+	All of the *.txt files that were deleted had obsolete information,
+	and neded to be rewritten from scratch.
+
+	The *.lyx files have been moved to the docs-emdros repo on GitHub,
+	along with TheDoor.fig.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
