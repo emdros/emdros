@@ -42,7 +42,7 @@ test: TestEmdros.cs EmdrosDotNet.dll
 
 AM_CXXFLAGS = @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ @ADDITIONAL_CXXFLAGS@ @DEBUGFLAG@
 
-AM_CPPFLAGS = -I. -I$(top_srcdir)/lib/base -I. -I$(top_srcdir)/lib/base -I$(top_srcdir)/lib/EMdF -I$(top_srcdir)/lib/MQL -I$(top_srcdir)/lib/harvest  -I$(top_srcdir)/amalgamation -I$(top_srcdir)
+AM_CPPFLAGS = -I. -I$(top_srcdir)/lib/EMdF -I$(top_srcdir)/lib/MQL -I$(top_srcdir)/lib/harvest  -I$(top_srcdir)/amalgamation -I$(top_srcdir)
 
 libcsemdros_wrap.cxx $(SWIG_GENERATED_CSHARPFILES): libcsemdros.i
 	mkdir -p cssource
