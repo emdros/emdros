@@ -45,6 +45,8 @@
 	renamed:    m4/wxemdros.m4 -> m4/emdros_wx.m4
 	new file:   m4/emdros_zlib.m4
 
+	* emdros.pc.in: Initial addition of pkg-config emdros.pc template.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
