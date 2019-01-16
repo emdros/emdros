@@ -150,7 +150,7 @@ To build a .deb:
 
 $ tar xfzv emdros-x.y.z.tar.gz
 $ cd emdros-x.y.z
-$ dpkg-buildpackage -rfakeroot -d
+$ dpkg-buildpackage -rfakeroot -d -us -uc
 
 To install the .deb:
 
@@ -317,7 +317,7 @@ configure, edit the file "debian/rules".  DO NOT run configure
 manually.  It is run from debian/rules as part of dpkg-buildpackage
 -rfakeroot command (the next step).
 
-3f) dpkg-buildpackage -rfakeroot -d
+3f) dpkg-buildpackage -rfakeroot -d -us -uc
 
 This should build the .debs in $HOME/build/.  If this fails with an
 error, or it builds a .deb with a wrong version, _please_ get in touch
