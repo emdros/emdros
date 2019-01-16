@@ -144,6 +144,13 @@
 
 	* src/importtool/Makefile.am: Update for the new m4 infrastructure.
 
+	* src/Makefile.am: Update for the new m4 infrastructure.
+
+	* src/agexport.cpp: Remove, since it had not been tested to work
+	for more than a decade.
+
+	* src/Makefile.am: Remvoe agexport.cpp.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
