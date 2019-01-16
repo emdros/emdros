@@ -42,7 +42,14 @@ SUBDIRS = doc pcre zlib sqlite3 include \
 CLEANFILES = *~ core install_mac.sh generate_extrafiles.py extrafiles-emdros.txt extrafiles-emdros-devel.txt
 
 DISTCLEANFILES = debian/docs \
-                 $(EMDROS_SPEC_FILE) $(EMDROS_SPEC_FILE).in
+                 $(EMDROS_SPEC_FILE) $(EMDROS_SPEC_FILE).in \
+                 debian/emdros.doc-base \
+                 debian/emdros.prerm \
+                 debian/emdros.postrm \
+                 debian/emdros.postinst \
+                 debian/control 
+
+
 
 BUILT_SOURCES = install_mac.sh debian/docs generate_extrafiles.py extrafiles-emdros.txt $(EMDROS_SPEC_FILE) \
                 debian/rules \

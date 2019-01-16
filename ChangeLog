@@ -15,6 +15,15 @@
 
 	* configure.ac: Revert the default prefix to be /usr/local .
 
+	* Makefile.am: Add the following files to DISTCLEANFILES:
+
+        debian/emdros.doc-base
+        debian/emdros.prerm
+        debian/emdros.postrm
+        debian/emdros.postinst
+        debian/control
+
+
 ============ 3.7.0.pre03 ============
 
 2018-12-11 Ulrik Sandborg-Petersen
