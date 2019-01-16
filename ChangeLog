@@ -326,8 +326,17 @@
 
 	* src/qrytool/Makefile.am: Update for new m4 infrastructure.
 
+	Files affected:
+
 	modified:   src/qrytool/Makefile.am
 	renamed:    src/qrytool/emergence-eqtu.desktop -> src/qrytool/scripturesys-eqtu.desktop
+
+	* src/importtool/Makefile.am: Update for new m4 infrastructure.
+
+	Files affected:
+
+	modified:   src/importtool/Makefile.am
+	renamed:    src/importtool/emergence-importtool.desktop -> src/importtool/scripturesys-importtool.desktop
 
 2019-01-15 Ulrik Sandborg-Petersen
 

@@ -31,6 +31,7 @@ ALWAYSLDADD = \
 ALWAYSDEPS = @EMDROS_DEPS_BACKBACK@
 
 
+
 importtoolu_LDADD = \
                     -L$(top_builddir)/wx -lemdrosguiu $(ALWAYSLDADD) \
                     @WX_UNICODE_LDFLAGS@ @WX_UNICODE_LIBS@
@@ -43,16 +44,18 @@ importtoolu_SOURCES = importtool.cpp
 
 noinst_HEADERS = importtool.h
 
-AM_CPPFLAGS = -I$(top_srcdir)/include -I. -I$(top_srcdir)/wx
+AM_CPPFLAGS = -I$(top_srcdir)/include -I. -I$(top_srcdir)/wx -I$(top_srcdir)/amalgamation -I$(top_srcdir)/
 CLEANFILES = *~ core config.log Info.plist
 
 IMPORTTOOLDATA = doc/ImportToolUsersGuide.htb
 
-dist_pkgdata_DATA = emergence-importtool.desktop
+desktopdatadir = $(datadir)/applications
+dist_desktopdata_DATA = scripturesys-importtool.desktop 
 
-EXTRA_DIST = win32.mak mingw.mak importtool.rc \
-             Info.plist.in  EmdrosImportTool.r \
-             emergence-importtool.desktop
+
+EXTRA_DIST = windows.mak mingw.mak importtool.rc \
+             Info.plist.in  \
+             scripturesys-importtool.desktop
 
 
 #
@@ -68,20 +71,14 @@ BUILT_SOURCES = Info.plist
 
 if HOSTISDARWIN
 if WITH_WX_PROGRAMS
-maybe_all_local = RezSetFile EmdrosImportTool.app
-__macosx__rez = $(WX_REZFLAGS) importtoolu -s $(top_srcdir)/wx EmdrosImportTool.r
-__macosx__setfile = 
+maybe_all_local = EmdrosImportTool.app
 maybe_distclean_local = MacOSX_distclean_local
 else
 maybe_all_local = 
-__macosx__rez = 
-__macosx__setfile = 
 maybe_distclean_local = 
 endif
 else
 maybe_all_local = 
-__macosx__rez = 
-__macosx__setfile = 
 maybe_distclean_local = 
 endif
 
@@ -113,6 +110,3 @@ EmdrosImportTool.app: Info.plist importtoolu $(IMPORTTOOLDATA) $(top_srcdir)/wx/
 Info.plist: Info.plist.in
 	$(top_builddir)/config.status --file=$(srcdir)/Info.plist
 
-RezSetFile: importtoolu EmdrosImportTool.r
-	$(__macosx__rez)
-	$(__macosx__setfile)
