@@ -201,6 +201,14 @@
 
 	* src/win32.mak: Don't compile the -- now removed -- agexport.cpp.
 
+	* doc/agexport.1: Remove.
+
+	Files affected:
+
+	modified:   doc/Makefile.am
+	deleted:    doc/agexport.1
+	modified:   doc/emdros.1
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.

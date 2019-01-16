@@ -3,7 +3,7 @@ SUBDIRS = progref
 man_MANS = emdros.1 \
            mql.1 mqldump.1 manage_indices.1 upgrade_db.1 \
            emdftry.1 mqltry.1 mqllingtry.1 jsontry.1 renderobjects.1 \
-           hal_build_db.1 mqlhal.1 eqtc.1 eqt.1 eqtu.1 agexport.1 \
+           hal_build_db.1 mqlhal.1 eqtc.1 eqt.1 eqtu.1 \
            ubimport.1 pennimport.1 negraimport.1 tigerxmlimport.1 \
            plaintextimport.1 slashedtextimport.1 sfmimport.1 bptdump.1 \
            fts_indexer.1 fts_harvester.1 fts_filters.5
