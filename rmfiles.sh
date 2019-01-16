@@ -59,4 +59,4 @@ rm -f debian/emdros.doc-base
 rm -f debian/emdros.prerm
 rm -f debian/emdros.postrm
 rm -f debian/emdros.postinst
-rm -f debian/control
+rm -f debian/rules

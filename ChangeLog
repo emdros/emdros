@@ -31,6 +31,8 @@
         debian/emdros.postinst
         debian/control
 
+	* Makefile.am, rmfiles.sh: Don't delete debian/control -- it is
+	not a generated file.  Instead, delete debian/rules
 
 ============ 3.7.0.pre03 ============
 
