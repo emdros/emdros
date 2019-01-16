@@ -87,7 +87,8 @@ debian/emdros.postinst
 debian/emdros.postrm
 debian/emdros.prerm
 depcomp
-doc/*.html
+doc/man1/*.html
+doc/man5/*.html
 doc/*.pdf
 doc/*.eps
 doc/man1/eqtc.1
