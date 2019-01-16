@@ -86,7 +86,9 @@ AC_CONFIG_FILES([Makefile
                  amalgamation/Makefile
                  src/Makefile
                  src/importtool/Makefile
+                 src/importtool/doc/Makefile
                  src/qrytool/Makefile
+                 src/qrytool/doc/Makefile
                  SWIG/Makefile
                  SWIG/csharp/Makefile
                  SWIG/java/Makefile
