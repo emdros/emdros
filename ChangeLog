@@ -11,6 +11,9 @@
 
 	* .travis.yml: Initial addition.
 
+	* INSTALL: Remove mention of lyx.  Add more packages for Ubuntu,
+	now that lyx is gone as a requirement.
+
 2019-01-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Revert the default prefix to be /usr/local .

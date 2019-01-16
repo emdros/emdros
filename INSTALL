@@ -99,7 +99,7 @@ On Fedora 26-29, the following packages are required to build the full
 gamut of Emdros programs and libraries, even after a "make distclean"
 or a "make clean":
 
-gcc-c++ make binutils groff gcc glibc-devel glibc-headers kernel-headers groff libgomp libstdc++-devel re2c transfig lyx latex2html swig autoconf automake libtool wxGTK3 wxGTK3-devel ImageMagick texlive-a4wide texlive-times texlive-courier texlive-ulem texlive-epstopdf-bin texlive-latex pkg-config
+gcc-c++ make binutils groff gcc glibc-devel glibc-headers kernel-headers groff libgomp libstdc++-devel re2c transfig latex2html swig autoconf automake libtool wxGTK3 wxGTK3-devel ImageMagick texlive-a4wide texlive-times texlive-courier texlive-ulem texlive-epstopdf-bin texlive-latex pkg-config
 
 The following packages are optional on Fedora:
 
@@ -164,24 +164,10 @@ For case number (ii), you need to read on.
 Building after make distclean
 :::::::::::::::::::::::::::::
 
-On Ubuntu 16.04 LTS (xenial), you will need a PPA for LyX:
+The following command will bring in everything needed to build after
+make distclean:
 
-https://launchpad.net/~lyx-devel/+archive/ubuntu/release
-
-In short:
-
-1. sudo apt-get remove lyx
-2. sudo apt-get autoremove
-3. sudo add-apt-repository ppa:lyx-devel/release
-4. sudo apt-get update
-5. sudo apt-get install lyx
-6. lyx
-[i.e, run LyX]
-
-After this, the following command will bring in everything needed to
-build after make distclean:
-
-sudo apt-get install transfig lyx latex2html swig3.0 autoconf automake libtool groff imagemagick autotools-dev re2c
+sudo apt-get install transfig latex2html swig3.0 autoconf automake libtool groff imagemagick autotools-dev re2c texlive-latex-base latex2html fonts-texgyre 
 
 If SWIG support for PHP 5.6 is required, you need to install the
 following PPA, with the following commands:
@@ -208,12 +194,12 @@ Older versions of Ubuntu
 On Ubuntu 14.10 (Utopic Unicorn), the following command will bring in
 everything needed to build a .deb:
 
-sudo apt-get install g++ make binutils re2c transfig lyx latex2html swig3.0 autoconf automake libtool libwxgtk3.0-dev libwxgtk-media3.0-dev openjdk-7-jdk python-dev mono-devel mono-gmcs mono-tools-devel libmysqlclient-dev mysql-client mysql-server postgresql libpq-dev postgresql-client groff imagemagick xdg-utils zlib1g-dev build-essential fakeroot debhelper autotools-dev libwxgtk-webview3.0-dev
+sudo apt-get install g++ make binutils re2c transfig latex2html swig3.0 autoconf automake libtool libwxgtk3.0-dev libwxgtk-media3.0-dev openjdk-7-jdk python-dev mono-devel mono-gmcs mono-tools-devel libmysqlclient-dev mysql-client mysql-server postgresql libpq-dev postgresql-client groff imagemagick xdg-utils zlib1g-dev build-essential fakeroot debhelper autotools-dev libwxgtk-webview3.0-dev
 
 On Ubuntu 14.04 LTS (Trusty Tahr), the following command will bring in
 everything needed to build a .deb:
 
-sudo apt-get install g++ make binutils re2c transfig lyx latex2html swig autoconf automake libtool libwxgtk3.0-dev libwxgtk-media3.0-dev openjdk-7-jdk python-dev mono-devel mono-gmcs mono-tools-devel libmysqlclient-dev mysql-client mysql-server postgresql libpq-dev postgresql-client groff imagemagick xdg-utils zlib1g-dev build-essential fakeroot debhelper autotools-dev 
+sudo apt-get install g++ make binutils re2c transfig latex2html swig autoconf automake libtool libwxgtk3.0-dev libwxgtk-media3.0-dev openjdk-7-jdk python-dev mono-devel mono-gmcs mono-tools-devel libmysqlclient-dev mysql-client mysql-server postgresql libpq-dev postgresql-client groff imagemagick xdg-utils zlib1g-dev build-essential fakeroot debhelper autotools-dev 
 
 On Ubuntu Server 14.04 LTS, and possibly others, the minimum packages
 needed to build a .deb of Emdros from an Emdros release tarball will
