@@ -184,6 +184,8 @@
 	- SWIG/java/libemdfjava.i
 	- SWIG/java/libmqljava.i
 
+	* pcre/Makefile.am: Only build libpcre_emdros.la if DO_DEVEL is true.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.

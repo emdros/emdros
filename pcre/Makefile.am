@@ -4,8 +4,16 @@ if HOSTISDARWIN
 MACLDFLAGS = -static
 endif
 
+if DO_DEVEL
+MAYBE_LIBS_PCRE = libpcre_emdros.la
+else
+MAYBE_LIBS_PCRE = 
+endif
+
+lib_LTLIBRARIES = $(MAYBE_LIBS_PCRE)
+
 if USE_LOCAL_PCRE
-  lib_LTLIBRARIES += libpcre_emdros.la
+  lib_LTLIBRARIES += $(MAYBE_LIBS_PCRE)
   DO_MACDIST = cp -f .libs/libpcre_emdros.a $(MACDISTDIR)/development/lib/
 endif
 
