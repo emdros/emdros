@@ -690,6 +690,8 @@
 	* src/qrytool/Makefile.am: Add rule for creating
 	doc/EQTUsersGuide.htb.
 
+	This re-enables "make dist" from a bare, non-"make all"'ed directory.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
