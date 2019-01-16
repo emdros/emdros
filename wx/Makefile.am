@@ -52,7 +52,8 @@ dist_pkgdata_DATA = \
                     blue-E-22x22.png \
                     blue-E-32x32.png \
                     blue-E-48x48.png \
-                    blue-E-64x64.png
+                    blue-E-64x64.png \
+                    blue-E-128x128.png
 
 
 
@@ -75,7 +76,7 @@ libemdrosguiu_a_CXXFLAGS = $(AM_CXXFLAGS) @WX_UNICODE_CXXFLAGS@
 #                          @SUN_LDFLAGS@ \
 #                          @DARWIN_LDFLAGS@ 
 
-AM_CPPFLAGS = -I$(srcdir)/../include  
+AM_CPPFLAGS = -I$(top_srcdir)/include  -I$(top_srcdir)/amalgamation -I$(top_srcdir)
 
 CLEANFILES = *~ core 
 
