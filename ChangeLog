@@ -263,6 +263,14 @@
 	- doc/man1/mqlhal.1.in
 	- doc/man1/hal_build_db.1
 
+	* doc/cms/: Initial addition of these files. Files affected:
+
+	modified:   configure.ac
+	new file:   doc/cms/Makefile.am
+	new file:   doc/cms/buildhtb.py
+	new file:   doc/cms/cms.css
+	new file:   doc/cms/dot.gif
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
