@@ -37,6 +37,7 @@ SWIG_GENERATED_CSHARPFILES = \
                 cssource/FlatStraw.cs \
                 cssource/IntegerListConstIterator.cs \
                 cssource/IntegerList.cs \
+                cssource/IntVector.cs \
                 cssource/ListOfStraws.cs \
                 cssource/MatchedObject.cs \
                 cssource/MaxRange.cs \
@@ -70,12 +71,12 @@ SWIG_GENERATED_CSHARPFILES = \
                 cssource/StringList.cs \
                 cssource/StringVector.cs \
                 cssource/SWIGTYPE_p_EnumConstCache.cs \
-                cssource/SWIGTYPE_p_int.cs \
                 cssource/SWIGTYPE_p_JSONValue.cs \
                 cssource/SWIGTYPE_p_std__istream.cs \
                 cssource/SWIGTYPE_p_std__listT_std__string_t.cs \
                 cssource/SWIGTYPE_p_std__ostream.cs \
                 cssource/SWIGTYPE_p_std__string.cs \
+                cssource/SWIGTYPE_p_std__vectorT_emdros_i32_t__size_type.cs \
                 cssource/SWIGTYPE_p_std__vectorT_long_t.cs \
                 cssource/SWIGTYPE_p_String2SOMMap.cs \
                 cssource/TableColumnException.cs \
