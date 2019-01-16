@@ -84,7 +84,7 @@ if test "x$DEVEL" = "xyes"; then
 else
   echo "This is not a devel build, so the amalgamation will be used,"
   echo "and the source code will not be compiled separately."
-  echo "NOTE: This is a good thing, unless you want to develop Emdros :-)."
+  echo "NOTE: This is a Good Thing(TM), unless you want to develop Emdros :-)."
 fi
 
 echo ""
