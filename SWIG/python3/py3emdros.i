@@ -1,7 +1,7 @@
 /*
- * pyemdros.i: Python 3 bindings for Emdros using SWIG
+ * py3emdros.i: Python 3 bindings for Emdros using SWIG
  * Created: 2/8-2003 (February 8, 2003)
- * Last update: 1/25-2017
+ * Last update: 1/16-2019
  *
  */
 
@@ -19,8 +19,10 @@
 
 %module EmdrosPy3
 
+
 %{
 #include <iostream>
+#include "emdros-lconfig.h"
 %}
 
 /* don't tell us about changes in the first letter of constants */
@@ -34,8 +36,43 @@
 
 %include "exception.i"
 
+
+%{
+#include "../../include/emdros-lconfig.h"
+#include "../../include/emdf.h"
+#include "../../include/exception_emdros.h"
+#include "../../include/string_list.h"
+#include "../../include/emdf_exception.h"
+#include "../../include/emdf_output.h"
+#include "../../include/emdf_value.h"
+#include "../../include/emdfdb.h"
+#include "../../include/monads.h"
+#include "../../include/table.h"
+#include "../../include/emdf_enums.h"
+#include "../../include/pgemdfdb.h"
+#include "../../include/mysqlemdfdb.h"
+#include "../../include/sqlite3emdfdb.h"
+#include "../../include/mql_error.h"
+#include "../../include/mql_execute.h"
+#include "../../include/mql_types.h"
+#include "../../include/mql_sheaf.h"
+#include "../../include/mql_result.h"
+#include "../../include/mql_execution_environment.h"
+#include "../../include/environment_emdros.h"
+#include "../../include/mql_enums.h"
+#include "../../include/renderobjects.h"
+#include "../../include/renderxml.h"
+#include "../../include/harvest_fts.h"
+%}
+
+// Include this before using emdros_int64, monad_m, id_d_t, etc.
+%include "../../include/emdros-lconfig.h"
+%include "../../include/emdf.h"
+
 %template(StringVector) std::vector<std::string>;
-%template(IntVector) std::vector<long>;
+%template(IntVector) std::vector<emdros_i32>;
+%template(LongVector) std::vector<long>;
+%template(LongLongVector) std::vector<long long>;
 
 
 /* make sure that STL exceptions get caught and rethrown. */
@@ -50,12 +87,9 @@
 
 
 
-%apply long &INOUT { long & };
+%apply emdros_i32 &INOUT { emdros_i32 & };
+%apply emdros_u32 &INOUT { emdros_u32 & };
 %apply bool &INOUT { bool & };
-
-/* This assumes that all "long &" parameters are INOUT,
- * which seems safe, if somewhat inefficient.
- */
 
 %apply const std::string & {std::string &};
 %apply std::string & {string &};
@@ -63,31 +97,32 @@
 %constant std::ostream * KSTDOUT = &std::cout;
 %constant std::ostream * KSTDERR = &std::cerr;
 
+// EMdF library
+%include "../../include/exception_emdros.h"
+%include "../../include/llist.h"
+%include "../../include/string_list.h"
+%include "../../include/emdf_exception.h"
+%include "../../include/emdf_output.h"
+%include "../../include/emdf_value.h"
+%include "../../include/emdfdb.h"
+%include "../../include/monads.h"
+%include "../../include/table.h"
+%include "../../include/emdf_enums.h"
+%include "../../include/pgemdfdb.h"
+%include "../../include/mysqlemdfdb.h"
+%include "../../include/sqlite3emdfdb.h"
 
-/* To get monad_m and id_d_t typedefs. */
-%include "../../include/emdf.h"
+// MQL library
+%include "../../include/mql_execution_environment.h"
+%include "../../include/mql_error.h"
+%include "../../include/mql_execute.h"
+%include "../../include/mql_types.h"
+%include "../../include/mql_sheaf.h"
+%include "../../include/mql_result.h"
+%include "../../include/environment_emdros.h"
+%include "../../include/mql_enums.h"
 
-/*
-%{
-typedef long monad_m;
-typedef long id_d_t;
-%}
-typedef long monad_m;
-typedef long id_d_t;
 
-*/
-
-%include "libemdfpython.i"
-%include "libmqlpython.i"
-
- /* harvest library */
-%{
-#include "../../include/renderobjects.h"
-#include "../../include/renderxml.h"
-#include "../../include/harvest_fts.h"
-%}
-
- /* harvest library */
 %include "../../include/renderobjects.h"
 %include "../../include/renderxml.h"
 %include "../../include/harvest_fts.h"

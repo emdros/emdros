@@ -220,6 +220,13 @@
 	deleted:    SWIG/python/libmqlpython.i
 	modified:   SWIG/python/pyemdros.i
 
+	* SWIG/python3/py3emdros.i: Incorporate, then remove the following
+	two files:
+
+	deleted:    libemdfpython.i
+	deleted:    libmqlpython.i
+	modified:   py3emdros.i
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
