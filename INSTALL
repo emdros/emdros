@@ -15,7 +15,6 @@ This document contains the following sections:
 - Other environment variables
 - configure options
 - Building on Mac OS X
-- What happens after building Emdros?
 
 
 
@@ -587,10 +586,3 @@ Building on Mac OS X
 
 Please see INSTALL.Mac.txt.
 
-
-What happens after building Emdros?
-===================================
-
-Please see the doc/HOW-TO-USE file.
-
-Please also see the rest of the documentation.

@@ -350,6 +350,9 @@
 
 	from the Cflags, since we don't have it at the moment.
 
+	* INSTALL: Remove the obsolete section: "What happens after
+	building Emdros?"
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
