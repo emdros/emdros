@@ -156,6 +156,7 @@ harvest/emdroslang_lexer.cpp
 harvest/emdroslang_lexer.h
 harvest/emdroslang_parser.cpp
 harvest/emdroslangpars.h
+include/emdros-version.h
 include/emdros-config.h
 include/emdros-config.h.in
 include/emdros-lconfig.h
