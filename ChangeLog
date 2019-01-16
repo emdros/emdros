@@ -196,6 +196,10 @@
 	* win32/win32.mak: Remove the following:
 
 	- TECkit
+	- agexport.html
+	- agexport.exe
+
+	* src/win32.mak: Don't compile the -- now removed -- agexport.cpp.
 
 2019-01-15 Ulrik Sandborg-Petersen
 
