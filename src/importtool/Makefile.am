@@ -53,7 +53,7 @@ desktopdatadir = $(datadir)/applications
 dist_desktopdata_DATA = scripturesys-importtool.desktop 
 
 
-EXTRA_DIST = windows.mak mingw.mak importtool.rc \
+EXTRA_DIST = win32.mak mingw.mak importtool.rc \
              Info.plist.in  \
              scripturesys-importtool.desktop
 
