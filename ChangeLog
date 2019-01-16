@@ -254,6 +254,8 @@
 	It is not a command, but a general description.  So it does not
 	belong in Section of the manual.
 
+	* doc/man5/emdros.5: Update.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
