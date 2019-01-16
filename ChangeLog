@@ -171,6 +171,8 @@
 	generate_extrafiles.py, since there is already an implicit rule
 	for doing so.
 
+	* Makefile.am: Install emdros.pc in the right place.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
