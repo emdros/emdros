@@ -47,6 +47,22 @@
 
 	* emdros.pc.in: Initial addition of pkg-config emdros.pc template.
 
+	* configure.ac: Update to use the new machinery in m4/.
+
+	AS A CONSEQUENCE:
+
+	- Depend on AutoConf version 2.69.
+
+	In addition:
+
+	- REMOVE SWIG support for php 5.x
+	- REMOVE SWIG support for perl
+	- REMOVE SWIG support for Android
+	- REMOVE SWIG support for ruby
+
+	If anyone is bitten by these changes, please do write to Ulrik to
+	let him know you need a particular SWIG backend back.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
