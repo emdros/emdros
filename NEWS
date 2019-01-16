@@ -40,13 +40,25 @@ Release notes for Emdros 3.7.0
      [Clause monad_count = s1.monad_count]
   ]
 
+- The Emdros Query Tool no longer supports TECkit.  TECkit support was
+  removed because we now live in a Unicode world, and TECkit was
+  supposed to convert from legacy 8-bit encodings to Unicode.
+
+- The examples/ subdirectory is gone, making for a smaller tarball.
+  The examples have been moved to the example-programs-emdros and
+  example-databases GitHub repos. This affects:
+
+  - The Emdros Chunking Tool
+  - The HAL implementation (Hyperspace Analogue to Language of Burgess et al.)
+  - The King James Version, Parsed.
+  - The sfm example.
+
+- The agexport(1) program is gone, since it had not been maintained or
+  tested for many years.
+
 - The build scripts have been totally reimagined.  In particular:
 
   - The m4/ directory has been totally reorganized.
-
-  - The examples/ subdirectory is gone, making for a smaller tarball.
-    The examples have been moved to the example-programs-emdros and
-    example-databases GitHub repos.
 
   - The doc/ subdirectory has been totally revamped, with much
     documentation having been moved to the docs-emdros repo on GitHub.
