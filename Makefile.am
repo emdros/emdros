@@ -135,23 +135,14 @@ endif
 if SWIG_WITH_JAVA_WRAPPERS
 	mkdir -p $(MACDISTDIR)/development/SWIG/java
 endif
-if SWIG_WITH_PERL_WRAPPERS
-	mkdir -p $(MACDISTDIR)/development/SWIG/perl
-endif
-if SWIG_WITH_PYTHON_WRAPPERS
+if SWIG_WITH_PYTHON2_WRAPPERS
 	mkdir -p $(MACDISTDIR)/development/SWIG/python
 endif
 if SWIG_WITH_PYTHON3_WRAPPERS
 	mkdir -p $(MACDISTDIR)/development/SWIG/python3
 endif
-if SWIG_WITH_PHP_WRAPPERS
-	mkdir -p $(MACDISTDIR)/development/SWIG/php5
-endif
 if SWIG_WITH_PHP7_WRAPPERS
 	mkdir -p $(MACDISTDIR)/development/SWIG/php7
-endif
-if SWIG_WITH_RUBY_WRAPPERS
-	mkdir -p $(MACDISTDIR)/development/SWIG/ruby
 endif
 	mkdir -p $(MACDISTDIR)/development/sourcecode
 if WX_DO_UNICODE
