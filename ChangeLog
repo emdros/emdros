@@ -175,6 +175,9 @@
 
 	* emdros.spec.in: Update for the new m4 infrastructure.
 
+	* SWIG/csharp/libcsemdros.i: Incorporate the files libemdf.i and
+	libmql.i into libcsemdros.i, then delete the former two.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
