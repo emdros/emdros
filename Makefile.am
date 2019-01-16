@@ -36,7 +36,7 @@ EXTRA_DIST = README INSTALL.Win32.txt INSTALL.Mac.txt \
 
 SUBDIRS = doc pcre zlib sqlite3 include \
           EMdF MQL harvest util amalgamation $(MAYBE_WX) \
-          src tests examples \
+          src tests \
 	  SWIG win32
 
 CLEANFILES = *~ core install_mac.sh generate_extrafiles.py extrafiles-emdros.txt extrafiles-emdros-devel.txt
