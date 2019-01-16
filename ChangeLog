@@ -173,6 +173,8 @@
 
 	* Makefile.am: Install emdros.pc in the right place.
 
+	* emdros.spec.in: Update for the new m4 infrastructure.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
