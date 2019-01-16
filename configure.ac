@@ -70,6 +70,7 @@ EMDROS_BUILDENV_END
 
 AC_CONFIG_FILES([Makefile
                  doc/Makefile
+                 doc/progref/Makefile
 		 zlib/Makefile
 		 pcre/Makefile
 		 sqlite3/Makefile
