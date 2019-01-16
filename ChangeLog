@@ -14,6 +14,8 @@
 	* INSTALL: Remove mention of lyx.  Add more packages for Ubuntu,
 	now that lyx is gone as a requirement.
 
+	* .travis.yml: More Ubuntu Xenial packages, this time for LaTeX.
+
 2019-01-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Revert the default prefix to be /usr/local .
