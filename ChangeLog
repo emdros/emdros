@@ -66,6 +66,13 @@
 	* EMdF/Makefile.am: Define -DSQLITE3_EMDFDB_NO_FSYNC
 	unconditionally.
 
+	* SWIG/Makefile.am: Remove support for the following SWIG backends:
+
+	- perl
+	- php 5
+	- ruby
+	- Android
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
