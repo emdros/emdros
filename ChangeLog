@@ -338,6 +338,12 @@
 	modified:   src/importtool/Makefile.am
 	renamed:    src/importtool/emergence-importtool.desktop -> src/importtool/scripturesys-importtool.desktop
 
+	* emdros.spec.in: Add
+
+	%{prefix}/share/doc/emdros/
+
+	to the installed files.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.

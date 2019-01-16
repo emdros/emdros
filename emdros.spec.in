@@ -150,6 +150,7 @@ This package contains development files.
 %{_bindir}/*
 %{prefix}/share/applications/
 %{prefix}/share/emdros/
+%{prefix}/share/doc/emdros/
 %{prefix}/lib/*.so.*
 %doc SWIG/csharp/README-csharp
 %doc SWIG/csharp/TestEmdros.cs
