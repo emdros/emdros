@@ -80,6 +80,9 @@
 
 	* INSTALL: Doc updates for the new m4 machinery.
 
+	* include/emdros-version.h.in: #define
+	EMDROS_VERSION_{MAJOR,MINOR,RELEASE}.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 7/6-2003
- * Last update: 7/6-2003
+ * Last update: 1/16-2019
  *
  */
 
@@ -22,10 +22,14 @@
 
 
 
-
 #ifndef EMDROS_VERSION__H__
 #define EMDROS_VERSION__H__
 
 #define EMDROS_VERSION "@VERSION@"
+
+#define EMDROS_VERSION_MAJOR (@EMDROS_VERSION_MAJOR@)
+#define EMDROS_VERSION_MINOR (@EMDROS_VERSION_MINOR@)
+#define EMDROS_VERSION_RELEASE (@EMDROS_VERSION_RELEASE@)
+
 
 #endif /* EMDROS_VERSION__H__ */
