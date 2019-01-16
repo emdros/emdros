@@ -38,9 +38,6 @@
 
 
 %{
-#if defined(USE_AMALGAMATION) && USE_AMALGAMATION
-#include "emdros.h"
-#else
 #include "../../include/emdros-lconfig.h"
 #include "../../include/emdf.h"
 #include "../../include/exception_emdros.h"
@@ -66,17 +63,15 @@
 #include "../../include/renderobjects.h"
 #include "../../include/renderxml.h"
 #include "../../include/harvest_fts.h"
-	
-#endif
 %}
 
-// Include this before using emdros_int64, monad_m, id_d_t, etc.
+// Include this before using emdros_i32, monad_m, id_d_t, etc.
 %include "../../include/emdros-lconfig.h"
 %include "../../include/emdf.h"
 
 
 %template(StringVector) std::vector<std::string>;
-%template(IntVector) std::vector<emdros_int64>;
+%template(IntVector) std::vector<emdros_i32>;
 
 
 /* make sure that STL exceptions get caught and rethrown. */
@@ -112,7 +107,7 @@
 
 
 
-%apply emdros_int64 &INOUT { emdros_int64 & };
+%apply emdros_i32 &INOUT { emdros_i32 & };
 %apply bool &INOUT { bool & };
 %apply const std::string & {std::string &};
 %apply std::string & {string &};
