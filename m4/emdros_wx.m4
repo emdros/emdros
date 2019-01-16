@@ -11,6 +11,10 @@ AC_ARG_WITH(wx,
 [DO_WXWIDGETS=maybe])
 ORIGINAL_DO_WXWIDGETS=$DO_WXWIDGETS
 
+WITH_WXWIDGETS="--with-wx=$ORIGINAL_DO_WXWIDGETS"
+AC_SUBST(WITH_WXWIDGETS)
+
+
 WX_NONUNICODE_CXXFLAGS=
 WX_NONUNICODE_LDFLAGS=
 WX_NONUNICODE_LIBS=
@@ -134,7 +138,6 @@ AC_SUBST(WX_REZFLAGS)
 
 AM_CONDITIONAL(WITH_WX_PROGRAMS, test x$DO_WXWIDGETS = xyes)
 AC_SUBST(WITH_WX_PROGRAMS)
-AC_SUBST(DO_WXWIDGETS)
 
 if test "x$HOSTISDARWIN" = "xyes"; then
     AC_MSG_CHECKING([Current build version (for setting Mac OS X minimum version)...])
@@ -187,19 +190,9 @@ if test "x$HOSTISDARWIN" = "xyes"; then
         AC_MSG_RESULT([10.12]) 
         MACOSX_VERSION_MIN="10.11"
         MACOSX_CFLAGS=""
-      dnl Mac OS X 10.13.
-      elif test "x$DARWINMAJORVERSION" = "x17"; then
-        AC_MSG_RESULT([10.13]) 
-        MACOSX_VERSION_MIN="10.12"
-        MACOSX_CFLAGS=""
-      dnl Mac OS X 10.14.
-      elif test "x$DARWINMAJORVERSION" = "x18"; then
-        AC_MSG_RESULT([10.14]) 
-        MACOSX_VERSION_MIN="10.13"
-        MACOSX_CFLAGS=""
       else
-        AC_MSG_RESULT([unknown... Using 10.12.]) 
-        MACOSX_VERSION_MIN="10.12"
+        AC_MSG_RESULT([unknown... Using 10.11.]) 
+        MACOSX_VERSION_MIN="10.11"
       fi
     elif test "x$WX_RELEASE" == "x2.9" -o "x$WX_RELEASE" == "x3.0"; then
       if test "x$DARWINMAJORVERSION" = "x9"; then
@@ -243,19 +236,9 @@ if test "x$HOSTISDARWIN" = "xyes"; then
         AC_MSG_RESULT([10.12]) 
         MACOSX_VERSION_MIN="10.11"
         MACOSX_CFLAGS=""
-      dnl Mac OS X 10.13.
-      elif test "x$DARWINMAJORVERSION" = "x17"; then
-        AC_MSG_RESULT([10.13]) 
-        MACOSX_VERSION_MIN="10.12"
-        MACOSX_CFLAGS=""
-      dnl Mac OS X 10.14.
-      elif test "x$DARWINMAJORVERSION" = "x18"; then
-        AC_MSG_RESULT([10.14]) 
-        MACOSX_VERSION_MIN="10.13"
-        MACOSX_CFLAGS=""
       else
-        AC_MSG_RESULT([unknown... Using 10.12.]) 
-        MACOSX_VERSION_MIN="10.12"
+        AC_MSG_RESULT([unknown... Using 10.11.]) 
+        MACOSX_VERSION_MIN="10.11"
       fi
     else dnl wxRELEASE != 2.8, 2.9, or 3.0, so probably 3.1
       dnl Mac OS X 10.7: XCode can't do PPC binaries
@@ -288,19 +271,9 @@ if test "x$HOSTISDARWIN" = "xyes"; then
         AC_MSG_RESULT([10.12]) 
         MACOSX_VERSION_MIN="10.11"
         MACOSX_CFLAGS=""
-      dnl Mac OS X 10.13.
-      elif test "x$DARWINMAJORVERSION" = "x17"; then
-        AC_MSG_RESULT([10.13]) 
-        MACOSX_VERSION_MIN="10.12"
-        MACOSX_CFLAGS=""
-      dnl Mac OS X 10.14.
-      elif test "x$DARWINMAJORVERSION" = "x18"; then
-        AC_MSG_RESULT([10.14]) 
-        MACOSX_VERSION_MIN="10.13"
-        MACOSX_CFLAGS=""
       else
-        AC_MSG_RESULT([unknown... Using 10.12.]) 
-        MACOSX_VERSION_MIN="10.12"
+        AC_MSG_RESULT([unknown... Using 10.11.]) 
+        MACOSX_VERSION_MIN="10.11"
       fi
     fi
 
@@ -411,17 +384,9 @@ Please do so, and try again.])
     elif test "x$DARWINMAJORVERSION" = "x16"; then
       AC_MSG_RESULT([10.12]) 
       ARCH_FLAGS="-arch i386 -arch x86_64"
-    dnl Mac OS X 10.13: XCode 10 can't do PPC or i386 binaries
-    elif test "x$DARWINMAJORVERSION" = "x17"; then
-      AC_MSG_RESULT([10.13]) 
-      ARCH_FLAGS="-arch x86_64"
-    dnl Mac OS X 10.14: XCode 10 can't do PPC or i386 binaries
-    elif test "x$DARWINMAJORVERSION" = "x18"; then
-      AC_MSG_RESULT([10.14]) 
-      ARCH_FLAGS="-arch x86_64"
     else
-      AC_MSG_RESULT([Unknown... defaulting to x86_64]) 
-      ARCH_FLAGS="-arch x86_64"
+      AC_MSG_RESULT([Unknown... defaulting to i386 and x86_64]) 
+      ARCH_FLAGS="-arch i386 -arch x86_64"
     fi
     LDFLAGS="$LDFLAGS $ARCH_FLAGS"
     export LDFLAGS
@@ -446,6 +411,7 @@ Please do so, and try again.])
       ARCH_FLAGS="-arch i386 -arch x86_64"
       ISYSROOT="-isysroot /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.6.sdk"
     dnl Mac OS X 10.8: XCode can't do PPC binaries
+    dnl Mac OS X 10.8: XCode can't do PPC binaries
     elif test "x$DARWINMAJORVERSION" = "x12"; then
       AC_MSG_RESULT([10.8]) 
       ARCH_FLAGS="-arch i386 -arch x86_64"
@@ -465,17 +431,9 @@ Please do so, and try again.])
     elif test "x$DARWINMAJORVERSION" = "x16"; then
       AC_MSG_RESULT([10.12]) 
       ARCH_FLAGS="-arch i386 -arch x86_64"
-    dnl Mac OS X 10.13: XCode 10 can't do PPC or i386 binaries
-    elif test "x$DARWINMAJORVERSION" = "x17"; then
-      AC_MSG_RESULT([10.13]) 
-      ARCH_FLAGS="-arch x86_64"
-    dnl Mac OS X 10.14: XCode 10 can't do PPC or i386 binaries
-    elif test "x$DARWINMAJORVERSION" = "x18"; then
-      AC_MSG_RESULT([10.14]) 
-      ARCH_FLAGS="-arch x86_64"
     else
-      AC_MSG_RESULT([Unknown... defaulting to x86_64]) 
-      ARCH_FLAGS="-arch x86_64"
+      AC_MSG_RESULT([Unknown... defaulting to i386 and x86_64])
+      ARCH_FLAGS="-arch i386 -arch x86_64"
     fi
     LDFLAGS="$LDFLAGS $ARCH_FLAGS"
     export LDFLAGS
@@ -493,6 +451,8 @@ Please do so, and try again.])
     AC_MSG_RESULT(["$LDFLAGS"])
   fi
 fi
+
+AC_SUBST(WITH_WXWIDGETS)
 
 
 ])

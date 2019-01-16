@@ -23,6 +23,27 @@
 	* Makefile.am, rmfiles.sh: Don't delete debian/control -- it is
 	not a generated file.  Instead, delete debian/rules
 
+	* m4/: Import the *.m4 files from the version4 branch.
+
+	Files affected:
+
+	deleted:    m4/buildenv.m4
+	deleted:    m4/buildenv2.m4
+	new file:   m4/emdros_banner.m4
+	new file:   m4/emdros_bpt.m4
+	new file:   m4/emdros_bpt2.m4
+	new file:   m4/emdros_buildenv.m4
+	new file:   m4/emdros_buildenv_end.m4
+	new file:   m4/emdros_macos.m4
+	new file:   m4/emdros_mongodb.m4
+	new file:   m4/emdros_mysql.m4
+	new file:   m4/emdros_pcre.m4
+	new file:   m4/emdros_postgresql.m4
+	new file:   m4/emdros_solaris.m4
+	new file:   m4/emdros_sqlite3.m4
+	renamed:    m4/emdrosswig.m4 -> m4/emdros_swig.m4
+	renamed:    m4/wxemdros.m4 -> m4/emdros_wx.m4
+	new file:   m4/emdros_zlib.m4
 
 2019-01-15 Ulrik Sandborg-Petersen
 
