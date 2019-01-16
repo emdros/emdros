@@ -94,6 +94,8 @@
 	keyword "restrict" was used for a function. Rename it to
 	R_restrict().
 
+	* include/emdf_wstring.h: Remove, since it long been obsolete.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
