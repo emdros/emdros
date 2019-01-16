@@ -62,9 +62,6 @@ include include/Makefile.inc
 
 
 
-generate_extrafiles.py: generate_extrafiles.py.in config.status
-	$(top_builddir)/config.status --file=$@
-
 extrafiles-emdros.txt: generate_extrafiles.py
 	python generate_extrafiles.py
 

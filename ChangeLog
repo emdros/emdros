@@ -167,6 +167,10 @@
 
 	* INSTALL: Give it a big overhaul.
 
+	* Makefile.am: Remove explicit rule for generating
+	generate_extrafiles.py, since there is already an implicit rule
+	for doing so.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
