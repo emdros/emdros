@@ -44,7 +44,7 @@ if test "x$USE_AMALGAMATION" = "xyes"; then
 else
   echo "Use amalgamation lib: no"
 fi
-if test "x$USE_LOCAL_PCRE2" = "xyes"; then
+if test "x$USE_LOCAL_PCRE" = "xyes"; then
   echo "PCRE library:         local"
 else
   echo "PCRE library:         system"
