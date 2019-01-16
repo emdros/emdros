@@ -227,6 +227,13 @@
 	deleted:    libmqlpython.i
 	modified:   py3emdros.i
 
+	* SWIG/: Remove the following obsolete directories:
+
+	- SWIG/perl/
+	- SWIG/php/ (PHP 5)
+	- SWIG/ruby/
+	- SWIG/Android/
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.

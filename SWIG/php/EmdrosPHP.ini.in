@@ -1,4 +1,0 @@
-; Place this file in /etc/php.d/
-;
-; Enable Emdros extension module
-extension=@pkglibdir@/EmdrosPHP.so
