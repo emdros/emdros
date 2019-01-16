@@ -1,5 +1,3 @@
-lib_LTLIBRARIES = 
-
 if HOSTISDARWIN
 MACLDFLAGS = -static
 endif
