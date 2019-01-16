@@ -94,7 +94,8 @@
 	keyword "restrict" was used for a function. Rename it to
 	R_restrict().
 
-	* include/emdf_wstring.h: Remove, since it long been obsolete.
+	* include/emdf_wstring.h, EMdF/emdf_wstring.cpp: Remove, since it
+	long been obsolete.
 
 2019-01-15 Ulrik Sandborg-Petersen
 
