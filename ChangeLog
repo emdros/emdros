@@ -9,6 +9,8 @@
 
 	* Makefile.am: Distribute build-deb.sh.
 
+	* .travis.yml: Initial addition.
+
 2019-01-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Revert the default prefix to be /usr/local .
