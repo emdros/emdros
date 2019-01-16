@@ -21,21 +21,21 @@ set -e
 
 case "$1" in
     purge|remove|upgrade|failed-upgrade|abort-install|abort-upgrade|disappear)
-	if [ -x "`which xdg-icon-resource 2>/dev/null`" -a -x "`which xdg-desktop-menu 2>/dev/null`"]; then
+	if test -x "`which xdg-icon-resource 2>/dev/null`"  -a  -x "`which xdg-desktop-menu 2>/dev/null`" ; then
      	  XDG_ICON_RESOURCE=`which xdg-icon-resource`
    	  XDG_DESKTOP_MENU=`which xdg-desktop-menu`
 
    	  if test "x$XDG_ICON_RESOURCE" != "x" -a "x$XDG_DESKTOP_MENU" != "x" -a "x@DO_WXWIDGETS@" = "xyes"; then
    	     if test -x $XDG_ICON_RESOURCE -a -x $XDG_DESKTOP_MENU; then
-   	    	   $XDG_ICON_RESOURCE uninstall --size 16 emergence-blue-E || true
-   	           $XDG_ICON_RESOURCE uninstall --size 22 emergence-blue-E || true
-   	           $XDG_ICON_RESOURCE uninstall --size 32 emergence-blue-E || true
-   	           $XDG_ICON_RESOURCE uninstall --size 48 emergence-blue-E || true
-   	           $XDG_ICON_RESOURCE uninstall --size 64 emergence-blue-E || true
+   	    	   $XDG_ICON_RESOURCE uninstall --size 16 scripturesys-blue-E || true
+   	           $XDG_ICON_RESOURCE uninstall --size 22 scripturesys-blue-E || true
+   	           $XDG_ICON_RESOURCE uninstall --size 32 scripturesys-blue-E || true
+   	           $XDG_ICON_RESOURCE uninstall --size 48 scripturesys-blue-E || true
+   	           $XDG_ICON_RESOURCE uninstall --size 64 scripturesys-blue-E || true
+   	           $XDG_ICON_RESOURCE uninstall --size 128 scripturesys-blue-E || true
 
-   	           $XDG_DESKTOP_MENU uninstall @prefix@/share/emdros/emergence-eqtu.desktop || true
-   	           $XDG_DESKTOP_MENU uninstall @prefix@/share/emdros/emergence-importtool.desktop || true
-   	           $XDG_DESKTOP_MENU uninstall @prefix@/share/emdros/emergence-chunkingtool.desktop || true
+   	           $XDG_DESKTOP_MENU uninstall @prefix@/share/applications/scripturesys-eqtu.desktop || true
+   	           $XDG_DESKTOP_MENU uninstall @prefix@/share/applications/scripturesys-importtool.desktop || true
 
    	     fi
    	  fi   

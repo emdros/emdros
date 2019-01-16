@@ -312,6 +312,16 @@
 	The *.lyx files have been moved to the docs-emdros repo on GitHub,
 	along with TheDoor.fig.
 
+	* debian/: Update for new m4 infrastructure.
+
+	Files affected:
+
+	modified:   debian/emdros.examples
+	modified:   debian/emdros.manpages
+	modified:   debian/emdros.postinst.in
+	modified:   debian/emdros.postrm.in
+	modified:   debian/rules.in
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
