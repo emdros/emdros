@@ -11,6 +11,7 @@ EMDROS_SPEC_FILE = emdros-spec-@VERSION@.spec
 EXTRA_DIST = \
              emdros.pc.in emdros.pc \
              README INSTALL.Win32.txt INSTALL.Mac.txt \
+             build-deb.sh \
              Doxyfile autogen.sh rmfiles.sh install-sh \
              emdros.spec.in $(EMDROS_SPEC_FILE) \
              generate_extrafiles.py.in \

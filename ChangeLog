@@ -5,6 +5,10 @@
 	* INSTALL: Update with more instructions for Ubuntu and Fedora 29.
 	Mention the need for pkg-config.
 
+	* build-deb.sh: Initial addition.
+
+	* Makefile.am: Distribute build-deb.sh.
+
 2019-01-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Revert the default prefix to be /usr/local .
