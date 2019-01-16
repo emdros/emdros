@@ -1,5 +1,10 @@
 ============ 3.7.0.pre04 ============
 
+2019-01-17 Ulrik Sandborg-Petersen
+
+	* INSTALL: Update with more instructions for Ubuntu and Fedora 29.
+	Mention the need for pkg-config.
+
 2019-01-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Revert the default prefix to be /usr/local .

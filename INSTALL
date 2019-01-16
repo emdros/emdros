@@ -95,11 +95,11 @@ yum install gcc-c++ make binutils groff gcc glibc-devel glibc-headers kernel-hea
 Fedora
 ------
 
-On Fedora 26-28, the following packages are required to build the full
+On Fedora 26-29, the following packages are required to build the full
 gamut of Emdros programs and libraries, even after a "make distclean"
 or a "make clean":
 
-gcc-c++ make binutils groff gcc glibc-devel glibc-headers kernel-headers groff libgomp libstdc++-devel re2c transfig lyx latex2html swig autoconf automake libtool wxGTK3 wxGTK3-devel ImageMagick texlive-a4wide texlive-times texlive-courier texlive-ulem texlive-epstopdf-bin texlive-latex
+gcc-c++ make binutils groff gcc glibc-devel glibc-headers kernel-headers groff libgomp libstdc++-devel re2c transfig lyx latex2html swig autoconf automake libtool wxGTK3 wxGTK3-devel ImageMagick texlive-a4wide texlive-times texlive-courier texlive-ulem texlive-epstopdf-bin texlive-latex pkg-config
 
 The following packages are optional on Fedora:
 
@@ -119,7 +119,7 @@ Building a .deb from an Emdros tarball
 
 For case number (i) and (ii), the minimum you need is pulled in with:
 
-sudo apt-get install g++ make binutils zlib1g zlib1g-dev build-essential fakeroot debhelper
+sudo apt-get install g++ make binutils zlib1g zlib1g-dev build-essential fakeroot debhelper pkg-config
 
 The following are all optional for cases (i) and (ii).
 
