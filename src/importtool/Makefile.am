@@ -16,42 +16,28 @@ else
 MAYBE_UNICODE_PRGS =
 endif
 
-if WX_DO_NONUNICODE
-MAYBE_NONUNICODE_PRGS = importtool
-else
-MAYBE_NONUNICODE_PRGS =
-endif
-
 else
 MAYBE_PRGS = 
 endif
 
-EXTRA_PROGRAMS = importtool importtoolu
+EXTRA_PROGRAMS = importtoolu
 
-bin_PROGRAMS = $(MAYBE_NONUNICODE_PRGS) $(MAYBE_UNICODE_PRGS) 
+bin_PROGRAMS = $(MAYBE_UNICODE_PRGS) 
 
-ALWAYSLDADD = $(top_builddir)/util/libutil_emdros.la \
-              @EMDROS_LDADD_SWIG@ @ZLIB_LIBADD_SWIG@ \
+ALWAYSLDADD = \
+              @EMDROS_LDADD_BACKBACK@ \
               @SUN_LDFLAGS@  @DARWIN_LDFLAGS@
 
-ALWAYSDEPS = $(top_builddir)/util/libutil_emdros.la \
-             @EMDROS_DEPS_SWIG@ @ZLIB_DEP_SWIG@
+ALWAYSDEPS = @EMDROS_DEPS_BACKBACK@
 
-
-importtool_LDADD = $(top_builddir)/wx/libemdrosgui.a $(ALWAYSLDADD) \
-            @WX_NONUNICODE_LDFLAGS@ @WX_NONUNICODE_LIBS@
-importtool_LDFLAGS = $(MACLDFLAGS)
-importtool_DEPENDENCIES = $(top_builddir)/wx/libemdrosgui.a $(ALWAYSDEPS) 
-importtool_CXXFLAGS = $(AM_CXXFLAGS) @WX_NONUNICODE_CXXFLAGS@
 
 importtoolu_LDADD = \
-             $(top_builddir)/wx/libemdrosguiu.a $(ALWAYSLDADD) \
-             @WX_UNICODE_LDFLAGS@ @WX_UNICODE_LIBS@
+                    -L$(top_builddir)/wx -lemdrosguiu $(ALWAYSLDADD) \
+                    @WX_UNICODE_LDFLAGS@ @WX_UNICODE_LIBS@
 importtoolu_LDFLAGS = $(MACLDFLAGS)
 importtoolu_DEPENDENCIES = $(top_builddir)/wx/libemdrosguiu.a $(ALWAYSDEPS)
 importtoolu_CXXFLAGS = $(AM_CXXFLAGS) -DwxUSE_UNICODE=1 @WX_UNICODE_CXXFLAGS@
 
-importtool_SOURCES = importtool.cpp
 importtoolu_SOURCES = importtool.cpp
 
 
