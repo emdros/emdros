@@ -37,10 +37,12 @@ MQL/mql_lexer.cpp
 MQL/mql_parser.cpp
 MQL/mqlpars.h
 SWIG/csharp/*.cs
+SWIG/csharp/cssource/
 SWIG/csharp/CSharpSources.zip
 SWIG/csharp/EmdrosDotNet.dll
 SWIG/csharp/libcsemdros_wrap.cxx
 SWIG/java/*.java
+SWIG/java/jsource/
 SWIG/java/jemdros.jar
 SWIG/java/libjemdros_wrap.cxx
 SWIG/nodejs/binding.gyp
