@@ -13,6 +13,8 @@
 	necessary for building the GUI, which is not an essential part of
 	Emdros on a server.
 
+	* configure.ac: Revert the default prefix to be /usr/local .
+
 ============ 3.7.0.pre03 ============
 
 2018-12-11 Ulrik Sandborg-Petersen
