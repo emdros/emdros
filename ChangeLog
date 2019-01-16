@@ -211,6 +211,15 @@
 	deleted:    doc/agexport.1
 	modified:   doc/emdros.1
 
+	* SWIG/python/Makefile.am: Update for the new m4 infrastructure.
+
+	Files affected:
+
+	modified:   SWIG/python/Makefile.am
+	deleted:    SWIG/python/libemdfpython.i
+	deleted:    SWIG/python/libmqlpython.i
+	modified:   SWIG/python/pyemdros.i
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.

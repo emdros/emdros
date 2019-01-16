@@ -8,7 +8,7 @@ SWIG_PY_SRC = \
 
 AM_CXXFLAGS = @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ @ADDITIONAL_CXXFLAGS@ @DEBUGFLAG@
 
-AM_CPPFLAGS = -I. @PYTHON2_INCLUDES@ -I$(top_srcdir)/lib/base -I. -I$(top_srcdir)/lib/base -I$(top_srcdir)/lib/EMdF -I$(top_srcdir)/lib/MQL -I$(top_srcdir)/lib/harvest  -I$(top_srcdir)/amalgamation  -I$(top_srcdir)
+AM_CPPFLAGS = -I. @PYTHON2_INCLUDES@ -I. -I$(top_srcdir)/lib/EMdF -I$(top_srcdir)/lib/MQL -I$(top_srcdir)/lib/harvest  -I$(top_srcdir)/amalgamation  -I$(top_srcdir)
 
 
 
@@ -88,7 +88,7 @@ BUILT_SOURCES = $(MAYBE_BUILT_SRC)
 
 
 EXTRA_DIST = pyemdros.i \
-             test.py README-Python dir.py win32.mak  \
+             test.py README-Python dir.py windows.mak  \
              $(BUILT_SOURCES)
 
 CLEANFILES = *~ core config.log test.pyc test.pyo \
