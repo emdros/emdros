@@ -4,7 +4,7 @@ dnl
 AC_DEFUN([EMDROS_BUILDENV_END], [
 
 AC_ARG_WITH(default-backend,
-[  --with-default-backend         Default backend to use (postgresql,mysql,sqlite,sqlite3)],
+[  --with-default-backend         Default backend to use (postgresql,mysql,sqlite3)],
    [case "${withval}" in
        postgresql) DEFAULT_BACKEND=postgresql ;;
        mysql)  DEFAULT_BACKEND=mysql ;;
