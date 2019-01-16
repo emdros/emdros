@@ -90,11 +90,8 @@ depcomp
 doc/*.html
 doc/*.pdf
 doc/*.eps
-doc/eqt.1
-doc/eqtc.1
-doc/eqtu.1
-doc/eqtu.1.in
-doc/mqlhal.1
+doc/man1/eqtc.1
+doc/man1/eqtu.1
 doc/progref/*.htm
 doc/progref/*.html
 doc/progref/EmdrosProgRefGuide.aux
