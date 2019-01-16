@@ -56,9 +56,7 @@ ALL: config.nsh
    cd ..\wx
    nmake /f win32.mak $(MAKEMACRO) 
 !ENDIF
-   cd ..\src\qrytool\TECkit
-   nmake /f win32.mak $(MAKEMACRO) 
-   cd ..\..\..\src\qrytool
+   cd ..\src\qrytool
    nmake /f win32.mak $(MAKEMACRO) 
    cd ..\..\src\importtool
    nmake /f win32.mak $(MAKEMACRO) 
@@ -102,9 +100,7 @@ CLEAN:
    nmake /f win32.mak CLEAN
    cd ..\wx
    nmake /f win32.mak CLEAN
-   cd ..\src\qrytool\TECkit
-   nmake /f win32.mak CLEAN
-   cd ..\..\..\src\qrytool
+   cd ..\src\qrytool
    nmake /f win32.mak CLEAN
    cd ..
    nmake /f win32.mak CLEAN
@@ -225,7 +221,6 @@ DIST_LIB_FILES=  win32\Release\libpcre_emdros.lib \
                  win32\Release\libharvest.lib \
                  win32\Release\libemdrosgui.lib \
                  win32\ReleaseUnicode\libemdrosguiu.lib \
-                 win32\Release\libteckit.lib \
                  $(DIST_WX_LIB)
 
 DIST_ETC_QRYTOOL_FILES = src\qrytool\default.cfg \
@@ -296,18 +291,6 @@ DIST_SQLITE3_LIB_FILES = win32\Release\libsqlite3_emdros.lib
 
 DIST_SQLITE3_BIN_FILES = win32\Release\sqlite3_emdros.exe
 
-
-
-TECKIT_INCLUDE_HEADER_FILES = \
-                     Compiler.h \
-                     Engine.h \
-                     TECkit_Common.h \
-                     TECkit_Compiler.h \
-                     TECkit_Engine.h \
-                     TECkit_Format.h \
-                     ulong_chartraits.h \
-                     Prefix_Mac.h \
-                     Prefix_Win32.h
 
 
 DIST: ALL
@@ -403,7 +386,6 @@ MAKE_DIST_DIRS:
 MAKE_DIST_FILES: MAKE_DIST_SWIG
 	cd ..
 	for %%F in ($(PACKAGE_INCLUDE_HEADER_FILES) pcre_emdros.h pcre_config.h) do copy include\%F "$(DIST_DIR)\include"
-	for %%F in ($(TECKIT_INCLUDE_HEADER_FILES)) do copy src\qrytool\TECkit\%F "$(DIST_DIR)\include"
 	for %%F in ($(DIST_DOC_DOC_FILES)) do copy doc\%F "$(DIST_DIR)\doc"
 	copy src\qrytool\doc\EQTUsersGuide.pdf "$(DIST_DIR)\doc\EmdrosQueryTool_UsersGuide.pdf"
 	copy examples\ChunkingTool\doc\ChunkingToolGuide.pdf "$(DIST_DIR)\doc\ChunkingTool_UsersGuide.pdf"

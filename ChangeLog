@@ -193,6 +193,10 @@
 	set the version info for libsqlite3_emdros.la to the same as the
 	Emdros libraries (LIB_EMDROS_{CURRENT,REVISION,AGE}).
 
+	* win32/win32.mak: Remove the following:
+
+	- TECkit
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
