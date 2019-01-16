@@ -26,9 +26,6 @@ extrafiles_emdros_list = [
     @SWIG_WITH_PYTHON3_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPy3.pyc",  #MAIN
     @SWIG_WITH_PYTHON3_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPy3.pyo",  #MAIN
     @SWIG_WITH_PYTHON3_WRAPPERS_TRUE@"%{prefix}/lib/emdros/_EmdrosPy3.so.*",  #MAIN
-    @SWIG_WITH_PHP5_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP.php", # MAIN
-    @SWIG_WITH_PHP5_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP.ini", # MAIN
-    @SWIG_WITH_PHP5_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP.so.*", # MAIN
     @SWIG_WITH_PHP7_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP7.php", # MAIN
     @SWIG_WITH_PHP7_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP7.ini", # MAIN
     @SWIG_WITH_PHP7_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP7.so.*", # MAIN
