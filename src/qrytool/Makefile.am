@@ -3,9 +3,9 @@ AM_CXXFLAGS = @CXXFLAGS@ @DEBUGFLAG@ @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@  \
 
 ARFLAGS = @ARFLAGS@
 
-SUBDIRS = doc TECkit
+SUBDIRS = doc
 
-EXTRA_PROGRAMS = eqt eqtu
+EXTRA_PROGRAMS = eqtu
 
 if WITH_WX_PROGRAMS
 
@@ -13,12 +13,6 @@ if WX_DO_UNICODE
 MAYBE_UNICODE_PRGS = eqtu
 else
 MAYBE_UNICODE_PRGS =
-endif
-
-if WX_DO_NONUNICODE
-MAYBE_NONUNICODE_PRGS = eqt
-else
-MAYBE_NONUNICODE_PRGS =
 endif
 
 else
@@ -51,29 +45,21 @@ noinst_LIBRARIES = libquerytool.a
 
 
 ALWAYSLDADD = -L$(top_builddir)/src/qrytool -lquerytool \
-              $(top_builddir)/src/qrytool/TECkit/libteckit.la \
-              $(top_builddir)/util/libutil_emdros.la \
-              @EMDROS_LDADD_SWIG@ \
-              @ZLIB_LIBADD_SWIG@ \
+              @EMDROS_LDADD_BACKBACK@ \
               @SUN_LDFLAGS@  @DARWIN_LDFLAGS@
 
+
 ALWAYSDEPS = libquerytool.a  \
-             $(top_builddir)/src/qrytool/TECkit/libteckit.la \
-             $(top_builddir)/util/libutil_emdros.la \
-             @EMDROS_DEPS_SWIG@ @ZLIB_DEP_SWIG@
+             @EMDROS_DEPS_BACKBACK@
+
 
 
 eqtc_LDADD = $(ALWAYSLDADD)
 eqtc_DEPENDENCIES = $(ALWAYSDEPS)
 eqtc_LDFLAGS = $(MACLDFLAGS) 
 
-eqt_LDADD = $(top_builddir)/wx/libemdrosgui.a $(ALWAYSLDADD) \
-            @WX_NONUNICODE_LDFLAGS@ @WX_NONUNICODE_LIBS@
-eqt_LDFLAGS = $(MACLDFLAGS) 
-eqt_DEPENDENCIES = $(ALWAYSDEPS) $(top_builddir)/wx/libemdrosgui.a
-eqt_CXXFLAGS = $(AM_CXXFLAGS) @WX_NONUNICODE_CXXFLAGS@
-
-eqtu_LDADD = $(top_builddir)/wx/libemdrosguiu.a $(ALWAYSLDADD) \
+eqtu_LDADD = -L$(top_builddir)/wx -lemdrosguiu \
+             $(ALWAYSLDADD) \
              @WX_UNICODE_LDFLAGS@ @WX_UNICODE_LIBS@
 eqtu_LDFLAGS = $(MACLDFLAGS) 
 eqtu_DEPENDENCIES = $(ALWAYSDEPS) $(top_builddir)/wx/libemdrosguiu.a
@@ -89,7 +75,7 @@ libquerytool_a_AR = $(AR) $(ARFLAGS)
 endif
 
 eqtc_SOURCES = mqlqt.cpp
-eqt_SOURCES = mqlqtwx.cpp qtconnwizard.cpp mainframe.cpp wxilqtout.cpp
+
 eqtu_SOURCES = mqlqtwx.cpp qtconnwizard.cpp mainframe.cpp wxilqtout.cpp 
 
 

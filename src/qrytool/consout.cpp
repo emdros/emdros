@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/16-2005
- * Last update: 3/1-2017
+ * Last update: 1/16-2019
  *
  */
 
@@ -78,10 +78,13 @@ void ConsoleQTOutput::printFeature(const std::string& object_type_name,
 				   const std::string& feature_name,
 				   const std::string& feature_value)
 {
-  // The naive implementation just prints the feature value
-  // A more sophisticated version will change the font...
-  std::string new_feature_value = applyTECkit(object_type_name, feature_index, feature_name, feature_value);
-  print(new_feature_value + ' ');
+	UNUSED(feature_index); // Used when we had applyTECkit.
+	
+	// The naive implementation just prints the feature value
+	// A more sophisticated version will change the font...
+
+	std::string new_feature_value = feature_value; // applyTECkit(object_type_name, feature_index, feature_name, feature_value);
+	print(new_feature_value + ' ');
 }
 
 

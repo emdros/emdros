@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 5/15-2005
- * Last update: 3/24-2008
+ * Last update: 1/16-2019
  *
  */
 
@@ -114,7 +114,9 @@ void QTHTMLOutput::printFeature(const std::string& object_type_name,
 				const std::string& feature_name,
 				const std::string& feature_value)
 {
-	std::string new_feature_value = applyTECkit(object_type_name, feature_index, feature_name, feature_value);
+	UNUSED(feature_index); // Used when we had applyTECkit()
+	
+	std::string new_feature_value = feature_value; // applyTECkit(object_type_name, feature_index, feature_name, feature_value);
 	int index = getIndexOfFeature(object_type_name, feature_name);
 	if (m_current_unit_strings[index].empty()) {
 		m_current_unit_strings[index] = new_feature_value;

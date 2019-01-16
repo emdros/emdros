@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 5/15-2005
- * Last update: 8/30-2008
+ * Last update: 1/16-2019
  *
  */
 
@@ -59,6 +59,7 @@ bool loadFile(std::string filename, std::string& outstring, std::string& message
 	return true;
 }
 
+/*
 bool string2encoding(const std::string& encoding_name, unsigned int& output)
 {
 	std::string locase_name;
@@ -77,7 +78,9 @@ bool string2encoding(const std::string& encoding_name, unsigned int& output)
 		return false;
 	}
 }
+*/
 
+/*
 void clear_OTFeatureTECkitTableMapMap(OTFeatureTECkitTableMapMap &TECkitMap)
 {
 	OTFeatureTECkitTableMapMap::iterator it1 = TECkitMap.begin();
@@ -91,12 +94,14 @@ void clear_OTFeatureTECkitTableMapMap(OTFeatureTECkitTableMapMap &TECkitMap)
 		++it1;
 	}
 }
+*/
 
 QTOutputBase::~QTOutputBase()
 {
-	clear_OTFeatureTECkitTableMapMap(m_TECkitMap);
+	// clear_OTFeatureTECkitTableMapMap(m_TECkitMap);
 }
 
+/*
 bool QTOutputBase::compileTECkits(Configuration *pConf, const std::string& object_type_name, const std::string& feature_name, std::string& message)
 {
 	if (!pConf->has_key("data_feature_teckit_mapping")) {
@@ -187,7 +192,9 @@ bool QTOutputBase::compileTECkits(Configuration *pConf, const std::string& objec
 		}
 	}
 }
+*/
 
+/*
 std::string QTOutputBase::applyTECkit(const std::string& object_type_name, unsigned int feature_index, const std::string& feature_name, const std::string& feature_value)
 {
 	UNUSED(feature_index);
@@ -243,6 +250,8 @@ std::string QTOutputBase::applyTECkit(const std::string& object_type_name, unsig
 	}
 }
 
+*/
+
 int QTOutputBase::getIndexOfFeature(const std::string& object_type_name,
 				    const std::string& feature_name)
 {
@@ -262,6 +271,8 @@ int QTOutputBase::getIndexOfFeature(const std::string& object_type_name,
 
 bool QTOutputBase::getConfigurationValues(Configuration *pConf, EmdrosSchema *pSchema, std::string& message)
 {
+	UNUSED(message); // Was used when we had compileTECkits
+	
 	bool bResult = true;
 
 	// Number of interlinear lines
@@ -333,11 +344,13 @@ bool QTOutputBase::getConfigurationValues(Configuration *pConf, EmdrosSchema *pS
 				str_tolower(featntci->name, feature_name);
 	
 				// Compile any TECkits for this particular OT/feature-name
+				/*
 				bool bCompilationResult = compileTECkits(pConf, object_type_name, feature_name, message);
 				if (!bCompilationResult) {
 					message += "Could not compile TECkit mapping.\n";
 					bResult = false;
 				}
+				*/
 			}
 		}
 	}

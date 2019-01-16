@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/9-2005
- * Last update: 11/30-2018
+ * Last update: 1/16-2019
  *
  */
 
@@ -923,7 +923,7 @@ bool XML_Output_style::do_data_unit(monad_m m,
 			   }
 			*/
 
-			std::string new_feature_value = m_pOut->applyTECkit(unit, feature_index, feature_name, feature);
+			std::string new_feature_value = feature; // m_pOut->applyTECkit(unit, feature_index, feature_name, feature);
 			writeStr("\n<f feature_name=\"" + feature_name + "\" unit_name=\"" + unit + "\">");
 			writeStr(escapeXMLEntities(new_feature_value));
 			writeStr("</f>");

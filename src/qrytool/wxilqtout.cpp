@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/16-2005
- * Last update: 4/11-2017
+ * Last update: 1/16-2019
  *
  */
 
@@ -492,7 +492,9 @@ void WXILQTOutput::printFeature(const std::string& object_type_name,
 				const std::string& feature_name,
 				const std::string& feature_value)
 {
-	std::string new_feature_value = applyTECkit(object_type_name, feature_index, feature_name, feature_value);
+	UNUSED(feature_index); // Used when we had applyTECkit
+	
+	std::string new_feature_value = feature_value; // applyTECkit(object_type_name, feature_index, feature_name, feature_value);
 	int index = getIndexOfFeature(object_type_name, feature_name);
 	if (m_current_unit_strings[index].IsEmpty()) {
 		m_current_unit_strings[index] = wxString(new_feature_value.c_str(), wxConvUTF8);
