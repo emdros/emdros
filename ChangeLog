@@ -359,6 +359,8 @@
 
 	* emdros.spec.in: Distribute all of the HTML man pages for man1.
 
+	* m4/emdros_wx.m4: Update for macOS 10.13 and 10.14.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
