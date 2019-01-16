@@ -8,66 +8,61 @@ SWIG_PY_SRC = \
 
 AM_CXXFLAGS = @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ @ADDITIONAL_CXXFLAGS@ @DEBUGFLAG@
 
-AM_CPPFLAGS = -I$(top_srcdir)/include -I. @PYTHON_INCLUDES@
+AM_CPPFLAGS = -I. @PYTHON2_INCLUDES@ -I$(top_srcdir)/lib/base -I. -I$(top_srcdir)/lib/base -I$(top_srcdir)/lib/EMdF -I$(top_srcdir)/lib/MQL -I$(top_srcdir)/lib/harvest  -I$(top_srcdir)/amalgamation  -I$(top_srcdir)
 
 
 
-pyemdros_wrap.cxx: pyemdros.i libemdfpython.i libmqlpython.i 
+pyemdros_wrap.cxx: pyemdros.i
 	$(SWIG_PROGRAM) -c++ -python pyemdros.i
 
 EmdrosPy.py: pyemdros_wrap.cxx
 
 
+if CAN_DO_SWIG
+MAYBE_BUILT_SRC = $(SWIG_PY_SRC)
+endif
+
 
 if SWIG_WITH_PYTHON2_WRAPPERS
 
-MAYBE_BUILT_SRC = $(SWIG_PY_SRC) EmdrosPy.pyc EmdrosPy.pyo
-
-EmdrosPy.pyc EmdrosPy.pyo: EmdrosPy.py
-	export PYTHON=$(PYTHON) ; $(SHELL) $(top_builddir)/py-compile EmdrosPy.py
+#EmdrosPy.pyc: EmdrosPy.py
+#	export PYTHON=$(PYTHON) ; $(SHELL) $(top_builddir)/py-compile EmdrosPy.py
 
 pkglib_LTLIBRARIES = _EmdrosPy.la
 
 nodist__EmdrosPy_la_SOURCES = pyemdros_wrap.cxx 
 
 
-_EmdrosPy_la_LIBADD = $(top_builddir)/harvest/libharvest.la \
-                      $(top_builddir)/MQL/libmql.la @PCRE_LIBADD_SWIG@ \
-                      @EMDFLDADDSWIG@ @ZLIB_LIBADD_SWIG@ 
-_EmdrosPy_la_LDFLAGS = @SWIG_EXTRA_LIBS@ -module \
+_EmdrosPy_la_LIBADD = @EMDROS_LDADD_BACKBACK@
+_EmdrosPy_la_LDFLAGS = -module \
                        -version-info \
-                       @LIB_SWIG_CURRENT@:@LIB_SWIG_REVISION@:@LIB_SWIG_AGE@ \
+                       @LIB_EMDROS_CURRENT@:@LIB_EMDROS_REVISION@:@LIB_EMDROS_AGE@ \
                        @DARWIN_LDFLAGS@ @SUN_LDFLAGS@
-_EmdrosPy_la_DEPENDENCIES = $(top_builddir)/harvest/libharvest.la \
-                            $(top_builddir)/MQL/libmql.la @PCRE_DEP_SWIG@ \
-                            @EMDFDEPSSWIG@ @ZLIB_DEP_SWIG@ 
+_EmdrosPy_la_DEPENDENCIES = @EMDROS_DEPS_BACKBACK@
 
 
 
-PYTHON_SO_LINKNAME = @PYTHON_SITE_PACKAGES_DIR@/_EmdrosPy.so 
+PYTHON2_SO_LINKNAME = @PYTHON2_SITE_PACKAGES_DIR@/_EmdrosPy.so 
 
-PYTHON_FILENAMES = @PYTHON_SITE_PACKAGES_DIR@/EmdrosPy.py \
-                   @PYTHON_SITE_PACKAGES_DIR@/EmdrosPy.pyc \
-                   @PYTHON_SITE_PACKAGES_DIR@/EmdrosPy.pyo
-
+PYTHON2_FILENAMES = @PYTHON2_SITE_PACKAGES_DIR@/EmdrosPy.py 
 install-exec-hook:
-	cp EmdrosPy.py EmdrosPy.pyc EmdrosPy.pyo $(DESTDIR)$(pkglibdir)
+	cp EmdrosPy.py $(DESTDIR)$(pkglibdir)
 	rm -f $(DESTDIR)$(pkglibdir)/_EmdrosPy.a
 
 uninstall-hook:
-	rm -f $(DESTDIR)$(pkglibdir)/EmdrosPy.py $(DESTDIR)$(pkglibdir)/EmdrosPy.pyc $(DESTDIR)$(pkglibdir)/EmdrosPy.pyo
+	rm -f $(DESTDIR)$(pkglibdir)/EmdrosPy.py 
 	rm -f $(DESTDIR)$(pkglibdir)/_EmdrosPy.so* 
 
 
-install-python-lib: EmdrosPy.pyc
-	if test -h $(PYTHON_SO_LINKNAME) -o -f $(PYTHON_SO_LINKNAME); then rm -f $(PYTHON_SO_LINKNAME); fi
-	rm -f $(PYTHON_FILENAMES)
-	ln -s $(pkglibdir)/_EmdrosPy.so $(PYTHON_SO_LINKNAME)
-	cp EmdrosPy.py EmdrosPy.pyc EmdrosPy.pyo @PYTHON_SITE_PACKAGES_DIR@/
+install-python-lib: 
+	if test -h $(PYTHON2_SO_LINKNAME) -o -f $(PYTHON2_SO_LINKNAME); then rm -f $(PYTHON2_SO_LINKNAME); fi
+	rm -f $(PYTHON2_FILENAMES)
+	ln -s $(pkglibdir)/_EmdrosPy.so $(PYTHON2_SO_LINKNAME)
+	cp EmdrosPy.py @PYTHON2_SITE_PACKAGES_DIR@/
 
 uninstall-python-lib:
-	if test -h $(PYTHON_SO_LINKNAME) -o -f $(PYTHON_SO_LINKNAME); then rm -f $(PYTHON_SO_LINKNAME); fi; 
-	rm -f $(PYTHON_FILENAMES)
+	if test -h $(PYTHON2_SO_LINKNAME) -o -f $(PYTHON2_SO_LINKNAME); then rm -f $(PYTHON2_SO_LINKNAME); fi; 
+	rm -f $(PYTHON2_FILENAMES)
 
 
 macdist:
@@ -76,8 +71,6 @@ macdist:
 
 else
 # Not SWIG_WITH_PYTHON2_WRAPPERS
-
-MAYBE_BUILT_SRC = 
 
 pkglib_LTLIBRARIES =
 
@@ -90,17 +83,16 @@ macdist:
 
 endif # end if SWIG_WITH_PYTHON2_WRAPPERS
 
-BUILT_SOURCES = $(MAYBE_BUILT_SRC) 
-
+BUILT_SOURCES = $(MAYBE_BUILT_SRC)
 
 
 
 EXTRA_DIST = pyemdros.i \
-             libemdfpython.i libmqlpython.i \
-             test.py README-Python dir.py win32.mak  \
+             test.py README-Python dir.py windows.mak  \
              $(BUILT_SOURCES)
 
 CLEANFILES = *~ core config.log test.pyc test.pyo \
-             EmdrosPy.pyc EmdrosPy.pyo _EmdrosPy.la $(BUILT_SOURCES)
+            _EmdrosPy.la \
+             $(BUILT_SOURCES)
 
-DISTCLEANFILES = $(BUILT_SOURCES)
+DISTCLEANFILES = $(SWIG_PY_SRC) 

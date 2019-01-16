@@ -155,6 +155,16 @@
 
 	* Makefile.am: Remove examples/ from SUBDIRS.
 
+	* SWIG/*/Makefile.am: Update for new infrastructure.
+
+	modified:   SWIG/csharp/Makefile.am
+	modified:   SWIG/csharp/Makefile.inc
+	modified:   SWIG/java/Makefile.am
+	modified:   SWIG/java/Makefile.inc
+	modified:   SWIG/php7/Makefile.am
+	modified:   SWIG/python/Makefile.am
+	modified:   SWIG/python3/Makefile.am
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
