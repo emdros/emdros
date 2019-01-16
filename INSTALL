@@ -38,16 +38,16 @@ Platforms supported
 The following *nix platforms are supported by Emdros, and thus are
 known to work:
 
-- Linux x86, x86_64 and ARMv7
+- Linux x86, x86_64 and ARM
 - Solaris 10 on SPARC hardware
-- Mac OS X 10.5 and later (see INSTALL.Mac.txt)
+- Mac OS X 10.9 and later (see INSTALL.Mac.txt)
 - iOS (any version; see README-Emdros-on-iOS.txt)
 - Android (see README-Emdros-on-Android.txt)
 
 In addition, Emdros releases are regularly compiled and tested on
 Windows.  It should work on:
 
-- Windows XP, Vista, 7, 8, and 8.1 (see INSTALL.Win32.txt)
+- Windows XP, Vista, 7, 8, 8.1, and 10 (see INSTALL.Win32.txt)
 
 There have been reports of Emdros compiling and running on *BSD,
 including NetBSD and FreeBSD.  These platforms are not regularly
@@ -104,7 +104,7 @@ gcc-c++ make binutils groff gcc glibc-devel glibc-headers kernel-headers groff l
 
 The following packages are optional on Fedora:
 
-tcl java-1.8.0-openjdk java-1.8.0-openjdk-devel python-devel python3-devel php-devel mono-core ruby ruby-devel perl-devel nodejs-devel node-gyp mysql mysql-server mysql mysql-devel postgresql postgresql-server postgresql-devel 
+java-1.8.0-openjdk java-1.8.0-openjdk-devel python-devel python3-devel php-devel mono-core mysql mysql-server mysql mysql-devel postgresql postgresql-server postgresql-devel 
 
 Ubuntu
 ------
@@ -137,18 +137,14 @@ PostgreSQL support:
 sudo apt install postgresql libpq-dev postgresql-client
 
 SWIG bindings support:
-Tcl:     sudo apt install tcl tcl-dev
 Java:    sudo apt install openjdk-8-jdk
 Python2: sudo apt install python-dev
 Python3: sudo apt install python3-dev
 Mono/C#: sudo apt install mono-devel mono-mcs mono-tools-devel
-Ruby:    sudo apt install ruby ruby-dev
-PHP5:    sudo apt install php5.6-dev
 PHP7:    sudo apt install php-dev
-Perl:    sudo apt install perl
 
 To bring all language bindings in:
-sudo apt install tcl tcl-dev openjdk-8-jdk python-dev python3-dev mono-devel mono-mcs mono-tools-devel ruby ruby-dev php5.6-dev php-dev perl nodejs-dev node-gyp
+sudo apt install openjdk-8-jdk python-dev python3-dev mono-devel mono-mcs mono-tools-devel php-dev 
 
 To build a .deb:
 
@@ -200,7 +196,7 @@ Do this _before_ installing the php5.6-dev package.
 The following packages are optional, but add more functionality if
 installed before building:
 
-tcl tcl-dev openjdk-8-jdk python-dev python3-dev mono-devel mono-mcs mono-tools-devel ruby ruby-dev php5.6-dev php-dev perl libmysqlclient-dev mysql-client mysql-server postgresql libpq-dev postgresql-client nodejs-dev node-gyp 
+openjdk-8-jdk python-dev python3-dev mono-devel mono-mcs mono-tools-devel php-dev libmysqlclient-dev mysql-client mysql-server postgresql libpq-dev postgresql-client 
 
 SWIG version 3.0.11 or higher is required if you wish to do a "make
 distclean" and still have support for PHP7.
@@ -213,12 +209,12 @@ Older versions of Ubuntu
 On Ubuntu 14.10 (Utopic Unicorn), the following command will bring in
 everything needed to build a .deb:
 
-sudo apt-get install g++ make binutils tcl tcl-dev re2c transfig lyx latex2html swig3.0 autoconf automake libtool libwxgtk3.0-dev libwxgtk-media3.0-dev openjdk-7-jdk python-dev mono-devel mono-gmcs mono-tools-devel ruby ruby-dev php5-dev perl libmysqlclient-dev mysql-client mysql-server postgresql libpq-dev postgresql-client groff imagemagick xdg-utils zlib1g-dev build-essential fakeroot debhelper autotools-dev libwxgtk-webview3.0-dev
+sudo apt-get install g++ make binutils re2c transfig lyx latex2html swig3.0 autoconf automake libtool libwxgtk3.0-dev libwxgtk-media3.0-dev openjdk-7-jdk python-dev mono-devel mono-gmcs mono-tools-devel libmysqlclient-dev mysql-client mysql-server postgresql libpq-dev postgresql-client groff imagemagick xdg-utils zlib1g-dev build-essential fakeroot debhelper autotools-dev libwxgtk-webview3.0-dev
 
 On Ubuntu 14.04 LTS (Trusty Tahr), the following command will bring in
 everything needed to build a .deb:
 
-sudo apt-get install g++ make binutils tcl tcl-dev re2c transfig lyx latex2html swig autoconf automake libtool libwxgtk3.0-dev libwxgtk-media3.0-dev openjdk-7-jdk python-dev mono-devel mono-gmcs mono-tools-devel ruby ruby-dev php5-dev perl libmysqlclient-dev mysql-client mysql-server postgresql libpq-dev postgresql-client groff imagemagick xdg-utils zlib1g-dev build-essential fakeroot debhelper autotools-dev 
+sudo apt-get install g++ make binutils re2c transfig lyx latex2html swig autoconf automake libtool libwxgtk3.0-dev libwxgtk-media3.0-dev openjdk-7-jdk python-dev mono-devel mono-gmcs mono-tools-devel libmysqlclient-dev mysql-client mysql-server postgresql libpq-dev postgresql-client groff imagemagick xdg-utils zlib1g-dev build-essential fakeroot debhelper autotools-dev 
 
 On Ubuntu Server 14.04 LTS, and possibly others, the minimum packages
 needed to build a .deb of Emdros from an Emdros release tarball will
@@ -359,7 +355,7 @@ into the debian/rules file, meaning they will also be effective after
 you run make dist.  For example, you could do the following instead of
 merely configure:
 
-./configure  --with-swig-language-nodejs=no --with-swig-language-java=no  --with-swig-language-perl=no --with-swig-language-python2=yes  --with-swig-language-python3=yes --with-swig-language-ruby=yes  --with-swig-language-php7=no --with-swig-language-php=no --with-wx=maybe  --with-sqlite=no  --with-sqlite3=yes  --with-mysql=no  --with-bpt=maybe  --with-bpt2=maybe --enable-shared=yes  --disable-debug  
+./configure  --with-swig-language-nodejs=no --with-swig-language-java=no  --with-swig-language-python2=yes  --with-swig-language-python3=yes --with-swig-language-php7=no --with-swig-language-php=no --with-wx=maybe  --with-sqlite3=yes  --with-mysql=no  --with-bpt=maybe  --with-bpt2=maybe --enable-shared=yes  --disable-debug  
 
 Then these options will be carried over into debian/rules, via
 debian/rules.in.
@@ -401,16 +397,15 @@ system.
 
 In particular, the configure-script looks for the following:
 
-- SQLite 2.x.x
 - SQLite 3.x.x
 - PostgreSQL
 - MySQL
 - wxWidgets
 - A mono/C# compiler (for SWIG)
 - Java (for SWIG)
-- Perl (for SWIG)
-- Python (for SWIG)
-- Ruby (for SWIG)
+- Python 2(for SWIG)
+- Python 3 (for SWIG)
+- PHP 7 (for SWIG)
 
 These are controlled from the configure command line with
 switches starting with --with.  For example:
@@ -434,30 +429,26 @@ effect, and do not complete the configure process."
 
 The switches are as follows:
 
-- SQLite 2.x.x        --with-sqlite=[yes|no|maybe|local|system]
 - SQLite 3.x.x        --with-sqlite3=[yes|no|maybe|local|system]
 - PostgreSQL          --with-postgresql=[yes|no|maybe]
 - MySQL               --with-mysql=[yes|no|maybe]
 - wxWidgets           --with-wx=[yes|no|maybe]
 - .Net (for SWIG)     --with-swig-language-csharp=[yes|no|maybe]
 - Java (for SWIG)     --with-swig-language-java=[yes|no|maybe]
-- Perl (for SWIG)     --with-swig-language-perl=[yes|no|maybe]
 - Python 2 (for SWIG) --with-swig-language-python=[yes|no|maybe]
 - Python 3 (for SWIG) --with-swig-language-python3=[yes|no|maybe]
-- Ruby (for SWIG)     --with-swig-language-ruby=[yes|no|maybe]
-- PHP5 (for SWIG)     --with-swig-language-php=[yes|no|maybe]
 - PHP7 (for SWIG)     --with-swig-language-php7=[yes|no|maybe]
 
 
---with-sqlite and --with-sqlite3
---------------------------------
+--with-sqlite3
+--------------
 
 The SQLite switches are a little special, in that, in addition to the
 [yes|no|maybe] values, they also take the two values "local" and
 "system".
 
-The value "local" means "yes, use SQLite (2/3), but use the locally 
-present (i.e., in the Emdros sources) SQLite".
+The value "local" means "yes, use SQLite (3), but use the locally 
+present (i.e., in the Emdros sources) SQLite (3)".
 
 The value "system" means "yes, use SQLite, but use the one installed
 on the system", of the appropriate version.
@@ -468,7 +459,7 @@ the Emdros sources (if not present on the system)."
 
 The value "yes" means the same as "maybe".
 
-The value "no" means "do not build with SQLite".
+The value "no" means "do not build with SQLite (3)".
 
 
 --with-bpt

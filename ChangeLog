@@ -165,6 +165,8 @@
 	modified:   SWIG/python/Makefile.am
 	modified:   SWIG/python3/Makefile.am
 
+	* INSTALL: Give it a big overhaul.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
