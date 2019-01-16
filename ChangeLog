@@ -88,6 +88,8 @@
 
 	* pcre/Makefile.am: Use LIB_EMDROS_{CURRENT,REVISION,AGE} instead of LIB_PCRE_{CURRENT,REVISION,AGE}
 
+	* generate_extrafiles.py.in: Update for the 
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
