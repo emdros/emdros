@@ -271,6 +271,11 @@
 	new file:   doc/cms/cms.css
 	new file:   doc/cms/dot.gif
 
+	* doc/man1/eqt.1.in: Renamed to doc/man1/eqtu.1.in.  The old eqt /
+	eqtu distinction was due to the Unicode / Non-Unicode dichotomy of
+	the wxWidgets libraries.  This dichotomy is gone in current
+	versions of wxWidgets, and hence eqt does not exist any more.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
