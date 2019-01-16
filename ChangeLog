@@ -246,6 +246,9 @@
 	- SWIG/ruby/
 	- SWIG/Android/
 
+	* doc/*.1, doc/*.1.in, doc/*.5: Move into doc/man1 and doc/man5 as
+	appropriate.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
