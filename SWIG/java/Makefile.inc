@@ -71,9 +71,7 @@ SWIG_GENERATED_JAVAFILES = \
                 jsource/StringListConstIterator.java \
                 jsource/StringList.java \
                 jsource/StringVector.java \
-                jsource/SWIGTYPE_p_emdros_int64.java \
                 jsource/SWIGTYPE_p_EnumConstCache.java \
-                jsource/SWIGTYPE_p_int.java \
                 jsource/SWIGTYPE_p_JSONValue.java \
                 jsource/SWIGTYPE_p_std__istream.java \
                 jsource/SWIGTYPE_p_std__listT_std__string_t.java \
