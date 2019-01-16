@@ -108,6 +108,7 @@
 
 
 %apply emdros_i32 &INOUT { emdros_i32 & };
+%apply emdros_u32 &INOUT { emdros_u32 & };
 %apply bool &INOUT { bool & };
 %apply const std::string & {std::string &};
 %apply std::string & {string &};
