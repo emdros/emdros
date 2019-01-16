@@ -190,8 +190,10 @@
 
 	AS A RESULT:
 
-	set the version info for libsqlite3_emdros.la to the same as the
+	1) set the version info for libsqlite3_emdros.la to the same as the
 	Emdros libraries (LIB_EMDROS_{CURRENT,REVISION,AGE}).
+
+	2) Rename sqlite3_localamalgam.c to sqlite3_emdros_amalgamation.c.
 
 	* win32/win32.mak: Remove the following:
 

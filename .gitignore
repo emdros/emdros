@@ -196,6 +196,7 @@ sqlite/src/temp
 sqlite/src/temp.c
 sqlite3/src/sqlite3_emdros
 sqlite3/src/sqlite3_localamalgam.c
+sqlite3/src/sqlite3_emdros_amalgamation.c
 src/agexport
 src/bptdump
 src/fts_harvester
