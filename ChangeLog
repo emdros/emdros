@@ -178,6 +178,12 @@
 	* SWIG/csharp/libcsemdros.i: Incorporate the files libemdf.i and
 	libmql.i into libcsemdros.i, then delete the former two.
 
+	* SWIG/java/libjemdros.i: Incorporate the following files into
+	libjemdros.i, and delete these files:
+
+	- SWIG/java/libemdfjava.i
+	- SWIG/java/libmqljava.i
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
