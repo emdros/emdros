@@ -63,6 +63,9 @@
 	If anyone is bitten by these changes, please do write to Ulrik to
 	let him know you need a particular SWIG backend back.
 
+	* EMdF/Makefile.am: Define -DSQLITE3_EMDFDB_NO_FSYNC
+	unconditionally.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
