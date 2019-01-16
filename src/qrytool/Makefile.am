@@ -40,7 +40,7 @@ endif
 
 
 
-bin_PROGRAMS = eqtc $(MAYBE_NONUNICODE_PRGS) $(MAYBE_UNICODE_PRGS) 
+bin_PROGRAMS = eqtc $(MAYBE_UNICODE_PRGS) 
 noinst_LIBRARIES = libquerytool.a 
 
 
