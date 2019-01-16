@@ -34,6 +34,9 @@
 #include "win32-lconfig.h"
 #endif
 
+#include "emdros-version.h"
+
+
 #ifndef USE_POSTGRESQL
 #define USE_POSTGRESQL @USE_POSTGRESQL@
 #endif
@@ -108,10 +111,6 @@
  */
 #define USE_SYSTEM_ZLIB (@USE_SYSTEM_ZLIB@)
 #endif
-
-#define EMDROS_VERSION_MAJOR (@EMDROS_VERSION_MAJOR@)
-#define EMDROS_VERSION_MINOR (@EMDROS_VERSION_MINOR@)
-#define EMDROS_VERSION_RELEASE (@EMDROS_VERSION_RELEASE@)
 
 /* Is current version at least (<=) MAJOR.MINOR.RELEASE ? */
 #define EMDROS_CHECK_VERSION(MAJOR, MINOR, RELEASE) \

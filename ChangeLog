@@ -83,6 +83,10 @@
 	* include/emdros-version.h.in: #define
 	EMDROS_VERSION_{MAJOR,MINOR,RELEASE}.
 
+	* include/emdros-lconfig.h.in: #include "emdros-version.h".  Also,
+	don't #define EMDROS_VERSION_{MAJOR,MINOR,RELEASE}.
+
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
