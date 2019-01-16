@@ -55,3 +55,8 @@ rm -rf doc/latex/
 rm -rf doc/rtf/
 rm -rf sqlite3/src/mydir-journal
 rm -rf SWIG/Android/app
+rm -f debian/emdros.doc-base
+rm -f debian/emdros.prerm
+rm -f debian/emdros.postrm
+rm -f debian/emdros.postinst
+rm -f debian/control

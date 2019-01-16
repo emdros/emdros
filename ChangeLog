@@ -23,6 +23,14 @@
         debian/emdros.postinst
         debian/control
 
+	* rmfiles.sh: Add the following files to the removed files:
+
+        debian/emdros.doc-base
+        debian/emdros.prerm
+        debian/emdros.postrm
+        debian/emdros.postinst
+        debian/control
+
 
 ============ 3.7.0.pre03 ============
 
