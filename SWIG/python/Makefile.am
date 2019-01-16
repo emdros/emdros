@@ -19,7 +19,7 @@ EmdrosPy.py: pyemdros_wrap.cxx
 
 
 
-if SWIG_WITH_PYTHON_WRAPPERS
+if SWIG_WITH_PYTHON2_WRAPPERS
 
 MAYBE_BUILT_SRC = $(SWIG_PY_SRC) EmdrosPy.pyc EmdrosPy.pyo
 
@@ -75,7 +75,7 @@ macdist:
 
 
 else
-# Not SWIG_WITH_PYTHON_WRAPPERS
+# Not SWIG_WITH_PYTHON2_WRAPPERS
 
 MAYBE_BUILT_SRC = 
 
@@ -88,7 +88,7 @@ uninstall-hook:
 macdist:
 
 
-endif # end if SWIG_WITH_PYTHON_WRAPPERS
+endif # end if SWIG_WITH_PYTHON2_WRAPPERS
 
 BUILT_SOURCES = $(MAYBE_BUILT_SRC) 
 
