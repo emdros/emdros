@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 6/23-2007
- * Last update: 6/23-2007
+ * Last update: 1/16-2019
  *
  */
 
@@ -31,11 +31,8 @@
 
 #include <emdros-lconfig.h>
 
-#if HAVE_ISTREAM
 #include <istream>
-#else
-#include <istream.h>
-#endif
+
 
 class HAL_Execution_environment; // Forward declaration
 
