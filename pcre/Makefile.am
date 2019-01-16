@@ -36,7 +36,7 @@ libpcre_emdros_la_SOURCES =  \
 
 
 libpcre_emdros_la_LDFLAGS = $(MACLDFLAGS) -version-info \
-                     @LIB_PCRE_CURRENT@:@LIB_PCRE_REVISION@:@LIB_PCRE_AGE@ \
+                     @LIB_EMDROS_CURRENT@:@LIB_EMDROS_REVISION@:@LIB_EMDROS_AGE@ \
                      @SUN_LDFLAGS@
 BUILT_SOURCES = $(srcdir)/../include/pcre_config.h pcre_chartables.c 
 

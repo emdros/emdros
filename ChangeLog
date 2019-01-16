@@ -86,6 +86,7 @@
 	* include/emdros-lconfig.h.in: #include "emdros-version.h".  Also,
 	don't #define EMDROS_VERSION_{MAJOR,MINOR,RELEASE}.
 
+	* pcre/Makefile.am: Use LIB_EMDROS_{CURRENT,REVISION,AGE} instead of LIB_PCRE_{CURRENT,REVISION,AGE}
 
 2019-01-15 Ulrik Sandborg-Petersen
 
