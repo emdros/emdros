@@ -118,6 +118,23 @@
 	modified:   include/qdxml.h
 	modified:   src/qrytool/output_style.h
 
+	* Update the Makefile machinery to obey --enable-devel |
+	--disable-devel (AM condition DO_DEVEL).
+
+	Files affected:
+
+	modified:   EMdF/Makefile.am
+	modified:   MQL/Makefile.am
+	modified:   amalgamation/Makefile.am
+	modified:   harvest/Makefile.am
+	modified:   util/Makefile.am
+
+	* EMdF/Makefile.am: Always (unconditionally) compile the following
+	files:
+
+	- pgconn.cpp
+	- mysqlconn.cpp
+	- sqlite3conn.cpp
 
 2019-01-15 Ulrik Sandborg-Petersen
 

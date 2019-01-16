@@ -24,7 +24,7 @@ nodist_libemdros_amalgamation_la_SOURCES =  $(mysourcecode)
 
 
 libemdros_amalgamation_la_LDFLAGS = $(MACLDFLAGS) -version-info \
-                     @LIB_EMDF_CURRENT@:@LIB_EMDF_REVISION@:@LIB_EMDF_AGE@
+                     @LIB_EMDROS_CURRENT@:@LIB_EMDROS_REVISION@:@LIB_EMDROS_AGE@
 
 
 BUILT_SOURCES = $(mysourcecode) \
