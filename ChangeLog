@@ -1,17 +1,6 @@
-============ 3.7.0.pre03 ============
+============ 3.7.0.pre04 ============
 
-2019-01-15 Ulrik Sandborg-Petersen
-
-	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
-
-	* debian/control: Don't have the following in Build-Depends:
-
-	libwxgtk2.8-dev | libwxgtk3.0-dev, libwxgtk2.8-dev | libwxgtk-media3.0-dev
-
-	The reason is, we want to be able to build on servers without
-	these dependencies.  In addition, these packages are only
-	necessary for building the GUI, which is not an essential part of
-	Emdros on a server.
+2019-01-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Revert the default prefix to be /usr/local .
 
@@ -33,6 +22,20 @@
 
 	* Makefile.am, rmfiles.sh: Don't delete debian/control -- it is
 	not a generated file.  Instead, delete debian/rules
+
+
+2019-01-15 Ulrik Sandborg-Petersen
+
+	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
+
+	* debian/control: Don't have the following in Build-Depends:
+
+	libwxgtk2.8-dev | libwxgtk3.0-dev, libwxgtk2.8-dev | libwxgtk-media3.0-dev
+
+	The reason is, we want to be able to build on servers without
+	these dependencies.  In addition, these packages are only
+	necessary for building the GUI, which is not an essential part of
+	Emdros on a server.
 
 ============ 3.7.0.pre03 ============
 
