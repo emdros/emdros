@@ -71,6 +71,7 @@ SWIG_GENERATED_JAVAFILES = \
                 jsource/StringListConstIterator.java \
                 jsource/StringList.java \
                 jsource/StringVector.java \
+                jsource/SWIGTYPE_p_emdros_int64.java \
                 jsource/SWIGTYPE_p_EnumConstCache.java \
                 jsource/SWIGTYPE_p_int.java \
                 jsource/SWIGTYPE_p_JSONValue.java \
@@ -78,6 +79,7 @@ SWIG_GENERATED_JAVAFILES = \
                 jsource/SWIGTYPE_p_std__listT_std__string_t.java \
                 jsource/SWIGTYPE_p_std__ostream.java \
                 jsource/SWIGTYPE_p_std__string.java \
+                jsource/SWIGTYPE_p_std__vectorT_long_t.java \
                 jsource/SWIGTYPE_p_String2SOMMap.java \
                 jsource/TableColumnException.java \
                 jsource/TableColumnType.java \
