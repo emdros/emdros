@@ -40,6 +40,33 @@ Release notes for Emdros 3.7.0
      [Clause monad_count = s1.monad_count]
   ]
 
+- The build scripts have been totally reimagined.  In particular:
+
+  - The m4/ directory has been totally reorganized.
+
+  - The examples/ subdirectory is gone, making for a smaller tarball.
+    The examples have been moved to the example-programs-emdros and
+    example-databases GitHub repos.
+
+  - The doc/ subdirectory has been totally revamped, with much
+    documentation having been moved to the docs-emdros repo on GitHub.
+
+  - The ./configure script now takes a mutually exclusive pair of
+    switches: --enable-devel | --disable-devel switch.
+
+    The default is --disable-devel.
+
+    If --disable-devel is true, then the Emdros libraries,
+    libpcre_emdros.*, libemdf.*, libmql.*, libutil.*, and
+    libharvest.*.  Instead, the amalgamation is used in lieu of these.
+    In addition, these libraries are not compiled, thus providing a
+    much faster compile experience.  In addition, the Emdros programs
+    are linked against the amalgamation library.
+
+    If --enable-devel is true, then everything is compiled, including
+    the amalgamation, but the programs are linked against the
+    development libraries, not the amalgamation.  This is useful if
+    you are developing Emdros.
 
 
 - *** Version 3.6.1 *** 

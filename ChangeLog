@@ -353,6 +353,8 @@
 	* INSTALL: Remove the obsolete section: "What happens after
 	building Emdros?"
 
+	* NEWS: Update with more NEWS for 3.7.0, from today.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
