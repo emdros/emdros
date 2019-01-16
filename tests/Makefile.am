@@ -3,6 +3,13 @@ SUBDIRS = asv test_json
 EXTRA_PROGRAMS = htreetest htmlcanvastest  \
                  htreetestu htmlcanvastestu 
 
+
+ALWAYSLDADD = @EMDROS_LDADD@ @ZLIB_LDADD@ \
+              @SUN_LDFLAGS@  @DARWIN_LDFLAGS@
+
+ALWAYSDEPS = @EMDROS_DEPS@ @ZLIB_DEPS@
+
+
 if WITH_WX_PROGRAMS
 
 if WX_DO_UNICODE
@@ -80,71 +87,49 @@ emdros_utiltry_SOURCES = emdros_utiltry.cpp
 
 
 
-emdftry_LDADD = $(top_builddir)/util/libutil_emdros.la \
-                @EMDROS_LDADD@ @ZLIB_LIBADD@ @SUN_LDFLAGS@ @DARWIN_LDFLAGS@
+emdftry_LDADD = $(ALWAYSLDADD)
 emdftry_LDFLAGS = $(MACLDFLAGS)
-emdftry_DEPENDENCIES = @EMDROS_DEPS@  $(top_builddir)/util/libutil_emdros.la 
+emdftry_DEPENDENCIES = $(ALWAYSDEPS)
 
 
-jsontry_LDADD = $(top_builddir)/util/libutil_emdros.la \
-                @EMDROS_LDADD@ @ZLIB_LIBADD@ @SUN_LDFLAGS@ @DARWIN_LDFLAGS@
+jsontry_LDADD = $(ALWAYSLDADD)
 jsontry_LDFLAGS = $(MACLDFLAGS)
-jsontry_DEPENDENCIES = @EMDROS_DEPS@ @ZLIB_DEP@ \
-                     $(top_builddir)/util/libutil_emdros.la 
+jsontry_DEPENDENCIES = $(ALWAYSDEPS)
 
 
-emdros_qdtry_LDADD = $(top_builddir)/util/libutil_emdros.la \
-                @EMDROS_LDADD@ @ZLIB_LIBADD@ @SUN_LDFLAGS@ @DARWIN_LDFLAGS@
+emdros_qdtry_LDADD = $(ALWAYSLDADD)
 emdros_qdtry_LDFLAGS = $(MACLDFLAGS)
-emdros_qdtry_DEPENDENCIES = @EMDROS_DEPS@ $(top_builddir)/util/libutil_emdros.la 
+emdros_qdtry_DEPENDENCIES = $(ALWAYSDEPS)
 
 
-mqltry_LDADD = $(top_builddir)/util/libutil_emdros.la \
-                @EMDROS_LDADD@ @ZLIB_LIBADD@ @SUN_LDFLAGS@ @DARWIN_LDFLAGS@
+mqltry_LDADD = $(ALWAYSLDADD)
 mqltry_LDFLAGS = $(MACLDFLAGS)
 mqltry_DEPENDENCIES = mqlqa.h \
-                      @EMDROS_DEPS@ \
-                      $(top_builddir)/util/libutil_emdros.la @ZLIB_DEP@ 
+                      $(ALWAYSDEPS)
 
-erwtry_LDADD = $(top_builddir)/util/libutil_emdros.la \
-                @EMDROS_LDADD@ @ZLIB_LIBADD@ @SUN_LDFLAGS@ @DARWIN_LDFLAGS@
+erwtry_LDADD = $(ALWAYSLDADD)
 erwtry_LDFLAGS = $(MACLDFLAGS)
-erwtry_DEPENDENCIES = @EMDROS_DEPS@ \
-                      $(top_builddir)/util/libutil_emdros.la @ZLIB_DEP@ 
+erwtry_DEPENDENCIES = $(ALWAYSDEPS)
 
-emdros_utiltry_LDADD = $(top_builddir)/util/libutil_emdros.la \
-                @EMDROS_LDADD@ @ZLIB_LIBADD@ @SUN_LDFLAGS@ @DARWIN_LDFLAGS@
+emdros_utiltry_LDADD = $(ALWAYSLDADD)
 emdros_utiltry_LDFLAGS = $(MACLDFLAGS)
-emdros_utiltry_DEPENDENCIES = @EMDROS_DEPS@  $(top_builddir)/util/libutil_emdros.la 
+emdros_utiltry_DEPENDENCIES = $(ALWAYSDEPS)
 
 
-bpttry_LDADD = $(top_builddir)/util/libutil_emdros.la \
-               @EMDROS_LDADD@ @ZLIB_LIBADD@ @SUN_LDFLAGS@ @DARWIN_LDFLAGS@
+bpttry_LDADD = $(ALWAYSLDADD)
 bpttry_LDFLAGS = $(MACLDFLAGS)
 bpttry_DEPENDENCIES = bptqa.h \
-                      @EMDROS_DEPS@ \
-                      $(top_builddir)/util/libutil_emdros.la @ZLIB_DEP@ 
+                      $(ALWAYSDEPS)
 
-mqllingtry_LDADD = $(top_builddir)/util/libutil_emdros.la \
-                   @EMDROS_LDADD@ @ZLIB_LIBADD@ @SUN_LDFLAGS@ @DARWIN_LDFLAGS@
+mqllingtry_LDADD = $(ALWAYSLDADD)
 mqllingtry_LDFLAGS = $(MACLDFLAGS)
-mqllingtry_DEPENDENCIES = @EMDROS_DEPS@ \
-                          $(top_builddir)/util/libutil_emdros.la @ZLIB_DEP@ 
+mqllingtry_DEPENDENCIES = $(ALWAYSDEPS)
 
 
 
 #
 #
 #
-ALWAYSLDADD = -lz \
-              $(top_builddir)/util/libutil_emdros.la \
-              @EMDROS_LDADD@ @ZLIB_LIBADD@ \
-              @SUN_LDFLAGS@  @DARWIN_LDFLAGS@
-
-ALWAYSDEPS = \
-             $(top_builddir)/util/libutil_emdros.la \
-             @EMDROS_DEPS@ @ZLIB_DEP@
-
 htreetest_LDADD = $(top_builddir)/wx/libemdrosgui.a $(ALWAYSLDADD) \
                   @WX_NONUNICODE_LDFLAGS@ @WX_NONUNICODE_LIBS@
 htreetest_DEPENDENCIES = $(ALWAYSDEPS) $(top_builddir)/wx/libemdrosgui.a
@@ -177,15 +162,16 @@ htmlcanvastestu_SOURCES = htmlcanvastest.cpp
 
 
 
-AM_CPPFLAGS = -I$(top_srcdir)/include -I.
-EXTRA_DIST = win32.mak mingw.mak mqlqa.h.in mqlqa.h qa2h.py \
+AM_CPPFLAGS = -I$(top_srcdir)/include -I. -I$(top_srcdir)/
+
+EXTRA_DIST = windows.mak mingw.mak mqlqa.h.in mqlqa.h qa2h.py \
              bptqa.h.in bptqa.h bptqa2h.py \
              htreetest.r Info.plist.htreetest.in \
              htmlcanvastest.r Info.plist.htmlcanvastest.in \
              file2h.py win32_testall.bat
 
 CLEANFILES = *~ core testincludes.o
-DISTCLEANFILES = mqlqa.h bptqa.h \
+DISTCLEANFILES = \
                 Info.plist.htmlcanvastest \
                 Info.plist.htreetest \
                 config.log
