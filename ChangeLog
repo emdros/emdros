@@ -249,6 +249,11 @@
 	* doc/*.1, doc/*.1.in, doc/*.5: Move into doc/man1 and doc/man5 as
 	appropriate.
 
+	* doc/man1/emdros.1: Move to doc/man5/emdros.5.
+
+	It is not a command, but a general description.  So it does not
+	belong in Section of the manual.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
