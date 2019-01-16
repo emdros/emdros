@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/17-2006
- * Last update: 11/30-2018
+ * Last update: 1/16-2019
  *
  */
 
@@ -38,11 +38,7 @@
 
 #include "emdros-lconfig.h"
 
-#if HAVE_ISTREAM
 #include <istream>
-#else
-#include <istream.h>
-#endif
 
 class PennScanner {
 protected:

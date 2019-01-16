@@ -4,7 +4,7 @@
 // monad_ms and sets of monads
 // Ulrik Petersen
 // Created: 7/16-1999
-// Last update: 8/17-2013
+// Last update: 1/16-2019
 //
 //
 
@@ -40,11 +40,8 @@
 #include "llist.h"
 #include <string>
 #include "debug.h"
-#if HAVE_OSTREAM
+
 #include <ostream>
-#else
-#include <ostream.h>
-#endif
 
 /**
  *\defgroup MonadSets Monad sets

@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 8/25-2010
- * Last update: 11/30-2018
+ * Last update: 1/16-2019
  *
  */
 
@@ -36,11 +36,9 @@
 #include "string_list.h"
 
 #include "emdros-lconfig.h"
-#if HAVE_OSTREAM
+
 #include <ostream>
-#else
-#include <ostream.h>
-#endif
+
 
 // "Internal" functions. Internal to the harvesting stuff anyway.
 extern void process_comma_separated_string_list(const std::string& comma_separated_string, std::list<std::string>& string_list);

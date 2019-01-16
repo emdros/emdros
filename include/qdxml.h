@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/4-2007
- * Last update: 3/3-2017
+ * Last update: 1/16-2019
  *
  */
 
@@ -32,12 +32,7 @@
 #include <iostream>
 
 
-#if HAVE_ISTREAM
 #include <istream>
-#else
-#include <istream.h>
-#endif
-
 #include <string>
 #include <map>
 #include <stack>

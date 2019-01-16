@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/9-2005
- * Last update: 5/1-2010
+ * Last update: 1/19-2019
  *
  */
 
@@ -29,11 +29,9 @@
 #include "solution.h"
 #include "qtoutput.h"
 #include <emdros-lconfig.h>
-#if HAVE_OSTREAM
+
 #include <ostream>
-#else
-#include <ostream.h>
-#endif
+
 
 class Output_style {
  protected:

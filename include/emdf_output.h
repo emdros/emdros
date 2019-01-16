@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 10/21-2001
- * Last update: 11/30-2018
+ * Last update: 1/16-2019
  *
  */
 
@@ -33,11 +33,7 @@
 #include "emdros-lconfig.h"
 #include "exception_emdros.h"
 
-#if HAVE_OSTREAM
 #include <ostream>
-#else
-#include <ostream.h>
-#endif
 
 #include <string>
 #include <list>

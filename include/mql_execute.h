@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/28-2001
- * Last update: 4/11-2017
+ * Last update: 1/16-2019
  *
  */
 
@@ -35,13 +35,9 @@
 #include "emdros-lconfig.h"
 #endif
 
-#if HAVE_ISTREAM
 #include <istream>
-#else
-#include <istream.h>
-#endif
-
 #include <string>
+
 #ifdef __DJGPP__
 #include "mql_ex~1.h"
 #include "mql_ex~2.h"

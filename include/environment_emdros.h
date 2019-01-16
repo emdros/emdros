@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/14-2003
- * Last update: 8/17-2013
+ * Last update: 1/16-2019
  *
  */
 
@@ -33,17 +33,8 @@
 #include "emdros-lconfig.h"
 #include "emdf_enums.h"
 
-#if HAVE_ISTREAM
 #include <istream>
-#else
-#include <istream.h>
-#endif
-
-#if HAVE_OSTREAM
 #include <ostream>
-#else
-#include <ostream.h>
-#endif
 
 #include "emdfdb.h"
 #include "table.h"

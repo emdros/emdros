@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/19-2006
- * Last update: 23/11-2016
+ * Last update: 1/16-2019
  *
  */
 
@@ -29,12 +29,8 @@
 #include "emdf_enums.h"
 
 #include "emdros-lconfig.h"
-#if HAVE_OSTREAM
-#include <ostream>
-#else
-#include <ostream.h>
-#endif
 
+#include <ostream>
 #include <iostream>
 
 typedef struct option_t {

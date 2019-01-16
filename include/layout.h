@@ -11,7 +11,7 @@
 // November 11, 2003.
 //
 // Created: 7/17-2005
-// Last update: 4/10-2017
+// Last update: 1/16-2019
 //
 //
 
@@ -46,11 +46,8 @@
 #include <vector>
 
 #include "emdros-lconfig.h"
-#if HAVE_OSTREAM
+
 #include <ostream>
-#else
-#include <ostream.h>
-#endif
 
 #include "viewmetrics.h"
 

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/9-2005
- * Last update: 1/27-2007
+ * Last update: 1/16-2019
  *
  */
 
@@ -29,16 +29,10 @@
 #include <set>
 #include <vector>
 #include "emdros-lconfig.h"
-#if HAVE_ISTREAM
+
 #include <istream>
-#else
-#include <istream.h>
-#endif
-#if HAVE_OSTREAM
 #include <ostream>
-#else
-#include <ostream.h>
-#endif
+
 
 
 typedef std::vector<std::string> StringVec;

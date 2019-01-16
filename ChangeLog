@@ -97,6 +97,28 @@
 	* include/emdf_wstring.h, EMdF/emdf_wstring.cpp: Remove, since it
 	long been obsolete.
 
+	* include/emdros-lconfig.h.in: It is 2019. <ostream.h> and
+	<istream.h> are history.  Accordingly, remove HAVE_ISTREAM and
+	HAVE_OSTREAM from include/emdros-lconfig.h.in.
+
+	Also remove the distinction from the following files:
+
+	modified:   examples/HAL/hallexer.h
+	modified:   include/conf.h
+	modified:   include/emdf_output.h
+	modified:   include/emdros-lconfig.h.in
+	modified:   include/environment_emdros.h
+	modified:   include/harvest_fts.h
+	modified:   include/layout.h
+	modified:   include/monads.h
+	modified:   include/mql_execute.h
+	modified:   include/mql_gq.h
+	modified:   include/opt.h
+	modified:   include/pennimporter.h
+	modified:   include/qdxml.h
+	modified:   src/qrytool/output_style.h
+
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.

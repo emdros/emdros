@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 10/21-2001
- * Last update: 4/7-2018
+ * Last update: 1/19-2019
  *
  */
 
@@ -34,7 +34,7 @@
 #include "win32-lconfig.h"
 #endif
 
-#include "emdros-version.h"
+#include "version-emdros.h"
 
 
 #ifndef USE_POSTGRESQL
@@ -63,14 +63,6 @@
 
 #ifndef SUN
 #define SUN @SUN@
-#endif
-
-#ifndef HAVE_ISTREAM
-#define HAVE_ISTREAM @HAVE_ISTREAM@
-#endif
-
-#ifndef HAVE_OSTREAM
-#define HAVE_OSTREAM @HAVE_OSTREAM@
 #endif
 
 #ifndef DEFAULT_BACKEND_ENUM
