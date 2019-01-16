@@ -16,6 +16,8 @@
 
 	* .travis.yml: More Ubuntu Xenial packages, this time for LaTeX.
 
+	* .travis.yml: Add a PPA for SWIG 3.0.12.
+
 2019-01-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Revert the default prefix to be /usr/local .
