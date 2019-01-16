@@ -1,27 +1,18 @@
-.\" Man page for eqt and eqtu
+.\" Man page for eqtu
 .\" Use the following command to view man page:
 .\"
-.\"  tbl eqt.1 | nroff -man | less
+.\"  tbl eqtu.1 | nroff -man | less
 .\"
-.TH EQT 1 "April 21, 2005"
+.TH EQTU 1 "January 16, 2019"
 .SH NAME
-eqt \- Query arbitrary Emdros databases with a GUI
-eqtu \- Query arbitrary Emdros databases with a Unicode GUI
+eqtu \- Query arbitrary Emdros databases with a GUI
 .SH SYNOPSIS
-\fBeqt\fR
-.br
 \fBeqtu\fR
 .br
 .SH DESCRIPTION
 
-\fBeqt\fR is a generic query tool for Emdros databases.  It shows the
+\fBeqtu\fR is a generic query tool for Emdros databases.  It shows the
 results in a way that is more meaningful than the output from mql(1).
-It exists in two versions: \fBeqt\fR for non-Unicode databases, and
-\fBeqtu\fR for databases containing Unicode characters.
-
-Note on Linux/Unix, eqtu(1) may actually replace eqt(1).  This occurs
-if the default wxWidgets installation uses Unicode.  In that case, the
-non-Unicode version is not available.
 
 See the homepage for more information:
 
@@ -29,7 +20,7 @@ http://emdros.org/qrytool/
 
 
 .SH OPTIONS
-\fBeqt(u)\fR supports the following command-line switches:
+\fBeqtu\fR supports the following command-line switches:
 .TP 6
 .BI \-b\ ,\ \-\-backend \ backend
 set database backend to `backend'. Valid values are: For PostgreSQL:
@@ -59,8 +50,8 @@ Generate PNGs only; do not show GUI.
 
 .SH CONFIGURATION FILE FORMAT
 
-\fBeqt(u)\fR asks for a configuration file upon startup.  This
-configuration file tells \fBeqt(u)\fR the basic parameters which it
+\fBeqtu\fR asks for a configuration file upon startup.  This
+configuration file tells \fBeqtu\fR the basic parameters which it
 needs in order to work.
 
 The configuration file has a very standard format: a) Everything from

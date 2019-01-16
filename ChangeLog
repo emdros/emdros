@@ -276,6 +276,8 @@
 	the wxWidgets libraries.  This dichotomy is gone in current
 	versions of wxWidgets, and hence eqt does not exist any more.
 
+	* doc/man1/eqtu.1.in: Rewrite, so as not to mention eqt(1).
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
