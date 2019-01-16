@@ -88,7 +88,11 @@
 
 	* pcre/Makefile.am: Use LIB_EMDROS_{CURRENT,REVISION,AGE} instead of LIB_PCRE_{CURRENT,REVISION,AGE}
 
-	* generate_extrafiles.py.in: Update for the 
+	* generate_extrafiles.py.in: Update for the
+
+	* include/mql_utility.h, MQL/mql_utility.cpp, MQL/mql_R.cpp: The
+	keyword "restrict" was used for a function. Rename it to
+	R_restrict().
 
 2019-01-15 Ulrik Sandborg-Petersen
 

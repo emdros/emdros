@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/16-2001
- * Last update: 10/6-2006
+ * Last update: 1/19-2019
  *
  */
 
@@ -39,7 +39,7 @@
  *
  * @param result The resulting SetOfMonads.
  */
-void restrict(const SetOfMonads& SOM, monad_m monad, SetOfMonads& result)
+void R_restrict(const SetOfMonads& SOM, monad_m monad, SetOfMonads& result)
 {
   result = SOM;
   monad_m SOM_first = SOM.first();

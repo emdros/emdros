@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/16-2001
- * Last update: 10/3-2011
+ * Last update: 1/19-2019
  *
  */
 
@@ -34,7 +34,7 @@
 
 class Straw; // Forward declaration
 
-extern void restrict(const SetOfMonads& SOM, monad_m monad, SetOfMonads& result);
+extern void R_restrict(const SetOfMonads& SOM, monad_m monad, SetOfMonads& result);
 extern void join(Straw* pStraw, ListOfStraws* pLS);
 // extern void hat(const SetOfMonads& O, SetOfMonads& out); // Has been obsolete...
 #endif /* MQL_UTILITY__H__ */
