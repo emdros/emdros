@@ -1,11 +1,9 @@
 [Desktop Entry]
-Encoding=UTF-8
 Type=Application
-
+Terminal=false
 Exec=eqtu
-Icon=emergence-blue-E
-
+Icon=scripturesys-blue-E
 Name=Emdros Query Tool
 Comment=Query Emdros databases interactively
-
-Categories=Education;Languages;
+Categories=Education
+StartupWMClass=Eqtu

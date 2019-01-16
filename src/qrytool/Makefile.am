@@ -1,11 +1,12 @@
 AM_CXXFLAGS = @CXXFLAGS@ @DEBUGFLAG@ @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@  \
-              @ADDITIONAL_CXXFLAGS@ -DTARGET_RT_BIG_ENDIAN=@BIG_ENDIAN@ 
+              @ADDITIONAL_CXXFLAGS@ 
 
 ARFLAGS = @ARFLAGS@
 
 SUBDIRS = doc
 
 EXTRA_PROGRAMS = eqtu
+
 
 if WITH_WX_PROGRAMS
 
@@ -22,19 +23,14 @@ endif
 if HOSTISDARWIN
 MACLDFLAGS = -static
 if WITH_WX_PROGRAMS
-maybe_all_local = RezSetFile EmdrosQueryTool.app
-__macosx__rez = $(WX_REZFLAGS) eqtu -s $(top_srcdir)/wx EmdrosQueryTool.r
+maybe_all_local = EmdrosQueryTool.app
 maybe_distclean_local = MacOSX_distclean_local
 else
 maybe_all_local = 
-__macosx__rez = 
-__macosx__setfile = 
 maybe_distclean_local = 
 endif
 else
 maybe_all_local = 
-__macosx__rez = 
-__macosx__setfile = 
 maybe_distclean_local = 
 endif
 
@@ -48,15 +44,14 @@ ALWAYSLDADD = -L$(top_builddir)/src/qrytool -lquerytool \
               @EMDROS_LDADD_BACKBACK@ \
               @SUN_LDFLAGS@  @DARWIN_LDFLAGS@
 
-
-ALWAYSDEPS = libquerytool.a  \
-             @EMDROS_DEPS_BACKBACK@
-
+ALWAYSDEPS = libquerytool.a  @EMDROS_DEPS_BACKBACK@
 
 
 eqtc_LDADD = $(ALWAYSLDADD)
 eqtc_DEPENDENCIES = $(ALWAYSDEPS)
 eqtc_LDFLAGS = $(MACLDFLAGS) 
+
+
 
 eqtu_LDADD = -L$(top_builddir)/wx -lemdrosguiu \
              $(ALWAYSLDADD) \
@@ -75,7 +70,6 @@ libquerytool_a_AR = $(AR) $(ARFLAGS)
 endif
 
 eqtc_SOURCES = mqlqt.cpp
-
 eqtu_SOURCES = mqlqtwx.cpp qtconnwizard.cpp mainframe.cpp wxilqtout.cpp 
 
 
@@ -84,7 +78,11 @@ noinst_HEADERS = solution.h mytable.h exec.h \
                  mainframe.h mqlqtwx.h \
                  qtoutput.h consout.h wxilqtout.h qtconnwizard.h
 
-AM_CPPFLAGS = -I$(top_srcdir)/include -I$(top_srcdir)/wx
+AM_CPPFLAGS = -I$(top_srcdir)/amalgamation \
+              -I$(top_srcdir)/wx \
+              -I$(top_srcdir)/include \
+              -I$(top_srcdir)/ 
+
 CLEANFILES = *~ core config.log EQTUsersGuide.log
 
 QRYTOOLDATA = av.cfg default.cfg penn.cfg \
@@ -98,12 +96,17 @@ EXTRA_DIST = win32.mak mingw.mak \
              av.cfg default.cfg wihebrew.cfg wh.cfg \
              mqlqtwx.rc \
              Amsterdam.map \
-             Info.plist.in EmdrosQueryTool.r \
-             emergence-eqtu.desktop
+             Info.plist.in \
+             scripturesys-eqtu.desktop \
+             doc/EQTUsersGuide.pdf \
+             doc/EQTUsersGuide.htb
+
 
 DISTCLEANFILES = Info.plist
 
-dist_pkgdata_DATA = emergence-eqtu.desktop
+desktopdatadir = $(datadir)/applications
+dist_desktopdata_DATA = scripturesys-eqtu.desktop
+
 
 
 #
@@ -126,8 +129,6 @@ distclean-local: $(maybe_distclean_local)
 MacOSX_distclean_local:
 	rm -rf EmdrosQueryTool.app
 
-doc/EQTUsersGuide.htb:
-	cd doc ; make ; cd ..
 
 EmdrosQueryTool.app: Info.plist eqtu $(QRYTOOLDATA) $(top_srcdir)/wx/blue-E.icns
 	rm -rf EmdrosQueryTool.app
@@ -145,9 +146,6 @@ EmdrosQueryTool.app: Info.plist eqtu $(QRYTOOLDATA) $(top_srcdir)/wx/blue-E.icns
 Info.plist: Info.plist.in
 	$(top_builddir)/config.status --file=$(srcdir)/Info.plist
 
-RezSetFile: eqtu  EmdrosQueryTool.r Info.plist
-	$(__macosx__rez)
-	$(__macosx__setfile)
 
 
 macdist:

@@ -324,6 +324,11 @@
 
 	* wx/Makefile.am: Update for new m4 infrastructure.
 
+	* src/qrytool/Makefile.am: Update for new m4 infrastructure.
+
+	modified:   src/qrytool/Makefile.am
+	renamed:    src/qrytool/emergence-eqtu.desktop -> src/qrytool/scripturesys-eqtu.desktop
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
