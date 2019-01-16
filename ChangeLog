@@ -256,6 +256,13 @@
 
 	* doc/man5/emdros.5: Update.
 
+	* Manual pages: Remove the following, as they are no longer part
+	of the Emdros distribution proper.  Instead, they are part of the
+	example-programs-emdros GitHub repo:
+
+	- doc/man1/mqlhal.1.in
+	- doc/man1/hal_build_db.1
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
