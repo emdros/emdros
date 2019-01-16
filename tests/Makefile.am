@@ -164,7 +164,7 @@ htmlcanvastestu_SOURCES = htmlcanvastest.cpp
 
 AM_CPPFLAGS = -I$(top_srcdir)/include -I. -I$(top_srcdir)/
 
-EXTRA_DIST = windows.mak mingw.mak mqlqa.h.in mqlqa.h qa2h.py \
+EXTRA_DIST = win32.mak mingw.mak mqlqa.h.in mqlqa.h qa2h.py \
              bptqa.h.in bptqa.h bptqa2h.py \
              htreetest.r Info.plist.htreetest.in \
              htmlcanvastest.r Info.plist.htmlcanvastest.in \

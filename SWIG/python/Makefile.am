@@ -88,7 +88,7 @@ BUILT_SOURCES = $(MAYBE_BUILT_SRC)
 
 
 EXTRA_DIST = pyemdros.i \
-             test.py README-Python dir.py windows.mak  \
+             test.py README-Python dir.py win32.mak  \
              $(BUILT_SOURCES)
 
 CLEANFILES = *~ core config.log test.pyc test.pyo \
