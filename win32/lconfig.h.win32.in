@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 10/21-2001
- * Last update: 6/15-2018
+ * Last update: 1/16-2019
  *
  */
 
@@ -26,9 +26,6 @@
 
 #define LINUX 0
 #define SUN 0
-
-#define HAVE_ISTREAM 1
-#define HAVE_OSTREAM 1
 
 /* Don't use "system-wide" SQLite3. There is none on Win32. */
 #define USE_SYSTEM_SQLITE3 (0)

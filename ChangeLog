@@ -136,6 +136,8 @@
 	- mysqlconn.cpp
 	- sqlite3conn.cpp
 
+	* win32/lconfig.h.win32.in: Remove HAVE_ISTREAM and HAVE_OSTREAM.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
