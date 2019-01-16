@@ -7,7 +7,8 @@ VERSION=@SQLITE3_VERSION@
 noinst_HEADERS = sqlite3ext.h sqlite3.h
 
 EXTRA_DIST = win32.mak mingw.mak \
-             prefix.c encryption.c sqlite3.c sqlite3_localamalgam.c
+             prefix.c encryption.c sqlite3.c \
+             sqlite3_emdros_amalgamation.c
 
 
 
