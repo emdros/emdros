@@ -687,6 +687,9 @@
 	deleted:    examples/sfm/schema.sfm
 	deleted:    examples/sfm/test.sfm
 
+	* src/qrytool/Makefile.am: Add rule for creating
+	doc/EQTUsersGuide.htb.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.

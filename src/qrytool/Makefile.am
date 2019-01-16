@@ -107,6 +107,8 @@ DISTCLEANFILES = Info.plist
 desktopdatadir = $(datadir)/applications
 dist_desktopdata_DATA = scripturesys-eqtu.desktop
 
+doc/EQTUsersGuide.htb:
+	$(MAKE) -C doc
 
 
 #
