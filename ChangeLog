@@ -355,6 +355,10 @@
 
 	* NEWS: Update with more NEWS for 3.7.0, from today.
 
+	* doc/Makefile.am: Distribute all of the man pages in doc/man1/.
+
+	* emdros.spec.in: Distribute all of the HTML man pages for man1.
+
 2019-01-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre04.
