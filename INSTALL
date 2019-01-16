@@ -566,10 +566,7 @@ The most important ones are:
 - --prefix=                  (defaults to /usr/local)
 - --with-mysql=[yes|no|maybe]
 - --with-postgresql=[yes|no|maybe]
-- --with-sqlite=[yes|no|maybe|system|local]
 - --with-sqlite3=[yes|no|maybe|system|local]
-- --with-sqlite-no-fsync=[yes|no]    (on by default)
-- --with-sqlite3-no-fsync=[yes|no]   (on by default)
 - --with-bpt=[yes|no|maybe]          (off by default)
 - --with-bpt2=[yes|no|maybe]         (off by default)
 - --with-wx=[yes|no|maybe]   (enables wxWidgets programs -- on by default if present on system)
@@ -583,11 +580,8 @@ The most important ones are:
 - --disable-local-pcre
 - --with-swig-language-nodejs=[yes|no|maybe]
 - --with-swig-language-java=[yes|no|maybe]
-- --with-swig-language-perl=[yes|no|maybe]
 - --with-swig-language-python=[yes|no|maybe]
 - --with-swig-language-python3=[yes|no|maybe]
-- --with-swig-language-ruby=[yes|no|maybe]
-- --with-swig-language-php=[yes|no|maybe]
 - --with-swig-language-php7=[yes|no|maybe]
 - --with-default-backend=[sqlite|sqlite3|mysql|postgresql]
 
