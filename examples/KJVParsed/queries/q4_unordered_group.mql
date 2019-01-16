@@ -1,9 +1,0 @@
-SELECT ALL OBJECTS
-WHERE
-[S
-	[UnorderedGroup
-		[Token surface = 'God' GET surface]
-		[Token surface = 'love' GET surface]
-	]
-]
-GO

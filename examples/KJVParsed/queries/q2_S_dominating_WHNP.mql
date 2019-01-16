@@ -1,7 +1,0 @@
-SELECT ALL OBJECTS 
-WHERE 
-[S AS S
-   [WHNP FOCUS parent = S.self]
-]
-GO
-

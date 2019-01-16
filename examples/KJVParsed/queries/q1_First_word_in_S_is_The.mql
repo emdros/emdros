@@ -1,7 +1,0 @@
-SELECT ALL OBJECTS 
-WHERE 
-[DocumentRoot
-  [Token FIRST surface='The']
-]
-GO
-
