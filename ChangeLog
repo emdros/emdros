@@ -162,10 +162,10 @@
 	3) examples/KJVParsed/
 	4) examples/sfm/
 
-	Number (1) and (2) are moved to the emdros-example-programs repo
+	Number (1) and (2) are moved to the example-programs-emdros repo
 	on GitHub.
 
-	Number (3) is moved to emdros-example-databases repo on GitHub.
+	Number (3) is moved to example-databases repo on GitHub.
 
 	* SWIG/*/Makefile.am: Update for new infrastructure.
 
