@@ -65,6 +65,8 @@ EMDROS_WX_SUPPORT
 # Do SWIG support, if necessary
 EMDROS_SWIG_SUPPORT
 
+# Find program dependencies for documentation
+EMDROS_DOCS
 
 EMDROS_BUILDENV_END
 
