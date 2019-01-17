@@ -31,6 +31,12 @@
 	when we had the LyX docs in this repo.  No need for transfig any
 	more.
 
+	* m4/emdros_swig.m4: For Python 3, check for the "python3" program
+	first.
+
+	This is done because pyenv can, on some platforms, cause
+	AC_CHECK_PROGS to succeed with no Python interpreter being set.
+
 2019-01-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Revert the default prefix to be /usr/local .

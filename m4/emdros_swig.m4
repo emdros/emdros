@@ -284,7 +284,11 @@ fi
 
 if test x$DO_SWIG_PYTHON3 != xno; then
   dnl python3 program
-  AC_CHECK_PROGS(PYTHON3, [python3.7 python3.6 python3.5 python3.4 python3.3 python3.2 python3.1 python3 python], no)
+  dnl
+  dnl NOTE: We check for python3 first, because pyenv can, on some platforms,
+  dnl cause this to fail, yet AC_CHECK_PROGS succeeds, resulting in an
+  dnl unusable PYTHON3 program.
+  AC_CHECK_PROGS(PYTHON3, [python3 python3.7 python3.6 python3.5 python3.4 python3.3 python3.2 python3.1 python], no)
   if test x$PYTHON3 = xno; then
     if test x$DO_SWIG_PYTHON3 = xyes; then
       AC_MSG_RESULT([
