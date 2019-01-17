@@ -27,6 +27,10 @@
 	* SWIG/java/libjemdros.i, SWIG/java/Makefile.inc: Remove the
 	unused IntVector.
 
+	* INSTALL: Remove mention of package transfig, which was needed
+	when we had the LyX docs in this repo.  No need for transfig any
+	more.
+
 2019-01-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Revert the default prefix to be /usr/local .
