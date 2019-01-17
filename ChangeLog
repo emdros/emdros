@@ -64,6 +64,11 @@
 	deleted:    tests/htmlcanvastest.r
 	deleted:    tests/htreetest.r
 
+	* Likewise, remove the following obsolete files:
+
+	deleted:    src/importtool/EmdrosImportTool.r
+	deleted:    src/qrytool/EmdrosQueryTool.r
+
 2019-01-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Revert the default prefix to be /usr/local .
