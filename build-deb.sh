@@ -11,8 +11,9 @@ EMDROS_VERSION=`grep "AC_INIT" configure.ac | awk '{print \$2}' | sed -e 's_\\[_
 echo "EMDROS_VERSION = ${EMDROS_VERSION}"
 
 # First make sure we are pristine
-make distclean || ./rmfiles.sh
+make distclean
+./rmfiles.sh
 
-# Then rebuild, building the .deb
+# Then rebuild, making the tarball, unpacking it, and building the .deb
 autoreconf -i && ./configure && make dist && tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc || cd .. )
 
