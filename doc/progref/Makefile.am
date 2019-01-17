@@ -64,7 +64,7 @@ EmdrosProgRefGuide.tex: config.py buildhtb.py \
 	cd $(srcdir); python $(srcdir)/buildhtb.py --latex
 
 EmdrosProgRefGuide.pdf: EmdrosProgRefGuide.tex
-	pdflatex EmdrosProgRefGuide.tex
+	pdflatex EmdrosProgRefGuide.tex > pdflatex-log.txt 2>&1
 
 
 DISTCLEANFILES = \

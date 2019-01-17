@@ -25,7 +25,7 @@ class FilesEntry:
         self.mylist = line.strip().split("\t")
 
     def getID(self):
-        print self.mylist[0]
+        #print self.mylist[0]
         return int(self.mylist[0])
 
     def getTitle(self):
@@ -65,7 +65,7 @@ class Hierarchy:
         while id != -1:
             self.docline.append(id)
             id = self.getNext(id)
-            print "UP201: id =", id
+            #print "UP201: id =", id
 
     def calculateLevels(self):
         self.levels[1000] = 0
@@ -162,7 +162,7 @@ class Pages:
 
     def writeHTMLFile(self, id, hierarchy, extension, bWithNavigation, bWithAnalyticsTracking):
         filename = str(id) + str(extension)
-        print filename
+        #print filename
         f = open(filename, "w")
         if bWithNavigation:
             css_header = "    <link href=\"cms.css\" rel=\"stylesheet\" type=\"text/css\">"

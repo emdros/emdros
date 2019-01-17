@@ -37,6 +37,17 @@
 	This is done because pyenv can, on some platforms, cause
 	AC_CHECK_PROGS to succeed with no Python interpreter being set.
 
+	* Reduce the verbosity of the build slightly, in order to have
+	better Travis CI builds.
+
+	Files affected:
+
+	modified:   doc/cms/buildhtb.py
+	modified:   doc/progref/Makefile.am
+	modified:   doc/progref/buildhtb.py
+	modified:   src/importtool/doc/Makefile.am
+	modified:   src/qrytool/doc/Makefile.am
+
 2019-01-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Revert the default prefix to be /usr/local .
