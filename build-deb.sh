@@ -10,12 +10,20 @@
 EMDROS_VERSION=`grep "AC_INIT" configure.ac | awk '{print \$2}' | sed -e 's_\\[__g;s_\\]__g;s_,__g'`
 echo "EMDROS_VERSION = ${EMDROS_VERSION}"
 
-# Do we have a tarball?
+# Do we have a tarball in the current directory?
 if test -f emdros-${EMDROS_VERSION}.tar.gz; then
     # Yes, we do have the tarball.
     
     # Unpack it, and build the package.
-    tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc || cd .. )
+    tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
+elif test -f ../emdros-${EMDROS_VERSION}.tar.gz; then
+    # We have the tarball in the parent directory.
+
+    # Copy it to the current directory
+    cp ../emdros-${EMDROS_VERSION}.tar.gz .
+
+    # Unpack it, and build the package.
+    tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
 else
     # No, we don't have the tarball.  Make it.
     
@@ -24,6 +32,6 @@ else
     ./rmfiles.sh
 
     # Then rebuild, make the tarball, unpack it, and build the .deb
-    autoreconf -i && ./configure && make dist && tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc || cd .. )
+    autoreconf -i && ./configure && make dist && tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
 fi
 
