@@ -55,6 +55,14 @@
 	modified:   src/importtool/doc/Makefile.am
 	modified:   src/qrytool/doc/Makefile.am
 
+	* tests/Makefile.am: Remove the obsolete Mac OS Rez and SetFile
+	targets.
+
+	Files affected:
+
+	modified:   tests/Makefile.am
+	deleted:    tests/htmlcanvastest.r
+	deleted:    tests/htreetest.r
 
 2019-01-16 Ulrik Sandborg-Petersen
 

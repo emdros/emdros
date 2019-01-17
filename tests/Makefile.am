@@ -32,26 +32,14 @@ endif
 if HOSTISDARWIN
 MACLDFLAGS = -static
 if WITH_WX_PROGRAMS
-maybe_all_local = RezSetFile_htreetest htreetest.app RezSetFile_htmlcanvastest htmlcanvastest.app 
-__macosx__rez__htreetest = $(WX_REZFLAGS) htreetest -s $(top_srcdir)/wx htreetest.r
-__macosx__setfile__htreetest = 
-__macosx__rez__htmlcanvastest = $(WX_REZFLAGS) htmlcanvastest -s $(top_srcdir)/wx htmlcanvastest.r
-__macosx__setfile__htmlcanvastest = 
+maybe_all_local = htreetest.app htmlcanvastest.app 
 maybe_distclean_local = MacOSX_distclean_local
 else
 maybe_all_local = 
-__macosx__rez__htreetest = 
-__macosx__setfile__htreetest =
-__macosx__rez__htmlcanvastest =
-__macosx__setfile__htmlcanvastest =
 maybe_distclean_local = 
 endif
 else
 maybe_all_local = 
-__macosx__rez__htreetest = 
-__macosx__setfile__htreetest = 
-__macosx__rez__htmlcanvastest =
-__macosx__setfile__htmlcanvastest =
 maybe_distclean_local = 
 endif
 
@@ -166,8 +154,8 @@ AM_CPPFLAGS = -I$(top_srcdir)/include -I. -I$(top_srcdir)/
 
 EXTRA_DIST = win32.mak mingw.mak mqlqa.h.in mqlqa.h qa2h.py \
              bptqa.h.in bptqa.h bptqa2h.py \
-             htreetest.r Info.plist.htreetest.in \
-             htmlcanvastest.r Info.plist.htmlcanvastest.in \
+             Info.plist.htreetest.in \
+             Info.plist.htmlcanvastest.in \
              file2h.py win32_testall.bat
 
 CLEANFILES = *~ core testincludes.o
@@ -219,10 +207,6 @@ htreetest.app: Info.plist.htreetest htreetestu $(top_srcdir)/wx/blue-E.icns
 Info.plist.htreetest: Info.plist.htreetest.in
 	$(top_builddir)/config.status --file=$(srcdir)/Info.plist.htreetest
 
-RezSetFile_htreetest: htreetestu  htreetest.r Info.plist.htreetest
-	$(__macosx__rez__htreetest)
-	$(__macosx__setfile__htreetest)
-
 
 
 
@@ -239,10 +223,6 @@ htmlcanvastest.app: Info.plist.htmlcanvastest htmlcanvastestu $(top_srcdir)/wx/b
 
 Info.plist.htmlcanvastest: Info.plist.htmlcanvastest.in
 	$(top_builddir)/config.status --file=$(srcdir)/Info.plist.htmlcanvastest
-
-RezSetFile_htmlcanvastest: htmlcanvastestu  htmlcanvastest.r Info.plist.htmlcanvastest
-	$(__macosx__rez__htmlcanvastest)
-	$(__macosx__setfile__htmlcanvastest)
 
 
 
