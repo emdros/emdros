@@ -289,8 +289,7 @@ var sc_remove_link=1;
         print >>f, "</body>"
         print >>f, "</html>"
 
-    def writeOneBigHTMLPage(self, bookname, title, hierarchy):
-        filename = "%s.htm" % bookname
+    def open_HTML_file(self, filename, title):
         f = open(filename, "w")
         print >>f, """<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" 
         "http://www.w3.org/TR/REC-html40/strict.dtd">"""
@@ -299,6 +298,18 @@ var sc_remove_link=1;
         print >>f, "     <title>" + title + "</title>"
         print >>f, "  </head>"
         print >>f, "<body>"
+        return f
+
+    def close_HTML_file(self, f):
+        print >>f, "</body>"
+        print >>f, "</html>"
+                
+        f.close()
+        
+
+    def writeOneBigHTMLPage(self, bookname, title, hierarchy):
+        filename = "%s.htm" % bookname
+        f = self.open_HTML_file(filename, title)
 
         for id in hierarchy.docline:
             if id != 1000:
@@ -307,8 +318,36 @@ var sc_remove_link=1;
                 pagestring = self.expandTags(pagestring, id, hierarchy, None)
                 print >>f, pagestring
                 #print >>f, "<br><br><hr><br><br>"
-        f.close()
 
+        self.close_HTML_file(f)
+
+    def writePartsAsHTMLPages(self, bookname, title, hierarchy):
+        f = None
+        
+        for id in hierarchy.docline:
+            entry = hierarchy.getEntry(id)
+            if id == 1000:
+                pass
+            elif hierarchy.levels[id] in [1,2]:
+                # Close old if necessary
+                if f != None:
+                    self.close_HTML_file(f)
+
+                # Open new
+                filename = "%s-%04d.htm" % (bookname, id)
+                f = self.open_HTML_file(filename, title)
+                master_level = hierarchy.levels[id]
+            else:
+                level = hierarchy.levels[id] - master_level
+                print >>f, "<H%d><A NAME=\"%s\">%s</A></H%d>" % (level, str(id), hierarchy.getEntry(id).getTitle(), level)
+                pagestring = self.pages[id]
+                pagestring = self.expandTags(pagestring, id, hierarchy, None, -(level+1))
+                print >>f, pagestring
+                #print >>f, "<br><br><hr><br><br>"
+
+        self.close_HTML_file(f)
+        
+        
     def getSection(self, level):
         if level == 1:
             return "\section"
@@ -358,7 +397,7 @@ var sc_remove_link=1;
         f.close()
 
 
-    def expandTags(self, pagestring, id, hierarchy, extension):
+    def expandTags(self, pagestring, id, hierarchy, extension, level_addend = 0):
         page_anchor_re = re.compile(r'<page_anchor[ \t\n]+ID=\"([0-9]+)">')
         page_anchor_end_re = re.compile(r'</page_anchor>')
         index_tag_re = re.compile(r'<index[ \t\n]+term="[^"]+">')
@@ -382,10 +421,14 @@ var sc_remove_link=1;
         if extension is None:
             h2_re = re.compile(r'<[Hh]2>')
             h2_re_end = re.compile(r'</[Hh]2>')
+            h3_re = re.compile(r'<[Hh]3>')
+            h3_re_end = re.compile(r'</[Hh]3>')
             tmpstr = page_anchor_re.sub(r'<A HREF="#\1">', tmpstr)
-            level = hierarchy.levels[id] + 1
+            level = hierarchy.levels[id] + 1 + level_addend
             tmpstr = h2_re.sub("<h%d>" % level, tmpstr)
             tmpstr = h2_re_end.sub("</h%d>" % level, tmpstr)
+            tmpstr = h3_re.sub("<h%d>" % (level + 1), tmpstr)
+            tmpstr = h3_re_end.sub("</h%d>" % (level + 1), tmpstr)
         else:
             tmpstr = page_anchor_re.sub(r'<A HREF="\1%s">' % extension, tmpstr)
         tmpstr = index_tag_re.sub("", tmpstr)
@@ -628,6 +671,8 @@ def doit(bookname, booktitle, contents_filename, files_filename, purpose):
         pages.writeHHK(bookname, hierarchy, ".htm")
     elif purpose == "single":
         pages.writeOneBigHTMLPage(bookname, booktitle, hierarchy)
+    elif purpose == "parts":
+        pages.writePartsAsHTMLPages(bookname, booktitle, hierarchy)        
     elif purpose == "latex":
         pages.writeOneBigLaTeXPage(bookname, booktitle, hierarchy)
     elif purpose == "web":
