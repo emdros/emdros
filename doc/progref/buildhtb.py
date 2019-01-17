@@ -326,9 +326,10 @@ var sc_remove_link=1;
         
         for id in hierarchy.docline:
             entry = hierarchy.getEntry(id)
+            bDoIt = False
             if id == 1000:
-                pass
-            elif hierarchy.levels[id] in [1,2]:
+                bDoIt = False
+            elif hierarchy.levels[id] in [1]:
                 # Close old if necessary
                 if f != None:
                     self.close_HTML_file(f)
@@ -337,8 +338,12 @@ var sc_remove_link=1;
                 filename = "%s-%04d.htm" % (bookname, id)
                 f = self.open_HTML_file(filename, title)
                 master_level = hierarchy.levels[id]
+                bDoIt = True
             else:
-                level = hierarchy.levels[id] - master_level
+                bDoIt = True
+                
+            if bDoIt:
+                level = hierarchy.levels[id] - master_level + 1
                 print >>f, "<H%d><A NAME=\"%s\">%s</A></H%d>" % (level, str(id), hierarchy.getEntry(id).getTitle(), level)
                 pagestring = self.pages[id]
                 pagestring = self.expandTags(pagestring, id, hierarchy, None, -(level+1))
