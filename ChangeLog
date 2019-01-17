@@ -70,7 +70,7 @@
 	deleted:    src/qrytool/EmdrosQueryTool.r
 
 	* m4/emdros_docs.m4, configure.ac: Add m4 script to detect
-	presence or absence of pdflatex and groff.
+	presence or absence of pdflatex, groff, and zip.
 
 2019-01-16 Ulrik Sandborg-Petersen
 
