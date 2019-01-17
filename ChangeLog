@@ -49,6 +49,12 @@
 	modified:   src/qrytool/doc/Makefile.am
 	modified:   doc/progref/Makefile.am
 
+	* Add pdflatex-log.txt to CLEANFILES in the following Makefiles:
+
+	modified:   doc/progref/Makefile.am
+	modified:   src/importtool/doc/Makefile.am
+	modified:   src/qrytool/doc/Makefile.am
+
 
 2019-01-16 Ulrik Sandborg-Petersen
 

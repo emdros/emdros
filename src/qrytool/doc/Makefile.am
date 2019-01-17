@@ -55,7 +55,9 @@ DISTCLEANFILES = *.htm $(srcdir)/../$(DOCUMENT_NAME).htb \
                   buildhtb.py \
                   config.py config.pyc config.log
 
-CLEANFILES = *~ core 
+CLEANFILES = *~ core \
+             pdflatex-log.txt
+
 
 
 qrytooldir = $(prefix)/share/emdros/qrytool

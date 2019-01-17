@@ -83,7 +83,9 @@ DISTCLEANFILES = \
              $(PNGFILES_FROM_XPM) \
              *.htm $(ALL_HTML_FILES)
 
-CLEANFILES = *~ core 
+CLEANFILES = *~ core \
+             pdflatex-log.txt
+
 
 
 %.png : ../../../wx/%.xpm
