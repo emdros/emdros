@@ -171,8 +171,9 @@ make distclean, or a fresh git clone.
 
 sudo apt-get install -y g++ make binutils zlib1g zlib1g-dev build-essential fakeroot debhelper pkg-config transfig latex2html swig3.0 autoconf automake libtool groff imagemagick autotools-dev re2c texlive-latex-base latex2html 
 
-See above, under "Building a .deb from an Emdros tarball" for
-information about which packages should be installed.
+See above, under "Building a .deb from an Emdros tarball", for
+information about which packages can also be installed for more
+functionality.
 
 SWIG version 3.0.11 or higher is required if you need support for PHP
 7, after a "make distclean", or a fresh git clone.
