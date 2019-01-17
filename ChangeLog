@@ -21,6 +21,9 @@
 	* INSTALL: Remove all mention of PHP 5.  Rewrite Ubuntu section to
 	also mention a fresh git clone.
 
+	* SWIG/csharp/libcsemdros.i, SWIG/csharp/Makefile.inc: Removed the
+	unused IntVector.
+
 2019-01-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Revert the default prefix to be /usr/local .
