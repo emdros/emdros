@@ -8,6 +8,6 @@ before_install:
   - sudo apt-get install -y pkg-config python3 python3-dev python python-dev mono-devel mono-mcs mono-tools-devel php-dev g++ make binutils build-essential fakeroot debhelper automake autoconf libtool swig re2c zip zlib1g zlib1g-dev libxml2-utils transfig groff latex2html
 
 
-script: autoreconf -i && ./configure && make && make test && make dist && ./build-deb.sh
+script: autoreconf -i && ./configure && make dist && ./build-deb.sh
 
 compiler: gcc
