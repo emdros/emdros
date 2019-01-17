@@ -47,6 +47,8 @@
 	modified:   doc/progref/buildhtb.py
 	modified:   src/importtool/doc/Makefile.am
 	modified:   src/qrytool/doc/Makefile.am
+	modified:   doc/progref/Makefile.am
+
 
 2019-01-16 Ulrik Sandborg-Petersen
 

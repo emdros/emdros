@@ -46,7 +46,7 @@ Makefile.inc: files.txt
 	echo "    index.html" >> $@
 
 EmdrosProgRefGuide.htb: 1001.htm
-	cd $(srcdir); zip EmdrosProgRefGuide.htb *.htm *.png EmdrosProgRefGuide.hhc EmdrosProgRefGuide.hhk EmdrosProgRefGuide.hhp 
+	cd $(srcdir); zip -q EmdrosProgRefGuide.htb *.htm *.png EmdrosProgRefGuide.hhc EmdrosProgRefGuide.hhk EmdrosProgRefGuide.hhp 
 
 
 1001.htm: config.py EmdrosProgRefGuide.hhp buildhtb.py \
@@ -111,7 +111,7 @@ $(EMDROS_PROGREF_GUIDE_HTML_DIR).zip: $(ALL_HTML_FILES)
 	mkdir $(EMDROS_PROGREF_GUIDE_HTML_DIR)
 	cp $(ALL_HTML_FILES) $(EMDROS_PROGREF_GUIDE_HTML_DIR)/
 	cp Content.txt files.txt search.php cms.css dot.gif $(EMDROS_PROGREF_GUIDE_HTML_DIR)/
-	zip -r $(EMDROS_PROGREF_GUIDE_HTML_DIR).zip $(EMDROS_PROGREF_GUIDE_HTML_DIR)/
+	zip -q -r $(EMDROS_PROGREF_GUIDE_HTML_DIR).zip $(EMDROS_PROGREF_GUIDE_HTML_DIR)/
 	rm -rf $(EMDROS_PROGREF_GUIDE_HTML_DIR)
 
 macdist: $(EMDROS_PROGREF_GUIDE_HTML_DIR).zip EmdrosProgRefGuide.pdf
