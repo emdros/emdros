@@ -24,6 +24,9 @@
 	* SWIG/csharp/libcsemdros.i, SWIG/csharp/Makefile.inc: Removed the
 	unused IntVector.
 
+	* SWIG/java/libjemdros.i, SWIG/java/Makefile.inc: Remove the
+	unused IntVector.
+
 2019-01-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Revert the default prefix to be /usr/local .

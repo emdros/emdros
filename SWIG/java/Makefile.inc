@@ -35,7 +35,6 @@ SWIG_GENERATED_JAVAFILES = \
                 jsource/FlatStraw.java \
                 jsource/IntegerListConstIterator.java \
                 jsource/IntegerList.java \
-                jsource/IntVector.java \
                 jsource/jemdrosConstants.java \
                 jsource/jemdros.java \
                 jsource/jemdrosJNI.java \

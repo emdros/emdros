@@ -71,7 +71,7 @@
 
 
 %template(StringVector) std::vector<std::string>;
-%template(IntVector) std::vector<emdros_i32>;
+// %template(IntVector) std::vector<emdros_i32>;
 
 
 /* make sure that STL exceptions get caught and rethrown. */
