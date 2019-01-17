@@ -1729,7 +1729,7 @@ public:
   // bDBOK is true on no DB error.
   virtual std::string getEnumConstNameFromValue(long value,
                                                 const std::string{PREAMP} enum{PREUNDERSCORE}name,
-                                                /* out */ bool &bDBOK);
+                                                /* out */ bool {PREAMP}bDBOK);
 
 
   // Transactions
@@ -2948,7 +2948,7 @@ public:
   long countObjects(bool bUseOnlyFocusObjects) const;
 
   // See Sheaf::countObjectsFromObjectType() for an explanation.
-  long countObjectsFromObjectType(const std::string& object_type_name, bool bUseOnlyFocusObjects) const;
+  long countObjectsFromObjectType(const std::string{PREAMP} object_type_name, bool bUseOnlyFocusObjects) const;
 
   // See Sheaf::countStraws() for an explanation.
   long countStraws() const;
@@ -2986,7 +2986,7 @@ public:
   long countObjects(bool bUseOnlyFocusObjects) const;
 
   // See Sheaf::countObjectsFromObjectType() for an explanation.
-  long countObjectsFromObjectType(const std::string& object_type_name, bool bUseOnlyFocusObjects) const;
+  long countObjectsFromObjectType(const std::string{PREAMP} object_type_name, bool bUseOnlyFocusObjects) const;
 
   // See Sheaf::countStraws() for an explanation.
   long countStraws() const;
@@ -3067,7 +3067,7 @@ public:
   // given object type are counted.
   //
   // The object_type_name parameter should be passed through the
-  // std::string normalizeOTName(const std::string& object_type_name)
+  // std::string normalizeOTName(const std::string{PREAMP} object_type_name)
   // function before passing it as a parameter.
   //
   // If bUseOnlyFocusObjects is true, only those MatchedObjects whose
@@ -3075,7 +3075,7 @@ public:
   //
   // The algorithm counts recursively throughout the sheaf, into the innermost
   // sheaves.
-  long countObjectsFromObjectType(const std::string& object_type_name, bool bUseOnlyFocusObjects) const;
+  long countObjectsFromObjectType(const std::string{PREAMP} object_type_name, bool bUseOnlyFocusObjects) const;
 
   // See Sheaf::countStraws() for an explanation.
   long countStraws() const;
@@ -3233,7 +3233,7 @@ holds an EMdF value, i.e., one of the following:</P>
 <P>The enum constants returned are integers, both for kEVEnum and
 kEVListOfInteger (which is also used for lists of enum constants).
 You must use <page_anchor
-ID="">EmdrosEnv</page_anchor>::getEnumConstNameFromValue()</P> in
+ID="1160">EmdrosEnv</page_anchor>::getEnumConstNameFromValue()</P> in
 order to retrieve the string-form of the enum.</P>
 
 <h2>C++ interface</h2>
@@ -4410,15 +4410,15 @@ stylesheet" and the "dictinoaries" key may look like this:</p>
       "base : {PREOPENBRACE}
          "object_types" : {PREOPENBRACE}
              "document" : {PREOPENBRACE}
-                  "start" : "<document id=\"{PREOPENBRACE}{PREOPENBRACE} feature 0 {PRECLOSEBRACE}{PRECLOSEBRACE}\"><docname>{PREOPENBRACE}{PREOPENBRACE} dictlookup 'documentname' feature 0 'Unknown document' {PRECLOSEBRACE}{PRECLOSEBRACE}</docname>",
+                  "start" : "&lt;document id=\"{PREOPENBRACE}{PREOPENBRACE} feature 0 {PRECLOSEBRACE}{PRECLOSEBRACE}\"&gt;&lt;docname&gt;{PREOPENBRACE}{PREOPENBRACE} dictlookup 'documentname' feature 0 'Unknown document' {PRECLOSEBRACE}{PRECLOSEBRACE}&lt;/docname&gt;",
 	          "get" : [
 	             "documentid"
 	          ] 
-                  "end" : "</document>"
+                  "end" : "&lt;/document&gt;"
               {PRECLOSEBRACE},
               "token" : {PREOPENBRACE}
                    "get" : [ "surface" ],
-                   "start" : "<token>{PREOPENBRACE}{PREOPENBRACE} feature 0 {PRECLOSEBRACE}{PRECLOSEBRACE}</token>"
+                   "start" : "&lt;token&gt;{PREOPENBRACE}{PREOPENBRACE} feature 0 {PRECLOSEBRACE}{PRECLOSEBRACE}&lt;/token&gt;"
               {PRECLOSEBRACE},
          {PRECLOSEBRACE},
          "priority_list" : [

@@ -77,6 +77,8 @@
 	DO_PROG_PDFLATEX, DO_PROG_GROFF, and DO_PROG_ZIP, to determine
 	which targets to build.
 
+	* doc/progref/Content.txt: Fix some (X)HTML validity issues.
+
 2019-01-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Revert the default prefix to be /usr/local .
