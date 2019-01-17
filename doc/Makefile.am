@@ -30,7 +30,15 @@ man_MANS = \
 man_html1 = $(man_MANS:.1=.html)
 man_html = $(man_html1:.5=.html)
 
-EXTRA_DIST = $(man_MANS) $(man_html) man1/eqtc.1.in \
+if DO_PROG_GROFF
+MAYBE_man_html = $(man_html)
+else
+MAYBE_man_html = 
+endif
+
+EXTRA_DIST = $(man_MANS) \
+             $(MAYBE_man_html) \
+             man1/eqtc.1.in \
              man1/eqtu.1.in 
 
 DISTCLEANFILES = $(man_html) man1/eqtc.1 man1/eqtu.1
@@ -44,10 +52,10 @@ man1/eqtu.1: man1/eqtu.1.in
 	$(top_builddir)/config.status --file=$(srcdir)/man1/eqtu.1
 
 .1.html: 
-	groff -mandoc $< -T html > $@
+	$(PROG_GROFF) -mandoc $< -T html > $@
 
 .5.html:
-	groff -mandoc $< -T html > $@
+	$(PROG_GROFF) -mandoc $< -T html > $@
 
 SUFFIXES = .html .1 .5
 

@@ -72,6 +72,11 @@
 	* m4/emdros_docs.m4, configure.ac: Add m4 script to detect
 	presence or absence of pdflatex, groff, and zip.
 
+	* doc/Makefile.am, doc/progref/Makefile.am: Use the new
+	PROG_PDFLATEX, PROG_GROFF, and PROG_ZIP, along with AM conditions
+	DO_PROG_PDFLATEX, DO_PROG_GROFF, and DO_PROG_ZIP, to determine
+	which targets to build.
+
 2019-01-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Revert the default prefix to be /usr/local .
