@@ -4,10 +4,10 @@ AC_DEFUN([EMDROS_DOCS], [
 dnl
 dnl pdflatex dependency
 dnl
-AC_CHECK_PROGS([PDFLATEX], [pdflatex], [no])
+AC_CHECK_PROGS([PROG_PDFLATEX], [pdflatex], [no])
 
 AC_MSG_CHECKING([whether to do PDFLaTeX docs...])
-if test "x$PDFLATEX" = "xno"; then
+if test "x$PROG_PDFLATEX" = "xno"; then
    AC_MSG_RESULT([no: That part of the docs won't be made.])
    DO_PDFLATEX="no"
 else
@@ -22,10 +22,10 @@ AM_CONDITIONAL(DO_PROG_PDFLATEX, test xDO_PDFLATEX = xyes)
 dnl
 dnl groff dependency
 dnl
-AC_CHECK_PROGS([GROFF], [groff], [no])
+AC_CHECK_PROGS([PROG_GROFF], [groff], [no])
 
 AC_MSG_CHECKING([whether to do Groff docs...])
-if test "x$GROFF" = "xno"; then
+if test "x$PROG_GROFF" = "xno"; then
    AC_MSG_RESULT([no: That part of the docs won't be made.])
    DO_GROFF="no"
 else
@@ -39,10 +39,10 @@ AM_CONDITIONAL(DO_PROG_GROFF, test xDO_GROFF = xyes)
 dnl
 dnl zip dependency
 dnl
-AC_CHECK_PROGS([ZIP], [zip], [no])
+AC_CHECK_PROGS([PROG_ZIP], [zip], [no])
 
 AC_MSG_CHECKING([whether to do Zip docs...])
-if test "x$ZIP" = "xno"; then
+if test "x$PROG_ZIP" = "xno"; then
    AC_MSG_RESULT([no: That part of the docs won't be made.])
    DO_ZIP="no"
 else
