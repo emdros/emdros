@@ -31,6 +31,12 @@
 	".NOTPARALLEL:" from SWIG/Makefile.am into the subdirs for csharp
 	and java, where they belong.
 
+	* m4/emdros_docs.m4: Fix bugs with detection of these programs:
+
+	- groff
+	- pdflatex
+	- zip
+
 2019-01-17 Ulrik Sandborg-Petersen
 
 	* INSTALL: Update with more instructions for Ubuntu and Fedora 29.

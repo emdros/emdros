@@ -15,7 +15,7 @@ else
    DO_PDFLATEX="yes"
 fi
 
-AM_CONDITIONAL(DO_PROG_PDFLATEX, test xDO_PDFLATEX = xyes)
+AM_CONDITIONAL(DO_PROG_PDFLATEX, test "x$DO_PDFLATEX" = "xyes")
 
 
 
@@ -33,7 +33,7 @@ else
    DO_GROFF="yes"
 fi
 
-AM_CONDITIONAL(DO_PROG_GROFF, test xDO_GROFF = xyes)
+AM_CONDITIONAL(DO_PROG_GROFF, test "x$DO_GROFF" = "xyes")
 
 
 dnl
@@ -50,7 +50,7 @@ else
    DO_ZIP="yes"
 fi
 
-AM_CONDITIONAL(DO_PROG_ZIP, test xDO_ZIP = xyes)
+AM_CONDITIONAL(DO_PROG_ZIP, test "x$DO_ZIP" = "xyes")
 
 
 ])
