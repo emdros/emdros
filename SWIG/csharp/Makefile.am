@@ -44,12 +44,12 @@ AM_CXXFLAGS = @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ @ADDITIONAL_CXXFLAGS@ @DEBUGFLAG@
 
 AM_CPPFLAGS = -I. -I$(top_srcdir)/lib/EMdF -I$(top_srcdir)/lib/MQL -I$(top_srcdir)/lib/harvest  -I$(top_srcdir)/amalgamation -I$(top_srcdir)
 
-libcsemdros_wrap.cxx $(SWIG_GENERATED_CSHARPFILES): libcsemdros.i
+$(SWIG_GENERATED_SRC): libcsemdros.i
 	mkdir -p cssource
 	rm -f cssource/*.cs
 	$(SWIG_PROGRAM) -namespace Emdros -c++ -csharp -outdir cssource libcsemdros.i
 
-EmdrosDotNet.dll: libcsemdros_wrap.cxx
+EmdrosDotNet.dll: $(SWIG_GENERATED_SRC)
 	TERM=xterm $(MONOCOMPILER) -target:library -out:EmdrosDotNet.dll $(SWIG_GENERATED_CSHARPFILES)
 
 

@@ -14,6 +14,9 @@
 
 	This seems to fix the problem on Fedora 29.
 
+	* SWIG/csharp/Makefile.am: Be more explicit about dependencies for
+	target EmdrosDotNet.dll.
+
 2019-01-17 Ulrik Sandborg-Petersen
 
 	* INSTALL: Update with more instructions for Ubuntu and Fedora 29.
