@@ -37,6 +37,11 @@
 	- pdflatex
 	- zip
 
+	* emdros.spec.in, generate_extrafiles.py.in: Move the inclusion of
+	%doc/man1/*.html from emdros.spec.in into
+	generate_extrafiles.py.in, and make it depend on whether
+	@DO_PROG_GROFF@ is true or not.
+
 2019-01-17 Ulrik Sandborg-Petersen
 
 	* INSTALL: Update with more instructions for Ubuntu and Fedora 29.

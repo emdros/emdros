@@ -33,6 +33,27 @@ extrafiles_emdros_list = [
     @SWIG_WITH_JAVA_WRAPPERS_TRUE@"%{prefix}/lib/emdros/libjemdros.so.*", # MAIN
     @SWIG_WITH_CSHARP_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosDotNet.dll", #MAIN
     @SWIG_WITH_CSHARP_WRAPPERS_TRUE@"%{prefix}/lib/emdros/libcsemdros.so.*", # MAIN
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/bptdump.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/emdftry.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/eqtc.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/eqtu.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/fts_harvester.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/fts_indexer.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/jsontry.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/manage_indices.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/mqldump.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/mql.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/mqllingtry.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/mqltry.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/negraimport.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/pennimport.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/plaintextimport.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/renderobjects.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/sfmimport.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/slashedtextimport.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/tigerxmlimport.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/ubimport.html", # MAN HTML
+    @DO_PROG_GROFF_TRUE@"%doc doc/man1/upgrade_db.html", # MAN HTML
 ]
 
 extrafiles_emdros_devel_list = [
