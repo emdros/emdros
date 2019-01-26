@@ -44,12 +44,12 @@ AM_CXXFLAGS = @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ @ADDITIONAL_CXXFLAGS@ @DEBUGFLAG@
 
 AM_CPPFLAGS = -I. -I$(top_srcdir)/lib/EMdF -I$(top_srcdir)/lib/MQL -I$(top_srcdir)/lib/harvest  -I$(top_srcdir)/amalgamation -I$(top_srcdir)
 
-$(SWIG_GENERATED_SRC): libcsemdros.i
+$(SWIG_CSHARP_SRC): libcsemdros.i
 	mkdir -p cssource
 	rm -f cssource/*.cs
 	$(SWIG_PROGRAM) -namespace Emdros -c++ -csharp -outdir cssource libcsemdros.i
 
-EmdrosDotNet.dll: $(SWIG_GENERATED_SRC)
+EmdrosDotNet.dll: $(SWIG_CSHARP_SRC)
 	TERM=xterm $(MONOCOMPILER) -target:library -out:EmdrosDotNet.dll $(SWIG_GENERATED_CSHARPFILES)
 
 
@@ -115,7 +115,7 @@ BUILT_SOURCES =  $(MAYBE_BUILT_SRC)  TestEmdros.cs
 EXTRA_DIST = libcsemdros.i \
              README-csharp win32.mak \
              TestEmdros.cs.in \
-             $(MAYBE_BUILT)
+             $(MAYBE_BUILT_SRC)
 
 CLEANFILES = *~ core config.log libcsemdros.la $(BUILT_SOURCES) \
              $(SWIG_CSHARP_SRC) \
