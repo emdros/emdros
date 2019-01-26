@@ -42,6 +42,13 @@
 	generate_extrafiles.py.in, and make it depend on whether
 	@DO_PROG_GROFF@ is true or not.
 
+	* debian/docs.in:
+
+	-doc/progref/emdros-progref-guide-@VERSION@.zip
+	+@DO_PROG_ZIP_TRUE@doc/progref/emdros-progref-guide-@VERSION@.zip
+
+	This fixes .deb builds when the zip program is not available.
+
 2019-01-17 Ulrik Sandborg-Petersen
 
 	* INSTALL: Update with more instructions for Ubuntu and Fedora 29.
