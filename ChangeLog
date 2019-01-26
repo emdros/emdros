@@ -5,6 +5,15 @@
 	* doc/progref/Makefile.am: Fix trailing backslash typo, thereby
 	enabling compiling again.
 
+	* SWIG/csharp/Makefile.am: Fix invocation of Mono compiler on
+	Fedora 29 by adding "TERM=xterm " before the invocation of
+	@MONOCOMPILER@.  The error was:
+
+	Unhandled Exception:
+	System.TypeInitializationException: The type initializer for 'System.Console' threw an exception. ---> System.TypeInitializationException: The type initializer for 'System.ConsoleDriver' threw an exception. ---> System.Exception: Magic number is wrong: 542
+
+	This seems to fix the problem on Fedora 29.
+
 2019-01-17 Ulrik Sandborg-Petersen
 
 	* INSTALL: Update with more instructions for Ubuntu and Fedora 29.

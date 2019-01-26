@@ -33,7 +33,7 @@ gen_files:
 	@echo ""
 
 test: TestEmdros.cs EmdrosDotNet.dll
-	$(MONOCOMPILER) -out:TestEmdros.exe -r:EmdrosDotNet.dll TestEmdros.cs
+	TERM=xterm $(MONOCOMPILER) -out:TestEmdros.exe -r:EmdrosDotNet.dll TestEmdros.cs
 	@echo "Now run TestEmdros.exe."
 	@echo "If on Mono:"
 	@echo "     mono TestEmdros.exe"
@@ -50,7 +50,7 @@ libcsemdros_wrap.cxx $(SWIG_GENERATED_CSHARPFILES): libcsemdros.i
 	$(SWIG_PROGRAM) -namespace Emdros -c++ -csharp -outdir cssource libcsemdros.i
 
 EmdrosDotNet.dll: libcsemdros_wrap.cxx
-	$(MONOCOMPILER) -target:library -out:EmdrosDotNet.dll $(SWIG_GENERATED_CSHARPFILES)
+	TERM=xterm $(MONOCOMPILER) -target:library -out:EmdrosDotNet.dll $(SWIG_GENERATED_CSHARPFILES)
 
 
 if CAN_DO_SWIG
