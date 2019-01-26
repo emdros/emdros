@@ -54,8 +54,8 @@ EmdrosProgRefGuide.htb: 1001.htm
 
 
 1001.htm: config.py EmdrosProgRefGuide.hhp buildhtb.py \
-          Content.txt files.txt \
-	  cd $(srcdir); python $(srcdir)/buildhtb.py --htb
+          Content.txt files.txt
+	cd $(srcdir); python $(srcdir)/buildhtb.py --htb
 
 EmdrosProgRefGuide.hhc: 1001.htm
 
