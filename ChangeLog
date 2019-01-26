@@ -17,6 +17,15 @@
 	* SWIG/csharp/Makefile.am: Be more explicit about dependencies for
 	target EmdrosDotNet.dll.
 
+	* SWIG/Makefile.am: Add the following line to the Makefile.am:
+
+	.NOTPARALLEL:
+
+	This disables paralell make in GNU make and some BSD-derived make
+	programs.
+
+	This solves some issues with "make -j8".
+
 2019-01-17 Ulrik Sandborg-Petersen
 
 	* INSTALL: Update with more instructions for Ubuntu and Fedora 29.
