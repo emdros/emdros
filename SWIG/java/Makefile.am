@@ -1,3 +1,5 @@
+.NOTPARALLEL:
+
 # Include the SWIG_GENERATED_JAVAFILES macro
 include Makefile.inc
 

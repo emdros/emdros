@@ -1,5 +1,3 @@
-.NOTPARALLEL:
-
 EXTRA_DIST=win32.mak mingw.mak
 
 SUBDIRS = csharp java php7 python python3

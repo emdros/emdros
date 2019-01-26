@@ -1,3 +1,5 @@
+.NOTPARALLEL:
+
 # Include the SWIG_GENERATED_CSHARPFILES macro
 include Makefile.inc
 
