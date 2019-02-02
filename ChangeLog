@@ -1,5 +1,10 @@
 ============ 3.7.0.pre04 ============
 
+2019-02-03 Ulrik Sandborg-Petersen
+
+	* emdros.spec.in: Add gcc-c++ to BuildRequires. Add a version of
+	BuildRequires for the case of WX_DO_UNICODE_FALSE.
+
 2019-01-26 Ulrik Sandborg-Petersen
 
 	* doc/progref/Makefile.am: Fix trailing backslash typo, thereby

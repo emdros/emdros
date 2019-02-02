@@ -19,7 +19,8 @@ Source0: emdros-@VERSION@.tar.gz
 License: MIT
 Group: Applications/Databases
 Prefix: %{prefix}
-@WX_DO_UNICODE_TRUE@BuildRequires: desktop-file-utils xdg-utils
+@WX_DO_UNICODE_TRUE@BuildRequires: desktop-file-utils xdg-utils gcc-c++
+@WX_DO_UNICODE_FALSE@BuildRequires: gcc-c++
 @WX_DO_UNICODE_TRUE@Requires(post): desktop-file-utils xdg-utils
 @WX_DO_UNICODE_TRUE@Requires(preun): desktop-file-utils xdg-utils
 #BuildRoot: %{_tmppath}/%{name}-root
@@ -172,6 +173,10 @@ This package contains development files.
 #%defattr(-,root,root)
 
 %changelog
+
+* Sat Feb 3 2019 Ulrik Sandborg-Petersen <ulrikp@emdros.org>
+  Add gcc-c++ to BuildRequires. Add a version of BuildRequires for
+  WX_DO_UNICODE_FALSE.
 
 * Wed Jan 16 2019 Ulrik Sandborg-Petersen <ulrikp@users.sf.net>
   Enable rpm-build of version 3.7.0
