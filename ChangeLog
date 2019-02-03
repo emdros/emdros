@@ -67,6 +67,13 @@
 	* m4/m4/emdros_pcre.m4: Fix PCRE_DEPS_BACKBACKBACK and
 	PCRE_LDADD_BACKBACKBACK.
 
+	* Add PCRE_DEPS and PCRE_LDADD where requisite.  Files affected:
+
+	modified:   MQL/Makefile.am
+	modified:   harvest/Makefile.am
+	modified:   importers/Makefile.am
+	modified:   util/Makefile.am
+
 2019-01-26 Ulrik Sandborg-Petersen
 
 	* doc/progref/Makefile.am: Fix trailing backslash typo, thereby

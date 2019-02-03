@@ -12,8 +12,8 @@ endif
 
 lib_LTLIBRARIES = $(MAYBE_LIBS_UTIL)
 
-libutil_emdros_la_DEPENDENCIES = @HARVEST_DEPS@ @MQL_DEPS@ @EMDF_DEPS@
-libutil_emdros_la_LIBADD = @HARVEST_LDADD@ @MQL_LDADD@ @EMDF_LDADD@
+libutil_emdros_la_DEPENDENCIES = @HARVEST_DEPS@ @MQL_DEPS@ @EMDF_DEPS@ @PCRE_DEPS@
+libutil_emdros_la_LIBADD = @HARVEST_LDADD@ @MQL_LDADD@ @EMDF_LDADD@ @PCRE_LDADD@
 libutil_emdros_la_LDFLAGS = $(MACLDFLAGS) \
                             @SUN_LDFLAGS@ \
                             @DARWIN_LDFLAGS@

@@ -66,7 +66,7 @@ lib_LTLIBRARIES = $(MAYBE_LIBS_MQL)
 #
 libmql_la_SOURCES = $(mqllib_src)
 
-libmql_la_LIBADD = @EMDF_DEPS@ @PCRE_LIBADD@ 
+libmql_la_LIBADD = @EMDF_LDADD@ @PCRE_LDADD@ 
 libmql_la_DEPENDENCIES = @EMDF_DEPS@ @PCRE_DEPS@ 
 libmql_la_LDFLAGS = $(MACLDFLAGS) -version-info \
        @LIB_EMDROS_CURRENT@:@LIB_EMDROS_REVISION@:@LIB_EMDROS_AGE@ \

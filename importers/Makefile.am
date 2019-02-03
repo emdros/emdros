@@ -15,8 +15,8 @@ endif
 
 lib_LTLIBRARIES = $(MAYBE_LIBS_IMPORTERS)
 
-libemdros_importers_la_DEPENDENCIES = @HARVEST_DEPS@ @UTIL_DEPS@ @MQL_DEPS@ @EMDF_DEPS@
-libemdros_importers_la_LIBADD = @HARVEST_LDADD@ @UTIL_LDADD@ @MQL_LDADD@ @EMDF_LDADD@
+libemdros_importers_la_DEPENDENCIES = @HARVEST_DEPS@ @UTIL_DEPS@ @MQL_DEPS@ @EMDF_DEPS@ @PCRE_DEPS@
+libemdros_importers_la_LIBADD = @HARVEST_LDADD@ @UTIL_LDADD@ @MQL_LDADD@ @EMDF_LDADD@ @PCRE_LDADD@
 libemdros_importers_la_LDFLAGS = $(MACLDFLAGS) \
                             @SUN_LDFLAGS@ \
                             @DARWIN_LDFLAGS@
