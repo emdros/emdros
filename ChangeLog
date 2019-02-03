@@ -11,6 +11,27 @@
 	* NEWS: Rewrite the part about --enable-devel | --disable-devel to
 	be slightly clearer, and less verbose.
 
+	* util/: Move the importer implementations into ../importers.
+
+	Files affected:
+
+	renamed:    util/negraimporter.cpp -> importers/negraimporter.cpp
+	renamed:    util/negraschema.mql -> importers/negraschema.mql
+	renamed:    util/penn_yylex.cpp -> importers/penn_yylex.cpp
+	renamed:    util/pennimporter.cpp -> importers/pennimporter.cpp
+	renamed:    util/pennlexer.re -> importers/pennlexer.re
+	renamed:    util/pennparser.yxx -> importers/pennparser.yxx
+	renamed:    util/pennschema.mql -> importers/pennschema.mql
+	renamed:    util/pennschema_id_d.mql -> importers/pennschema_id_d.mql
+	renamed:    util/plaintextimporter.cpp -> importers/plaintextimporter.cpp
+	renamed:    util/plaintextschema.mql -> importers/plaintextschema.mql
+	renamed:    util/sfmimporter.cpp -> importers/sfmimporter.cpp
+	renamed:    util/simplebibleschema.mql -> importers/simplebibleschema.mql
+	renamed:    util/slashedtextimporter.cpp -> importers/slashedtextimporter.cpp
+	renamed:    util/slashedtextschema.mql -> importers/slashedtextschema.mql
+	renamed:    util/tigerxmlimporter.cpp -> importers/tigerxmlimporter.cpp
+	renamed:    util/unboundbibleimporter.cpp -> importers/unboundbibleimporter.cpp
+
 2019-01-26 Ulrik Sandborg-Petersen
 
 	* doc/progref/Makefile.am: Fix trailing backslash typo, thereby
