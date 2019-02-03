@@ -17,21 +17,9 @@ LIBTARGET_OBJS= \
         md5_emdros.o \
         opt.o \
         messages.o \
-        agxml.o \
         schema.o \
         erw.o \
         mql_exporter.o \
-        unboundbibleimporter.o \
-        pennparser.o \
-        pennlexer.o \
-        penn_yylex.o \
-        pennimporter.o \
-        negraimporter.o \
-        tigerxmlimporter.o \
-        plaintextimporter.o \
-        slashedtextimporter.o \
-        sfm.o \
-        sfmimporter.o \
         bptdumper.o \
         bpt2dumper.o
 

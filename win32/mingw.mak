@@ -23,6 +23,7 @@ endif
 	$(MAKE) -C ..\EMdF -f mingw.mak $(MAKEMACRO) 
 	$(MAKE) -C ..\MQL -f mingw.mak $(MAKEMACRO) 
 	$(MAKE) -C ..\util -f mingw.mak $(MAKEMACRO) 
+	$(MAKE) -C ..\importers -f mingw.mak $(MAKEMACRO) 
 	$(MAKE) -C ..\harvest -f mingw.mak $(MAKEMACRO) 
 	$(MAKE) -C ..\amalgamation -f mingw.mak $(MAKEMACRO) 
 ifeq ($(EMDROS_ONLY),0)
@@ -55,6 +56,7 @@ endif
 	$(MAKE) -C ../pcre -f mingw.mak clean
 	$(MAKE) -C ../MQL -f mingw.mak clean
 	$(MAKE) -C ../util -f mingw.mak clean
+	$(MAKE) -C ../importers -f mingw.mak clean
 	$(MAKE) -C ../harvest -f mingw.mak clean
 	$(MAKE) -C ../wx -f mingw.mak clean
 	$(MAKE) -C ../src/qrytool/TECkit -f mingw.mak clean
@@ -167,6 +169,7 @@ DIST_LIB_FILES=  win32\Release\libpcre_emdros.lib \
 	              win32\Release\libemdf.lib \
 	              win32\Release\libmql.lib \
 	              win32\Release\libutil_emdros.lib \
+	              win32\Release\libemdros_importers.lib \
 	              win32\Release\libharvest.lib \
 	              win32\Release\libemdrosgui.lib \
 	              win32\ReleaseUnicode\libemdrosguiu.lib \

@@ -54,6 +54,13 @@
 	* amalgamation/amalgamation.xml: Get the importer files from
 	importers/, not util/.
 
+	* importers/win32.mak, importers/mingw.mak: Initial addition.
+
+	* util/win32.mak, util/mingw.mak: Remove stuff now in importers/.
+
+	* win32/win32.mak, win32/mingw.mak: Add importers/ subdir.  Also,
+	distribute libemdros_importers.lib.
+
 2019-01-26 Ulrik Sandborg-Petersen
 
 	* doc/progref/Makefile.am: Fix trailing backslash typo, thereby

@@ -47,6 +47,8 @@ ALL: config.nsh
    nmake /f win32.mak $(MAKEMACRO) 
    cd ..\util
    nmake /f win32.mak $(MAKEMACRO) 
+   cd ..\importers
+   nmake /f win32.mak $(MAKEMACRO) 
    cd ..\harvest
    nmake /f win32.mak $(MAKEMACRO) 
    cd ..\amalgamation
@@ -95,6 +97,8 @@ CLEAN:
    cd ..\MQL
    nmake /f win32.mak CLEAN
    cd ..\util
+   nmake /f win32.mak CLEAN
+   cd ..\importers
    nmake /f win32.mak CLEAN
    cd ..\harvest
    nmake /f win32.mak CLEAN
@@ -217,6 +221,7 @@ DIST_LIB_FILES=  win32\Release\libpcre_emdros.lib \
                  win32\Release\libemdf.lib \
                  win32\Release\libmql.lib \
                  win32\Release\libutil_emdros.lib \
+                 win32\Release\libemdros_importers.lib \
                  win32\Release\libharvest.lib \
                  win32\Release\libemdrosgui.lib \
                  win32\ReleaseUnicode\libemdrosguiu.lib \
