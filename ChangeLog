@@ -43,6 +43,14 @@
 	* util/agxml.cpp: Remove, since the Annotation Graph exporter
 	program has been removed.  Also remove from util/Makefile.am.
 
+	* util/sfm.cpp: Move to ../importers/, where it belongs.
+
+	Files affected:
+
+	modified:   importers/Makefile.am
+	modified:   util/Makefile.am
+	renamed:    util/sfm.cpp -> importers/sfm.cpp
+
 2019-01-26 Ulrik Sandborg-Petersen
 
 	* doc/progref/Makefile.am: Fix trailing backslash typo, thereby

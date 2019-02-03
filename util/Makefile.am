@@ -24,7 +24,6 @@ libutil_emdros_la_LDFLAGS = $(MACLDFLAGS) \
 libutil_emdros_la_SOURCES = mql_exporter.cpp opt.cpp \
                             conf.cpp conf_ini.cpp \
                             schema.cpp \
-                            sfm.cpp \
                             md5_emdros.cpp \
                             bptdumper.cpp bpt2dumper.cpp erw.cpp
 

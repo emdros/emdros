@@ -25,7 +25,7 @@ libemdros_importers_la_SOURCES = \
                             unboundbibleimporter.cpp \
                             negraimporter.cpp tigerxmlimporter.cpp \
                             plaintextimporter.cpp slashedtextimporter.cpp \
-                            sfmimporter.cpp \
+                            sfm.cpp sfmimporter.cpp \
                             pennparser.cpp pennlexer.cpp penn_yylex.cpp \
                             pennimporter.cpp 
 
