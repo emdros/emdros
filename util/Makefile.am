@@ -1,6 +1,3 @@
-# You may need to change these
-LEMON = ./lemon
-
 if HOSTISDARWIN
 MACLDFLAGS = -static
 endif
