@@ -61,6 +61,9 @@
 	* win32/win32.mak, win32/mingw.mak: Add importers/ subdir.  Also,
 	distribute libemdros_importers.lib.
 
+	* sqlite3/tool/Makefile.am: Don't build the lemon source code: It
+	is not used from here.
+
 2019-01-26 Ulrik Sandborg-Petersen
 
 	* doc/progref/Makefile.am: Fix trailing backslash typo, thereby
