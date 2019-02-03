@@ -32,6 +32,12 @@
 	renamed:    util/tigerxmlimporter.cpp -> importers/tigerxmlimporter.cpp
 	renamed:    util/unboundbibleimporter.cpp -> importers/unboundbibleimporter.cpp
 
+	* Makefile.am: Add "importers/" to SUBDIRS.
+
+	* importers/Makefile.am: Initial addition.
+
+	* configure.ac: Add importers/Makefile to AC_OUTPUT.
+
 2019-01-26 Ulrik Sandborg-Petersen
 
 	* doc/progref/Makefile.am: Fix trailing backslash typo, thereby

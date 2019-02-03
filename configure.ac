@@ -86,6 +86,7 @@ AC_CONFIG_FILES([Makefile
                  MQL/Makefile
                  harvest/Makefile
                  util/Makefile
+                 importers/Makefile
                  amalgamation/Makefile
                  src/Makefile
                  src/importtool/Makefile
