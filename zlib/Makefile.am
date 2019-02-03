@@ -19,7 +19,7 @@ noinst_HEADERS = \
 libz_emdros_la_SOURCES = $(sourcecode)
 
 libz_emdros_la_LDFLAGS = $(MACLDFLAGS) -version-info \
-                     @LIB_EMDF_CURRENT@:@LIB_EMDF_REVISION@:@LIB_EMDF_AGE@ \
+                     @LIB_EMDROS_CURRENT@:@LIB_EMDROS_REVISION@:@LIB_EMDROS_AGE@ \
                      @SUN_LDFLAGS@
 BUILT_SOURCES = $(maybe_build_sources)
 

@@ -74,6 +74,9 @@
 	modified:   importers/Makefile.am
 	modified:   util/Makefile.am
 
+	* zlib/Makefile.am: Rename LIB_EMDF_{CURRENT,REVISION,AGE} to
+	LIB_EMDROS_*.
+
 2019-01-26 Ulrik Sandborg-Petersen
 
 	* doc/progref/Makefile.am: Fix trailing backslash typo, thereby
