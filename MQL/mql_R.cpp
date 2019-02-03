@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/16-2001
- * Last update: 1/19-2019
+ * Last update: 2/3-2019
  *
  */
 
@@ -918,12 +918,12 @@ bool R_NOTEXIST_object_block(MQLExecEnv *pEE,
 	// This would give marginally better performance when
 	// there were many objects of this object type 
 	// that started at the same monad.
-	ListOfStraws *pResultLOS = new ListOfStraws();
-	R_object_block(pEE, U, Su, Sm, pObjectBlock, pResultLOS);
+	ListOfStraws resultLOS;
 
-	bool bItWasThere = !pResultLOS->isEmpty();
+	R_object_block(pEE, U, Su, Sm, pObjectBlock, &resultLOS);
 
-	delete pResultLOS;
+	bool bItWasThere = !(resultLOS.isEmpty());
+
 	return bItWasThere;
 }
 

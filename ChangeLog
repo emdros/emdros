@@ -79,6 +79,9 @@
 
 	* zlib/*: Upgrade to ZLib version 1.2.11 from January 15, 2017.
 
+	* MQL/mql_R.cpp: Make R_NOTEXIST_object_block() faster, by not
+	putting the ListOfStraws onto the heap, but onto the stack.
+
 2019-01-26 Ulrik Sandborg-Petersen
 
 	* doc/progref/Makefile.am: Fix trailing backslash typo, thereby
