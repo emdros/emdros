@@ -21,7 +21,7 @@ libutil_emdros_la_LDFLAGS = $(MACLDFLAGS) \
                             @SUN_LDFLAGS@ \
                             @DARWIN_LDFLAGS@
 
-libutil_emdros_la_SOURCES = mql_exporter.cpp agxml.cpp opt.cpp \
+libutil_emdros_la_SOURCES = mql_exporter.cpp opt.cpp \
                             conf.cpp conf_ini.cpp \
                             schema.cpp \
                             sfm.cpp \

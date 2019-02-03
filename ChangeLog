@@ -40,6 +40,9 @@
 
 	* util/Makefile.am: Remove importers.
 
+	* util/agxml.cpp: Remove, since the Annotation Graph exporter
+	program has been removed.  Also remove from util/Makefile.am.
+
 2019-01-26 Ulrik Sandborg-Petersen
 
 	* doc/progref/Makefile.am: Fix trailing backslash typo, thereby
