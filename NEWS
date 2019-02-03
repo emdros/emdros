@@ -96,6 +96,9 @@ Release notes for Emdros 3.7.0
     development libraries, not the amalgamation.  This is useful if
     you are developing Emdros.
 
+- The local version of ZLib has been upgraded to version 1.2.11 from
+  January 15, 2017.
+
 
 - *** Version 3.6.1 *** 
 
