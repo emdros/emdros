@@ -8,6 +8,9 @@
 	* sqlite3/src/Makefile.am: Add sqlite3_emdros_amalgamation.c to
 	DISTCLEAN.
 
+	* NEWS: Rewrite the part about --enable-devel | --disable-devel to
+	be slightly clearer, and less verbose.
+
 2019-01-26 Ulrik Sandborg-Petersen
 
 	* doc/progref/Makefile.am: Fix trailing backslash typo, thereby

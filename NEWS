@@ -81,16 +81,15 @@ Release notes for Emdros 3.7.0
     documentation having been moved to the docs-emdros repo on GitHub.
 
   - The ./configure script now takes a mutually exclusive pair of
-    switches: --enable-devel | --disable-devel switch.
+    switches: --enable-devel | --disable-devel.
 
     The default is --disable-devel.
 
-    If --disable-devel is true, then the Emdros libraries,
-    libpcre_emdros.*, libemdf.*, libmql.*, libutil.*, and
-    libharvest.*.  Instead, the amalgamation is used in lieu of these.
-    In addition, these libraries are not compiled, thus providing a
-    much faster compile experience.  In addition, the Emdros programs
-    are linked against the amalgamation library.
+    If --disable-devel is true, then the following Emdros libraries:
+    libpcre_emdros.*, libemdf.*, libmql.*, libutil.*, and libharvest.*
+    are NOT built, thus providing a much faster compile experience.
+    Instead, the Emdros programs and any SWIG bindings are linked
+    against the amalgamation library.
 
     If --enable-devel is true, then everything is compiled, including
     the amalgamation, but the programs are linked against the
