@@ -31,7 +31,6 @@ libemdros_importers_la_SOURCES = \
 
 
 CLEANFILES = *~ core $(srcdir)/lemon simplebibleschema.h pennschema.h \
-             emdfxml_dtd.h \
              $(srcdir)/pennlexer.cpp \
              $(srcdir)/pennparser.cpp \
              $(srcdir)/pennparser.h \
@@ -42,7 +41,6 @@ CLEANFILES = *~ core $(srcdir)/lemon simplebibleschema.h pennschema.h \
              $(srcdir)/slashedtextschema.h
 
 EXTRA_DIST = win32.mak mingw.mak \
-             emdfxml_dtd.h emdfxml.dtd \
              simplebibleschema.h simplebibleschema.mql \
              pennschema.h pennschema.mql pennschema_id_d.mql \
              pennparser.yxx pennparser.cpp pennparser.h \
@@ -57,16 +55,8 @@ AM_CXXFLAGS = @DEBUGFLAG@ @ADDITIONAL_CXXFLAGS@
 
 BUILT_SOURCES = simplebibleschema.h negraschema.h \
                 plaintextschema.h slashedtextschema.h \
-                pennparser.cpp pennlexer.cpp pennschema.h \
-                emdfxml_dtd.h
+                pennparser.cpp pennlexer.cpp pennschema.h 
 
-
-emdfxml_dtd.h: emdfxml.dtd
-	rm -f $@
-	echo "char emdfxml_dtd[] = " >> $@
-	cat emdfxml.dtd | sed -e 's_\\_\\\\_g;s_\"_\\"_g;s_^_"_g;s_$$_\\n"_g' >> $@
-	echo ";" >> $@
-	echo "" >> $@
 
 
 simplebibleschema.h: simplebibleschema.mql
