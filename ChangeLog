@@ -51,6 +51,9 @@
 	modified:   util/Makefile.am
 	renamed:    util/sfm.cpp -> importers/sfm.cpp
 
+	* amalgamation/amalgamation.xml: Get the importer files from
+	importers/, not util/.
+
 2019-01-26 Ulrik Sandborg-Petersen
 
 	* doc/progref/Makefile.am: Fix trailing backslash typo, thereby

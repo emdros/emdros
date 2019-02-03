@@ -379,7 +379,7 @@
 	<header_file name="include/boilerplate_license.h" />
 	<header_file name="include/negraimporter.h" />
 	<header_file name="include/pennimporter.h" />
-	<header_file name="util/pennparser.h" />
+	<header_file name="importers/pennparser.h" />
 	<header_file name="include/penn_yylex.h" />
 	<header_file name="include/plaintextimporter.h" />
 	<header_file name="include/sfm.h" />
@@ -391,22 +391,22 @@
       <target_prefix>
       </target_prefix>	
       <source_files>
-        <source_file name="util/negraschema.h" />
-        <source_file name="util/pennschema.h" />
-        <source_file name="util/plaintextschema.h" />
-        <source_file name="util/simplebibleschema.h" />
-        <source_file name="util/slashedtextschema.h" />
-	<source_file name="util/negraimporter.cpp" />
-	<source_file name="util/pennimporter.cpp" />
-	<source_file name="util/pennlexer.cpp" />
-	<source_file name="util/pennparser.cpp" />
-	<source_file name="util/penn_yylex.cpp" />
-	<source_file name="util/plaintextimporter.cpp" />
-	<source_file name="util/sfm.cpp" />
-	<source_file name="util/sfmimporter.cpp" />
-	<source_file name="util/slashedtextimporter.cpp" />
-	<source_file name="util/tigerxmlimporter.cpp" />
-	<source_file name="util/unboundbibleimporter.cpp" />
+        <source_file name="importers/negraschema.h" />
+        <source_file name="importers/pennschema.h" />
+        <source_file name="importers/plaintextschema.h" />
+        <source_file name="importers/simplebibleschema.h" />
+        <source_file name="importers/slashedtextschema.h" />
+	<source_file name="importers/negraimporter.cpp" />
+	<source_file name="importers/pennimporter.cpp" />
+	<source_file name="importers/pennlexer.cpp" />
+	<source_file name="importers/pennparser.cpp" />
+	<source_file name="importers/penn_yylex.cpp" />
+	<source_file name="importers/plaintextimporter.cpp" />
+	<source_file name="importers/sfm.cpp" />
+	<source_file name="importers/sfmimporter.cpp" />
+	<source_file name="importers/slashedtextimporter.cpp" />
+	<source_file name="importers/tigerxmlimporter.cpp" />
+	<source_file name="importers/unboundbibleimporter.cpp" />
       </source_files>
       <target_suffix>
       </target_suffix>
