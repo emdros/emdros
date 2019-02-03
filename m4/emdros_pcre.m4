@@ -47,13 +47,15 @@ if test "x$USE_LOCAL_PCRE" = "xyes"; then
     PCRE_LDADD="../pcre/libpcre_emdros.la"
     PCRE_DEPS_BACKBACK="../../pcre/libpcre_emdros.la"
     PCRE_LDADD_BACKBACK="../../pcre/libpcre_emdros.la"
+    PCRE_DEPS_BACKBACKBACK="../../../pcre/libpcre_emdros.la"
+    PCRE_LDADD_BACKBACKBACK="../../../pcre/libpcre_emdros.la"
   else
     PCRE_DEPS="../amalgamation/libemdros_amalgamation.la"
     PCRE_LDADD="../amalgamation/libemdros_amalgamation.la"
     PCRE_DEPS_BACKBACK="../../amalgamation/libemdros_amalgamation.la"
     PCRE_LDADD_BACKBACK="../../amalgamation/libemdros_amalgamation.la"
-    PCRE_DEPS_BACKBACK="../../amalgamation/libemdros_amalgamation.la"
-    PCRE_LDADD_BACKBACK="../../amalgamation/libemdros_amalgamation.la"
+    PCRE_DEPS_BACKBACKBACK="../../../amalgamation/libemdros_amalgamation.la"
+    PCRE_LDADD_BACKBACKBACK="../../../amalgamation/libemdros_amalgamation.la"
   fi
 else
   PCRE_DEPS=
