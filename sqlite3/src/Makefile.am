@@ -44,7 +44,7 @@ sqlite3_emdros_LDFLAGS = $(MACLDFLAGS)
 sqlite3_emdros_SOURCES = shell.c
 
 
-DISTCLEANFILES = *~ core sqlite3_localamalgam.c lempar.c
+DISTCLEANFILES = *~ core lempar.c sqlite3_emdros_amalgamation.c
 
 
 

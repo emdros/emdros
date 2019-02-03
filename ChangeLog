@@ -5,6 +5,9 @@
 	* emdros.spec.in: Add gcc-c++ to BuildRequires. Add a version of
 	BuildRequires for the case of WX_DO_UNICODE_FALSE.
 
+	* sqlite3/src/Makefile.am: Add sqlite3_emdros_amalgamation.c to
+	DISTCLEAN.
+
 2019-01-26 Ulrik Sandborg-Petersen
 
 	* doc/progref/Makefile.am: Fix trailing backslash typo, thereby
