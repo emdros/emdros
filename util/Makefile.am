@@ -23,12 +23,9 @@ libutil_emdros_la_LDFLAGS = $(MACLDFLAGS) \
 
 libutil_emdros_la_SOURCES = mql_exporter.cpp agxml.cpp opt.cpp \
                             conf.cpp conf_ini.cpp \
-                            schema.cpp unboundbibleimporter.cpp \
-                            negraimporter.cpp tigerxmlimporter.cpp \
-                            plaintextimporter.cpp slashedtextimporter.cpp \
-                            sfm.cpp sfmimporter.cpp messages.cpp \
-                            pennparser.cpp pennlexer.cpp penn_yylex.cpp \
-                            pennimporter.cpp md5_emdros.cpp \
+                            schema.cpp \
+                            sfm.cpp \
+                            md5_emdros.cpp \
                             bptdumper.cpp bpt2dumper.cpp erw.cpp
 
 

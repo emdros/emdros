@@ -38,6 +38,8 @@
 
 	* configure.ac: Add importers/Makefile to AC_OUTPUT.
 
+	* util/Makefile.am: Remove importers.
+
 2019-01-26 Ulrik Sandborg-Petersen
 
 	* doc/progref/Makefile.am: Fix trailing backslash typo, thereby
