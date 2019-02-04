@@ -19,7 +19,6 @@ mkdir -pv $PREFIX/bin
 mkdir -pv $PREFIX/include/emdros
 mkdir -pv $PREFIX/lib/emdros
 mkdir -pv $PREFIX/man/1
-mkdir -pv $PREFIX/share/emdros/hal
 
 cp -Rfp bin/* $PREFIX/bin/
 cp -Rfp man/* $PREFIX/man/
