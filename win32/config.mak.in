@@ -123,7 +123,7 @@ SQLITE3_NO_SYNC=1
 WITH_WXWIN=yes
 
 # Set this as appropriate
-WXWIN_HOME=c:\wxWidgets-3.1.1
+WXWIN_HOME=c:\wxWidgets-3.1.2
 
 # ----------------------------------------------
 # SWIG C# support
