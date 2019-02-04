@@ -69,13 +69,7 @@ ALL: config.nsh
    cd ..\tests
    nmake /f win32.mak $(MAKEMACRO) 
 !IF "$(EMDROS_ONLY)"=="0"
-   cd ..\examples\HAL
-   nmake /f win32.mak $(MAKEMACRO) 
-   cd ..\ChunkingTool
-   nmake /f win32.mak $(MAKEMACRO) 
-!ENDIF
-!IF "$(EMDROS_ONLY)"=="0"
-   cd ..\..\SWIG
+   cd ..\SWIG
    nmake /f win32.mak $(MAKEMACRO) 
 !ENDIF 
    cd ..\win32
@@ -110,11 +104,7 @@ CLEAN:
    nmake /f win32.mak CLEAN
    cd ..\tests
    nmake /f win32.mak CLEAN
-   cd ..\examples\HAL
-   nmake /f win32.mak CLEAN
-   cd ..\ChunkingTool
-   nmake /f win32.mak CLEAN
-   cd ..\..\SWIG
+   cd ..\SWIG
    nmake /f win32.mak CLEAN
    cd ..\win32
    -@erase *~
@@ -129,25 +119,19 @@ DISTCLEAN: CLEAN
 
 
 
-DIST_DOC_DOC_FILES=bootstrapping.txt HOW-TO-USE.txt MQL-README.txt \
-                   README-doc.txt \
+DIST_DOC_DOC_FILES = \
+                   progref\EmdrosProgRefGuide.pdf \
+                   progref\emdros-progref-guide-$(VERSION).zip
+
+DIST_DOC_MAN1_FILES = \
                    mql.html mqldump.html manage_indices.html upgrade_db.html \
                    emdftry.html jsontry.html mqltry.html mqllingtry.html \
-                   hal_build_db.html mqlhal.html \
                    fts_indexer.html fts_harvester.html fts_filters.html \
                    jsontry.html renderobjects.html \
                    eqtc.html eqtu.html \
                    ubimport.html pennimport.html negraimport.html \
                    plaintextimport.html slashedtextimport.html \
-                   sfmimport.html tigerxmlimport.html bptdump.html \
-                   Monad-Sets.lyx \
-                   MQL-Programmers-Guide.lyx MQL-Query-Guide.lyx \
-                   New-EMdF.lyx Rel-EMdF.lyx Standard-MdF.lyx \
-                   Monad-Sets.pdf \
-                   MQL-Programmers-Guide.pdf MQL-Query-Guide.pdf \
-                   New-EMdF.pdf Rel-EMdF.pdf Standard-MdF.pdf \
-                   progref\EmdrosProgRefGuide.pdf \
-                   progref\emdros-progref-guide-$(VERSION).zip
+                   sfmimport.html tigerxmlimport.html bptdump.html 
                    
 
 
@@ -169,13 +153,10 @@ DIST_DOC_SWIG_CSHARP_FILES= SWIG\csharp\README-csharp \
 
 !IF "$(WITH_WXWIN)"=="yes"
 DIST_WX_BIN = win32\ReleaseUnicode\eqtu.exe \
-              win32\ReleaseUnicode\EmdrosChunkingToolUnicode.exe \
               win32\ReleaseUnicode\EmdrosImportToolUnicode.exe \
               win32\ReleaseUnicode\eqtu.exe.manifest \
               win32\ReleaseUnicode\EmdrosImportToolUnicode.exe.manifest \
-              src\qrytool\doc\EQTUsersGuide.htb \
-              win32\ReleaseUnicode\EmdrosChunkingToolUnicode.exe.manifest \
-              examples\ChunkingTool\doc\ChunkingToolGuide.htb 
+              src\qrytool\doc\EQTUsersGuide.htb 
 DIST_WX_LIB = win32\Release\libemdrosgui.lib \
               win32\ReleaseUnicode\libemdrosguiu.lib 
 !ELSE
@@ -210,8 +191,6 @@ DIST_BIN_FILES=  win32\Release\mql.exe \
                  win32\Release\mqltry.exe \
                  win32\Release\bpttry.exe \
                  win32\Release\mqllingtry.exe \
-                 win32\Release\hal_build_db.exe \
-                 win32\Release\mqlhal.exe \
                  win32\Release\fts_indexer.exe \
                  win32\Release\fts_harvester.exe \
                  $(DIST_WX_BIN)
@@ -240,16 +219,6 @@ DIST_ETC_QRYTOOL_FILES = src\qrytool\default.cfg \
                  src\qrytool\wihebrew_new.cfg \
                  src\qrytool\wihebrew_manylines.cfg \
                  src\qrytool\Amsterdam.map 
-
-DIST_ETC_CHUNKINGTOOL_FILES = \
-                 examples\ChunkingTool\wihebrew.cfg \
-                 examples\ChunkingTool\tisch.cfg \
-                 src\qrytool\Amsterdam.map 
-
-DIST_ETC_HAL_FILES = \
-                 examples\HAL\hal.cfg
-
-
 
 DIST_PYTHON_FILES =  \
                  win32\Release\_EmdrosPy.pyd \
@@ -380,9 +349,7 @@ MAKE_DIST_DIRS:
 	-mkdir "$(DIST_DIR)\etc"
 !IF "$(WITH_WXWIN)"=="yes"
 	-mkdir "$(DIST_DIR)\etc\qrytool"
-	-mkdir "$(DIST_DIR)\etc\chunkingtool"
 !ENDIF
-	-mkdir "$(DIST_DIR)\etc\hal"
 	-mkdir "$(DIST_DIR)\include"
 	cd win32
 
@@ -391,16 +358,14 @@ MAKE_DIST_FILES: MAKE_DIST_SWIG
 	cd ..
 	for %%F in ($(PACKAGE_INCLUDE_HEADER_FILES) pcre_emdros.h pcre_config.h) do copy include\%F "$(DIST_DIR)\include"
 	for %%F in ($(DIST_DOC_DOC_FILES)) do copy doc\%F "$(DIST_DIR)\doc"
+	for %%F in ($(DIST_DOC_MAN1_FILES)) do copy doc\man1\%F "$(DIST_DIR)\doc"
 	copy src\qrytool\doc\EQTUsersGuide.pdf "$(DIST_DIR)\doc\EmdrosQueryTool_UsersGuide.pdf"
-	copy examples\ChunkingTool\doc\ChunkingToolGuide.pdf "$(DIST_DIR)\doc\ChunkingTool_UsersGuide.pdf"
 	for %%F in ($(DIST_DOC_ROOT_FILES)) do copy .\%F "$(DIST_DIR)\doc"
 	for %%F in ($(DIST_DOC_ROOT_FILES_ADD_TXT)) do copy .\%F "$(DIST_DIR)\doc\%F.txt"
 	for %%F in ($(DIST_ROOT_FILES)) do copy .\%F "$(DIST_DIR)"
 	for %%F in ($(DIST_BIN_FILES)) do copy .\%F "$(DIST_DIR)\bin"
 	for %%F in ($(DIST_LIB_FILES)) do copy .\%F "$(DIST_DIR)\lib"
 	for %%F in ($(DIST_ETC_QRYTOOL_FILES)) do copy .\%F "$(DIST_DIR)\etc\qrytool"
-	for %%F in ($(DIST_ETC_CHUNKINGTOOL_FILES)) do copy .\%F "$(DIST_DIR)\etc\chunkingtool"
-	for %%F in ($(DIST_ETC_HAL_FILES)) do copy .\%F "$(DIST_DIR)\etc\hal"
 	copy win32\config.mak "$(DIST_DIR)\doc"
 	cd win32
 

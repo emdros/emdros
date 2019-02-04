@@ -43,6 +43,7 @@ endif
 PROGRAM_DEPENDENCIES = \
                        $(OUTDIR)\libharvest.a  \
                        $(OUTDIR)\libutil_emdros.a  \
+                       $(OUTDIR)\libemdros_importers.a  \
                        $(MQL_DEPENDENCIES) \
                        $(PCRELIB) \
                        $(EMDF_DEPENDENCIES) \

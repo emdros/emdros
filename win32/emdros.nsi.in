@@ -108,11 +108,8 @@ Section "Programs and documentation" SecFiles
   
   File "doc\AUTHORS.txt"
   File "doc\COPYING.txt"
-  File "doc\HOW-TO-USE.txt"
-  File "doc\bootstrapping.txt"
   File "doc\NEWS.txt"
   File "doc\README.txt"
-  File "doc\README-doc.txt"
   File "doc\ChangeLog.txt"
   File "doc\config.mak" 
   File "doc\emdftry.html"
@@ -128,11 +125,8 @@ Section "Programs and documentation" SecFiles
   File "doc\fts_harvester.html"
   File "doc\upgrade_db.html"
   File "doc\mqldump.html"
-  File "doc\mqlhal.html"
-  File "doc\hal_build_db.html"
   File "doc\eqtc.html"
   File "doc\eqtu.html"
-  File "doc\agexport.html"
   File "doc\ubimport.html"
   File "doc\pennimport.html"
   File "doc\negraimport.html"
@@ -140,21 +134,7 @@ Section "Programs and documentation" SecFiles
   File "doc\plaintextimport.html"
   File "doc\slashedtextimport.html"
   File "doc\sfmimport.html"
-  File "doc\Monad-Sets.lyx"
-  File "doc\MQL-Programmers-Guide.lyx"
-  File "doc\MQL-Query-Guide.lyx"
-  File "doc\New-EMdF.lyx"
-  File "doc\Rel-EMdF.lyx"
-  File "doc\Standard-MdF.lyx"
-  File "doc\Monad-Sets.pdf"
-  File "doc\EmdrosProgRefGuide.pdf"
-  File "doc\MQL-Programmers-Guide.pdf"
-  File "doc\MQL-Query-Guide.pdf"
-  File "doc\New-EMdF.pdf"
-  File "doc\Rel-EMdF.pdf"
-  File "doc\Standard-MdF.pdf"
   File "doc\EmdrosQueryTool_UsersGuide.pdf"
-  File "doc\ChunkingTool_UsersGuide.pdf"
   File /nonfatal "doc\README.MySQL.Win32.txt"
 
 
@@ -168,12 +148,6 @@ Section "Programs and documentation" SecFiles
   File /nonfatal "doc\csharp\*"
 
 
-
-  SetOutPath "$INSTDIR\etc\hal"
-  File "etc\hal\*"
-
-  SetOutPath "$INSTDIR\etc\chunkingtool"
-  File "etc\chunkingtool\*"
 
   SetOutPath "$INSTDIR\etc\qrytool"
   File "etc\qrytool\*"
@@ -229,7 +203,6 @@ Section "Start Menu Shortcuts" SecShortcuts
   SetOutPath "$INSTDIR\etc"
   CreateDirectory "$SMPROGRAMS\Emdros-@VERSION@\Applications - Unicode"
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Applications - Unicode\Emdros Query Tool (Unicode).lnk" "$INSTDIR\bin\eqtu.exe" "" "$INSTDIR\bin\eqtu.exe" 0
-  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Applications - Unicode\Emdros Chunking Tool (Unicode).lnk" "$INSTDIR\bin\EmdrosChunkingToolUnicode.exe" "" "$INSTDIR\bin\EmdrosChunkingToolUnicode.exe" 0
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Applications - Unicode\Emdros Import Tool (Unicode).lnk" "$INSTDIR\bin\EmdrosImportToolUnicode.exe" "" "$INSTDIR\bin\EmdrosImportToolUnicode.exe" 0
 
   ; Documentation in the Start Menu
@@ -247,7 +220,6 @@ Section "Start Menu Shortcuts" SecShortcuts
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\upgrade_db.html.lnk" "$INSTDIR\doc\upgrade_db.html" "" "$INSTDIR\doc\upgrade_db.html" 0
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\mql.html.lnk" "$INSTDIR\doc\mql.html" "" "$INSTDIR\doc\mql.html" 0
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\bptdump.html.lnk" "$INSTDIR\doc\bptdump.html" "" "$INSTDIR\doc\bptdump.html" 0
-  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\agexport.html.lnk" "$INSTDIR\doc\agexport.html" "" "$INSTDIR\doc\agexport.html" 0
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\pennimport.html.lnk" "$INSTDIR\doc\pennimport.html" "" "$INSTDIR\doc\pennimport.html" 0
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\ubimport.html.lnk" "$INSTDIR\doc\ubimport.html" "" "$INSTDIR\doc\ubimport.html" 0
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\negraimport.html.lnk" "$INSTDIR\doc\negraimport.html" "" "$INSTDIR\doc\negraimport.html" 0
@@ -256,8 +228,6 @@ Section "Start Menu Shortcuts" SecShortcuts
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\slashedtextimport.html.lnk" "$INSTDIR\doc\slashedtextimport.html" "" "$INSTDIR\doc\slashedtextimport.html" 0
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\sfmimport.html.lnk" "$INSTDIR\doc\sfmimport.html" "" "$INSTDIR\doc\sfmimport.html" 0
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\mqldump.html.lnk" "$INSTDIR\doc\mqldump.html" "" "$INSTDIR\doc\mqldump.html" 0
-  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\mqlhal.html.lnk" "$INSTDIR\doc\mqlhal.html" "" "$INSTDIR\doc\mqlhal.html" 0
-  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\hal_build_db.html.lnk" "$INSTDIR\doc\hal_build_db.html" "" "$INSTDIR\doc\hal_build_db.html" 0
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\mqllingtry.html.lnk" "$INSTDIR\doc\mqllingtry.html" "" "$INSTDIR\doc\mqllingtry.html" 0
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\eqtc.html.lnk" "$INSTDIR\doc\eqtc.html" "" "$INSTDIR\doc\eqtc.html" 0
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\Manual pages\eqtu.html.lnk" "$INSTDIR\doc\eqtu.html" "" "$INSTDIR\doc\eqtu.html" 0
@@ -266,24 +236,14 @@ Section "Start Menu Shortcuts" SecShortcuts
   
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\AUTHORS.txt.lnk" "$INSTDIR\doc\AUTHORS.txt" "" "$INSTDIR\doc\AUTHORS.txt" 0
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\COPYING.txt.lnk" "$INSTDIR\doc\COPYING.txt" "" "$INSTDIR\doc\COPYING.txt" 0
-  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\HOW-TO-USE.txt.lnk" "$INSTDIR\doc\HOW-TO-USE.txt" "" "$INSTDIR\doc\HOW-TO-USE.txt" 0
-  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\bootstrapping.txt.lnk" "$INSTDIR\doc\bootstrapping.txt" "" "$INSTDIR\doc\bootstrapping.txt" 0
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\NEWS.txt.lnk" "$INSTDIR\doc\NEWS.txt" "" "$INSTDIR\doc\NEWS.txt" 0
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\README.txt.lnk" "$INSTDIR\doc\README.txt" "" "$INSTDIR\doc\README.txt" 0
-  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\README-doc.txt.lnk" "$INSTDIR\doc\README-doc.txt" "" "$INSTDIR\doc\README-doc.txt" 0
 
   ; PDF
   CreateDirectory "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation"
   CreateDirectory "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\Development docs"
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\Development docs\Emdros Programmer's Reference Guide.pdf.lnk" "$INSTDIR\doc\EmdrosProgRefGuide.pdf" "" "$INSTDIR\doc\EmdrosProgRefGuide.pdf" 0
-  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\Development docs\Monad Sets - Implementation and Mathematical Foundations.pdf.lnk" "$INSTDIR\doc\Monad-Sets.pdf" "" "$INSTDIR\doc\Monad-Sets.pdf" 0
-  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\MQL Query Guide.pdf.lnk" "$INSTDIR\doc\MQL-Query-Guide.pdf" "" "$INSTDIR\doc\MQL-Query-Guide.pdf" 0
-  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\MQL Programmer's Guide.pdf.lnk" "$INSTDIR\doc\MQL-Programmers-Guide.pdf" "" "$INSTDIR\doc\MQL-Programmers-Guide.pdf" 0
-  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\The Extended MdF Model.pdf.lnk" "$INSTDIR\doc\New-EMdF.pdf" "" "$INSTDIR\doc\New-EMdF.pdf" 0
-  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\Development docs\Relational Implementation of EMdF and MQL.pdf.lnk" "$INSTDIR\doc\Rel-EMdF.pdf" "" "$INSTDIR\doc\Rel-EMdF.pdf" 0
-  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\The Standard MdF Model.pdf.lnk" "$INSTDIR\doc\Standard-MdF.pdf" "" "$INSTDIR\doc\Standard-MdF.pdf" 0
   CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\Emdros Query Tool User's Guide.pdf.lnk" "$INSTDIR\doc\EmdrosQueryTool_UsersGuide.pdf" "" "$INSTDIR\doc\EmdrosQueryTool_UsersGuide.pdf" 0
-  CreateShortCut "$SMPROGRAMS\Emdros-@VERSION@\Documentation\PDF Documentation\Emdros Chunking Tool User's Guide.pdf.lnk" "$INSTDIR\doc\ChunkingTool_UsersGuide.pdf" "" "$INSTDIR\doc\ChunkingTool_UsersGuide.pdf" 0
 
 
 

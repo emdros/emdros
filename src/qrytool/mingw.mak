@@ -51,7 +51,6 @@ endif
 
 PROGRAM_DEPENDENCIES = \
    "$(OUTDIR)\$(LIBTARGET)" \
-   $(OUTDIR)\libteckit.a  \
    $(OUTDIR)\libutil_emdros.a  \
    $(EXTRA_DEPENDENCIES) \
    $(MQL_DEPENDENCIES) \

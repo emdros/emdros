@@ -44,6 +44,7 @@ PROGRAM_DEPENDENCIES = \
                        $(BPT_DEPENDENCIES) \
                        "$(OUTDIR)\libharvest.lib"  \
                        "$(OUTDIR)\libutil_emdros.lib"  \
+                       "$(OUTDIR)\libemdros_importers.lib"  \
                        $(EMDF_DEPENDENCIES) \
                        $(PCRELIB) \
                        $(MQL_DEPENDENCIES) \

@@ -33,7 +33,7 @@ endif
 
 
 PROGRAM_DEPENDENCIES = \
-   $(OUTDIR)\libteckit.a  \
+   $(OUTDIR)\libemdros_importers.a  \
    $(OUTDIR)\libutil_emdros.a  \
    $(MQL_DEPENDENCIES) \
    $(EMDF_DEPENDENCIES) \

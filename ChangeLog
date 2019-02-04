@@ -14,6 +14,20 @@
 	* tests/mqlqa.h.in, tests/bptqa.h.in: Add test cases for the fix
 	to NOTEXIST.
 
+	* Update Windows build machinery for the new reality.
+
+	Files affected:
+
+        modified:   src/importtool/mingw.mak
+        modified:   src/importtool/win32.mak
+        modified:   src/mingw.mak
+        modified:   src/qrytool/mingw.mak
+        modified:   src/qrytool/win32.mak
+        modified:   src/win32.mak
+        modified:   win32/emdros.nsi.in
+        modified:   win32/mingw.mak
+        modified:   win32/win32.mak
+
 2019-02-03 Ulrik Sandborg-Petersen
 
 	* emdros.spec.in: Add gcc-c++ to BuildRequires. Add a version of
