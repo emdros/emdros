@@ -130,7 +130,6 @@ macdist: all
 	mkdir -p $(MACDISTDIR)/development/include
 	mkdir -p $(MACDISTDIR)/development/man/1
 	mkdir -p $(MACDISTDIR)/development/lib
-	mkdir -p $(MACDISTDIR)/development/share/emdros/hal
 	mkdir -p $(MACDISTDIR)/doc
 	mkdir -p $(MACDISTDIR)/doc/PDF
 	mkdir -p $(MACDISTDIR)/doc/txt

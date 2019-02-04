@@ -36,6 +36,9 @@
 	* win32/config.mak.in: Update default wxWidgets on Windows from
 	3.1.1 to 3.1.2.
 
+	* Makefile.am: As part of the "macdist" target, don't make
+	directory "development/share/emdros/hal".
+
 2019-02-03 Ulrik Sandborg-Petersen
 
 	* emdros.spec.in: Add gcc-c++ to BuildRequires. Add a version of
