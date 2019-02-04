@@ -167,6 +167,7 @@ endif
 	cd wx ; make macdist MACDISTDIR=../$(MACDISTDIR) ; cd ..
 	cd sqlite3 ; make macdist MACDISTDIR=../$(MACDISTDIR) ; cd ..
 	cd pcre ; make macdist MACDISTDIR=../$(MACDISTDIR) ; cd ..
+	cd amalgamation ; make macdist MACDISTDIR=../$(MACDISTDIR) ; cd ..
 	cd tests ; make macdist MACDISTDIR=../$(MACDISTDIR) ; cd ..
 	cd include ; make macdist MACDISTDIR=../$(MACDISTDIR) ; cd ..
 	cp COPYING $(MACDISTDIR)/COPYING.txt

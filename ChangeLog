@@ -30,6 +30,9 @@
 
 	* install_mac.sh.in: Remove mention of $PREFIX/share/emdros/hal.
 
+	* Makefile.am: Also do subdirectory "amalgamation" in the
+	"macdist" target.
+
 2019-02-03 Ulrik Sandborg-Petersen
 
 	* emdros.spec.in: Add gcc-c++ to BuildRequires. Add a version of
