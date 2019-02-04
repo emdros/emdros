@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 11/30-2018
+ * Last update: 2/4-2019
  *
  */
 
@@ -716,6 +716,7 @@ class ObjectBlock : public ObjectBlockBase {
 	bool m_bDoCalculatePreQueryString;
 	bool m_bIsFirstInBlockString;
 	bool m_bIsLastInBlockString;
+	bool m_bIsAfterNonNOTEXISTInBlockString;
 	std::string m_object_reference_lower;
 	MonadSetRelationClause *m_pMSRC;
  public:
@@ -742,7 +743,7 @@ class ObjectBlock : public ObjectBlockBase {
 		    bool bIsNOTEXIST);
 	virtual ~ObjectBlock();
 	void weedFeatureConstraints(MQLExecEnv *pEE, bool& bResult);
-	void weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, node_number_t block_string2_parent);
+	void weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, node_number_t block_string2_parent, bool& bHasMetNonNOTEXISTInBlockString);
 	bool symbol(MQLExecEnv *pEE, bool bDoCalculatePreQueryString, bool& bResult);
 	bool symbolObjectReferences(MQLExecEnv *pEE, bool& bResult, std::set<std::string>& ORD_set);
 	bool symbolObjectReferences2(MQLExecEnv *pEE);
@@ -750,6 +751,8 @@ class ObjectBlock : public ObjectBlockBase {
 	bool type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool& bResult);
 	bool isFirstInBlockString(void) const { return m_bIsFirstInBlockString; };
 	bool isSoleBlockInBlockString(void) const { return m_bIsFirstInBlockString && m_bIsLastInBlockString; };
+	bool isAfterNonNOTEXISTInBlockString() const { return m_bIsAfterNonNOTEXISTInBlockString; };
+	void setIsAfterNonNOTEXISTInBlockString(bool bValue) { m_bIsAfterNonNOTEXISTInBlockString = bValue; };
 	eObjectRangeType getObjectRangeType() const { return m_objectRangeType; };
 	const MonadSetRelationClause *getMSRC() const { return m_pMSRC; }
 	const std::string& getObjectReference() const { ASSERT_THROW(m_object_reference != 0, "object reference is 0"); return m_object_reference_lower; };
@@ -792,7 +795,7 @@ class Block : public ByMonads {
 	virtual ~Block();
 	void getOutermostSetOfMonadsFeatureSet(std::set<std::string>& som_name_set);
 
-	void weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, node_number_t block_string2_parent);
+	void weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, node_number_t block_string2_parent, bool& bHasMetNonNOTEXISTInBlockString);
 	bool symbol(MQLExecEnv *pEE, bool bDoCalculatePreQueryString, bool& bResult);
 	bool symbol(MQLExecEnv *pEE, bool& bResult);
 	bool symbolObjectReferences(MQLExecEnv *pEE, bool& bResult, std::set<std::string>& ORD_set);
@@ -845,7 +848,7 @@ public:
 	void getOutermostSetOfMonadsFeatureSet(std::set<std::string>& som_name_set);
 
 	void weedPower(MQLExecEnv *pEE, bool& bResult);
-	void weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, bool bPrevIsGap, bool bPrevIsPower, node_number_t block_string2_parent);
+	void weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, bool bPrevIsGap, bool bPrevIsPower, node_number_t block_string2_parent, bool& bHasMetNonNOTEXISTInBlockString);
 	bool symbol(MQLExecEnv *pEE, bool bDoCalculatePreQueryString, bool& bResult);
 	bool symbolObjectReferences(MQLExecEnv *pEE, bool& bResult, std::set<std::string>& ORD_set);
 	bool symbolObjectReferences2(MQLExecEnv *pEE);
@@ -880,7 +883,7 @@ public:
 	void getOutermostSetOfMonadsFeatureSet(std::set<std::string>& som_name_set);
 
 	void weedPower(MQLExecEnv *pEE, bool& bResult);
-	void weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, bool bPrevIsGap, bool bPrevIsPower, node_number_t block_string2_parent);
+	void weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, bool bPrevIsGap, bool bPrevIsPower, node_number_t block_string2_parent, bool& bHasMetNonNOTEXISTInBlockString);
 	bool symbol(MQLExecEnv *pEE, bool bDoCalculatePreQueryString, bool& bResult);
 	bool symbolObjectReferences(MQLExecEnv *pEE, bool& bResult, std::set<std::string>& ORD_set);
 	bool symbolObjectReferences2(MQLExecEnv *pEE);
@@ -918,7 +921,7 @@ public:
 	void getOutermostSetOfMonadsFeatureSet(std::set<std::string>& som_name_set);
 
 	void weedPower(MQLExecEnv *pEE, bool& bResult);
-	void weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, bool bPrevIsGap, bool bPrevIsPower, node_number_t block_string2_parent);
+	void weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, bool bPrevIsGap, bool bPrevIsPower, node_number_t block_string2_parent, bool& bHasMetNonNOTEXISTInBlockString);
 	bool symbol(MQLExecEnv *pEE, bool bDoCalculatePreQueryString, bool& bResult);
 	bool symbolObjectReferences(MQLExecEnv *pEE, bool& bResult, std::set<std::string>& ORD_set);
 	bool symbolObjectReferences2(MQLExecEnv *pEE);
@@ -969,7 +972,7 @@ public:
 	void getOutermostSetOfMonadsFeatureSet(std::set<std::string>& som_name_set);
 
 	void weedPower(MQLExecEnv *pEE, bool& bResult);
-	void weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, bool bPrevIsGap, bool bPrevIsPower, node_number_t block_string2_parent);
+	void weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, bool bPrevIsGap, bool bPrevIsPower, node_number_t block_string2_parent, bool& bHasMetNonNOTEXISTInBlockString);
 	bool symbol(MQLExecEnv *pEE, bool bDoCalculatePreQueryString, bool& bResult);
 	bool symbolObjectReferences(MQLExecEnv *pEE, bool& bResult, std::set<std::string>& ORD_set);
 	bool symbolObjectReferences2(MQLExecEnv *pEE);
@@ -1003,7 +1006,7 @@ class ObjectBlockString {
 	ObjectBlock* getObjectBlock() { return m_object_block; };
 	emdf_ivalue getObjectBlockCount();
 
-	void weed(MQLExecEnv *pEE, bool& bResult, node_number_t block_string2_parent);
+	void weed(MQLExecEnv *pEE, bool& bResult, node_number_t block_string2_parent, bool& bHasMetNonNOTEXISTInBlockString);
 	bool symbol(MQLExecEnv *pEE, bool& bResult);
 	bool type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool& bResult);
 	void getOutermostSetOfMonadsFeatureSet(std::set<std::string>& som_name_set);

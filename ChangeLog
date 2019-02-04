@@ -1,5 +1,11 @@
 ============ 3.7.0.pre04 ============
 
+2019-02-04 Ulrik Sandborg-Petersen
+
+	* MQL/mql_query.cpp, include/mql_query.h: Add
+	ObjectBlock::m_bIsAfterNonNOTEXISTInBlockString, and set it during
+	the weed stage.
+
 2019-02-03 Ulrik Sandborg-Petersen
 
 	* emdros.spec.in: Add gcc-c++ to BuildRequires. Add a version of
