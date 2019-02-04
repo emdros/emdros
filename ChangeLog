@@ -11,6 +11,9 @@
 	The second was not evaluated with respect to the whole Universe
 	and the whole Substrate as it should.
 
+	* tests/mqlqa.h.in, tests/bptqa.h.in: Add test cases for the fix
+	to NOTEXIST.
+
 2019-02-03 Ulrik Sandborg-Petersen
 
 	* emdros.spec.in: Add gcc-c++ to BuildRequires. Add a version of

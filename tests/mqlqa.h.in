@@ -4127,6 +4127,71 @@ WHERE
  > 
  > 
 ---- answer
+++++ query topographic query on realistic db number 16.10
+SELECT ALL OBJECTS
+WHERE
+[Paragraph
+  [Phrase phrase_type = PP
+    NOTEXIST [Phrase phrase_type = VP]
+    NOTEXIST [Phrase phrase_type = AP]
+  ]
+]
+++++ answer
+ //  <  < [ paragraph 23 { 1-9 } false  //  <  < [ phrase 13 { 5-7 } false  //  <  > 
+ ]
+ > 
+ > 
+ ]
+ > 
+ > 
+---- answer
+++++ query topographic query on realistic db number 16.11
+SELECT ALL OBJECTS
+WHERE
+[Paragraph
+  [Phrase phrase_type = PP
+    NOTEXIST [Phrase phrase_type = VP]
+    NOTEXIST [Phrase phrase_type = NP]
+  ]
+]
+++++ answer
+ // 
+---- answer
+++++ query topographic query on realistic db number 16.12
+SELECT ALL OBJECTS
+WHERE
+[Paragraph
+  [Phrase phrase_type = PP
+    NOTEXIST [Phrase phrase_type = VP]
+    [Word pos=preposition]
+    NOTEXIST [Phrase phrase_type = NP]
+  ]
+]
+++++ answer
+ // 
+---- answer
+++++ query topographic query on realistic db number 16.13
+SELECT ALL OBJECTS
+WHERE
+[Paragraph
+  [Phrase phrase_type = PP
+    NOTEXIST [Phrase phrase_type = VP]
+    [Word pos=preposition]
+    NOTEXIST [Phrase phrase_type = AP]
+  ]
+]
+++++ answer
+ //  <  < [ paragraph 23 { 1-9 } false  //  <  < [ phrase 13 { 5-7 } false  //  <  < [ word 5 { 5 } false  //  <  > 
+ ]
+ > 
+ > 
+ ]
+ > 
+ > 
+ ]
+ > 
+ > 
+---- answer
 ++++ query topographic query on realistic db number 17
 SELECT ALL OBJECTS
 WHERE
