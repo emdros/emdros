@@ -40,6 +40,20 @@ Release notes for Emdros 3.7.0
      [Clause monad_count = s1.monad_count]
   ]
 
+- The implementation of NOTEXIST object blocks has been corrected, so
+  that it conforms to the documentation in the "MQL Query Guide".
+  Specifically, when you have two or more consecutive NOTEXIST object
+  blocks at the beginning of a block_string, the results are now as
+  described in the MQL Query Guide.  Specifically:
+
+  a) The order of the NOTEXIST object blocks no longer matters (it did
+  before), and
+
+  b) The scope of all of the consecutive NOTEXIST object blocks is now
+  the entire Universe and the entire Substrate.
+
+  Thanks to Camil Staps for bringing this to Ulrik's attention.
+
 - The following SWIG bindings have been removed:
 
   - PHP 5
