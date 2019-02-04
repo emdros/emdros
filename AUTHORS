@@ -2,21 +2,9 @@ Emdros
 ======
 
 Emdros was originally created by Ulrik Sandborg-Petersen,
-ulrikp@users.sourceforge.net, and he is the current maintainer.
+ulrikp@emdros.org, and he is the current maintainer.
 
-Copyright (c) 2001-2017 Ulrik Sandborg-Petersen
-
-
-PCRE
-====
-
-Regular Expression-support is provided through the PCRE library,
-written by: Philip Hazel <ph10@cam.ac.uk>
-
-University of Cambridge Computing Service,
-Cambridge, England. Phone: +44 1223 334714.
-
-Copyright (c) 1997-2005 University of Cambridge
+Copyright (c) 2001-2019 Ulrik Sandborg-Petersen
 
 
 SWIG support
@@ -34,11 +22,45 @@ Other Contributions
 
 Martin Korshoej Petersen wrote most of the ImportToolWizard machinery.
 
+Hendrik Jan Bosman wrote at least two early versions of the Emdros
+Query Tool.  Many of his algorithms can still be traced in the current
+Emdros Query Tool, although none of his code is in there.  Many thanks
+to Hendrik Jan Bosman for his constant support since the beginnings of
+Emdros.
+
+
+Bug reports
+===========
+
+Many people have reported bugs, more than Ulrik remembers.  Some of
+them are listed below.  If you have reported a bug, and are not listed
+here, but wish to be, please let Ulrik know.
+
+- Constantijn Sikkel
+- Hendrik Jan Bosman
+- Dirk Roorda
+- Camil Staps
+
+
+
 
 SQLite
 ======
 
-SQLite (versions 2 and 3) is the work of D. Richard Hipp.  He has
-websites at <http://www.hwaci.com/> and <http://www.sqlite.org/>.
+SQLite is the work of Dr. D. Richard Hipp and his associates.
+Dr. Hipp has websites at <http://www.hwaci.com/> and
+<http://www.sqlite.org/>.
+
+
+PCRE
+====
+
+Regular Expression-support is provided through the PCRE library,
+written by: Philip Hazel <ph10@cam.ac.uk>
+
+University of Cambridge Computing Service,
+Cambridge, England. Phone: +44 1223 334714.
+
+Copyright (c) 1997-2005 University of Cambridge
 
 
