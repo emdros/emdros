@@ -6,6 +6,11 @@
 	ObjectBlock::m_bIsAfterNonNOTEXISTInBlockString, and set it during
 	the weed stage.
 
+	* MQL/mql_R.cpp: Fix bug in NOTEXIST which caused two consecutive
+	NOTEXISTS at the beginning of block_string to give false results.
+	The second was not evaluated with respect to the whole Universe
+	and the whole Substrate as it should.
+
 2019-02-03 Ulrik Sandborg-Petersen
 
 	* emdros.spec.in: Add gcc-c++ to BuildRequires. Add a version of

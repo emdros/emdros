@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/16-2001
- * Last update: 2/3-2019
+ * Last update: 2/4-2019
  *
  */
 
@@ -1076,15 +1076,17 @@ ListOfStraws *R_block(MQLExecEnv *pEE,
 		SetOfMonads Uping; 
 		SetOfMonads Suping;
 		monad_m Smping;
-		bool bIsFirst = pObjectBlock->isFirstInBlockString();
-		if (bIsFirst) {
-			Uping = U;
-			Suping = Su;
-			Smping = U.first();
-		} else {
+		
+		bool bIsAfterNonNOTEXISTInBlockString = pObjectBlock->isAfterNonNOTEXISTInBlockString();
+		
+		if (bIsAfterNonNOTEXISTInBlockString) {
 			R_restrict(U, Sm, Uping);
 			R_restrict(Su, Sm, Suping);
 			Smping = Sm;
+		} else {
+			Uping = U;
+			Suping = Su;
+			Smping = U.first();
 		}
 		
 		StartMonadIterator *pSMI = 0;
@@ -1106,7 +1108,7 @@ ListOfStraws *R_block(MQLExecEnv *pEE,
 		}
 		
 		delete pSMI;
-		
+
 		if (bSuccess) {
 			Straw *pStraw = new Straw();
 			pStraw->append(new MatchedObject(Sm-1)); // An EMPTY_mo.
