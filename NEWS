@@ -94,6 +94,14 @@ Release notes for Emdros 3.7.0
   - The doc/ subdirectory has been totally revamped, with much
     documentation having been moved to the docs-emdros repo on GitHub.
 
+  - The importers have beem moved from util/ into their own new
+    directory, importers/.
+
+    NOTE: The importers are included in the amalgamation library.  The
+    new development library, importers/libemdros_importers.la, is only
+    built if you give the "--enable-devel" switch to the configure
+    script.
+
   - The ./configure script now takes a mutually exclusive pair of
     switches: --enable-devel | --disable-devel.
 
