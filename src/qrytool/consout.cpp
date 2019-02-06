@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/16-2005
- * Last update: 1/16-2019
+ * Last update: 2/6-2019
  *
  */
 
@@ -78,6 +78,7 @@ void ConsoleQTOutput::printFeature(const std::string& object_type_name,
 				   const std::string& feature_name,
 				   const std::string& feature_value)
 {
+	UNUSED(feature_name);
 	UNUSED(feature_index); // Used when we had applyTECkit.
 	
 	// The naive implementation just prints the feature value

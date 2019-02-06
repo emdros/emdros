@@ -112,6 +112,8 @@
 	modified:   util/conf_ini.cpp
 	modified:   NEWS
 
+	* src/qrytool/consout.cpp: Silence an 'unused parameter' warning.
+
 2019-02-04 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre05.
