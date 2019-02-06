@@ -10,11 +10,17 @@ Copyright (c) 2001-2019 Ulrik Sandborg-Petersen
 SWIG support
 ============
 
-Kirk E. Lowery contributed SWIG support for Ruby.  Kirk can be
-contacted at <KirkELowery@gmail.com>.
-
 Chris Wilson did the groundwork on a previous version of the SWIG
 support for Perl.  Chris can be contacted at <emdros@qwirx.com>.
+
+Kirk E. Lowery contributed SWIG support for Ruby.
+
+Kirk also has been a huge encouragement throughout the existence of
+Emdros.  He also kindly provided access to some seriously powerful 64
+bit hardware, back when that was rare, so that Emdros could support
+64-bit operating systems. Kirk also provided help with performance
+testing.
+
 
 
 Other Contributions
@@ -36,6 +42,10 @@ Many people have reported bugs, more than Ulrik remembers.  Some of
 them are listed below.  If you have reported a bug, and are not listed
 here, but wish to be, please let Ulrik know.
 
+- Kirk E. Lowery
+- Chris Wilson
+- Rick Brannan
+- James van Noord
 - Constantijn Sikkel
 - Hendrik Jan Bosman
 - Dirk Roorda
