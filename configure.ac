@@ -68,6 +68,9 @@ EMDROS_SWIG_SUPPORT
 # Find program dependencies for documentation
 EMDROS_DOCS
 
+# If on Sun Solaris, do various things
+EMDROS_SOLARIS_END
+
 EMDROS_BUILDENV_END
 
 AC_CONFIG_FILES([Makefile

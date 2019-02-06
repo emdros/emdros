@@ -1,3 +1,17 @@
+============ 3.7.0.pre05 ============
+
+2019-02-06 Ulrik Sandborg-Petersen
+
+	* m4/emdros_solaris.m4: Move various definitions into a new file,
+	m4/emdros_solaris_end.m4.  This so as not to set some variables
+	before using them.
+
+	* configure.ac: Invoke EMDROS_SOLARIS_END towards the end.
+
+2019-02-04 Ulrik Sandborg-Petersen
+
+	* configure.ac, debian/changelog: Bump to 3.7.0.pre05.
+
 ============ 3.7.0.pre04 ============
 
 2019-02-04 Ulrik Sandborg-Petersen
@@ -38,8 +52,6 @@
 
 	* Makefile.am: As part of the "macdist" target, don't make
 	directory "development/share/emdros/hal".
-
-	* configure.ac, debian/changelog: Bump to 3.7.0.pre05.
 
 2019-02-03 Ulrik Sandborg-Petersen
 
