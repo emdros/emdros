@@ -54,6 +54,19 @@ Release notes for Emdros 3.7.0
 
   Thanks to Camil Staps for bringing this to Ulrik's attention.
 
+- Regular expressions are now treated as UTF8, not as legacy-encoding
+  raw 8-bit data.  This is true for MQL, as well as for the two kinds of configuration files (with and without [ini-file-like] sections.
+
+  In particular, character classes can now be used correctly with
+  UTF8-encoded characters.  For example, the following now does the
+  Correct Thing(TM):
+
+  SELECT ALL OBJECTS WHERE [Word surface="^.*[ÆØÅæøå].*$".
+
+  Before, this would not work, since the UTF-8 encoded characters
+  would be treated, not as distinct characters, but as the raw 8-bit
+  bytes of which they were made up.
+
 - The following SWIG bindings have been removed:
 
   - PHP 5

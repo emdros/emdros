@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 2/4-2019
+ * Last update: 2/6-2019
  *
  */
 
@@ -1654,7 +1654,7 @@ void FeatureComparison::weedFeatureConstraints(MQLExecEnv *pEE, bool& bResult, n
 			//
 			// Study
 			//
-			options = 0;
+			options = 0 | PCRE_UTF8;
 			m_pcre_extra = pcre_study(m_pcre, options, &pcre_error);
 			if (pcre_error != NULL) {
 				pEE->pError->appendError(std::string("Error studying regular expression.  PCRE reported:\n") + pcre_error + "\n");

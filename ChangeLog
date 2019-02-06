@@ -97,6 +97,21 @@
 
 	* AUTHORS: Give due credit to Kirk E. Lowery.
 
+	* PCRE usage: Make sure that all patterns are treated as UTF8 when
+	calling pcre_study().  This changes the regex game for MQL, which
+	can now exclusively support Unicode, not legacy encodings such as
+	Latin-1 / ISO-8859-X.
+
+	Also do this for the configuration files implemented by
+	util/conf.cpp and util/conf_ini.cpp.
+
+	Files affected:
+
+	modified:   MQL/mql_query.cpp
+	modified:   util/conf.cpp
+	modified:   util/conf_ini.cpp
+	modified:   NEWS
+
 2019-02-04 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre05.
