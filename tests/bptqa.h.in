@@ -28795,8 +28795,19 @@ WITH SINGLE RANGE OBJECTS
   divtype : divtype_e DEFAULT bookGroup;
 ]
 GO
+
+
+// Object type utf8test
+CREATE OBJECT TYPE
+WITH SINGLE RANGE OBJECTS
+[UTF8Test
+  xmlindex : integer DEFAULT 0;
+  surface : STRING;
+]
+GO
 ++++ answer
 ---- answer
+
 ++++ query nobpt CREATING ASV Verse objects
 CREATE OBJECTS
 WITH OBJECT TYPE[verse]
@@ -30424,6 +30435,42 @@ GO
 +------------------------+
 ---- answer
 
+++++ query CREATING ASV UTF8Test objects
+CREATE OBJECTS
+WITH OBJECT TYPE[UTF8Test]
+CREATE OBJECT
+FROM MONADS= { 1 } 
+WITH ID_D=20001 [
+xmlindex:=20001;
+surface:="Danish West-Juttish dialect: A' ska æ' u' å' æh ø', a ska' æ'.";
+]
+CREATE OBJECT
+FROM MONADS= { 2 } 
+WITH ID_D=20002 [
+xmlindex:=20002;
+surface:="Hebrew 1: בְּרֵאשִׁ֖ית";
+]
+CREATE OBJECT
+FROM MONADS= { 3 } 
+WITH ID_D=20003 [
+xmlindex:=20003;
+surface:="Hebrew 2: אֱלֹהִ֑ים";
+]
+CREATE OBJECT
+FROM MONADS= { 4 } 
+WITH ID_D=20004 [
+xmlindex:=20004;
+surface:="Latin: Cæsar";
+]
+GO
+++++ answer
++------------------------+
+| object_count : integer |
++------------------------+
+| 4                      |
++------------------------+
+---- answer
+
 ++++ dumpdb
 
 ++++ query GET AGGREGATE FEATURES (1)
@@ -31721,3 +31768,171 @@ GO
  > 
  > 
 ---- answer 
+
+
+++++ query Test of UTF-8 compliance of regular expressions 1
+SELECT ALL OBJECTS
+WHERE	  
+[UTF8Test
+   surface ~ "^.*[æø].*$" GET surface
+]
+++++ answer
+ //  <  < [ utf8test 20001 { 1 } false (surface="Danish West-Juttish dialect: A' ska \xc3\xa6' u' \xc3\xa5' \xc3\xa6h \xc3\xb8', a ska' \xc3\xa6'.") //  <  > 
+ ]
+ > 
+ < [ utf8test 20004 { 4 } false (surface="Latin: C\xc3\xa6sar") //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+
+++++ query Test of UTF-8 compliance of regular expressions 2.1
+SELECT ALL OBJECTS
+WHERE	  
+[UTF8Test
+   surface ~ "^.*æ.*$" GET surface
+]
+++++ answer
+ //  <  < [ utf8test 20001 { 1 } false (surface="Danish West-Juttish dialect: A' ska \xc3\xa6' u' \xc3\xa5' \xc3\xa6h \xc3\xb8', a ska' \xc3\xa6'.") //  <  > 
+ ]
+ > 
+ < [ utf8test 20004 { 4 } false (surface="Latin: C\xc3\xa6sar") //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+++++ query Test of UTF-8 compliance of regular expressions 2.2
+SELECT ALL OBJECTS
+WHERE	  
+[UTF8Test
+   surface ~ "^.*ø.*$" GET surface
+]
+++++ answer
+ //  <  < [ utf8test 20001 { 1 } false (surface="Danish West-Juttish dialect: A' ska \xc3\xa6' u' \xc3\xa5' \xc3\xa6h \xc3\xb8', a ska' \xc3\xa6'.") //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+++++ query Test of UTF-8 compliance of regular expressions 2.3
+SELECT ALL OBJECTS
+WHERE	  
+[UTF8Test
+   surface ~ "^.*[øå].*$" GET surface
+]
+++++ answer
+ //  <  < [ utf8test 20001 { 1 } false (surface="Danish West-Juttish dialect: A' ska \xc3\xa6' u' \xc3\xa5' \xc3\xa6h \xc3\xb8', a ska' \xc3\xa6'.") //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+++++ query Test of UTF-8 compliance of regular expressions 2.4
+SELECT ALL OBJECTS
+WHERE	  
+[UTF8Test
+   surface ~ "^.*[å].*$" GET surface
+]
+++++ answer
+ //  <  < [ utf8test 20001 { 1 } false (surface="Danish West-Juttish dialect: A' ska \xc3\xa6' u' \xc3\xa5' \xc3\xa6h \xc3\xb8', a ska' \xc3\xa6'.") //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+++++ query Test of UTF-8 compliance of regular expressions 2.5
+SELECT ALL OBJECTS
+WHERE	  
+[UTF8Test
+   surface ~ "^.*å.*$" GET surface
+]
+++++ answer
+ //  <  < [ utf8test 20001 { 1 } false (surface="Danish West-Juttish dialect: A' ska \xc3\xa6' u' \xc3\xa5' \xc3\xa6h \xc3\xb8', a ska' \xc3\xa6'.") //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+++++ query Test of UTF-8 compliance of regular expressions 3
+SELECT ALL OBJECTS
+WHERE	  
+[UTF8Test
+   surface ~ "^.*[א].*$" GET surface
+]
+++++ answer
+ //  <  < [ utf8test 20002 { 2 } false (surface="Hebrew 1: \xd7\x91\xd6\xbc\xd6\xb0\xd7\xa8\xd6\xb5\xd7\x90\xd7\xa9\xd7\x81\xd6\xb4\xd6\x96\xd7\x99\xd7\xaa") //  <  > 
+ ]
+ > 
+ < [ utf8test 20003 { 3 } false (surface="Hebrew 2: \xd7\x90\xd6\xb1\xd7\x9c\xd6\xb9\xd7\x94\xd6\xb4\xd6\x91\xd7\x99\xd7\x9d") //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+++++ query Test of UTF-8 compliance of regular expressions 4
+SELECT ALL OBJECTS
+WHERE	  
+[UTF8Test
+   surface ~ "^.*א.*$" GET surface
+]
+++++ answer
+ //  <  < [ utf8test 20002 { 2 } false (surface="Hebrew 1: \xd7\x91\xd6\xbc\xd6\xb0\xd7\xa8\xd6\xb5\xd7\x90\xd7\xa9\xd7\x81\xd6\xb4\xd6\x96\xd7\x99\xd7\xaa") //  <  > 
+ ]
+ > 
+ < [ utf8test 20003 { 3 } false (surface="Hebrew 2: \xd7\x90\xd6\xb1\xd7\x9c\xd6\xb9\xd7\x94\xd6\xb4\xd6\x91\xd7\x99\xd7\x9d") //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+++++ query Test of UTF-8 compliance of regular expressions 5
+SELECT ALL OBJECTS
+WHERE	  
+[UTF8Test
+   surface ~ "^.*[ר].*$" GET surface
+]
+++++ answer
+ //  <  < [ utf8test 20002 { 2 } false (surface="Hebrew 1: \xd7\x91\xd6\xbc\xd6\xb0\xd7\xa8\xd6\xb5\xd7\x90\xd7\xa9\xd7\x81\xd6\xb4\xd6\x96\xd7\x99\xd7\xaa") //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+++++ query Test of UTF-8 compliance of regular expressions 6
+SELECT ALL OBJECTS
+WHERE	  
+[UTF8Test
+   surface ~ "^.*[בל].*$" GET surface
+]
+++++ answer
+ //  <  < [ utf8test 20002 { 2 } false (surface="Hebrew 1: \xd7\x91\xd6\xbc\xd6\xb0\xd7\xa8\xd6\xb5\xd7\x90\xd7\xa9\xd7\x81\xd6\xb4\xd6\x96\xd7\x99\xd7\xaa") //  <  > 
+ ]
+ > 
+ < [ utf8test 20003 { 3 } false (surface="Hebrew 2: \xd7\x90\xd6\xb1\xd7\x9c\xd6\xb9\xd7\x94\xd6\xb4\xd6\x91\xd7\x99\xd7\x9d") //  <  > 
+ ]
+ > 
+ > 
+---- answer 
+
+++++ query Test of UTF-8 compliance of regular expressions 7.1
+SELECT ALL OBJECTS
+WHERE	  
+[UTF8Test
+   surface ~ "^.*[ד].*$" GET surface
+]
+++++ answer
+ // 
+---- answer 
+
+++++ query Test of UTF-8 compliance of regular expressions 7.2
+SELECT ALL OBJECTS
+WHERE	  
+[UTF8Test
+   surface ~ "^.*ד.*$" GET surface
+]
+++++ answer
+ // 
+---- answer 
+  

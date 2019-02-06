@@ -142,6 +142,9 @@
 	SUPPORT_UTF, and SUPPORT_UTF8 by default, i.e., unless
 	USE_LOCAL_PCRE is defined to be 0.
 
+	* tests/mqlqa.h.in, tests/bptqa.h.in: Add tests for the new UTF8
+	support in PCRE.
+
 2019-02-04 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre05.
