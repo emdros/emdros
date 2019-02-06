@@ -7,7 +7,7 @@ Abstract: These PDF and HTML manuals describe Emdros and
 Section: Text
 
 Format: PDF
-Files: ${prefix}/share/doc/emdros/*.pdf.gz
+Files: ${prefix}/share/doc/emdros/*.pdf
 
 Format: HTML
 Index: ${prefix}/share/doc/emdros/emdros-progref-guide.html/index.html

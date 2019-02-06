@@ -23,6 +23,14 @@
 	unconditionally. Otherwise, the Amalgamation will fail when we
 	compile without SQLite3 support.
 
+	* debian/docbase.in: Alter as follows:
+
+	-Files: ${prefix}/share/doc/emdros/*.pdf.gz
+	+Files: ${prefix}/share/doc/emdros/*.pdf
+
+	Hopefully this fixes the "`Format' sections are invalid" error
+	from dpkg-buildpackage.
+
 2019-02-04 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre05.
