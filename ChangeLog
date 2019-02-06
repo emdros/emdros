@@ -15,6 +15,10 @@
 	- Else, if the user has already set them, don't alter them.
 	- Else, only set them if we are on the GNU g++ compiler.
 
+	* amalgamation/mkamalgamation.cpp: Fix bug in fin.open: Use
+	"source_pathname.c_str()" instead of "source_pathname", thus
+	making Sun's CC compiler happy.
+
 2019-02-04 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre05.

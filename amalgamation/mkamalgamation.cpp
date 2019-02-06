@@ -4,7 +4,7 @@
  * A program to create the Emdros amalgamation.
  *
  * Created: 4/12-2016 
- * Last update: 6/23-2018
+ * Last update: 2/6-2019
  *
  * Return codes:
  * 
@@ -532,7 +532,7 @@ void TargetFile::copy_file(std::ostream& fout,
         int line_count = 0;
 	std::ifstream fin;
 	std::string source_pathname = amalgamation_path_join("..", source_filename);
-	fin.open(source_pathname);
+	fin.open(source_pathname.c_str());
 	if (!fin) {
 		throw AmalgamationQDException("ERROR: Could not open " + source_pathname + " for reading.\n");
 	}
