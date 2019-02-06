@@ -89,6 +89,12 @@ Release notes for Emdros 3.7.0
 
 - The build scripts have been totally reimagined.  In particular:
 
+  - The default prefix is now /usr/local, not /usr as it used to be.
+    This was changed in response to both user feedback, to common Unix
+    wisdom (user-installed packages go in /usr/local, not in the
+    system-installed /usr), and to Fedora guidelines to best-practices
+    for packaging.
+
   - The m4/ directory has been totally reorganized.
 
   - The doc/ subdirectory has been totally revamped, with much

@@ -92,6 +92,9 @@
 	(on a particular Solaris 10 installation) which did not support
 	"-v".
 
+	* NEWS: Add to the NEWS that /usr/local is now the default
+	installation path.
+
 2019-02-04 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre05.
