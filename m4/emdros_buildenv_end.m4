@@ -232,8 +232,27 @@ AC_SUBST(EMDROS_LDADD_BACKBACKBACK)
 
 
 dnl Set ADDITIONAL_CXXFLAGS and ADDITIONAL_CFLAGS
-ADDITIONAL_CXXFLAGS="-Wall -Wextra"
-ADDITIONAL_CFLAGS="-Wall -Wextra"
+if test "x$ISHOSTSUNCC" = "xyes"; then
+  dnl We are on Solaris + Sun's CC compiler.
+  dnl Don't touch the variables.
+  ; 
+else
+  if test -v ADDITIONAL_CXXFLAGS; then
+     dnl It was not set by the user.
+     if test "x$COMPILER_IS_GPLUSPLUS" = "xyes"; then
+        dnl We are on GNU g++     
+        ADDITIONAL_CXXFLAGS="-Wall -Wextra"
+     fi
+  fi
+  if test -v ADDITIONAL_CFLAGS; then
+     dnl It was not set by the user
+     if test "x$COMPILER_IS_GPLUSPLUS" = "xyes"; then
+        dnl We are on GNU g++     
+        ADDITIONAL_CFLAGS="-Wall -Wextra"
+     fi
+  fi
+fi
+
 if test "xDO_MONGODB" != "xno"; then
   ADDITIONAL_CXXFLAGS="$ADDITIONAL_CXXFLAGS $LIBMONGOC_CFLAGS $LIBBSON_CFLAGS"
 fi

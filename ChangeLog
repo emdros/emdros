@@ -8,6 +8,13 @@
 
 	* configure.ac: Invoke EMDROS_SOLARIS_END towards the end.
 
+	* m4/emdros_buildenv_end.m4: Regarding the variables
+	ADDITIONAL_CXXFLAGS and ADDITIONAL_CFLAGS:
+
+	- If we are on Solaris + the Sun CC compiler, don't alter them.
+	- Else, if the user has already set them, don't alter them.
+	- Else, only set them if we are on the GNU g++ compiler.
+
 2019-02-04 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre05.
