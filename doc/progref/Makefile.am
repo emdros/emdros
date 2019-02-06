@@ -39,7 +39,7 @@ BUILT_SOURCES = EmdrosProgRefGuide.hhc \
                 $(MAYBE_ZIP) \
                 $(MAYBE_PDF)
 
-progrefdir = ${docdir}/emdros-progref-guide.html
+progrefdir = @prefix@/share/doc/emdros/emdros-progref-guide
 
 dist_progref_DATA = $(ALL_HTML_FILES) dot.gif cms.css 
 
