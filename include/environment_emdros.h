@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/14-2003
- * Last update: 1/16-2019
+ * Last update: 2/6-2019
  *
  */
 
@@ -165,6 +165,8 @@ class EmdrosEnv {
 	FlatSheaf* getFlatSheaf(void); // Returns nil on no result or result not a flat sheaf
 	Table* getTable(void); // Returns nil on no result or result not a table
 	Statement *getStatement(void); // Returns nil on no statement
+
+	std::string getEmdrosVersion(); // Returns the Emdros version as a string
 
 #ifdef SWIG
 	// Tell SWIG that these methods return something which its shadow

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/14-2003
- * Last update: 11/2-2018
+ * Last update: 2/6-2019
  *
  */
 
@@ -32,6 +32,7 @@
 #include <mql_error.h>
 #include <mql_execution_environment.h>
 #include <environment_emdros.h>
+#include <version-emdros.h>
 #include <emdf_output.h>
 #include <mql_execute.h>
 #include <mql_sheaf.h>
@@ -564,6 +565,12 @@ Table* EmdrosEnv::getTable(void)
 	} else {
 		return (Table*) pResult;
 	}
+}
+
+
+std::string EmdrosEnv::getEmdrosVersion()
+{
+	return std::string(EMDROS_VERSION);
 }
 
 

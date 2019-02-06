@@ -1767,6 +1767,8 @@ public:
   <page_anchor ID="1137">Table</page_anchor>* getTable(void); // Returns nil on no result or result not a table
   <page_anchor ID="1136">Statement</page_anchor> *getStatement(void); // Returns nil on no statement
 
+  std::string getEmdrosVersion(); // Returns the Emdros version as a string
+
   // Take over object.  You now have responsibility for deleting it, 
   // and it will not be deleted by the next invocation of executeXXX.
   <page_anchor ID="1139">MQLResult</page_anchor>* takeOverResult(void); // Return nil on no result

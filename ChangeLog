@@ -50,6 +50,20 @@
 	-progrefdir = ${docdir}/emdros-progref-guide.html
 	+progrefdir = @prefix@/share/doc/emdros/emdros-progref-guide
 
+	* MQL/emdros_environment.cpp: Add new API:
+	EmdrosEnv::getEmdrosVersion().
+
+	Modified files:
+
+	modified:   MQL/emdros_environment.cpp
+	modified:   include/environment_emdros.h
+
+	* doc/progref/Content.txt: Document the new
+	EmdrosEnv::getEmdrosVersion() API.
+
+	modified:   doc/progref/Content.txt
+	modified:   doc/progref/config.py.in
+
 2019-02-04 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre05.
