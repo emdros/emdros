@@ -87,7 +87,8 @@
 #define PCRE_CODE_UNIT_WIDTH 8
 #define LINK_SIZE 2
 #undef SUPPORT_JIT
-#define SUPPORT_UNICODE 1
+#define SUPPORT_UTF 1
+#define SUPPORT_UTF8 1
       </target_prefix>
       <source_files>
         <source_file name="pcre/pcre_byte_order.c"/>
