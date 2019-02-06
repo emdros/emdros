@@ -1643,7 +1643,7 @@ void FeatureComparison::weedFeatureConstraints(MQLExecEnv *pEE, bool& bResult, n
 			//
 			const char *pcre_error;
 			int error_offset;
-			int options = 0;
+			int options = PCRE_UTF8;
 			m_pcre = pcre_compile(m_value->getString().c_str(), options, &pcre_error, &error_offset, NULL);
 			if (m_pcre == NULL) {
 				pEE->pError->appendError(std::string("Error compiling regular expression.  PCRE reported:\n") + pcre_error + "\n");

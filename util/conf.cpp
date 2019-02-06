@@ -38,7 +38,7 @@ Configuration::Configuration(std::istream *cf)
   // Assignment pattern
   pcre *assignmentpattern = 
     pcre_compile("([^ \\t\\n=]*)\\s*=\\s*([0-9A-Za-z_\\.\\-]*(\"[^\"\\n]*\")?)",  /* the pattern */
-		   0,                /* default options */
+		   0|PCRE_UTF8,      /* default options + UTF8-support*/
 		   &error,           /* for error message */
 		   &erroffset,       /* for error offset */
 		   NULL);            /* use default character tables */
@@ -48,7 +48,7 @@ Configuration::Configuration(std::istream *cf)
   // Comment pattern
   pcre *commentpattern = 
     pcre_compile("([^#]*)#.*",  /* the pattern */
-		 0,                /* default options */
+		 0|PCRE_UTF8,      /* default options + UTF-8 support */
 		 &error,           /* for error message */
 		 &erroffset,       /* for error offset */
 		 NULL);            /* use default character tables */

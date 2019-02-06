@@ -120,12 +120,21 @@
 	* pcre/config.h, pcre/config.h.win32: #define SUPPORT_PCRE8 and
 	SUPPORT_UTF to 1.
 
-	* PCRE: The PCRE_UTF8 option is not public, so revert the changes
-	made to MQL/mql_query.cpp, etc.
+	* PCRE: The PCRE_UTF8 option is not public for the 'pcre_study'
+	function, so revert the changes made to MQL/mql_query.cpp, etc.
 
 	Files affected:
 
 	modified:   tests/mqlqa.h.in
+	modified:   util/conf.cpp
+	modified:   util/conf_ini.cpp
+
+	* PCRE: The PCRE_UTF8 option is, however, public for the
+	pcre_compile() function, so use it with this function.
+
+	Files affected:
+
+	modified:   MQL/mql_query.cpp
 	modified:   util/conf.cpp
 	modified:   util/conf_ini.cpp
 
