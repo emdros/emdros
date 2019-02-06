@@ -26,12 +26,13 @@ dnl
 dnl Set SUN_CXXFLAGS
 dnl
 if test x$ISHOSTSUNCC = xyes; then
-  if test "x$SUN_CXXFLAGS" = "x"; then
-    dnl We can se it here explicitly if need be
-    SUN_CXXFLAGS="";
-  else
+  if test -v SUN_CXXFLAGS; then
     dnl It was set by the user. Don't touch it.
     ;
+  else
+    dnl It was not set by the user.
+    dnl We can se it here explicitly in the future, if need be
+    SUN_CXXFLAGS="";
   fi
 else
   dnl We are not doing Sun CC
