@@ -30435,7 +30435,7 @@ GO
 +------------------------+
 ---- answer
 
-++++ query CREATING ASV UTF8Test objects
+++++ query nobpt CREATING ASV UTF8Test objects
 CREATE OBJECTS
 WITH OBJECT TYPE[UTF8Test]
 CREATE OBJECT
