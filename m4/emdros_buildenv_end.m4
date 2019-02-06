@@ -235,7 +235,7 @@ dnl Set ADDITIONAL_CXXFLAGS and ADDITIONAL_CFLAGS
 if test "x$ISHOSTSUNCC" = "xyes"; then
   dnl We are on Solaris + Sun's CC compiler.
   dnl Don't touch the variables.
-  ; 
+  : 
 else
   if test -v ADDITIONAL_CXXFLAGS; then
      dnl It was not set by the user.
