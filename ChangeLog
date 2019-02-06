@@ -19,6 +19,10 @@
 	"source_pathname.c_str()" instead of "source_pathname", thus
 	making Sun's CC compiler happy.
 
+	* EMdF/sqlite3emdfdb.cpp: #include <sqlite3conn.h>
+	unconditionally. Otherwise, the Amalgamation will fail when we
+	compile without SQLite3 support.
+
 2019-02-04 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre05.

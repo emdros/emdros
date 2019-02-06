@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/30-2018
+ * Last update: 2/6-2019
  *
  */
 
@@ -33,9 +33,9 @@
 #include <functional>
 #include <algorithm>
 
-#if defined(USE_SQLITE3) && USE_SQLITE3
+// Include this unconditionally, or the Amalgamation will fail
+// when compiling without SQLite3
 #include <sqlite3conn.h>
-#endif
 
 /**@file sqlite3emdfdb.cpp
  *@brief Implementation of SQLite EMdF database (EMdF layer)
