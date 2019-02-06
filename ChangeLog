@@ -114,6 +114,9 @@
 
 	* src/qrytool/consout.cpp: Silence an 'unused parameter' warning.
 
+	* tests/mqltry.cpp: Change the file from ISO-8859-1 (Latin-1)
+	encoding to UTF-8 encoding.
+
 2019-02-04 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre05.

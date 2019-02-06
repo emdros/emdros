@@ -3,7 +3,7 @@
  *
  * Trial of MQL and EMdF framework
  * Created: 3/6-2001 (March 6, 2001)
- * Last update: 11/30-2018
+ * Last update: 2/6-2019
  *
  */
 
@@ -2020,7 +2020,7 @@ int testall(EmdrosEnv *pEE, eBackendKind backend_kind, const std::string& passwo
 	id_d_t AEOEAA_id_d;
 	mql_query = 
 		"CREATE OBJECT FROM MONADS={10000} [Sploinks lemma := '\xc3\xa6';]";
-	if (!exec_string_get_id_d(pEE, mql_query, "creating Sploinks object with 'æøå'.", AEOEAA_id_d))
+	if (!exec_string_get_id_d(pEE, mql_query, "creating Sploinks object with 'Ã¦Ã¸Ã¥'.", AEOEAA_id_d))
 		goto end;
 
 	mql_query =
@@ -2034,7 +2034,7 @@ int testall(EmdrosEnv *pEE, eBackendKind backend_kind, const std::string& passwo
 			  << "       Expected '\xc3\xa6' but got '" << AEOEAA_string << "'" << std::endl;
 		goto end;
 	} else {
-		std::cout << "SUCCESS: GET FEATURES did return the correct 'æøå' STRING." << std::endl;
+		std::cout << "SUCCESS: GET FEATURES did return the correct 'Ã¦Ã¸Ã¥' STRING." << std::endl;
 	}
 
 	// Create something with lists of ID_Ds and lists of integers
