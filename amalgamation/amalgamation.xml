@@ -83,10 +83,11 @@
 #define USE_LOCAL_PCRE 1
 #endif
 
-#if USE_LOCAL_PCRE
+#if defined(USE_LOCAL_PCRE) &amp;&amp; USE_LOCAL_PCRE
 #define PCRE_CODE_UNIT_WIDTH 8
 #define LINK_SIZE 2
 #undef SUPPORT_JIT
+#define SUPPORT_PCRE8 1
 #define SUPPORT_UTF 1
 #define SUPPORT_UTF8 1
       </target_prefix>
