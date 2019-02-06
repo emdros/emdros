@@ -95,6 +95,8 @@
 	* NEWS: Add to the NEWS that /usr/local is now the default
 	installation path.
 
+	* AUTHORS: Give due credit to Kirk E. Lowery.
+
 2019-02-04 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre05.
