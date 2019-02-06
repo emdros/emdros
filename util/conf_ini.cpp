@@ -47,7 +47,7 @@ ConfigurationINI::ConfigurationINI(std::istream *cf)
 			     &erroffset,       /* for error offset */
 			     NULL);            /* use default character tables */
 	pcre_extra *assignpat_section_extra = NULL;
-	assignpat_section_extra = pcre_study(assignmentpattern_section, 0|PCRE_UTF8, &error);
+	assignpat_section_extra = pcre_study(assignmentpattern_section, 0, &error);
 
 	// Assignment pattern
 	pcre *assignmentpattern = 
@@ -57,7 +57,7 @@ ConfigurationINI::ConfigurationINI(std::istream *cf)
 			     &erroffset,       /* for error offset */
 			     NULL);            /* use default character tables */
 	pcre_extra *assignpat_extra = NULL;
-	assignpat_extra = pcre_study(assignmentpattern, 0|PCRE_UTF8, &error);
+	assignpat_extra = pcre_study(assignmentpattern, 0, &error);
 
 	// Comment pattern
 	pcre *commentpattern = 
@@ -67,7 +67,7 @@ ConfigurationINI::ConfigurationINI(std::istream *cf)
 			     &erroffset,       /* for error offset */
 			     NULL);            /* use default character tables */
 	pcre_extra *commentpat_extra = NULL;
-	commentpat_extra = pcre_study(commentpattern, 0|PCRE_UTF8, &error);
+	commentpat_extra = pcre_study(commentpattern, 0, &error);
 	while (!cf->eof()) {
 		char szLine[MAX_LINE];
 		cf->getline(szLine, MAX_LINE);

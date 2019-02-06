@@ -120,6 +120,15 @@
 	* pcre/config.h, pcre/config.h.win32: #define SUPPORT_PCRE8 and
 	SUPPORT_UTF to 1.
 
+	* PCRE: The PCRE_UTF8 option is not public, so revert the changes
+	made to MQL/mql_query.cpp, etc.
+
+	Files affected:
+
+	modified:   tests/mqlqa.h.in
+	modified:   util/conf.cpp
+	modified:   util/conf_ini.cpp
+
 2019-02-04 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre05.
