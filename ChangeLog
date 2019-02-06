@@ -87,6 +87,11 @@
 	modified:   SWIG/csharp/Makefile.inc
 	modified:   SWIG/java/Makefile.inc
 
+	* m4/: Use "-z" instead of "-v" to test if a variable was not set.
+	This was done because of the need to support ancient bash versions
+	(on a particular Solaris 10 installation) which did not support
+	"-v".
+
 2019-02-04 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre05.

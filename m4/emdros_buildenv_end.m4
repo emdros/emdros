@@ -237,14 +237,14 @@ if test "x$ISHOSTSUNCC" = "xyes"; then
   dnl Don't touch the variables.
   : 
 else
-  if test -v ADDITIONAL_CXXFLAGS; then
+  if test -z "$ADDITIONAL_CXXFLAGS"; then
      dnl It was not set by the user.
      if test "x$COMPILER_IS_GPLUSPLUS" = "xyes"; then
         dnl We are on GNU g++     
         ADDITIONAL_CXXFLAGS="-Wall -Wextra"
      fi
   fi
-  if test -v ADDITIONAL_CFLAGS; then
+  if test -z "$ADDITIONAL_CFLAGS"; then
      dnl It was not set by the user
      if test "x$COMPILER_IS_GPLUSPLUS" = "xyes"; then
         dnl We are on GNU g++     
