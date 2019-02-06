@@ -79,6 +79,14 @@
 	modified:   SWIG/python/pyemdros.i
 	modified:   SWIG/python3/py3emdros.i
 
+	* SWIG bindings: Also add the JSON stuff to the C# and Java
+	Makefile.inc files.
+
+	Files affected:
+
+	modified:   SWIG/csharp/Makefile.inc
+	modified:   SWIG/java/Makefile.inc
+
 2019-02-04 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre05.

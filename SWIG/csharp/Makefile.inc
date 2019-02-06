@@ -15,6 +15,7 @@ SWIG_GENERATED_CSHARPFILES = \
                 cssource/eComparisonOp.cs \
                 cssource/eComputedFeatureKind.cs \
                 cssource/eEVkind.cs \
+                cssource/eJSONValueKind.cs \
                 cssource/EMdFDB.cs \
                 cssource/EMdFDBDBError.cs \
                 cssource/EMdFDBException.cs \
@@ -37,6 +38,7 @@ SWIG_GENERATED_CSHARPFILES = \
                 cssource/FlatStraw.cs \
                 cssource/IntegerListConstIterator.cs \
                 cssource/IntegerList.cs \
+                cssource/JSONValue.cs \
                 cssource/ListOfStraws.cs \
                 cssource/MatchedObject.cs \
                 cssource/MaxRange.cs \
@@ -70,8 +72,8 @@ SWIG_GENERATED_CSHARPFILES = \
                 cssource/StringList.cs \
                 cssource/StringVector.cs \
                 cssource/SWIGTYPE_p_EnumConstCache.cs \
-                cssource/SWIGTYPE_p_JSONValue.cs \
                 cssource/SWIGTYPE_p_std__istream.cs \
+                cssource/SWIGTYPE_p_std__listT_JSONValue_p_t.cs \
                 cssource/SWIGTYPE_p_std__listT_std__string_t.cs \
                 cssource/SWIGTYPE_p_std__ostream.cs \
                 cssource/SWIGTYPE_p_std__string.cs \

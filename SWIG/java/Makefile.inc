@@ -13,6 +13,7 @@ SWIG_GENERATED_JAVAFILES = \
                 jsource/eComparisonOp.java \
                 jsource/eComputedFeatureKind.java \
                 jsource/eEVkind.java \
+                jsource/eJSONValueKind.java \
                 jsource/EMdFDBDBError.java \
                 jsource/EMdFDBException.java \
                 jsource/EMdFDB.java \
@@ -38,6 +39,7 @@ SWIG_GENERATED_JAVAFILES = \
                 jsource/jemdrosConstants.java \
                 jsource/jemdros.java \
                 jsource/jemdrosJNI.java \
+                jsource/JSONValue.java \
                 jsource/ListOfStraws.java \
                 jsource/MatchedObject.java \
                 jsource/MaxRange.java \
@@ -71,8 +73,8 @@ SWIG_GENERATED_JAVAFILES = \
                 jsource/StringList.java \
                 jsource/StringVector.java \
                 jsource/SWIGTYPE_p_EnumConstCache.java \
-                jsource/SWIGTYPE_p_JSONValue.java \
                 jsource/SWIGTYPE_p_std__istream.java \
+                jsource/SWIGTYPE_p_std__listT_JSONValue_p_t.java \
                 jsource/SWIGTYPE_p_std__listT_std__string_t.java \
                 jsource/SWIGTYPE_p_std__ostream.java \
                 jsource/SWIGTYPE_p_std__string.java \
