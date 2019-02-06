@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 5/23-2017
+ * Last update: 2/6-2019
  *
  */
 
@@ -179,6 +179,10 @@ extern JSONValue *parseJSON(JSONExecEnv* pEE, const std::string& json_string, bo
 %apply std::string& OUTPUT { std::string& error_message }
 #endif
 extern JSONValue *readAndParseJSONFromString(const std::string& json_string, std::string& error_message);
+
+#ifdef SWIG
+%apply std::string& OUTPUT { std::string& error_message }
+#endif
 extern JSONValue *readAndParseJSONFromFile(const std::string& filename, std::string& error_message);
 
 #endif

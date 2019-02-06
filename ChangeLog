@@ -64,6 +64,10 @@
 	modified:   doc/progref/Content.txt
 	modified:   doc/progref/config.py.in
 
+	* include/json_classes.h: Add a SWIG directive so that the
+	"error_message" parameter is treated as an output parameter on
+	readAndParseJSONFromFile().
+
 2019-02-04 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre05.
