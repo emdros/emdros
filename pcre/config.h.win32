@@ -317,7 +317,7 @@ sure both macros are undefined; an emulation function will then be used. */
 /* #undef SUPPORT_PCRE32 */
 
 /* Define to any value to enable the 8 bit PCRE library. */
-#define SUPPORT_PCRE8 /**/
+#define SUPPORT_PCRE8 1
 
 /* Define to any value to enable JIT support in pcregrep. */
 /* #undef SUPPORT_PCREGREP_JIT */

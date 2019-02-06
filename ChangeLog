@@ -117,6 +117,9 @@
 	* tests/mqltry.cpp: Change the file from ISO-8859-1 (Latin-1)
 	encoding to UTF-8 encoding.
 
+	* pcre/config.h, pcre/config.h.win32: Define SUPPORT_UTF8 to 1,
+	not the empty comment.
+
 2019-02-04 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre05.
