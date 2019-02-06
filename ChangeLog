@@ -68,6 +68,17 @@
 	"error_message" parameter is treated as an output parameter on
 	readAndParseJSONFromFile().
 
+	* SWIG bindings: Reinstate the inclusion of
+	include/json_classes.h.  This had accidentally dropped out.
+
+	Files affected:
+
+	modified:   SWIG/csharp/libcsemdros.i
+	modified:   SWIG/java/libjemdros.i
+	modified:   SWIG/php7/libemdfphp.i
+	modified:   SWIG/python/pyemdros.i
+	modified:   SWIG/python3/py3emdros.i
+
 2019-02-04 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre05.

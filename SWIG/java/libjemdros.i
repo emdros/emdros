@@ -1,7 +1,7 @@
 /*
  * libjemdros.i: Java bindings for Emdros using SWIG
  * Created: 2/8-2003 (February 8, 2003)
- * Last update: 1/16-2019
+ * Last update: 2/6-2019
  *
  */
 
@@ -52,6 +52,8 @@
 #include "../../include/pgemdfdb.h"
 #include "../../include/mysqlemdfdb.h"
 #include "../../include/sqlite3emdfdb.h"
+#include "../../include/json_classes.h"
+	
 #include "../../include/mql_error.h"
 #include "../../include/mql_execute.h"
 #include "../../include/mql_types.h"
@@ -60,6 +62,7 @@
 #include "../../include/mql_execution_environment.h"
 #include "../../include/environment_emdros.h"
 #include "../../include/mql_enums.h"
+	
 #include "../../include/renderobjects.h"
 #include "../../include/renderxml.h"
 #include "../../include/harvest_fts.h"
@@ -167,6 +170,8 @@ emdf_throws(EmdrosException)
 %include "../../include/pgemdfdb.h"
 %include "../../include/mysqlemdfdb.h"
 %include "../../include/sqlite3emdfdb.h"
+%include "../../include/json_classes.h"
+	
 
 // MQL library
 %include "../../include/mql_execution_environment.h"

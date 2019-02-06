@@ -1,7 +1,7 @@
 /*
  * libemdfphp.i: SWIG interface to libemdf.la
  * Created: 2/8-2003 (February 8, 2003)
- * Last update: 4/18-2018
+ * Last update: 2/6-2019
  *
  */
 
