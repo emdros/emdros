@@ -1,4 +1,4 @@
-============ 3.7.0.pre05 ============
+============ 3.7.0.pre06 ============
 
 2019-02-13 Ulrik Sandborg-Petersen
 
@@ -29,6 +29,12 @@
 	modified:   include/Makefile.inc
 	modified:   include/emdf.h
 	modified:   include/emdros-lconfig.h.in
+
+	* configure.ac, debian/changelog: Bump to 3.7.0.pre06.
+
+	Ulrik realized he had already released 3.7.0.pre05.
+
+============ 3.7.0.pre05 ============
 
 2019-02-06 Ulrik Sandborg-Petersen
 
