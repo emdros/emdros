@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/14-2003
- * Last update: 2/6-2019
+ * Last update: 2/13-2019
  *
  */
 
@@ -32,7 +32,6 @@
 #include <mql_error.h>
 #include <mql_execution_environment.h>
 #include <environment_emdros.h>
-#include <version-emdros.h>
 #include <emdf_output.h>
 #include <mql_execute.h>
 #include <mql_sheaf.h>

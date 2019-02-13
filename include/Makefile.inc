@@ -72,7 +72,6 @@ PACKAGE_INCLUDE_HEADER_FILES_DIST = \
        emdf_output.h \
        emdros-config.h \
        emdros-lconfig.h \
-       version-emdros.h \
        genericdlg.h \
        layout.h \
        treeitem.h \

@@ -1,5 +1,17 @@
 ============ 3.7.0.pre05 ============
 
+2019-02-13 Ulrik Sandborg-Petersen
+
+	* include/emdros-version.h.in, include/version-emdros.h: Remove,
+	and move the following definitions to include/emdros-lconfig.h.in:
+
+	EMDROS_VERSION
+	EMDROS_VERSION_MAJOR
+	EMDROS_VERSION_MINOR
+	EMDROS_VERSION_RELEASE
+
+	Files affected:
+
 2019-02-06 Ulrik Sandborg-Petersen
 
 	* m4/emdros_solaris.m4: Move various definitions into a new file,

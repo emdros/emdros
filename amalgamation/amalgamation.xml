@@ -190,7 +190,6 @@
         <header_file name="include/utils.h" />
         <header_file name="include/zlib_emdros.h" />
         <header_file name="zlib/zlib.h" />
-        <header_file name="include/version-emdros.h" />
         <header_file name="include/lzma_emdros.h" />
         <header_file name="include/bpt2emdfdb.h" />
         <header_file name="include/bptemdfdb.h" />

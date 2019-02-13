@@ -1,6 +1,6 @@
 EXTRA_DIST = emdros-lconfig.h.in emdros-config.h.in \
              Makefile.inc win32.mak mingw.mak \
-             emdros-version.h.in prefix_emdros.h.in
+             prefix_emdros.h.in
 
 include Makefile.inc
 
@@ -40,7 +40,7 @@ noinst_HEADERS = mql_R.h \
        sqlite3conn.h \
        lzma_emdros.h \
        pcre_emdros.h zlib_emdros.h \
-       version-emdros.h prefix_emdros.h \
+       prefix_emdros.h \
        sqlite3_emdros.h \
        emdros_reserved_words.h 
 
@@ -48,12 +48,12 @@ noinst_HEADERS = mql_R.h \
 # pcre_emdros.h is placed here because automake doesn't support 
 # placing it in $(srcdir)/../pcre/Makefile.am
 BUILT_SOURCES = pcre_emdros.h zlib_emdros.h \
-                version-emdros.h prefix_emdros.h \
+                prefix_emdros.h \
                 sqlite3_emdros.h \
                 emdros_reserved_words.h 
 
 CLEANFILES = *~ pcre_emdros.h zlib_emdros.h \
-                version-emdros.h prefix_emdros.h \
+                prefix_emdros.h \
                 sqlite3_emdros.h \
                 emdros_reserved_words.h \
                 core 
@@ -119,10 +119,6 @@ sqlite3_emdros.h:
 endif
 
 
-
-version-emdros.h: emdros-version.h.in
-	$(top_builddir)/config.status --file=$(srcdir)/emdros-version.h
-	mv $(srcdir)/emdros-version.h $(srcdir)/version-emdros.h
 
 prefix_emdros.h: prefix_emdros.h.in
 	$(top_builddir)/config.status --file=$(srcdir)/prefix_emdros.h

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/30-2018
+ * Last update: 2/13-2019
  *
  */
 
@@ -34,7 +34,6 @@
  */
 
 #include "emdros-lconfig.h"
-#include "version-emdros.h"
 
 
 #if defined(_MSC_VER)
