@@ -108,6 +108,10 @@ Release notes for Emdros 3.7.0
     system-installed /usr), and to Fedora guidelines to best-practices
     for packaging.
 
+  - The file non-public header file, include/version-emdros.h, has
+    been removed. The content has been folded into the public header,
+    include/emdros-lconfig.h.
+
   - The m4/ directory has been totally reorganized.
 
   - The doc/ subdirectory has been totally revamped, with much
