@@ -4,6 +4,10 @@
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre07.
 
+	* src/qrytool/consout.cpp: In ConsoleQTOutput::printFeature(),
+	mark the object_type_name parameter as UNUSED, thus silencing a
+	warning.
+
 ============ 3.7.0.pre06 ============
 
 2019-02-13 Ulrik Sandborg-Petersen
