@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 10/21-2001
- * Last update: 1/19-2019
+ * Last update: 2/13-2019
  *
  */
 
@@ -33,9 +33,6 @@
 #if defined(_WIN32) || defined(WIN32)
 #include "win32-lconfig.h"
 #endif
-
-#include "version-emdros.h"
-
 
 #ifndef USE_POSTGRESQL
 #define USE_POSTGRESQL @USE_POSTGRESQL@
@@ -103,6 +100,23 @@
  */
 #define USE_SYSTEM_ZLIB (@USE_SYSTEM_ZLIB@)
 #endif
+
+#ifndef EMDROS_VERSION
+#define EMDROS_VERSION "@VERSION@"
+#endif
+
+#ifndef EMDROS_VERSION_MAJOR
+#define EMDROS_VERSION_MAJOR (@EMDROS_VERSION_MAJOR@)
+#endif
+
+#ifndef EMDROS_VERSION_MINOR
+#define EMDROS_VERSION_MINOR (@EMDROS_VERSION_MINOR@)
+#endif
+
+#ifndef EMDROS_VERSION_RELEASE
+#define EMDROS_VERSION_RELEASE (@EMDROS_VERSION_RELEASE@)
+#endif
+
 
 /* Is current version at least (<=) MAJOR.MINOR.RELEASE ? */
 #define EMDROS_CHECK_VERSION(MAJOR, MINOR, RELEASE) \
