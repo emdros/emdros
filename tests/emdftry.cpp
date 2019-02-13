@@ -3,7 +3,7 @@
  *
  * Trial of EMdF framework
  * Created: 1/27-2001
- * Last update: 11/30-2018
+ * Last update: 2/13-2019
  *
  */
 
@@ -597,6 +597,10 @@ int test_backend(eBackendKind backend_kind,
 		ASSERT_THROW(false, "Unknown backend");
 	}
 
+#if !(USE_POSTGRESQL) && !(USE_MYSQL)
+	UNUSED(hostname);
+	UNUSED(user);
+#endif
 
 
 	// Test connection

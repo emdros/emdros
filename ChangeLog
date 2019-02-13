@@ -8,6 +8,13 @@
 	mark the object_type_name parameter as UNUSED, thus silencing a
 	warning.
 
+	* tests/emdftry.cpp: Silence some 'unused parameter' warnings in
+	the case that USE_POSTGRESQL and USE_MYSQL are both false.  This
+	is a plausible scenario, if we are compiling for SQLite3 only, for
+	example.
+
+	* zlib/pcre_emdros.h.win32: Removed redundant file.
+
 ============ 3.7.0.pre06 ============
 
 2019-02-13 Ulrik Sandborg-Petersen
