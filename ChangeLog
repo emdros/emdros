@@ -1,3 +1,9 @@
+============ 3.7.0.pre07 ============
+
+2019-02-13 Ulrik Sandborg-Petersen
+
+	* configure.ac, debian/changelog: Bump to 3.7.0.pre07.
+
 ============ 3.7.0.pre06 ============
 
 2019-02-13 Ulrik Sandborg-Petersen
