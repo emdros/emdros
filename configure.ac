@@ -84,7 +84,6 @@ AC_CONFIG_FILES([Makefile
 		 sqlite3/src/Makefile	
 		 include/Makefile	 
                  include/emdros-lconfig.h
-                 include/emdros-version.h
                  EMdF/Makefile
                  MQL/Makefile
                  harvest/Makefile
