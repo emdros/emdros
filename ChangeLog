@@ -12,6 +12,16 @@
 
 	Files affected:
 
+	deleted:    include/emdros-version.h.in
+	modified:   configure.ac
+	modified:   .gitignore
+	modified:   MQL/emdros_environment.cpp
+	modified:   amalgamation/amalgamation.xml
+	modified:   include/Makefile.am
+	modified:   include/Makefile.inc
+	modified:   include/emdf.h
+	modified:   include/emdros-lconfig.h.in
+
 2019-02-06 Ulrik Sandborg-Petersen
 
 	* m4/emdros_solaris.m4: Move various definitions into a new file,
