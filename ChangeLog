@@ -10,6 +10,14 @@
 	EMDROS_VERSION_MINOR
 	EMDROS_VERSION_RELEASE
 
+	This was done because emdros-lconfig.h is part of the
+	amalgamation, but version-emdros.h is not.  Thus third-party
+	applications using the amalgamation would have a hard time
+	#include'ing the amalgamation, since version-emdros.h might not be
+	available.
+
+	The resolution has the effect of reducing the dependencies.
+
 	Files affected:
 
 	deleted:    include/emdros-version.h.in
