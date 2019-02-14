@@ -6,7 +6,7 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 11/30-2018
+ * Last update: 2/14-2019
  *
  */
 
@@ -766,12 +766,22 @@ void MainFrame::OnEditPaste(wxCommandEvent& event)
 	DoCopyOrCutOrPaste(wxID_PASTE, event);
 }
 
+wxString MainFrame::GetEditWindowText()
+{
+#if wxCHECK_VERSION(3,0,0)
+	return m_pEditWindow->GetValue();
+#elif wxCHECK_VERSION(2,8,0)
+	return m_pEditWindow->GetText();
+#else
+#error "Unkonwn wxWidgets version < 2.8.0"
+#endif
+}
 
 void MainFrame::OnToolsExecuteQuery(wxCommandEvent& event)
 {
 	(void)(event); // Silence a warning	
 
-	std::istringstream istr(std::string((const char*)(m_pEditWindow->GetValue().mb_str(wxConvUTF8))));
+	std::istringstream istr(std::string((const char*)(GetEditWindowText().mb_str(wxConvUTF8))));
 	if (m_pEE == 0 || !m_pEE->connectionOk()) {
 		wxEmdrosErrorMessage(wxT("Error: The connection to the backend is not OK.\n")
 				     wxT("You must use \"Tools\"-->\"New connection...\"\n")
@@ -896,7 +906,7 @@ void MainFrame::SaveOutputAreaAsHTML(const wxString& filename)
 
 void MainFrame::SaveQuery()
 {
-	SaveValueToFile(m_strCurFileName, m_pEditWindow->GetValue());
+	SaveValueToFile(m_strCurFileName, GetEditWindowText());
 }
 
 bool MainFrame::Connect()
@@ -981,7 +991,7 @@ bool MainFrame::Connect()
 			*/
 			// This is necessary on Windows, where the MQL parser otherwise complains
 			// about a strange token 'character something'.
-			if (m_pEditWindow->GetValue().empty()) {
+			if (GetEditWindowText().empty()) {
 				m_pEditWindow->ClearAll();
 			}
 			/*

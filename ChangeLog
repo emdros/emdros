@@ -6,6 +6,15 @@
 	"m_name.c_str()" instead of "m_name", thus making Sun's CC
 	compiler happy.
 
+	* src/qrytool/mainframe.h, src/qrytool/mainframe.cpp: Hopefully
+	reinstate compileability with wxWidgets 2.8, by adding a new
+	method:
+
+	wxString MainFrame::GetEditWindowText()
+
+	This checks for the wxWidgets version, and does the right thing
+	for wxWidgets >= 2.8 vs. 3.0.
+
 2019-02-13 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre07.

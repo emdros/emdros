@@ -224,6 +224,8 @@ public:
 	/// Should we show tooltips?
 	static bool ShowToolTips();
 
+	wxString GetEditWindowText();
+
 	////@begin MainFrame member variables
 	wxSplitterWindow* m_ctrlSplitterQueryResults;
 	wxSplitterWindow* m_ctrlSplitterLeftRight;
