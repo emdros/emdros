@@ -1,5 +1,11 @@
 ============ 3.7.0.pre07 ============
 
+2019-02-14 Ulrik Sandborg-Petersen
+
+	* amalgamation/mkamalgamation.cpp: Fix bug in fout.open: Use
+	"m_name.c_str()" instead of "m_name", thus making Sun's CC
+	compiler happy.
+
 2019-02-13 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre07.

@@ -4,7 +4,7 @@
  * A program to create the Emdros amalgamation.
  *
  * Created: 4/12-2016 
- * Last update: 2/6-2019
+ * Last update: 2/14-2019
  *
  * Return codes:
  * 
@@ -623,7 +623,7 @@ void TargetFile::write_h_amalgamation(std::ostream& fout, std::map<std::string, 
 void TargetFile::process(const std::string& preamble, std::map<std::string, std::string>& headers_available)
 {
 	std::ofstream fout;
-	fout.open(m_name);
+	fout.open(m_name.c_str());
 	if (!fout) {
 		throw AmalgamationQDException("ERROR: Could not open " + m_name + " for writing.\n");
 	}
