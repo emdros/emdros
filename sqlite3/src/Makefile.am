@@ -2,8 +2,6 @@ if HOSTISDARWIN
 MACLDFLAGS = -static
 endif
 
-VERSION=@SQLITE3_VERSION@
-
 noinst_HEADERS = sqlite3ext.h sqlite3.h
 
 EXTRA_DIST = win32.mak mingw.mak \

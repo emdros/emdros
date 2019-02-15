@@ -1,5 +1,25 @@
 ============ 3.7.0.pre07 ============
 
+2019-02-15 Ulrik Sandborg-Petersen
+
+	* sqlite3/VERSION: Remove this text file, since:
+
+	a) It had not been updated for a while (Ulrik had forgotten to do
+	so), and
+
+	b) Its contents were not being used anywhere, and
+
+	c) So it was a maintenance burden, and also completely
+	unnecessary.
+
+	Files affected:
+
+
+	modified:   m4/emdros_sqlite3.m4
+	modified:   sqlite3/Makefile.am
+	deleted:    sqlite3/VERSION
+	modified:   sqlite3/src/Makefile.am
+
 2019-02-14 Ulrik Sandborg-Petersen
 
 	* amalgamation/mkamalgamation.cpp: Fix bug in fout.open: Use
