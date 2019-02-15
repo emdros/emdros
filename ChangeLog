@@ -57,6 +57,11 @@
 	Such a re-implementation will not be called 'BPT version 2', to
 	minimize confusion.
 
+	PLEASE NOTE: The legal difficulties are of a financial nature
+	only, not an IP rights nature.  Ulriks' holding company owns the
+	full Intellectual Property Rights to the BPT engine, including
+	both versions 1 and 2.
+
 	2) Therefore, the current stubs in the Emdros code for BPT version
 	2 are a maintenance burden, not to mention code bloat.  There is
 	no code like No Code.
