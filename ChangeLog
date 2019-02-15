@@ -41,6 +41,10 @@
 	This is no longer necessary, and has not been since the beginning
 	days of the SQLite3 amalgamation.
 
+	* sqlite3/tool/lemon.c, sqlite3/tool/lempar.c: Update to the
+	latest lemon version, from the SQLite3 sources for SQLite 3.27.1
+	(2019-02-08).
+
 2019-02-14 Ulrik Sandborg-Petersen
 
 	* amalgamation/mkamalgamation.cpp: Fix bug in fout.open: Use
