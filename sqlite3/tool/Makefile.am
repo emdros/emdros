@@ -27,15 +27,5 @@ EXTRA_DIST = \
   vdbe-compress.tcl
 
 
-
-
-
-BUILT_SOURCES = $(srcdir)/../src/lempar.c 
-
-$(srcdir)/../src/lempar.c: lempar.c
-	cp $(srcdir)/lempar.c $(srcdir)/../src/
-
-
-
 CLEANFILES=*~ core
 

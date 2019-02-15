@@ -37,6 +37,10 @@
 	modified:   sqlite3/src/sqlite3.h
 	modified:   sqlite3/src/sqlite3ext.h
 
+	* sqlite3/tool/Makefile.am: Don't copy lempar.c to sqlite3/src/.
+	This is no longer necessary, and has not been since the beginning
+	days of the SQLite3 amalgamation.
+
 2019-02-14 Ulrik Sandborg-Petersen
 
 	* amalgamation/mkamalgamation.cpp: Fix bug in fout.open: Use
