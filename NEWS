@@ -55,7 +55,8 @@ Release notes for Emdros 3.7.0
   Thanks to Camil Staps for bringing this to Ulrik's attention.
 
 - Regular expressions are now treated as UTF8, not as legacy-encoding
-  raw 8-bit data.  This is true for MQL, as well as for the two kinds of configuration files (with and without [ini-file-like] sections.
+  raw 8-bit data.  This is true for MQL, as well as for the two kinds
+  of configuration files (with and without [ini-file-like] sections.
 
   In particular, character classes can now be used correctly with
   UTF8-encoded characters.  For example, the following now does the
@@ -79,7 +80,8 @@ Release notes for Emdros 3.7.0
   These SWIG bindings were removed because:
 
   - The language was EOL'ed (PHP5)
-  - The Emdros SWIG bindings had not been tested for several years (Ruby, Perl)
+  - The Emdros SWIG bindings had not been tested for several years
+    (Ruby, Perl)
   - They were redundant (Android).
 
   Users of Android should simply use the Java SWIG bindings instead.
@@ -93,7 +95,8 @@ Release notes for Emdros 3.7.0
   example-databases GitHub repos. This affects:
 
   - The Emdros Chunking Tool
-  - The HAL implementation (Hyperspace Analogue to Language of Burgess et al.)
+  - The HAL implementation (Hyperspace Analogue to Language of Burgess
+    et al.)
   - The King James Version, Parsed.
   - The sfm example.
 
