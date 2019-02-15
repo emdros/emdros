@@ -182,16 +182,6 @@ m4/lt~obsolete.m4
 missing
 pcre/dftables
 pcre/pcre_chartables.c
-sqlite/src/opcodes.c
-sqlite/src/opcodes.h
-sqlite/src/parse.c
-sqlite/src/parse.h
-sqlite/src/parse.out
-sqlite/src/sqconfig.h
-sqlite/src/sqlite.h
-sqlite/src/sqlite_emdros
-sqlite/src/temp
-sqlite/src/temp.c
 sqlite3/src/sqlite3_emdros
 sqlite3/src/sqlite3_localamalgam.c
 sqlite3/src/sqlite3_emdros_amalgamation.c
