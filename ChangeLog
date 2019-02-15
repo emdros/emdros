@@ -27,6 +27,16 @@
 	wxWidgets >= 2.8.0 && < 3.0.0, and to be a wxStyledTextCtrl under
 	wxWidgets >= 3.0.0.
 
+	* sqlite3/src/sqlite3.c: Upgrade to version 3.27.1 (2019-02-08)
+	from www.sqlite.org.
+
+	Files affected:
+
+	modified:   sqlite3/src/shell.c
+	modified:   sqlite3/src/sqlite3.c
+	modified:   sqlite3/src/sqlite3.h
+	modified:   sqlite3/src/sqlite3ext.h
+
 2019-02-14 Ulrik Sandborg-Petersen
 
 	* amalgamation/mkamalgamation.cpp: Fix bug in fout.open: Use
