@@ -20,6 +20,13 @@
 	deleted:    sqlite3/VERSION
 	modified:   sqlite3/src/Makefile.am
 
+	* src/qrytool/mainframe.h, src/qrytool/mainframe.cpp:
+
+	Attempt to reinstate compilability with wxWidgets 2.8, by
+	declaring MainFrame::m_pEditWindow to be a wxTextControl under
+	wxWidgets >= 2.8.0 && < 3.0.0, and to be a wxStyledTextCtrl under
+	wxWidgets >= 3.0.0.
+
 2019-02-14 Ulrik Sandborg-Petersen
 
 	* amalgamation/mkamalgamation.cpp: Fix bug in fout.open: Use

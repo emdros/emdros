@@ -6,7 +6,7 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 29/10-2018
+ * Last update: 2/15-2019
  *
  */
 
@@ -224,12 +224,19 @@ public:
 	/// Should we show tooltips?
 	static bool ShowToolTips();
 
+	void ClearEditWindowAndSetDefaultStyle();
 	wxString GetEditWindowText();
 
 	////@begin MainFrame member variables
 	wxSplitterWindow* m_ctrlSplitterQueryResults;
 	wxSplitterWindow* m_ctrlSplitterLeftRight;
+#if wxCHECK_VERSION(3,0,0)
 	wxStyledTextCtrl* m_pEditWindow;
+#elif wxCHECK_VERSION(2,8,0)
+	wxTextCtrl* m_pEditWindow;
+#else
+#error "Unkonwn wxWidgets version < 2.8.0"
+#endif
 	WXILLayoutCanvas* m_pResultsWindow;
 	wxTreeCtrl* m_pSchemaTree;
 	wxString m_strCurFileName;

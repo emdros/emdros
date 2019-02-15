@@ -6,7 +6,7 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 2/14-2019
+ * Last update: 2/15-2019
  *
  */
 
@@ -199,34 +199,7 @@ MainFrame::MainFrame( wxWindow* parent,
 
 	// Set default style of text controls
 	if (m_pOut != 0) {
-		wxFont *pFont = new wxFont(m_pOut->getInputAreaFontSize(), 
-					   wxFONTFAMILY_MODERN, 
-					   wxFONTSTYLE_NORMAL, 
-					   wxFONTWEIGHT_NORMAL, 
-					   FALSE, 
-					   m_pOut->getInputAreaFontName());
-
-		//pFont->SetPointSize(m_pOut->getInputAreaFontSize());
-
-		/*
-		wxTextAttr inputAreaTextAttr(*wxBLACK, wxNullColour,
-					     *pFont,
-					     wxTEXT_ALIGNMENT_LEFT);
-		inputAreaTextAttr.SetFlags(wxTEXT_ATTR_TEXT_COLOUR
-					   | wxTEXT_ATTR_FONT_FACE
-					   | wxTEXT_ATTR_FONT_SIZE
-					   | wxTEXT_ATTR_FONT_WEIGHT
-					   | wxTEXT_ATTR_FONT_ITALIC
-					   | wxTEXT_ATTR_FONT_UNDERLINE
-					   | wxTEXT_ATTR_ALIGNMENT);
-		*/
-		m_pEditWindow->ClearAll();
-		/*
-		m_pEditWindow->SetDefaultStyle(inputAreaTextAttr);
-		*/
-		m_pEditWindow->SetFont(*pFont);
-		delete pFont;
-		// m_pEditWindow->SetStyle(0, m_pEditWindow->GetLastPosition(), inputAreaTextAttr);
+		ClearEditWindowAndSetDefaultStyle();		
 	}
 	m_pOut->print(std::string((const char*) (wxString(wxT("Welcome.  Press the first button ")
 							  wxT("(\"connect to database\") in ")
@@ -330,14 +303,7 @@ void MainFrame::CreateControls()
 
 	m_ctrlSplitterQueryResults = new wxSplitterWindow( m_ctrlSplitterLeftRight, ID_SPLITTERWINDOW, wxDefaultPosition, wxSize(100, 100), wxSP_3DBORDER|wxSP_3DSASH|wxNO_BORDER );
 
-	/*
-	m_pEditWindow = new MyTextCtrl( m_ctrlSplitterQueryResults,
- 					ID_TEXTCTRL_EDIT_WINDOW,
-					wxT(""), 
-					wxDefaultPosition, 
-					wxDefaultSize, 
-					wxTE_MULTILINE | wxTE_RICH2 | wxTE_PROCESS_TAB );
-	*/
+#if wxCHECK_VERSION(3,0,0)
 	m_pEditWindow = new wxStyledTextCtrl(m_ctrlSplitterQueryResults,
 					     ID_TEXTCTRL_EDIT_WINDOW,
 					     wxDefaultPosition, 
@@ -347,33 +313,34 @@ void MainFrame::CreateControls()
 					 
 					 
 	m_pEditWindow->SetHelpText(wxT("For writing your query or configuration."));
-	/*
-	if (ShowToolTips())
+
+
+#elif wxCHECK_VERSION(2,8,0)
+	m_pEditWindow = new MyTextCtrl( m_ctrlSplitterQueryResults,
+ 					ID_TEXTCTRL_EDIT_WINDOW,
+					wxT(""), 
+					wxDefaultPosition, 
+					wxDefaultSize, 
+					wxTE_MULTILINE | wxTE_RICH2 | wxTE_PROCESS_TAB );
+
+	if (ShowToolTips()) {
 		m_pEditWindow->SetToolTip(wxT("Write your query or configuration here."));
-	*/
+	}
 
-#ifdef __WXMSW__
-	wxFont *pFont = new wxFont(12, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, FALSE, wxT("Courier New"));
-	pFont->SetPointSize(12);
-	m_pEditWindow->SetFont(*pFont);
-	delete pFont;
-
-#else  // Not windows
-
-	wxFont *pFont = new wxFont(12, wxFONTFAMILY_MODERN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, FALSE, wxT("Courier New"));
-	pFont->SetPointSize(12);
-	m_pEditWindow->SetFont(*pFont);
-	delete pFont;
 #endif
+
+	ClearEditWindowAndSetDefaultStyle();
 
 
 	m_pResultsWindow = new WXILLayoutCanvas( m_ctrlSplitterQueryResults, wxDefaultPosition, wxDefaultSize, 0, m_pConf);
+#if wxCHECK_VERSION(3,0,0)
 	m_pResultsWindow->SetHelpText(wxT("The results will be shown here."));
-	/*
-	if (ShowToolTips())
+#elif wxCHECK_VERSION(2,8,0)
+	if (ShowToolTips())  {
 		m_pResultsWindow->SetToolTip(wxT("The results will be shown here."));
-	*/
-
+	}
+#endif
+	
 	m_ctrlSplitterQueryResults->SplitHorizontally(m_pEditWindow, m_pResultsWindow, 25);
 
 	m_ctrlSplitterLeftRight->SplitVertically(m_ctrlSplitterQueryResults, m_pSchemaTree, 200);
@@ -766,15 +733,55 @@ void MainFrame::OnEditPaste(wxCommandEvent& event)
 	DoCopyOrCutOrPaste(wxID_PASTE, event);
 }
 
+void MainFrame::ClearEditWindowAndSetDefaultStyle()
+{
+	int nInputAreaFontSize;
+	wxString strInputAreaFontName;
+	if (m_pOut != 0) {
+		nInputAreaFontSize = m_pOut->getInputAreaFontSize();
+		strInputAreaFontName = m_pOut->getInputAreaFontName();
+	} else {
+		nInputAreaFontSize = 12;
+		strInputAreaFontName = "Courier New";
+	}
+	
+	wxFont *pFont = new wxFont(nInputAreaFontSize, 
+				   wxFONTFAMILY_MODERN, 
+				   wxFONTSTYLE_NORMAL, 
+				   wxFONTWEIGHT_NORMAL, 
+				   FALSE, 
+				   strInputAreaFontName);
+
+	pFont->SetPointSize(nInputAreaFontSize);
+	
+#if wxCHECK_VERSION(3,0,0)
+	m_pEditWindow->ClearAll();
+	
+	m_pEditWindow->SetFont(*pFont);
+#elif wxCHECK_VERSION(2,8,0)
+	m_pEditWindow->Clear();
+	
+	wxTextAttr inputAreaTextAttr(*wxBLACK, wxNullColour,
+				     *pFont,
+				     wxTEXT_ALIGNMENT_LEFT);
+	inputAreaTextAttr.SetFlags(wxTEXT_ATTR_TEXT_COLOUR
+				   | wxTEXT_ATTR_FONT_FACE
+				   | wxTEXT_ATTR_FONT_SIZE
+				   | wxTEXT_ATTR_FONT_WEIGHT
+				   | wxTEXT_ATTR_FONT_ITALIC
+				   | wxTEXT_ATTR_FONT_UNDERLINE
+				   | wxTEXT_ATTR_ALIGNMENT);
+	
+	m_pEditWindow->SetDefaultStyle(inputAreaTextAttr);
+	m_pEditWindow->SetStyle(0, m_pEditWindow->GetLastPosition(), inputAreaTextAttr);
+#endif
+	delete pFont;
+}
+
+
 wxString MainFrame::GetEditWindowText()
 {
-#if wxCHECK_VERSION(3,0,0)
 	return m_pEditWindow->GetValue();
-#elif wxCHECK_VERSION(2,8,0)
-	return m_pEditWindow->GetText();
-#else
-#error "Unkonwn wxWidgets version < 2.8.0"
-#endif
 }
 
 void MainFrame::OnToolsExecuteQuery(wxCommandEvent& event)
@@ -849,7 +856,11 @@ void MainFrame::OnFileExit(wxCommandEvent& event)
 
 void MainFrame::ClearTextCtrls(void)
 {
+#if wxCHECK_VERSION(3,0,0)
 	m_pEditWindow->ClearAll();
+#elif wxCHECK_VERSION(2,8,0)
+	m_pEditWindow->Clear();
+#endif
 	m_pResultsWindow->Clear();
 	this->Refresh();
 }
@@ -967,40 +978,7 @@ bool MainFrame::Connect()
 
 		// Set size and font name of input area
 		if (m_pOut != 0) {
-			wxFont *pFont = new wxFont(m_pOut->getInputAreaFontSize(), 
-						   wxFONTFAMILY_MODERN, 
-						   wxFONTSTYLE_NORMAL, 
-						   wxFONTWEIGHT_NORMAL, 
-						   FALSE, 
-						   m_pOut->getInputAreaFontName());
-
-			// This is necessary on wxWidgets 2.9.5, where
-			// the interpretation of the pixel size has changed.
-			pFont->SetPointSize(m_pOut->getInputAreaFontSize());
-		
-			wxTextAttr inputAreaTextAttr(*wxBLACK, wxNullColour,
-						     *pFont);
-			/*
-			inputAreaTextAttr.SetFlags(wxTEXT_ATTR_TEXT_COLOUR
-						   | wxTEXT_ATTR_FONT_FACE
-						   | wxTEXT_ATTR_FONT_SIZE
-						   | wxTEXT_ATTR_FONT_WEIGHT
-						   | wxTEXT_ATTR_FONT_ITALIC
-						   | wxTEXT_ATTR_FONT_UNDERLINE
-						   | wxTEXT_ATTR_ALIGNMENT);
-			*/
-			// This is necessary on Windows, where the MQL parser otherwise complains
-			// about a strange token 'character something'.
-			if (GetEditWindowText().empty()) {
-				m_pEditWindow->ClearAll();
-			}
-			/*
-			m_pEditWindow->SetDefaultStyle(inputAreaTextAttr);
-			m_pEditWindow->SetStyle(0, m_pEditWindow->GetLastPosition(), inputAreaTextAttr);
-			*/
-			m_pEditWindow->SetFont(*pFont);
-			delete pFont;
-
+			ClearEditWindowAndSetDefaultStyle();
 		}
 	
 		// Check that connection is OK
