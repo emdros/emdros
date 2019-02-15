@@ -742,7 +742,7 @@ void MainFrame::ClearEditWindowAndSetDefaultStyle()
 		strInputAreaFontName = m_pOut->getInputAreaFontName();
 	} else {
 		nInputAreaFontSize = 12;
-		strInputAreaFontName = "Courier New";
+		strInputAreaFontName = wxT("Courier New");
 	}
 	
 	wxFont *pFont = new wxFont(nInputAreaFontSize, 
