@@ -45,6 +45,54 @@
 	latest lemon version, from the SQLite3 sources for SQLite 3.27.1
 	(2019-02-08).
 
+	* BPT2: Remove all references to the BPT2 engine.
+
+	This is done for two reasons:
+
+	1) Legal, financial constraints arising out of contractual
+	obligations with Ulrik's former employer make it unlikely that the
+	BPT2 engine can reach its full financial potential.  It is better
+	to reimplement the best of the ideas without legal encumbrances.
+
+	Such a re-implementation will not be called 'BPT version 2', to
+	minimize confusion.
+
+	2) Therefore, the current stubs in the Emdros code for BPT version
+	2 are a maintenance burden, not to mention code bloat.  There is
+	no code like No Code.
+
+	Files affected:
+
+	modified:   EMdF/Makefile.am
+	modified:   EMdF/mingw.mak
+	modified:   EMdF/string_func.cpp
+	modified:   EMdF/win32.mak
+	modified:   INSTALL
+	modified:   MQL/emdros_environment.cpp
+	modified:   MQL/mql_database_statements.cpp
+	modified:   amalgamation/amalgamation.xml
+	modified:   configure.ac
+	modified:   emdros.spec.in
+	modified:   include/Makefile.am
+	modified:   include/Makefile.inc
+	modified:   include/emdf_enums.h
+	modified:   include/emdros-lconfig.h.in
+	modified:   include/mingw.mak
+	modified:   m4/emdros_banner.m4
+	modified:   m4/emdros_buildenv_end.m4
+	modified:   src/bptdump.cpp
+	modified:   tests/bpttry.cpp
+	modified:   tests/mqltry.cpp
+	modified:   util/Makefile.am
+	modified:   util/messages.cpp
+	modified:   util/mingw.mak
+	modified:   util/opt.cpp
+	modified:   util/win32.mak
+	modified:   win32/body.mak
+	modified:   win32/config.mak.in
+	modified:   win32/lconfig.h.win32.in
+	modified:   win32/win32.mak
+
 2019-02-14 Ulrik Sandborg-Petersen
 
 	* amalgamation/mkamalgamation.cpp: Fix bug in fout.open: Use

@@ -23,7 +23,7 @@ libutil_emdros_la_SOURCES = mql_exporter.cpp opt.cpp \
                             schema.cpp \
                             messages.cpp \
                             md5_emdros.cpp \
-                            bptdumper.cpp bpt2dumper.cpp erw.cpp
+                            bptdumper.cpp erw.cpp
 
 
 CLEANFILES = *~ core \

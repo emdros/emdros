@@ -62,7 +62,6 @@ PACKAGE_INCLUDE_HEADER_FILES_DIST = \
        pgemdfdb.h \
        sqlite3emdfdb.h \
        bptemdfdb.h \
-       bpt2emdfdb.h \
        string_func.h \
        string2som_map.h \
        string_list.h \
@@ -90,7 +89,6 @@ PACKAGE_INCLUDE_HEADER_FILES_DIST = \
        slashedtextimporter.h \
        sfmimporter.h \
        bptdumper.h \
-       bpt2dumper.h \
        conf.h \
        conf_ini.h \
        opt.h \

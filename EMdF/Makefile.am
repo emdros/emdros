@@ -41,7 +41,6 @@ emdflib_src = arena.cpp \
        conn.cpp \
        emdf_primes.cpp \
        bptemdfdb.cpp \
-       bpt2emdfdb.cpp \
        emdfdb.cpp \
        pgemdfdb.cpp \
        mysqlemdfdb.cpp \

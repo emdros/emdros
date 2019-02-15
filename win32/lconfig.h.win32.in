@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 10/21-2001
- * Last update: 1/16-2019
+ * Last update: 2/15-2019
  *
  */
 
@@ -47,10 +47,6 @@
 
 #ifndef USE_BPT
 #define USE_BPT (0)
-#endif
-
-#ifndef USE_BPT2
-#define USE_BPT2 (0)
 #endif
 
 #ifndef DEFAULT_BACKEND_ENUM

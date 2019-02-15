@@ -85,7 +85,6 @@ LIBTARGET_OBJS= \
 	json_lexer.o \
 	lzma_emdros.o \
 	bptemdfdb.o \
-	bpt2emdfdb.o \
         $(LIB_EXTRA_OBJS)
 
 

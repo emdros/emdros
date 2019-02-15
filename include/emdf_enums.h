@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 8/21-2003
- * Last update: 11/14-2018
+ * Last update: 2/15-2019
  *
  */
 
@@ -177,8 +177,7 @@ enum eBackendKind {
 	kMySQL = 2,      /**< MySQL */
 	kSQLite2 = 3,    /**< SQLite 2.X.X */ // No longer available.
 	kSQLite3 = 4,    /**< SQLite 3.X.X */
-	kBPT = 5,        /**< Bit Packed Table version 1 */
-	kBPT2 = 6        /**< Bit Packed Table version 2 */
+	kBPT = 5         /**< Bit Packed Table version 1 */
 };
 
 

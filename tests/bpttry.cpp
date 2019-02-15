@@ -3,7 +3,7 @@
  *
  * Trial of MQL and EMdF framework
  * Created: 3/6-2001 (March 6, 2001)
- * Last update: 5/11-2018
+ * Last update: 2/15-2019
  *
  */
 
@@ -35,9 +35,7 @@
 #include <opt.h>
 #include <messages.h>
 #include <bptdumper.h>
-#include <bpt2dumper.h>
 #include <bptemdfdb.h>
-#include <bpt2emdfdb.h>
 #include "bptqa.h"
 
 
@@ -218,14 +216,6 @@ bool exec_dumpDB(EmdrosEnv *pEE, eBackendKind BPT_backend_kind, const std::strin
 				       "", // payload filename
 				       "", // payload key
 				       ""); // payload codec
-	} else if (BPT_backend_kind == kBPT2) {
-		bResult = BPT2dumpAsBPT2(pEE, 
-					 db_name, 
-					 password_bpt,  // key
-					 error_message, 
-					 BPT_SCHEMA, 
-					 "", // payload filename
-					 ""); // payload key
 	} else {
 		ASSERT_THROW(false,
 			     "Unknown BPT_backend_kind.");
@@ -698,10 +688,7 @@ int testBPTEngine(EmdrosEnv *pEE, int nBPTVersion, const std::string& password_b
 		BPT_SCHEMA_vec.push_back(BPT_SCHEMA_5);
 		BPT_SCHEMA_vec.push_back(BPT_SCHEMA_7);
 		BPT_backend_kind = kBPT;
-	} else {
-		BPT_SCHEMA_vec.push_back(BPT_SCHEMA_1);
-		BPT_backend_kind = kBPT2;
-	}
+	} 
 
 	bSomethingTested = true;
 	
@@ -813,7 +800,7 @@ int testBPTEngine(EmdrosEnv *pEE, int nBPTVersion, const std::string& password_b
 int testall(EmdrosEnv *pEE)
 {
 	int nResult = 0;
-	(void) pEE; // Silence a warning when we don't have BPT or BPT2.
+	(void) pEE; // Silence a warning when we don't have BPT.
 	
 #if defined(USE_BPT) && USE_BPT
 	if (nResult == 0) {
@@ -829,22 +816,6 @@ int testall(EmdrosEnv *pEE)
 		// Test BPT version 1, with char-encoded password
 		std::string password_bpt_56_bit = "\xc4\x08\xd8\x33\xb9\x5f\x70";
 		nResult = testBPTEngine(pEE, 1, password_bpt_56_bit);
-	}
-#endif
-#if defined(USE_BPT2) && USE_BPT2
-	if (nResult == 0) {
-		// Test BPT version 2
-		nResult = testBPTEngine(pEE, 2, "");
-	}
-	if (nResult == 0) {
-		// Test BPT version 2, with password
-		std::string password_bpt_56_bit = "0xfe3a3b53 0x2344ceb5"
-		nResult = testBPTEngine(pEE, 2, password_bpt_56_bit);
-	}
-	if (nResult == 0) {
-		// Test BPT version 2, with char-encoded password
-		std::string password_bpt_56_bit = "\x7d\x1f\xea\x92\xf3\xe5\x6a";
-		nResult = testBPTEngine(pEE, 2, password_bpt_56_bit);
 	}
 #endif
 	return nResult;

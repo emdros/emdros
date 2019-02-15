@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/1-2001
- * Last update: 11/30-2018
+ * Last update: 2/19-2019
  *
  */
 
@@ -221,8 +221,6 @@ std::string backend_kind2string(eBackendKind backend_kind)
 		return "SQLite3";
 	case kBPT:
 		return "bpt";
-	case kBPT2:
-		return "bpt2";
 	case kBackendNone:
 		return "BackendNone";
 	default:
@@ -1160,10 +1158,6 @@ bool string2backend_kind(const std::string& input, eBackendKind& backend)
 	} else if (strcmp_nocase(input, "b") == 0
 		   || strcmp_nocase(input, "bpt") == 0) {
 		backend = kBPT;
-		return true;
-	} else if (strcmp_nocase(input, "b2") == 0
-		   || strcmp_nocase(input, "bpt2") == 0) {
-		backend = kBPT2;
 		return true;
 	} else {
 		return false;

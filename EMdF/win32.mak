@@ -84,7 +84,6 @@ LIBTARGET_OBJS= \
 	"$(INTDIR)\json_lexer.obj" \
 	"$(INTDIR)\lzma_emdros.obj" \
 	"$(INTDIR)\bptemdfdb.obj" \
-	"$(INTDIR)\bpt2emdfdb.obj" \
         $(LIB_EXTRA_OBJS)
 
 

@@ -20,8 +20,7 @@ LIBTARGET_OBJS= \
         schema.o \
         erw.o \
         mql_exporter.o \
-        bptdumper.o \
-        bpt2dumper.o
+        bptdumper.o 
 
 
 

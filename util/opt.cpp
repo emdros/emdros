@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 7/19-2006
- * Last update: 4/18-2018
+ * Last update: 2/15-2019
  *
  */
 
@@ -281,9 +281,6 @@ std::string getBackendsAvailable()
 	if (USE_BPT) {
 		backend_list.push_back("BPT");
 	}
-	if (USE_BPT2) {
-		backend_list.push_back("BPT2");
-	}
 	std::string backend_string = joinList(", ", backend_list, 256);
 	return backend_string;
 }
@@ -311,7 +308,6 @@ void printUsageStandardArguments(std::ostream& ostr)
 	ostr << "                        For PostgreSQL: p, pg, postgres, postgresql" << std::endl;
 	ostr << "                        For SQLite 3.X.X: 3, lt3, sqlite3, s3" << std::endl;
 	ostr << "                        For the BPT engine version 1: b, bpt" << std::endl;
-	ostr << "                        For the BPT engine version 2: b2, bpt2" << std::endl;
 	ostr << "                        ... all are case-IN-sensitive." << std::endl;
 	ostr << "                        BACKENDS AVAILABLE IN THIS BUILD:\n"
 	     << "                        " << getBackendsAvailable() << std::endl;

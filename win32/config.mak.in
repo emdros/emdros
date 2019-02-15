@@ -44,21 +44,6 @@ PGSQL=0
 #
 BPT=0
 
-#
-# The BPT2 backend is a database backend similar to the BPT backend,
-# developed by the author of Emdros.
-#
-# It compresses the data even more than BPT.
-#
-# BPT2 is proprietary, and only available by licensing from Ulrik
-# Sandborg-Petersen.
-#
-# Feel free to inquire about the BPT2 backend: ulrikp@emdros.org.
-#
-# If you have obtained a license, and therefore the source code,
-# you can set the following to 1.
-#
-BPT2=0
 
 
 # -----------------------

@@ -327,7 +327,7 @@ into the debian/rules file, meaning they will also be effective after
 you run make dist.  For example, you could do the following instead of
 merely configure:
 
-./configure  --with-swig-language-nodejs=no --with-swig-language-java=no  --with-swig-language-python2=yes  --with-swig-language-python3=yes --with-swig-language-php7=no --with-swig-language-php=no --with-wx=maybe  --with-sqlite3=yes  --with-mysql=no  --with-bpt=maybe  --with-bpt2=maybe --enable-shared=yes  --disable-debug  
+./configure  --with-swig-language-nodejs=no --with-swig-language-java=no  --with-swig-language-python2=yes  --with-swig-language-python3=yes --with-swig-language-php7=no --with-swig-language-php=no --with-wx=maybe  --with-sqlite3=yes  --with-mysql=no  --with-bpt=maybe  --enable-shared=yes  --disable-debug  
 
 Then these options will be carried over into debian/rules, via
 debian/rules.in.
@@ -467,32 +467,6 @@ sources, overwriting all files.
   provided you have unpacked the BPT sources correctly.
 
 
---with-bpt2
------------
-
-A backend exists, called BPT2, or BPT engine version 2.  BPT2 is much
-faster than the BPT engine version 1, and the databases are much
-smaller than even BPT version 1's databases for the same data.
-
-The BPT2 backend is proprietary, and not part of the Open Source
-version of Emdros.
-
-The BPT2 backend comes with built-in, optional encryption.
-
-If you are interested in licensing the BPT2 backend, please get in
-touch with Ulrik Sandborg-Petersen, the author of Emdros, via email:
-ulrikp@emergence.dk
-
-The BPT2 engine is turned off by default, given that it is not part of
-the Open Source version of Emdros.  In case you have the source code
-and a license to it, you can enable it by:
-
-1) Unpacking the source code for the BPT2 engine inside the Emdros
-sources, overwriting all files.
-
-2) Run configure.  Merely running configure will pick up the fact that
-   the BPT2 engine is present, provided you have unpacked the BPT2
-   sources correctly.
 
 
 
@@ -531,7 +505,6 @@ The most important ones are:
 - --with-postgresql=[yes|no|maybe]
 - --with-sqlite3=[yes|no|maybe|system|local]
 - --with-bpt=[yes|no|maybe]          (off by default)
-- --with-bpt2=[yes|no|maybe]         (off by default)
 - --with-wx=[yes|no|maybe]   (enables wxWidgets programs -- on by default if present on system)
 - --enable-debug             (on by default)
 - --disable-debug

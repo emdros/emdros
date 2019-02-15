@@ -52,7 +52,6 @@
 #include <messages.h>
 
 #include <bptdumper.h>
-#include <bpt2dumper.h>
 
 
 bool exec_bptdumper(EmdrosEnv *pSourceEE, const std::string& bptfilename, const std::string& bptkey, eBackendKind backend_kind, long schema_version, const std::string& payload_filename, const std::string& payload_inkey, const std::string& payload_codec)
@@ -62,8 +61,6 @@ bool exec_bptdumper(EmdrosEnv *pSourceEE, const std::string& bptfilename, const 
 	std::string error_message;
 	if (backend_kind == kBPT) {
 		bResult = BPTdumpAsBPT(pSourceEE, bptfilename, bptkey, error_message, schema_version, payload_filename, payload_inkey, payload_codec);
-	} else if (backend_kind == kBPT2) {
-		bResult = BPT2dumpAsBPT2(pSourceEE, bptfilename, bptkey, error_message, schema_version, payload_filename, payload_inkey);
 	} else {
 		bResult = false;
 		error_message = "Unknown BPT backend.\n\n";
@@ -103,13 +100,12 @@ void print_usage(std::ostream& ostr)
 	ostr << "   -pk, --payload-key key  Use this key to decrypt the payload (default none)" << std::endl;
 	ostr << "   -pc, --payload-codec cd Use this code to compress the payload (zlib, lzma)" << std::endl;
 	ostr << "   --key key               Encrypt BPT db with this key" << std::endl;
-	ostr << "   -bv, --bpt-version (1|2) Which BPT version to use" << std::endl;
+	ostr << "   -bv, --bpt-version 1    Which BPT version to use" << std::endl;
 	ostr << "   --schema (1|3|5|7)      Which BPT schema version to use" << std::endl;
 	ostr << "DEFAULTS:" << std::endl;
 	printUsageDefaultsOfStandardArguments(ostr);
 	ostr << "   --bpt-version 1" << std::endl;
 	ostr << "   --schema 3 (for BPT version 1)" << std::endl;
-	ostr << "   --schema 1 (for BPT version 2)" << std::endl;
 	ostr << "   --payload-codec zlib" << std::endl;
 }
 
@@ -227,13 +223,9 @@ int main(int argc, char* argv[])
 		if (bpt_version == "1") {
 			schema_version = string2long(bptschema_version);
 			bpt_backend_kind = kBPT;
-		} else if (bpt_version == "2") {
-			// We don't have any other than schema version 1
-			schema_version = 1;
-			bpt_backend_kind = kBPT2;
 		} else {
 			std::cerr << "Error: Unknown bpt backend version: " << bpt_version << ".\n"
-				  << "       Only known versions so far: 1 and 2.\n" << std::endl;
+				  << "       Only known version so far: 1\n" << std::endl;
 			return 1;
 		}
 

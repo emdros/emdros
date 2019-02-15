@@ -67,8 +67,6 @@ fi
 
 if test "x$USE_BPT" = "x1"; then
    addlibz="yes"
-elif test "x$USE_BPT2" = "x1"; then
-   addlibz="yes"
 fi
 
 

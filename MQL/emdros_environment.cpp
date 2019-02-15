@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/14-2003
- * Last update: 2/13-2019
+ * Last update: 2/15-2019
  *
  */
 
@@ -52,7 +52,6 @@
 #include <sqlite3emdfdb.h>
 #endif
 #include <bptemdfdb.h>
-#include <bpt2emdfdb.h>
 
 // Only used by constructors
 /** Initialize EmdrosEnv
@@ -105,8 +104,6 @@ void EmdrosEnv::init(std::ostream* output_stream,
 #endif
 	} else if (backend_kind == kBPT) {
 		pDB = new BPTEMdFDB(initial_db, password);
-	} else if (backend_kind == kBPT2) {
-		pDB = new BPT2EMdFDB(initial_db, password);
 	} else {
 		ASSERT_THROW(false, "Unknown backend");
 	}

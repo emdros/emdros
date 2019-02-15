@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 10/6-2006 (October 6, 2006)
- * Last update: 4/18-2018
+ * Last update: 2/15-2019
  *
  */
 
@@ -57,12 +57,6 @@ void emdrosMessageConnectionNotOK(std::ostream *pOut, eBackendKind kind)
 		(*pOut) << "Connection to BPT database could not be established." << std::endl;
 		(*pOut) << "\nIf this is the Open Source version of Emdros, please be aware\n"
 			<< "that the BPT backend is only available through licensing from\n"
-			<< "the author of Emdros, Ulrik Sandborg-Petersen. Feel free to contact him:\n" 
-			<< "ulrikp@emdros.org\n\nThanks!" << std::endl;
-	} else if (kind == kBPT2) {
-		(*pOut) << "Connection to BPT2 database could not be established." << std::endl;
-		(*pOut) << "\nIf this is the Open Source version of Emdros, please be aware\n"
-			<< "that the BPT2 backend is only available through licensing from\n"
 			<< "the author of Emdros, Ulrik Sandborg-Petersen. Feel free to contact him:\n" 
 			<< "ulrikp@emdros.org\n\nThanks!" << std::endl;
 	} else {

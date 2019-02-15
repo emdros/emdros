@@ -20,9 +20,7 @@ LIBTARGET_OBJS= \
         "$(INTDIR)\erw.obj" \
         "$(INTDIR)\schema.obj" \
         "$(INTDIR)\mql_exporter.obj" \
-        "$(INTDIR)\bptdumper.obj" \
-        "$(INTDIR)\bpt2dumper.obj"
-
+        "$(INTDIR)\bptdumper.obj" 
 
 
 !INCLUDE $(WIN32DIR)\config.mak

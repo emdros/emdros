@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 10/21-2001
- * Last update: 2/13-2019
+ * Last update: 2/15-2019
  *
  */
 
@@ -48,10 +48,6 @@
 
 #ifndef USE_BPT
 #define USE_BPT @USE_BPT@
-#endif
-
-#ifndef USE_BPT2
-#define USE_BPT2 @USE_BPT2@
 #endif
 
 #ifndef LINUX

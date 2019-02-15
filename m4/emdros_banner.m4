@@ -21,8 +21,6 @@ fi
 echo "SQLite 3.X.X:         $DO_SQLITE3"
 dnl echo "MongoDB:              $DO_MONGODB"
 echo "BPT:                  $DO_BPT"
-echo "BPT2:                 $DO_BPT2"
-
 echo ""
 
 if test "x$USE_CONFIGURE_DEFAULT_BACKEND_ENUM" != "x0"; then

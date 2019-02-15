@@ -78,11 +78,11 @@ zlib_emdros.h: $(srcdir)/../zlib/zlib.h zconf.h
 	echo '#ifndef ZLIB_EMDROS_H_' >> zlib_emdros.h
 	echo '#define ZLIB_EMDROS_H_' >> zlib_emdros.h
 	echo '#include "emdros-lconfig.h"' >> zlib_emdros.h
-	echo '#if (defined(USE_BPT) && USE_BPT) || (defined(USE_BPT2) && USE_BPT2)' >> zlib_emdros.h
+	echo '#if (defined(USE_BPT) && USE_BPT)' >> zlib_emdros.h
 	echo '' >> zlib_emdros.h
 	echo '#include "zconf.h"' >> ./zlib_emdros.h
 	cat $(srcdir)/../zlib/zlib.h >> ./zlib_emdros.h
-	echo '#endif /* (defined(USE_BPT) && USE_BPT) || (defined(USE_BPT2) && USE_BPT2) */' >> zlib_emdros.h
+	echo '#endif /* (defined(USE_BPT) && USE_BPT) */' >> zlib_emdros.h
 	echo '#endif /* !defined(ZLIB_EMDROS_H_) */' >> zlib_emdros.h
 else
 zlib_emdros.h:
@@ -90,9 +90,9 @@ zlib_emdros.h:
 	echo '#ifndef ZLIB_EMDROS_H_' >> zlib_emdros.h
 	echo '#define ZLIB_EMDROS_H_' >> zlib_emdros.h
 	echo '#include "emdros-lconfig.h"' >> zlib_emdros.h
-	echo '#if (defined(USE_BPT) && USE_BPT) || (defined(USE_BPT2) && USE_BPT2)' >> zlib_emdros.h
+	echo '#if (defined(USE_BPT) && USE_BPT)' >> zlib_emdros.h
 	echo "#include <zlib.h>" >> zlib_emdros.h
-	echo '#endif /* (defined(USE_BPT) && USE_BPT) || (defined(USE_BPT2) && USE_BPT2) */' >> zlib_emdros.h
+	echo '#endif /* (defined(USE_BPT) && USE_BPT) */' >> zlib_emdros.h
 	echo '#endif /* !defined(ZLIB_EMDROS_H_) */' >> zlib_emdros.h
 endif
 

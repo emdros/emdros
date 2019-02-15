@@ -33,10 +33,6 @@ ALL: config.nsh
    cd ..\zlib
    nmake /f win32.mak $(MAKEMACRO) 
 !ENDIF
-!IF "$(BPT2)" == "1"
-   cd ..\zlib
-   nmake /f win32.mak $(MAKEMACRO) 
-!ENDIF
 !IF "$(SQLITE3)" == "1"
    cd ..\sqlite3
    nmake /f win32.mak $(MAKEMACRO) 

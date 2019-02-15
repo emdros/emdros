@@ -3,7 +3,7 @@
  *
  * Trial of MQL and EMdF framework
  * Created: 3/6-2001 (March 6, 2001)
- * Last update: 2/6-2019
+ * Last update: 2/15-2019
  *
  */
 
@@ -142,7 +142,6 @@ std::string get_db_name(eBackendKind backend_kind, const std::string& base_name)
 	case kPostgreSQL:
 	case kMySQL:
 	case kBPT:
-	case kBPT2:
 		return base_name;
 		break;
 	case kSQLite2:

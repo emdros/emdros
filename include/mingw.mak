@@ -45,11 +45,6 @@ ifeq ($(BPT),1)
 else
 	echo #define USE_BPT 0 >> $(EMDROS_LCONFIG_WIN32_H)
 endif
-ifeq ($(BPT2),1)
-	echo #define USE_BPT2 1 >> $(EMDROS_LCONFIG_WIN32_H)
-else
-	echo #define USE_BPT2 0 >> $(EMDROS_LCONFIG_WIN32_H)
-endif
 	echo #undef DEFAULT_BACKEND_ENUM >> $(EMDROS_LCONFIG_WIN32_H)
 	echo #define DEFAULT_BACKEND_ENUM $(DEFAULT_BACKEND_ENUM) >> $(EMDROS_LCONFIG_WIN32_H)
 

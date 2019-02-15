@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/1-2001 (1st of March, 2001)
- * Last update: 4/18-2018
+ * Last update: 2/15-2019
  *
  */
 
@@ -66,9 +66,6 @@ bool DatabaseStatement::symbol(bool& bResult)
 			; // Do nothing
 			break;
 		case kBPT:
-			; // Do nothing
-			break;
-		case kBPT2:
 			; // Do nothing
 			break;
 		default:
