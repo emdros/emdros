@@ -7,6 +7,9 @@
 	* README-Emdros-on-Android.txt: Remove the outdated instructions,
 	and write an overview.  TODO: Write how to actually do it.
 
+	* README-Emdros-on-iOS.txt: Update the instructions to be correct
+	as of today's date.
+
 ============ 3.7.0.pre07 ============
 
 2019-02-15 Ulrik Sandborg-Petersen

@@ -2,7 +2,7 @@ Instructions for compiling Emdros for iOS
 =========================================
 
 Emdros works great on iOS.  In fact, it has been successfully deployed
-to thousands of users in at least one app on the App store.
+to thousands of users in at least two apps on the App store.
 
 The following caveats apply:
 
@@ -15,7 +15,8 @@ The following caveats apply:
   on-the-device database footprints, if you license the BPT engine and
   use it as your backend.  Contact the author of Emdros, Ulrik
   Sandborg-Petersen, for more details if you are interested in hearing
-  more about the BPT engine.
+  more about the BPT engine.  See the AUTHORS file for how to contact
+  Dr. Sandborg-Petersen.
 
 
 General procedure
@@ -33,19 +34,25 @@ b) On you Mac, in a command line prompt, unpack, configure, and make
 
 c) In Xcode, add the following files to your Xcode project:
 
-   - amalgamation/emdros_amalgamation.cpp
-   - amalgamation/emdros_c_amalgamation.c
-   - amalgamation/emdros.h
+   - amalgamation/emdros_amalgamation_1_emdros.cpp
+   - amalgamation/emdros_c_amalgamation_1.c
+   - amalgamation/emdros_c_amalgamation_2.c
    - amalgamation/emdros-config.h
    - amalgamation/emdros-lconfig.h
+   - amalgamation/emdros.h
 
 d) Make sure that the Emdros framework depends on the libz library.
 
 e) Still in Xcode, make sure the Emdros framework compiles.
 
+   IF IT DOES NOT, PLEASE CONTACT Ulrik Sandborg-Petersen.
+
 f) If you created a Framework in step (a), add the "Emdros" Framework
    to your main project. #include "emdros.h" from the Framework in
    order to use Emdros's headers.
+
+   If, instead, you created a static library, link your application
+   against this static library.
 
 g) Write an Objective C++ wrapper which wraps the parts of Emdros
    which you need to access for use from Objective-C or Swift.  See
@@ -72,7 +79,7 @@ On your Mac, do the following:
 
    ("A" to overwrite all)
 
-4) ./configure --without-mysql --without-postgresql --with-sqlite3=local --without-sqlite --with-pcre=local --without-wx --disable-shared
+4) ./configure --without-mysql --without-postgresql --with-sqlite3=local --with-pcre=local --without-wx --disable-shared
 
 5) run the make command  (Still on the Mac, in the command line!)
 
@@ -115,3 +122,11 @@ Three strategies suggest themselves:
 
 Ulrik has customers which, between them, do some form of all three
 strategies.
+
+Enjoy!
+
+
+Ulrik Sandborg-Petersen
+
+
+Last update: 2019-02-15
