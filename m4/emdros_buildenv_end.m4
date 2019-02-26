@@ -79,7 +79,7 @@ if test x$addlibz = xyes; then
   BACKEND_LDADD_AMALGAMATION="$BACKEND_LDADD_AMALGAMATION -lz"
 fi
 
-if test "x$DO_SQLITE3" != "xno" && test "x$USE_AMALGAMATION" != "xyes"; then
+if test "x$DO_SQLITE3" != "xno" && test "x$USE_AMALGAMATION" != "x1"; then
   BACKEND_LDADD="$BACKEND_LDADD $SQLITE3_LDADD";
   BACKEND_LDADD_BACKBACK="$BACKEND_LDADD_BACKBACK $SQLITE3_LDADD_BACKBACK";
 fi

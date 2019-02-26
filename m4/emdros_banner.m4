@@ -37,7 +37,7 @@ else
   echo "wxWidgets:            yes: version = $WX_VERSION"
 fi
 echo ""
-if test "x$USE_AMALGAMATION" = "xyes"; then
+if test "x$USE_AMALGAMATION" = "x1"; then
   echo "Use amalgamation lib: yes"
 else
   echo "Use amalgamation lib: no"

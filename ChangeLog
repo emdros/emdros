@@ -1,5 +1,12 @@
 ============ 3.7.0.pre08 ============
 
+2019-02-26 Ulrik Sandborg-Petersen
+
+	* m4/emdros_banner.m4, m4/emdros_buildenv_env.m4: Fix bug:
+	USE_AMALGAMATION should be tested for equalityt with "1", not
+	"yes".  This caused problems compiling on Ubuntu 16.04 LTS when
+	the BPT engine was included.
+
 2019-02-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre08.
