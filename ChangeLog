@@ -9,6 +9,13 @@
 
 	* include/emdf.h: Add typedefs for emdros_i8 and emdros_u8.
 
+	* include/lzma_emdros.j, EMdF/lzma_emdros.cpp: Don't #include
+	<cstdint>.  Instead, use the new emdros_u8 the existing emdros_u32
+	in place of uint8_t and uint32_t.
+
+	This improves compatibility with those platforms which do not have
+	or do not by default enable a C++11 compiler.
+
 2019-02-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre08.
