@@ -99,7 +99,7 @@ On Fedora 26-29, the following packages are required to build the full
 gamut of Emdros programs and libraries, even after a "make distclean"
 or a "make clean":
 
-gcc-c++ make binutils groff gcc glibc-devel glibc-headers kernel-headers groff libgomp libstdc++-devel re2c latex2html swig autoconf automake libtool wxGTK3 wxGTK3-devel ImageMagick texlive-a4wide texlive-times texlive-courier texlive-ulem texlive-epstopdf-bin texlive-latex pkg-config
+gcc-c++ make binutils groff gcc glibc-devel glibc-headers kernel-headers groff libgomp libstdc++-devel re2c latex2html swig autoconf automake libtool wxGTK3 wxGTK3-devel ImageMagick texlive-a4wide texlive-times texlive-courier texlive-ulem texlive-epstopdf-bin texlive-latex pkg-config python
 
 The following packages are optional on Fedora:
 
