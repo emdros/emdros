@@ -2,7 +2,7 @@
  * LZMA encoding and decoding for Emdros.
  *
  * Created: 3/29-2018.
- * Last update: 10/4-2018.
+ * Last update: 2/26-2019
  *
  * Based on the Public Domain parts of PDLzip by Antonio Diaz Diaz,
  * version 1.9 released 2018-02-05.  Downloaded from:
@@ -25,12 +25,13 @@
 #include <string>
 
 #include <cstddef>
-#include <cstdint>
 
 #include <emdros-lconfig.h>
 
 #if defined(USE_BPT) && USE_BPT
-	
+
+#include <emdf.h>
+
 typedef int State;
 
 #define EMDROS_SZ_OK (0)
@@ -38,43 +39,43 @@ typedef int State;
 #define EMDROS_SZ_ERROR_WRITE (9)
 #define EMDROS_SZ_END (10)
 
-typedef int (*emdros_lzma_readblock_function_ptr)(void *pFIN, uint8_t * const buf, const int size, int *emdros_errno);
-typedef int (*emdros_lzma_writeblock_function_ptr)(void *pFOUT, const uint8_t * const buf, const int size, int *emdros_errno);
+typedef int (*emdros_lzma_readblock_function_ptr)(void *pFIN, emdros_u8 * const buf, const int size, int *emdros_errno);
+typedef int (*emdros_lzma_writeblock_function_ptr)(void *pFOUT, const emdros_u8 * const buf, const int size, int *emdros_errno);
 
 /* LzFind.h -- Match finder for LZ algorithms
 2009-04-22 : Igor Pavlov : Public domain */
 
-typedef uint32_t CLzRef;
+typedef emdros_u32 CLzRef;
 
 typedef struct
 {
-  uint8_t *bufferBase;
-  uint8_t *buffer;
+  emdros_u8 *bufferBase;
+  emdros_u8 *buffer;
   CLzRef *hash;
   CLzRef *son;
-  uint32_t pos;
-  uint32_t posLimit;
-  uint32_t streamPos;
-  uint32_t lenLimit;
+  emdros_u32 pos;
+  emdros_u32 posLimit;
+  emdros_u32 streamPos;
+  emdros_u32 lenLimit;
 
-  uint32_t cyclicBufferPos;
-  uint32_t cyclicBufferSize; /* it must be = (historySize + 1) */
+  emdros_u32 cyclicBufferPos;
+  emdros_u32 cyclicBufferSize; /* it must be = (historySize + 1) */
 
-  uint32_t matchMaxLen;
-  uint32_t hashMask;
-  uint32_t cutValue;
+  emdros_u32 matchMaxLen;
+  emdros_u32 hashMask;
+  emdros_u32 cutValue;
 
-  uint32_t blockSize;
-  uint32_t keepSizeBefore;
-  uint32_t keepSizeAfter;
+  emdros_u32 blockSize;
+  emdros_u32 keepSizeBefore;
+  emdros_u32 keepSizeAfter;
 
-  uint32_t numHashBytes;
-  uint32_t historySize;
-  uint32_t hashSizeSum;
-  uint32_t numSons;
+  emdros_u32 numHashBytes;
+  emdros_u32 historySize;
+  emdros_u32 hashSizeSum;
+  emdros_u32 numSons;
   void *pFIN;
   int result;
-  uint32_t crc;
+  emdros_u32 crc;
   bool btMode;
   bool streamEndWasReached;
   emdros_lzma_readblock_function_ptr lzma_readblock;
@@ -85,8 +86,8 @@ typedef struct
      historySize <= 3 GB
      keepAddBufferBefore + matchMaxLen + keepAddBufferAfter < 511MB
 */
-int Mf_Init(CMatchFinder *p, void *pFIN, const int mc, uint32_t historySize,
-	    uint32_t keepAddBufferBefore, uint32_t matchMaxLen, uint32_t keepAddBufferAfter, emdros_lzma_readblock_function_ptr rdblk_func);
+int Mf_Init(CMatchFinder *p, void *pFIN, const int mc, emdros_u32 historySize,
+	    emdros_u32 keepAddBufferBefore, emdros_u32 matchMaxLen, emdros_u32 keepAddBufferAfter, emdros_lzma_readblock_function_ptr rdblk_func);
 
 void Mf_Free(CMatchFinder *p);
 
@@ -97,8 +98,8 @@ Conditions:
   Mf_GetPointerToCurrentPos_Func's result must be used only before any other function
 */
 
-typedef uint32_t (*Mf_GetMatches_Func)(void *object, uint32_t *distances);
-typedef void (*Mf_Skip_Func)(void *object, uint32_t);
+typedef emdros_u32 (*Mf_GetMatches_Func)(void *object, emdros_u32 *distances);
+typedef void (*Mf_Skip_Func)(void *object, emdros_u32);
 
 typedef struct _IMatchFinder
 {
@@ -156,21 +157,21 @@ extern bool EMDROS_LZMA_compress(const int dictionary_size,
 typedef struct
 {
   int *probs;
-  uint8_t *dic;
-  const uint8_t *buf;
-  uint32_t range, code;
-  uint32_t dicPos;
-  uint32_t dicBufSize;
-  uint32_t processedPos;
-  uint32_t checkDicSize;
+  emdros_u8 *dic;
+  const emdros_u8 *buf;
+  emdros_u32 range, code;
+  emdros_u32 dicPos;
+  emdros_u32 dicBufSize;
+  emdros_u32 processedPos;
+  emdros_u32 checkDicSize;
   unsigned lc, lp, pb;
   State state;
-  uint32_t reps[4];
+  emdros_u32 reps[4];
   unsigned remainLen;
-  uint32_t numProbs;
+  emdros_u32 numProbs;
   unsigned tempBufSize;
   bool needFlush;
-  uint8_t tempBuf[LZMA_REQUIRED_INPUT_MAX];
+  emdros_u8 tempBuf[LZMA_REQUIRED_INPUT_MAX];
 } CLzmaDec;
 
 
@@ -211,7 +212,7 @@ typedef enum
 /* ELzmaStatus is used only as output value for function call */
 
 
-bool LzmaDec_Init(CLzmaDec *p, const uint8_t *raw_props);
+bool LzmaDec_Init(CLzmaDec *p, const emdros_u8 *raw_props);
 void LzmaDec_Free(CLzmaDec *p);
 
 
@@ -225,25 +226,25 @@ finishMode:
   LZMA_FINISH_END - Stream must be finished after (*destLen).
 */
 
-bool LzmaDec_DecodeToBuf( CLzmaDec *p, uint8_t *dest, uint32_t *destLen,
-                          const uint8_t *src, uint32_t *srcLen,
+bool LzmaDec_DecodeToBuf( CLzmaDec *p, emdros_u8 *dest, emdros_u32 *destLen,
+                          const emdros_u8 *src, emdros_u32 *srcLen,
                           ELzmaFinishMode finishMode, ELzmaStatus *status );
 
 /* 0-3 magic bytes */
 /*   4 version */
 /*   5 coded_dict_size */
 #define EMDROS_LZMA_Fh_size (6)
-typedef uint8_t EMDROS_LZMA_File_header[EMDROS_LZMA_Fh_size];
+typedef emdros_u8 EMDROS_LZMA_File_header[EMDROS_LZMA_Fh_size];
 
 extern bool EMDROS_LZMA_Fh_verify_magic(const EMDROS_LZMA_File_header data);
 
-extern uint32_t EMDROS_LZMA_Fh_get_dictionary_size(const EMDROS_LZMA_File_header data);
+extern emdros_u32 EMDROS_LZMA_Fh_get_dictionary_size(const EMDROS_LZMA_File_header data);
 
-extern void EMDROS_LZMA_set_uncompressed_size(size_t uncompressed_size, uint8_t *uncompressed_size_buf);
-extern size_t EMDROS_LZMA_get_uncompressed_size(uint8_t *uncompressed_size_buf);
+extern void EMDROS_LZMA_set_uncompressed_size(size_t uncompressed_size, emdros_u8 *uncompressed_size_buf);
+extern size_t EMDROS_LZMA_get_uncompressed_size(emdros_u8 *uncompressed_size_buf);
 
 
-extern void EMDROS_LZMA_make_raw_props(unsigned int dictionarySize, uint8_t raw_props[]);
+extern void EMDROS_LZMA_make_raw_props(unsigned int dictionarySize, emdros_u8 raw_props[]);
 
 #endif // #if defined(USE_BPT) && USE_BPT
 
