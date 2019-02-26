@@ -42,11 +42,15 @@
 
 
 #if defined(WIN32) && defined(__MSVC__)
+typedef signed char emdros_i8;
+typedef unsigned char emdros_u8;
 typedef __int32 emdros_i32;
 typedef unsigned __int32 emdros_u32;
 typedef __int64 emdros_i64;
 typedef unsigned __int64 emdros_u64;
 #else
+typedef signed char emdros_i8;
+typedef unsigned char emdros_u8;
 typedef int emdros_i32;
 typedef unsigned int emdros_u32;
 typedef long long emdros_i64;

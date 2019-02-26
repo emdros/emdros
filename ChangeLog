@@ -7,6 +7,8 @@
 	"yes".  This caused problems compiling on Ubuntu 16.04 LTS when
 	the BPT engine was included.
 
+	* include/emdf.h: Add typedefs for emdros_i8 and emdros_u8.
+
 2019-02-15 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre08.
