@@ -111,22 +111,14 @@ Release notes for Emdros 3.7.0
     system-installed /usr), and to Fedora guidelines to best-practices
     for packaging.
 
-  - The file non-public header file, include/version-emdros.h, has
-    been removed. The content has been folded into the public header,
+  - The non-public header file, include/version-emdros.h, has been
+    removed. The content has been folded into the public header,
     include/emdros-lconfig.h.
 
   - The m4/ directory has been totally reorganized.
 
   - The doc/ subdirectory has been totally revamped, with much
     documentation having been moved to the docs-emdros repo on GitHub.
-
-  - The importers have beem moved from util/ into their own new
-    directory, importers/.
-
-    NOTE: The importers are included in the amalgamation library.  The
-    new development library, importers/libemdros_importers.la, is only
-    built if you give the "--enable-devel" switch to the configure
-    script.
 
   - The ./configure script now takes a mutually exclusive pair of
     switches: --enable-devel | --disable-devel.
@@ -143,6 +135,14 @@ Release notes for Emdros 3.7.0
     the amalgamation, but the programs are linked against the
     development libraries, not the amalgamation.  This is useful if
     you are developing Emdros.
+
+  - The importers have beem moved from util/ into their own new
+    directory, importers/.
+
+    NOTE: The importers are included in the amalgamation library.  The
+    new development library, importers/libemdros_importers.la, is only
+    built if you give the "--enable-devel" switch to the configure
+    script.
 
 - The local version of ZLib has been upgraded to version 1.2.11 from
   January 15, 2017.
