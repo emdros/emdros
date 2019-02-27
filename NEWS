@@ -103,6 +103,10 @@ Release notes for Emdros 3.7.0
 - The agexport(1) program is gone, since it had not been maintained or
   tested for many years.
 
+- A new pkg-config file, emdros.pc, was added.  This is installed on
+  systems that support pkg-config and building through the configure
+  script, such as Linux.
+
 - The build scripts have been totally reimagined.  In particular:
 
   - The default prefix is now /usr/local, not /usr as it used to be.
