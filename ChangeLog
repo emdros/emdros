@@ -7,6 +7,10 @@
 	* INSTALL: Mention that the package "python" is necessary on
 	Fedora for building after a make clean of make distclean.
 
+	* INSTALL: Mention the necessity of the packages "xdg-utils" and
+	"desktop-file-utils" on Fedora for building after a "make clean"
+	or "make distclean".
+
 ============ 3.7.0.pre08 ============
 
 2019-02-26 Ulrik Sandborg-Petersen
