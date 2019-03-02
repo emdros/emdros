@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/26-2001
- * Last update: 11/30-2018
+ * Last update: 3/2-2019
  *
  */
 
@@ -346,6 +346,14 @@ Inst::const_iterator Inst::begin() const // relative to the current universe
 {
 	// Find beginning of universe
 	Inst::const_iterator ci(m_pContents->m_sl_by_monad_m.search(m_first_monad));
+	/*
+
+	// We used to do this, since it was an optimization with
+        // respect to the part_of relation.  Now that we do
+        // starts_in() and overlap() as well, this might cause some
+        // wrong results, at least if we set the Universe's last monad
+        // too low.
+
 	while (true) {
 		// If we hit the end, return with end()
 		if (!ci.hasNext()) {
@@ -375,6 +383,7 @@ Inst::const_iterator Inst::begin() const // relative to the current universe
 			}
 		}
 	}
+	*/
 	return ci;
 }
 

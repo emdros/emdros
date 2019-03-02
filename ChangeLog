@@ -9,6 +9,13 @@
 	* include/mql_query.h: Add new method,
 	ObjectBlock::isLastInBlockString().
 
+	* EMdF/inst.cpp: In Inst::begin(), don't attempt to advance the
+	iterator, but just set it according to the Universe's first
+	monad. This was done before as an optimization, but resulted in
+	having to set the last monad of the Universe too high if we were
+	doing a monad set relation other than part_of, such as overlap()
+	or starts_in().
+
 2019-02-27 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre09.
