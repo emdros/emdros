@@ -1,5 +1,11 @@
 ============ 3.7.0.pre09 ============
 
+2019-03-02 Ulrik Sandborg-Petersen
+
+	* MQL/mql_query.cpp: In ObjectBlock::getSMI(), make the MQL engine
+	much faster if the ObjectBlock is prefixed by NOTEXIST, and is the
+	only block in the surrounding BlockString.
+
 2019-02-27 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre09.

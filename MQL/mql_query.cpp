@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 2/6-2019
+ * Last update: 3/2-2019
  *
  */
 
@@ -4598,7 +4598,17 @@ StartMonadIterator* ObjectBlock::getSMI(MQLExecEnv *pEE, const SetOfMonads& U, c
 		// NOTEXIST won't have any objects in Su if it truly
 		// does not exist, so the inst is empty!  Therefore,
 		// we can't use the pInst constructor.
-		return new MonadSetStartMonadIterator(Suping, lower_bound_Sm, false);
+
+ 		if (isSoleBlockInBlockString()) {
+			// This optimzation is OK.  It is made only if
+			// the NOTEXIST Object Block is the only
+			// object block in the BlockString.
+ 			SetOfMonads Supingping;
+ 			Supingping.add(lower_bound_Sm);
+ 			return new MonadSetStartMonadIterator(Supingping, lower_bound_Sm, false);
+ 		} else {
+ 			return new MonadSetStartMonadIterator(Suping, lower_bound_Sm, false);
+ 		}
 	} else {
 		// Normal object block
 		Inst *pInst = R_inst(pEE, Uping, this, 0);
