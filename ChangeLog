@@ -33,6 +33,23 @@
 	Substrate for the non-existence of the NOTEXIST object block, but
 	only the first monad.
 
+	* MQL/mql_query.cpp, include/mql_query.h: Extend the processing of
+	the topograph with the knowledge of whether a BlockString consists
+	solely of NOTEXIST object blocks.  This is done through adding
+	methods called
+
+	XYZ::hasOnlyNOTEXISTObjectBlocksInBlockString()
+
+	to the hierarchy below Blocks, then calling that in Blocks::weed()
+	and adding a boolean to all the weed() methods below the Blocks
+	class.  This is then passed on, and set in ObjectBlock::weed() as
+	ObjectBlock::m_bBlockStringHasOnlyNOTEXIST.
+
+	* MQL/mql_query.cpp: Enhanced the optimization in
+	ObjectBlock::getSMI() for NOTEXIST, so that it also works when the
+	BlockString consists solely of more than one NOTEXIST object
+	block, and not just when there is only one NOTEXIST object block.
+
 2019-02-27 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre09.

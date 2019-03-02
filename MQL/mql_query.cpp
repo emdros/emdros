@@ -677,7 +677,7 @@ void Block::getOutermostSetOfMonadsFeatureSet(std::set<std::string>& som_name_se
 	}
 }
 
-void Block::weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, node_number_t block_string2_parent, bool& bHasMetNonNOTEXISTInBlockString)
+void Block::weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, bool bBlockStringHasOnlyNOTEXIST, node_number_t block_string2_parent, bool& bHasMetNonNOTEXISTInBlockString)
 {
 	switch(m_kind) {
 	case kOptGapBlock:
@@ -705,8 +705,11 @@ void Block::weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, no
 		bHasMetNonNOTEXISTInBlockString = true;
 		break;
 	case kObjectBlock:
+		bHasMetNonNOTEXISTInBlockString = true;
+		m_object_block->weed(pEE, bResult, is_first, is_last, bBlockStringHasOnlyNOTEXIST, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
+		break;
 	case kObjectBlockNOTEXIST:
-		m_object_block->weed(pEE, bResult, is_first, is_last, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
+		m_object_block->weed(pEE, bResult, is_first, is_last, bBlockStringHasOnlyNOTEXIST, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
 		// This must NOT be done for kObjectBlock.
 		// It is done by the call to
 		// m_object_block->weed() if this is not a NOTEXIST.
@@ -996,6 +999,33 @@ bool Block::hasObjectBlockInBlockString()
 		break;
 	case kObjectBlockNOTEXIST:
 		bResult = false;
+		break;
+	default:
+		ASSERT_THROW(false,
+			     "Unknown block type"); // In case we ever invent more labels...
+		break;
+	}
+	
+	return bResult;
+}
+
+bool Block::hasOnlyNOTEXISTObjectBlocksInBlockString()
+{
+	bool bResult = true;
+	switch(m_kind) {
+	case kOptGapBlock:
+		bResult = false;
+		break;
+	case kGapBlock:
+		bResult = false;
+		break;
+	case kPowerBlock:
+		bResult = false;
+		break;
+	case kObjectBlock:
+		bResult = false;
+		break;
+	case kObjectBlockNOTEXIST:
 		break;
 	default:
 		ASSERT_THROW(false,
@@ -3795,6 +3825,7 @@ ObjectBlock::ObjectBlock(std::string* object_type_name,
 	  m_bIsFirstInBlockString(false),
 	  m_bIsLastInBlockString(false),
 	  m_bIsAfterNonNOTEXISTInBlockString(false),
+	  m_bBlockStringHasOnlyNOTEXIST(false),
 	  m_pMSRC(pMSRC),
 	  m_inst(0)
 {
@@ -3827,6 +3858,7 @@ ObjectBlock::ObjectBlock(std::string* object_type_name,
 	  m_bIsFirstInBlockString(false),
 	  m_bIsLastInBlockString(false),
 	  m_bIsAfterNonNOTEXISTInBlockString(false),
+	  m_bBlockStringHasOnlyNOTEXIST(false),
 	  m_pMSRC(pMSRC),
 	  m_inst(0)
 {
@@ -3871,11 +3903,13 @@ void ObjectBlock::weedFeatureConstraints(MQLExecEnv *pEE, bool& bResult)
 //
 // - Then check the opt_blocks
 //
-void ObjectBlock::weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, node_number_t block_string2_parent, bool& bHasMetNonNOTEXISTInBlockString)
+void ObjectBlock::weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, bool bBlockStringHasOnlyNOTEXIST, node_number_t block_string2_parent, bool& bHasMetNonNOTEXISTInBlockString)
 {
 	ObjectBlockBase::weed(pEE, bResult);
 	
 	m_block_string2_parent = block_string2_parent;
+
+	m_bBlockStringHasOnlyNOTEXIST = bBlockStringHasOnlyNOTEXIST;
 
 	switch (m_first_last) {
 	case kFirst:
@@ -4616,12 +4650,16 @@ StartMonadIterator* ObjectBlock::getSMI(MQLExecEnv *pEE, const SetOfMonads& U, c
 		// does not exist, so the inst is empty!  Therefore,
 		// we can't use the pInst constructor.
 
-		if (isSoleBlockInBlockString() && bCameFromBlockString) {
+		if (m_bBlockStringHasOnlyNOTEXIST && bCameFromBlockString) {
 			// However, this optimzation is OK.  It is
-			// made only if the NOTEXIST Object Block is
-			// the only object block in the BlockString.
-			// Also, it is essential that we came
-			// (indirectly) from the BlockString.
+			// made only if the BlockString consists
+			// solely of NOTEXIST object blocks.  Also, it
+			// is essential that we came (indirectly) from
+			// the BlockString. If we came from
+			// mql_R.cpp's R_blocks() function, and we are
+			// getting the SMI because we need to do
+			// NOTEXIST, then we don't want this
+			// optimization here.
 			SetOfMonads Supingping;
 			Supingping.add(lower_bound_Sm);
 			return new MonadSetStartMonadIterator(Supingping, lower_bound_Sm, false);
@@ -4749,7 +4787,7 @@ bool BlockString0::firstBlockIsPower()
 }
 
 
-void BlockString0::weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, bool bPrevIsGap, bool bPrevIsPower, node_number_t block_string2_parent, bool& bHasMetNonNOTEXISTInBlockString)
+void BlockString0::weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, bool bPrevIsGap, bool bPrevIsPower, bool bBlockStringHasOnlyNOTEXIST, node_number_t block_string2_parent, bool& bHasMetNonNOTEXISTInBlockString)
 {
 	if (isBlock()) {
 		if (bPrevIsGap && m_block->isGapOrOptGapBlock()) {
@@ -4763,10 +4801,10 @@ void BlockString0::weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_l
 			pEE->pError->appendError("Error: You cannot have two power blocks (i.e., \"..\") next to each other.\n");
 		}
 		if (bResult) {
-			m_block->weed(pEE, bResult, is_first, is_last, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
+			m_block->weed(pEE, bResult, is_first, is_last, bBlockStringHasOnlyNOTEXIST, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
 		}
 	} else {
-		m_block_string->weed(pEE,bResult, is_first, is_last, false, false, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
+		m_block_string->weed(pEE,bResult, is_first, is_last, false, false, bBlockStringHasOnlyNOTEXIST, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
 	}
 }
 
@@ -4863,6 +4901,15 @@ bool BlockString0::hasObjectBlockInBlockString()
 	}
 }
 
+bool BlockString0::hasOnlyNOTEXISTObjectBlocksInBlockString()
+{
+	if (isBlock()) {
+		return m_block->hasOnlyNOTEXISTObjectBlocksInBlockString();
+	} else {
+		return m_block_string->hasOnlyNOTEXISTObjectBlocksInBlockString();
+	}
+}
+
 
 
 void BlockString0::addOBBToVec(OBBVec *pOBBVec)
@@ -4923,9 +4970,9 @@ void BlockString1::getOutermostSetOfMonadsFeatureSet(std::set<std::string>& som_
 
 
 
-void BlockString1::weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, bool bPrevIsGap, bool bPrevIsPower, node_number_t block_string2_parent, bool& bHasMetNonNOTEXISTInBlockString)
+void BlockString1::weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, bool bPrevIsGap, bool bPrevIsPower, bool bBlockStringHasOnlyNOTEXIST, node_number_t block_string2_parent, bool& bHasMetNonNOTEXISTInBlockString)
 {
-	m_block_string0->weed(pEE,bResult,is_first,is_last,bPrevIsGap,bPrevIsPower, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
+	m_block_string0->weed(pEE, bResult, is_first, is_last, bPrevIsGap, bPrevIsPower, bBlockStringHasOnlyNOTEXIST, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
 	if (!bResult) {
 		return;
 	}
@@ -5042,6 +5089,11 @@ bool BlockString1::hasObjectBlockInBlockString()
 	return m_block_string0->hasObjectBlockInBlockString();
 }
 
+bool BlockString1::hasOnlyNOTEXISTObjectBlocksInBlockString()
+{
+	return m_block_string0->hasOnlyNOTEXISTObjectBlocksInBlockString();
+}
+
 
 void BlockString1::addOBBToVec(OBBVec *pOBBVec)
 {
@@ -5112,7 +5164,7 @@ void BlockString2::getOutermostSetOfMonadsFeatureSet(std::set<std::string>& som_
 
 
 
-void BlockString2::weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, bool bPrevIsGap, bool bPrevIsPower, node_number_t block_string2_parent, bool& bHasMetNonNOTEXISTInBlockString)
+void BlockString2::weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, bool bPrevIsGap, bool bPrevIsPower, bool bBlockStringHasOnlyNOTEXIST, node_number_t block_string2_parent, bool& bHasMetNonNOTEXISTInBlockString)
 {
 	// Set m_node_number, and add to pEE->m_node_vector.
 	pEE->getNextNodeNumber(this);
@@ -5135,7 +5187,7 @@ void BlockString2::weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_l
 	bool mybPrevIsPower = bBS1BlockIsPower;
 
 	if (isBlockString1()) {
-		m_block_string1->weed(pEE,bResult,is_first,is_last,bPrevIsGap,bPrevIsPower, getNodeNumber(), bHasMetNonNOTEXISTInBlockString);
+		m_block_string1->weed(pEE, bResult, is_first, is_last, bPrevIsGap, bPrevIsPower, bBlockStringHasOnlyNOTEXIST, getNodeNumber(), bHasMetNonNOTEXISTInBlockString);
 		if (bResult 
 		    && bBS1BlockIsPower && isBlockString1()) {
 			bResult = false;
@@ -5156,7 +5208,7 @@ void BlockString2::weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_l
 		}
 
 		if (bResult) {
-			m_block_string1->weed(pEE,bResult, is_first, false, bPrevIsGap, bPrevIsPower, getNodeNumber(), bHasMetNonNOTEXISTInBlockString);
+			m_block_string1->weed(pEE,bResult, is_first, false, bPrevIsGap, bPrevIsPower, bBlockStringHasOnlyNOTEXIST, getNodeNumber(), bHasMetNonNOTEXISTInBlockString);
 
 			if (!bResult)
 				return;
@@ -5166,7 +5218,7 @@ void BlockString2::weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_l
 			// for passing to the siblings.  We are *not*
 			// their parent.  block_string2_parent is!
 			//
-			m_block_string2->weed(pEE, bResult, false, is_last, mybPrevIsGap, mybPrevIsPower, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
+			m_block_string2->weed(pEE, bResult, false, is_last, mybPrevIsGap, mybPrevIsPower, bBlockStringHasOnlyNOTEXIST, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
 		}
 	}
 }
@@ -5336,6 +5388,16 @@ bool BlockString2::hasObjectBlockInBlockString()
 	}
 }
 
+bool BlockString2::hasOnlyNOTEXISTObjectBlocksInBlockString()
+{
+	if (isBlockString1()) {
+		return m_block_string1->hasOnlyNOTEXISTObjectBlocksInBlockString();
+	} else {
+		return m_block_string1->hasOnlyNOTEXISTObjectBlocksInBlockString()
+			&& m_block_string2->hasOnlyNOTEXISTObjectBlocksInBlockString();
+	}
+}
+
 
 void BlockString2::canChooseAQStrategyInnermostFirst(bool &bResult)
 {
@@ -5494,7 +5556,7 @@ void BlockString::getOutermostSetOfMonadsFeatureSet(std::set<std::string>& som_n
 
 
 
-void BlockString::weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, bool bPrevIsGap, bool bPrevIsPower, node_number_t block_string2_parent, bool& bHasMetNonNOTEXISTInBlockString)
+void BlockString::weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_last, bool bPrevIsGap, bool bPrevIsPower, bool bBlockStringHasOnlyNOTEXIST, node_number_t block_string2_parent, bool& bHasMetNonNOTEXISTInBlockString)
 {
 	if (m_block_string2->firstBlockIsPower()) {
 		bResult = false;
@@ -5503,11 +5565,11 @@ void BlockString::weed(MQLExecEnv *pEE, bool& bResult, bool is_first, bool is_la
 	if (!bResult)
 		return;
 	if (isBlockString2()) {
-		m_block_string2->weed(pEE, bResult, is_first, is_last, bPrevIsGap, bPrevIsPower, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
+		m_block_string2->weed(pEE, bResult, is_first, is_last, bPrevIsGap, bPrevIsPower, bBlockStringHasOnlyNOTEXIST, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
 	} else {
-		m_block_string2->weed(pEE, bResult, true, true, false, false, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
+		m_block_string2->weed(pEE, bResult, true, true, false, false, bBlockStringHasOnlyNOTEXIST, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
 		if (bResult) {
-			m_block_string->weed(pEE, bResult, true, true, false, false, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
+			m_block_string->weed(pEE, bResult, true, true, false, false, bBlockStringHasOnlyNOTEXIST, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
 		}
 	}
 }
@@ -5697,6 +5759,16 @@ bool BlockString::hasObjectBlockInBlockString()
 	}
 }
 
+bool BlockString::hasOnlyNOTEXISTObjectBlocksInBlockString()
+{
+	if (isBlockString2()) {
+		return m_block_string2->hasOnlyNOTEXISTObjectBlocksInBlockString();
+	} else {
+		return m_block_string2->hasOnlyNOTEXISTObjectBlocksInBlockString()
+			&& m_block_string->hasOnlyNOTEXISTObjectBlocksInBlockString();
+	}
+}
+
 
 void BlockString::addOBBToVec(OBBVec *pOBBVec)
 {
@@ -5795,7 +5867,8 @@ void ObjectBlockString::weed(MQLExecEnv *pEE, bool& bResult, node_number_t block
 	
 	const bool is_first = false;
 	const bool is_last = false;
-	m_object_block->weed(pEE, bResult, is_first, is_last, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
+	const bool bBlockStringHasOnlyNOTEXIST = false; // We don't have any NOTEXISTs in an ObjectBlockString.
+	m_object_block->weed(pEE, bResult, is_first, is_last, bBlockStringHasOnlyNOTEXIST, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
 	if (!bResult) {
 		return; // Defensive programming.
 	}
@@ -6111,7 +6184,8 @@ void Blocks::weed(MQLExecEnv *pEE, bool& bResult, node_number_t block_string2_pa
 {
 	if (isBlockString()) {
 		bool bHasMetNonNOTEXISTInBlockString = false;
-		m_block_string->weed(pEE, bResult, true, true, false, false, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
+		bool bBlockStringHasOnlyNOTEXIST = m_block_string->hasOnlyNOTEXISTObjectBlocksInBlockString();
+		m_block_string->weed(pEE, bResult, true, true, false, false, bBlockStringHasOnlyNOTEXIST, block_string2_parent, bHasMetNonNOTEXISTInBlockString);
 		if (bResult) {
 			if (m_using_range) {
 				m_using_range->weed(pEE, bResult);
