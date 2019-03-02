@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 2/4-2019
+ * Last update: 3/2-2019
  *
  */
 
@@ -750,6 +750,7 @@ class ObjectBlock : public ObjectBlockBase {
 	void addFeatureToBeRetrieved(MQLExecEnv *pEE, const FeatureInfo& feature_info, unsigned int& index_assigned);
 	bool type(MQLExecEnv *pEE, eObjectRangeType contextRangeType, bool& bResult);
 	bool isFirstInBlockString(void) const { return m_bIsFirstInBlockString; };
+	bool isLastInBlockString(void) const { return m_bIsLastInBlockString; };
 	bool isSoleBlockInBlockString(void) const { return m_bIsFirstInBlockString && m_bIsLastInBlockString; };
 	bool isAfterNonNOTEXISTInBlockString() const { return m_bIsAfterNonNOTEXISTInBlockString; };
 	void setIsAfterNonNOTEXISTInBlockString(bool bValue) { m_bIsAfterNonNOTEXISTInBlockString = bValue; };

@@ -6,6 +6,9 @@
 	much faster if the ObjectBlock is prefixed by NOTEXIST, and is the
 	only block in the surrounding BlockString.
 
+	* include/mql_query.h: Add new method,
+	ObjectBlock::isLastInBlockString().
+
 2019-02-27 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre09.
