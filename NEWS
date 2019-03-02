@@ -54,6 +54,8 @@ Release notes for Emdros 3.7.0
 
   Thanks to Camil Staps for bringing this to Ulrik's attention.
 
+- The implementation of NOTEXIST is now much, much faster.
+
 - Regular expressions are now treated as UTF8, not as legacy-encoding
   raw 8-bit data.  This is true for MQL, as well as for the two kinds
   of configuration files (with and without [ini-file-like] sections.
