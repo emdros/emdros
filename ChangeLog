@@ -16,6 +16,11 @@
 	doing a monad set relation other than part_of, such as overlap()
 	or starts_in().
 
+	* MQL/mql_query.cpp: Obtain a substantial speed gain for monad set
+	relations "overlap" and "starts_in", by tweaking
+	ObjectBlock::getSMI().  This was enabled by the change in
+	EMdF/inst.cpp.
+
 	* MQL/mql_query.cpp, include/mql_query.h, MQL/mql_R.cpp: Today's
 	previous change to NOTEXIST resulted in wrong behavior in some
 	cases.  Hence, the conditions were changed slightly, so that
