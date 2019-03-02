@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/16-2001
- * Last update: 2/4-2019
+ * Last update: 3/2-2019
  *
  */
 
@@ -1090,7 +1090,7 @@ ListOfStraws *R_block(MQLExecEnv *pEE,
 		}
 		
 		StartMonadIterator *pSMI = 0;
-		pSMI = pBlock->getSMI(pEE, Uping, Suping, Smping);
+		pSMI = pObjectBlock->getSMI(pEE, Uping, Suping, Smping, false);
 		
 		bool bSuccess = true;
 		while (pSMI->hasNext()) {

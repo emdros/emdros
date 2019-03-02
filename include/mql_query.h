@@ -776,7 +776,7 @@ class ObjectBlock : public ObjectBlockBase {
 	bool hasFirstLast() const;
 	void calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
 	void calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB);
-	StartMonadIterator* getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const SetOfMonads& Su, monad_m Sm);
+	StartMonadIterator* getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const SetOfMonads& Su, monad_m Sm, bool bCameFromBlockString);
 	void addOBBToVec(OBBVec *pOBBVec);
 };
 
@@ -818,7 +818,7 @@ class Block : public ByMonads {
 	void calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB);
 	void calculateMMapInnermost(String2COBPtrMMap& mmap, std::string& inner_charstring, EMdFDB *pDB);
 	void addOBBToVec(OBBVec *pOBBVec);
-	StartMonadIterator* getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const SetOfMonads& Su, monad_m Sm);
+	StartMonadIterator* getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const SetOfMonads& Su, monad_m Sm, bool bCameFromBlockString);
 };
 
 

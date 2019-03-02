@@ -16,6 +16,18 @@
 	doing a monad set relation other than part_of, such as overlap()
 	or starts_in().
 
+	* MQL/mql_query.cpp, include/mql_query.h, MQL/mql_R.cpp: Today's
+	previous change to NOTEXIST resulted in wrong behavior in some
+	cases.  Hence, the conditions were changed slightly, so that
+	ObjectBlock::getSMI() only made the NOTEXIST-optimization if the
+	call was made indirectly from BlockString.
+
+	If, instead, we called ObjectBlock::getSMI() from the NOTEXIST
+	part of mql_R.cpp's R_block(), then we should not make the
+	optimzation, as this would result in not checking the entire
+	Substrate for the non-existence of the NOTEXIST object block, but
+	only the first monad.
+
 2019-02-27 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre09.

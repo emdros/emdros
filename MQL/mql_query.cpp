@@ -1028,7 +1028,7 @@ void Block::addOBBToVec(OBBVec *pOBBVec)
 	}
 }
 
-StartMonadIterator* Block::getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const SetOfMonads& Su, monad_m Sm)
+StartMonadIterator* Block::getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const SetOfMonads& Su, monad_m Sm, bool bCameFromBlockString)
 {
 	switch(m_kind) {
 	case kOptGapBlock:
@@ -1042,7 +1042,7 @@ StartMonadIterator* Block::getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const S
 		break;
 	case kObjectBlockNOTEXIST:
 	case kObjectBlock:
-		return m_object_block->getSMI(pEE, U, Su, Sm);
+		return m_object_block->getSMI(pEE, U, Su, Sm, bCameFromBlockString);
 	default:
 		ASSERT_THROW(false,
 			     "Unknown object block type"); // In case we ever invent more labels...
@@ -4440,7 +4440,7 @@ bool ObjectBlock::aggregateQuery(MQLExecEnv *pEE, FastSetOfMonads& characteristi
 	return true;
 }
 
-StartMonadIterator* ObjectBlock::getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const SetOfMonads& Su, monad_m Sm)
+StartMonadIterator* ObjectBlock::getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const SetOfMonads& Su, monad_m Sm, bool bCameFromBlockString)
 {
 	UNUSED(U);
 
@@ -4515,16 +4515,27 @@ StartMonadIterator* ObjectBlock::getSMI(MQLExecEnv *pEE, const SetOfMonads& U, c
 					       Sm - largest_object_length
 					       );
 					
-			// Even for set of monads being the
-			// regular "monads" feature, we should
-			// not rely on Su having the last
-			// monad to be found.  Instead, we
-			// should set the end of the Su (and
-			// the end of the Univese) to be
-			// all_m_1's last monad.
 			monad_m max_m = pEE->m_all_m_1.last();
-					
-			upper_bound_Universe_end = max_m;
+
+			// The Inst now works such that the Universe's
+			// last monad is only checked against an
+			// object's first monad, not the last monad of
+			// any object.  This should be so because we
+			// want to use the Inst for things other than
+			// part_of(), such as overlap().
+			if (Su.isEmpty()) {
+				// But if the Su is empty, we
+				// don't know what to use for the last
+				// monad, except all_m_1.last().
+				upper_bound_Universe_end = max_m;
+			} else {
+				// The Su's last monad is enough for
+				// overlap(), since the first_monad of
+				// any overlapping object will be <=
+				// Su.last().
+				upper_bound_Universe_end = MYMIN(max_m,
+								 Su.last());
+			}
 		}
 				
 		Suping = Su;
@@ -4568,11 +4579,17 @@ StartMonadIterator* ObjectBlock::getSMI(MQLExecEnv *pEE, const SetOfMonads& U, c
 			monad_m max_m = pEE->m_all_m_1.last();
 
 			if (Su.isEmpty()) {
+				// We don't have an Su, so we set it
+				// to all_m_1.last().
 				upper_bound_Universe_end = max_m;
 			} else {
-				monad_m largest_object_length = getLargestObjectLength();
+				// The first monad of any object that
+				// starts in Su will be <= Su.last().
+				// Hence we only need to set
+				// upper_bound_Universe_end as
+				// follows:
 				upper_bound_Universe_end = MYMIN(max_m,
-								 Su.last() + largest_object_length);
+								 Su.last());
 			}
 		}
 
@@ -4599,16 +4616,18 @@ StartMonadIterator* ObjectBlock::getSMI(MQLExecEnv *pEE, const SetOfMonads& U, c
 		// does not exist, so the inst is empty!  Therefore,
 		// we can't use the pInst constructor.
 
- 		if (isSoleBlockInBlockString()) {
-			// This optimzation is OK.  It is made only if
-			// the NOTEXIST Object Block is the only
-			// object block in the BlockString.
- 			SetOfMonads Supingping;
- 			Supingping.add(lower_bound_Sm);
- 			return new MonadSetStartMonadIterator(Supingping, lower_bound_Sm, false);
- 		} else {
- 			return new MonadSetStartMonadIterator(Suping, lower_bound_Sm, false);
- 		}
+		if (isSoleBlockInBlockString() && bCameFromBlockString) {
+			// However, this optimzation is OK.  It is
+			// made only if the NOTEXIST Object Block is
+			// the only object block in the BlockString.
+			// Also, it is essential that we came
+			// (indirectly) from the BlockString.
+			SetOfMonads Supingping;
+			Supingping.add(lower_bound_Sm);
+			return new MonadSetStartMonadIterator(Supingping, lower_bound_Sm, false);
+		} else {
+			return new MonadSetStartMonadIterator(Suping, lower_bound_Sm, false);
+		}
 	} else {
 		// Normal object block
 		Inst *pInst = R_inst(pEE, Uping, this, 0);
@@ -4858,7 +4877,7 @@ void BlockString0::addOBBToVec(OBBVec *pOBBVec)
 StartMonadIterator* BlockString0::getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const SetOfMonads& Su, monad_m Sm)
 {
 	if (isBlock()) {
-		return m_block->getSMI(pEE, U, Su, Sm);
+		return m_block->getSMI(pEE, U, Su, Sm, true);
 	} else {
 		return m_block_string->getSMI(pEE, U, Su, Sm);
 	}
@@ -5874,7 +5893,7 @@ bool ObjectBlockString::type(MQLExecEnv *pEE, eObjectRangeType contextRangeType,
 
 StartMonadIterator* ObjectBlockString::getSMI(MQLExecEnv *pEE, const SetOfMonads& U, const SetOfMonads& Su, monad_m Sm)
 {
-	return m_object_block->getSMI(pEE, U, Su, Sm);
+	return m_object_block->getSMI(pEE, U, Su, Sm, true);
 }
 
 void ObjectBlockString::calculateMMapOutermost(String2COBPtrMMap& mmap, const std::string& prefix, EMdFDB *pDB)
