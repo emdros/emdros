@@ -4,6 +4,8 @@
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre10.
 
+	* debian/control: Add missing "python" package to Build-Depends.
+
 ============ 3.7.0.pre09 ============
 
 2019-03-02 Ulrik Sandborg-Petersen
