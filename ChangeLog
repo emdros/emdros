@@ -8,6 +8,9 @@
 
 	* INSTALL: Add missing "python" package to requirements on Ubuntu.
 
+	* INSTALL: Mention how to compile a .deb on Raspberry Pi, or other
+	memory-constrained systems.
+
 ============ 3.7.0.pre09 ============
 
 2019-03-02 Ulrik Sandborg-Petersen

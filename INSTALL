@@ -291,10 +291,24 @@ manually.  It is run from debian/rules as part of dpkg-buildpackage
 
 3f) dpkg-buildpackage -rfakeroot -d -us -uc
 
-This should build the .debs in $HOME/build/.  If this fails with an
-error, or it builds a .deb with a wrong version, _please_ get in touch
-with the Emdros author, Ulrik Sandborg-Petersen, by email:
-ulrikp<at>emdros|dot|org.  Thanks in advance for your help!
+This should build the .debs in $HOME/build/.
+
+If this fails with an error, or it builds a .deb with a wrong version,
+_please_ get in touch with the Emdros author, Ulrik Sandborg-Petersen,
+by email: ulrikp<at>emdros|dot|org.  Thanks in advance for your help!
+
+3g) If the build fails with a "memory exhausted" error, then try:
+
+$ export DEB_BUILD_OPTIONS="parallel=1"
+$ dpkg-buildpackage -rfakeroot -d -us -uc
+
+instead.  This can happen on systems which are memory-constrained,
+such as the Raspberry Pi.
+
+3h) If the build fails, do not just restart it from (3f).  Instead,
+first remove the build directory completely, then restart it from
+(3c).
+
 
 4) Install the .debs
 
