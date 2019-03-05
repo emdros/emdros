@@ -297,13 +297,17 @@ If this fails with an error, or it builds a .deb with a wrong version,
 _please_ get in touch with the Emdros author, Ulrik Sandborg-Petersen,
 by email: ulrikp<at>emdros|dot|org.  Thanks in advance for your help!
 
-3g) If the build fails with a "memory exhausted" error, then try:
+3g) If the build fails with a "memory exhausted" error, then read (3h)
+below, and then try:
 
-$ export DEB_BUILD_OPTIONS="parallel=1"
-$ dpkg-buildpackage -rfakeroot -d -us -uc
+$ dpkg-buildpackage -rfakeroot -d -us -uc -j1
 
-instead.  This can happen on systems which are memory-constrained,
-such as the Raspberry Pi.
+instead of (3f).  This will disable building with more than 1
+processor at a time, i.e., it will disable the simultaneous
+compilation of more than one file.
+
+This is useful on systems which are memory-constrained, such as the
+Raspberry Pi.
 
 3h) If the build fails, do not just restart it from (3f).  Instead,
 first remove the build directory completely, then restart it from
