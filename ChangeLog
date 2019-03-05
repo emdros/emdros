@@ -11,6 +11,31 @@
 	* INSTALL: Mention how to compile a .deb on Raspberry Pi, or other
 	memory-constrained systems.
 
+	* amalgamation/amalgamation.xml, amalgamation/Makefile.am: Move
+	the source files in util/ from the main amalgamation into the
+	amalgamation containing the importers.
+
+	Also, rename the non-core-Emdros amalgamation file from
+
+	emdros_amalgamation_2_importers.cpp
+
+	to
+
+	emdros_amalgamation_2_importers_util.cpp
+
+	This was done because:
+
+	a) The Raspberry Pi model 3B (+) only has 1GiB of RAM.  This was
+	barely enough to compile the amalgamation when the util/ files
+	were togehter with EMdF, MQL, and harvest.  Moving the util/ files
+	makes it easier to compile on Raspberry Pi.
+
+	b) The util/ files are not essential to running Emdros.  They are
+	essential to running the programs that come with Emdros, such as
+	mql(1) and renderobjects(1).  However, if a user wants to compile
+	Emdros only, such as for a mobile device (Android/iOS), then this
+	is easier now.
+
 ============ 3.7.0.pre09 ============
 
 2019-03-02 Ulrik Sandborg-Petersen

@@ -13,7 +13,7 @@ lib_LTLIBRARIES = libemdros_amalgamation.la
 DO_MACDIST = cp -f .libs/libemdros_amalgamation.a $(MACDISTDIR)/development/lib/
 
 mysourcecode = emdros_amalgamation_1_emdros.cpp \
-               emdros_amalgamation_2_importers.cpp \
+               emdros_amalgamation_2_importers_util.cpp \
                emdros_c_amalgamation_1.c \
                emdros_c_amalgamation_2.c
 

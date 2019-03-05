@@ -255,15 +255,6 @@
         <header_file name="include/memobject.h" />
         <header_file name="include/templatelang_classes.h" />
         <header_file name="include/templatelang_lexer.h" />
-        <header_file name="include/conf.h" />
-        <header_file name="include/conf_ini.h" />
-        <header_file name="include/schema.h" />
-        <header_file name="include/messages.h" />
-        <header_file name="include/opt.h" />
-        <header_file name="include/erw.h" />
-        <header_file name="include/mql_exporter.h" />
-        <header_file name="include/bptdumper.h" />
-        <header_file name="include/md5_emdros.h" />
         <header_file name="EMdF/jsonpars.h" />
         <header_file name="harvest/templatelangpars.h" />
       </header_files>
@@ -356,23 +347,23 @@
         <source_file name="harvest/harvest_fts.cpp" />
         <source_file name="harvest/harvest_fts2.cpp" />
         <source_file name="harvest/harvest_fts3.cpp" />
-        <source_file name="util/messages.cpp" />
-        <source_file name="util/schema.cpp" />
-        <source_file name="util/conf.cpp" />
-        <source_file name="util/conf_ini.cpp" />
-        <source_file name="util/mql_exporter.cpp" />
-        <source_file name="util/opt.cpp" />
-        <source_file name="util/bptdumper.cpp" />
-        <source_file name="util/md5_emdros.cpp" />
-        <source_file name="util/erw.cpp" />
       </source_files>
       <target_suffix>
       </target_suffix>
     </target_file>
-    <target_file language="C++" name="emdros_amalgamation_2_importers.cpp">
+    <target_file language="C++" name="emdros_amalgamation_2_importers_util.cpp">
       <code_prefixes>
       </code_prefixes>
       <header_files>
+        <header_file name="include/conf.h" />
+        <header_file name="include/conf_ini.h" />
+        <header_file name="include/schema.h" />
+        <header_file name="include/messages.h" />
+        <header_file name="include/opt.h" />
+        <header_file name="include/erw.h" />
+        <header_file name="include/mql_exporter.h" />
+        <header_file name="include/bptdumper.h" />
+        <header_file name="include/md5_emdros.h" />
 	<header_file name="include/boilerplate_license.h" />
 	<header_file name="include/negraimporter.h" />
 	<header_file name="include/pennimporter.h" />
@@ -388,6 +379,15 @@
       <target_prefix>
       </target_prefix>	
       <source_files>
+        <source_file name="util/messages.cpp" />
+        <source_file name="util/schema.cpp" />
+        <source_file name="util/conf.cpp" />
+        <source_file name="util/conf_ini.cpp" />
+        <source_file name="util/mql_exporter.cpp" />
+        <source_file name="util/opt.cpp" />
+        <source_file name="util/bptdumper.cpp" />
+        <source_file name="util/md5_emdros.cpp" />
+        <source_file name="util/erw.cpp" />
         <source_file name="importers/negraschema.h" />
         <source_file name="importers/pennschema.h" />
         <source_file name="importers/plaintextschema.h" />
