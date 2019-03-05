@@ -6,6 +6,8 @@
 
 	* debian/control: Add missing "python" package to Build-Depends.
 
+	* INSTALL: Add missing "python" package to requirements on Ubuntu.
+
 ============ 3.7.0.pre09 ============
 
 2019-03-02 Ulrik Sandborg-Petersen
