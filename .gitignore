@@ -305,7 +305,7 @@ amalgamation/emdros-config.h
 amalgamation/emdros-lconfig.h
 amalgamation/emdros.h
 amalgamation/emdros_amalgamation_1_emdros.cpp
-amalgamation/emdros_amalgamation_2_importers.cpp
+amalgamation/emdros_amalgamation_2_importers_util.cpp
 amalgamation/emdros_c.h
 amalgamation/emdros_c_amalgamation_1.c
 amalgamation/emdros_c_amalgamation_2.c
