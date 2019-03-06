@@ -1,6 +1,12 @@
-============ 3.7.0.pre10 ============
+============ 3.7.0.pre11 ============
 
 2019-03-06 Ulrik Sandborg-Petersen
+
+	* configure.ac, debian/changelog: Bump to 3.7.0.pre11.
+
+============ 3.7.0.pre10 ============
+
+2019-03-05 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre10.
 
