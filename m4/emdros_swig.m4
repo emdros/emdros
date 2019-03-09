@@ -96,7 +96,7 @@ ORIGINAL_DO_SWIG_PYTHON2=$DO_SWIG_PYTHON2
 
 dnl If we can't do SWIG, don't do SWIG Python bindings.
 if test x$CAN_DO_SWIG == xno; then
-   if test -f SWIG/python2/pyemdros_wrap.cxx -a -f SWIG/python2/EmdrosPy.py; then
+   if test -f SWIG/python/pyemdros_wrap.cxx -a -f SWIG/python/EmdrosPy.py; then
      DO_SWIG_PYTHON2=yes;
    else
      DO_SWIG_PYTHON2=no;

@@ -4,6 +4,10 @@
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre11.
 
+	* m4/emdros_swig.m4: Enable compilation of Python2 SWIG bindings
+	from a release tarball even when the swig(1) program is not
+	available.
+
 ============ 3.7.0.pre10 ============
 
 2019-03-05 Ulrik Sandborg-Petersen
