@@ -15,7 +15,7 @@ LIBTARGET = libemdros_amalgamation.a
 TARGETS = emdros_config_h $(PROGRAM1) $(BUILT_SOURCES) "$(OUTDIR)\$(LIBTARGET)"
 
 BUILT_SOURCES = emdros_amalgamation_1_emdros.cpp \
-                emdros_amalgamation_2_importers.cpp \
+                emdros_amalgamation_2_importers_util.cpp \
                 emdros_c_amalgamation_1.c \
                 emdros_c_amalgamation_2.c 
 
@@ -24,7 +24,7 @@ CLEANFILES = $(BUILT_SOURCES) \
 
 LIBTARGET_OBJS= \
   emdros_amalgamation_1_emdros.o \
-  emdros_amalgamation_2_importers.o \
+  emdros_amalgamation_2_importers_util.o \
   emdros_c_amalgamation_1.o \
   emdros_c_amalgamation_2.o
 

@@ -43,6 +43,12 @@
 	EMDROS_VERSION #define and friends (EMDROS_VERSION_MAJOR,
 	EMDROS_VERSION_MINOR, EMDROS_VERSION_RELEASE).
 
+	* amalgamation/win32.mak, amalgamation/mingw.mak: Build the right
+	object files with the right names.
+
+	Also, build amalgamation\emdros-lconfig.h from
+	..\include\emdros-lconfig.h.
+
 2019-03-06 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre11.

@@ -16,7 +16,7 @@ TARGETS = $(PROGRAM1) emdros_amalgamation_1_emdros.cpp emdros-config.h  emdros-l
 
 LIBTARGET_OBJS= \
           "$(INTDIR)\emdros_amalgamation_1_emdros.obj" \
-          "$(INTDIR)\emdros_amalgamation_2_importers.obj" \
+          "$(INTDIR)\emdros_amalgamation_2_importers_util.obj" \
           "$(INTDIR)\emdros_c_amalgamation_1.obj" \
           "$(INTDIR)\emdros_c_amalgamation_2.obj" 
 
@@ -44,5 +44,5 @@ emdros_config_h: emdros-config.h emdros-lconfig.h
 emdros-config.h: $(TOPSRCDIR)\win32\config.h.win32
 	copy /Y /B $(TOPSRCDIR)\win32\config.h.win32 .\emdros-config.h
 
-emdros-lconfig.h: $(TOPSRCDIR)\win32\lconfig.h.win32
-	copy /Y /B $(TOPSRCDIR)\win32\lconfig.h.win32  .\emdros-lconfig.h
+emdros-lconfig.h: $(TOPSRCDIR)\include\emdros-lconfig.h
+	copy /Y /B $(TOPSRCDIR)\include\emdros-lconfig.h  .\emdros-lconfig.h
