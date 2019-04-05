@@ -281,3 +281,35 @@ Building Emdros only
 If you wish to build Emdros only (no examples, no SWIG, no query
 tool), you can define EMDROS_ONLY=1 in win32\config.mak.
 
+Or you can pass
+
+EMDROS_ONLY=1
+
+to nmake.
+
+
+
+Building the amalgamation library only
+======================================
+
+In win32\config.mak, there is a configuration variable called
+
+BUILD_FOR_DEVEL
+
+If this is 1, then all Emdros libraries are built (libemdf.lib,
+libmql.lib, etc.) and used when linking programs against the Emdros
+libraries.
+
+This has been the case since the very first Windows version of Emdros,
+so the default value of BUILD_FOR_DEVEL is 1.
+
+If you set it to non-1, then only the
+win32\Release\libemdros_amalgamation.lib library is built and used for
+linking programs.
+
+You can simply pass
+
+BUILD_FOR_DEVEL=0
+
+to nmake for this to take effect.
+

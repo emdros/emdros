@@ -78,6 +78,8 @@
 	modified:   util/win32.mak
 	modified:   win32/config.mak.in
 
+	* win32/README.txt: Document the new BUILD_FOR_DEVEL variable.
+
 2019-03-06 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre11.
