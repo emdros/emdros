@@ -25,6 +25,9 @@
 
 	These files are about to be obsoleted.
 
+	* win32/lconfig.h.win32.in: Remove this file.  It is about to be
+	obsoleted.
+
 2019-03-06 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre11.
