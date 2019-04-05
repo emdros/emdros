@@ -4,6 +4,10 @@
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre12.
 
+	* win32/config.h.win32: Don't #define HAVE_UNISTD_H, since the
+	convention is to leave it undefined, not define it to 0.  zconf.h
+	needs this.
+
 ============ 3.7.0.pre11 ============
 
 2019-04-05 Ulrik Sandborg-Petersen

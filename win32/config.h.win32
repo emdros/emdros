@@ -17,7 +17,7 @@
 #define HAVE_LIMITS_H 1
 
 /* Define if you have the <unistd.h> header file.  */
-#define HAVE_UNISTD_H 0
+/* #undef HAVE_UNISTD_H */
 
 /* Name of package */
 #define PACKAGE "emdros"
