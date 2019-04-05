@@ -11,6 +11,9 @@
 
 	* include/Makefile.am: Add get_version.cpp to EXTRA_DIST.
 
+	* include/get_version.cpp: Make it compile with MS Visual Studio
+	C++ compiler.
+
 2019-03-06 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre11.

@@ -91,7 +91,7 @@ int doIt(const std::string& configure_infilename, std::ostream& fout)
 		std::cerr << "ERROR: Could not open file '" << configure_infilename << "' for reading\n";
 		nResult = 3;
 	} else {
-		std::streamsize nLineLength = 1024;
+		const std::streamsize nLineLength = 1024;
 		char szLine[nLineLength];
 		szLine[0] = '\0';
 		while (fin.good()) {
