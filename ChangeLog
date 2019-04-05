@@ -16,6 +16,9 @@
 
 	* win32/README.txt: Update slightly.
 
+	* win32/config.h.win32: Remove the #define VERSION line.  It had
+	not been updated since version 1.0.0, and was not being used.
+
 2019-03-06 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre11.
