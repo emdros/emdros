@@ -80,6 +80,9 @@
 
 	* win32/README.txt: Document the new BUILD_FOR_DEVEL variable.
 
+	* importers/win32.mak, importers/mingw.mak: Support the new
+	BUILD_FOR_DEVEL variable in this directory as well.
+
 2019-03-06 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre11.

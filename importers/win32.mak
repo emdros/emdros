@@ -8,8 +8,13 @@
 WIN32DIR = ..\win32
 
 
+!IF "$(BUILD_FOR_DEVEL)" == "1"
 LIBTARGET = libemdros_importers.lib
 TARGETS = "$(OUTDIR)\$(LIBTARGET)"
+!ELSE
+LIBTARGET =
+TARGETS = 
+!ENDIF
 CLEANFILES = 
 
 LIBTARGET_OBJS= \
