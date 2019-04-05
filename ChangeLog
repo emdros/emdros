@@ -8,6 +8,10 @@
 	convention is to leave it undefined, not define it to 0.  zconf.h
 	needs this.
 
+	* zlib/zconf.h.win32, zlib/zconf.h.mingw: Also upgrade these to
+	ZLib version 1.2.11 from 2017.  These had been accidentally not
+	upgraded when we upgraded ZLib back in Emdros version 3.7.0.pre04.
+
 ============ 3.7.0.pre11 ============
 
 2019-04-05 Ulrik Sandborg-Petersen
