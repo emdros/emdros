@@ -39,6 +39,18 @@ else
 BPT_DEPENDENCIES = 
 endif
 
+ifeq ($(BUILD_FOR_DEVEL),1)
+EMDROS_DEPENDENCIES = \
+           "$(OUTDIR)\libharvest.a"  \
+           "$(OUTDIR)\libutil_emdros.a"  \
+           "$(OUTDIR)\libemdros_importers.a"  \
+           $(EMDF_DEPENDENCIES) \
+           $(PCRELIB) \
+           $(MQL_DEPENDENCIES)
+else
+EMDROS_DEPENDENCIES = $(OUTDIR)\libemdros_amalgamation.a
+endif
+
 
 PROGRAM_DEPENDENCIES = \
                        $(OUTDIR)\libharvest.a  \

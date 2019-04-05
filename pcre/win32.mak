@@ -9,8 +9,16 @@ WIN32DIR = ..\win32
 
 
 LOCAL_CPPFLAGS = -I. -DPCRE_STATIC -DHAVE_CONFIG_H
+
+
+!IF "$(BUILD_FOR_DEVEL)" == "1"
 LIBTARGET = libpcre_emdros.lib
 TARGETS = pcre_config_h pcre_emdros_h "$(OUTDIR)\$(LIBTARGET)"
+!ELSE
+LIBTARGET = 
+TARGETS = 
+!ENDIF
+
 CLEANFILES = chartables.c dftables.exe 
 
 LIBTARGET_OBJS= \

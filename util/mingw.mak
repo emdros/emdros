@@ -8,8 +8,15 @@
 WIN32DIR = ..\win32
 
 
+
+ifeq ("$(BUILD_FOR_DEVEL)","1")
 LIBTARGET = libutil_emdros.a
 TARGETS = "$(OUTDIR)\$(LIBTARGET)"
+else
+LIBTARGET = 
+TARGETS = 
+endif
+
 CLEANFILES = 
 
 LIBTARGET_OBJS= \

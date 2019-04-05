@@ -49,6 +49,35 @@
 	Also, build amalgamation\emdros-lconfig.h from
 	..\include\emdros-lconfig.h.
 
+	* win32/config.mak.in: Add the configuration variable
+	BUILD_FOR_DEVEL.  If set to 1 (which is the default), then all of
+	the Emdros libraries are built as usual.  Otherwise, if it is
+	empty (or non-1), then only the amalgamation is built and used.
+
+	Note that the libsqlite3_emdros.lib library is built even if
+	BUILD_FOR_DEVEL is non-1.  This is because we need to build
+	sqlite3_emdros.exe, which depends on this library.
+
+	Files affected:
+
+	modified:   EMdF/mingw.mak
+	modified:   EMdF/win32.mak
+	modified:   MQL/mingw.mak
+	modified:   MQL/win32.mak
+	modified:   harvest/mingw.mak
+	modified:   harvest/win32.mak
+	modified:   pcre/mingw.mak
+	modified:   pcre/win32.mak
+	modified:   src/mingw.mak
+	modified:   src/qrytool/mingw.mak
+	modified:   src/qrytool/win32.mak
+	modified:   src/win32.mak
+	modified:   tests/mingw.mak
+	modified:   tests/win32.mak
+	modified:   util/mingw.mak
+	modified:   util/win32.mak
+	modified:   win32/config.mak.in
+
 2019-03-06 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre11.

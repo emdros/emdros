@@ -48,14 +48,21 @@ BPT_DEPENDENCIES =
 endif
 
 
+ifeq ($(BUILD_FOR_DEVEL),1)
+EMDROS_DEPENDENCIES = \
+   $(OUTDIR)\libutil_emdros.a \
+   $(MQL_DEPENDENCIES) \
+   $(PCRELIB) \
+   $(EMDF_DEPENDENCIES)
+else
+EMDROS_DEPENDENCIES = $(OUTDIR)\libemdros_amalgamation.a
+endif
+
 
 PROGRAM_DEPENDENCIES = \
    "$(OUTDIR)\$(LIBTARGET)" \
-   $(OUTDIR)\libutil_emdros.a  \
    $(EXTRA_DEPENDENCIES) \
-   $(MQL_DEPENDENCIES) \
-   $(PCRELIB) \
-   $(EMDF_DEPENDENCIES) \
+   $(EMDROS_DEPENDENCIES) \
    $(BPT_DEPENDENCIES) \
    $(DBLIB) 
 

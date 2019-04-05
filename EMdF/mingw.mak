@@ -14,8 +14,14 @@ WIN32DIR = ..\win32
 include $(WIN32DIR)\config.mak
 
 
+ifeq ("$(BUILD_FOR_DEVEL)","1")
 LIBTARGET = libemdf.a
 TARGETS = "$(OUTDIR)\$(LIBTARGET)"
+else
+LIBTARGET = 
+TARGETS = 
+endif
+
 CLEANFILES = 
 
 ifeq ($(SQLITE3_NO_SYNC),1)

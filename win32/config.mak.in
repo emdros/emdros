@@ -4,11 +4,26 @@
 # ---------------------
 TARGET_CPU = X64
 
+
+# ---------------------
+# Comment out the BUILD_FOR_DEVEL line if you
+# only wish to build (and use) the amalgamation.
+# Otherwise, all individual Emdris libraries
+# will be built, as usual.
+# (libemdf.lib, libmql.lib, etc.).
+#
+# If you comment this out, or set it to 0,
+# then the individual libraries are not built.
+# Instead, the amalgamation is built and used.
+# ---------------------
+BUILD_FOR_DEVEL = 1
+
+
+
 # ---------------------
 # Comment any of these out
 # in order not to compile that backend
 # ---------------------
-
 SQLITE3=1
 
 !IF "$TARGET_CPU" == "X64"

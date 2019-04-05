@@ -48,16 +48,24 @@ BPT_DEPENDENCIES =
 !ENDIF
 
 
+!IF "$(BUILD_FOR_DEVEL)" == "1"
+EMDROS_DEPENDENCIES = \
+   "$(OUTDIR)\libutil_emdros.lib" \
+   $(EMDF_DEPENDENCIES) \
+   $(MQL_DEPENDENCIES) \
+   $(PCRELIB)
+!ELSE
+EMDROS_DEPENDENCIES = $(OUTDIR)\libemdros_amalgamation.lib
+!ENDIF
+
+
 
 PROGRAM_DEPENDENCIES = \
    "$(OUTDIR)\$(LIBTARGET)" \
-   "$(OUTDIR)\libutil_emdros.lib"  \
    $(BPT_DEPENDENCIES) \
    $(DBLIB) \
-   $(EMDF_DEPENDENCIES) \
-   $(MQL_DEPENDENCIES) \
-   $(EXTRA_DEPENDENCIES) \
-   $(PCRELIB)
+   $(EMDROS_DEPENDENCIES) \
+   $(EXTRA_DEPENDENCIES) 
 
 
 
