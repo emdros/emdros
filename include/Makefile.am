@@ -46,7 +46,7 @@ noinst_HEADERS = mql_R.h \
 #
 # pcre_emdros.h is placed here because automake doesn't support 
 # placing it in $(srcdir)/../pcre/Makefile.am
-BUILT_SOURCES = pcre_emdros.h zlib_emdros.h \
+BUILT_SOURCES = pcre_emdros.h zlib_emdros.h zconf.h \
                 prefix_emdros.h \
                 sqlite3_emdros.h \
                 emdros_reserved_words.h 
