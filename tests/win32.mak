@@ -67,3 +67,16 @@ PROGRAM6_DEPENDENCIES = $(PROGRAM_DEPENDENCIES)
 
 
 !INCLUDE $(WIN32DIR)\body.mak
+
+test: all
+!IF "$(SQLITE3)" == "1"
+    "$(OUTDIR)\emdftry.exe" -b 3
+    "$(OUTDIR)\mqltry.exe" -b 3
+!ELSE
+    echo SQLite3 support not built in. Emdros on SQLite3 not tested.
+!ENDIF
+!IF "$(SQLITE3)" == "1" && "$(BPT)" == "1"
+    "$(OUTDIR)\bpttry.exe" -b 3
+!ELSE
+    echo BPT support not built in. Emdros on BPT not tested.
+!ENDIF

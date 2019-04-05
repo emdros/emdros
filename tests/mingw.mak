@@ -63,3 +63,24 @@ PROGRAM5_DEPENDENCIES = $(PROGRAM_DEPENDENCIES)
 
 
 include $(WIN32DIR)\mingw-body.mak
+
+
+test: all test_sqlite3 test_bpt
+
+ifeq ($(SQLITE3),1)
+test_sqlite3:
+	$(OUTDIR)\emdftry.exe -b 3
+	$(OUTDIR)\mqltry.exe -b 3
+else
+	echo SQLite3 support not built in. Emdros on SQLite3 not tested.
+endif
+
+ifeq ($(BPT),1)
+ifeq ($(SQLITE3),1)
+test_bpt:
+	$(OUTDIR)\bpttry.exe -b 3
+else
+test_bpt:
+	echo BPT support not built in. Emdros on BPT not tested.
+endif
+endif
