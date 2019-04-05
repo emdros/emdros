@@ -19,6 +19,12 @@
 	* win32/config.h.win32: Remove the #define VERSION line.  It had
 	not been updated since version 1.0.0, and was not being used.
 
+	* win32/Makefile.am: Don't make the file win32/lconfig.h.win32,
+	and don't distribute this file, nor distribute
+	win32/lconfig.h.win32.in.
+
+	These files are about to be obsoleted.
+
 2019-03-06 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre11.
