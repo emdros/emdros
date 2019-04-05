@@ -96,6 +96,8 @@
 	* sqlite3/src/sqlite3.c, sqlite3/src/sqlite3.h: Update to SQLite
 	version 3.27.2 from 2019-02-15.
 
+	* win32/mingw.mak: Add target 'test', and let 'dist' depend on it.
+
 2019-03-06 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre11.

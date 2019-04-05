@@ -71,6 +71,10 @@ distclean: clean
 	-del ..\config.h
 
 
+test: all
+	$(MAKE) -C ../tests -f mingw.mak test
+	echo SUCCESS: All tests succeeded.
+
 DIST_DOC_DOC_FILES = \
                    progref\EmdrosProgRefGuide.pdf \
                    progref\emdros-progref-guide-$(VERSION).zip
@@ -226,7 +230,7 @@ TECKIT_INCLUDE_HEADER_FILES = \
 	                  Prefix_Win32.h
 
 
-dist: all
+dist: all test
 	$(MAKE) -f mingw.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_DIST_DIRS
 	$(MAKE) -f mingw.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_DIST_FILES
 ifeq ($(PGSQL),1)
