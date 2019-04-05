@@ -2,7 +2,7 @@ Compiling Emdros with Visual C++
 ================================
 
 This file contains instructions for how to compile Emdros with Visual
-Studio .Net 2005 or higher.  The instructions are split up into these
+Studio 2010 or higher.  The instructions are split up into these
 parts:
 
 - Generic build instructions
