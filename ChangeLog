@@ -28,6 +28,21 @@
 	* win32/lconfig.h.win32.in: Remove this file.  It is about to be
 	obsoleted.
 
+	* include/emdros-lconfig.h.in, include/win32.mak, include/mingw.mak:
+
+	This change is about Windows.
+
+	Don't #include the file "win32-lconfig.h" in emdros-lconfig.h.in.
+	Instead, make that file, and copy it + the contents of
+	emdros-lconfig.h.in into emdros-lconfig.h in the Windows
+	makefiles.
+
+	Also, in include/win32.mak and in include/mingw.mak, make the
+	program .\get_version.exe from include\get_version.cpp.  Then use
+	this program to build the win32-lconfig.h as it pertains to the
+	EMDROS_VERSION #define and friends (EMDROS_VERSION_MAJOR,
+	EMDROS_VERSION_MINOR, EMDROS_VERSION_RELEASE).
+
 2019-03-06 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre11.

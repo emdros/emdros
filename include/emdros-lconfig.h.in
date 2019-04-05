@@ -30,10 +30,6 @@
 #ifndef LCONFIG__H__
 #define LCONFIG__H__
 
-#if defined(_WIN32) || defined(WIN32)
-#include "win32-lconfig.h"
-#endif
-
 #ifndef USE_POSTGRESQL
 #define USE_POSTGRESQL @USE_POSTGRESQL@
 #endif
