@@ -1,5 +1,14 @@
 ============ 3.7.0.pre11 ============
 
+2019-04-05 Ulrik Sandborg-Petersen
+
+	* include/get_version.cpp: Initial addition.
+
+	This program is meant to be run on Windows. It reads
+	..\configure.ac and finds the Emdros version.  It then emits
+	#defines to std::cout, appropriate for generating
+	emdros-lconfig.h.in.
+
 2019-03-06 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre11.
