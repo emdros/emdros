@@ -161,6 +161,8 @@ Release notes for Emdros 3.7.0
 - The local version of ZLib has been upgraded to version 1.2.11 from
   January 15, 2017.
 
+- SQLite3 has been upgraded.
+
 
 - *** Version 3.6.1 *** 
 
