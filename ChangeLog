@@ -12,6 +12,9 @@
 	ZLib version 1.2.11 from 2017.  These had been accidentally not
 	upgraded when we upgraded ZLib back in Emdros version 3.7.0.pre04.
 
+	* amalgamation/amalgamation.xml: Add include/zconf.h to the list
+	of header files for the C++.
+
 ============ 3.7.0.pre11 ============
 
 2019-04-05 Ulrik Sandborg-Petersen

@@ -188,6 +188,7 @@
         <header_file name="include/string_func.h" />
         <header_file name="include/string_list.h" />
         <header_file name="include/utils.h" />
+        <header_file name="include/zconf.h" />
         <header_file name="include/zlib_emdros.h" />
         <header_file name="zlib/zlib.h" />
         <header_file name="include/lzma_emdros.h" />
