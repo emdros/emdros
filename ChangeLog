@@ -13,7 +13,12 @@
 	upgraded when we upgraded ZLib back in Emdros version 3.7.0.pre04.
 
 	* amalgamation/amalgamation.xml: Add include/zconf.h to the list
-	of header files for the C++.
+	of header files for the C++.  This is necessary on Windows, where
+	we don't have a system-wide ZLib.
+
+	* include/Makefile.am: Always make zconf.h, but don't distribute
+	it.  This is due to the addition of include/zconf.h to
+	amalgamation/amalgamation.xml.
 
 ============ 3.7.0.pre11 ============
 

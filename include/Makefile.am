@@ -12,9 +12,7 @@ if USE_LOCAL_PCRE
 PACKAGE_INCLUDE_HEADER_FILES_NODIST += pcre_config.h
 endif
 
-if USE_LOCAL_ZLIB
 PACKAGE_INCLUDE_HEADER_FILES_NODIST += zconf.h
-endif
 
 
 
@@ -86,6 +84,14 @@ zlib_emdros.h: $(srcdir)/../zlib/zlib.h zconf.h
 	echo '#endif /* (defined(USE_BPT) && USE_BPT) */' >> zlib_emdros.h
 	echo '#endif /* !defined(ZLIB_EMDROS_H_) */' >> zlib_emdros.h
 else
+zconf.h: 
+	rm -f $@
+	echo '#ifndef ZCONF_H_' >> $@
+	echo '#define ZCONF_H_' >> $@
+	echo '/* Dummy file, necessary for compiling the amalgamation. */' >> $@
+	echo '#endif /* !defined(ZCONF_H_) */' >> $@
+
+
 zlib_emdros.h:
 	rm -f $@
 	echo '#ifndef ZLIB_EMDROS_H_' >> zlib_emdros.h
