@@ -150,6 +150,14 @@ Release notes for Emdros 3.7.0
     built if you give the "--enable-devel" switch to the configure
     script.
 
+  - On Windows nmake and mingw builds, there is a new variable in
+    win32\config.mak, called BUILD_FOR_DEVEL.  When this is set to 1,
+    all libraries are built as normal.  When set to non-1 (or not set
+    at all), then only the amalgamation is built and used.
+
+  - On Windows nmake and mingw builds, there is a new 'test' target in
+    win32\.
+
 - The local version of ZLib has been upgraded to version 1.2.11 from
   January 15, 2017.
 
