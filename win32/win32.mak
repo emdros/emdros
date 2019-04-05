@@ -26,47 +26,47 @@ ALL: config.nsh
    copy "$(MYSQLTOP)\include\mysql\psi\*.*" "..\win32\mysql_include\mysql\psi\"
 !ENDIF
    cd ..\include
-   nmake /f win32.mak $(MAKEMACRO) 
+   $(MAKE) /f win32.mak $(MAKEARGS) 
    cd ..\pcre
-   nmake /f win32.mak $(MAKEMACRO) 
+   $(MAKE) /f win32.mak $(MAKEARGS) 
 !IF "$(BPT)" == "1"
    cd ..\zlib
-   nmake /f win32.mak $(MAKEMACRO) 
+   $(MAKE) /f win32.mak $(MAKEARGS) 
 !ENDIF
 !IF "$(SQLITE3)" == "1"
    cd ..\sqlite3
-   nmake /f win32.mak $(MAKEMACRO) 
+   $(MAKE) /f win32.mak $(MAKEARGS) 
 !ENDIF
    cd ..\EMdF
-   nmake /f win32.mak $(MAKEMACRO) 
+   $(MAKE) /f win32.mak $(MAKEARGS) 
    cd ..\MQL
-   nmake /f win32.mak $(MAKEMACRO) 
+   $(MAKE) /f win32.mak $(MAKEARGS) 
    cd ..\util
-   nmake /f win32.mak $(MAKEMACRO) 
+   $(MAKE) /f win32.mak $(MAKEARGS) 
    cd ..\importers
-   nmake /f win32.mak $(MAKEMACRO) 
+   $(MAKE) /f win32.mak $(MAKEARGS) 
    cd ..\harvest
-   nmake /f win32.mak $(MAKEMACRO) 
+   $(MAKE) /f win32.mak $(MAKEARGS) 
    cd ..\amalgamation
-   nmake /f win32.mak $(MAKEMACRO) 
+   $(MAKE) /f win32.mak $(MAKEARGS) 
 !IF "$(EMDROS_ONLY)"=="0"
 !IF "$(WITH_WXWIN)"=="yes"
    cd ..\wx
-   nmake /f win32.mak $(MAKEMACRO) 
+   $(MAKE) /f win32.mak $(MAKEARGS) 
 !ENDIF
    cd ..\src\qrytool
-   nmake /f win32.mak $(MAKEMACRO) 
+   $(MAKE) /f win32.mak $(MAKEARGS) 
    cd ..\..\src\importtool
-   nmake /f win32.mak $(MAKEMACRO) 
+   $(MAKE) /f win32.mak $(MAKEARGS) 
    cd ..
 !ENDIF
    cd ..\src
-   nmake /f win32.mak $(MAKEMACRO) 
+   $(MAKE) /f win32.mak $(MAKEARGS) 
    cd ..\tests
-   nmake /f win32.mak $(MAKEMACRO) 
+   $(MAKE) /f win32.mak $(MAKEARGS) 
 !IF "$(EMDROS_ONLY)"=="0"
    cd ..\SWIG
-   nmake /f win32.mak $(MAKEMACRO) 
+   $(MAKE) /f win32.mak $(MAKEARGS) 
 !ENDIF 
    cd ..\win32
    echo All Win32 parts have been built!
@@ -75,33 +75,33 @@ ALL: config.nsh
 CLEAN:
    -del config.nsh
    cd ..\include
-   nmake /f win32.mak CLEAN
+   $(MAKE) /f win32.mak $(MAKEARGS) CLEAN
 !IF "$(SQLITE3)" == "1"
    cd ..\sqlite3
-   nmake /f win32.mak CLEAN
+   $(MAKE) /f win32.mak $(MAKEARGS) CLEAN
 !ENDIF
    cd ..\EMdF
-   nmake /f win32.mak CLEAN
+   $(MAKE) /f win32.mak $(MAKEARGS) CLEAN
    cd ..\pcre
-   nmake /f win32.mak CLEAN
+   $(MAKE) /f win32.mak $(MAKEARGS) CLEAN
    cd ..\MQL
-   nmake /f win32.mak CLEAN
+   $(MAKE) /f win32.mak $(MAKEARGS) CLEAN
    cd ..\util
-   nmake /f win32.mak CLEAN
+   $(MAKE) /f win32.mak $(MAKEARGS) CLEAN
    cd ..\importers
-   nmake /f win32.mak CLEAN
+   $(MAKE) /f win32.mak $(MAKEARGS) CLEAN
    cd ..\harvest
-   nmake /f win32.mak CLEAN
+   $(MAKE) /f win32.mak $(MAKEARGS) CLEAN
    cd ..\wx
-   nmake /f win32.mak CLEAN
+   $(MAKE) /f win32.mak $(MAKEARGS) CLEAN
    cd ..\src\qrytool
-   nmake /f win32.mak CLEAN
+   $(MAKE) /f win32.mak $(MAKEARGS) CLEAN
    cd ..
-   nmake /f win32.mak CLEAN
+   $(MAKE) /f win32.mak $(MAKEARGS) CLEAN
    cd ..\tests
-   nmake /f win32.mak CLEAN
+   $(MAKE) /f win32.mak $(MAKEARGS) CLEAN
    cd ..\SWIG
-   nmake /f win32.mak CLEAN
+   $(MAKE) /f win32.mak $(MAKEARGS) CLEAN
    cd ..\win32
    -@erase *~
    -@rmdir Release\ /s /q
@@ -113,6 +113,12 @@ CLEAN:
 DISTCLEAN: CLEAN
    -del ..\config.h
 
+
+TEST: ALL
+   cd ..\tests
+   $(MAKE) /f win32.mak $(MAKEARGS) test
+   cd ..\win32
+   echo SUCCESS: All tests have passed
 
 
 DIST_DOC_DOC_FILES = \
@@ -200,6 +206,7 @@ DIST_LIB_FILES=  win32\Release\libpcre_emdros.lib \
                  win32\Release\libharvest.lib \
                  win32\Release\libemdrosgui.lib \
                  win32\ReleaseUnicode\libemdrosguiu.lib \
+                 win32\Release\libemdros_amalgamation.lib \
                  $(DIST_WX_LIB)
 
 DIST_ETC_QRYTOOL_FILES = src\qrytool\default.cfg \
@@ -263,29 +270,29 @@ DIST_SQLITE3_BIN_FILES = win32\Release\sqlite3_emdros.exe
 
 
 DIST: ALL
-   nmake /f win32.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_DIST_DIRS
-   nmake /f win32.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_DIST_FILES
+   $(MAKE) /f win32.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_DIST_DIRS
+   $(MAKE) /f win32.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_DIST_FILES
 !IF "$(PGSQL)" == "1"
-   nmake /f win32.mak  DIST_PGSQL
+   $(MAKE) /f win32.mak  DIST_PGSQL
 !ENDIF
 !IF "$(MYSQL)" == "1"
-   nmake /f win32.mak  DIST_MYSQL
+   $(MAKE) /f win32.mak  DIST_MYSQL
 !ENDIF
 !IF "$(SQLITE3)" == "1"
-   nmake /f win32.mak  DIST_SQLITE3
+   $(MAKE) /f win32.mak  DIST_SQLITE3
 !ENDIF
    cd ..
    cd win32
 
 
 DIST_MYSQL: 
-   nmake /f win32.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_MY_DIST_FILES
+   $(MAKE) /f win32.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_MY_DIST_FILES
 
 DIST_PGSQL: 
-   nmake /f win32.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_PG_DIST_FILES
+   $(MAKE) /f win32.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_PG_DIST_FILES
 
 DIST_SQLITE3: 
-   nmake /f win32.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_SQLITE3_DIST_FILES
+   $(MAKE) /f win32.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_SQLITE3_DIST_FILES
 
 
 MAKE_PG_DIST_FILES:
@@ -343,9 +350,7 @@ MAKE_DIST_DIRS:
 	-mkdir "$(DIST_DIR)\bin"
 	-mkdir "$(DIST_DIR)\lib"
 	-mkdir "$(DIST_DIR)\etc"
-!IF "$(WITH_WXWIN)"=="yes"
 	-mkdir "$(DIST_DIR)\etc\qrytool"
-!ENDIF
 	-mkdir "$(DIST_DIR)\include"
 	cd win32
 
@@ -366,7 +371,7 @@ MAKE_DIST_FILES: MAKE_DIST_SWIG
 	cd win32
 
 
-INST: DIST
+INST: TEST DIST
 	cd ..\emdros-$(VERSION)-windows
         "$(NSISEXE)" emdros.nsi
         cd ..\win32

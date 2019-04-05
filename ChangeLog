@@ -85,6 +85,14 @@
 
 	* tests/win32.mak, tests/mingw.mak: Add test targets on Windows.
 
+	* win32/win32.mak: Add target 'test', and call this as part of the
+	'dist' target.
+
+	* win32/win32.mak: Distribute the Emdros amalgamation library.
+
+	* win32/config.mak.in, win32/win32.mak: Add ability to define all
+	configuration variables on the command line when invoking nmake.
+
 2019-03-06 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre11.
