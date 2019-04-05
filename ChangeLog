@@ -93,6 +93,9 @@
 	* win32/config.mak.in, win32/win32.mak: Add ability to define all
 	configuration variables on the command line when invoking nmake.
 
+	* sqlite3/src/sqlite3.c, sqlite3/src/sqlite3.h: Update to SQLite
+	version 3.27.2 from 2019-02-15.
+
 2019-03-06 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre11.
