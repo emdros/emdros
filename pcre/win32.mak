@@ -15,7 +15,7 @@ LOCAL_CPPFLAGS = -I. -DPCRE_STATIC -DHAVE_CONFIG_H
 LIBTARGET = libpcre_emdros.lib
 TARGETS = pcre_config_h pcre_emdros_h "$(OUTDIR)\$(LIBTARGET)"
 !ELSE
-LIBTARGET = 
+LIBTARGET = pcre_config_h pcre_emdros_h 
 TARGETS = 
 !ENDIF
 

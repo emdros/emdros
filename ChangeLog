@@ -14,6 +14,9 @@
 	deleted:    zlib/zconf.h.mingw
 	deleted:    zlib/zconf.h.win32
 
+	* pcre/win32.mak: Build the targets "pcre_config_h" and
+	"pcre_emdros_h" even when BUILD_FOR_DEVEL is non-1.
+
 2019-04-05 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre12.
