@@ -15,14 +15,17 @@ PROGRAM1_OBJS = get_version.o
 
 EMDROS_LCONFIG_WIN32_H = win32-lconfig.h
 
-TARGETS = pcre_emdros_h lconfig
-CLEANFILES= pcre_emdros.h $(PROGRAM1) $(PROGRAM1_OBJS) $(EMDROS_LCONFIG_WIN32_H)
+TARGETS = pcre_emdros_h pcre_config_h lconfig
+CLEANFILES= pcre_emdros.h pcre_config.h $(PROGRAM1) $(PROGRAM1_OBJS) $(EMDROS_LCONFIG_WIN32_H)
 
 
 include $(WIN32DIR)\mingw-body.mak
 
 pcre_emdros_h:
 	copy /Y /B ..\pcre\pcre_emdros.h.win32 +..\pcre\pcre.h .\pcre_emdros.h
+
+pcre_config_h:
+	copy /Y /B ..\pcre\config.h.win32 .\pcre_config.h
 
 lconfig:
 	-erase -q emdros-lconfig.h

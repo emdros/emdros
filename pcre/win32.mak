@@ -13,10 +13,10 @@ LOCAL_CPPFLAGS = -I. -DPCRE_STATIC -DHAVE_CONFIG_H
 
 !IF "$(BUILD_FOR_DEVEL)" == "1"
 LIBTARGET = libpcre_emdros.lib
-TARGETS = pcre_config_h pcre_emdros_h "$(OUTDIR)\$(LIBTARGET)"
+TARGETS = pcre_config_h "$(OUTDIR)\$(LIBTARGET)"
 !ELSE
-LIBTARGET = pcre_config_h pcre_emdros_h 
-TARGETS = 
+LIBTARGET = 
+TARGETS = pcre_config_h 
 !ENDIF
 
 CLEANFILES = chartables.c dftables.exe 
@@ -58,17 +58,10 @@ LIBTARGET_OBJS= \
 !INCLUDE $(WIN32DIR)\body.mak
 
 
-..\include\pcre_emdros.h:
-    copy /Y /B pcre_emdros.h.win32 +pcre.h ..\include\pcre_emdros.h
-
 #pcre_maketables.c: pcre_chartables.c
 
 #pcre_chartables.c: .\dftables.exe
 #	.\dftables.exe pcre_chartables.c
 
-pcre_emdros_h:
-	copy /Y /B pcre_emdros.h.win32 +pcre.h ..\include\pcre_emdros.h
-
 pcre_config_h:
-	copy /Y /B config.h.win32 ..\include\pcre_config.h
         copy /Y /B config.h.win32 .\config.h

@@ -16,8 +16,8 @@ PROGRAM1 = .\get_version.exe
 PROGRAM1_OBJS = "$(INTDIR)\get_version.obj"
 
 
-TARGETS = $(PROGRAM1) pcre_emdros_h lconfig
-CLEANFILES= pcre_emdros.h get_version.exe win32-lconfig.h
+TARGETS = $(PROGRAM1) pcre_emdros_h pcre_config_h lconfig
+CLEANFILES= pcre_emdros.h pcre_config.h get_version.exe win32-lconfig.h
 
 
 
@@ -25,6 +25,9 @@ CLEANFILES= pcre_emdros.h get_version.exe win32-lconfig.h
 
 pcre_emdros_h:
 	copy /Y /B ..\pcre\pcre_emdros.h.win32 +..\pcre\pcre.h .\pcre_emdros.h
+
+pcre_config_h:
+	copy /Y /B ..\pcre\config.h.win32 .\pcre_config.h
 
 lconfig:
     -erase -q .\emdros-lconfig.h

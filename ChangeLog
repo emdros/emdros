@@ -17,6 +17,15 @@
 	* pcre/win32.mak: Build the targets "pcre_config_h" and
 	"pcre_emdros_h" even when BUILD_FOR_DEVEL is non-1.
 
+	* pcre: Clearer division of labor on Windows between
+	pcre/win32.mak and include/win32.mak, as well as pcre/mingw.mak
+	and include/mingw.mak.
+
+	In particular, include/pcre_emdros.h and include/pcre_config.h are now made in include/win32.mak or include/mingw.mak.
+
+	Similarly, pcre/pcre_config.h is made in pcre/win32.mak or
+	pcre/mingw.mak.
+
 2019-04-05 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre12.
