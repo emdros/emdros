@@ -43,6 +43,5 @@ zlib_emdrosh:
 
 
 zconfhwin32:
-        copy /Y zconf.h.win32 .\zconf.h
-        copy /Y zconf.h.win32 ..\include\zconf.h
+        copy /Y zconf.h ..\include\zconf.h
 

@@ -42,6 +42,5 @@ include $(WIN32DIR)\mingw-body.mak
 
 
 zconfhwin32:
-	copy /Y zconf.h.mingw .\zconf.h
-	copy /Y zconf.h.mingw ..\include\zconf.h
+	copy /Y zconf.h ..\include\zconf.h
 

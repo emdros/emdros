@@ -29,7 +29,7 @@ CLEANFILES = $(srcdir)/../include/zlib.h $(srcdir)/../include/zconf.h *~ core
 
 EXTRA_DIST = win32.mak mingw.mak \
              README.Emdros.txt \
-             zlib_emdros.h.win32 zconf.h.win32 zconf.h.mingw \
+             zlib_emdros.h.win32 \
              ChangeLog CMakeLists.txt configure FAQ README treebuild.xml zconf.h.cmakein zconf.h.in zlib2ansi zlib.3 \
              examples/enough.c examples/fitblk.c examples/gun.c examples/gzappend.c examples/gzjoin.c examples/gzlog.c examples/gzlog.h examples/README.examples examples/zlib_how.html examples/zpipe.c examples/zran.c
 

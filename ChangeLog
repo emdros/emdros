@@ -1,5 +1,19 @@
 ============ 3.7.0.pre12 ============
 
+2019-04-06 Ulrik Sandborg-Petersen
+
+	* zlib/: Remove redundant files zlib/zconf.h.win32 and
+	zlib/zconf.h.mingw. As of yesterday, they are simply copies of
+	zconf.h, so we might as well remove this redundancy.
+
+	Files affected:
+
+	modified:   zlib/Makefile.am
+	modified:   zlib/mingw.mak
+	modified:   zlib/win32.mak
+	deleted:    zlib/zconf.h.mingw
+	deleted:    zlib/zconf.h.win32
+
 2019-04-05 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre12.
