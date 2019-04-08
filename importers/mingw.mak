@@ -7,6 +7,8 @@
 
 WIN32DIR = ..\win32
 
+include $(WIN32DIR)\config.mak
+
 
 ifeq ("$(BUILD_FOR_DEVEL)","1")
 LIBTARGET = libemdros_importers.a
@@ -33,7 +35,6 @@ LIBTARGET_OBJS= \
 
 
 
-include $(WIN32DIR)\config.mak
 include $(WIN32DIR)\mingw-body.mak
 
 

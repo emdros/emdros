@@ -7,6 +7,8 @@
 
 WIN32DIR = ..\win32
 
+!INCLUDE $(WIN32DIR)\config.mak
+
 
 !IF "$(BUILD_FOR_DEVEL)" == "1"
 LIBTARGET = libemdros_importers.lib
@@ -31,7 +33,6 @@ LIBTARGET_OBJS= \
         "$(INTDIR)\sfmimporter.obj" 
 
 
-!INCLUDE $(WIN32DIR)\config.mak
 !INCLUDE $(WIN32DIR)\body.mak
 
 

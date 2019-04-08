@@ -4,6 +4,9 @@
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre13.
 
+	* importers/win32.mak, importers/mingw.mak: Fix order of importing
+	config.mak and using its variables.
+
 ============ 3.7.0.pre12 ============
 
 2019-04-06 Ulrik Sandborg-Petersen
