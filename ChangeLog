@@ -7,6 +7,9 @@
 	* importers/win32.mak, importers/mingw.mak: Fix order of importing
 	config.mak and using its variables.
 
+	* src/importtool/win32.mak, src/importtool/mingw.mak: Adjust to
+	the new reality of the BUILD_FOR_DEVEL variable.
+
 ============ 3.7.0.pre12 ============
 
 2019-04-06 Ulrik Sandborg-Petersen

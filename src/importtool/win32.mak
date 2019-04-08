@@ -32,15 +32,25 @@ BPT_DEPENDENCIES =
 !ENDIF
 
 
-PROGRAM_DEPENDENCIES = \
-   "$(OUTDIR)\libemdros_importers.lib"  \
-   "$(OUTDIR)\libutil_emdros.lib"  \
-   $(DBLIB) \
-   $(BPT_DEPENDENCIES) \
+!IF "$(BUILD_FOR_DEVEL)" == "1"
+EMDROS_DEPENDENCIES = \
+   "$(OUTDIR)\libutil_emdros.lib" \
    $(EMDF_DEPENDENCIES) \
    $(MQL_DEPENDENCIES) \
-   $(EXTRA_DEPENDENCIES) \
-   $(PCRELIB) 
+   $(PCRELIB) \
+   $(BPT_DEPENDENCIES)
+!ELSE
+EMDROS_DEPENDENCIES = \
+   $(OUTDIR)\libemdros_amalgamation.lib \
+   $(DBLIB) \
+   $(BPT_DEPENDENCIES)
+!ENDIF
+
+
+PROGRAM_DEPENDENCIES = \
+   $(EMDROS_DEPENDENCIES) \
+   $(DBLIB) \
+   $(EXTRA_DEPENDENCIES) 
 
 LOCAL_LIBFLAGS = $(PROGRAM_DEPENDENCIES) 
 

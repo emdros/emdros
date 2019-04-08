@@ -31,15 +31,24 @@ else
 BPT_DEPENDENCIES = 
 endif
 
-
-PROGRAM_DEPENDENCIES = \
+ifeq ($(BUILD_FOR_DEVEL),1)
+EMDROS_DEPENDENCIES = \
    $(OUTDIR)\libemdros_importers.a  \
    $(OUTDIR)\libutil_emdros.a  \
    $(MQL_DEPENDENCIES) \
    $(EMDF_DEPENDENCIES) \
    $(PCRELIB) \
    $(DBLIB) \
-   $(BPT_DEPENDENCIES) \
+   $(BPT_DEPENDENCIES) 
+else
+EMDROS_DEPENDENCIES = \
+   $(OUTDIR)\libemdros_amalgamation.lib \
+   $(DBLIB) \
+   $(BPT_DEPENDENCIES) 
+endif
+
+
+PROGRAM_DEPENDENCIES = \
    $(EXTRA_DEPENDENCIES) 
 
 
