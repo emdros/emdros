@@ -70,6 +70,18 @@ Release notes for Emdros 3.7.0
   would be treated, not as distinct characters, but as the raw 8-bit
   bytes of which they were made up.
 
+- The Harvest library template language has some new templates:
+
+  {{ setvar 'output-var-name' substring var 'input-var-name' from /startindex/ maxlength /max-length/ }}
+  {{ setvar 'output-var-name' substring feature /feature-index/ from /startindex/ maxlength /max-length/ }}
+  {{ setvar 'output-var-name' substring featurejsonmangle /feature-index/ from /startindex/ maxlength /max-length/ }}
+  {{ setvar 'output-var-name' substring featurenomangle /feature-index/ from /startindex/ maxlength /max-length/ }}
+
+  These all set the contents of a variable based on a substring of
+  either a variable or a feature.
+
+  Please see the Programmer's Reference Guide for more explanation.
+
 - The following SWIG bindings have been removed:
 
   - PHP 5
