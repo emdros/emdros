@@ -309,22 +309,22 @@ template_setvarnow(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE STRING(V) KEY
 
 %type template_setvarsubstring {TemplateSetVarSubString*}
 %destructor template_setvarsubstring {delete($$);}
-template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_VAR STRING(V) KEY_BARE_FROM signed_integer(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
+template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_VAR STRING(V) KEY_SPACE KEY_BARE_FROM KEY_SPACE signed_integer(F) KEY_SPACE KEY_BARE_MAXLENGTH KEY_SPACE INTEGER(L) KEY_BB_CLOSE  .
 { T = new TemplateSetVarSubString(I->extractString(), V->extractString(), F, (long) L->integer); delete I; delete V; delete L; }
 
-template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_ATTRIB STRING(A) KEY_BARE_FROM signed_integer(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
+template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_SPACE KEY_BARE_ATTRIB STRING(A) KEY_SPACE KEY_BARE_FROM KEY_SPACE signed_integer(F) KEY_SPACE KEY_BARE_MAXLENGTH KEY_SPACE INTEGER(L) KEY_BB_CLOSE  .
 { T = new TemplateSetVarSubString(I->extractString(), A->extractString(), kMKXML, F, (long) L->integer); delete I; delete A; delete L; }
 
-template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_ATTRIBNOMANGLE STRING(A) KEY_BARE_FROM signed_integer(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
+template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_SPACE KEY_BARE_ATTRIBNOMANGLE KEY_SPACE STRING(A) KEY_SPACE KEY_BARE_FROM KEY_SPACE signed_integer(F) KEY_SPACE KEY_BARE_MAXLENGTH KEY_SPACE INTEGER(L) KEY_BB_CLOSE  .
 { T = new TemplateSetVarSubString(I->extractString(), A->extractString(), kMKNone, F, (long) L->integer); delete I; delete A; delete L; }
 
-template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_FEATURE INTEGER(V) KEY_BARE_FROM signed_integer(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
+template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_SPACE KEY_BARE_FEATURE KEY_SPACE INTEGER(V) KEY_SPACE KEY_BARE_FROM KEY_SPACE signed_integer(F) KEY_SPACE KEY_BARE_MAXLENGTH KEY_SPACE INTEGER(L) KEY_BB_CLOSE  .
 { T = new TemplateSetVarSubString(I->extractString(), (long) V->integer, kMKXML, F, (long) L->integer); delete I; delete V; delete L; }
 
-template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_FEATURENOMANGLE INTEGER(V) KEY_BARE_FROM signed_integer(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
+template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_SPACE KEY_BARE_FEATURENOMANGLE KEY_SPACE INTEGER(V) KEY_SPACE KEY_BARE_FROM KEY_SPACE signed_integer(F) KEY_SPACE KEY_BARE_MAXLENGTH KEY_SPACE INTEGER(L) KEY_BB_CLOSE  .
 { T = new TemplateSetVarSubString(I->extractString(), (long) V->integer, kMKNone, F, (long) L->integer); delete I; delete V; delete L; }
 
-template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_FEATUREJSONMANGLE INTEGER(V) KEY_BARE_FROM signed_integer(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
+template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_SPACE KEY_BARE_FEATUREJSONMANGLE KEY_SPACE INTEGER(V) KEY_SPACE KEY_BARE_FROM KEY_SPACE signed_integer(F) KEY_SPACE KEY_BARE_MAXLENGTH KEY_SPACE INTEGER(L) KEY_BB_CLOSE  .
 { T = new TemplateSetVarSubString(I->extractString(), (long) V->integer, kMKJSON, F, (long) L->integer); delete I; delete V; delete L; }
 
 %type template_setvar {TemplateSetVarBegin*}
@@ -371,6 +371,8 @@ template_string(T) ::= STRING(I) .
 { std::string *pString = new std::string("\""); *pString += *I->pString + "\""; T = new TemplateString(pString); delete I; }
 template_string(T) ::= KEY_SPACE .
 { T = new TemplateString(new std::string(" ")); }
+template_string(T) ::= KEY_DASH .
+{ T = new TemplateString(new std::string("-")); }
 template_string(T) ::= KEY_NEWLINE .
 { T = new TemplateString(new std::string("\n")); }
 
