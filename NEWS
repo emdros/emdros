@@ -73,6 +73,8 @@ Release notes for Emdros 3.7.0
 - The Harvest library template language has some new templates:
 
   {{ setvar 'output-var-name' substring var 'input-var-name' from /startindex/ maxlength /max-length/ }}
+  {{ setvar 'output-var-name' substring attrib 'input-attrib-name' from /startindex/ maxlength /max-length/ }}
+  {{ setvar 'output-var-name' substring attribnomangle 'input-attrib-name' from /startindex/ maxlength /max-length/ }}
   {{ setvar 'output-var-name' substring feature /feature-index/ from /startindex/ maxlength /max-length/ }}
   {{ setvar 'output-var-name' substring featurejsonmangle /feature-index/ from /startindex/ maxlength /max-length/ }}
   {{ setvar 'output-var-name' substring featurenomangle /feature-index/ from /startindex/ maxlength /max-length/ }}

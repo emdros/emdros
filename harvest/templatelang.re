@@ -162,6 +162,8 @@ int TemplateLanguageScanner::scan(Token *pYYLVAL)
 "{{ inccounter"        { TEMPLATELANG_TOKEN_RETURN("inccounter", T_TEMPLATELANG_KEY_INCCOUNTER); }
 "{{ deccounter"        { TEMPLATELANG_TOKEN_RETURN("deccounter", T_TEMPLATELANG_KEY_DECCOUNTER); }
 "{{ feature"           { TEMPLATELANG_TOKEN_RETURN("feature", T_TEMPLATELANG_KEY_FEATURE); }
+"attrib"               { TEMPLATELANG_TOKEN_RETURN("bare-attrib", T_TEMPLATELANG_KEY_BARE_ATTRIB); }
+"attribnomangle"       { TEMPLATELANG_TOKEN_RETURN("bare-attribnomangle", T_TEMPLATELANG_KEY_BARE_ATTRIBNOMANGLE); }
 "counter"              { TEMPLATELANG_TOKEN_RETURN("bare-counter", T_TEMPLATELANG_KEY_BARE_COUNTER); }
 "feature"              { TEMPLATELANG_TOKEN_RETURN("bare-feature", T_TEMPLATELANG_KEY_BARE_FEATURE); }
 "format"               { TEMPLATELANG_TOKEN_RETURN("bare-format", T_TEMPLATELANG_KEY_BARE_FORMAT); }

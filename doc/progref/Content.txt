@@ -4835,6 +4835,7 @@ follows.  It is a list of the following kinds of string:</p>
   characters.  This may limit the utility of this template in the
   context of non-ASCII character sets.</p>
 
+
   <LI><p><strong>{OPENBRACE}{OPENBRACE} setvar
   <em>output-variable-name-as-string</em> substring feature
   <em>input-feature-number-as-integer</em>
@@ -5190,6 +5191,55 @@ in RenderXML mode.</p>
   mangling any characters in the attribvalue that need XML
   mangling. This can only be used in a renderinfo stylesheet, not a
   fetchinfo stylesheet.</p>
+</UL>
+
+<h2>Variable manipulation commands</h2>
+
+<UL>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} setvar
+  <em>output-variable-name-as-string</em> substring attrib
+  <em>input-attrib-name-as-string</em>
+  from
+  <em>start-index-as-integer</em>
+  maxlength
+  <em>max-length-to-copy-as-integer</em>
+  {CLOSEBRACE}{CLOSEBRACE}</strong></p>
+
+  <p><strong>{OPENBRACE}{OPENBRACE} setvar
+  <em>output-variable-name-as-string</em> substring attribnomangle
+  <em>input-attrib-name-as-string</em>
+  from
+  <em>start-index-as-integer</em>
+  maxlength
+  <em>max-length-to-copy-as-integer</em>
+  {CLOSEBRACE}{CLOSEBRACE}</strong></p>
+
+  <p>Sets the string contents of a variable with the name given in
+  <em>output-variable-name-as-string</em> to a substring of the
+  contents of the attribute with the name given in
+  <em>input-attrib-name-as-string</em>. If the output variable does
+  not exist, it is created.</p>
+
+  <p>If the token after 'substring' is 'attrib', then the attribute is
+  mangled for XML-entities before being considered for substring
+  extraction.  If the token after 'substring' is 'attribnomangle',
+  then the contents of the attribute are considered as-is.</p>
+
+  <p>The subtring taken is the one starting at the
+  index <em>start-index-as-integer</em>, and ending at the end of the
+  input variable, or the index just before
+  <em>start-index-as-integer</em> +
+  <em>max-length-to-copy-as-integer</em>, whichever comes first.</p>
+
+  <p>If the integer <em>start-index-as-integer</em> is negative, then
+  the starting index is calculated as starting from the end of the
+  string.  For example, -1 will be the last byte in the string.</p>
+
+  <p>NOTE: The indexes are <strong>byte-counts</strong>, not Unicode
+  characters.  This may limit the utility of this template in the
+  context of non-ASCII character sets.</p>
+
 </UL>
 
 

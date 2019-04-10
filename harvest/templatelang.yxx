@@ -312,6 +312,12 @@ template_setvarnow(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE STRING(V) KEY
 template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_VAR STRING(V) KEY_BARE_FROM signed_integer(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
 { T = new TemplateSetVarSubString(I->extractString(), V->extractString(), F, (long) L->integer); delete I; delete V; delete L; }
 
+template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_ATTRIB STRING(A) KEY_BARE_FROM signed_integer(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
+{ T = new TemplateSetVarSubString(I->extractString(), A->extractString(), kMKXML, F, (long) L->integer); delete I; delete A; delete L; }
+
+template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_ATTRIBNOMANGLE STRING(A) KEY_BARE_FROM signed_integer(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
+{ T = new TemplateSetVarSubString(I->extractString(), A->extractString(), kMKNone, F, (long) L->integer); delete I; delete A; delete L; }
+
 template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_FEATURE INTEGER(V) KEY_BARE_FROM signed_integer(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
 { T = new TemplateSetVarSubString(I->extractString(), (long) V->integer, kMKXML, F, (long) L->integer); delete I; delete V; delete L; }
 

@@ -17,6 +17,12 @@
 	{{ setvar 'output-var-name' substring featurejsonmangle /feature-index/ from /startindex/ maxlength /max-length/ }}
 	{{ setvar 'output-var-name' substring featurenomangle /feature-index/ from /startindex/ maxlength /max-length/ }}
 
+	* HarvestLib: Also implement 'attrib' and 'attribnomangle'
+	variants of the setvar substring template:
+
+	{{ setvar 'output-var-name' substring attrib 'input-attrib-name' from /startindex/ maxlength /max-length/ }}
+	{{ setvar 'output-var-name' substring attribnomangle 'input-attrib-name' from /startindex/ maxlength /max-length/ }}
+
 ============ 3.7.0.pre13 ============
 
 2019-04-08 Ulrik Sandborg-Petersen

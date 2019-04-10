@@ -1108,24 +1108,40 @@ void TemplateNamedSetRemoveEnd::exec(TemplateLangExecEnv *pEE)
 
 TemplateSetVarSubString::TemplateSetVarSubString(std::string *pStrOutputVarName, std::string *pStrInputVarName, long from, long max_length)
 	: m_strOutputVarName(*pStrOutputVarName),
-	  m_strInputVarName(*pStrInputVarName),
+	  m_strInputVarOrAttribName(*pStrInputVarName),
 	  m_feature_index(-1),
 	  m_from(from),
 	  m_max_length(max_length),
-	  m_mangle_kind(kMKNone)
+	  m_mangle_kind(kMKNone),
+	  m_bIsAttrib(false)
 {
 	delete pStrOutputVarName;
 	delete pStrInputVarName;
 }
 
+TemplateSetVarSubString::TemplateSetVarSubString(std::string *pStrOutputVarName, std::string *pStrInputAttribName, eMangleKind mangle_kind, long from, long max_length)
+	: m_strOutputVarName(*pStrOutputVarName),
+	  m_strInputVarOrAttribName(*pStrInputAttribName),
+	  m_feature_index(-1),
+	  m_from(from),
+	  m_max_length(max_length),
+	  m_mangle_kind(mangle_kind),
+	  m_bIsAttrib(true)
+{
+	delete pStrOutputVarName;
+	delete pStrInputAttribName;
+}
+
+
 
 TemplateSetVarSubString::TemplateSetVarSubString(std::string *pStrOutputVarName, long feature_index, eMangleKind mangle_kind, long from, long max_length)
 	: m_strOutputVarName(*pStrOutputVarName),
-	  m_strInputVarName(""),
+	  m_strInputVarOrAttribName(""),
 	  m_feature_index(feature_index),
 	  m_from(from),
 	  m_max_length(max_length),
-	  m_mangle_kind(mangle_kind)
+	  m_mangle_kind(mangle_kind),
+	  m_bIsAttrib(false)
 {
 	delete pStrOutputVarName;
 }
@@ -1141,37 +1157,45 @@ void TemplateSetVarSubString::exec(TemplateLangExecEnv *pEE)
 {
 	TemplateASTNode::exec(pEE);
 
-	std::string input_string;
+	std::string tmp;	
 
 	if (m_feature_index >= 0) {
-		std::string tmp(pEE->m_pObject->getFeature(m_feature_index));
-
-		switch (m_mangle_kind) {
-		case kMKXML:
-			if (hasXMLCharsToMangle(tmp)) {
-				input_string = escapeXMLEntities(tmp);
-			} else {
-				input_string = tmp;
-			}
-			break;
-		case kMKJSON:
-			if (hasJSONCharsToMangle(tmp)) {
-				input_string = escapeJSONChars(tmp, false);
-			} else {
-				input_string = tmp;
-			}
-			break;
-		case kMKNone:
-			input_string = tmp;
-			break;
+		tmp = pEE->m_pObject->getFeature(m_feature_index);
+	} else if (!m_strInputVarOrAttribName.empty()) {
+		if (m_bIsAttrib) {
+			// Is attrib
+			tmp = pEE->getAttribute(m_strInputVarOrAttribName);
+		} else {
+			// Is variable
+			tmp = pEE->getVar(m_strInputVarOrAttribName);
 		}
-	} else if (!m_strInputVarName.empty()) {
-		input_string = pEE->getVar(m_strInputVarName);
 	} else {
 		// Neither varname nor feature index specified. Just
-		// leave input_string empty.
+		// leave tmp empty.
 	}
 
+	
+	std::string input_string;
+	switch (m_mangle_kind) {
+	case kMKXML:
+		if (hasXMLCharsToMangle(tmp)) {
+			input_string = escapeXMLEntities(tmp);
+		} else {
+			input_string = tmp;
+		}
+		break;
+	case kMKJSON:
+		if (hasJSONCharsToMangle(tmp)) {
+			input_string = escapeJSONChars(tmp, false);
+		} else {
+			input_string = tmp;
+		}
+		break;
+	case kMKNone:
+		input_string = tmp;
+		break;
+	}
+	
 	long input_string_length = input_string.length();
 	long from = m_from;
 	long max_length = m_max_length;

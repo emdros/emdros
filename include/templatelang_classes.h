@@ -444,13 +444,15 @@ class TemplateSetVarEnd : public TemplateASTNode {
 class TemplateSetVarSubString : public TemplateASTNode {
  protected:
 	std::string m_strOutputVarName;
-	std::string m_strInputVarName;
+	std::string m_strInputVarOrAttribName;
 	long m_feature_index;
 	long m_from;
 	long m_max_length;
 	eMangleKind m_mangle_kind;
+	bool m_bIsAttrib;
  public:
 	TemplateSetVarSubString(std::string *pStrOutputVarName, std::string *pStrInputVarName, long from, long max_length);
+	TemplateSetVarSubString(std::string *pStrOutputVarName, std::string *pStrInputAttribName, eMangleKind mangle_kind, long from, long max_length);
 	TemplateSetVarSubString(std::string *pStrOutputVarName, long feature_index, eMangleKind mangle_kind, long from, long max_length);
 	virtual ~TemplateSetVarSubString();
 
