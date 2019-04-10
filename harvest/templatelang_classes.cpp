@@ -1172,15 +1172,25 @@ void TemplateSetVarSubString::exec(TemplateLangExecEnv *pEE)
 		// leave input_string empty.
 	}
 
-	std::string::size_type input_string_length = input_string.length();
-	std::string::size_type from = (std::string::size_type) m_from;
-	std::string::size_type max_length = (std::string::size_type) m_max_length;
+	long input_string_length = input_string.length();
+	long from = m_from;
+	long max_length = m_max_length;
 
 	std::string result;
 	if (from >= input_string_length) {
 		// from-index is past the end.
 		// leave result empty.
 	} else {
+		// Should we count from the end?
+		if (m_from < 0) {
+			// From is negative. Count from the end.
+			if ((-m_from) >= input_string_length) {
+				from = 0;
+			} else {
+				from = input_string_length + m_from;
+			}
+		}
+		
 		// Make sure max_length is in range
 		if ((from + max_length) > input_string_length) {
 			max_length = input_string_length - from;

@@ -309,17 +309,17 @@ template_setvarnow(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE STRING(V) KEY
 
 %type template_setvarsubstring {TemplateSetVarSubString*}
 %destructor template_setvarsubstring {delete($$);}
-template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_VAR STRING(V) KEY_BARE_FROM INTEGER(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
-{ T = new TemplateSetVarSubString(I->extractString(), V->extractString(), (long) F->integer, (long) L->integer); delete I; delete V; delete F; delete L; }
+template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_VAR STRING(V) KEY_BARE_FROM signed_integer(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
+{ T = new TemplateSetVarSubString(I->extractString(), V->extractString(), F, (long) L->integer); delete I; delete V; delete L; }
 
-template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_FEATURE INTEGER(V) KEY_BARE_FROM INTEGER(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
-{ T = new TemplateSetVarSubString(I->extractString(), (long) V->integer, kMKXML, (long) F->integer, (long) L->integer); delete I; delete V; delete F; delete L; }
+template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_FEATURE INTEGER(V) KEY_BARE_FROM signed_integer(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
+{ T = new TemplateSetVarSubString(I->extractString(), (long) V->integer, kMKXML, F, (long) L->integer); delete I; delete V; delete L; }
 
-template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_FEATURENOMANGLE INTEGER(V) KEY_BARE_FROM INTEGER(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
-{ T = new TemplateSetVarSubString(I->extractString(), (long) V->integer, kMKNone, (long) F->integer, (long) L->integer); delete I; delete V; delete F; delete L; }
+template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_FEATURENOMANGLE INTEGER(V) KEY_BARE_FROM signed_integer(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
+{ T = new TemplateSetVarSubString(I->extractString(), (long) V->integer, kMKNone, F, (long) L->integer); delete I; delete V; delete L; }
 
-template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_FEATUREJSONMANGLE INTEGER(V) KEY_BARE_FROM INTEGER(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
-{ T = new TemplateSetVarSubString(I->extractString(), (long) V->integer, kMKJSON, (long) F->integer, (long) L->integer); delete I; delete V; delete F; delete L; }
+template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_FEATUREJSONMANGLE INTEGER(V) KEY_BARE_FROM signed_integer(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
+{ T = new TemplateSetVarSubString(I->extractString(), (long) V->integer, kMKJSON, F, (long) L->integer); delete I; delete V; delete L; }
 
 %type template_setvar {TemplateSetVarBegin*}
 %destructor template_setvar {delete($$);}
@@ -369,3 +369,7 @@ template_string(T) ::= KEY_NEWLINE .
 { T = new TemplateString(new std::string("\n")); }
 
 
+%type signed_integer {long}
+%destructor signed_integer {;}
+signed_integer(S) ::= INTEGER(I). { S = (long) I->integer; delete I; }
+signed_integer(S) ::= KEY_DASH INTEGER(I). { S = (long) -(I->integer); delete I; }

@@ -4827,6 +4827,10 @@ follows.  It is a list of the following kinds of string:</p>
   <em>start-index-as-integer</em> +
   <em>max-length-to-copy-as-integer</em>, whichever comes first.</p>
 
+  <p>If the integer <em>start-index-as-integer</em> is negative, then
+  the starting index is calculated as starting from the end of the
+  string.  For example, -1 will be the last byte in the string.</p>
+
   <p>NOTE: The indexes are <strong>byte-counts</strong>, not Unicode
   characters.  This may limit the utility of this template in the
   context of non-ASCII character sets.</p>
@@ -4876,6 +4880,10 @@ follows.  It is a list of the following kinds of string:</p>
   input variable, or the index just before
   <em>start-index-as-integer</em> +
   <em>max-length-to-copy-as-integer</em>, whichever comes first.</p>
+
+  <p>If the integer <em>start-index-as-integer</em> is negative, then
+  the starting index is calculated as starting from the end of the
+  string.  For example, -1 will be the last byte in the string.</p>
 
   <p>NOTE: The indexes are <strong>byte-counts</strong>, not Unicode
   characters.  This may limit the utility of this template in the

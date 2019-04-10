@@ -193,6 +193,7 @@ int TemplateLanguageScanner::scan(Token *pYYLVAL)
 "\t"                   { yylval->setChar('\t'); TEMPLATELANG_TOKEN_RETURN(CHAR_MAGIC, T_TEMPLATELANG_CHAR); }
 "\r"                   { yylval->setChar('\r'); TEMPLATELANG_TOKEN_RETURN(CHAR_MAGIC, T_TEMPLATELANG_CHAR); }
 "\n"                   { TEMPLATELANG_TOKEN_RETURN("\\n", T_TEMPLATELANG_KEY_NEWLINE); }
+"-"                    { TEMPLATELANG_TOKEN_RETURN("-", T_TEMPLATELANG_KEY_DASH); }
 zero                   { if (cur >= lim) { goto end; } }
 SLASH SLASH            { yylval->setChar('\\'); TEMPLATELANG_TOKEN_RETURN(CHAR_MAGIC, T_TEMPLATELANG_CHAR); }
 SLASH "'"              { yylval->setChar('\''); TEMPLATELANG_TOKEN_RETURN(CHAR_MAGIC, T_TEMPLATELANG_CHAR); }
