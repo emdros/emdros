@@ -7,7 +7,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 11/5-2018
+ * Last update: 4/10-2019
  *
  */
 
@@ -131,6 +131,8 @@ template_list_element(T) ::= template_namedsetremove(A) .
 template_list_element(T) ::= template_namedsetremove_end(A) .
 { T = A; }
 template_list_element(T) ::= template_setvarnow(A) .
+{ T = A; }
+template_list_element(T) ::= template_setvarsubstring(A) .
 { T = A; }
 template_list_element(T) ::= template_setvar(A) .
 { T = A; }
@@ -304,6 +306,20 @@ template_namedsetremove_end(T) ::= KEY_NAMEDSETREMOVEEND .
 %destructor template_setvarnow {delete($$);}
 template_setvarnow(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE STRING(V) KEY_BB_CLOSE  .
 { T = new TemplateSetVarNow(I->extractString(), V->extractString()); delete I; delete V; }
+
+%type template_setvarsubstring {TemplateSetVarSubString*}
+%destructor template_setvarsubstring {delete($$);}
+template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_VAR STRING(V) KEY_BARE_FROM INTEGER(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
+{ T = new TemplateSetVarSubString(I->extractString(), V->extractString(), (long) F->integer, (long) L->integer); delete I; delete V; delete F; delete L; }
+
+template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_FEATURE INTEGER(V) KEY_BARE_FROM INTEGER(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
+{ T = new TemplateSetVarSubString(I->extractString(), (long) V->integer, kMKXML, (long) F->integer, (long) L->integer); delete I; delete V; delete F; delete L; }
+
+template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_FEATURENOMANGLE INTEGER(V) KEY_BARE_FROM INTEGER(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
+{ T = new TemplateSetVarSubString(I->extractString(), (long) V->integer, kMKNone, (long) F->integer, (long) L->integer); delete I; delete V; delete F; delete L; }
+
+template_setvarsubstring(T) ::= KEY_SETVAR KEY_SPACE STRING(I) KEY_SPACE KEY_BARE_SUBSTRING KEY_BARE_FEATUREJSONMANGLE INTEGER(V) KEY_BARE_FROM INTEGER(F) KEY_BARE_MAXLENGTH INTEGER(L) KEY_BB_CLOSE  .
+{ T = new TemplateSetVarSubString(I->extractString(), (long) V->integer, kMKJSON, (long) F->integer, (long) L->integer); delete I; delete V; delete F; delete L; }
 
 %type template_setvar {TemplateSetVarBegin*}
 %destructor template_setvar {delete($$);}

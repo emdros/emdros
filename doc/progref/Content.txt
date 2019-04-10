@@ -4643,8 +4643,17 @@ follows.  It is a list of the following kinds of string:</p>
   <LI><p><strong>{OPENBRACE}{OPENBRACE} featurenomangle
   <em>integer</em> {CLOSEBRACE}{CLOSEBRACE}</strong>: Just like the
   "feature" counterpart just described, except that no XML mangling
-  takes place.<br/><b>Only available in RenderObjects, not
-  RenderXML.</b></p>
+  takes place.</p>
+
+  <p><b>Only available in RenderObjects, not RenderXML.</b></p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} featurejsonmangle
+  <em>integer</em> {CLOSEBRACE}{CLOSEBRACE}</strong>: Just like the
+  "feature" counterpart described above, except that the string is
+  mangled to be a part of a JSON string, rather than part of an XML
+  document.<br/></p>
+
+  <p><b>Only available in RenderObjects, not RenderXML.</b></p>
 
   <LI><p><strong>{OPENBRACE}{OPENBRACE} counter <em>string</em>
   {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the contents of the
@@ -4796,6 +4805,83 @@ follows.  It is a list of the following kinds of string:</p>
   Emits the contents of the variable with the name given. If the
   variable does not exist, it is initialized to be the empty
   string. </p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} setvar
+  <em>output-variable-name-as-string</em> substring var
+  <em>input-variable-name-as-string</em>
+  from
+  <em>start-index-as-integer</em>
+  maxlength
+  <em>max-length-to-copy-as-integer</em>
+  {CLOSEBRACE}{CLOSEBRACE}</strong>:
+
+  Sets the string contents of a variable with the name given in
+  <em>output-variable-name-as-string</em> to a substring of the
+  variable with the name given in
+  <em>input-variable-name-as-string</em>. If the variable does not
+  exist, it is created.</p>
+
+  <p>The subtring taken is the one starting at the
+  index <em>start-index-as-integer</em>, and ending at the end of the
+  input variable, or the index just before
+  <em>start-index-as-integer</em> +
+  <em>max-length-to-copy-as-integer</em>, whichever comes first.</p>
+
+  <p>NOTE: The indexes are <strong>byte-counts</strong>, not Unicode
+  characters.  This may limit the utility of this template in the
+  context of non-ASCII character sets.</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} setvar
+  <em>output-variable-name-as-string</em> substring feature
+  <em>input-feature-number-as-integer</em>
+  from
+  <em>start-index-as-integer</em>
+  maxlength
+  <em>max-length-to-copy-as-integer</em>
+  {CLOSEBRACE}{CLOSEBRACE}</strong></p>
+
+  <p><strong>{OPENBRACE}{OPENBRACE} setvar
+  <em>output-variable-name-as-string</em> substring featurejsonmangle
+  <em>input-feature-number-as-integer</em>
+  from
+  <em>start-index-as-integer</em>
+  maxlength
+  <em>max-length-to-copy-as-integer</em>
+  {CLOSEBRACE}{CLOSEBRACE}</strong></p>
+
+  <p><strong>{OPENBRACE}{OPENBRACE} setvar
+  <em>output-variable-name-as-string</em> substring featurenomangle
+  <em>input-feature-number-as-integer</em>
+  from
+  <em>start-index-as-integer</em>
+  maxlength
+  <em>max-length-to-copy-as-integer</em>
+  {CLOSEBRACE}{CLOSEBRACE}</strong></p>
+
+  <P>Sets the string contents of a variable with the name given in
+  <em>output-variable-name-as-string</em> to a substring of the string
+  representation of the feature indexed by
+  <em>input-feature-number-as-integer</em>. If the variable does not
+  exist, it is created.</p>
+
+  <p>If the token after 'substring' is 'feature', then the feature
+  value is mangled for XML entities before extracing the substring.
+  If the token after 'substring' is 'featurejsonmangle', then the
+  feature value is mangled to be a part of a JSON string.  If the
+  token after 'string' is 'featurenomangle', then the feature value is
+  not mangled.</p>
+
+  <p>The subtring taken is the one starting at the
+  index <em>start-index-as-integer</em>, and ending at the end of the
+  input variable, or the index just before
+  <em>start-index-as-integer</em> +
+  <em>max-length-to-copy-as-integer</em>, whichever comes first.</p>
+
+  <p>NOTE: The indexes are <strong>byte-counts</strong>, not Unicode
+  characters.  This may limit the utility of this template in the
+  context of non-ASCII character sets.</p>
+
+  <p><b>Only available in RenderObjects, not RenderXML.</b></p>
 
 </UL>
 

@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 11/5-2018
+ * Last update: 4/10-2019
  *
  */
 
@@ -1097,6 +1097,99 @@ void TemplateNamedSetRemoveEnd::exec(TemplateLangExecEnv *pEE)
 	TemplateASTNode::exec(pEE);
 
 	pEE->exitNamedSetRemoveMode();
+}
+
+
+//////////////////////////////////////////////////////////////////
+//
+// TemplateListSetVarSubstring
+//
+//////////////////////////////////////////////////////////////////
+
+TemplateSetVarSubString::TemplateSetVarSubString(std::string *pStrOutputVarName, std::string *pStrInputVarName, long from, long max_length)
+	: m_strOutputVarName(*pStrOutputVarName),
+	  m_strInputVarName(*pStrInputVarName),
+	  m_feature_index(-1),
+	  m_from(from),
+	  m_max_length(max_length),
+	  m_mangle_kind(kMKNone)
+{
+	delete pStrOutputVarName;
+	delete pStrInputVarName;
+}
+
+
+TemplateSetVarSubString::TemplateSetVarSubString(std::string *pStrOutputVarName, long feature_index, eMangleKind mangle_kind, long from, long max_length)
+	: m_strOutputVarName(*pStrOutputVarName),
+	  m_strInputVarName(""),
+	  m_feature_index(feature_index),
+	  m_from(from),
+	  m_max_length(max_length),
+	  m_mangle_kind(mangle_kind)
+{
+	delete pStrOutputVarName;
+}
+
+
+
+TemplateSetVarSubString::~TemplateSetVarSubString()
+{
+}
+
+
+void TemplateSetVarSubString::exec(TemplateLangExecEnv *pEE)
+{
+	TemplateASTNode::exec(pEE);
+
+	std::string input_string;
+
+	if (m_feature_index >= 0) {
+		std::string tmp(pEE->m_pObject->getFeature(m_feature_index));
+
+		switch (m_mangle_kind) {
+		case kMKXML:
+			if (hasXMLCharsToMangle(tmp)) {
+				input_string = escapeXMLEntities(tmp);
+			} else {
+				input_string = tmp;
+			}
+			break;
+		case kMKJSON:
+			if (hasJSONCharsToMangle(tmp)) {
+				input_string = escapeJSONChars(tmp, false);
+			} else {
+				input_string = tmp;
+			}
+			break;
+		case kMKNone:
+			input_string = tmp;
+			break;
+		}
+	} else if (!m_strInputVarName.empty()) {
+		input_string = pEE->getVar(m_strInputVarName);
+	} else {
+		// Neither varname nor feature index specified. Just
+		// leave input_string empty.
+	}
+
+	std::string::size_type input_string_length = input_string.length();
+	std::string::size_type from = (std::string::size_type) m_from;
+	std::string::size_type max_length = (std::string::size_type) m_max_length;
+
+	std::string result;
+	if (from >= input_string_length) {
+		// from-index is past the end.
+		// leave result empty.
+	} else {
+		// Make sure max_length is in range
+		if ((from + max_length) > input_string_length) {
+			max_length = input_string_length - from;
+		}
+
+		result = input_string.substr(from, max_length);
+	}
+
+	pEE->setVar(m_strOutputVarName, result);
 }
 
 

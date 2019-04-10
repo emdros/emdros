@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 11/5-2018
+ * Last update: 4/10-2019
  *
  */
 
@@ -439,6 +439,25 @@ class TemplateSetVarEnd : public TemplateASTNode {
 
 	virtual void exec(TemplateLangExecEnv *pEE);
 };
+
+
+class TemplateSetVarSubString : public TemplateASTNode {
+ protected:
+	std::string m_strOutputVarName;
+	std::string m_strInputVarName;
+	long m_feature_index;
+	long m_from;
+	long m_max_length;
+	eMangleKind m_mangle_kind;
+ public:
+	TemplateSetVarSubString(std::string *pStrOutputVarName, std::string *pStrInputVarName, long from, long max_length);
+	TemplateSetVarSubString(std::string *pStrOutputVarName, long feature_index, eMangleKind mangle_kind, long from, long max_length);
+	virtual ~TemplateSetVarSubString();
+
+	virtual void exec(TemplateLangExecEnv *pEE);
+};
+
+
 
 
 

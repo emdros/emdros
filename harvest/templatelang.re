@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 11/30-2018
+ * Last update: 4/10-2019
  *
  */
 
@@ -165,11 +165,15 @@ int TemplateLanguageScanner::scan(Token *pYYLVAL)
 "counter"              { TEMPLATELANG_TOKEN_RETURN("bare-counter", T_TEMPLATELANG_KEY_BARE_COUNTER); }
 "feature"              { TEMPLATELANG_TOKEN_RETURN("bare-feature", T_TEMPLATELANG_KEY_BARE_FEATURE); }
 "format"               { TEMPLATELANG_TOKEN_RETURN("bare-format", T_TEMPLATELANG_KEY_BARE_FORMAT); }
+"from"                 { TEMPLATELANG_TOKEN_RETURN("bare-from", T_TEMPLATELANG_KEY_BARE_FROM); }
+"maxlength"            { TEMPLATELANG_TOKEN_RETURN("bare-maxlength", T_TEMPLATELANG_KEY_BARE_MAXLENGTH); }
+"substring"            { TEMPLATELANG_TOKEN_RETURN("bare-substring", T_TEMPLATELANG_KEY_BARE_SUBSTRING); }
 "var"                  { TEMPLATELANG_TOKEN_RETURN("bare-var", T_TEMPLATELANG_KEY_BARE_VAR); }
 "varnomangle"          { TEMPLATELANG_TOKEN_RETURN("bare-varnomangle", T_TEMPLATELANG_KEY_BARE_VARNOMANGLE); }
 "{{ featurenomangle"   { TEMPLATELANG_TOKEN_RETURN("featurenomangle", T_TEMPLATELANG_KEY_FEATURENOMANGLE); }
 "{{ featurejsonmangle"   { TEMPLATELANG_TOKEN_RETURN("featurejsonmangle", T_TEMPLATELANG_KEY_FEATUREJSONMANGLE); }
 "featurenomangle"      { TEMPLATELANG_TOKEN_RETURN("bare-featurenomangle", T_TEMPLATELANG_KEY_BARE_FEATURENOMANGLE); }
+"featurejsonmangle"      { TEMPLATELANG_TOKEN_RETURN("bare-featurejsonmangle", T_TEMPLATELANG_KEY_BARE_FEATUREJSONMANGLE); }
 "{{ attrib"            { TEMPLATELANG_TOKEN_RETURN("attrib", T_TEMPLATELANG_KEY_ATTRIB); }
 "{{ copyattribs"       { TEMPLATELANG_TOKEN_RETURN("copyattribs", T_TEMPLATELANG_KEY_COPYATTRIBS); }
 "{{ attribnomangle"    { TEMPLATELANG_TOKEN_RETURN("attribnomangle", T_TEMPLATELANG_KEY_ATTRIB_NOMANGLE); }
