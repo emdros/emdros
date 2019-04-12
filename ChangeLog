@@ -4,6 +4,10 @@
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre15.
 
+	* include/mql_yylex.h: Enhance Token::getTokenName() so that it
+	emits better diagnostics, such as when used in syntax error
+	contexts.
+
 ============ 3.7.0.pre14 ============
 
 2019-04-12 Ulrik Sandborg-Petersen

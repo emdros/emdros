@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 5/1 (1st of May, 2001)
- * Last update: 7/30-2016
+ * Last update: 4/12-2019
  *
  */
 
@@ -70,7 +70,11 @@ public:
 		} else if (strcmp(szTokenName, CHAR_MAGIC) == 0) { 
 			return std::string("the character 0x") + char2hex(cChar); 
 		} else { 
-			return std::string("the token ") + szTokenName; 
+			std::string result = std::string("the token '") + szTokenName + "'";
+			if (pString != 0) {
+				result += " with string '" + *pString + "'";
+			}
+			return result;
 		} 
 	};
 	std::string *pString;
