@@ -8,6 +8,11 @@
 	emits better diagnostics, such as when used in syntax error
 	contexts.
 
+	* EMdF/json_classes.cpp: When creating a JSONValue from a
+	JSONKeyValuePair *pTail (i.e., a JSON object), guard against
+	adding keys that are already there, deleting the former entry and
+	replacing it with the new, if present.
+
 ============ 3.7.0.pre14 ============
 
 2019-04-12 Ulrik Sandborg-Petersen

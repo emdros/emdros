@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 6/22-2017
+ * Last update: 4/12-2019
  *
  */
 
@@ -143,6 +143,15 @@ JSONValue::JSONValue(JSONKeyValuePair *pTail)
 		JSONKeyValuePair *pCur = pTail;
 		while (pCur) {
 			JSONValue *pCurValue = pCur->extractValue();
+
+			// Safeguard against the key already being there
+			std::map<std::string, JSONValue*>::iterator it = m_value.m_pObject->find(pCur->getKey());
+			if (it != m_value.m_pObject->end()) {
+				// The key is already there. Delete
+				// the previous one.
+				delete it->second;
+				m_value.m_pObject->erase(it);
+			}
 			m_value.m_pObject->insert(std::make_pair(pCur->getKey(), pCurValue));
 			pCur = pCur->getNext();
 		}
