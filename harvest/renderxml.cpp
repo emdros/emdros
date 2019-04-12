@@ -6,7 +6,7 @@
  *
  * Ulrik Sandborg-Petersen 
  * Created: 4/22-2007
- * Last update: 10/12-2017
+ * Last update: 4/12-2019
  *
  */
 
@@ -222,10 +222,12 @@ protected:
 	typedef std::map<std::string, ElementInfo*> String2ElementInfoMap;
 	String2ElementInfoMap m_elements;
         bool parseStyleSheet(const JSONValue *pStyleSheet, const std::string& render_stylesheet, std::string& strError);
+	void clear();
  public:
 	Bigstring m_html;
         XML2HTMLDocHandler(const JSONValue *pRenderInfo, const std::string& render_stylesheet, const TemplateLangVariableMap& variables, bool& /* out */ bCompilationOK, std::string& /* out */ strError);
         virtual ~XML2HTMLDocHandler() {
+		clear();
         };
         virtual void startElement(const std::string& tag, const AttributeMap& attrs);
         virtual void endElement(const std::string& tag);
@@ -251,6 +253,23 @@ XML2HTMLDocHandler::XML2HTMLDocHandler(const JSONValue *pRenderInfo, const std::
 	if (bCompilationOK) {
 		m_pTemplateEE->setVariables(variables);
 	}
+}
+
+void XML2HTMLDocHandler::clear()
+{
+	delete m_pTemplateEE;
+	m_pTemplateEE = 0;
+
+	String2ElementInfoMap::iterator it = m_elements.begin();	
+	String2ElementInfoMap::iterator itend = m_elements.end();
+	while (it != itend) {
+		delete it->second;
+		++it;
+	}
+	m_elements.clear();
+
+	m_chars.clear();
+	m_html.clear();
 }
 
 

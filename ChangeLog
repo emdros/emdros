@@ -1,5 +1,9 @@
 ============ 3.7.0.pre14 ============
 
+2019-04-12 Ulrik Sandborg-Petersen
+
+	* harvest/renderxml.cpp: Fix memory leaks in XML2HTMLDocHandler.
+
 2019-04-08 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre14.
