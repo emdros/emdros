@@ -19317,7 +19317,7 @@ WHERE
 GO
 ++++ answer failcompiler
 Parsing failed
-syntax error near the token go
+syntax error near the token 'go'
 ---- answer
 ++++ query topographic query on realistic db number 15.1
 SELECT ALL OBJECTS
@@ -19726,7 +19726,7 @@ WHERE
 [Word]
 ++++ answer failcompiler
 Parsing failed
-syntax error near the token -
+syntax error near the token '-'
 ---- answer
 ++++ query topographic query on realistic db number 15.40
 SELECT ALL OBJECTS
@@ -19736,7 +19736,7 @@ WHERE
 [Word]
 ++++ answer failcompiler
 Parsing failed
-syntax error near the token -
+syntax error near the token '-'
 ---- answer
 ++++ query topographic query on realistic db number 15.41
 SELECT ALL OBJECTS
