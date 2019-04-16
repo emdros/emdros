@@ -6,7 +6,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 22/4-2007
- * Last update: 11/30-2018
+ * Last update: 4/16-2019
  *
  */
 
@@ -643,8 +643,11 @@ bool RenderObjects::loadObjectsFromMonads(long OTN_surrogate, const std::string&
 		getClause = "";
 	}
 
+	std::string monad_feature = m_monad_featureMap[OTN_surrogate];
+
 	std::string query = "GET OBJECTS HAVING MONADS IN";
 	query += som.toString();
+	query += " USING MONAD FEATURE " + monad_feature + " ";
 	query += "[" + OTN + getClause + "]GO";
 
 	bool bCompilerResult;
@@ -930,6 +933,24 @@ bool RenderObjects::setDefaults(EmdrosEnv *pEnv, const std::string& db_name, con
 				}
 			}
 
+			std::string monad_feature;
+			if (pOTNObject->hasObjectKey("monad_feature")) {
+				const JSONValue *pMonad_Feature = (*pOTNObject)["monad_feature"];
+				if (pMonad_Feature->getKind() != kJSONString) {
+					appendError("Error: for object type '" + OTN + "', \"monad_feature\" does not point to a string.");
+					bResult = false;
+				} else {
+					monad_feature = (*pOTNObject)["monad_feature"]->getString();
+				}
+			}
+			
+			if (monad_feature.empty()) {
+				m_monad_featureMap.insert(std::make_pair((long)OTN_surrogate, "monads"));
+			} else {
+				m_monad_featureMap.insert(std::make_pair((long)OTN_surrogate, monad_feature));
+			}
+			
+			
 			if (m_bUseDocumentIndexFeatureInsteadOfPriorityList) {
 				const JSONValue *pDocIndexFeature = 0;
 				if (pOTNObject->hasObjectKey("docindexfeature")) {

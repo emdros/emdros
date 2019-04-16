@@ -4393,10 +4393,10 @@ processing model.)</p>
    <li>Keys: object type names
 
    <li>Values: A JSON object with the following keys: "start", "end",
-   "get", and "docindexfeature".  All of these are optional, but if
-   anything is to happen with the objects from the object type, then
-   at least one of "start" and "end" must be present.  They are
-   explained below.
+   "get", "docindexfeature", and "monad_feature".  All of these are
+   optional, but if anything is to happen with the objects from the
+   object type, then at least one of "start" and "end" must be
+   present.  They are explained below.
 
 </UL>
 
@@ -4578,6 +4578,10 @@ following four keys may be present:</p>
   named by the value must be an integer, suitable for being used by
   the "document index feature" algorithm described above for
   prioritizing objects.
+
+  <LI><strong>monad_feature</strong>: If present, must be a string
+  indicating the monad set feature to use for quering the object type.
+  Defaults to "monads".
 
 </UL>
 

@@ -6,7 +6,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 4/22-2007
- * Last update: 4/11-2017
+ * Last update: 4/16-2019
  *
  */
 
@@ -88,6 +88,7 @@ class RenderObjects {
 
 	Long2StringMap m_OTNPs;
 	String2LongMap m_OTN2Surrogate;
+	Long2StringMap m_monad_featureMap;
 	ListOfString m_OTHandlingPriorityList;
 	Long2TemplateASTNodeMap m_startTemplates;
 	Long2TemplateASTNodeMap m_endTemplates;

@@ -1,5 +1,19 @@
 ============ 3.7.0.pre15 ============
 
+2019-04-16 Ulrik Sandborg-Petersen
+
+	* RenderObjects: Add new key "monad_feature" alongside "start",
+	"end", "docindexfeature", and "get" in the fetchinfo stylesheets.
+	This sets the monad feature to use for retrieving objects, and
+	defaults to "monads".
+
+	Files affected:
+
+	modified:   doc/progref/Content.txt
+	modified:   doc/progref/config.py.in
+	modified:   harvest/renderobjects.cpp
+	modified:   include/renderobjects.h
+
 2019-04-12 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre15.
