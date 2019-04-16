@@ -1,3 +1,9 @@
+============ 3.7.0.pre16 ============
+
+2019-04-16 Ulrik Sandborg-Petersen
+
+	* configure.ac, debian/changelog: Bump to 3.7.0.pre16.
+
 ============ 3.7.0.pre15 ============
 
 2019-04-16 Ulrik Sandborg-Petersen
