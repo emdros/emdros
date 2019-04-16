@@ -84,6 +84,14 @@ Release notes for Emdros 3.7.0
 
   Please see the Programmer's Reference Guide for more explanation.
 
+- The Harvest library template language now has a way to set the monad
+  set feature to use when loading objects in a "fetchinfo" stylesheet.
+  Just set the "monad_feature" key to a string which is the name of
+  the monad set feature to use.  The "monad_feature" key must be
+  placed alongside "start", "end", "get", etc.
+
+  Please see the Programmer's Reference Guide for more explanation.
+
 - The following SWIG bindings have been removed:
 
   - PHP 5
