@@ -4,6 +4,10 @@
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre16.
 
+	* tests/test_json/known_good_output/testerror2.txt: Update with
+	the changes necessitated by the enhancement of include/mql_yylex.h
+	in 3.7.0.pre15.
+
 ============ 3.7.0.pre15 ============
 
 2019-04-16 Ulrik Sandborg-Petersen

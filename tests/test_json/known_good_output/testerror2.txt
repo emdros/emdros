@@ -16,6 +16,6 @@
 ---------- end of consumed input -----
 Parsing failed
 
-syntax error near the token {
+syntax error near the token '{'
 
 FAILURE!
