@@ -7,7 +7,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 4/10-2019
+ * Last update: 4/16-2019
  *
  */
 
@@ -353,14 +353,28 @@ template_string(T) ::= CHAR(C) .
 { T = new TemplateString(new std::string(1, C->cChar)); delete C; }
 template_string(T) ::= IDENTIFIER(I) .
 { T = new TemplateString(I->extractString()); delete I; }
+template_string(T) ::= KEY_BARE_ATTRIB .
+{ T = new TemplateString(new std::string("attrib")); }
+template_string(T) ::= KEY_BARE_ATTRIBNOMANGLE .
+{ T = new TemplateString(new std::string("attribnomangle")); }
 template_string(T) ::= KEY_BARE_COUNTER .
 { T = new TemplateString(new std::string("counter")); }
 template_string(T) ::= KEY_BARE_FEATURE .
 { T = new TemplateString(new std::string("feature")); }
 template_string(T) ::= KEY_BARE_FEATURENOMANGLE .
 { T = new TemplateString(new std::string("featurenomangle")); }
+template_string(T) ::= KEY_BARE_FEATUREJSONMANGLE .
+{ T = new TemplateString(new std::string("featurejsonmangle")); }
+template_string(T) ::= KEY_BARE_MAXLENGTH .
+{ T = new TemplateString(new std::string("maxlength")); }
+template_string(T) ::= KEY_BARE_SUBSTRING .
+{ T = new TemplateString(new std::string("substring")); }
 template_string(T) ::= KEY_BARE_FORMAT .
 { T = new TemplateString(new std::string("format")); }
+template_string(T) ::= KEY_BARE_FROM .
+{ T = new TemplateString(new std::string("from")); }
+template_string(T) ::= KEY_BARE_TO .
+{ T = new TemplateString(new std::string("to")); }
 template_string(T) ::= KEY_BARE_VAR .
 { T = new TemplateString(new std::string("var")); }
 template_string(T) ::= KEY_BARE_VARNOMANGLE .

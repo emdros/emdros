@@ -1,3 +1,20 @@
+============ 3.7.0.pre17 ============
+
+2019-04-16 Ulrik Sandborg-Petersen
+
+	* configure.ac, debian/changelog: Bump to 3.7.0.pre17.
+
+	* harvest/templatelang.yxx: Fix the "template_string" production
+	to also include the "bare" keywords introduced in 3.7.0.pre14:
+
+	- KEY_BARE_ATTRIB
+	- KEY_BARE_ATTRIBNOMANGLE
+	- KEY_BARE_FEATUREJSONMANGLE
+	- KEY_BARE_MAXLENGTH
+	- KEY_BARE_SUBSTRING
+	- KEY_BARE_FROM
+	- KEY_BARE_TO
+
 ============ 3.7.0.pre16 ============
 
 2019-04-16 Ulrik Sandborg-Petersen
