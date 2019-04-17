@@ -366,10 +366,10 @@ void ImportFileNameWizardPage::CreateControls(void)
  
  
 	wxStaticText* itemStaticText13 = new wxStaticText( this, wxID_ANY, wxT("Choose file(s) to import, by clicking on \"Browse\"."), wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText13, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText13, 0, wxALIGN_LEFT|wxALL, 5);
  
 	wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
-	pMainSizer->Add(itemBoxSizer4, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
+	pMainSizer->Add(itemBoxSizer4, 0, wxALIGN_LEFT|wxALL, 0);
  
 	m_textCtrl = new wxTextCtrl( this, ID_IMPORT_FORMAT_TEXTCTRL, wxT(""), wxDefaultPosition, sizeBroad, wxTE_MULTILINE | wxTE_DONTWRAP);
 	itemBoxSizer4->Add(m_textCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -428,13 +428,13 @@ void ImportDatabaseWizardPage::CreateControls()
 	this->SetSizer(pMainSizer);	
 	
 	wxStaticText* itemStaticText13 = new wxStaticText( this, wxID_STATIC, wxT("Please choose database settings. "), wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText13, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText13, 0, wxALIGN_LEFT|wxALL, 5);
  
 	m_pDbCheckbox = new wxCheckBox(this, ID_CHECKBOX_EMIT_DATABASE, wxT("Emit 'CREATE DATABASE'"), wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_bEmitDatabase));
-	pMainSizer->Add(m_pDbCheckbox, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(m_pDbCheckbox, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
-	pMainSizer->Add(itemBoxSizer4, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
+	pMainSizer->Add(itemBoxSizer4, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
 	
 	wxStaticText* itemStaticTextDb = new wxStaticText( this, ID_STATIC_TEXT_DATABASE_NAME, wxT("Enter Database name: "), wxDefaultPosition, wxDefaultSize, 0 );
 	itemBoxSizer4->Add(itemStaticTextDb, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
@@ -443,10 +443,10 @@ void ImportDatabaseWizardPage::CreateControls()
 	itemBoxSizer4->Add(m_textCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
  
  	m_pSchemaCheckbox = new wxCheckBox(this, wxID_ANY, wxT("Emit Schema"), wxDefaultPosition, wxDefaultSize, 0, wxGenericValidator(&m_bEmitSchema));
-	pMainSizer->Add(m_pSchemaCheckbox, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(m_pSchemaCheckbox, 0, wxALIGN_LEFT|wxALL, 5);
 
 	wxStaticLine* itemStaticLine1 = new wxStaticLine( this , wxID_ANY, wxDefaultPosition, wxDefaultSize, wxLI_HORIZONTAL );
-	pMainSizer->Add(itemStaticLine1, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_HORIZONTAL|wxALL|wxEXPAND, 5);
+	pMainSizer->Add(itemStaticLine1, 0, wxALL|wxEXPAND, 5);
 	
 	//Stuff for the SMFImporter-thing-a-me
 	m_pBrowseWidget = new BrowseWidget(this, ID_BROWSE_WIDGET,
@@ -455,7 +455,7 @@ void ImportDatabaseWizardPage::CreateControls()
 					   wxT(""),
 					   wxT("Choose SFM Import file"),
 					   wxT("All files (*)|*"));
-	pMainSizer->Add(m_pBrowseWidget, 0, wxALIGN_RIGHT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(m_pBrowseWidget, 0, wxALIGN_RIGHT|wxALL, 5);
 	
 	// Set validators
 	m_textCtrl->SetValidator( wxTextValidator(wxFILTER_NONE, & m_strValue) );
@@ -534,7 +534,7 @@ void ImportOutputFileWizardPage::CreateControls()
 	this->SetSizer(pMainSizer);	
 	
 	wxStaticText* itemStaticText13 = new wxStaticText( this, wxID_STATIC, wxT("Choose an output filename, to which the MQL will be dumped."), wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText13, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText13, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	m_pBrowseWidget = new BrowseWidget(this, ID_BROWSE_WIDGET,
 					   true,
@@ -544,7 +544,7 @@ void ImportOutputFileWizardPage::CreateControls()
 					   wxT("All files (*)|*"), 
 					   wxFD_SAVE | wxFD_OVERWRITE_PROMPT
 					   );
-	pMainSizer->Add(m_pBrowseWidget, 0, wxALIGN_RIGHT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(m_pBrowseWidget, 0, wxALIGN_RIGHT|wxALL, 5);
 	
 	SetSizer(pMainSizer);
 	pMainSizer->Fit(this);
@@ -590,30 +590,30 @@ void ImportAdvancedWizardPage::CreateControls()
 	this->SetSizer(pMainSizer);	
 	
 	wxStaticText* itemStaticText13 = new wxStaticText( this, wxID_STATIC, wxT("Advanced settings. "), wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText13, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText13, 0, wxALIGN_LEFT|wxALL, 5);
  
 	wxStaticText* helpfulNotice = new wxStaticText( this, wxID_STATIC, wxT("These can be left as is unless you really know what you're doing. "), wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(helpfulNotice, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(helpfulNotice, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	//Monad boxsizer
 	wxBoxSizer* itemBoxSizer4 = new wxBoxSizer(wxHORIZONTAL);
-	pMainSizer->Add(itemBoxSizer4, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
+	pMainSizer->Add(itemBoxSizer4, 0, wxALIGN_LEFT|wxALL, 0);
 	
 	//id_d boxsizer
 	wxBoxSizer* itemBoxSizer5 = new wxBoxSizer(wxHORIZONTAL);
-	pMainSizer->Add(itemBoxSizer5, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
+	pMainSizer->Add(itemBoxSizer5, 0, wxALIGN_LEFT|wxALL, 0);
 
 	wxStaticText* itemStaticTextMonad = new wxStaticText( this, wxID_ANY, wxT("Starting monad:"), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer4->Add(itemStaticTextMonad, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	itemBoxSizer4->Add(itemStaticTextMonad, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	m_pMonadTextCtrl = new wxTextCtrl( this, wxID_ANY, wxT("1"), wxDefaultPosition, sizeBroad, 0);
-	itemBoxSizer4->Add(m_pMonadTextCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	itemBoxSizer4->Add(m_pMonadTextCtrl, 0, wxALIGN_LEFT|wxALL, 5);
 		
 	wxStaticText* itemStaticTextIDD = new wxStaticText( this, wxID_ANY, wxT("Starting id_d:"), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer5->Add(itemStaticTextIDD, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	itemBoxSizer5->Add(itemStaticTextIDD, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	m_pIdDTextCtrl = new wxTextCtrl( this, wxID_ANY, wxT("1"), wxDefaultPosition, sizeBroad, 0);
-	itemBoxSizer5->Add(m_pIdDTextCtrl, 0, wxALIGN_LEFT|wxALIGN_CENTER_VERTICAL|wxALL, 5);
+	itemBoxSizer5->Add(m_pIdDTextCtrl, 0, wxALIGN_LEFT|wxALL, 5);
  
 
 	// Set validators
@@ -802,58 +802,58 @@ void ImportSummaryWizardPage::CreateControls()
 	this->SetSizer(pMainSizer);
 
 	wxStaticText* itemStaticText1 = new wxStaticText( this, wxID_STATIC, wxT("Import format:"), wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText1, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText1, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	wxStaticText* itemStaticText2 = new wxStaticText( this, ID_SUMMARY_IMPORT_FORMAT, mychoices[GetImportFormat()], wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText2, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText2, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	wxStaticText* itemStaticText3 = new wxStaticText( this, wxID_STATIC, wxT("File(s) to import:"), wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText3, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText3, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	wxStaticText* itemStaticText4 = new wxStaticText( this, ID_SUMMARY_IMPORT_FILENAME, wxT("") , wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText4, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText4, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	wxStaticText* itemStaticText5 = new wxStaticText( this, wxID_STATIC, wxT("Create database:"), wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText5, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText5, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	wxStaticText* itemStaticText6 = new wxStaticText( this, ID_SUMMARY_E_CR_DB, m_strEmitCreateDb, wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText6, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText6, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	wxStaticText* itemStaticText7 = new wxStaticText( this, wxID_STATIC, wxT("Database name:"), wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText7, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText7, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	wxStaticText* itemStaticText8 = new wxStaticText( this, ID_SUMMARY_DATABASE_NAME, m_strDbName, wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText8, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText8, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	wxStaticText* itemStaticText9 = new wxStaticText( this, wxID_STATIC, wxT("Emit MQL Schema:"), wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText9, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText9, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	wxStaticText* itemStaticText10 = new wxStaticText( this, ID_SUMMARY_E_SCH, m_strEmitSchema, wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText10, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText10, 0, wxALIGN_LEFT|wxALL, 5);
 
 	wxStaticText* itemStaticText11 = new wxStaticText( this, wxID_STATIC, wxT("SFM schema:"), wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText11, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText11, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	wxStaticText* itemStaticText12 = new wxStaticText( this, ID_SUMMARY_SFM_FILENAME, m_strSFMImportFileName, wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText12, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText12, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	wxStaticText* itemStaticText13 = new wxStaticText( this, wxID_STATIC, wxT("Output filename:"), wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText13, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText13, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	wxStaticText* itemStaticText14 = new wxStaticText( this, ID_SUMMARY_OUTPUT_FILENAME, GetOutputFileName(), wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText14, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText14, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	wxStaticText* itemStaticText15 = new wxStaticText( this, wxID_STATIC, wxT("Starting monad:"), wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText15, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText15, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	wxStaticText* itemStaticText16 = new wxStaticText( this, ID_SUMMARY_START_MONAD, GetStartingMonad(), wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText16, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText16, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	wxStaticText* itemStaticText17 = new wxStaticText( this, wxID_STATIC, wxT("Starting id_d:"), wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText17, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText17, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	wxStaticText* itemStaticText18 = new wxStaticText( this, ID_SUMMARY_START_IDD, GetStartingIDD(), wxDefaultPosition, wxDefaultSize, 0 );
-	pMainSizer->Add(itemStaticText18, 0, wxALIGN_LEFT|wxALIGN_CENTER_HORIZONTAL|wxALL, 5);
+	pMainSizer->Add(itemStaticText18, 0, wxALIGN_LEFT|wxALL, 5);
 	
 	SetSizer(pMainSizer);
 	pMainSizer->Fit(this);

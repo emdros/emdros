@@ -6,6 +6,9 @@
 	related to the misuse of wxALIGN_CENTER_VERTICAL in a
 	wxBoxSizer(wxVERTICAL).
 
+	* wx/importerwizard.cpp: Solve more debug asserts with wxWidgets
+	3.1.2.
+
 2019-04-17 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre18.
