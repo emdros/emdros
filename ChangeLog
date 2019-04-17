@@ -4,6 +4,10 @@
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre18.
 
+	* zlib/win32.mak, zlib/mingw.mak: Always build ..\include\zconf.h
+	and ..\include\zlib_emdros.h.  Only build libzlib_emdros.{a,lib}
+	if we are doing USE_BPT=1.
+
 ============ 3.7.0.pre17 ============
 
 2019-04-16 Ulrik Sandborg-Petersen

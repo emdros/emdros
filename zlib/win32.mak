@@ -7,11 +7,20 @@
 
 WIN32DIR = ..\win32
 
+!INCLUDE $(WIN32DIR)\config.mak
 
-LOCAL_CPPFLAGS = -I. -DZ_STATIC -DHAVE_CONFIG_H
+!IF "$(USE_BPT)" == "1"
 LIBTARGET = libz_emdros.lib
 TARGETS = zconfhwin32 zlib_emdrosh "$(OUTDIR)\$(LIBTARGET)"
+!ELSE
+LIBTARGET = 
+TARGETS = zconfhwin32 zlib_emdrosh
+!ENDIF
+
 CLEANFILES = chartables.c dftables.exe ..\include\zlib_emdros.h
+
+LOCAL_CPPFLAGS = -I. -DZ_STATIC -DHAVE_CONFIG_H
+
 
 LIBTARGET_OBJS= \
      "$(INTDIR)/adler32.obj" \
@@ -33,7 +42,6 @@ LIBTARGET_OBJS= \
 
 INTDIR_SUFFIX = \zlib_emdros
 
-!INCLUDE $(WIN32DIR)\config.mak
 !INCLUDE $(WIN32DIR)\body.mak
 
 
