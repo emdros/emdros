@@ -6,7 +6,11 @@
 
 	* zlib/win32.mak, zlib/mingw.mak: Always build ..\include\zconf.h
 	and ..\include\zlib_emdros.h.  Only build libzlib_emdros.{a,lib}
-	if we are doing USE_BPT=1.
+	if we are doing USE_BPT=1.  Otherwise, we won't be able to build
+	the amalgamation when USE_BPT != 1.
+
+	* win32/win32.mak, win32/mingw.mak: Always enter ..\zlib and make
+	the directory, even if we are not doing BPT.
 
 ============ 3.7.0.pre17 ============
 

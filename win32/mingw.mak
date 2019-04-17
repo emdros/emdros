@@ -14,9 +14,7 @@ ifeq ($(MYSQL),1)
 endif
 	$(MAKE) -C ..\include -f mingw.mak $(MAKEMACRO) 
 	$(MAKE) -C ..\pcre -f mingw.mak $(MAKEMACRO) 
-ifeq ($(BPT),1)
-	$(MAKE) -C ..\zlib -f mingw.mak $(MAKEMACRO) 
-endif
+ 	$(MAKE) -C ..\zlib -f mingw.mak $(MAKEMACRO) 
 ifeq ($(SQLITE3),1)
 	$(MAKE) -C ..\sqlite3 -f mingw.mak $(MAKEMACRO) 
 endif
@@ -50,6 +48,7 @@ ifeq ($(SQLITE3),1)
 endif
 	$(MAKE) -C ../EMdF -f mingw.mak clean
 	$(MAKE) -C ../pcre -f mingw.mak clean
+ 	$(MAKE) -C ../zlib -f mingw.mak clean $(MAKEMACRO) 
 	$(MAKE) -C ../MQL -f mingw.mak clean
 	$(MAKE) -C ../util -f mingw.mak clean
 	$(MAKE) -C ../importers -f mingw.mak clean

@@ -29,10 +29,8 @@ ALL: config.nsh
    $(MAKE) /f win32.mak $(MAKEARGS) 
    cd ..\pcre
    $(MAKE) /f win32.mak $(MAKEARGS) 
-!IF "$(BPT)" == "1"
    cd ..\zlib
    $(MAKE) /f win32.mak $(MAKEARGS) 
-!ENDIF
 !IF "$(SQLITE3)" == "1"
    cd ..\sqlite3
    $(MAKE) /f win32.mak $(MAKEARGS) 
@@ -83,6 +81,8 @@ CLEAN:
    cd ..\EMdF
    $(MAKE) /f win32.mak $(MAKEARGS) CLEAN
    cd ..\pcre
+   $(MAKE) /f win32.mak $(MAKEARGS) CLEAN
+   cd ..\zlib
    $(MAKE) /f win32.mak $(MAKEARGS) CLEAN
    cd ..\MQL
    $(MAKE) /f win32.mak $(MAKEARGS) CLEAN
