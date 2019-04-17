@@ -12,6 +12,9 @@
 	* win32/win32.mak, win32/mingw.mak: Always enter ..\zlib and make
 	the directory, even if we are not doing BPT.
 
+	* m4/emdros_wx.m4: Reinstate -arch i386 on macOS 10.13.  It is on
+	10.14 that we should no longer do -arch i386.
+
 ============ 3.7.0.pre17 ============
 
 2019-04-16 Ulrik Sandborg-Petersen

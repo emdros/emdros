@@ -414,11 +414,11 @@ Please do so, and try again.])
     elif test "x$DARWINMAJORVERSION" = "x16"; then
       AC_MSG_RESULT([10.12]) 
       ARCH_FLAGS="-arch i386 -arch x86_64"
-    dnl Mac OS X 10.13:  XCode 10 can't do i386 binaries
+    dnl Mac OS X 10.13
     elif test "x$DARWINMAJORVERSION" = "x17"; then
       AC_MSG_RESULT([10.13]) 
-      ARCH_FLAGS="-arch x86_64"
-    dnl Mac OS X 10.14: XCode 10 can't do i386 binaries
+      ARCH_FLAGS="-arch i386 -arch x86_64"
+    dnl Mac OS X 10.14: XCode 10.2 can't do i386 binaries
     elif test "x$DARWINMAJORVERSION" = "x18"; then
       AC_MSG_RESULT([10.14]) 
       ARCH_FLAGS="-arch x86_64"
