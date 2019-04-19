@@ -4,6 +4,10 @@
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre19.
 
+	* m4/emdros_postgresql.m4: Try harder to find libpq-fe.h, using
+	AC_CHECK_HEADER.  This is in preparation for being able to make a
+	Homebrew Formula.
+
 ============ 3.7.0.pre18 ============
 
 2019-04-19 Ulrik Sandborg-Petersen

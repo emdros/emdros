@@ -29,6 +29,7 @@ if test "x$DO_POSTGRESQL" != "xno"; then
       break;
     fi;
   done
+  
   if test x$libpqdir_found = xtrue; then
     AC_MSG_RESULT($libpqdir_dir);
   else
@@ -37,8 +38,7 @@ if test "x$DO_POSTGRESQL" != "xno"; then
       DO_POSTGRESQL="no"
     else
       AC_MSG_ERROR([
-Error: Could not find 
-the libpq.a or libpq.so or libpq.dylib library.
+Error: Could not find the libpq.a or libpq.so or libpq.dylib library.
 Please set the POSTGRESQL_LIB_DIR environment variable and run ./configure
 again.  For example:
 
@@ -113,19 +113,21 @@ if test "x$DO_POSTGRESQL" != "xno" -a "x$pg_libfound" != "xyes"; then
   export LDFLAGS
 fi
 
-dnl Set a sensible default, so as not to be empty
-PG_INCLUDE_DIR="/usr/include"
+dnl
+dnl Test for PostgreSQL header files
+dnl
 if test "x$DO_POSTGRESQL" != "xno"; then
   dnl Check for PostgreSQL header files
-  AC_LANG([C++])
+  AC_LANG([C])
 
-
-  dnl Postgresql include-dir
-
-  dnl Set CPPFLAGS or report error.
+  dnl First try some well-known directories.
+  dnl We want to do this even though we check for <libpg-fe.h> below
+  dnl with the AC_CHECK_HEADER function, because we have some special
+  dnl directories to check for Solaris support.
   AC_MSG_CHECKING([for postgresql include directory])
+  postgresqldir_dir="";
   postgresqldir_found="false";
-  postgresqldir_try_dirs="$POSTGRESQL_INCLUDE_DIR /usr/include /usr/local/include /usr/pkg/include /usr/local/pgsql/include /usr/include/pgsql /usr/include/postgresql /opt/PostgreSQL/include /sw/include/postgresql /usr/postgres/8.3/include"
+  postgresqldir_try_dirs="$POSTGRESQL_INCLUDE_DIR /usr/local/include /usr/pkg/include /usr/local/pgsql/include /usr/include/pgsql /usr/include/postgresql /opt/PostgreSQL/include /sw/include/postgresql /usr/postgres/8.3/include"
   for d in $postgresqldir_try_dirs; do
     if test -f $d/libpq-fe.h; then
       postgresqldir_dir=$d;
@@ -134,35 +136,60 @@ if test "x$DO_POSTGRESQL" != "xno"; then
     fi;
   done
   if test x$postgresqldir_found = xtrue; then
-    AC_MSG_RESULT($postgresqldir_dir);
+    AC_MSG_RESULT([$postgresqldir_dir])
+
+    if test "x$postgresqldir_dir" != "x"; then
+      CXXFLAGS="$CXXFLAGS -I$postgresqldir_dir";
+      CPPLAGS="$CPPLAGS -I$postgresqldir_dir";
+      CPPFLAGS="$CPPFLAGS -I$postgresqldir_dir"
+
+      export CXXFLAGS;
+      export CPPFLAGS;
+      export CPPFLAGS;
+    fi
+  else
+    AC_MSG_RESULT([Not found... Let's try again.])
+  fi
+
+  dnl Postgresql include-dir
+  AC_CHECK_HEADER([libpq-fe.h],
+                  [have_libpq_fe_h=true],
+                  [have_libpq_fe_h=false])
+
+  if test "xhave_libpq_fe_h" = "x1"; then
+     AC_DEFINE([HAVE_LIBPQ_FE_H], [1],
+               [Define to 1 if you have <libpq-fe.h> from PostgreSQL])
+  else
+     AC_DEFINE([HAVE_LIBPQ_FE_H], [0],
+               [Define to 1 if you have <libpq-fe.h> from PostgreSQL])
+  fi
+
+  AC_MSG_CHECKING([whether to use <libpq-fe.h>])
+  if test "x$have_libpq_fe_h" = "xtrue"; then
+    AC_MSG_RESULT([yes]);
   else
     if test "x$DO_POSTGRESQL" = "xmaybe"; then
       AC_MSG_RESULT([Not found... Not doing PostgreSQL])
       DO_POSTGRESQL="no"
     else
       AC_MSG_ERROR([
-  Error: Could not find 
-  the libpq-fe.h include-file.
+  Error: Could not find the <libpq-fe.h> include-file.
   Please set the POSTGRESQL_INCLUDE_DIR environment variable and run ./configure
   again.
       ])
     fi
   fi
-  export CPPFLAGS="$CPPFLAGS -I$postgresqldir_dir"
-  PG_INCLUDE_DIR="$postgresqldir_dir"
 
-  AC_LANG([C])
 
   dnl
   dnl Take "-lpq" out of LIBS.  They are taken care of
   dnl by EMDFLDADD.
+  AC_LANG([C])
   LIBS=`echo $LIBS | sed 's/-lpq//g'`
 fi
-AC_SUBST(PG_INCLUDE_DIR)
 
 
 dnl End checking for PostgreSQL
-
 USE_POSTGRESQL=0
 
 if test "x$DO_POSTGRESQL" != "xno"; then
@@ -184,7 +211,11 @@ dnl the libpq.pc pkg-config file on Fedora does not list the correct
 dnl libraries, so we don't include libpq among PKGCONFIG_REQUIRED_AMALGAMATION.
 dnl PKGCONFIG_REQUIRED_AMALGAMATION="$PKGCONFIG_REQUIRED_AMALGAMATION libpq"
   PKGCONFIG_LIBS_AMALGAMATION="$PKGCONFIG_LIBS_AMALGAMATION $PG_LDADD"
-  POSTGRESQL_DASH_INCLUDE="-I${PG_INCLUDE_DIR}"
+  if test "x$PG_INCLUDE_DIR" != "x"; then
+    POSTGRESQL_DASH_INCLUDE="-I${PG_INCLUDE_DIR}"
+  else
+    POSTGRESQL_DASH_INCLUDE=""
+  fi
 fi
 
 
