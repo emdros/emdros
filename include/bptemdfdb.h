@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/30-2018
+ * Last update: 4/19-2019
  *
  */
 
@@ -207,10 +207,10 @@ class BPTEMdFDB : public EMdFDB {
   
 	virtual bool getFeatures(const std::string& object_type_name,
 				 id_d_t object_type_id,
+				 eObjectRangeType objectRangeType, 
 				 const std::list<FeatureInfo>& FeatureInfos,
 				 const SetOfMonads& object_id_ds_set,
 				 /* out */ std::list<std::list<std::string> >& results);
-
 
  protected:
 	virtual bool loadStringSetIntoCacheBPT(const std::string& object_type_name, 
@@ -315,6 +315,7 @@ class BPTEMdFDB : public EMdFDB {
 					      const SetOfMonads& monad_ms,
 					      const SetOfMonads& all_m_1,
 					      const std::string& pre_query_string,
+					      EMdFFFeatures *pre_query_constraints,
 					      const std::list<FeatureInfo>& features_to_get,
 					      const std::string& monad_set_name,
 					      /* out */ Inst *pInst);
@@ -424,17 +425,20 @@ class BPTEMdFDB : public EMdFDB {
 	// Comparisons
 #ifndef SWIG
 	virtual EMdFComparison *getEMdFComparison(const std::string& left_feature_name, 
+						  const std::string& left_feature_parameter1,
 						  id_d_t left_type_id_d, 
 						  const std::string& object_type_name, 
 						  id_d_t object_type_id, 
 						  eComparisonOp e, 
 						  EMdFValue *right_hand_side);
 	virtual EMdFComparison *getEMdFComparison(const std::string& left_feature_name, 
+						  const std::string& left_feature_parameter1,
 						  id_d_t left_type_id_d, 
 						  const std::string& object_type_name,
 						  id_d_t object_type_id,
 						  const std::list<EnumConstInfo>& in_enum_list);
 	virtual EMdFComparison *getEMdFComparison(const std::string& left_feature_name, 
+						  const std::string& left_feature_parameter1,
 						  id_d_t left_type_id_d, 
 						  const std::string& object_type_name,
 						  id_d_t object_type_id,

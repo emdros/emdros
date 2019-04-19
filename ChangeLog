@@ -30,6 +30,10 @@
 
 	* m4/emdros_macos.m4: AC_SUBST(MACOS_VERSION_MIN).
 
+	* EMdF/bptemdfdb.cpp, include/bptemdfdb.h: Silence some warnings
+	about overloaded, hidden virtual functions.  These were due to not
+	keeping the BPTEMdFDB interface in sync with the EMdFDB interface.
+
 2019-04-18 Ulrik Sandborg-Petersen
 
 	* wx/importerwizard.cpp: Fix debug asserts on wxWidgets 3.1.2

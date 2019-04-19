@@ -12,7 +12,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/30-2018
+ * Last update: 4/19-2019
  *
  */
 
@@ -1048,13 +1048,15 @@ bool BPTEMdFDB::featureExists(const std::string& feature_name,
  * @return True on no database error, false if a database error occurred.
  */
 bool BPTEMdFDB::getFeatures(const std::string& object_type_name,
-			 id_d_t object_type_id,
-			 const std::list<FeatureInfo>& FeatureInfos,
-			 const SetOfMonads& object_id_ds_set,
-			 /* out */ std::list<std::list<std::string> >& results)
+			    id_d_t object_type_id,
+			    eObjectRangeType objectRangeType, 
+			    const std::list<FeatureInfo>& FeatureInfos,
+			    const SetOfMonads& object_id_ds_set,
+			    /* out */ std::list<std::list<std::string> >& results)
 {
 	UNUSED(object_type_name);
 	UNUSED(object_type_id);
+	UNUSED(objectRangeType);
 	UNUSED(FeatureInfos);
 	UNUSED(object_id_ds_set);
 	UNUSED(results);
@@ -1546,6 +1548,7 @@ bool BPTEMdFDB::getObjectsHavingMonadsIn(const std::string object_type_name,
 					 const SetOfMonads& monad_ms,
 					 const SetOfMonads& all_m_1,
 					 const std::string& pre_query_string,
+					 EMdFFFeatures *pre_query_constraints,
 					 const std::list<FeatureInfo>& features_to_get,
 					 const std::string& monad_set_name,
 					 /* Out */ Inst *pInst)
@@ -1556,6 +1559,7 @@ bool BPTEMdFDB::getObjectsHavingMonadsIn(const std::string object_type_name,
 	UNUSED(monad_ms);
 	UNUSED(all_m_1);
 	UNUSED(pre_query_string);
+	UNUSED(pre_query_constraints);
 	UNUSED(features_to_get);
 	UNUSED(monad_set_name);
 	UNUSED(pInst);
@@ -2900,7 +2904,8 @@ void BPTEMdFDB::dropIndex(const std::string& index_name, const std::string& tabl
  *
  * @return The newly created EMdFComparison.
  */
-EMdFComparison* BPTEMdFDB::getEMdFComparison(const std::string& left_feature_name, 
+EMdFComparison *BPTEMdFDB::getEMdFComparison(const std::string& left_feature_name,
+					     const std::string& left_feature_parameter1,
 					     id_d_t left_type_id_d, 
 					     const std::string& object_type_name, 
 					     id_d_t object_type_id, 
@@ -2908,6 +2913,7 @@ EMdFComparison* BPTEMdFDB::getEMdFComparison(const std::string& left_feature_nam
 					     EMdFValue *right_hand_side)
 {
 	UNUSED(left_feature_name);
+	UNUSED(left_feature_parameter1);
 	UNUSED(left_type_id_d);
 	UNUSED(object_type_name);
 	UNUSED(object_type_id);
@@ -2918,12 +2924,14 @@ EMdFComparison* BPTEMdFDB::getEMdFComparison(const std::string& left_feature_nam
 }
 
 EMdFComparison *BPTEMdFDB::getEMdFComparison(const std::string& left_feature_name, 
+					     const std::string& left_feature_parameter1,
 					     id_d_t left_type_id_d, 
 					     const std::string& object_type_name,
 					     id_d_t object_type_id,
 					     const std::list<EnumConstInfo>& in_enum_list)
 {
 	UNUSED(left_feature_name);
+	UNUSED(left_feature_parameter1);
 	UNUSED(left_type_id_d);
 	UNUSED(object_type_name);
 	UNUSED(object_type_id);
@@ -2955,12 +2963,14 @@ EMdFComparison *BPTEMdFDB::getEMdFComparison(const std::string& left_feature_nam
  * @return The newly created EMdFComparison.
  */
 EMdFComparison *BPTEMdFDB::getEMdFComparison(const std::string& left_feature_name, 
+					     const std::string& left_feature_parameter1,
 					     id_d_t left_type_id_d, 
 					     const std::string& object_type_name,
 					     id_d_t object_type_id,
 					     const IntegerList *pIntegerList)
 {
 	UNUSED(left_feature_name);
+	UNUSED(left_feature_parameter1);
 	UNUSED(left_type_id_d);
 	UNUSED(object_type_name);
 	UNUSED(object_type_id);
