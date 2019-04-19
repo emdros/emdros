@@ -1,5 +1,18 @@
 ============ 3.7.0.pre18 ============
 
+2019-04-19 Ulrik Sandborg-Petersen
+
+	* m4/emdros_macos.m4, m4/emdros_wx.m4
+
+	- On macOS, do --universal_binary even if we are not doing wxWidgets.
+
+	- Refactor the setting of arch flags and isysroot completely.
+
+	- Remove the option of doing wxWidgets with WX_NONUNICODE.
+
+	* tests/Makefile.am: Remove the last vestiges of being able to do
+	WX_NONUNICODE builds.
+
 2019-04-18 Ulrik Sandborg-Petersen
 
 	* wx/importerwizard.cpp: Fix debug asserts on wxWidgets 3.1.2
