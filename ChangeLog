@@ -28,6 +28,8 @@
 	Also, update the example of compiling wxWidgets so it uses the
 	latest version of wxWidgets (3.1.2).
 
+	* m4/emdros_macos.m4: AC_SUBST(MACOS_VERSION_MIN).
+
 2019-04-18 Ulrik Sandborg-Petersen
 
 	* wx/importerwizard.cpp: Fix debug asserts on wxWidgets 3.1.2

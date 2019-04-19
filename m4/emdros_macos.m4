@@ -161,6 +161,8 @@ if test "x$HOSTISDARWIN" = "xyes"; then
   CXXFLAGS="$CXXFLAGS $MACOS_CXXFLAGS"
   export CFLAGS
   export CXXFLAGS
+
+  AC_SUBST(MACOS_VERSION_MIN)
   
 
   AC_MSG_CHECKING([macOS ISYSROOT for macOS minimum build version ${MACOS_VERSION_MIN} ...])
