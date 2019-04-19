@@ -13,6 +13,17 @@
 	* tests/Makefile.am: Remove the last vestiges of being able to do
 	WX_NONUNICODE builds.
 
+	* Makefile.am: Rename MACOSX_VERSION_MIN to the new
+	MACOS_VERSION_MIN.
+
+	* m4/emdros_macos.m4: If the user selects
+	--enable-universal_binary on macOS, and does not select either
+	--enable-dependency-tracking or --disable-dependency-tracking,
+	then we do as if --disable-dependency-tracking was specified.
+	This is required for --enable-universal_binary to work.
+
+	* m4/emdros_macos.m4: Properly support building on macOS 10.14.
+
 2019-04-18 Ulrik Sandborg-Petersen
 
 	* wx/importerwizard.cpp: Fix debug asserts on wxWidgets 3.1.2

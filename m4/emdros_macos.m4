@@ -183,11 +183,24 @@ if test "x$UNIVERSAL_BINARY" = "xyes"; then
     AC_MSG_ERROR([Error: Cannot make Universal Binaries except on macOS. 
 This is not macOS. Aborting.])
   fi
+
+  AC_MSG_CHECKING([dependency tracking status...])
+
+  if test "x$enable_dependency_tracking" = "x"; then
+    enable_dependency_tracking="no";
+    AC_MSG_RESULT(["empty. Setting to 'no', as required for --enable-universal_binary"])
+  else
+    AC_MSG_RESULT(["already set to '$enable_dependency_tracking'"])
+  fi
+  
   if test "x$enable_dependency_tracking" != "xno"; then
     AC_MSG_ERROR([
 
 Error: In order to make Universal Binaries, you must also 
-give configure the --disable-dependency-tracking switch.
+give configure the
+   --disable-dependency-tracking
+switch.
+
 Please do so, and try again.])
   fi
 
@@ -234,9 +247,21 @@ Please do so, and try again.])
     AC_MSG_RESULT([10.12]) 
     MACOS_ARCH_FLAGS="-arch i386 -arch x86_64"
   dnl macOS 10.13:
+  dnl
+  dnl The minimum version is 10.13. That means, we are
+  dnl building on macOS 10.14, which uses
+  dnl Xcode 10.2.  This version of Xcode does not
+  dnl support building i386 binaries.
+  dnl
+  dnl macOS 10.13 was the last macOS version to support
+  dnl 32 bit binaries.
+  dnl
+  dnl Hence, if you need to build i386 binaries
+  dnl for 10.13, you will need to build on macOS 10.13
+  dnl or earlier.
   elif test "x$MACOS_VERSION_MIN" = "x10.13"; then
     AC_MSG_RESULT([10.13]) 
-    MACOS_ARCH_FLAGS="-arch i386 -arch x86_64"
+    MACOS_ARCH_FLAGS="-arch x86_64"
   dnl macOS 10.14: macOS 10.14 doesn't support i386
   elif test "x$MACOS_VERSION_MIN" = "x10.14"; then
     AC_MSG_RESULT([10.14]) 
