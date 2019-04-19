@@ -147,7 +147,7 @@ if test "x$DO_MYSQL" != "xno"; then
 
   AC_MSG_CHECKING([for <mysql.h>])
   if test x$MYSQL_CONFIG_PROG != xno; then
-      MY_CFLAGS=`$MYSQL_CONFIG_PROG --cflags`
+      MY_CFLAGS=`$MYSQL_CONFIG_PROG --include`
       AC_MSG_RESULT([$MY_CFLAGS])
   elif test "x$libmysqldir_found" = xtrue; then
       MY_CFLAGS="-I$mysqldir_dir"
