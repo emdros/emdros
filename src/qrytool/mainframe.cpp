@@ -6,7 +6,7 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 2/15-2019
+ * Last update: 4/19-2019
  *
  */
 
@@ -973,7 +973,7 @@ bool MainFrame::Connect()
 		}
 
 		// Initialize m_pResultsWindow
-		m_pResultsWindow->InitializeViewMetrics(m_pConf, m_pOut->getNoOfInterlinearLines());
+		m_pResultsWindow->InitializeInterlinearViewMetrics(m_pConf, m_pOut->getNoOfInterlinearLines());
 		m_pResultsWindow->Clear();
 
 		// Set size and font name of input area

@@ -84,6 +84,11 @@
 	- Change the signature of start_raster_unit_row() to include the
 	reference.
 
+	- src/qrytool/wxilqtout.h, src/qrytool/wxilqtout.cpp,
+	src/qrytool/mainframe.cpp: Rename
+	WXILLayoutCanvas::InitializeViewMetrics() to
+	WXILLayoutCanvas::InitializeInterlinearViewMetrics().
+
 2019-04-18 Ulrik Sandborg-Petersen
 
 	* wx/importerwizard.cpp: Fix debug asserts on wxWidgets 3.1.2

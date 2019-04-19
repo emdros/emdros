@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/16-2005
- * Last update: 5/11-2014
+ * Last update: 4/19-2019
  *
  */
 
@@ -44,7 +44,7 @@ class WXILLayoutCanvas : public LayoutCanvas {
  public:       
 	WXILLayoutCanvas(wxWindow *pParent, const wxPoint& pos, const wxSize& size, const long style, Configuration *pConf);
 	~WXILLayoutCanvas();
-	virtual void InitializeViewMetrics(Configuration *pConf, int nInterlinearLines); 
+	virtual void InitializeInterlinearViewMetrics(Configuration *pConf, int nInterlinearLines); 
 	bool getIsRightToLeft(void) const { return m_bIsRightToLeft; };
 };
 

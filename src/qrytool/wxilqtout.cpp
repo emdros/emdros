@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/16-2005
- * Last update: 1/16-2019
+ * Last update: 4/19-2019
  *
  */
 
@@ -59,7 +59,7 @@ wxColour mycolorarray[NO_OF_COLORS] = {
 WXILLayoutCanvas::WXILLayoutCanvas(wxWindow *pParent, const wxPoint& pos, const wxSize& size, const long style, Configuration *pConf)
 	: LayoutCanvas(pParent, pos, size, style)
 {
-	InitializeViewMetrics(pConf, 1);
+	InitializeInterlinearViewMetrics(pConf, 1);
 }
 
 
@@ -90,7 +90,7 @@ wxString getOutputAreaFontName(Configuration *pConf, int number)
 	return outputAreaFontName;
 }
 
-void WXILLayoutCanvas::InitializeViewMetrics(Configuration *pConf, int nInterlinearLines)
+void WXILLayoutCanvas::InitializeInterlinearViewMetrics(Configuration *pConf, int nInterlinearLines)
 {
 	if (m_pViewMetrics) {
 		delete m_pViewMetrics;
