@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/9-2005
- * Last update: 1/16-2019
+ * Last update: 4/19-2019
  *
  */
 
@@ -588,7 +588,7 @@ void Tree_Output_style::show(const Solution *pSolution, int solution_number)
 {
 	start_solution(solution_number);
 
-	print_reference(pSolution);
+	print_solution_reference(pSolution);
 
 	m_pOut->startRaster();
 
@@ -598,7 +598,16 @@ void Tree_Output_style::show(const Solution *pSolution, int solution_number)
 }
 
 
-void Tree_Output_style::print_reference(const Solution *pSolution)
+void Tree_Output_style::print_reference(const std::string& reference)
+{
+	UNUSED(reference);
+	
+	// Nothing to do 
+}
+
+
+
+void Tree_Output_style::print_solution_reference(const Solution *pSolution)
 {
 	do_reference(pSolution->getMonads().first(), "reference_unit", 
 		     pSolution->getOTTableMap(kReference));

@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 4/9-2005
- * Last update: 1/16-2019
+ * Last update: 4/19-2019
  *
  */
 
@@ -112,7 +112,8 @@ public:
   virtual ~Tree_Output_style() {}; // Don't delete anything!
   virtual void show(const Solution *pSolution, int solution_number);
  protected:
-  virtual void print_reference(const Solution *pSolution);
+  virtual void print_reference(const std::string& reference);
+  virtual void print_solution_reference(const Solution *pSolution);
   virtual void print_tree(const Solution *pSolution);
 };
 

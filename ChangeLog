@@ -66,6 +66,21 @@
 	- include/leftrightchooser.h, wx/leftrightchooser.cpp: Remove
 	unused field LeftRightChooser::m_pParent.
 
+	* src/qrytool/output_style.h, src/qrytool/output_style.cpp:
+	Silence warning:
+
+	- Remove Tree_Output_style::print_reference(const Solution
+	*pSolution).
+
+	- Add Tree_Output_style::print_solution_reference(const Solution
+	*pSolution).
+
+	- Add Tree_Output_style::print_reference(const std::string&
+	reference);
+
+	- Call Tree_Output_style::print_solution_reference(const Solution
+	*pSolution) where requisite.
+
 2019-04-18 Ulrik Sandborg-Petersen
 
 	* wx/importerwizard.cpp: Fix debug asserts on wxWidgets 3.1.2
