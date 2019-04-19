@@ -116,7 +116,7 @@ dist_pkgconfig_DATA = emdros.pc
 AM_CPPFLAGS = -I$(top_srcdir)/include
 
 
-MACDISTDIR = Emdros-@VERSION@-MacOSX-@MACOSX_VERSION_MIN@.@MACCPU@
+MACDISTDIR = Emdros-@VERSION@-MacOSX-@MACOS_VERSION_MIN@.@MACCPU@
 MACDMG = $(MACDISTDIR).dmg
 
 
