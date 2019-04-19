@@ -2,7 +2,7 @@
 // Horizontal Tree Canvas : implementation file
 //
 // Created: 9/8-2007
-// Last update: 10/4-2018
+// Last update: 4/19-2019
 //
 
 /*
@@ -105,7 +105,7 @@ std::string HTreeNode::getCharacteristicString(void) const
 
 	if (m_pBranchLabels != 0) {
 		std::ostringstream ostr;
-		m_pBranchLabels->toHTML(&ostr, false, "");
+		m_pBranchLabels->doToHTML(&ostr, false, "");
 		result += ostr.str();
 	}
 
@@ -113,7 +113,7 @@ std::string HTreeNode::getCharacteristicString(void) const
 
 	if (m_pMainBox != 0) {
 		std::ostringstream ostr;
-		m_pMainBox->toHTML(&ostr, false, "");
+		m_pMainBox->doToHTML(&ostr, false, "");
 		result += ostr.str();
 	}
 
@@ -1076,16 +1076,24 @@ void HTreeCanvas::adjustHeights(wxDC* pDC)
 }
 
 
-void HTreeCanvas::PrepareDC(wxDC *pDC)
+#if wxCHECK_VERSION(3,0,0)
+void HTreeCanvas::DoPrepareDC(wxDC& dc)
+#else
+void HTreeCanvas::PrepareDC(wxDC& dc)
+#endif
 {
-	pDC->SetMapMode(m_nMapMode);
+	dc.SetMapMode(m_nMapMode);
 }
 
 
 void HTreeCanvas::OnDraw(wxDC &dc)
 {
 	wxDC *pDC = &dc;
-	PrepareDC(pDC);
+#if wxCHECK_VERSION(3,0,0)
+	PrepareDC(dc);
+#else
+	DoPrepareDC(dc);
+#endif
 	m_pBox->Draw(pDC, 10, 10);
 }
 

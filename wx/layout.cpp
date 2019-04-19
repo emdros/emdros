@@ -11,7 +11,7 @@
 // November 11, 2003.
 //
 // Created: 7/17-2005
-// Last update: 10/4-2018
+// Last update: 4/19-2019
 //
 
 /*
@@ -313,7 +313,7 @@ void LayoutBox::DrawText(wxDC *pDC, wxString strOutput, int xLP, int yLP, unsign
 	pDC->SetFont(wxNullFont);
 }
 
-void LayoutBox::toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
+void LayoutBox::doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
 {
 	(void)(filename); // Silence a warning
 	
@@ -413,7 +413,7 @@ void LatinLayoutBox::RecalculateExtents(wxDC *pDC)
 	}
 }
 
-void LatinLayoutBox::toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
+void LatinLayoutBox::doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
 {
 	(void)(filename); // Silence a warning
 	
@@ -605,7 +605,7 @@ void BorderedStackedLatinLayoutBox::RecalculateExtents(wxDC *pDC)
 }
 
 
-void BorderedStackedLatinLayoutBox::toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
+void BorderedStackedLatinLayoutBox::doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
 {
 	(void)(filename); // Silence a warning
 	
@@ -719,7 +719,7 @@ void StackedLatinLayoutBox::RecalculateExtents(wxDC *pDC)
 }
 
 
-void StackedLatinLayoutBox::toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
+void StackedLatinLayoutBox::doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
 {
 	(void)(filename); // Silence a warning
 	
@@ -768,7 +768,7 @@ LayoutSymbolBox::~LayoutSymbolBox(void)
 {
 }
 
-void LayoutSymbolBox::toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
+void LayoutSymbolBox::doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
 {
 	(void)(pOut); // Silence a warning
 	(void)(bIsRightToLeft); // Silence a warning
@@ -893,7 +893,7 @@ LayoutBracketBox::~LayoutBracketBox(void)
 {
 }
 
-void LayoutBracketBox::toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
+void LayoutBracketBox::doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
 {
 	(void)(filename); // Silence a warning
 	
@@ -1366,7 +1366,7 @@ void LayoutLine::toHTML(std::ostream *pOut, const std::string& filename)
 	for (PBoxList::iterator it = m_boxes.begin();
 	     it != m_boxes.end();
 	     ++it) {
-		(*it)->toHTML(pOut, m_bIsRightToLeft, filename);
+		(*it)->doToHTML(pOut, m_bIsRightToLeft, filename);
 	}
 }
 
@@ -2410,7 +2410,7 @@ ZeroWidthHTMLBox::ZeroWidthHTMLBox(ViewMetrics *pMetrics, eHTMLTagKind kind, boo
 	}
 }
 
-void ZeroWidthHTMLBox::toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
+void ZeroWidthHTMLBox::doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
 {
 	(void)(bIsRightToLeft); // Silence a warning
 	(void)(filename); // Silence a warning
@@ -2529,7 +2529,7 @@ void HTMLTextBox::Draw(wxDC *pDC, int xLP, int yLP)
 	}
 }
 
-void HTMLTextBox::toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
+void HTMLTextBox::doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
 {
 	(void)(bIsRightToLeft); // Silence a warning
 	(void)(filename); // Silence a warning
@@ -2576,7 +2576,7 @@ void HTMLHRBox::Draw(wxDC *pDC, int xLP, int yLP)
 }
 
 
-void HTMLHRBox::toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
+void HTMLHRBox::doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
 {
 	(void)(bIsRightToLeft); // Silence a warning
 	(void)(filename); // Silence a warning
@@ -2607,7 +2607,7 @@ AnchorBox::AnchorBox(ViewMetrics *pMetrics)
 {
 }
 
-void AnchorBox::toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
+void AnchorBox::doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
 {
 	(void)(bIsRightToLeft); // Silence a warning
 	(void)(filename); // Silence a warning
@@ -2623,7 +2623,7 @@ void AnchorBox::toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::strin
 			(*pOut) << "<A HREF=\"" << ((const char*)(m_attribute.mb_str(wxConvUTF8))) << "\">";
 			break;
 		case kAEnd:
-			ASSERT_THROW(false, "AnchorBox::toHTML(): kind is kAEnd, but m_bIsStartTag is also true. Conflict!");
+			ASSERT_THROW(false, "AnchorBox::doToHTML(): kind is kAEnd, but m_bIsStartTag is also true. Conflict!");
 			break;
 		}
 	} else {

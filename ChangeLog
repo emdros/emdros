@@ -38,6 +38,22 @@
 
 	../include/emdf_hash.h:78:29: warning: unused parameter 'value' [-Wunused-parameter]
 
+	* WarningSilenceHunt:
+
+	- include/layout.h, wx/layout.cpp: Add a virtual function
+	LayoutItem::doToHTML() which takes three parameters, and make
+	LayoutItem::toHTML take two parameters.  Make it so throughout the
+	hierachy, except those toHTML functions which do take two
+	paramters.
+
+	- wx/htreecanvas.cpp: Use the new doToHTML() where requisite.
+
+	- include/htreecanvas.h, wx/htreecanvas.cpp: Change the signature
+	of HTreeCanvas::PrepareDC so it uses a wxDC& instead of a wxDC*.
+
+	- include/htreecanvas.h, wx/htreecanvas.cpp: If on wxWidgets >=
+	3.0.0, rename HTreeCanvas::PrepareDC to HTreeCanvas::DoPrepareDC.
+
 2019-04-18 Ulrik Sandborg-Petersen
 
 	* wx/importerwizard.cpp: Fix debug asserts on wxWidgets 3.1.2

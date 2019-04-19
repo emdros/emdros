@@ -1,7 +1,7 @@
 // HTreeCanvas : header file
 //
 // Created: 9/8-2007
-// Last update: 11/9-2009
+// Last update: 4/19-2019
 //
 //
 
@@ -179,7 +179,11 @@ protected:
 	ViewMetrics *m_pViewMetrics;
 public:
 	HTreeCanvas(ViewMetrics *pMetrics, wxWindow *pParent, const wxPoint& pos, const wxSize& size, const long style, bool bRightToLeft);
-	void PrepareDC(wxDC *pDC);
+#if wxCHECK_VERSION(3,0,0)
+	virtual void DoPrepareDC(wxDC& dc);
+#else
+	virtual void PrepareDC(wxDC& dc);
+#endif
 	virtual void OnDraw(wxDC &dc);
 	virtual void DrawToClipboard(void);
 	virtual void DrawToBitmap(wxBitmap **ppBitmap);

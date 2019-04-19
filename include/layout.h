@@ -11,7 +11,7 @@
 // November 11, 2003.
 //
 // Created: 7/17-2005
-// Last update: 1/16-2019
+// Last update: 4/19-2019
 //
 //
 
@@ -90,7 +90,11 @@ class LayoutItem {
 	virtual ~LayoutItem() {};
 	int GetWidthLP(void) const { return m_xExtentLP; };
 	int GetHeightLP(void) const { return m_yExtentLP; };
-	virtual void toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename) {
+	virtual void toHTML(std::ostream *pOut, const std::string& filename) {
+		(void)(pOut); // Silence a warning
+		(void)(filename); // Silence a warning
+		/* By default, do nothing. */ };
+	virtual void doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename) {
 		(void)(pOut); // Silence a warning
 		(void)(bIsRightToLeft); // Silence a warning
 		(void)(filename); // Silence a warning
@@ -137,7 +141,7 @@ class LayoutBoxBase : public LayoutItem {
 		/* must be implemented. */ };
 	virtual void DrawBox(wxDC *pDC, int xLeftLP, int yTopLP);
 
-	virtual void toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename) {
+	virtual void doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename) {
 		(void)(pOut);
 		(void)(bIsRightToLeft);
 		(void)(filename);
@@ -164,7 +168,7 @@ class ZeroWidthHTMLBox : public HTMLBox {
  public:
 	ZeroWidthHTMLBox(ViewMetrics *pMetrics, eHTMLTagKind kind, bool bStartTag);
 	virtual ~ZeroWidthHTMLBox() {};
-	virtual void toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
+	virtual void doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
 	eHTMLTagKind getKind() const { return m_kind; };
 	bool isStartTag() const { return m_bStartTag; };
 	virtual eHTMLTagKind getHTMLTagKind(void) const { return m_kind; };
@@ -189,7 +193,7 @@ class AnchorBox : public ZeroWidthHTMLBox {
 	}
 	eAnchorKind getAnchorKind() const { return m_anchor_kind; };
 	wxString getAttribute() const { return m_attribute; };
-	virtual void toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
+	virtual void doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
 };
 
 class HTMLTextBox : public HTMLBox {
@@ -201,7 +205,7 @@ class HTMLTextBox : public HTMLBox {
 	HTMLTextBox(ViewMetrics *pMetrics, wxDC *pDC, const HTMLFontAttributes& font_attr, const wxString& text, bool bSpaceAfter);
 	virtual ~HTMLTextBox();
 	virtual void Draw(wxDC *pDC, int xLP, int yLP);
-	virtual void toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
+	virtual void doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
 	virtual eHTMLTagKind getHTMLTagKind(void) const { return kHTMLText; };
 	virtual void RecalculateExtents(wxDC *pDC);
 };
@@ -211,7 +215,7 @@ class HTMLHRBox : public HTMLBox {
 	HTMLHRBox(ViewMetrics *pMetrics);
 	virtual ~HTMLHRBox();
 	virtual void Draw(wxDC *pDC, int xLP, int yLP);
-	virtual void toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
+	virtual void doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
 	virtual eHTMLTagKind getHTMLTagKind(void) const { return kHR; };
 };
 
@@ -233,7 +237,7 @@ class LayoutBox : public LayoutBoxBase {
 	virtual void RecalculateExtents(wxDC *pDC);
 	bool IsGrayed(void) const { return m_bIsGrayed; };
 	void SetGrayed(bool grayed) { m_bIsGrayed = grayed; };
-	virtual void toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
+	virtual void doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
 };
 
 // One that has only 1 string-item,
@@ -255,7 +259,7 @@ class LatinLayoutBox : public SimpleLayoutBox {
 	~LatinLayoutBox();
 	virtual void DrawText(wxDC *pDC, wxString strOutput, int xLP, int yLP, unsigned int ilmIndex);
 	virtual void RecalculateExtents(wxDC *pDC);
-	virtual void toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
+	virtual void doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
 };
 
 class StackedLatinLayoutBox : public LayoutBoxBase {
@@ -273,7 +277,7 @@ class StackedLatinLayoutBox : public LayoutBoxBase {
 	virtual void RecalculateExtents(wxDC *pDC);
 	bool IsGrayed(void) const { return m_bIsGrayed; };
 	void SetGrayed(bool grayed) { m_bIsGrayed = grayed; };
-	virtual void toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
+	virtual void doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
 };
 
 
@@ -296,7 +300,7 @@ class BorderedStackedLatinLayoutBox : public LayoutBoxBase {
 	virtual void RecalculateExtents(wxDC *pDC);
 	bool IsGrayed(void) const { return m_bIsGrayed; };
 	void SetGrayed(bool grayed) { m_bIsGrayed = grayed; };
-	virtual void toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
+	virtual void doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
 };
 
 
@@ -318,7 +322,7 @@ class LayoutSymbolBox : public LayoutBoxBase {
 	virtual ~LayoutSymbolBox(void);
 	virtual void Draw(wxDC *pDC, int x, int y);
 	virtual void RecalculateExtents(wxDC *pDC);
-	virtual void toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
+	virtual void doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
         bool IsGrayed(void) const { return m_bIsGrayed; };
 	void SetGrayed(bool grayed) { m_bIsGrayed = grayed; };
  protected:
@@ -355,7 +359,7 @@ class LayoutBracketBox : public LayoutBoxBase {
 	virtual void Draw(wxDC *pDC, int x, int y);
 	static bool should_have_label(bool opening, bool is_inside) { return !opening && !is_inside; };
 	virtual void RecalculateExtents(wxDC *pDC);
-	virtual void toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
+	virtual void doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
  private:
 	int m_nSerifLength;
 	int m_nLabelXExtent;
