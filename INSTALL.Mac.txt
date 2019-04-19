@@ -1,5 +1,5 @@
 HOWTO Install Emdros on a Mac OS X
-Last update: 6/15-2018
+Last update: 4/19-2019
 
 Overview:
 
@@ -106,22 +106,22 @@ Download the latest sources from: http://www.wxwidgets.org/
 
 
 When installing wxWidgets, you should install it, e.g., in
-$HOME/opt/wxWidgets-3.0.3, then add $HOME/opt/wxWidgets-3.0.3/bin to
+$HOME/opt/wxWidgets-3.1.2, then add $HOME/opt/wxWidgets-3.1.2/bin to
 the beginning of your path.  That way, the wx-config program picked up
 by the Emdros configure script will be the newly installed wx-config
 program rather than the native Mac OS X wx-config.
 
-1) Install wxWidgets 3.0.3 or later in $HOME/opt/wxWidgets-3.0.3
+1) Install wxWidgets 3.1.2 or later in $HOME/opt/wxWidgets-3.1.2
 
    1a) mkdir -p ~/build/wxWidgets && cd ~/build/wxWidgets
 
-   1b) tar xfvz /path/to/wxWidgets-Sources-tarball/wxWidgets-3.0.3.tar.gz
+   1b) tar xfvz /path/to/wxWidgets-Sources-tarball/wxWidgets-3.1.2.tar.gz
 
        (Note: Please replace this with whatever is true on your system).
 
    1c) Enter into the thusly created sources directory.  E.g.:
 
-       cd wxWidgets-3.0.3
+       cd wxWidgets-3.1.2
 
    1d) mkdir osxbuild && cd osxbuild
 
@@ -129,19 +129,23 @@ program rather than the native Mac OS X wx-config.
 
        If on Mac OS X 10.6:
 
-       ../configure --prefix=${HOME}/opt/wxWidgets-3.0.3 --with-macosx-version-min=10.6 --with-osx_cocoa --enable-macosx_arch=i386,x86_64 --disable-shared --with-macosx-sdk=/Developer/SDKs/MacOSX10.6.sdk --disable-dependency-tracking --with-expat=builtin --with-zlib=builtin
+       ../configure --prefix=${HOME}/opt/wxWidgets-3.1.2 --with-macosx-version-min=10.6 --with-osx_cocoa --enable-macosx_arch=i386,x86_64 --disable-shared --with-macosx-sdk=/Developer/SDKs/MacOSX10.6.sdk --disable-dependency-tracking --with-expat=builtin --with-zlib=builtin
 
        If on Mac OS X 10.7 or 10.8:
 
-       ../configure --prefix=${HOME}/opt/wxWidgets-3.0.3 --with-osx_cocoa --enable-macosx_arch=i386,x86_64 --disable-shared --disable-dependency-tracking --with-expat=builtin --with-zlib=builtin
+       ../configure --prefix=${HOME}/opt/wxWidgets-3.1.2 --with-osx_cocoa --enable-macosx_arch=i386,x86_64 --disable-shared --disable-dependency-tracking --with-expat=builtin --with-zlib=builtin
 
        If on Mac OS X 10.9
 
-       CXX="g++ -std=c++11 --stdlib=libc++" ../configure --prefix=${HOME}/opt/wxWidgets-3.0.3 --with-osx_cocoa --enable-macosx_arch=i386,x86_64 --disable-shared --disable-dependency-tracking --with-expat=builtin --with-zlib=builtin --with-macosx-version-min=10.8
+       CXX="g++ -std=c++11 --stdlib=libc++" ../configure --prefix=${HOME}/opt/wxWidgets-3.1.2 --with-osx_cocoa --enable-macosx_arch=i386,x86_64 --disable-shared --disable-dependency-tracking --with-expat=builtin --with-zlib=builtin --with-macosx-version-min=10.8
 
        If on Mac OS X 10.10 or later:
 
-       CXX="g++ -std=c++11 --stdlib=libc++" ../configure --prefix=${HOME}/opt/wxWidgets-3.0.3 --with-osx_cocoa --enable-macosx_arch=i386,x86_64 --disable-shared --disable-dependency-tracking --with-expat=builtin --with-zlib=builtin --with-macosx-version-min=10.10
+       CXX="g++ -std=c++11 --stdlib=libc++" ../configure --prefix=${HOME}/opt/wxWidgets-3.1.2 --with-osx_cocoa --enable-macosx_arch=i386,x86_64 --disable-shared --disable-dependency-tracking --with-expat=builtin --with-zlib=builtin --with-macosx-version-min=10.10
+
+       If on Mac OS X 10.14 or later:
+
+       CXX="g++ -std=c++11 --stdlib=libc++" ../configure --prefix=${HOME}/opt/wxWidgets-3.1.2 --with-osx_cocoa --enable-macosx_arch=i386,x86_64 --disable-shared --disable-dependency-tracking --with-expat=builtin --with-zlib=builtin --with-macosx-version-min=10.13
 
    1f) make && make install
 

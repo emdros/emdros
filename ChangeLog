@@ -24,6 +24,10 @@
 
 	* m4/emdros_macos.m4: Properly support building on macOS 10.14.
 
+	* INSTALL.Mac.txt: Update with instructions for macOS 10.14.
+	Also, update the example of compiling wxWidgets so it uses the
+	latest version of wxWidgets (3.1.2).
+
 2019-04-18 Ulrik Sandborg-Petersen
 
 	* wx/importerwizard.cpp: Fix debug asserts on wxWidgets 3.1.2
