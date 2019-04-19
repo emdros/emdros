@@ -60,6 +60,9 @@
 	- include/browsewidget.h, wx/browsewidget.cpp: Remove unused field
 	BrowseWidget::m_pParent.
 
+	- include/vtreecanvas.h, wx/vtreecanvas.cpp: If on wxWidgets >=
+	3.0.0, rename VTreeCanvas::PrepareDC to VTreeCanvas::DoPrepareDC.
+
 2019-04-18 Ulrik Sandborg-Petersen
 
 	* wx/importerwizard.cpp: Fix debug asserts on wxWidgets 3.1.2
