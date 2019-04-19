@@ -2,7 +2,7 @@
 // browsewidget.h
 // Ulrik Petersen
 // Created: 10/24-2006
-// Last update: 11/3-2010
+// Last update: 4/19-2019
 //
 //
 
@@ -47,7 +47,6 @@
 
 
 class BrowseWidget : public wxPanel {
-	wxWindow *m_pParent;
 	wxString m_strLabel;
 	wxString m_strValue;
 	wxTextCtrl *m_textCtrl;

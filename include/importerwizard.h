@@ -2,7 +2,7 @@
 // importerwizard.h
 // Martin Petersen
 // Created: 10/11-2006
-// Last update: 4/18-2019
+// Last update: 4/19-2019
 //
 //
 
@@ -124,7 +124,7 @@ class ImportDatabaseWizardPage : public wxWizardPageSimple {
  private:
 	void CreateControls();
 	wxCheckBox *m_pDbCheckbox, *m_pSchemaCheckbox;
-	wxTextCtrl *m_textCtrl, *m_pSFMTextCtrl;
+	wxTextCtrl *m_textCtrl;
 	wxString m_strValue;
 	bool m_bEmitDatabase, m_bEmitSchema;
 	BrowseWidget *m_pBrowseWidget;
