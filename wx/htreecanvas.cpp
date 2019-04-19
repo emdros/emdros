@@ -579,7 +579,7 @@ std::string HTreeBox::getCharacteristicString()
 	return result;
 }
 
-void HTreeBox::toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
+void HTreeBox::doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename)
 {
 	(void)(bIsRightToLeft); // Silence a warning
 	

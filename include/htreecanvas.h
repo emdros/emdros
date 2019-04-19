@@ -155,7 +155,7 @@ class HTreeBox : public LayoutBoxBase {
 
 	void clearLayout(); // Deletes all objects...
 
-	void toHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
+	void doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename);
 
 	void savePNG(const std::string& base_filename, bool bUseMagnificationInFilename, std::string& /* out */ filenameused, monad_m& first_monad);
 
