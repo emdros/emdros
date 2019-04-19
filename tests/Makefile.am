@@ -1,7 +1,6 @@
 SUBDIRS = asv test_json
 
-EXTRA_PROGRAMS = htreetest htmlcanvastest  \
-                 htreetestu htmlcanvastestu 
+EXTRA_PROGRAMS = htreetestu htmlcanvastestu 
 
 
 ALWAYSLDADD = @EMDROS_LDADD@ @ZLIB_LDADD@ \
@@ -18,14 +17,8 @@ else
 MAYBE_UNICODE_PRGS =
 endif
 
-if WX_DO_NONUNICODE
-MAYBE_NONUNICODE_PRGS = htreetest htmlcanvastest 
 else
-MAYBE_NONUNICODE_PRGS =
-endif
-
-else
-MAYBE_PRGS = 
+MAYBE_UNICODE_PRGS = 
 endif
 
 
@@ -44,7 +37,7 @@ maybe_distclean_local =
 endif
 
 
-bin_PROGRAMS = emdftry mqltry mqllingtry jsontry bpttry emdros_utiltry emdros_qdtry erwtry $(MAYBE_NONUNICODE_PRGS) $(MAYBE_UNICODE_PRGS) 
+bin_PROGRAMS = emdftry mqltry mqllingtry jsontry bpttry emdros_utiltry emdros_qdtry erwtry $(MAYBE_UNICODE_PRGS) 
 
 
 
@@ -116,14 +109,8 @@ mqllingtry_DEPENDENCIES = $(ALWAYSDEPS)
 
 
 #
+# htreetestu
 #
-#
-htreetest_LDADD = $(top_builddir)/wx/libemdrosgui.a $(ALWAYSLDADD) \
-                  @WX_NONUNICODE_LDFLAGS@ @WX_NONUNICODE_LIBS@
-htreetest_DEPENDENCIES = $(ALWAYSDEPS) $(top_builddir)/wx/libemdrosgui.a
-htreetest_CXXFLAGS = $(AM_CXXFLAGS) -DwxUSE_UNICODE=0 @WX_NONUNICODE_CXXFLAGS@
-htreetest_SOURCES = htreetest.cpp
-
 htreetestu_LDADD = $(top_builddir)/wx/libemdrosguiu.a $(ALWAYSLDADD) \
                   @WX_UNICODE_LDFLAGS@ @WX_UNICODE_LIBS@
 htreetestu_DEPENDENCIES = $(ALWAYSDEPS) $(top_builddir)/wx/libemdrosguiu.a
@@ -132,12 +119,9 @@ htreetestu_SOURCES = htreetest.cpp
 
 
 
-htmlcanvastest_LDADD = $(top_builddir)/wx/libemdrosgui.a $(ALWAYSLDADD) \
-                  @WX_NONUNICODE_LDFLAGS@ @WX_NONUNICODE_LIBS@
-htmlcanvastest_DEPENDENCIES = $(ALWAYSDEPS) $(top_builddir)/wx/libemdrosgui.a
-htmlcanvastest_CXXFLAGS = $(AM_CXXFLAGS) -DwxUSE_UNICODE=0 @WX_NONUNICODE_CXXFLAGS@
-htmlcanvastest_SOURCES = htmlcanvastest.cpp
-
+#
+# htmlcanvastestu
+#
 htmlcanvastestu_LDADD = $(top_builddir)/wx/libemdrosguiu.a $(ALWAYSLDADD) \
                   @WX_UNICODE_LDFLAGS@ @WX_UNICODE_LIBS@
 htmlcanvastestu_DEPENDENCIES = $(ALWAYSDEPS) $(top_builddir)/wx/libemdrosguiu.a
