@@ -8,6 +8,10 @@
 	AC_CHECK_HEADER.  This is in preparation for being able to make a
 	Homebrew Formula.
 
+	* m4/emdros_mysql.m4: Try harder to find mysql.h and
+	libmysqlclient.so, also looking for mysql_config and using it if
+	available.
+
 ============ 3.7.0.pre18 ============
 
 2019-04-19 Ulrik Sandborg-Petersen

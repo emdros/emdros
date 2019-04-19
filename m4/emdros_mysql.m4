@@ -6,7 +6,7 @@ AC_ARG_WITH(mysql,
        yes) DO_MYSQL=yes ;;
        no)  DO_MYSQL=no ;;
        maybe) DO_MYSQL=maybe ;;
-       *)   AC_MSG_ERROR(Bad value ${withval} for --with-mysql) ;;
+       *)   AC_MSG_ERROR([Bad value ${withval} for --with-mysql]) ;;
      esac],
 [DO_MYSQL=maybe])
 ORIGINAL_DO_MYSQL=$DO_MYSQL
@@ -19,66 +19,74 @@ dnl Check for libmysqlclient.a
 AC_LANG([C])
 addlibz=no
 
+my_libfound="no"
 if test "x$DO_MYSQL" != "xno"; then
-  dnl Check for libmysqlclient.a/libmysqlclient.so
+
+  dnl mysql_config program
+  AC_CHECK_PROGS([MYSQL_CONFIG_PROG], [mysql_config], [no])
+  if test x$MYSQL_CONFIG_PROG = xno; then
+    dnl We don't have mysql_config
+    if test x$DO_MYSQL = xmaybe; then
+      dnl ... and we weren't sure we wanted to do MySQL
+      dnl ... so we set it to 'no'.
+      DO_MYSQL=no
+    fi
+  else
+    dnl We have mysql_config.
+    dnl Make sure DO_MYSQL isn't 'maybe'
+    if test x$DO_MYSQL = xmaybe; then
+      DO_MYSQL=yes
+    fi
+  fi
+ 
+  AC_MSG_CHECKING([for placement of mysql_config])
+  AC_MSG_RESULT($MYSQL_CONFIG_PROG)
+fi
+
+if test "x$DO_MYSQL" != "xno"; then
+
+  MYSQL_LDPATH=""
+  dnl Check for libmysqlclient.a/libmysqlclient.so/libmysqlclient.dylib
   dnl Set LDFLAGS or report error.
-  AC_MSG_CHECKING([for mysql libmysqlclient.a/libmysqlclient.so/libmysqlclient.dylib])
   libmysqlclientdir_found="false";
   libmysqlclientdir_try_dirs="$MYSQL_LIB_DIR /usr/lib /usr/local/lib /usr/lib64 /usr/lib/x86_64-linux-gnu /usr/pkg/lib /usr/lib/mysql /usr/local/lib/mysql /usr/lib64/mysql /usr/pkg/lib/mysql /usr/local/mysql/lib/mysql /usr/local/mysql/lib /usr/sfw/lib /sw/lib /sw/lib/mysql"
   for d in $libmysqlclientdir_try_dirs; do
     if test -e $d/libmysqlclient.a -o -e $d/libmysqlclient.so -o -e $d/libmysqlclient.dylib; then
       libmysqlclientdir_dir=$d;
       libmysqlclientdir_found="true";
+      my_libfound="no";
       break;
     fi;
   done
+
+  AC_MSG_CHECKING([for mysql libmysqlclient.a/libmysqlclient.so/libmysqlclient.dylib])
   if test x$libmysqlclientdir_found = xtrue; then
-    AC_MSG_RESULT($libmysqlclientdir_dir);
+    AC_MSG_RESULT([$libmysqlclientdir_dir]);
+    MYSQL_LDPATH=$libmysqlclientdir_dir
   else
-    if test "x$DO_MYSQL" = "xmaybe"; then
-      AC_MSG_RESULT([Not found... not doing MySQL])
-      DO_MYSQL="no"
-    else
-      AC_MSG_ERROR([
-Error: Could not find 
-the libmysqlclient.a or libmysqlclient.so library.
-Please set the MYSQL_LIB_DIR environment variable and run ./configure
-again.  For example:
-
-export MYSQL_LIB_DIR=/opt/LocalMySQLInstallation/lib
-
-])
-    fi
+    AC_MSG_RESULT([Not found... trying harder...])
   fi
-  MYSQL_LDPATH=$libmysqlclientdir_dir
 fi
 
 MY_LDADD=""
-MY_LIBDIRS=""
-MY_LIBS=""
-my_libfound="no"
 if test "x$DO_MYSQL" != "xno"; then
-   dnl
-   dnl Linking against .a libraries... just don't do it...!
-   dnl
-   MY_LDADD="-L$libmysqlclientdir_dir -lmysqlclient"
-   MY_LIBDIRS="-L$libmysqlclientdir_dir"
-   MY_LIBS="-lmysqlclient"
+   AC_MSG_CHECKING([for MySQL libraries])
+   if test x$MYSQL_CONFIG_PROG != xno; then
+      MY_LDADD=`$MYSQL_CONFIG_PROG --libs`
+      AC_MSG_RESULT([$MY_LDADD])
+   elif test "x$libmysqlclientdir_found" = xtrue; then
+      MY_LDADD="-L$libmysqlclientdir_dir -lmysqlclient"
+      AC_MSG_RESULT([$MY_LDADD])
+   else
+      AC_MSG_ERROR([Not found.
 
-   dnl if test -f $libmysqlclientdir_dir/libmysqlclient.a; then
-   dnl   if test "x$HOSTISDARWIN" = "xyes"; then
-   dnl      dnl On Darwin, we know how to do it...
-   dnl      MY_LDADD="$libmysqlclientdir_dir/libmysqlclient.a -lz";
-   dnl      my_libfound="yes"
-   dnl   else
-   dnl      dnl On all others, we don't
-   dnl      MY_LDADD="-L$libmysqlclientdir_dir -lmysqlclient";
-   dnl   fi
-   dnl else
-   dnl   dnl If we could not find libmysqlclient.a, 
-   dnl   dnl then we use good old -lmysqlclient.
-   dnl   MY_LDADD="-L$libmysqlclientdir_dir -lmysqlclient"
-   dnl fi
+Please set
+
+   export MYSQL_LIB_DIR="/path/to/libmysqlclient.so"
+
+then run configure again.
+])
+   fi
 fi
 
 dnl If we are still to do MySQL, AND we haven't found it already,
@@ -109,10 +117,9 @@ please set the LDFLAGS environment variable.  E.g.:
   export LDFLAGS
 fi
 
-dnl Set a sensible default, so as not to be empty
-MY_INCLUDE_DIR="/usr/include"
 dnl
-dnl Check for header
+dnl Check for <mysql.h> header
+dnl
 dnl Set CPPFLAGS or report error.
 if test "x$DO_MYSQL" != "xno"; then
   AC_MSG_CHECKING([for mysql include directory])
@@ -131,36 +138,40 @@ if test "x$DO_MYSQL" != "xno"; then
       fi
     fi;
   done
-  if test x$mysqldir_found = xtrue; then
-    AC_MSG_RESULT($mysqldir_dir);
-  else
-    if test "x$DO_MYSQL" = "xmaybe"; then
-      AC_MSG_RESULT("not found... not doing MySQL")
-      DO_MYSQL="no"
-    else
-      AC_MSG_ERROR([
-Error: Could not find 
-the mysql.h include-file.
-Please set the MYSQL_INCLUDE_DIR environment variable and run ./configure
-again.
 
-For example:
-   export MYSQL_INCLUDE_DIR=/opt/LocalMySQLInstallation/include/mysql
-      ])
-    fi
+  if test "x$mysqldir_found" = "xtrue"; then
+      AC_MSG_RESULT([$mysqldir_dir])
+  else
+      AC_MSG_RESULT([not found... trying harder.])
   fi
-  export CPPFLAGS="$CPPFLAGS -I$mysqldir_dir"
-  MY_INCLUDE_DIR="$mysqldir_dir"
-  AC_CHECK_HEADER(mysql.h, , 
-    AC_MSG_ERROR([
-    Error: Could not find mysql.h from MySQL.
-    Please set the CPPFLAGS environment variable so that it
-    includeS the -I path to MySQL. E.g. with bash: 
-      CPPFLAGS=-I/usr/include/mysql
-      export CPPFLAGS
-  ]))
+
+  AC_MSG_CHECKING([for <mysql.h>])
+  if test x$MYSQL_CONFIG_PROG != xno; then
+      MY_CFLAGS=`$MYSQL_CONFIG_PROG --cflags`
+      AC_MSG_RESULT([$MY_CFLAGS])
+  elif test "x$libmysqldir_found" = xtrue; then
+      MY_CFLAGS="-I$mysqldir_dir"
+      AC_MSG_RESULT([$MY_CFLAGS])
+  else
+      AC_MSG_ERROR([
+Error: Could not find mysql.h from MySQL.
+
+Please set
+
+   export MYSQL_INCLUDE_DIR="/path/to/mysql.h"
+
+then run configure again.
+])
+  fi
+
+  MYSQL_DASH_INCLUDE="$MY_CFLAGS"
+
+  CXXFLAGS="$CXXFLAGS $MY_CFLAGS"
+  CPPFLAGS="$CPPFLAGS $MY_CFLAGS"
+  export CXXFLAGS
+  export CPPFLAGS
 fi
-AC_SUBST(MY_INCLUDE_DIR)
+AC_SUBST(MYSQL_DASH_INCLUDE)
 
 dnl End checking for MySQL
 
@@ -178,9 +189,8 @@ if test "x$DO_MYSQL" != "xno"; then
   BACKEND_LDADD="$BACKEND_LDADD $MY_LDADD";
   BACKEND_LDADD_BACKBACK="$BACKEND_LDADD_BACKBACK $MY_LDADD";
   BACKEND_LDADD_BACKBACKBACK="$BACKEND_LDADD_BACKBACKBACK $MY_LDADD";
-  BACKEND_LIBS_AMALGAMATION="$BACKEND_LIBS_AMALGAMATION $MY_LIBS"
+  BACKEND_LIBS_AMALGAMATION="$BACKEND_LIBS_AMALGAMATION $MY_LDADD"
   BACKEND_LDADD_AMALGAMATION="$BACKEND_LDADD_AMALGAMATION $MY_LDADD"
-  MYSQL_DASH_INCLUDE="-I$MY_INCLUDE_DIR"
   PKGCONFIG_LIBS_AMALGAMATION="$PKGCONFIG_LIBS_AMALGAMATION $MY_LDADD"
 fi
 
@@ -194,9 +204,5 @@ fi
 
 AC_SUBST(USE_MYSQL)
 AC_SUBST(WITH_MYSQL)
-
-AC_SUBST(MYSQL_DASH_INCLUDE)
-
-
 
 ])
