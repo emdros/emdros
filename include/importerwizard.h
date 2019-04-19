@@ -2,7 +2,7 @@
 // importerwizard.h
 // Martin Petersen
 // Created: 10/11-2006
-// Last update: 1/22-2009
+// Last update: 4/18-2019
 //
 //
 
@@ -96,10 +96,10 @@ class ImportFileNameWizardPage : public wxWizardPageSimple {
  public:
 	ImportFileNameWizardPage(wxWizard* parent);
 	virtual ~ImportFileNameWizardPage(){};
-	std::list<std::string> GetImportFileName();
-	void OnBrowseFile(wxCommandEvent& event);
-	void OnPageChanged(wxWizardEvent& event);
-	void OnPageChanging(wxWizardEvent& event);
+	virtual std::list<std::string> GetImportFileName();
+	virtual void OnBrowseFile(wxCommandEvent& event);
+	virtual void OnPageChanged(wxWizardEvent& event);
+	virtual void OnPageChanging(wxWizardEvent& event);
  private:
 	void CreateControls();
 	bool m_bChooseMultiple;
