@@ -65,11 +65,12 @@ protected:
 			    bool bWasAlreadyPrinted);
   virtual void do_reference(monad_m m, 
 			    const std::string& unit_type, 
-			    const OTTableMap& unit_list);
+			    const OTTableMap& unit_list,
+			    std::string& /* out */ reference);
   virtual void start_reference(void);
   virtual void print_reference(const std::string& reference);
   virtual void end_reference(void);
-  virtual void start_raster_unit_row(void);
+  virtual void start_raster_unit_row(const std::string& reference);
   virtual void end_raster_unit_row(void);
   virtual void start_raster_unit(void);
   virtual void end_raster_unit(void);
@@ -92,7 +93,7 @@ class KWIC_Output_style : public Output_style {
 	virtual void start_reference(void);
 	virtual void print_reference(const std::string& reference);
 	virtual void end_reference(void);
-	virtual void start_raster_unit_row(void);
+	virtual void start_raster_unit_row(const std::string& reference);
 	virtual void end_raster_unit_row(void);
 	virtual void start_raster_unit(void);
 	virtual void end_raster_unit(void);

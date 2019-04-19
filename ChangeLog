@@ -81,6 +81,9 @@
 	- Call Tree_Output_style::print_solution_reference(const Solution
 	*pSolution) where requisite.
 
+	- Change the signature of start_raster_unit_row() to include the
+	reference.
+
 2019-04-18 Ulrik Sandborg-Petersen
 
 	* wx/importerwizard.cpp: Fix debug asserts on wxWidgets 3.1.2

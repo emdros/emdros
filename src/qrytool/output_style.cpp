@@ -76,9 +76,10 @@ void Output_style::do_raster_unit(MyTable *ras_list,
 	ras_list->set_universe(monads.first(),monads.last());
 	while (ras_list->hasNext()
 	       && !m_pOut->ShouldStop()) {
-		start_raster_unit_row();
+		std::string reference;
+		start_raster_unit_row(reference);
 		const MyRow& ras_row = ras_list->next();
-		do_reference(ras_row.getFirstMonad(), "reference_unit", ref_list);
+		do_reference(ras_row.getFirstMonad(), "reference_unit", ref_list, reference);
 
 		for (monad_m m = ras_row.getFirstMonad();
 		     m <= ras_row.getLastMonad()
@@ -298,7 +299,8 @@ bool Output_style::do_data_unit(monad_m m,
 
 void Output_style::do_reference(monad_m m, 
 				const std::string& unit_type, 
-				const OTTableMap& unit_list) 
+				const OTTableMap& unit_list,
+				std::string& reference) 
 {
 	start_reference();
 
@@ -351,7 +353,8 @@ void Output_style::do_reference(monad_m m,
 				}
 			}
 		}
-		print_reference(myoutsstream.str());
+		reference = myoutsstream.str();
+		print_reference(reference);
 	}
 
 	end_reference();
@@ -381,8 +384,10 @@ void Output_style::start_raster_unit(void)
 	m_pOut->startRaster();
 }
 
-void Output_style::start_raster_unit_row(void)
+void Output_style::start_raster_unit_row(const std::string& reference)
 {
+	UNUSED(reference);
+	
 	// Nothing to do
 }
 
@@ -437,9 +442,10 @@ KWIC_Output_style::~KWIC_Output_style()
 }
 
 
-void KWIC_Output_style::start_raster_unit_row(void)
+void KWIC_Output_style::start_raster_unit_row(const std::string& reference)
 {
 	m_pOut->startTableRow("kwic");
+	UNUSED(reference);
 }
 
 void KWIC_Output_style::end_raster_unit_row(void)
@@ -609,8 +615,10 @@ void Tree_Output_style::print_reference(const std::string& reference)
 
 void Tree_Output_style::print_solution_reference(const Solution *pSolution)
 {
+	std::string dummy_reference;
 	do_reference(pSolution->getMonads().first(), "reference_unit", 
-		     pSolution->getOTTableMap(kReference));
+		     pSolution->getOTTableMap(kReference),
+		     dummy_reference);
 }
 
 void Tree_Output_style::print_tree(const Solution *pSolution)
