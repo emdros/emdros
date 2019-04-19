@@ -445,17 +445,21 @@ void VTreeCanvas::GetClipBox(wxDC *pDC, wxRect& clipRect)
 	clipRect.SetHeight(height);
 }
 
-void VTreeCanvas::PrepareDC(wxDC *pDC)
+#if wxCHECK_VERSION(3,0,0)
+void VTreeCanvas::DoPrepareDC(wxDC& dc)
+#else
+void VTreeCanvas::PrepareDC(wxDC& dc)
+#endif
 {
-	pDC->SetMapMode(m_nMapMode);
+	dc.SetMapMode(m_nMapMode);
 }
 
 
 void VTreeCanvas::OnDraw(wxDC &dc)
 {
 	wxDC *pDC = &dc;
-	PrepareDC(pDC);
-	pDC->GetUserScale(&m_xScaleFactor, &m_yScaleFactor);
+	PrepareDC(dc);
+	dc.GetUserScale(&m_xScaleFactor, &m_yScaleFactor);
 	if(m_tree_items.size() == 0) return;
 	int y = 0;
 	wxRect clipRect;

@@ -8,7 +8,7 @@
 // Petersen dated August 13, 2004.
 //
 // Created: 3/29-2000
-// Last update: 4/10-2017
+// Last update: 4/19-2019
 //
 //
 
@@ -136,7 +136,11 @@ public:
 	int m_nMagnification;
 	ViewMetrics *pViewMetrics;
 public:
-	void PrepareDC(wxDC *pDC);
+#if wxCHECK_VERSION(3,0,0)
+	void DoPrepareDC(wxDC& dc);
+#else
+	void PrepareDC(wxDC& dc);
+#endif
 	void DoMakePrintMetrics(wxDC* pDC, VTreePrintout* pInfo);
 	void DoMakePrintTree(wxDC *pDC, VTreePrintout* pInfo);
 	void calculate_print_parameters(wxDC* pDC, VTreePrintout* pInfo);
