@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 10/24-2006
- * Last update: 4/10-2017
+ * Last update: 4/19-2019
  *
  */
 
@@ -69,7 +69,6 @@ BrowseWidget::BrowseWidget(wxWindow* parent, int myid,
 		  wxDefaultPosition,
 		  wxDefaultSize,
 		  wxTAB_TRAVERSAL | wxWS_EX_VALIDATE_RECURSIVELY),
-	  m_pParent(parent),
 	  m_strLabel(strLabel),
 	  m_strValue(strInitialValue),
 	  m_bEnabled(bEnabled),

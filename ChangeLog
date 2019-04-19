@@ -57,7 +57,7 @@
 	- include/importerwizard.h: Remove unused field
 	ImportDatabaseWizardPage::m_pSFMTextCtrl.
 
-	- include/browsewidget.h: Remove unused field
+	- include/browsewidget.h, wx/browsewidget.cpp: Remove unused field
 	BrowseWidget::m_pParent.
 
 2019-04-18 Ulrik Sandborg-Petersen
