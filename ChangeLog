@@ -91,6 +91,9 @@
 
 	* tests/emdtry.cpp: Silence a clang warning.
 
+	* src/importtool/importtool.cpp: Silence some 'unused parameter'
+	warnings.
+
 2019-04-18 Ulrik Sandborg-Petersen
 
 	* wx/importerwizard.cpp: Fix debug asserts on wxWidgets 3.1.2

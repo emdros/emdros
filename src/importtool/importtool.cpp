@@ -6,7 +6,7 @@
  *
  * Martin Petersen
  * Created: 10/11-2006
- * Last update: 5/13-2014
+ * Last update: 4/19-2019
  *
  */
 
@@ -430,6 +430,7 @@ bool ImportToolMainFrame::ShowToolTips()
 
 wxBitmap ImportToolMainFrame::GetBitmapResource( const wxString& name )
 {
+        (void) name; // Unused
 	return wxNullBitmap;
 	////@end ImportToolMainFrame bitmap retrieval
 }
@@ -458,6 +459,8 @@ void ImportToolMainFrame::OnAbout(wxCommandEvent& WXUNUSED(event) )
 
 void ImportToolMainFrame::OnFileRunWizard(wxCommandEvent& event)
 {
+        (void) event; // Unused
+
 	ImporterWizard *pWizard = new ImporterWizard(NULL);
     
 	pWizard->SetIcon(wxIcon( blue_E_xpm ));
@@ -469,6 +472,8 @@ void ImportToolMainFrame::OnFileRunWizard(wxCommandEvent& event)
 
 void ImportToolMainFrame::OnFileExit(wxCommandEvent& event)
 {
+        (void) event; // Unused
+
 	Close();
 }
 
