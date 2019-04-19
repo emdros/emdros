@@ -3,7 +3,7 @@
  *
  * Trial of EMdF framework
  * Created: 1/27-2001
- * Last update: 2/13-2019
+ * Last update: 4/19-2019
  *
  */
 
@@ -1754,7 +1754,7 @@ int test_backend(eBackendKind backend_kind,
 	}
   
 	// Create enumeration
-	emdf_ivalue enum_id;
+	emdf_ivalue enum_id = 0;
 	if (bContinue) {
 		if (pDB->createEnum("phrase_type_t", enum_id)) {
 			std::cout << "SUCCESS: creating enum \n";

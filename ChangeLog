@@ -89,6 +89,8 @@
 	WXILLayoutCanvas::InitializeViewMetrics() to
 	WXILLayoutCanvas::InitializeInterlinearViewMetrics().
 
+	* tests/emdtry.cpp: Silence a clang warning.
+
 2019-04-18 Ulrik Sandborg-Petersen
 
 	* wx/importerwizard.cpp: Fix debug asserts on wxWidgets 3.1.2
