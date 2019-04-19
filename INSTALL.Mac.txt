@@ -145,7 +145,7 @@ program rather than the native Mac OS X wx-config.
 
        If on Mac OS X 10.14 or later:
 
-       CXX="g++ -std=c++11 --stdlib=libc++" ../configure --prefix=${HOME}/opt/wxWidgets-3.1.2 --with-osx_cocoa --enable-macosx_arch=i386,x86_64 --disable-shared --disable-dependency-tracking --with-expat=builtin --with-zlib=builtin --with-macosx-version-min=10.13
+       CXX="g++ -std=c++11 --stdlib=libc++" ../configure --prefix=${HOME}/opt/wxWidgets-3.1.2 --with-osx_cocoa --enable-macosx_arch=x86_64 --disable-shared --disable-dependency-tracking --with-expat=builtin --with-zlib=builtin --with-macosx-version-min=10.13
 
    1f) make && make install
 
