@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 7/12-2013
- * Last update: 5/23-2017
+ * Last update: 4/19-2019
  *
  */
 
@@ -75,7 +75,7 @@ template<class V> class EmdrosStringHashTableVisitor {
 	EmdrosStringHashTableVisitor<V>() {};
 	virtual ~EmdrosStringHashTableVisitor<V>() {};
 
-	virtual void operator()(V& value){};
+	virtual void operator()(V& value){ UNUSED(value); }; // Overload this in a child class to actually do anything
 };
 
 

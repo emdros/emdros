@@ -34,6 +34,10 @@
 	about overloaded, hidden virtual functions.  These were due to not
 	keeping the BPTEMdFDB interface in sync with the EMdFDB interface.
 
+	* include/emdf_hash.h: Silence a clang warning:
+
+	../include/emdf_hash.h:78:29: warning: unused parameter 'value' [-Wunused-parameter]
+
 2019-04-18 Ulrik Sandborg-Petersen
 
 	* wx/importerwizard.cpp: Fix debug asserts on wxWidgets 3.1.2
