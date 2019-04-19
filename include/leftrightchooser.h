@@ -2,7 +2,7 @@
 // leftrightchooser.h
 // Ulrik Petersen
 // Created: 8/27-2006
-// Last update: 4/10-2017
+// Last update: 4/19-2019
 //
 //
 
@@ -50,7 +50,6 @@ typedef std::vector<wxString> WXStringVec;
 #define ID_RIGHT_BUTTON    (10205)
 
 class LeftRightChooser : public wxPanel {
-	wxWindow *m_pParent;
 	wxString m_leftTitle;
 	wxString m_rightTitle;
 	WXStringVec m_leftStrings;

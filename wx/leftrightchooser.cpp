@@ -2,7 +2,7 @@
 // leftrightchooser.cpp
 // Ulrik Petersen
 // Created: 8/27-2006
-// Last update: 4/10-2017
+// Last update: 4/19-2019
 //
 //
 
@@ -55,7 +55,6 @@ LeftRightChooser::LeftRightChooser(wxWindow *pParent,
 				   wxString rightTitle,
 				   bool bWantsOnlyOneAtRight)
 : 	wxPanel(pParent, myid),
-	m_pParent(pParent),
 	m_leftTitle(leftTitle),
 	m_rightTitle(rightTitle),
 	m_pLeftLB(0),

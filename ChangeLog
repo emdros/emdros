@@ -63,6 +63,9 @@
 	- include/vtreecanvas.h, wx/vtreecanvas.cpp: If on wxWidgets >=
 	3.0.0, rename VTreeCanvas::PrepareDC to VTreeCanvas::DoPrepareDC.
 
+	- include/leftrightchooser.h, wx/leftrightchooser.cpp: Remove
+	unused field LeftRightChooser::m_pParent.
+
 2019-04-18 Ulrik Sandborg-Petersen
 
 	* wx/importerwizard.cpp: Fix debug asserts on wxWidgets 3.1.2
