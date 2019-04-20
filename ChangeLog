@@ -1,5 +1,11 @@
 ============ 3.7.0.pre19 ============
 
+2019-04-20 Ulrik Sandborg-Petersen
+
+	* harvest/renderobjects.cpp: Fix compilation error on compilers
+	(such as Solaris 10 CC) which do not understand how to convert
+	const char* to std::string in a template.
+
 2019-04-19 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre19.

@@ -6,7 +6,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 22/4-2007
- * Last update: 4/16-2019
+ * Last update: 4/19-2019
  *
  */
 
@@ -945,7 +945,7 @@ bool RenderObjects::setDefaults(EmdrosEnv *pEnv, const std::string& db_name, con
 			}
 			
 			if (monad_feature.empty()) {
-				m_monad_featureMap.insert(std::make_pair((long)OTN_surrogate, "monads"));
+				m_monad_featureMap.insert(std::make_pair((long)OTN_surrogate, std::string("monads")));
 			} else {
 				m_monad_featureMap.insert(std::make_pair((long)OTN_surrogate, monad_feature));
 			}
