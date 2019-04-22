@@ -19,33 +19,24 @@ dnl Check for libmysqlclient.a
 AC_LANG([C])
 addlibz=no
 
-my_libfound="no"
 if test "x$DO_MYSQL" != "xno"; then
-
   dnl mysql_config program
-  AC_CHECK_PROGS([MYSQL_CONFIG_PROG], [mysql_config], [no])
+  AC_CHECK_PROG(MYSQL_CONFIG_PROG, mysql_config, yes, no)
+  AC_MSG_CHECKING([whether we got mysql_config])
   if test x$MYSQL_CONFIG_PROG = xno; then
     dnl We don't have mysql_config
-    if test x$DO_MYSQL = xmaybe; then
-      dnl ... and we weren't sure we wanted to do MySQL
-      dnl ... so we set it to 'no'.
-      DO_MYSQL=no
-    fi
+    AC_MSG_RESULT([no, but we'll keep looking for MySQL])
   else
     dnl We have mysql_config.
-    dnl Make sure DO_MYSQL isn't 'maybe'
-    if test x$DO_MYSQL = xmaybe; then
-      DO_MYSQL=yes
-    fi
+    AC_MSG_RESULT([yes.])
   fi
- 
-  AC_MSG_CHECKING([for placement of mysql_config])
-  AC_MSG_RESULT($MYSQL_CONFIG_PROG)
 fi
 
+dnl Attempt to find MySQL ourselves, even if we got
+dnl the mysql_config program.
+my_libfound="no"
+MYSQL_LDPATH=""
 if test "x$DO_MYSQL" != "xno"; then
-
-  MYSQL_LDPATH=""
   dnl Check for libmysqlclient.a/libmysqlclient.so/libmysqlclient.dylib
   dnl Set LDFLAGS or report error.
   libmysqlclientdir_found="false";
@@ -54,7 +45,6 @@ if test "x$DO_MYSQL" != "xno"; then
     if test -e $d/libmysqlclient.a -o -e $d/libmysqlclient.so -o -e $d/libmysqlclient.dylib; then
       libmysqlclientdir_dir=$d;
       libmysqlclientdir_found="true";
-      my_libfound="no";
       break;
     fi;
   done
@@ -62,7 +52,6 @@ if test "x$DO_MYSQL" != "xno"; then
   AC_MSG_CHECKING([for mysql libmysqlclient.a/libmysqlclient.so/libmysqlclient.dylib])
   if test x$libmysqlclientdir_found = xtrue; then
     AC_MSG_RESULT([$libmysqlclientdir_dir]);
-    MYSQL_LDPATH=$libmysqlclientdir_dir
   else
     AC_MSG_RESULT([Not found... trying harder...])
   fi
@@ -72,17 +61,19 @@ MY_LDADD=""
 if test "x$DO_MYSQL" != "xno"; then
    AC_MSG_CHECKING([for MySQL libraries])
    if test x$MYSQL_CONFIG_PROG != xno; then
-      MY_LDADD=`$MYSQL_CONFIG_PROG --libs`
+      MY_LDADD=`mysql_config --libs`
       AC_MSG_RESULT([$MY_LDADD])
+      my_libfound="yes";
    elif test "x$libmysqlclientdir_found" = xtrue; then
       MY_LDADD="-L$libmysqlclientdir_dir -lmysqlclient"
       AC_MSG_RESULT([$MY_LDADD])
+      my_libfound="yes";
    else
       AC_MSG_ERROR([Not found.
 
 Please set
 
-   export MYSQL_LIB_DIR="/path/to/libmysqlclient.so"
+   export MYSQL_LIB_DIR="/path/to/libmysqlclient.{so,dylib}"
 
 then run configure again.
 ])
@@ -92,8 +83,7 @@ fi
 dnl If we are still to do MySQL, AND we haven't found it already,
 dnl proceed with checking -lmysqlclient.
 if test "x$DO_MYSQL" != "xno" -a "x$my_libfound" != "xyes"; then
-  save_LDFLAGS="$LDFLAGS"
-  LDFLAGS="$LDFLAGS -L$MYSQL_LDPATH"
+  LDFLAGS="$LDFLAGS $MY_LDADD"
   export LDFLAGS
 
   AC_CHECK_LIB(mysqlclient, mysql_info, mysqllib=yes ; LIBS="$LIBS", mysqllib=tryagain)
@@ -113,8 +103,6 @@ please set the LDFLAGS environment variable.  E.g.:
       ])
     fi
   fi
-  LDFLAGS="$save_LDFLAGS"
-  export LDFLAGS
 fi
 
 dnl
@@ -140,14 +128,15 @@ if test "x$DO_MYSQL" != "xno"; then
   done
 
   if test "x$mysqldir_found" = "xtrue"; then
-      AC_MSG_RESULT([$mysqldir_dir])
+    AC_MSG_RESULT([$mysqldir_dir])
   else
-      AC_MSG_RESULT([not found... trying harder.])
+    AC_MSG_RESULT([Not found... Let's try again.])
   fi
+
 
   AC_MSG_CHECKING([for <mysql.h>])
   if test x$MYSQL_CONFIG_PROG != xno; then
-      MY_CFLAGS=`$MYSQL_CONFIG_PROG --include`
+      MY_CFLAGS=`mysql_config --include`
       AC_MSG_RESULT([$MY_CFLAGS])
   elif test "x$libmysqldir_found" = xtrue; then
       MY_CFLAGS="-I$mysqldir_dir"
@@ -164,14 +153,45 @@ then run configure again.
 ])
   fi
 
-  MYSQL_DASH_INCLUDE="$MY_CFLAGS"
+  MYSQL_CFLAGS="$MY_CFLAGS"
 
   CXXFLAGS="$CXXFLAGS $MY_CFLAGS"
   CPPFLAGS="$CPPFLAGS $MY_CFLAGS"
   export CXXFLAGS
   export CPPFLAGS
+
+  AC_CHECK_HEADER([mysql.h],
+                  [have_mysql_h=true],
+                  [have_mysql_h=false])
+
+  if test "xhave_mysql_h" = "x1"; then
+     AC_DEFINE([HAVE_MYSQL_H], [1],
+               [Define to 1 if you have <libpq-fe.h> from PostgreSQL])
+  else
+     AC_DEFINE([HAVE_MYSQL_H], [0],
+               [Define to 1 if you have <libpq-fe.h> from PostgreSQL])
+  fi
+
+  AC_MSG_CHECKING([whether to use <mysql.h>])
+  if test "x$have_mysql_h" = "xtrue"; then
+    AC_MSG_RESULT([yes]);
+  else
+    if test "x$DO_MYSQL" = "xmaybe"; then
+      AC_MSG_RESULT([Not found... Not doing MySQL])
+      DO_MYSQL="no"
+    else
+      AC_MSG_ERROR([
+  Error: Could not find the <mysql.h> include-file.
+  Please set the MYSQL_INCLUDE_DIR environment variable and run ./configure
+  again.
+      ])
+    fi
+  fi
+
+
+
 fi
-AC_SUBST(MYSQL_DASH_INCLUDE)
+AC_SUBST(MYSQL_CFLAGS)
 
 dnl End checking for MySQL
 

@@ -8,5 +8,5 @@ Description: The Emdros text database engine
 URL: http://emdros.org/
 Version: @VERSION@
 Requires: @PKGCONFIG_REQUIRED_AMALGAMATION@
-Cflags: -I@prefix@/include/emdros @MYSQL_DASH_INCLUDE@ @POSTGRESQL_DASH_INCLUDE@ 
+Cflags: -I@prefix@/include/emdros @MYSQL_CFLAGS@ @POSTGRESQL_CFLAGS@ 
 Libs: -L@prefix@/lib @PKGCONFIG_LIBS_AMALGAMATION@
