@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/30-2018
+ * Last update: 4/22-2019
  *
  */
 
@@ -568,16 +568,16 @@ public:
 				      const std::vector<std::string>& feature_names_vec,
 				      const std::vector<StringSetCache*>& string_set_caches_vec,
 				      EMdFValue *pFeature_values);
-	virtual bool getInst(const std::string& object_type_name,		
-			     id_d_t object_type_id,
-			     monad_m first_monad, monad_m last_monad,
-			     const SetOfMonads& all_m_1,
-			     const std::string& pre_query_string,
-			     const std::list<FeatureInfo>& features_to_get,
-			     const std::string& monad_set_name,
-			     eObjectRangeType objectRangeType,
-			     eMonadSetRelationOperation ms_operation,
-			     /* out */ Inst& Result);
+	virtual bool doGetInst(const std::string& object_type_name,		
+			       id_d_t object_type_id,
+			       monad_m first_monad, monad_m last_monad,
+			       const SetOfMonads& all_m_1,
+			       const std::string& pre_query_string,
+			       const std::list<FeatureInfo>& features_to_get,
+			       const std::string& monad_set_name,
+			       eObjectRangeType objectRangeType,
+			       eMonadSetRelationOperation ms_operation,
+			       /* out */ Inst& Result);
  public:
 
 	virtual bool getObjectsStartingAtSm(const std::string& object_type_name,

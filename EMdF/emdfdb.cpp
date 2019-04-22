@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/30-2018
+ * Last update: 4/22-2019
  *
  */
 
@@ -6530,16 +6530,16 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 		}
 
 		// Get Inst
-		if (!getInst(object_type_name,
-			     object_type_id,
-			     Su.first(), Su.last(),
-			     all_m_1,
-			     pre_query_string,
-			     features_to_get,
-			     monad_set_name,
-			     objectRangeType,
-			     ms_operation,
-			     Result)) {
+		if (!doGetInst(object_type_name,
+			       object_type_id,
+			       Su.first(), Su.last(),
+			       all_m_1,
+			       pre_query_string,
+			       features_to_get,
+			       monad_set_name,
+			       objectRangeType,
+			       ms_operation,
+			       Result)) {
 			return false;
 		}
     
@@ -6554,9 +6554,6 @@ bool EMdFDB::getInst(const std::string& object_type_name,
  *
  * Get an Inst(object type, Substrate), within a range
  * first_monad..last_monad.
- *
- * This is not the public entry point into EMdFDB; the other getInst()
- * uses this method.
  *
  * @param object_type_name the name of the object type
  * 
@@ -6592,16 +6589,16 @@ bool EMdFDB::getInst(const std::string& object_type_name,
  *
  * @return true on no DB error, false otherwise.
  */
-bool EMdFDB::getInst(const std::string& object_type_name,
-		     id_d_t object_type_id,
-		     monad_m first_monad, monad_m last_monad,
-		     const SetOfMonads& all_m_1,
-		     const std::string& pre_query_string,
-		     const std::list<FeatureInfo>& features_to_get,
-		     const std::string& monad_set_name,
-		     eObjectRangeType objectRangeType,
-		     eMonadSetRelationOperation ms_operation,
-		     /* out */ Inst& Result)
+bool EMdFDB::doGetInst(const std::string& object_type_name,
+		       id_d_t object_type_id,
+		       monad_m first_monad, monad_m last_monad,
+		       const SetOfMonads& all_m_1,
+		       const std::string& pre_query_string,
+		       const std::list<FeatureInfo>& features_to_get,
+		       const std::string& monad_set_name,
+		       eObjectRangeType objectRangeType,
+		       eMonadSetRelationOperation ms_operation,
+		       /* out */ Inst& Result)
 {
 	if (pConn == 0)
 		return false;
@@ -6636,7 +6633,7 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 				       string_set_caches_vec,
 				       join_string,
 				       from_string)) {
-			DEBUG_X_FAILED("EMdFDB::getInst", "getting feature vectors");
+			DEBUG_X_FAILED("EMdFDB::doGetInst", "getting feature vectors");
 			return false;
 		}
 		    
@@ -6775,7 +6772,7 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 		// Get whether it is a WITH SINGLE RANGE OBJECTS or not
 		eObjectRangeType objectRangeType;
 		if (!getOTObjectRangeType(object_type_name, objectRangeType)) {
-			DEBUG_X_FAILED("EMdFDB::getInst", "getting range type of object type " + object_type_name);
+			DEBUG_X_FAILED("EMdFDB::doGetInst", "getting range type of object type " + object_type_name);
 			return false;
 		}
 
@@ -6785,7 +6782,7 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 		// Build and execute first query
 		//
 		// ****************************************************
-		//LOG_WRITE_TIME("EMdFDB::getInst", "Query starting.");
+		//LOG_WRITE_TIME("EMdFDB::doGetInst", "Query starting.");
 		std::ostringstream query_stream;
 		if (bMonadSetIsFeature) {
 			if (bUsePreQueryString) {
@@ -6914,15 +6911,15 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 			}
 		}
 		if (!pConn->execSelect(query_stream.str())) {
-			DEBUG_SELECT_QUERY_FAILED("EMdFDB::getInst", query_stream.str());
+			DEBUG_SELECT_QUERY_FAILED("EMdFDB::doGetInst", query_stream.str());
 			return false;
 		}
 		
-		//LOG_WRITE_TIME("EMdFDB::getInst", "Query finished.");
+		//LOG_WRITE_TIME("EMdFDB::doGetInst", "Query finished.");
 		int no_of_features_to_get = (int) features_to_get.size();
 
 
-		LOG_WRITE_TIME("EMdFDB::getInst", "Retrieval starting.");
+		LOG_WRITE_TIME("EMdFDB::doGetInst", "Retrieval starting.");
 		InstObject *pObj = 0;
 		try {
 			bool bMoreRows = pConn->hasRow();
@@ -6964,7 +6961,7 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 				// Get object id_d
 				id_d_t oid;
 				if (!pConn->accessTuple(0, oid)) {
-					DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::getInst");
+					DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::doGetInst");
 					return false;
 				}
 
@@ -6975,7 +6972,7 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 				    || objectRangeType == kORTMultipleRange) {
 					std::string monads_string;
 					if (!pConn->accessTuple(1, monads_string)) {
-						DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::getInst");
+						DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::doGetInst");
 						return false;
 					}
 					pSom = new SetOfMonads(monads_string);
@@ -6984,7 +6981,7 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 				} else {
 					// Get mse_first
 					if (!pConn->accessTuple(1, mse_first)) {
-						DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::getInst");
+						DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::doGetInst");
 						return false;
 					}
 
@@ -6997,7 +6994,7 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 						mse_last = mse_first;
 					} else {
 						if (!pConn->accessTuple(2, mse_last)) {
-							DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::getInst");
+							DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::doGetInst");
 							return false;
 						}
 					}
@@ -7013,7 +7010,7 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 							      feature_names_vec,
 							      string_set_caches_vec,
 							      pFeature_values)) {
-						DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::getInst");
+						DEBUG_ACCESS_TUPLE_FAILED("EMdFDB::doGetInst");
 						pConn->finalize();
 						delete pSom;
 						return false;
@@ -7055,7 +7052,7 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 						break;
 
 					  default:
-						ASSERT_THROW(false, "Unknown monad set operation in EMdFDB::getInst.");
+						ASSERT_THROW(false, "Unknown monad set operation in EMdFDB::doGetInst.");
 						break;
 					}
 				}
@@ -7097,19 +7094,19 @@ bool EMdFDB::getInst(const std::string& object_type_name,
 				
 				// Get next tuple
 				if (!pConn->getNextTuple(bMoreRows)) {
-					DEBUG_GET_NEXT_TUPLE_FAILED("EMdFDB::getInst");
+					DEBUG_GET_NEXT_TUPLE_FAILED("EMdFDB::doGetInst");
 					return false;
 				}
 			} // end of iteration over query-results
 		} catch (EMdFNULLValueException& e) {
 			UNUSED(e);
-			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::getInst");
+			DEBUG_NULL_VALUE_EXCEPTION("EMdFDB::doGetInst");
 			// There was a NULL value exception, hence we return an error
 			return false;
 		}
 		
 		// Write "retrieval finished" to log
-		LOG_WRITE_TIME("EMdFDB::getInst", "Retrieval finished.");
+		LOG_WRITE_TIME("EMdFDB::doGetInst", "Retrieval finished.");
 		
 		// Release results
 		pConn->finalize();

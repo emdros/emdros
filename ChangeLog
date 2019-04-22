@@ -12,6 +12,12 @@
 	- MYSQL_DASH_INCLUDE => MYSQL_CFLAGS
 	- POSTGRESQL_DASH_INCLUDE => POSTGRESQL_CFLAGS
 
+	* include/emdfdb.h, EMdF/emdfdb.cpp: Rename the non-public
+	EMdFDB::getInst() => EMdFDB::doGetInst().  This is so as to avoid
+	warnings about hiding virtual functions in descendant classes,
+	such as BPTEMdFDB.  Especially the Solaris CC compiler complained
+	about this.
+
 2019-04-20 Ulrik Sandborg-Petersen
 
 	* harvest/renderobjects.cpp: Fix compilation error on compilers
