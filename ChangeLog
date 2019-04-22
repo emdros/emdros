@@ -1,5 +1,17 @@
 ============ 3.7.0.pre19 ============
 
+2019-04-22 Ulrik Sandborg-Petersen
+
+	* m4/emdros_mysql.m4: Make detection of MySQL libraries and
+	headers work better, especially on macOS with HomeBrew.
+
+	* emdros.pc.in, m4/emdros_mysql.m4, m4/emdros_postgresql.m4:
+
+	Rename as follows:
+
+	- MYSQL_DASH_INCLUDE => MYSQL_CFLAGS
+	- POSTGRESQL_DASH_INCLUDE => POSTGRESQL_CFLAGS
+
 2019-04-20 Ulrik Sandborg-Petersen
 
 	* harvest/renderobjects.cpp: Fix compilation error on compilers
