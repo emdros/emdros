@@ -4,6 +4,9 @@
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.pre20.
 
+	* zlib/win32.mak, zlib/mingw.mak: Build the liz_emdros.lib/.a
+	library if BPT == 1.
+
 ============ 3.7.0.pre19 ============
 
 2019-04-22 Ulrik Sandborg-Petersen

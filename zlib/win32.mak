@@ -9,7 +9,7 @@ WIN32DIR = ..\win32
 
 !INCLUDE $(WIN32DIR)\config.mak
 
-!IF "$(USE_BPT)" == "1"
+!IF "$(BPT)" == "1"
 LIBTARGET = libz_emdros.lib
 TARGETS = zconfhwin32 zlib_emdrosh "$(OUTDIR)\$(LIBTARGET)"
 !ELSE

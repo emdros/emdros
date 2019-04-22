@@ -10,7 +10,7 @@ WIN32DIR = ..\win32
 include $(WIN32DIR)\config.mak
 
 
-ifeq ("$(BUILD_FOR_DEVEL)","1")
+ifeq ("$(BPT)","1")
 LIBTARGET = libz_emdros.a
 TARGETS = zconfhwin32 ..\include\zlib_emdros.h "$(OUTDIR)\$(LIBTARGET)"
 else
