@@ -14,6 +14,11 @@
 	Emdros{Py,Py3}.{pyc,pyo} files.  This would otherwise cause a
 	build failure on Fedora 30.
 
+	* m4/emdros_mysql.m4: Bugfix: If MySQL libraries are not found,
+	and the user specified --with-mysql=maybe (or didn't have
+	--with-mysql switch at all, which is the default), don't fail with
+	an error message. Instead, just don't do MySQL.
+
 ============ 3.7.0.pre20 ============
 
 2019-04-22 Ulrik Sandborg-Petersen

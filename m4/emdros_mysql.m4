@@ -69,7 +69,11 @@ if test "x$DO_MYSQL" != "xno"; then
       AC_MSG_RESULT([$MY_LDADD])
       my_libfound="yes";
    else
-      AC_MSG_ERROR([Not found.
+     if test "x$DO_MYSQL" = "xmaybe"; then
+       AC_MSG_RESULT([Not found... Not doing MySQL])
+       DO_MYSQL="no"
+     else
+       AC_MSG_ERROR([Not found.
 
 Please set
 
@@ -77,6 +81,7 @@ Please set
 
 then run configure again.
 ])
+     fi
    fi
 fi
 
