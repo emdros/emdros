@@ -23,7 +23,6 @@ Prefix: %{prefix}
 @WX_DO_UNICODE_FALSE@BuildRequires: gcc-c++
 @WX_DO_UNICODE_TRUE@Requires(post): desktop-file-utils xdg-utils
 @WX_DO_UNICODE_TRUE@Requires(preun): desktop-file-utils xdg-utils
-#BuildRoot: %{_tmppath}/%{name}-root
 
 %description 
 
