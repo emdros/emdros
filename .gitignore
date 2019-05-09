@@ -269,6 +269,7 @@ importers/plaintextschema.h
 importers/simplebibleschema.h
 importers/slashedtextschema.h
 win32/config.mak
+win32/mingw-config.mak
 win32/emdros.nsi
 win32/lconfig.h.win32
 SWIG/Android/jemdros-*.zip
