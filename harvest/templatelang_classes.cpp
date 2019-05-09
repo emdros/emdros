@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 4/10-2019
+ * Last update: 5/9-2019
  *
  */
 
@@ -1196,9 +1196,9 @@ void TemplateSetVarSubString::exec(TemplateLangExecEnv *pEE)
 		break;
 	}
 	
-	long input_string_length = input_string.length();
-	long from = m_from;
-	long max_length = m_max_length;
+	std::string::size_type input_string_length = input_string.length();
+	std::string::size_type from = m_from;
+	std::string::size_type max_length = m_max_length;
 
 	std::string result;
 	if (from >= input_string_length) {

@@ -25,6 +25,9 @@
 	* win32/emdros.nsi.in: Don't try to distribute no-longer-existing
 	file "doc\README.MySQL.Win32.txt".
 
+	* harvest/templatelang_classes.cpp: Fix warning on Visual Studio's
+	compiler on X64, related to std::string::size_type vs. long.
+
 ============ 3.7.0.pre20 ============
 
 2019-04-22 Ulrik Sandborg-Petersen
