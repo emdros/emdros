@@ -19,6 +19,9 @@
 	--with-mysql switch at all, which is the default), don't fail with
 	an error message. Instead, just don't do MySQL.
 
+	* src/importtool/win32.mak: Fix BUILD_FOR_DEVEL=1 build by linking
+	against "$(OUTDIR)\libemdros_importers.lib".
+
 ============ 3.7.0.pre20 ============
 
 2019-04-22 Ulrik Sandborg-Petersen

@@ -34,6 +34,7 @@ BPT_DEPENDENCIES =
 
 !IF "$(BUILD_FOR_DEVEL)" == "1"
 EMDROS_DEPENDENCIES = \
+   "$(OUTDIR)\libemdros_importers.lib" \
    "$(OUTDIR)\libutil_emdros.lib" \
    $(EMDF_DEPENDENCIES) \
    $(MQL_DEPENDENCIES) \
