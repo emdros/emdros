@@ -176,7 +176,7 @@ This package contains development files.
 * Fri Feb 15 2019 Ulrik Sandborg-Petersen <ulrikp@emdros.org>
   Remove @WITH_BPT2@.  
 
-* Sat Feb 3 2019 Ulrik Sandborg-Petersen <ulrikp@emdros.org>
+* Sun Feb 3 2019 Ulrik Sandborg-Petersen <ulrikp@emdros.org>
   Add gcc-c++ to BuildRequires. Add a version of BuildRequires for
   WX_DO_UNICODE_FALSE.
 

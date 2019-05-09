@@ -7,6 +7,9 @@
 	* emdros.spec.in: Remove commented-out #BuildRoot line, in order
 	to get rid of an rpmbuild warning on Fedora 30.
 
+	* emdros.spec.in: Fix bogus date in specfile changelog, in order
+	to get rid of an rpmbuild warning on Fedora 30.
+
 ============ 3.7.0.pre20 ============
 
 2019-04-22 Ulrik Sandborg-Petersen
