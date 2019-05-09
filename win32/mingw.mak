@@ -2,7 +2,7 @@
 
 # Makefile for MinGW
 
-include .\config.mak
+include .\mingw-config.mak
 
 include ..\include\Makefile.inc
 
@@ -331,7 +331,7 @@ MAKE_DIST_FILES: MAKE_DIST_SWIG
 	for %%F in ($(DIST_BIN_FILES)) do copy .\%F "$(DIST_DIR)\bin"
 	for %%F in ($(DIST_LIB_FILES)) do copy .\%F "$(DIST_DIR)\lib"
 	for %%F in ($(DIST_ETC_QRYTOOL_FILES)) do copy .\%F "$(DIST_DIR)\etc\qrytool"
-	copy win32\config.mak "$(DIST_DIR)\doc"
+	copy win32\mingw-config.mak "$(DIST_DIR)\doc"
 	cd win32
 
 

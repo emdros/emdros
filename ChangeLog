@@ -57,7 +57,33 @@
 
 	* win32/Makefile.am: Add rule to make target "mingw-config.mak"
 	from "config.mak" using "mignw-config.sed", and distribute the
-	result.
+	result.  It changes the Visual Studio NMAKE syntax to MinGW make
+	syntax.
+
+	* Windows: Change all mingw.mak files to use the new
+	mingw-config.mak, not config.mak.  This is necessary since we have
+	added Visual Studio NMAKE syntax to config.mak.
+
+	Files affected:
+
+	modified:   EMdF/mingw.mak
+	modified:   MQL/mingw.mak
+	modified:   SWIG/mingw.mak
+	modified:   amalgamation/mingw.mak
+	modified:   harvest/mingw.mak
+	modified:   importers/mingw.mak
+	modified:   include/mingw.mak
+	modified:   pcre/mingw.mak
+	modified:   sqlite3/mingw.mak
+	modified:   sqlite3/src/mingw.mak
+	modified:   src/importtool/mingw.mak
+	modified:   src/mingw.mak
+	modified:   src/qrytool/mingw.mak
+	modified:   tests/mingw.mak
+	modified:   util/mingw.mak
+	modified:   win32/mingw.mak
+	modified:   wx/mingw.mak
+	modified:   zlib/mingw.mak
 
 ============ 3.7.0.pre20 ============
 

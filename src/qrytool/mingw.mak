@@ -8,7 +8,7 @@
 
 WIN32DIR = ..\..\win32
 
-include $(WIN32DIR)\config.mak
+include $(WIN32DIR)\mingw-config.mak
 
 ifeq ($(WITH_WXWIN),yes)
 WXUNICODE_PROGRAM1 = $(OUTDIR_UNICODE)\eqtu.exe

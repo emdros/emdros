@@ -6,7 +6,7 @@
 
 WIN32DIR = ..\win32
 
-include $(WIN32DIR)\config.mak
+include $(WIN32DIR)\mingw-config.mak
 
 PROGRAM1 = .\get_version.exe
 PROGRAM1_OBJS = get_version.o

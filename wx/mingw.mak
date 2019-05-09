@@ -7,7 +7,7 @@
 
 WIN32DIR = ..\win32
 
-include $(WIN32DIR)\config.mak
+include $(WIN32DIR)\mingw-config.mak
 
 ifeq ($(WITH_WXWIN), yes)
 LIB_WX_UNICODE_TARGET = libemdrosguiu.a

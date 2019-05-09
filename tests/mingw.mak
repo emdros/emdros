@@ -8,7 +8,7 @@
 
 WIN32DIR = ..\win32
 
-include $(WIN32DIR)\config.mak
+include $(WIN32DIR)\mingw-config.mak
 
 PROGRAM1 = $(OUTDIR)\emdftry.exe
 PROGRAM2 = $(OUTDIR)\mqltry.exe

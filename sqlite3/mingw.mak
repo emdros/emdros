@@ -11,7 +11,7 @@ endif
 $(info Building sqlite3 on Win32)
 $(info)
 
-include ..\win32\config.mak
+include ..\win32\mingw-config.mak
 
 all: 
 	$(MAKE) -C src -f mingw.mak 

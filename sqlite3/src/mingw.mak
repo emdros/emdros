@@ -15,7 +15,7 @@ CPP_PROJ_EXTRA=
 
 WIN32DIR = ..\..\win32
 
-include $(WIN32DIR)\config.mak
+include $(WIN32DIR)\mingw-config.mak
 
 LIBTARGET = libsqlite3_emdros.a
 

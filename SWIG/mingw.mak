@@ -4,7 +4,7 @@
 # Makefile for MinGW
 
 
-include ..\win32\config.mak
+include ..\win32\mingw-config.mak
 
 all:
 ifeq ($(WITH_SWIG_PYTHON),yes)

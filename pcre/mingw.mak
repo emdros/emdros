@@ -7,6 +7,8 @@
 
 WIN32DIR = ..\win32
 
+include $(WIN32DIR)\mingw-config.mak
+
 
 LOCAL_CPPFLAGS = -I. -DPCRE_STATIC -DHAVE_CONFIG_H
 
@@ -49,7 +51,6 @@ CPROGRAM1 = .\dftables.exe
 CPROGRAM1_OBJS = dftables.o
 
 
-include $(WIN32DIR)\config.mak
 include $(WIN32DIR)\mingw-body.mak
 
 

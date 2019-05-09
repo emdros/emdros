@@ -8,6 +8,8 @@
 
 WIN32DIR = ..\win32
 
+include $(WIN32DIR)\mingw-config.mak
+
 ifeq ("$(BUILD_FOR_DEVEL)","1")
 LIBTARGET = libmql.a
 TARGETS = "$(OUTDIR)\$(LIBTARGET)"
@@ -46,7 +48,6 @@ LIBTARGET_OBJS= \
 	mql_object.o 
 
 
-include $(WIN32DIR)\config.mak
 include $(WIN32DIR)\mingw-body.mak
 
 #
