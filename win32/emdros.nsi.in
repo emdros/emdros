@@ -135,7 +135,6 @@ Section "Programs and documentation" SecFiles
   File "doc\slashedtextimport.html"
   File "doc\sfmimport.html"
   File "doc\EmdrosQueryTool_UsersGuide.pdf"
-  File /nonfatal "doc\README.MySQL.Win32.txt"
 
 
   SetOutPath "$INSTDIR\doc\java"
