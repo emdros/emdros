@@ -359,7 +359,7 @@ work).
 
 We would be happy to serve you and discuss your needs.
 
-Please write to us for an informal discussion of how we help you
+Please write to us for an informal discussion of how we can help you
 succeed with Emdros.
 
 https://emdros.org/contact.html
