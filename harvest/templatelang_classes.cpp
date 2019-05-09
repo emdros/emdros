@@ -1232,11 +1232,11 @@ void TemplateSetVarSubString::exec(TemplateLangExecEnv *pEE)
 		
 	if (bDoIt) {
 		// Make sure max_length is in range
-		if ((from + max_length) > input_string_length) {
-			max_length = input_string_length - from;
+		if ((abs_from + max_length) > input_string_length) {
+			max_length = input_string_length - abs_from;
 		}
 
-		result = input_string.substr(from, max_length);
+		result = input_string.substr(abs_from, max_length);
 	} else {
 		// Leave result empty.
 	}
