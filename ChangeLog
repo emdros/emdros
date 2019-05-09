@@ -48,6 +48,9 @@
 
 	That is, reinstate the correct behavior.
 
+	* harvest/templatelang_classes.cpp: Fix bugs introduced earlier
+	today in the code which handles substrings.
+
 ============ 3.7.0.pre20 ============
 
 2019-04-22 Ulrik Sandborg-Petersen

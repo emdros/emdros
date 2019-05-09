@@ -1197,30 +1197,48 @@ void TemplateSetVarSubString::exec(TemplateLangExecEnv *pEE)
 	}
 	
 	std::string::size_type input_string_length = input_string.length();
-	std::string::size_type from = m_from;
+	std::string::size_type abs_from = (m_from < 0) ? -m_from : m_from;
 	std::string::size_type max_length = m_max_length;
 
+	bool bFromIsFromEnd = m_from < 0;
+	bool bDoIt = false;
+
 	std::string result;
-	if (from >= input_string_length) {
-		// from-index is past the end.
-		// leave result empty.
-	} else {
-		// Should we count from the end?
-		if (m_from < 0) {
-			// From is negative. Count from the end.
-			if ((-m_from) >= input_string_length) {
-				from = 0;
-			} else {
-				from = input_string_length + m_from;
-			}
+	if (bFromIsFromEnd) {
+		// From is negative. Count from the end.
+		if ((abs_from) >= input_string_length) {
+			// We are to begin before the start of the string.
+			// Set abs_from to 0, so as to start at the
+			// beginning.
+			abs_from = 0;
+		} else {
+			// We are to begin after the beginning of the
+			// string, abs_from bytes from the end.
+			// Calculate the beginning place.
+			abs_from = input_string_length - abs_from;
 		}
+		bDoIt = true;
+	}  else {
+		// m_from is positive. Count from the beginning.
+		if (abs_from >= input_string_length) {
+			// from-index is past the end.
+			// leave result empty.
+			bDoIt = false;
+		} else {
+			// From-index is in range. Do it.
+			bDoIt = true;
+		}
+	}
 		
+	if (bDoIt) {
 		// Make sure max_length is in range
 		if ((from + max_length) > input_string_length) {
 			max_length = input_string_length - from;
 		}
 
 		result = input_string.substr(from, max_length);
+	} else {
+		// Leave result empty.
 	}
 
 	pEE->setVar(m_strOutputVarName, result);
