@@ -30,7 +30,7 @@ BUILD_FOR_DEVEL = 1
 # ---------------------
 !IF "$(SQLITE3)" == ""
 SQLITE3=1
-!endif
+!ENDIF
 
 !IF "$TARGET_CPU" == "X64"
 # You may modify this...
