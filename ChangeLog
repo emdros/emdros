@@ -28,6 +28,10 @@
 	* harvest/templatelang_classes.cpp: Fix warning on Visual Studio's
 	compiler on X64, related to std::string::size_type vs. long.
 
+	* m4/emdros_swig.m4: Don't include code to test for PHP5.  PHP5
+	support was removed in 3.7.0.pre04, due to the end of life status
+	of PHP5.
+
 ============ 3.7.0.pre20 ============
 
 2019-04-22 Ulrik Sandborg-Petersen
