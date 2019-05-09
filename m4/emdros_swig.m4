@@ -97,7 +97,9 @@ ORIGINAL_DO_SWIG_PYTHON2=$DO_SWIG_PYTHON2
 dnl If we can't do SWIG, don't do SWIG Python bindings.
 if test x$CAN_DO_SWIG == xno; then
    if test -f SWIG/python/pyemdros_wrap.cxx -a -f SWIG/python/EmdrosPy.py; then
-     DO_SWIG_PYTHON2=yes;
+     if test "x$DO_SWIG_PYTHON2" != "xno"; then
+       DO_SWIG_PYTHON2=yes;
+     fi
    else
      DO_SWIG_PYTHON2=no;
    fi
@@ -254,7 +256,9 @@ ORIGINAL_DO_SWIG_PYTHON3=$DO_SWIG_PYTHON3
 dnl If we can't do SWIG, don't do SWIG Python3 bindings.
 if test x$CAN_DO_SWIG == xno; then
    if test -f SWIG/python3/py3emdros_wrap.cxx -a -f SWIG/python3/EmdrosPy3.py; then
-     DO_SWIG_PYTHON3=yes;
+     if test "x$DO_SWIG_PYTHON3" != "xno"; then
+        DO_SWIG_PYTHON3=yes;
+     fi
    else
      DO_SWIG_PYTHON3=no;
    fi
@@ -413,7 +417,9 @@ ORIGINAL_DO_SWIG_JAVA=$DO_SWIG_JAVA
 dnl If we can't do SWIG, don't do SWIG Java bindings.
 if test x$CAN_DO_SWIG == xno; then
    if test -f SWIG/java/libjemdros_wrap.cxx -a -f SWIG/java/jemdros.jar; then
-     DO_SWIG_JAVA=yes;
+     if test "x$DO_SWIG_JAVA" != "xno"; then
+        DO_SWIG_JAVA=yes;
+     fi
    else
      DO_SWIG_JAVA=no;
    fi
@@ -726,7 +732,9 @@ ORIGINAL_DO_SWIG_CSHARP=$DO_SWIG_CSHARP
 dnl If we can't do SWIG, don't do SWIG C-Sharp bindings.
 if test x$CAN_DO_SWIG == xno; then
    if test -f SWIG/csharp/libcsemdros_wrap.cxx -a -f SWIG/csharp/CSharpSources.zip; then
-     DO_SWIG_CSHARP=yes;
+     if test "x$DO_SWIG_CSHARP" != "xno"; then
+        DO_SWIG_CSHARP=yes;
+     fi
    else
      DO_SWIG_CSHARP=no;
    fi
@@ -828,7 +836,9 @@ ORIGINAL_DO_SWIG_PHP7=$DO_SWIG_PHP7
 dnl If SWIG can't do PHP7, don't do them, unless we have the sources already.
 if test x$CAN_SWIG_DO_PHP7 == xno; then
    if test -f SWIG/php7/php7emdros_wrap.cxx -a -f SWIG/php7/EmdrosPHP7.php; then
-     DO_SWIG_PHP7=yes;
+     if test "x$DO_SWIG_PHP7" != "xno"; then
+        DO_SWIG_PHP7=yes;
+     fi
    else
      DO_SWIG_PHP7=no;
    fi

@@ -32,6 +32,22 @@
 	support was removed in 3.7.0.pre04, due to the end of life status
 	of PHP5.
 
+	* m4/emdros_swig.m4: Don't ignore the following switches:
+
+	--with-swig-language-python2=no
+	--with-swig-language-python3=no
+	--with-swig-language-php7=no
+	--with-swig-language-csharp=no
+	--with-swig-language-java=no
+
+	--without-swig-language-python2
+	--without-swig-language-python3
+	--without-swig-language-php7
+	--without-swig-language-csharp
+	--without-swig-language-java
+
+	That is, reinstate the correct behavior.
+
 ============ 3.7.0.pre20 ============
 
 2019-04-22 Ulrik Sandborg-Petersen
