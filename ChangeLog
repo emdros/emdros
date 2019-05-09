@@ -53,6 +53,12 @@
 
 	* win32/config.mak.in: Replace "!endif" with "!ENDIF".
 
+	* win32/mingw-config.sed: Initial addition.
+
+	* win32/Makefile.am: Add rule to make target "mingw-config.mak"
+	from "config.mak" using "mignw-config.sed", and distribute the
+	result.
+
 ============ 3.7.0.pre20 ============
 
 2019-04-22 Ulrik Sandborg-Petersen
