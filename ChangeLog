@@ -85,6 +85,9 @@
 	modified:   wx/mingw.mak
 	modified:   zlib/mingw.mak
 
+	* win32/mingw.mak: Update the section that copies header files
+	etc. from MySQL, mirroring win32/win32.mak.
+
 ============ 3.7.0.pre20 ============
 
 2019-04-22 Ulrik Sandborg-Petersen

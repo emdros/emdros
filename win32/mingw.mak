@@ -9,8 +9,12 @@ include ..\include\Makefile.inc
 all: config.nsh
 	copy config.h.win32 ..\include\emdros-config.h
 ifeq ($(MYSQL),1)
-	-mkdir ..\win32\mysql
-	copy "$(MYSQLTOP)\include\*.*" ..\win32\mysql
+	-mkdir ..\win32\mysql_include
+	-mkdir ..\win32\mysql_include\mysql
+	-mkdir ..\win32\mysql_include\mysql\psi
+	copy "$(MYSQLTOP)\include\*.*" "..\win32\mysql_include\"
+	copy "$(MYSQLTOP)\include\mysql\*.*" "..\win32\mysql_include\mysql\"
+	copy "$(MYSQLTOP)\include\mysql\psi\*.*" "..\win32\mysql_include\mysql\psi\"
 endif
 	$(MAKE) -C ..\include -f mingw.mak $(MAKEMACRO) 
 	$(MAKE) -C ..\pcre -f mingw.mak $(MAKEMACRO) 
