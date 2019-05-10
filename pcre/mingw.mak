@@ -15,10 +15,10 @@ LOCAL_CPPFLAGS = -I. -DPCRE_STATIC -DHAVE_CONFIG_H
 ifeq ("$(BUILD_FOR_DEVEL)","1")
 LIBTARGET = libpcre_emdros.a
 TARGETS = pcre_config_h "$(OUTDIR)\$(LIBTARGET)"
-!ELSE
+else
 LIBTARGET = 
 TARGETS = pcre_config_h 
-!ENDIF
+endif
 
 CLEANFILES = chartables.c dftables.exe pcre_config.h
 
@@ -60,4 +60,4 @@ pcre_chartables.c: .\dftables.exe
 	.\dftables.exe pcre_chartables.c
 
 pcre_config_h:
-        copy /Y /B config.h.win32 .\config.h
+	copy /Y /B config.h.win32 .\config.h

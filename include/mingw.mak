@@ -15,7 +15,7 @@ PROGRAM1_OBJS = get_version.o
 
 EMDROS_LCONFIG_WIN32_H = win32-lconfig.h
 
-TARGETS = pcre_emdros_h pcre_config_h lconfig
+TARGETS = $(PROGRAM1) pcre_emdros_h pcre_config_h lconfig
 CLEANFILES= pcre_emdros.h pcre_config.h $(PROGRAM1) $(PROGRAM1_OBJS) $(EMDROS_LCONFIG_WIN32_H)
 
 
@@ -28,8 +28,8 @@ pcre_config_h:
 	copy /Y /B ..\pcre\config.h.win32 .\pcre_config.h
 
 lconfig:
-	-erase -q emdros-lconfig.h
-	-erase -q $(EMDROS_LCONFIG_WIN32_H)
+	-erase /q emdros-lconfig.h
+	-erase /q $(EMDROS_LCONFIG_WIN32_H)
 	echo #ifndef WIN32LCONFIG__H__ >> $(EMDROS_LCONFIG_WIN32_H)
 	echo #define WIN32LCONFIG__H__ >> $(EMDROS_LCONFIG_WIN32_H)
 	echo #define LINUX 0 >> $(EMDROS_LCONFIG_WIN32_H)

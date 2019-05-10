@@ -40,8 +40,8 @@ LOCAL_LIBFLAGS = $(PROGRAM_DEPENDENCIES)
 include $(WIN32DIR)\mingw-body.mak
 
 
-$(BUILT_SOURCES): amalgamation.json
-	.\mkamalgamation.exe amalgamation.json
+$(BUILT_SOURCES): amalgamation.xml
+	$(PROGRAM1) amalgamation.xml
 
 emdros_config_h:
 	copy /Y /B ..\include\emdros-config.h .\emdros-config.h

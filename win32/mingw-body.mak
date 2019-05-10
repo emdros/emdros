@@ -125,18 +125,21 @@ ifeq "$(DEBUG)"  "1"
 ifeq "$(TARGET_CPU)"  "X86"
 
 
-ifneq ($(wildcard $(WXDIR)/lib/gcc_lib/libwxmsw28ud.a),)
+ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxmsw28ud.a),)
 WXLIBDIR=$(WXDIR)/lib/gcc_lib
 WXVERSION=28
-else ifneq ($(wildcard $(WXDIR)/lib/gcc_lib/libwxbase29ud.a),)
+else ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxbase29ud.a),)
 WXLIBDIR=$(WXDIR)/lib/gcc_lib
 WXVERSION=29
-else ifneq ($(wildcard $(WXDIR)/lib/gcc_lib/libwxbase30ud.a),)
+else ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxbase30ud.a),)
 WXLIBDIR=$(WXDIR)/lib/gcc_lib
 WXVERSION=30
-else ifneq ($(wildcard $(WXDIR)/lib/gcc_lib/libwxbase31ud.a),)
+else ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxbase31ud.a),)
 WXLIBDIR=$(WXDIR)/lib/gcc_lib
 WXVERSION=31
+else ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxbase32ud.a),)
+WXLIBDIR=$(WXDIR)/lib/gcc_lib
+WXVERSION=32
 else
 $(error Could not find wxWidgets library in $(WXDIR))
 endif 
@@ -158,6 +161,9 @@ WXVERSION=30
 else ifneq ($(wildcard $(WXDIR)/lib\vc_x64_lib\libwxbase31ud.a),)
 WXLIBDIR=$(WXDIR)/lib\vc_x64_lib
 WXVERSION=31
+else ifneq ($(wildcard $(WXDIR)/lib\vc_x64_lib\libwxbase32ud.a),)
+WXLIBDIR=$(WXDIR)/lib\vc_x64_lib
+WXVERSION=32
 else
 $(error Could not find wxWidgets library in $(WXDIR))
 endif 
@@ -170,20 +176,23 @@ else
 
 ifeq "$(TARGET_CPU)"  "X86"
 
-ifneq ($(wildcard $(WXDIR)/lib/gcc_lib/libwxmsw28u.a),)
+ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxmsw28u.a),)
 WXLIBDIR=$(WXDIR)/lib/gcc_lib
 WXVERSION=28
-else ifneq ($(wildcard $(WXDIR)/lib/gcc_lib/libwxbase29u.a),)
+else ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxbase29u.a),)
 WXLIBDIR=$(WXDIR)/lib/gcc_lib
 WXVERSION=29
-else ifneq ($(wildcard $(WXDIR)/lib/gcc_lib/libwxbase30u.a),)
+else ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxbase30u.a),)
 WXLIBDIR=$(WXDIR)/lib/gcc_lib
 WXVERSION=30
-else ifneq ($(wildcard $(WXDIR)/lib/gcc_lib/libwxbase31u.a),)
+else ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxbase31u.a),)
 WXLIBDIR=$(WXDIR)/lib/gcc_lib
 WXVERSION=31
+else ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxbase32u.a),)
+WXLIBDIR=$(WXDIR)/lib/gcc_lib
+WXVERSION=32
 else
-$(error Could not find wxWidgets library in $(WXDIR))
+$(error Could not find wxWidgets library in $(WXDIR). Perhaps define WITH_WXWIN=no to disable wxWidgets?)
 endif 
 
 else
@@ -204,6 +213,9 @@ WXVERSION=30
 else ifneq ($(wildcard $(WXDIR)/lib\vc_x64_lib\wxbase31u.a),)
 WXLIBDIR=$(WXDIR)/lib\vc_x64_lib
 WXVERSION=31
+else ifneq ($(wildcard $(WXDIR)/lib\vc_x64_lib\wxbase32u.a),)
+WXLIBDIR=$(WXDIR)/lib\vc_x64_lib
+WXVERSION=32
 else
 $(error Could not find wxWidgets library in $(WXDIR))
 endif 
@@ -221,12 +233,11 @@ endif # Debug/Non-debug build
 #
 
 ifeq "$(TARGET_CPU)"  "X86"
-WINVERSION=-DWINVER=0x0500
 WINFLAGS=-c -DWIN32 -D__WIN32__ \
-         -D_WINDOWS $(WINVERSION) -DSTRICT
+         -D_WINDOWS -DSTRICT
 #WINLINKFLAGS=/INCREMENTAL:NO -machine:i386 -subsystem:windows,$(APPVER) /MANIFEST
 WINLINKFLAGS=
-WINLIBS=  -lversion -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lcomctl32 -lshell32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32 -lwininet -lshlwapi 
+WINLIBS=  -lversion -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm -lcomctl32 -lshell32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32 -lwininet -lshlwapi -luxtheme -loleacc
 
 guilibsdll= 
 WX_LIBS=-L$(WXLIBDIR) -L$(WXDIR)/contrib\lib\gcc_lib 
@@ -234,12 +245,11 @@ WX_LIBS=-L$(WXLIBDIR) -L$(WXDIR)/contrib\lib\gcc_lib
 WX_LINKFLAGS=
 else
 
-WINVERSION=-DWINVER=0x0502
 WINFLAGS=-c -DWIN64 -D__WIN64__ \
-         -D_WINDOWS $(WINVERSION) -DSTRICT
+         -D_WINDOWS -DSTRICT
 #WINLINKFLAGS=/INCREMENTAL:NO -machine:X64 -subsystem:windows,$(APPVER) /MANIFEST
 WINLINKFLAGS=
-WINLIBS=  -lversion -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm-lcomctl32 -lshell32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32 -lwininet -lshlwapi 
+WINLIBS=  -lversion -lkernel32 -luser32 -lgdi32 -lcomdlg32 -lwinspool -lwinmm-lcomctl32 -lshell32 -lole32 -loleaut32 -luuid -lrpcrt4 -ladvapi32 -lwsock32 -lwininet -lshlwapi  -luxtheme -loleacc
 
 guilibsdll= 
 WX_LIBS=-L$(WXLIBDIR) -L$(WXDIR)/contrib\lib\vc_x64_lib 
@@ -267,7 +277,8 @@ WX_LIBS_UNICODE=$(WX_LIBS) \
    -lwxbase29ud_xml -lwxmsw29ud_media -lwxmsw29ud_webview \
    -lwxmsw29ud_adv -lwxmsw29ud_propgrid -lwxmsw29ud_xrc \
    -lwxmsw29ud_aui -lwxmsw29ud_qa -lwxregexud \
-   -lwxmsw29ud_core -lwxmsw29ud_ribbon 
+   -lwxmsw29ud_core -lwxmsw29ud_ribbon \
+   -lwxscintilla
 else ifeq "$(WXVERSION)"  "30"
 WX_LIBS_UNICODE=$(WX_LIBS) \
    -lwxbase30ud -lwxmsw30ud_gl -lwxmsw30ud_richtext \
@@ -275,7 +286,8 @@ WX_LIBS_UNICODE=$(WX_LIBS) \
    -lwxbase30ud_xml -lwxmsw30ud_media -lwxmsw30ud_webview \
    -lwxmsw30ud_adv -lwxmsw30ud_propgrid -lwxmsw30ud_xrc \
    -lwxmsw30ud_aui -lwxregexud \
-   -lwxmsw30ud_core -lwxmsw30ud_ribbon 
+   -lwxmsw30ud_core -lwxmsw30ud_ribbon \
+   -lwxscintillad
 else ifeq "$(WXVERSION)"  "31"
 WX_LIBS_UNICODE=$(WX_LIBS) \
    -lwxbase31ud -lwxmsw31ud_gl -lwxmsw31ud_richtext \
@@ -283,7 +295,17 @@ WX_LIBS_UNICODE=$(WX_LIBS) \
    -lwxbase31ud_xml -lwxmsw31ud_media -lwxmsw31ud_webview \
    -lwxmsw31ud_adv -lwxmsw31ud_propgrid -lwxmsw31ud_xrc \
    -lwxmsw31ud_aui -lwxregexud \
-   -lwxmsw31ud_core -lwxmsw31ud_ribbon 
+   -lwxmsw31ud_core -lwxmsw31ud_ribbon \
+   -lwxscintillad
+else ifeq "$(WXVERSION)"  "32"
+WX_LIBS_UNICODE=$(WX_LIBS) \
+   -lwxbase32ud -lwxmsw32ud_gl -lwxmsw32ud_richtext \
+   -lwxbase32ud_net -lwxmsw32ud_html -lwxmsw32ud_stc \
+   -lwxbase32ud_xml -lwxmsw32ud_media -lwxmsw32ud_webview \
+   -lwxmsw32ud_adv -lwxmsw32ud_propgrid -lwxmsw32ud_xrc \
+   -lwxmsw32ud_aui -lwxregexud \
+   -lwxmsw32ud_core -lwxmsw32ud_ribbon \
+   -lwxscintillad
 else
 $(error Unknown WXVERSION value: $(WXVERSION))
 endif
@@ -305,7 +327,8 @@ WX_LIBS_UNICODE=$(WX_LIBS) \
    -lwxbase29u_xml -lwxmsw29u_media -lwxmsw29u_webview \
    -lwxmsw29u_adv -lwxmsw29u_propgrid -lwxmsw29u_xrc \
    -lwxmsw29u_aui -lwxmsw29u_qa -lwxregexu \
-   -lwxmsw29u_core -lwxmsw29u_ribbon 
+   -lwxmsw29u_core -lwxmsw29u_ribbon \
+   -lwxscintilla
 else ifeq "$(WXVERSION)"  "30"
 WX_LIBS_UNICODE=$(WX_LIBS) \
    -lwxmsw30u_html -lwxmsw30u_stc \
@@ -314,6 +337,7 @@ WX_LIBS_UNICODE=$(WX_LIBS) \
    -lwxmsw30u_adv -lwxmsw30u_propgrid -lwxmsw30u_xrc \
    -lwxmsw30u_aui -lwxmsw30u_ribbon -lwxmsw30u_core \
    -lwxbase30u_xml -lwxbase30u_net -lwxbase30u \
+   -lwxscintilla \
    -lwxjpeg -lwxpng -lwxtiff -lwxzlib -lwxregexu
 else ifeq "$(WXVERSION)"  "31"
 WX_LIBS_UNICODE=$(WX_LIBS) \
@@ -323,6 +347,17 @@ WX_LIBS_UNICODE=$(WX_LIBS) \
    -lwxmsw31u_adv -lwxmsw31u_propgrid -lwxmsw31u_xrc \
    -lwxmsw31u_aui -lwxmsw31u_ribbon -lwxmsw31u_core \
    -lwxbase31u_xml -lwxbase31u_net -lwxbase31u \
+   -lwxscintilla \
+   -lwxjpeg -lwxpng -lwxtiff -lwxzlib -lwxregexu
+else ifeq "$(WXVERSION)"  "32"
+WX_LIBS_UNICODE=$(WX_LIBS) \
+   -lwxmsw32u_html -lwxmsw32u_stc \
+   -lwxmsw32u_media -lwxmsw32u_webview \
+   -lwxmsw32u_gl -lwxmsw32u_richtext \
+   -lwxmsw32u_adv -lwxmsw32u_propgrid -lwxmsw32u_xrc \
+   -lwxmsw32u_aui -lwxmsw32u_ribbon -lwxmsw32u_core \
+   -lwxbase32u_xml -lwxbase32u_net -lwxbase32u \
+   -lwxscintilla \
    -lwxjpeg -lwxpng -lwxtiff -lwxzlib -lwxregexu
 else
 $(error Unknown WXVERSION value: $(WXVERSION))

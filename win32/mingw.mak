@@ -2,6 +2,16 @@
 
 # Makefile for MinGW
 
+ifeq ($(CC),cc)
+CC=mingw32-gcc
+endif
+
+#ifeq ($(CXX),g++)
+#CXX=mingw32-g++
+#endif
+
+
+
 include .\mingw-config.mak
 
 include ..\include\Makefile.inc
@@ -16,30 +26,29 @@ ifeq ($(MYSQL),1)
 	copy "$(MYSQLTOP)\include\mysql\*.*" "..\win32\mysql_include\mysql\"
 	copy "$(MYSQLTOP)\include\mysql\psi\*.*" "..\win32\mysql_include\mysql\psi\"
 endif
-	$(MAKE) -C ..\include -f mingw.mak $(MAKEMACRO) 
-	$(MAKE) -C ..\pcre -f mingw.mak $(MAKEMACRO) 
- 	$(MAKE) -C ..\zlib -f mingw.mak $(MAKEMACRO) 
+	$(MAKE) -C ..\include -f mingw.mak $(MAKEMACRO) $(MAKEARGS) 
+	$(MAKE) -C ..\pcre -f mingw.mak $(MAKEMACRO) $(MAKEARGS) 
+	$(MAKE) -C ..\zlib -f mingw.mak $(MAKEMACRO) $(MAKEARGS) 
 ifeq ($(SQLITE3),1)
-	$(MAKE) -C ..\sqlite3 -f mingw.mak $(MAKEMACRO) 
+	$(MAKE) -C ..\sqlite3 -f mingw.mak $(MAKEMACRO) $(MAKEARGS) 
 endif
-	$(MAKE) -C ..\EMdF -f mingw.mak $(MAKEMACRO) 
-	$(MAKE) -C ..\MQL -f mingw.mak $(MAKEMACRO) 
-	$(MAKE) -C ..\util -f mingw.mak $(MAKEMACRO) 
-	$(MAKE) -C ..\importers -f mingw.mak $(MAKEMACRO) 
-	$(MAKE) -C ..\harvest -f mingw.mak $(MAKEMACRO) 
-	$(MAKE) -C ..\amalgamation -f mingw.mak $(MAKEMACRO) 
+	$(MAKE) -C ..\EMdF -f mingw.mak $(MAKEMACRO) $(MAKEARGS) 
+	$(MAKE) -C ..\MQL -f mingw.mak $(MAKEMACRO) $(MAKEARGS) 
+	$(MAKE) -C ..\util -f mingw.mak $(MAKEMACRO) $(MAKEARGS) 
+	$(MAKE) -C ..\importers -f mingw.mak $(MAKEMACRO) $(MAKEARGS) 
+	$(MAKE) -C ..\harvest -f mingw.mak $(MAKEMACRO) $(MAKEARGS) 
+	$(MAKE) -C ..\amalgamation -f mingw.mak $(MAKEMACRO) $(MAKEARGS) 
 ifeq ($(EMDROS_ONLY),0)
 ifeq ($(WITH_WXWIN),yes)
-	$(MAKE) -C ..\wx -f mingw.mak $(MAKEMACRO) 
+	$(MAKE) -C ..\wx -f mingw.mak $(MAKEMACRO) $(MAKEARGS) 
 endif
-	$(MAKE) -C ..\src\qrytool\TECkit -f mingw.mak $(MAKEMACRO) 
-	$(MAKE) -C ..\src\qrytool -f mingw.mak $(MAKEMACRO) 
-	$(MAKE) -C ..\src\importtool -f mingw.mak $(MAKEMACRO) 
+	$(MAKE) -C ..\src\qrytool -f mingw.mak $(MAKEMACRO) $(MAKEARGS) 
+	$(MAKE) -C ..\src\importtool -f mingw.mak $(MAKEMACRO) $(MAKEARGS) 
 endif
-	$(MAKE) -C ..\src -f mingw.mak $(MAKEMACRO) 
-	$(MAKE) -C ..\tests -f mingw.mak $(MAKEMACRO) 
+	$(MAKE) -C ..\src -f mingw.mak $(MAKEMACRO) $(MAKEARGS) 
+	$(MAKE) -C ..\tests -f mingw.mak $(MAKEMACRO) $(MAKEARGS) 
 ifeq ($(EMDROS_ONLY),0)
-	$(MAKE) -C ..\SWIG -f mingw.mak $(MAKEMACRO) 
+	$(MAKE) -C ..\SWIG -f mingw.mak $(MAKEMACRO) $(MAKEARGS) 
 endif
 	echo All Win32 parts have been built!
 
@@ -52,13 +61,12 @@ ifeq ($(SQLITE3),1)
 endif
 	$(MAKE) -C ../EMdF -f mingw.mak clean
 	$(MAKE) -C ../pcre -f mingw.mak clean
- 	$(MAKE) -C ../zlib -f mingw.mak clean $(MAKEMACRO) 
+	$(MAKE) -C ../zlib -f mingw.mak clean $(MAKEMACRO) $(MAKEARGS) 
 	$(MAKE) -C ../MQL -f mingw.mak clean
 	$(MAKE) -C ../util -f mingw.mak clean
 	$(MAKE) -C ../importers -f mingw.mak clean
 	$(MAKE) -C ../harvest -f mingw.mak clean
 	$(MAKE) -C ../wx -f mingw.mak clean
-	$(MAKE) -C ../src/qrytool/TECkit -f mingw.mak clean
 	$(MAKE) -C ../src/qrytool -f mingw.mak clean
 	$(MAKE) -C ../src -f mingw.mak clean
 	$(MAKE) -C ../tests -f mingw.mak clean
@@ -85,12 +93,15 @@ DIST_DOC_DOC_FILES = \
 DIST_DOC_MAN1_FILES = \
                    mql.html mqldump.html manage_indices.html upgrade_db.html \
                    emdftry.html jsontry.html mqltry.html mqllingtry.html \
-                   fts_indexer.html fts_harvester.html fts_filters.html \
+                   fts_indexer.html fts_harvester.html \
                    jsontry.html renderobjects.html \
                    eqtc.html eqtu.html \
                    ubimport.html pennimport.html negraimport.html \
                    plaintextimport.html slashedtextimport.html \
                    sfmimport.html tigerxmlimport.html bptdump.html 
+
+DIST_DOC_MAN5_FILES = \
+                   fts_filters.html emdros.html
 
 DIST_DOC_ROOT_FILES=INSTALL.Win32.txt
 
@@ -114,8 +125,7 @@ DIST_WX_BIN = win32\ReleaseUnicode\eqtu.exe \
 	           win32\ReleaseUnicode\eqtu.exe.manifest \
 	           win32\ReleaseUnicode\EmdrosImportToolUnicode.exe.manifest \
 	           src\qrytool\doc\EQTUsersGuide.htb 
-DIST_WX_LIB = win32\Release\libemdrosgui.lib \
-	           win32\ReleaseUnicode\libemdrosguiu.lib 
+DIST_WX_LIB = win32\ReleaseUnicode\libemdrosguiu.a 
 else
 DIST_WX_BIN =
 DIST_WX_LIB =
@@ -131,7 +141,6 @@ DIST_BIN_FILES=  win32\Release\mql.exe \
 	              win32\Release\mqldump.exe \
 	              win32\Release\manage_indices.exe \
 	              win32\Release\upgrade_db.exe \
-	              win32\Release\agexport.exe \
 	              win32\Release\ubimport.exe \
 	              win32\Release\pennimport.exe \
 	              win32\Release\negraimport.exe \
@@ -152,15 +161,12 @@ DIST_BIN_FILES=  win32\Release\mql.exe \
 	              $(DIST_WX_BIN)
 
 
-DIST_LIB_FILES=  win32\Release\libpcre_emdros.lib \
-	              win32\Release\libemdf.lib \
-	              win32\Release\libmql.lib \
-	              win32\Release\libutil_emdros.lib \
-	              win32\Release\libemdros_importers.lib \
-	              win32\Release\libharvest.lib \
-	              win32\Release\libemdrosgui.lib \
-	              win32\ReleaseUnicode\libemdrosguiu.lib \
-	              win32\Release\libteckit.lib \
+DIST_LIB_FILES=  win32\Release\libpcre_emdros.a \
+	              win32\Release\libemdf.a \
+	              win32\Release\libmql.a \
+	              win32\Release\libutil_emdros.a \
+	              win32\Release\libemdros_importers.a \
+	              win32\Release\libharvest.a \
 	              $(DIST_WX_LIB)
 
 DIST_ETC_QRYTOOL_FILES = src\qrytool\default.cfg \
@@ -208,34 +214,23 @@ DIST_PG_LIB_FILES = $(DIST_PG_BIN_FILES)
 DIST_MY_BIN_FILES = "$(MYSQLTOP)\lib\libmysql.dll"
 
 DIST_MY_LIB_FILES = $(DIST_MY_BIN_FILES) \
-	                 "$(MYSQLTOP)\lib\libmysql.lib"
+	                 "$(MYSQLTOP)\lib\libmysql.a"
 
 DIST_MY_DOC_FILES = doc\README.MySQL.Win32.txt
 
 
 
 
-DIST_SQLITE3_LIB_FILES = win32\Release\libsqlite3_emdros.lib
+DIST_SQLITE3_LIB_FILES = win32\Release\libsqlite3_emdros.a
 
 DIST_SQLITE3_BIN_FILES = win32\Release\sqlite3_emdros.exe
 
 
 
-TECKIT_INCLUDE_HEADER_FILES = \
-	                  Compiler.h \
-	                  Engine.h \
-	                  TECkit_Common.h \
-	                  TECkit_Compiler.h \
-	                  TECkit_Engine.h \
-	                  TECkit_Format.h \
-	                  ulong_chartraits.h \
-	                  Prefix_Mac.h \
-	                  Prefix_Win32.h
-
-
-dist: all test
-	$(MAKE) -f mingw.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_DIST_DIRS
-	$(MAKE) -f mingw.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_DIST_FILES
+#dist: all test
+dist:
+	+$(MAKE) -f mingw.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_DIST_DIRS
+	+$(MAKE) -f mingw.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_DIST_FILES
 ifeq ($(PGSQL),1)
 	$(MAKE) -f mingw.mak  DIST_PGSQL
 endif
@@ -245,8 +240,6 @@ endif
 ifeq ($(SQLITE3),1)
 	$(MAKE) -f mingw.mak  DIST_SQLITE3
 endif
-	cd ..
-	cd win32
 
 
 DIST_MYSQL: 
@@ -259,90 +252,73 @@ DIST_PGSQL:
 DIST_SQLITE3: 
 	$(MAKE) -f mingw.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_SQLITE3_DIST_FILES
 
+PERCENT := %
 
 MAKE_PG_DIST_FILES:
-	cd ..
-	for %%F in ($(DIST_PG_BIN_FILES)) do copy %F "$(DIST_DIR)\bin"
-	for %%F in ($(DIST_PG_LIB_FILES)) do copy %F "$(DIST_DIR)\lib"
-	cd win32
+	for %%F in ($(DIST_PG_BIN_FILES)) do copy ..\%%F "..\$(DIST_DIR)\bin"
+	for %%F in ($(DIST_PG_LIB_FILES)) do copy ..\%%F "..\$(DIST_DIR)\lib"
 
 MAKE_MY_DIST_FILES:
-	cd ..
-	for %%F in ($(DIST_MY_BIN_FILES)) do copy %F "$(DIST_DIR)\bin"
-	for %%F in ($(DIST_MY_LIB_FILES)) do copy %F "$(DIST_DIR)\lib"
-	for %%F in ($(DIST_MY_DOC_FILES)) do copy %F "$(DIST_DIR)\doc"
-	cd win32
+	for %%F in ($(DIST_MY_BIN_FILES)) do copy ..\%%F "..\$(DIST_DIR)\bin"
+	for %%F in ($(DIST_MY_LIB_FILES)) do copy ..\%%F "..\$(DIST_DIR)\lib"
+	for %%F in ($(DIST_MY_DOC_FILES)) do copy ..\%%F "..\$(DIST_DIR)\doc"
 
 MAKE_SQLITE3_DIST_FILES:
-	cd ..
-	for %%F in ($(DIST_SQLITE3_LIB_FILES)) do copy %F "$(DIST_DIR)\lib"
-	for %%F in ($(DIST_SQLITE3_BIN_FILES)) do copy %F "$(DIST_DIR)\bin"
-	cd win32
+	for %%F in ($(DIST_SQLITE3_LIB_FILES)) do copy ..\%%F "..\$(DIST_DIR)\lib"
+	for %%F in ($(DIST_SQLITE3_BIN_FILES)) do copy ..\%%F "..\$(DIST_DIR)\bin"
 
 MAKE_DIST_SWIG: MAKE_DIST_SWIG_PYTHON MAKE_DIST_SWIG_JAVA MAKE_DIST_SWIG_CSHARP
 
 MAKE_DIST_SWIG_PYTHON:
 ifeq ($(WITH_SWIG_PYTHON),yes)
-	cd ..
-	-mkdir "$(DIST_DIR)\doc\python"
-	for %%F in ($(DIST_DOC_SWIG_PYTHON_FILES)) do copy .\%F "$(DIST_DIR)\doc\python"
-	for %%F in ($(DIST_PYTHON_FILES)) do copy .\%F "$(DIST_DIR)\lib"
-	cd win32
+	-mkdir "..\$(DIST_DIR)\doc\python"
+	for %%F in ($(DIST_DOC_SWIG_PYTHON_FILES)) do copy .\%%F "..\$(DIST_DIR)\doc\python"
+	for %%F in ($(DIST_PYTHON_FILES)) do copy .\%%F "..\$(DIST_DIR)\lib"
 endif
 
 MAKE_DIST_SWIG_JAVA:
 ifeq ($(WITH_SWIG_JAVA),yes)
-	     cd ..
-	-mkdir "$(DIST_DIR)\doc\java"
-	for %%F in ($(DIST_DOC_SWIG_JAVA_FILES)) do copy .\%F "$(DIST_DIR)\doc\java"
-	for %%F in ($(DIST_JAVA_FILES)) do copy .\%F "$(DIST_DIR)\lib"
-	     cd win32
+	-mkdir "..\$(DIST_DIR)\doc\java"
+	for %%F in ($(DIST_DOC_SWIG_JAVA_FILES)) do copy .\%%F "..\$(DIST_DIR)\doc\java"
+	for %%F in ($(DIST_JAVA_FILES)) do copy .\%%F "..\$(DIST_DIR)\lib"
 endif
 
 MAKE_DIST_SWIG_CSHARP:
 ifeq ($(WITH_SWIG_CSHARP),yes)
-	cd ..
-	-mkdir "$(DIST_DIR)\doc\csharp"
-	for %%F in ($(DIST_DOC_SWIG_CSHARP_FILES)) do copy .\%F "$(DIST_DIR)\doc\csharp"
-	for %%F in ($(DIST_CSHARP_FILES)) do copy .\%F "$(DIST_DIR)\lib"
-	     cd win32
+	-mkdir "..\$(DIST_DIR)\doc\csharp"
+	for %%F in ($(DIST_DOC_SWIG_CSHARP_FILES)) do copy .\%%F "..\$(DIST_DIR)\doc\csharp"
+	for %%F in ($(DIST_CSHARP_FILES)) do copy .\%%F "..\$(DIST_DIR)\lib"
 endif
 
 MAKE_DIST_DIRS:
-	cd ..
-	-rmdir /s /q "$(DIST_DIR)"
-	-mkdir "$(DIST_DIR)\doc"
-	-mkdir "$(DIST_DIR)\bin"
-	-mkdir "$(DIST_DIR)\lib"
-	-mkdir "$(DIST_DIR)\etc"
+	-rmdir /s /q "..\$(DIST_DIR)"
+	-mkdir "..\$(DIST_DIR)\doc"
+	-mkdir "..\$(DIST_DIR)\bin"
+	-mkdir "..\$(DIST_DIR)\lib"
+	-mkdir "..\$(DIST_DIR)\etc"
 ifeq ($(WITH_WXWIN),yes)
-	-mkdir "$(DIST_DIR)\etc\qrytool"
+	-mkdir "..\$(DIST_DIR)\etc\qrytool"
 endif
-	-mkdir "$(DIST_DIR)\include"
-	cd win32
+	-mkdir "..\$(DIST_DIR)\include"
 
 
 MAKE_DIST_FILES: MAKE_DIST_SWIG
-	cd ..
-	for %%F in ($(PACKAGE_INCLUDE_HEADER_FILES) pcre_emdros.h pcre_config.h) do copy include\%F "$(DIST_DIR)\include"
-	for %%F in ($(TECKIT_INCLUDE_HEADER_FILES)) do copy src\qrytool\TECkit\%F "$(DIST_DIR)\include"
-	for %%F in ($(DIST_DOC_DOC_FILES)) do copy doc\%F "$(DIST_DIR)\doc"
-	for %%F in ($(DIST_DOC_MAN1_FILES)) do copy doc\man1\%F "$(DIST_DIR)\doc"
-	copy src\qrytool\doc\EQTUsersGuide.pdf "$(DIST_DIR)\doc\EmdrosQueryTool_UsersGuide.pdf"
-	for %%F in ($(DIST_DOC_ROOT_FILES)) do copy .\%F "$(DIST_DIR)\doc"
-	for %%F in ($(DIST_DOC_ROOT_FILES_ADD_TXT)) do copy .\%F "$(DIST_DIR)\doc\%F.txt"
-	for %%F in ($(DIST_ROOT_FILES)) do copy .\%F "$(DIST_DIR)"
-	for %%F in ($(DIST_BIN_FILES)) do copy .\%F "$(DIST_DIR)\bin"
-	for %%F in ($(DIST_LIB_FILES)) do copy .\%F "$(DIST_DIR)\lib"
-	for %%F in ($(DIST_ETC_QRYTOOL_FILES)) do copy .\%F "$(DIST_DIR)\etc\qrytool"
-	copy win32\mingw-config.mak "$(DIST_DIR)\doc"
-	cd win32
+	for %%F in ($(PACKAGE_INCLUDE_HEADER_FILES) pcre_emdros.h pcre_config.h) do copy ..\include\%%F "..\$(DIST_DIR)\include"
+	for %%F in ($(DIST_DOC_DOC_FILES)) do copy ..\doc\%%F "..\$(DIST_DIR)\doc"
+	for %%F in ($(DIST_DOC_MAN1_FILES)) do copy ..\doc\man1\%%F "..\$(DIST_DIR)\doc"
+	for %%F in ($(DIST_DOC_MAN5_FILES)) do copy ..\doc\man5\%%F "..\$(DIST_DIR)\doc"
+	copy ..\src\qrytool\doc\EQTUsersGuide.pdf "..\$(DIST_DIR)\doc\EmdrosQueryTool_UsersGuide.pdf"
+	for %%F in ($(DIST_DOC_ROOT_FILES)) do copy ..\%%F "..\$(DIST_DIR)\doc"
+	for %%F in ($(DIST_DOC_ROOT_FILES_ADD_TXT)) do copy ..\%%F "..\$(DIST_DIR)\doc\%%F.txt"
+	for %%F in ($(DIST_ROOT_FILES)) do copy ..\%%F "..\$(DIST_DIR)"
+	for %%F in ($(DIST_BIN_FILES)) do copy ..\%%F "..\$(DIST_DIR)\bin"
+	for %%F in ($(DIST_LIB_FILES)) do copy ..\%%F "..\$(DIST_DIR)\lib"
+	for %%F in ($(DIST_ETC_QRYTOOL_FILES)) do copy ..\%%F "..\$(DIST_DIR)\etc\qrytool"
+	copy ..\win32\mingw-config.mak "..\$(DIST_DIR)\doc\config.mak"
 
 
 inst: dist
-	cd ..\emdros-$(VERSION)-windows
-	"$(NSISEXE)" emdros.nsi
-	cd ..\win32
+	"$(NSISEXE)" ..\emdros-$(VERSION)-windows\emdros.nsi
 
 config.nsh:
 	-del config.nsh

@@ -5,6 +5,12 @@
 #
 # Will build Emdros test programs
 
+# Don't try to make tests in parallel invocation mode
+# (make # -j8, for example).  Otherwise, several instances of
+# mqltry.exe etc. will be invoked in parallel, thus stepping on
+# each other's toes.
+.NOTPARALLEL:
+
 
 WIN32DIR = ..\win32
 
@@ -81,6 +87,9 @@ test_bpt:
 	$(OUTDIR)\bpttry.exe -b 3
 else
 test_bpt:
-	echo BPT support not built in. Emdros on BPT not tested.
+	echo BPT support and SQLite3 support not built in. Emdros on BPT not tested.
 endif
+else
+test_bpt:
+	echo BPT support and SQLite3 support not built in. Emdros on BPT not tested.
 endif

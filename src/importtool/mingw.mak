@@ -34,6 +34,7 @@ endif
 ifeq ($(BUILD_FOR_DEVEL),1)
 EMDROS_DEPENDENCIES = \
    $(OUTDIR)\libemdros_importers.a  \
+   $(OUTDIR)\libharvest.a  \
    $(OUTDIR)\libutil_emdros.a  \
    $(MQL_DEPENDENCIES) \
    $(EMDF_DEPENDENCIES) \
@@ -49,6 +50,7 @@ endif
 
 
 PROGRAM_DEPENDENCIES = \
+   $(EMDROS_DEPENDENCIES) \
    $(EXTRA_DEPENDENCIES) 
 
 

@@ -1,5 +1,21 @@
 ============ 3.7.0 ============
 
+2019-05-10 Ulrik Sandborg-Petersen
+
+	* Windows: Gave the MinGW build machinery an overhaul, so that it
+	works again.  Also, documented how to use it.
+
+	modified:   SWIG/mingw.mak
+	modified:   amalgamation/mingw.mak
+	modified:   include/mingw.mak
+	modified:   pcre/mingw.mak
+	modified:   src/importtool/mingw.mak
+	modified:   src/mingw.mak
+	modified:   tests/mingw.mak
+	new file:   win32/README.MinGW.Windows.txt
+	modified:   win32/mingw-body.mak
+	modified:   win32/mingw.mak
+
 2019-05-09 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.
