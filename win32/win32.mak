@@ -128,12 +128,15 @@ DIST_DOC_DOC_FILES = \
 DIST_DOC_MAN1_FILES = \
                    mql.html mqldump.html manage_indices.html upgrade_db.html \
                    emdftry.html jsontry.html mqltry.html mqllingtry.html \
-                   fts_indexer.html fts_harvester.html fts_filters.html \
+                   fts_indexer.html fts_harvester.html \
                    jsontry.html renderobjects.html \
                    eqtc.html eqtu.html \
                    ubimport.html pennimport.html negraimport.html \
                    plaintextimport.html slashedtextimport.html \
                    sfmimport.html tigerxmlimport.html bptdump.html 
+
+DIST_DOC_MAN5_FILES = \
+                   fts_filters.html emdros.html
                    
 
 
@@ -294,7 +297,6 @@ DIST_PGSQL:
 DIST_SQLITE3: 
    $(MAKE) /f win32.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_SQLITE3_DIST_FILES
 
-
 MAKE_PG_DIST_FILES:
    cd ..
    for %%F in ($(DIST_PG_BIN_FILES)) do copy %F "$(DIST_DIR)\bin"
@@ -360,6 +362,7 @@ MAKE_DIST_FILES: MAKE_DIST_SWIG
 	for %%F in ($(PACKAGE_INCLUDE_HEADER_FILES) pcre_emdros.h pcre_config.h) do copy include\%F "$(DIST_DIR)\include"
 	for %%F in ($(DIST_DOC_DOC_FILES)) do copy doc\%F "$(DIST_DIR)\doc"
 	for %%F in ($(DIST_DOC_MAN1_FILES)) do copy doc\man1\%F "$(DIST_DIR)\doc"
+	for %%F in ($(DIST_DOC_MAN5_FILES)) do copy doc\man5\%F "$(DIST_DIR)\doc"
 	copy src\qrytool\doc\EQTUsersGuide.pdf "$(DIST_DIR)\doc\EmdrosQueryTool_UsersGuide.pdf"
 	for %%F in ($(DIST_DOC_ROOT_FILES)) do copy .\%F "$(DIST_DIR)\doc"
 	for %%F in ($(DIST_DOC_ROOT_FILES_ADD_TXT)) do copy .\%F "$(DIST_DIR)\doc\%F.txt"

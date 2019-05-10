@@ -18,6 +18,8 @@
 
 	* win32/Makefile.am: Distribute README.MinGW.Windows.txt.
 
+	* win32/win32.mak: Distribute the doc\man5\*.html files.
+
 2019-05-09 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.
