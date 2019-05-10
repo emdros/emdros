@@ -30,8 +30,8 @@ pcre_config_h:
 	copy /Y /B ..\pcre\config.h.win32 .\pcre_config.h
 
 lconfig:
-    -erase -q .\emdros-lconfig.h
-    -erase -q $(EMDROS_LCONFIG_WIN32_H)
+    -erase /q .\emdros-lconfig.h
+    -erase /q $(EMDROS_LCONFIG_WIN32_H)
     echo #ifndef WIN32LCONFIG__H__ >> $(EMDROS_LCONFIG_WIN32_H)
     echo #define WIN32LCONFIG__H__ >> $(EMDROS_LCONFIG_WIN32_H)
 

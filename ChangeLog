@@ -23,6 +23,9 @@
 	* src/win32.mak: Don't build negraimport.exe twice. Do build
 	tigerxmlimport.exe.
 
+	* include/win32.mak: Invocation of erase now uses /q instead of
+	-q.
+
 2019-05-09 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.
