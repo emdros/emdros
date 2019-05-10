@@ -20,6 +20,9 @@
 
 	* win32/win32.mak: Distribute the doc\man5\*.html files.
 
+	* src/win32.mak: Don't build negraimport.exe twice. Do build
+	tigerxmlimport.exe.
+
 2019-05-09 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.
