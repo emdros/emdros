@@ -16,6 +16,8 @@
 	modified:   win32/mingw-body.mak
 	modified:   win32/mingw.mak
 
+	* win32/Makefile.am: Distribute README.MinGW.Windows.txt.
+
 2019-05-09 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.
