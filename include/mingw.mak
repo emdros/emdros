@@ -3,6 +3,13 @@
 #
 # Makefile for MinGW
 
+# Don't try to make include files in parallel invocation mode
+# (make # -j8, for example).  Otherwise, several instances of
+# .\get_version.exe will be invoked in parallel, thus stepping on
+# each other's toes.
+.NOTPARALLEL:
+
+
 
 WIN32DIR = ..\win32
 

@@ -26,6 +26,14 @@
 	* include/win32.mak: Invocation of erase now uses /q instead of
 	-q.
 
+	* MinGW: Improve the MinGW build support on Windows.
+
+	modified:   amalgamation/mingw.mak
+	modified:   include/mingw.mak
+	modified:   sqlite3/src/mingw.mak
+	modified:   win32/mingw-body.mak
+	modified:   win32/mingw.mak
+
 2019-05-09 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.0.

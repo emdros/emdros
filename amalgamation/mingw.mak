@@ -12,7 +12,7 @@ include $(WIN32DIR)\mingw-config.mak
 
 LOCAL_CPPFLAGS = -I. -DHAVE_CONFIG_H -DDEFAULT_BACKEND_ENUM=$(DEFAULT_BACKEND_ENUM)
 LIBTARGET = libemdros_amalgamation.a
-TARGETS = emdros_config_h $(PROGRAM1) $(BUILT_SOURCES) "$(OUTDIR)\$(LIBTARGET)"
+TARGETS = .\emdros-config.h .\emdros-lconfig.h $(PROGRAM1) $(BUILT_SOURCES) "$(OUTDIR)\$(LIBTARGET)"
 
 BUILT_SOURCES = emdros_amalgamation_1_emdros.cpp \
                 emdros_amalgamation_2_importers_util.cpp \
@@ -20,7 +20,10 @@ BUILT_SOURCES = emdros_amalgamation_1_emdros.cpp \
                 emdros_c_amalgamation_2.c 
 
 CLEANFILES = $(BUILT_SOURCES) \
-	     emdros.h mkamalgamation.exe
+	     emdros.h emdros_c.h \
+	     .\emdros-config.h .\emdros-lconfig.h \
+	     $(PROGRAM1) \
+	     amalgamation-built.txt
 
 LIBTARGET_OBJS= \
   emdros_amalgamation_1_emdros.o \
@@ -40,10 +43,15 @@ LOCAL_LIBFLAGS = $(PROGRAM_DEPENDENCIES)
 include $(WIN32DIR)\mingw-body.mak
 
 
-$(BUILT_SOURCES): amalgamation.xml
-	$(PROGRAM1) amalgamation.xml
+$(BUILT_SOURCES): amalgamation-built.txt
 
-emdros_config_h:
+amalgamation-built.txt: amalgamation.xml $(PROGRAM1)
+	$(PROGRAM1) amalgamation.xml
+	echo BUILT > $@
+
+.\emdros-config.h: ..\include\emdros-config.h
 	copy /Y /B ..\include\emdros-config.h .\emdros-config.h
+
+.\emdros-lconfig.h: ..\include\emdros-lconfig.h
 	copy /Y /B ..\include\emdros-lconfig.h .\emdros-lconfig.h
 

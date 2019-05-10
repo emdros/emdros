@@ -3,7 +3,7 @@
 # Makefile for MinGW
 
 ifeq ($(CC),cc)
-CC=mingw32-gcc
+CC=gcc
 endif
 
 #ifeq ($(CXX),g++)
@@ -71,11 +71,17 @@ endif
 	$(MAKE) -C ../src -f mingw.mak clean
 	$(MAKE) -C ../tests -f mingw.mak clean
 	$(MAKE) -C ../SWIG -f mingw.mak clean
-	-@erase *~
-	-@rmdir Release\ /s /q
-	-@rmdir ReleaseUnicode\ /s /q
-	-@rmdir Debug\ /s /q
-	-@rmdir DebugUnicode\ /s /q
+	-erase *~
+	-rmdir Release\ /s /q
+	-rmdir ReleaseUnicode\ /s /q
+	-rmdir ReleaseUnicode2\ /s /q
+	-rmdir ReleaseUnicode3\ /s /q
+	-rmdir ReleaseUnicode4\ /s /q
+	-rmdir Debug\ /s /q
+	-rmdir DebugUnicode\ /s /q
+	-rmdir DebugUnicode2\ /s /q
+	-rmdir DebugUnicode3\ /s /q
+	-rmdir DebugUnicode4\ /s /q
 	echo All Win32 parts have been cleaned!
 
 distclean: clean

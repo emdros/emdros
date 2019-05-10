@@ -126,19 +126,19 @@ ifeq "$(TARGET_CPU)"  "X86"
 
 
 ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxmsw28ud.a),)
-WXLIBDIR=$(WXDIR)/lib/gcc_lib
+WXLIBDIR=$(WXDIR)\lib\gcc_lib
 WXVERSION=28
 else ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxbase29ud.a),)
-WXLIBDIR=$(WXDIR)/lib/gcc_lib
+WXLIBDIR=$(WXDIR)\lib\gcc_lib
 WXVERSION=29
 else ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxbase30ud.a),)
-WXLIBDIR=$(WXDIR)/lib/gcc_lib
+WXLIBDIR=$(WXDIR)\lib\gcc_lib
 WXVERSION=30
 else ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxbase31ud.a),)
-WXLIBDIR=$(WXDIR)/lib/gcc_lib
+WXLIBDIR=$(WXDIR)\lib\gcc_lib
 WXVERSION=31
 else ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxbase32ud.a),)
-WXLIBDIR=$(WXDIR)/lib/gcc_lib
+WXLIBDIR=$(WXDIR)\lib\gcc_lib
 WXVERSION=32
 else
 $(error Could not find wxWidgets library in $(WXDIR))
@@ -177,19 +177,19 @@ else
 ifeq "$(TARGET_CPU)"  "X86"
 
 ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxmsw28u.a),)
-WXLIBDIR=$(WXDIR)/lib/gcc_lib
+WXLIBDIR=$(WXDIR)\lib\gcc_lib
 WXVERSION=28
 else ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxbase29u.a),)
-WXLIBDIR=$(WXDIR)/lib/gcc_lib
+WXLIBDIR=$(WXDIR)\lib\gcc_lib
 WXVERSION=29
 else ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxbase30u.a),)
-WXLIBDIR=$(WXDIR)/lib/gcc_lib
+WXLIBDIR=$(WXDIR)\lib\gcc_lib
 WXVERSION=30
 else ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxbase31u.a),)
-WXLIBDIR=$(WXDIR)/lib/gcc_lib
+WXLIBDIR=$(WXDIR)\lib\gcc_lib
 WXVERSION=31
 else ifneq ($(wildcard $(WXDIR)\lib\gcc_lib\libwxbase32u.a),)
-WXLIBDIR=$(WXDIR)/lib/gcc_lib
+WXLIBDIR=$(WXDIR)\lib\gcc_lib
 WXVERSION=32
 else
 $(error Could not find wxWidgets library in $(WXDIR). Perhaps define WITH_WXWIN=no to disable wxWidgets?)
@@ -518,7 +518,7 @@ LINK32_WXFLAGS_UNICODE = $(WINLINKFLAGS) \
 
 
 ifneq "$(LIBTARGET)"  ""
-"$(OUTDIR)\$(LIBTARGET)": $(LIBTARGET_OBJS)
+"$(OUTDIR)\$(LIBTARGET)": $(LIBTARGET_DEPENDENCIES) $(LIBTARGET_OBJS)
 	$(LIB32) $(LIB32_FLAGS) "$(OUTDIR)\$(LIBTARGET)" $(LIBTARGET_OBJS)
 endif
 
@@ -682,19 +682,23 @@ endif
 
 
 clean:
-	-erase /Q /S /F $(PROGRAMS)
-ifneq "$(CLEANFILES)"  ""
-	-erase /Q /S /F $(CLEANFILES)
+ifneq "$(strip $(PROGRAMS))"  ""
+	-for %%F IN ($(strip $(PROGRAMS))) DO erase /Q /S /F %%F
 endif
-ifneq "$(LIBTARGET)"  ""
-	-@erase "$(OUTDIR)\$(LIBTARGET)"
+ifneq "$(strip $(CLEANFILES))"  ""
+	-for %%F IN ($(strip $(CLEANFILES))) DO erase /Q /S /F %%F
 endif
+ifneq "$(strip $(LIBTARGET))"  ""
+	-erase "$(OUTDIR)\$(LIBTARGET)"
+endif
+ifneq "$(strip $(LIBTARGET_OBJS))"  ""
 	-erase /Q /S /F $(LIBTARGET_OBJS)
+endif
 ifneq "$(LIB_WX_UNICODE_TARGET)"  ""
-	-@erase "$(OUTDIR_UNICODE)\$(LIB_WX_UNICODE_TARGET)"
+	-erase "$(OUTDIR_UNICODE)\$(LIB_WX_UNICODE_TARGET)"
 endif
 ifneq "$(DLLTARGET)"  ""
-	-@erase "$(OUTDIR)\$(DLLTARGET)"
+	-erase "$(OUTDIR)\$(DLLTARGET)"
 endif
 ifneq "$(DLLTARGET_OBJS)"  ""
 	-erase /Q /S /F $(DLLTARGET_OBJS)

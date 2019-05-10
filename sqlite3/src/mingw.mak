@@ -6,6 +6,7 @@
 # Will build a Win32 static library (non-debug) libsqlite3_emdros.a
 # and sqlite3_emdros.exe
 
+
 TARGETNAME=libsqlite3_emdros.a
 CPP_PROJ_EXTRA=
 
@@ -19,13 +20,15 @@ include $(WIN32DIR)\mingw-config.mak
 
 LIBTARGET = libsqlite3_emdros.a
 
+LIBTARGET_DEPENDENCIES = sqlite3_localamalgam.c
+
 CPROGRAM1 = $(OUTDIR)\sqlite3_emdros.exe
 
 TARGETS = sqlite3_localamalgam.c "$(OUTDIR)\$(LIBTARGET)" $(PROGRAMS)
 
 CPROGRAM1_OBJS = shell.o
 
-PROGRAM_DEPENDENCIES = $(OUTDIR)\$(LIBTARGET)
+PROGRAM_DEPENDENCIES = "$(OUTDIR)\$(LIBTARGET)"
 
 CPROGRAM1_DEPENDENCIES = $(PROGRAM_DEPENDENCIES)
 
@@ -38,6 +41,7 @@ LOCAL_CPPFLAGS = -DSQLITE_CORE=1 -DTHREADSAFE=1 \
 
 LIBTARGET_OBJS= \
      sqlite3_localamalgam.o
+
 
 # The reason we need a different directory for SQLite's INTDIR
 # is that otherwise sqlite3\src\table.c and EMdF\table.cpp will 
