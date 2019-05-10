@@ -227,8 +227,7 @@ DIST_SQLITE3_BIN_FILES = win32\Release\sqlite3_emdros.exe
 
 
 
-#dist: all test
-dist:
+dist: all test
 	+$(MAKE) -f mingw.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_DIST_DIRS
 	+$(MAKE) -f mingw.mak DIST_DIR="emdros-$(VERSION)-windows" MAKE_DIST_FILES
 ifeq ($(PGSQL),1)
