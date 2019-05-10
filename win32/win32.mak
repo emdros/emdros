@@ -106,8 +106,20 @@ CLEAN:
    -@erase *~
    -@rmdir Release\ /s /q
    -@rmdir ReleaseUnicode\ /s /q
+   -@rmdir ReleaseUnicode2\ /s /q
+   -@rmdir ReleaseUnicode3\ /s /q
+   -@rmdir ReleaseUnicode4\ /s /q
+   -@rmdir ReleaseUnicode5\ /s /q
+   -@rmdir ReleaseUnicode6\ /s /q
+   -@rmdir ReleaseUnicode7\ /s /q
    -@rmdir Debug\ /s /q
    -@rmdir DebugUnicode\ /s /q
+   -@rmdir DebugUnicode2\ /s /q
+   -@rmdir DebugUnicode3\ /s /q
+   -@rmdir DebugUnicode4\ /s /q
+   -@rmdir DebugUnicode5\ /s /q
+   -@rmdir DebugUnicode6\ /s /q
+   -@rmdir DebugUnicode7\ /s /q
    echo All Win32 parts have been cleaned!
 
 DISTCLEAN: CLEAN
