@@ -8,7 +8,7 @@
 // Petersen dated August 13, 2004.
 //
 // Created: 3/29-2000
-// Last update: 4/19-2019
+// Last update: 5/17-2019
 //
 //
 
@@ -219,7 +219,9 @@ public:
 	};  // Must be implemented in descendant if you wish to honor clicks on + and -
 	int FindYofTreeItem(size_t index);
 	int GetHeightOfItemInTree(size_t index, bool printing, int FirstLineInItem = 0, int LastLineInItem = 0x7FFFFFFF);
+public:
 	int GetHeightOfItem(size_t index, bool printing, int FirstLineInItem = 0, int LastLineInItem = 0x7FFFFFFF);
+protected:
 	int get_starting_x(size_t indent_index, bool printing);
 	int get_treeitem_indent(size_t index, bool is_printing);
 	size_t get_end_index_of_node_plus_decendants(size_t start_index, bool is_printing);

@@ -9,7 +9,7 @@
 // Petersen dated August 13, 2004.
 //
 // Created: 3/29-2000
-// Last update: 10/4-2018
+// Last update: 5/17-2019
 //
 //
 
@@ -48,7 +48,9 @@
 
 
 
+#if !defined(TRACE)
 #define TRACE(S) /* Nothing. */
+#endif
 
 
 ///////////////////////////////////////////////////////////////
@@ -451,6 +453,7 @@ void VTreeCanvas::DoPrepareDC(wxDC& dc)
 void VTreeCanvas::PrepareDC(wxDC& dc)
 #endif
 {
+	wxScrolledWindow::DoPrepareDC(dc);
 	dc.SetMapMode(m_nMapMode);
 }
 
@@ -458,9 +461,16 @@ void VTreeCanvas::PrepareDC(wxDC& dc)
 void VTreeCanvas::OnDraw(wxDC &dc)
 {
 	wxDC *pDC = &dc;
+#if wxCHECK_VERSION(3,0,0)
+	// wxWidgets version is >= 3.0.0. dc has already been
+	// prepared.
+#else
+	// Only do this if wxWidgets version is < 3.0.0
 	PrepareDC(dc);
+#endif
 	dc.GetUserScale(&m_xScaleFactor, &m_yScaleFactor);
-	if(m_tree_items.size() == 0) return;
+	if(m_tree_items.size() == 0)
+		return;
 	int y = 0;
 	wxRect clipRect;
 	GetClipBox(pDC, clipRect);

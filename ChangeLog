@@ -1,5 +1,10 @@
 ============ 3.7.1 ============
 
+2019-05-17 Ulrik Sandborg-Petersen
+
+	* wx/vtreecanvas.cpp, include/vtreecanvas.h: Fix scrolling issues
+	and repainting issues on macos with wxWidgets 3.1.2.
+
 2019-05-10 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.1.
