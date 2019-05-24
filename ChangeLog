@@ -1,5 +1,10 @@
 ============ 3.7.1 ============
 
+2019-05-24 Ulrik Sandborg-Petersen
+
+	* win32/Makefile.am: Fix non-portable GNU make extension, so that
+	the Makefile becomes portable.
+
 2019-05-17 Ulrik Sandborg-Petersen
 
 	* wx/vtreecanvas.cpp, include/vtreecanvas.h: Fix scrolling issues

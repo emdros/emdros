@@ -15,7 +15,7 @@ config.mak: config.mak.in Makefile
 
 
 mingw-config.mak: config.mak
-	sed -f mingw-config.sed $< > $@
+	sed -f mingw-config.sed config.mak > $@
 
 emdros.nsi: emdros.nsi.in
 	$(top_builddir)/config.status --file=$(srcdir)/emdros.nsi
