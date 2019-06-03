@@ -1,5 +1,15 @@
 ============ 3.7.1 ============
 
+2019-06-03 Ulrik Sandborg-Petersen
+
+	* generate_extrafiles.py.in: Add wildcarde to the following two
+	lines, so that pyc and pyo are installed if available.  This is
+	necessary on CentOS 7, where the EmdrosPy.pyc and EmdrosPy.pyo
+	files are automatically created.
+
+	@SWIG_WITH_PYTHON2_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPy.py*"
+	@SWIG_WITH_PYTHON3_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPy3.py*"
+
 2019-05-24 Ulrik Sandborg-Petersen
 
 	* win32/Makefile.am: Fix non-portable GNU make extension, so that
