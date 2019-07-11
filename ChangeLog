@@ -1,5 +1,13 @@
 ============ 3.7.2 ============
 
+2019-07-12 Ulrik Sandborg-Petersen
+
+	* tests/emdftry.cpp: Test for more test cases in testing
+	split_string() from libemdf's string_func.cpp: We have so far
+	neglected to test that it does the right thing when a string
+	starts or ends with one of the split characters.  In fact, it was
+	testing this, and getting the result wrong.
+
 2019-06-03 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.2
