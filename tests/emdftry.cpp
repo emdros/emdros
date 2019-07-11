@@ -906,6 +906,9 @@ int test_backend(eBackendKind backend_kind,
 		std::list<std::string> test_list;
 		test_list.push_back("");
 		bContinue = bContinue && test_split_string("", " \t", test_list);
+		bContinue = bContinue && test_split_string(" ", " \t", test_list);
+		bContinue = bContinue && test_split_string(" \t", " \t", test_list);
+		bContinue = bContinue && test_split_string(" \t ", " \t", test_list);
 		test_list.pop_back();
 
 		test_list.push_back("abc");
