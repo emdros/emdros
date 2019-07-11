@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 3/1-2001
- * Last update: 2/19-2019
+ * Last update: 7/12-2019
  *
  */
 
@@ -1173,6 +1173,13 @@ bool string2backend_kind(const std::string& input, eBackendKind& backend)
  * If none of the characters are found, then the list containing
  * instring is returned in outlist.
  *
+ * If the string begins with one or more characters from the
+ * splitchars string, then an empty string is prepended the list.
+ *
+ * If the string ends with one or more characters from the splitchars
+ * string, and the string also contains non-splitchars characters,
+ * then an empty string is appended to the list.
+ *
  * @param instring The input string.
  *
  * @param splitchars The string of characters on which to split.
@@ -1186,13 +1193,27 @@ void split_string(const std::string& instring, const std::string& splitchars, st
 		return;
 	} else {
 		std::string::size_type nbegin, nend;
+		nend = instring.find_first_of(splitchars, 0);
 		nbegin = instring.find_first_not_of(splitchars, 0);
+		if (nend == 0 && nbegin == std::string::npos) {
+			// We have only splitchars chars. Append an empty
+			// string and return.
+			outlist.push_back("");
+			return;
+		} else if (nend == 0 && nbegin != std::string::npos) {
+			// We start with at least one splitchars char.
+			// Start the list with an empty string.
+			outlist.push_back("");
+		}
+
+		// Now search for the next splitchars after nbegin
 		nend = instring.find_first_of(splitchars, nbegin);
 		if (nend == std::string::npos) {
 			outlist.push_back(instring.substr(nbegin, instring.length()-nbegin));
 		} else {
 			outlist.push_back(instring.substr(nbegin, nend-nbegin));
 			nbegin = instring.find_first_not_of(splitchars, nend);
+			
 			while (nbegin != std::string::npos
 			       && nend != std::string::npos) {
 				nend = instring.find_first_of(splitchars, nbegin);
@@ -1203,6 +1224,13 @@ void split_string(const std::string& instring, const std::string& splitchars, st
 					outlist.push_back(instring.substr(nbegin, nend-nbegin));
 				}
 				nbegin = instring.find_first_not_of(splitchars, nend);
+			}
+
+			if (nbegin == std::string::npos
+			    && nend != std::string::npos) {
+				// We end with one or more splitchars.
+				// Append an empty string.
+				outlist.push_back("");
 			}
 		}
 	}

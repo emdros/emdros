@@ -8,6 +8,13 @@
 	starts or ends with one of the split characters.  In fact, it was
 	testing this, and getting the result wrong.
 
+	* EMdF/string_func.cpp: Fix bugs in split_string(): When the input
+	contains only splitstring chars, return a list containing the
+	empty string. When the input begins with one or more splitchars,
+	prepend the empty string. When the input ends with one or more
+	splitchars, and does not consist solely of splitchar chars, also
+	append the empty string.
+
 2019-06-03 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.2
