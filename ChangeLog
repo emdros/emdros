@@ -18,6 +18,9 @@
 	* tests/emdftry.cpp: Also test for the case that the input only
 	consists of chars from the splitchars string.
 
+	* EMdF/string_func.cpp: Fix bug occurring when the input consists
+	solely of chars from the splitchars string.
+
 2019-06-03 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.2

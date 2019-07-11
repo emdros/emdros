@@ -1188,8 +1188,9 @@ bool string2backend_kind(const std::string& input, eBackendKind& backend)
 void split_string(const std::string& instring, const std::string& splitchars, std::list<std::string>& outlist)
 {
 	if (instring.find_first_not_of(splitchars, 0) == std::string::npos) {
-		// Add instring as sole output in list
-		outlist.push_back(instring);
+		// The input contains only chars from
+		// splitchars. Append the empty string.
+		outlist.push_back("");
 		return;
 	} else {
 		std::string::size_type nbegin, nend;
