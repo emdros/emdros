@@ -107,6 +107,9 @@ class QueryAnswer:
     def parse_line(self, line):
         """Returns True on the answer is over, False otherwise."""
 
+        if type(line) == type(b''):
+            line = line.decode('utf-8')
+
         if line[0] == "#":
             return False
         elif line.rstrip().lower() == "---- answer":
@@ -144,7 +147,9 @@ class QueryAnswer:
         print("\n\n//%s" % self.query_name)
         print("QueryAnswer(%s, \"%s\"," %
               (pybool(self.bNewDB), (self.query_name)))
-        print("%s," % get_escaped_string("".join(self.query)))
+        query_string = "".join(self.query)
+        escaped_query_string = "%s," % get_escaped_string(query_string)
+        print(escaped_query_string.encode('utf-8'))
         print("  %s, %s," % (pybool(self.bDBSuccessExpected),
                              pybool(self.bCompilerSuccessExpected)))
         print("%s)," % get_escaped_string("".join(self.answer)))
