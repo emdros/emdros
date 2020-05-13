@@ -8,12 +8,12 @@ def usage():
 Usage:
     python file2h.py <infilename> <outfilename> <const-char-variable-name>
 
-""").encode('utf-8'))
+"""))
 
 
 def read_doc(infilename):
     result = []
-    for line in open(infilename):
+    for line in open(infilename, "rb"):
         uline = line.decode('utf-8')
         result.append(uline)
 
@@ -36,15 +36,15 @@ def process_doc(ulines):
 def doIt(infilename, outfilename, const_char_varname):
     fout = open(outfilename, "wb")
 
-    fout.write("const char %s[] =\n" % const_char_varname)
+    fout.write(("const char %s[] =\n" % const_char_varname).encode('utf-8'))
 
     ulines = read_doc(infilename)
 
     ulines2 = process_doc(ulines)
 
-    fout.write(u"\n".join(ulines2).encode('utf-8'))
+    fout.write("\n".join(ulines2).encode('utf-8'))
 
-    fout.write(";\n")
+    fout.write(";\n".encode('utf-8'))
 
     fout.close()
 
