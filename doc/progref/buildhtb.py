@@ -543,7 +543,6 @@ var sc_remove_link=1;
         h2_re_end = re.compile(r'</[Hh]2>')
         level = hierarchy.levels[id] + 1
         h2_replacement = r'%s{' % re.escape(self.getSection(level))
-        print("H2 replacement = " + repr(h2_replacement))
         tmpstr = h2_re.sub(h2_replacement, tmpstr)
         tmpstr = h2_re_end.sub(r'}\n', tmpstr)
 
