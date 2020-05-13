@@ -1,5 +1,16 @@
 ============ 3.7.2 ============
 
+2020-05-13 Ulrik Sandborg-Petersen
+
+	* Update build scripts for Python 3 compatibility:
+
+	modified:   ChangeLog
+	modified:   doc/progref/buildhtb.py
+	modified:   generate_extrafiles.py.in
+	modified:   tests/bptqa2h.py
+	modified:   tests/file2h.py
+	modified:   tests/qa2h.py
+
 2019-07-12 Ulrik Sandborg-Petersen
 
 	* tests/emdftry.cpp: Test for more test cases in testing

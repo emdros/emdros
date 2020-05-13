@@ -1,12 +1,15 @@
+from __future__ import unicode_literals, print_function
 import sys
 import re
 
+
 def usage():
-    sys.stderr.write("""
+    sys.stderr.write(("""
 Usage:
     python file2h.py <infilename> <outfilename> <const-char-variable-name>
 
-""")
+""").encode('utf-8'))
+
 
 def read_doc(infilename):
     result = []
@@ -21,10 +24,10 @@ def process_doc(ulines):
     result = []
 
     for uline in ulines:
-        tmp = re.sub(ur'\\', ur'\\\\', uline)
-        tmp = re.sub(ur'"', ur'\\"', tmp)
-        tmp = re.sub(ur'\n', ur'\\n', tmp)
-        uline_result = u"\"%s\"" % tmp
+        tmp = re.sub(r'\\', r'\\\\', uline)
+        tmp = re.sub(r'"', r'\\"', tmp)
+        tmp = re.sub(r'\n', r'\\n', tmp)
+        uline_result = "\"%s\"" % tmp
         result.append(uline_result)
 
     return result
@@ -38,7 +41,7 @@ def doIt(infilename, outfilename, const_char_varname):
     ulines = read_doc(infilename)
 
     ulines2 = process_doc(ulines)
-    
+
     fout.write(u"\n".join(ulines2).encode('utf-8'))
 
     fout.write(";\n")

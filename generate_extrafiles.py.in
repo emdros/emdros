@@ -16,6 +16,7 @@
 # emdros and emdros-devel RPMs respectively, and are used by
 # emdros.spec.in.
 #
+from __future__ import unicode_literals, print_function
 
 extrafiles_emdros_list = [
     @SWIG_WITH_PYTHON2_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPy.py*",   #MAIN
@@ -75,7 +76,7 @@ def write_file(outfilename, filename_list):
     fout = open(outfilename, "wb")
 
     for filename in filename_list:
-        fout.write(filename + "\n")
+        fout.write((filename + "\n").encode('utf-8'))
 
     fout.close()
 

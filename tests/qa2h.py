@@ -32,10 +32,12 @@
 #
 # - All other lines are ignored.
 #
+from __future__ import unicode_literals, print_function
 import sys
 
+
 def emit_definition():
-    print """class QueryAnswer {
+    print("""class QueryAnswer {
       public:
       QueryAnswer(bool bNewDB,
                   const char *query_name, 
@@ -53,59 +55,65 @@ def emit_definition():
       std::string m_query_name, m_query, m_answer;
       bool m_bNewDB;
       bool m_bDBSuccessExpected, m_bCompilerSuccessExpected;
-      };"""
+      };""")
+
 
 def emit_preamble():
-    print """QueryAnswer mqlqa[] = {"""
+    print("""QueryAnswer mqlqa[] = {""")
+
 
 def emit_postamble():
     qa = QueryAnswer()
-    qa.query_name = "STOP";
-    qa.emit();
-    print """};"""
+    qa.query_name = "STOP"
+    qa.emit()
+    print("""};""")
+
 
 def get_escaped_string(s):
     result = ""
     arr = s.split("\n")
-    for index in xrange(0, len(arr)):
+    for index in range(0, len(arr)):
         line = arr[index]
-	result += "  \"" + line.replace("\\", "\\\\").replace("\"", "\\\"");
+        result += "  \"" + line.replace("\\", "\\\\").replace("\"", "\\\"")
         if index < (len(arr) - 1):
             result += "\\n\"\n"
         else:
             result += "\""
     return result
 
+
 sBeforeQuery = 0
 sInQuery = 1
 sInAnswer = 2
 
+
 def pybool(b):
     if b:
-	return "true"
+        return "true"
     else:
-	return "false"
+        return "false"
+
 
 class QueryAnswer:
     def __init__(self):
-	self.bNewDB = False
-	self.bDBSuccessExpected = True
-	self.bCompilerSuccessExpected = True
+        self.bNewDB = False
+        self.bDBSuccessExpected = True
+        self.bCompilerSuccessExpected = True
         self.query_name = ""
-	self.query = []
-	self.answer = []
-	self.state = sBeforeQuery
+        self.query = []
+        self.answer = []
+        self.state = sBeforeQuery
 
     def parse_line(self, line):
-	"""Returns True on the answer is over, False otherwise."""
+        """Returns True on the answer is over, False otherwise."""
 
-	if line[0] == "#":
-	    return False
-	elif line.rstrip().lower() == "---- answer":
-	    return True
+        if line[0] == "#":
+            return False
+        elif line.rstrip().lower() == "---- answer":
+            return True
         elif line.rstrip()[0:11].lower() == "++++ answer":
-	    self.state = sInAnswer
-	    arr = line.strip().split()
+            self.state = sInAnswer
+            arr = line.strip().split()
             if len(arr) > 2:
                 if arr[2].lower() == "faildb":
                     self.bDBSuccessExpected = False
@@ -113,9 +121,9 @@ class QueryAnswer:
                     self.bCompilerSuccessExpected = False
                 else:
                     raise "Error: Unknown failure method in line %s" % line
-	elif line.rstrip()[0:10].lower() == "++++ query":
-	    self.state = sInQuery
-	    arr = line.strip().split()
+        elif line.rstrip()[0:10].lower() == "++++ query":
+            self.state = sInQuery
+            arr = line.strip().split()
             if len(arr) > 2:
                 if arr[2].lower() == "newdb":
                     self.bNewDB = True
@@ -123,36 +131,36 @@ class QueryAnswer:
                         self.query_name = " ".join(arr[3:])
                 else:
                     self.query_name = " ".join(arr[2:])
-	else:
-	    if self.state == sBeforeQuery:
-		pass
-	    elif self.state == sInQuery:
-		self.query.append(line) # Include newline
-	    elif self.state == sInAnswer:
-		self.answer.append(line) # Include newline
-	return False
-	
+        else:
+            if self.state == sBeforeQuery:
+                pass
+            elif self.state == sInQuery:
+                self.query.append(line)  # Include newline
+            elif self.state == sInAnswer:
+                self.answer.append(line)  # Include newline
+        return False
+
     def emit(self):
-        print "\n\n//%s" % self.query_name
-	print "QueryAnswer(%s, \"%s\"," % (pybool(self.bNewDB), (self.query_name))
-	print "%s," % get_escaped_string("".join(self.query))
-	print "  %s, %s," % (pybool(self.bDBSuccessExpected), pybool(self.bCompilerSuccessExpected))
-	print "%s)," % get_escaped_string("".join(self.answer))
-	
+        print("\n\n//%s" % self.query_name)
+        print("QueryAnswer(%s, \"%s\"," %
+              (pybool(self.bNewDB), (self.query_name)))
+        print("%s," % get_escaped_string("".join(self.query)))
+        print("  %s, %s," % (pybool(self.bDBSuccessExpected),
+                             pybool(self.bCompilerSuccessExpected)))
+        print("%s)," % get_escaped_string("".join(self.answer)))
+
 
 def read_mqlqa(fin):
     emit_definition()
     emit_preamble()
     qa = QueryAnswer()
     for line in fin.readlines():
-	if qa.parse_line(line):
-	    qa.emit()
-	    del qa
-	    qa = QueryAnswer()
+        if qa.parse_line(line):
+            qa.emit()
+            del qa
+            qa = QueryAnswer()
 
     emit_postamble()
 
+
 read_mqlqa(sys.stdin)
-
-	
-
