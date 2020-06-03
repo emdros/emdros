@@ -4,6 +4,14 @@
 
 	* configure.ac, debian/changelog: Bump to 3.7.3.
 
+	* sqlite3/: Update to SQLite3 version 3.32.1 from 2020-05-25.
+
+	modified:   sqlite3/sqlite3_emdros.1
+	modified:   sqlite3/src/shell.c
+	modified:   sqlite3/src/sqlite3.c
+	modified:   sqlite3/src/sqlite3.h
+	modified:   sqlite3/src/sqlite3ext.h
+
 ============ 3.7.2 ============
 
 2020-05-13 Ulrik Sandborg-Petersen
