@@ -12,6 +12,9 @@
 	modified:   sqlite3/src/sqlite3.h
 	modified:   sqlite3/src/sqlite3ext.h
 
+	* sqlite3/tool/: Update to lemon.c and lempar.c from SQLite
+	version 3.32.1.
+
 ============ 3.7.2 ============
 
 2020-05-13 Ulrik Sandborg-Petersen
