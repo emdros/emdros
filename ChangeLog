@@ -1,5 +1,10 @@
 ============ 3.7.3 ============
 
+2020-11-24 Ulrik Sandborg-Petersen
+
+	* tests/qa2h.py: Fix Python3 compatibility in making tests/mqlqa.h
+	and tests/bptqa.h.
+
 2020-06-03 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.3.
