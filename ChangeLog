@@ -2,8 +2,14 @@
 
 2020-11-24 Ulrik Sandborg-Petersen
 
-	* tests/qa2h.py: Fix Python3 compatibility in making tests/mqlqa.h
-	and tests/bptqa.h.
+	* tests/qa2h.py: Fix a Python3 compatibility in making
+	tests/mqlqa.h and tests/bptqa.h.
+
+	* Fix Python 3 compatibility in mqltry and bpttry.
+
+	modified:   tests/Makefile.am
+	modified:   tests/bptqa2h.py
+	modified:   tests/qa2h.py
 
 2020-06-03 Ulrik Sandborg-Petersen
 

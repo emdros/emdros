@@ -32,12 +32,11 @@
 #
 # - All other lines are ignored.
 #
-from __future__ import unicode_literals, print_function
 import sys
 
 
-def emit_definition():
-    print("""class QueryAnswer {
+def emit_definition(fout):
+    fout.write("""class QueryAnswer {
       public:
       QueryAnswer(bool bNewDB,
                   const char *query_name, 
@@ -55,18 +54,18 @@ def emit_definition():
       std::string m_query_name, m_query, m_answer;
       bool m_bNewDB;
       bool m_bDBSuccessExpected, m_bCompilerSuccessExpected;
-      };""")
+      };""".encode('utf-8'))
 
 
-def emit_preamble():
-    print("""QueryAnswer mqlqa[] = {""")
+def emit_preamble(fout):
+    fout.write("""QueryAnswer mqlqa[] = {\n""".encode('utf-8'))
 
 
-def emit_postamble():
+def emit_postamble(fout):
     qa = QueryAnswer()
     qa.query_name = "STOP"
-    qa.emit()
-    print("""};""")
+    qa.emit(fout)
+    fout.write("""};\n""".encode('utf-8'))
 
 
 def get_escaped_string(s):
@@ -143,29 +142,46 @@ class QueryAnswer:
                 self.answer.append(line)  # Include newline
         return False
 
-    def emit(self):
-        print("\n\n//%s" % self.query_name)
-        print("QueryAnswer(%s, \"%s\"," %
-              (pybool(self.bNewDB), (self.query_name)))
+    def emit(self, fout):
+        fout.write(("\n\n//%s\n" % self.query_name).encode('utf-8'))
+        fout.write(("QueryAnswer(%s, \"%s\",\n" %
+              (pybool(self.bNewDB), (self.query_name))).encode('utf-8'))
         query_string = "".join(self.query)
         escaped_query_string = "%s," % get_escaped_string(query_string)
-        sys.stdout.write(escaped_query_string.encode('utf-8'))
-        print("  %s, %s," % (pybool(self.bDBSuccessExpected),
-                             pybool(self.bCompilerSuccessExpected)))
-        print("%s)," % get_escaped_string("".join(self.answer)))
+        fout.write(escaped_query_string.encode('utf-8'))
+        fout.write(("  %s, %s,\n" % (pybool(self.bDBSuccessExpected),
+                             pybool(self.bCompilerSuccessExpected))).encode('utf-8'))
+        fout.write(("%s),\n" % get_escaped_string("".join(self.answer))).encode('utf-8'))
 
 
-def read_mqlqa(fin):
-    emit_definition()
-    emit_preamble()
+def read_mqlqa(input_filename, output_filename):
+    fin = open(input_filename, "rb")
+    fout = open(output_filename, "wb")
+    
+    emit_definition(fout)
+    emit_preamble(fout)
     qa = QueryAnswer()
     for line in fin.readlines():
         if qa.parse_line(line):
-            qa.emit()
+            qa.emit(fout)
             del qa
             qa = QueryAnswer()
 
-    emit_postamble()
+    emit_postamble(fout)
 
+    fout.close()
+    fin.close()
 
-read_mqlqa(sys.stdin)
+def usage():
+    print("""USAGE:
+python qa2h.py <input-filename> <output-filename>
+
+""")
+
+if len(sys.argv) != 3:
+    usage()
+    exit()
+else:
+    input_filename = sys.argv[1]
+    output_filename = sys.argv[2]
+    read_mqlqa(input_filename, output_filename)

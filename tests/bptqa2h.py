@@ -51,7 +51,7 @@
 #
 #   - All other lines are ignored.
 #
-from __future__ import unicode_literals, print_function
+from __future__ import unicode_literals
 import sys
 
 
@@ -122,8 +122,9 @@ def postprocess_const_char(instr):
     return "+\n".join(result_arr) + "\n"
 
 
-def emit_definition():
-    print("""
+
+def emit_definition(fout):
+    fout.write("""
 #include <string>
 
 class QueryAnswer {
@@ -150,29 +151,29 @@ class QueryAnswer {
       bool m_bNoBPT;
       bool m_bBPTDumpDB;
       bool m_bDBSuccessExpected, m_bCompilerSuccessExpected;
-      };""")
+      };""".encode('utf-8'))
 
 
-def emit_preamble():
-    print("""std::list<QueryAnswer*> bptqa_list;
+def emit_preamble(fout):
+    fout.write("""std::list<QueryAnswer*> bptqa_list;
 
-""")
+""".encode('utf-8'))
 
 
-def emit_postamble(function_number_list):
+def emit_postamble(function_number_list, fout):
     qa = QueryAnswer()
     qa.query_name = "STOP"
-    qa.emit()
-    print("""
+    qa.emit(fout)
+    fout.write("""
 }
 
 void init_bptqa_list()
 {
-""")
-    print("\n".join(["    init_bptqa_list_%02d();" %
-                     function_number for function_number in function_number_list]))
+""".encode('utf-8'))
+    fout.write(("\n".join(["    init_bptqa_list_%02d();" %
+                     function_number for function_number in function_number_list])).encode('utf-8'))
 
-    print("""}
+    fout.write("""}
 
 void teardown_bptqa_list()
 {
@@ -189,7 +190,7 @@ void teardown_bptqa_list()
 
     bptqa_list.clear();
 }
-""")
+""".encode('utf-8'))
 
 
 sBeforeQuery = 0
@@ -275,55 +276,64 @@ class QueryAnswer:
                 self.answer.append(line)  # Include newline
         return False
 
-    def emit(self):
-        print("\n\n//%s" % self.query_name)
-        print("bptqa_list.push_back(new QueryAnswer(%s, %s, %s, \"%s\"," % (pybool(
-            self.bNewDB), pybool(self.bNoBPT), pybool(self.bDumpDB), (self.query_name)))
-        print("%s," % get_escaped_string_string("".join(self.query)))
-        print("  %s, %s," % (pybool(self.bDBSuccessExpected),
-                             pybool(self.bCompilerSuccessExpected)))
-        print("%s));" % get_escaped_string_string("".join(self.answer)))
+    def emit(self, fout):
+        fout.write(("\n\n//%s\n" % self.query_name).encode('utf-8'))
+        fout.write(("bptqa_list.push_back(new QueryAnswer(%s, %s, %s, \"%s\",\n" % (pybool(
+            self.bNewDB), pybool(self.bNoBPT), pybool(self.bDumpDB), (self.query_name))).encode('utf-8'))
+        fout.write(("%s,\n" % get_escaped_string_string("".join(self.query))).encode('utf-8'))
+        fout.write(("  %s, %s,\n" % (pybool(self.bDBSuccessExpected),
+                                   pybool(self.bCompilerSuccessExpected))).encode('utf-8'))
+        fout.write(("%s));\n" % get_escaped_string_string("".join(self.answer))).encode('utf-8'))
 
 
-def read_bptqa(fin):
-    emit_definition()
-    emit_preamble()
+def read_bptqa(input_filename, output_filename):
+    fin = open(input_filename, "rb")
+    fout = open(output_filename, "wb")
+
+    emit_definition(fout)
+    emit_preamble(fout)
     qa = QueryAnswer()
     function_number_list = []
     function_number = 1
-    print("""
+    fout.write(("""
 void init_bptqa_list_%02d()
 {
-""" % function_number)
+""" % function_number).encode('utf-8'))
     function_statement_count = 0
     function_number_list.append(function_number)
     for line in fin.readlines():
         if qa.parse_line(line):
-            qa.emit()
+            qa.emit(fout)
             del qa
             qa = QueryAnswer()
             function_statement_count += 1
 
             if function_statement_count == 10:
                 function_number += 1
-                print("""}
+                fout.write(("""}
 
 void init_bptqa_list_%02d()
 {
-""" % function_number)
+""" % function_number).encode('utf-8'))
                 function_number_list.append(function_number)
                 function_statement_count = 0
 
     if function_statement_count != 0:
         function_number += 1
-        print("""}
+        fout.write(("""}
 
 void init_bptqa_list_%02d()
 {
-""" % function_number)
+""" % function_number).encode('utf-8'))
         function_number_list.append(function_number)
 
-    emit_postamble(function_number_list)
+    emit_postamble(function_number_list, fout)
+
+    fout.close()
+    fin.close()
 
 
-read_bptqa(sys.stdin)
+input_filename = sys.argv[1]
+output_filename = sys.argv[2]
+                   
+read_bptqa(input_filename, output_filename)
