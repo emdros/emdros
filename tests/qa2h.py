@@ -149,7 +149,7 @@ class QueryAnswer:
               (pybool(self.bNewDB), (self.query_name)))
         query_string = "".join(self.query)
         escaped_query_string = "%s," % get_escaped_string(query_string)
-        print(escaped_query_string)
+        sys.stdout.write(escaped_query_string.encode('utf-8'))
         print("  %s, %s," % (pybool(self.bDBSuccessExpected),
                              pybool(self.bCompilerSuccessExpected)))
         print("%s)," % get_escaped_string("".join(self.answer)))
