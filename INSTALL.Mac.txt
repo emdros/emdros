@@ -1,5 +1,5 @@
 HOWTO Install Emdros on a Mac OS X
-Last update: 4/19-2019
+Last update: December 8, 2020
 
 Overview:
 
@@ -196,7 +196,7 @@ This is, however, not supported by the author of Emdros.
 
    then cd to the root of the sources, and do
 
-   export CFLAGS="-O3" CXXFLAGS="-O3" && ./configure --disable-debug --with-wx --enable-universal_binary --disable-dependency-tracking --with-sqlite3=local
+   export CFLAGS="-O3" CXXFLAGS="-O3" && ./configure --disable-debug --with-wx --enable-universal_binary --disable-dependency-tracking --with-sqlite3=local  --enable-local-zlib --enable-local-pcre  --with-swig-language-python2=no --with-swig-language-python3=no --with-swig-language-java=no --with-swig-language-csharp=no --with-swig-language-php7=no
 
    Please see the INSTALL file in the root of the sources for other
    switches you can give to configure.
