@@ -151,4 +151,4 @@ Info.plist: Info.plist.in
 
 
 macdist:
-	cp eqtc $(MACDISTDIR)/bin
+	cp eqtc $(MACDISTDIR)/development/bin/

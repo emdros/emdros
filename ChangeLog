@@ -4,6 +4,8 @@
 
 	* configure.ac, debian/changelog: Bump to 3.7.4.
 
+	* src/Makefile.am, src/qrytool/Makefile.am: Ditribute eqtc on the Mac.
+
 ============ 3.7.3 ============
 
 2020-11-24 Ulrik Sandborg-Petersen
