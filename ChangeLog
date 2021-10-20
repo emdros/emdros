@@ -1,3 +1,9 @@
+============ 3.7.4 ============
+
+2021-10-20 Ulrik Sandborg-Petersen
+
+	* configure.ac, debian/changelog: Bump to 3.7.4.
+
 ============ 3.7.3 ============
 
 2020-11-24 Ulrik Sandborg-Petersen
