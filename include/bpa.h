@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 10/26-2015
- * Last update: 10/26-2015
+ * Last update: 10/10-2022
  *
  */
 
@@ -36,13 +36,13 @@ template<class T> class BPAChunk {
 	T **m_data;
 	BPAChunk<T> *m_next_chunk;
  public:
-	BPAChunk<T>(unsigned long chunk_size) {
+	BPAChunk(unsigned long chunk_size) {
 		m_chunk_size = chunk_size;
 		m_load = 0;
 		m_data = (T**) malloc(chunk_size*sizeof(T*));
 	};
 	
-	~BPAChunk<T>() {
+	~BPAChunk() {
 		free(m_data);
 	};
 	
@@ -88,12 +88,12 @@ template<class T> class BigPointerArray {
 	unsigned long m_load;
 	std::vector<BPAChunk<T>*> m_chunks;
  public:
-	BigPointerArray<T>(unsigned long chunk_size) {
+	BigPointerArray(unsigned long chunk_size) {
 		m_chunk_size = 0;
 		m_load = 0;
 		m_chunks.push_back(new BPAChunk<T>(chunk_size));
 	}
-	~BigPointerArray<T>() {
+	~BigPointerArray() {
 		for (unsigned int i = 0;
 		     i < m_chunks.size();
 		     ++i) {

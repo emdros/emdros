@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 7/12-2013
- * Last update: 4/19-2019
+ * Last update: 10/10-2022
  *
  */
 
@@ -61,9 +61,9 @@ template<class V> class EmdrosStringHashTableNode {
  public:
 	std::string m_key;
 	V m_value;
-	EmdrosStringHashTableNode<V> *m_pNext;
+	EmdrosStringHashTableNode *m_pNext;
 
-	EmdrosStringHashTableNode<V>(const std::string& key, V value) : m_key(key), m_value(value), m_pNext(0) {};
+	EmdrosStringHashTableNode(const std::string& key, V value) : m_key(key), m_value(value), m_pNext(0) {};
 	~EmdrosStringHashTableNode() {};
 	bool operator==(const EmdrosStringHashTableNode<V>& other) {
 		return (m_key == other.m_key);
@@ -72,8 +72,8 @@ template<class V> class EmdrosStringHashTableNode {
 
 template<class V> class EmdrosStringHashTableVisitor {
  public:
-	EmdrosStringHashTableVisitor<V>() {};
-	virtual ~EmdrosStringHashTableVisitor<V>() {};
+	EmdrosStringHashTableVisitor() {};
+	virtual ~EmdrosStringHashTableVisitor() {};
 
 	virtual void operator()(V& value){ UNUSED(value); }; // Overload this in a child class to actually do anything
 };

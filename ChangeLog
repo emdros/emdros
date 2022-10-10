@@ -1,5 +1,15 @@
 ============ 3.7.4 ============
 
+2022-10-10 Ulrik Sandborg-Petersen
+
+	* Fixups for C++20. Don't put the <V> template name after the
+	constructor or destructor.
+
+	Files affected:
+
+	* include/emdf_hash.h
+	* include/bpa.h
+
 2021-10-20 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.4.
