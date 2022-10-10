@@ -10,6 +10,12 @@
 	* include/emdf_hash.h
 	* include/bpa.h
 
+	* Remove fallthrough warning in some switch statements: Insert
+	breaks.
+
+	* EMdF/emdf_value.cpp.
+
+
 2021-10-20 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.4.

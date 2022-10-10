@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/18-2003
- * Last update: 11/15-2018
+ * Last update: 10/10-2022
  *
  */
 
@@ -151,10 +151,13 @@ bool EMdFValue::compareInt(const EMdFValue& other, eComparisonOp op) const
 		break;
 	case kEVString:
 		ASSERT_THROW(false, "It was an EVString!");
+		break;
 	case kEVSetOfMonads:
 		ASSERT_THROW(false, "It was an EVSetOfMonads!");
+		break;
 	default:
 		ASSERT_THROW(false, "Unknown eEVkind");
+		break;
 	}
 
 	bool bResult;
@@ -180,8 +183,10 @@ bool EMdFValue::compareInt(const EMdFValue& other, eComparisonOp op) const
 			break;
 		case kEVString:
 			ASSERT_THROW(false, "kind is string");
+			break;
 		default:
 			ASSERT_THROW(false, "Unknown eEVKind");
+			break;
 		}
 
 		// Compare
