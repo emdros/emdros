@@ -7,14 +7,22 @@
 
 	Files affected:
 
-	* include/emdf_hash.h
-	* include/bpa.h
+	- include/emdf_hash.h
+	- include/bpa.h
 
 	* Remove fallthrough warning in some switch statements: Insert
 	breaks.
 
-	* EMdF/emdf_value.cpp.
+	- EMdF/emdf_value.cpp.
 
+	* Update to SQLite3 version 3.39.4 from 2022-09-29.
+
+	modified:   sqlite3/src/shell.c
+	modified:   sqlite3/src/sqlite3.c
+	modified:   sqlite3/src/sqlite3.h
+	modified:   sqlite3/src/sqlite3ext.h
+	modified:   sqlite3/tool/lemon.c
+	modified:   sqlite3/tool/lempar.c
 
 2021-10-20 Ulrik Sandborg-Petersen
 
