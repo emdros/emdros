@@ -24,6 +24,9 @@
 	modified:   sqlite3/tool/lemon.c
 	modified:   sqlite3/tool/lempar.c
 
+	* Remove std::unary_function. It was deprecated in C++11 and
+	removed in C++17. And it is not needed.
+
 2021-10-20 Ulrik Sandborg-Petersen
 
 	* configure.ac, debian/changelog: Bump to 3.7.4.

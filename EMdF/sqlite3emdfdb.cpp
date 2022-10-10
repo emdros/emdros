@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 2/6-2019
+ * Last update: 10/10-2022
  *
  */
 
@@ -523,7 +523,8 @@ bool SQLite3EMdFDB::createDatabase(const std::string& db_name, eCharsets charset
 
 
 // See p. 515 in Stroustrup, "TC++PL", 3rd edition.
-class SQLite3_Feature_info_nocase_equals_or_is_computed_predicate : public std::unary_function<FeatureInfo, bool> {
+class SQLite3_Feature_info_nocase_equals_or_is_computed_predicate
+{
 private:
 	std::string m_other;
 public:
