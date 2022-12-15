@@ -349,7 +349,7 @@ into the debian/rules file, meaning they will also be effective after
 you run make dist.  For example, you could do the following instead of
 merely configure:
 
-./configure  --with-swig-language-nodejs=no --with-swig-language-java=no  --with-swig-language-python2=yes  --with-swig-language-python3=yes --with-swig-language-php7=no --with-swig-language-php8=no --with-swig-language-php=no --with-wx=maybe  --with-sqlite3=yes  --with-mysql=no  --with-bpt=maybe  --enable-shared=yes  --disable-debug  
+./configure  --with-swig-language-nodejs=no --with-swig-language-java=no  --with-swig-language-python2=yes  --with-swig-language-python3=yes --with-swig-language-php7=no --with-swig-language-php8=no --with-wx=maybe  --with-sqlite3=yes  --with-mysql=no  --with-bpt=maybe  --enable-shared=yes  --disable-debug  
 
 Then these options will be carried over into debian/rules, via
 debian/rules.in.
