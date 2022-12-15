@@ -2,7 +2,9 @@
 
 2022-12-15 Ulrik Sandborg-Petersen
 
-	* Remove support for PHP5.
+	* Remove last vestiges of support for PHP5.
+
+	* Add support for PHP8 when SWIG >= 4.1.0 is installed.
 
 2022-10-10 Ulrik Sandborg-Petersen
 

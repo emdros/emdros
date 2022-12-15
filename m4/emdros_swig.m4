@@ -3,9 +3,13 @@ AC_DEFUN([EMDROS_SWIG_SUPPORT], [
 DO_AT_LEAST_ONE_SWIG=no
 
 dnl
-dnl Check for swig version 2.0.12 or higher
+dnl Check swig version. Version 2.0.12 or higher is necessary for use with
+dnl Emdros.
 dnl
-AC_CHECK_PROGS(SWIG_PROGRAM, [swig3.0 swig], [no])
+dnl SWIG 3.0 is required for PHP7 support.
+dnl SWIG 4.1 is required for PHP8 support
+dnl
+AC_CHECK_PROGS(SWIG_PROGRAM, [swig4.1 swig4.0 swig3.0 swig], [no])
 if test "x$SWIG_PROGRAM" == "xno"; then 
    CAN_DO_SWIG="no"
 else
@@ -29,32 +33,35 @@ NR == 1 {
 
   ver_major_minor_string = MAJOR "." MINOR;
   ver_major_minor = 1.0 * ver_major_minor_string;
-   mini = 1 * MINI;
-  if (ver_major_minor > 3.0) {
-    print "yes php7"; 
+  mini = 1 * MINI;
+  if (ver_major_minor >= 4.1) {
+    print "swigok php7 php8"; 
+  } else if (ver_major_minor > 3.0) {
+    print "swigok php7 nophp8"; 
   } else if (ver_major_minor == 3.0) {
     if (mini >= 11) { 
-      print "yes php7";
+      print "swigok php7 nophp8";
     } else {
-      print "yes nophp7";
+      print "swigok nophp7 nophp8";
     }
   } else if (ver_major_minor == 2.0) {
     if (mini >= 12) {
-      print "yes nophp7";
+      print "swigok nophp7 nophp8";
     } else {
-      print "no nophp7";
+      print "swignotok nophp7 nophp8";
     }
   } else {
-    print "no nophp7";
+    print "swignotok nophp7 nophp8";
   }
 }
 EOF
    SWIG_VERSION_STRING=`${SWIG_PROGRAM} -version | grep "SWIG Version"`
-   SWIGVERSION_OK_PHP7=`echo ${SWIG_VERSION_STRING} | awk -f ${SWIG_AWK_SCRIPT_FILENAME}`
-   SWIGVERSIONOK=`echo ${SWIGVERSION_OK_PHP7} | awk '{a=1; print $a;}'`
-   SWIGVERSION_PHP7_OK=`echo ${SWIGVERSION_OK_PHP7} | awk '{a=2; print $a;}'`
+   SWIGVERSIONOK_PHP7_PHP8=`echo ${SWIG_VERSION_STRING} | awk -f ${SWIG_AWK_SCRIPT_FILENAME}`
+   SWIGVERSIONOK=`echo ${SWIGVERSIONOK_PHP7_PHP8} | awk '{a=1; print $a;}'`
+   SWIGVERSION_PHP7_OK=`echo ${SWIGVERSIONOK_PHP7_PHP8} | awk '{a=2; print $a;}'`
+   SWIGVERSION_PHP8_OK=`echo ${SWIGVERSIONOK_PHP7_PHP8} | awk '{a=3; print $a;}'`
 
-   if test "x$SWIGVERSIONOK" != "xyes"; then 
+   if test "x$SWIGVERSIONOK" != "xswigok"; then 
      AC_MSG_WARN([swig version 2.0.12 or higher must be present for SWIG to be invoked]);
      CAN_DO_SWIG="no";
    else 
@@ -75,6 +82,20 @@ else
 fi
 AC_MSG_RESULT(${CAN_SWIG_DO_PHP7});
 AC_SUBST(CAN_SWIG_DO_PHP7)
+
+
+
+
+
+dnl Check if SWIG program can do PHP8
+AC_MSG_CHECKING([whether swig program can do PHP8...])
+if test "x$SWIGVERSION_PHP8_OK" = "xphp8"; then
+   CAN_SWIG_DO_PHP8="yes";
+else
+   CAN_SWIG_DO_PHP8="no";
+fi
+AC_MSG_RESULT(${CAN_SWIG_DO_PHP8});
+AC_SUBST(CAN_SWIG_DO_PHP8)
 
 
 
@@ -943,9 +964,137 @@ fi
 
 
 
+dnl SWIG support for php8
+
+AC_ARG_WITH(swig-language-php8,
+[  --with-swig-language-php8  Use swig scripting language wrappers],
+[case "${withval}" in
+       yes) DO_SWIG_PHP8=yes ;;
+       no)  DO_SWIG_PHP8=no ;;
+       maybe) DO_SWIG_PHP8=maybe ;;
+       *)   AC_MSG_ERROR(Bad value ${withval} for --with-swig-language-php8) ;;
+     esac],
+[DO_SWIG_PHP8=maybe],
+)
+ORIGINAL_DO_SWIG_PHP8=$DO_SWIG_PHP8
+
+dnl If SWIG can't do PHP8, don't do them, unless we have the sources already.
+if test x$CAN_SWIG_DO_PHP8 == xno; then
+   if test -f SWIG/php8/php8emdros_wrap.cxx -a -f SWIG/php8/EmdrosPHP8.php; then
+     if test "x$DO_SWIG_PHP8" != "xno"; then
+        DO_SWIG_PHP8=yes;
+     fi
+   else
+     DO_SWIG_PHP8=no;
+   fi
+fi
+
+
+
+AC_MSG_CHECKING([Whether we are to do php8...])
+if test x$enable_shared != xyes; then
+   if test x$DO_SWIG_PHP8 = xyes; then
+      AC_MSG_WARN([
+WARNING: You cannot do SWIG backends (in this case, PHP8)
+if you are not also doing shared libraries. This means
+that you must not use --disable-shared when wishing to
+do a SWIG backend.])
+      DO_SWIG_PHP8=no
+   else
+      AC_MSG_RESULT([no, since we are not doing shared libraries.])
+      DO_SWIG_PHP8=no
+   fi
+else
+   AC_MSG_RESULT([maybe... let's check some more...])
+fi
+
+
+
+
+
+
+if test x$DO_SWIG_PHP8 != xno; then
+  dnl php8 program
+  AC_CHECK_PROGS(PHP8_CONFIG, [php-config8.2 php-config8.1 php-config8.0 php-config8 php-config], [no])
+  AC_SUBST(PHP8_CONFIG)
+  if test x$PHP8_CONFIG = xno; then
+    if test x$DO_SWIG_PHP8 = xyes; then
+      AC_MSG_WARN([
+  Could not find php8-config program in path. Not doing SWIG PHP8 bindings.])
+      DO_SWIG_PHP8=no
+    else
+      AC_MSG_RESULT([Not found. Not doing SWIG PHP8 frontend.])
+      DO_SWIG_PHP8=no
+    fi
+  fi    
+fi
+
+dnl Test for PHP version 8.x.  
+if test x$DO_SWIG_PHP8 != xno; then
+  AC_MSG_CHECKING([PHP8 vernum... ])
+
+  PHP8_VERNUM=`$PHP8_CONFIG --vernum`
+  AC_MSG_RESULT($PHP8_VERNUM)
+
+  AC_MSG_CHECKING([PHP 8 availability... ])
+  PHP8_AVAILABLE=`echo $PHP8_VERNUM | awk '{a=1; VERNUM=$a+0; print VERNUM >= 80000 && VERNUM < 90000;}'`
+
+  if test "x$PHP8_AVAILABLE" = "x0"; then
+     AC_MSG_WARN(["no, PHP8 not available. Can't do SWIG PHP8 bindings."])
+     DO_SWIG_PHP8=no
+  else
+     AC_MSG_RESULT([yes])
+  fi
+fi
+
+if test x$DO_SWIG_PHP8 != xno; then
+  # 
+  # If we came this far, then 'maybe' should be 'yes', unconditionally.
+  #
+  DO_SWIG_PHP8=yes
+
+  dnl PHP8 include-dir
+  PHP8_INCLUDES=`$PHP8_CONFIG --includes`
+  echo "PHP8_INCLUDES = $PHP8_INCLUDES"
+  AC_SUBST(PHP8_INCLUDES)
+
+  dnl PHP8 extension-dir
+  PHP8_EXTENSION_DIR=`$PHP8_CONFIG --extension-dir`
+  echo "PHP8_EXTENSION_DIR = $PHP8_EXTENSION_DIR"
+  AC_SUBST(PHP8_EXTENSION_DIR)
+
+  dnl PHP8 libs
+  PHP8_LIBS=`$PHP8_CONFIG --libs`
+  echo "PHP8_LIBS = $PHP8_LIBS"
+  AC_SUBST(PHP8_LIBS)
+
+  dnl PHP8 extension-dir
+  PHP8_LDFLAGS=`$PHP8_CONFIG --ldflags`
+  echo "PHP8_LDFLAGS = $PHP8_LDFLAGS"
+  AC_SUBST(PHP8_LDFLAGS)
+fi
+
+AC_MSG_CHECKING([Whether to do SWIG PHP8 frontend])
+AC_MSG_RESULT($DO_SWIG_PHP8)
+
+if test x$DO_SWIG_PHP8 = xyes; then
+  DO_AT_LEAST_ONE_SWIG=yes
+fi
+
+
+
+
+
+
+
+
+
+
+
 WITH_SWIG_CSHARP="--with-swig-language-csharp=$ORIGINAL_DO_SWIG_CSHARP"
 WITH_SWIG_JAVA="--with-swig-language-java=$ORIGINAL_DO_SWIG_JAVA"
 WITH_SWIG_PHP7="--with-swig-language-php7=$ORIGINAL_DO_SWIG_PHP7"
+WITH_SWIG_PHP8="--with-swig-language-php7=$ORIGINAL_DO_SWIG_PHP8"
 WITH_SWIG_PYTHON2="--with-swig-language-python2=$ORIGINAL_DO_SWIG_PYTHON2"
 WITH_SWIG_PYTHON3="--with-swig-language-python3=$ORIGINAL_DO_SWIG_PYTHON3"
 
@@ -953,6 +1102,7 @@ AC_SUBST(SWIG_PROGRAM)
 AC_SUBST(WITH_SWIG_CSHARP)
 AC_SUBST(WITH_SWIG_JAVA)
 AC_SUBST(WITH_SWIG_PHP7)
+AC_SUBST(WITH_SWIG_PHP8)
 AC_SUBST(WITH_SWIG_PYTHON2)
 AC_SUBST(WITH_SWIG_PYTHON3)
 
@@ -965,6 +1115,9 @@ AC_SUBST(SWIG_WITH_JAVA_WRAPPERS)
 AM_CONDITIONAL(SWIG_WITH_PHP7_WRAPPERS, test x$DO_SWIG_PHP7 = xyes)
 AC_SUBST(SWIG_WITH_PHP7_WRAPPERS)
 
+AM_CONDITIONAL(SWIG_WITH_PHP8_WRAPPERS, test x$DO_SWIG_PHP8 = xyes)
+AC_SUBST(SWIG_WITH_PHP8_WRAPPERS)
+
 AM_CONDITIONAL(SWIG_WITH_PYTHON2_WRAPPERS, test x$DO_SWIG_PYTHON2 = xyes)
 AC_SUBST(SWIG_WITH_PYTHON2_WRAPPERS)
 
@@ -976,5 +1129,8 @@ AC_SUBST(CAN_DO_SWIG)
 
 AM_CONDITIONAL(CAN_SWIG_DO_PHP7, test x$CAN_SWIG_DO_PHP7 = xyes)
 AC_SUBST(CAN_SWIG_DO_PHP7)
+
+AM_CONDITIONAL(CAN_SWIG_DO_PHP8, test x$CAN_SWIG_DO_PHP8 = xyes)
+AC_SUBST(CAN_SWIG_DO_PHP8)
 
 ])

@@ -65,6 +65,9 @@ fi
 if test "x$DO_SWIG_PHP7" = "xyes"; then
   echo "SWIG Backend:         php7"
 fi
+if test "x$DO_SWIG_PHP8" = "xyes"; then
+  echo "SWIG Backend:         php8"
+fi
 if test "x$DO_SWIG_PYTHON2" = "xyes"; then
   echo "SWIG Backend:         python2"
 fi
