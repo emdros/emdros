@@ -143,6 +143,7 @@ Python2: sudo apt install python-dev
 Python3: sudo apt install python3-dev
 Mono/C#: sudo apt install mono-devel mono-mcs mono-tools-devel
 PHP7:    sudo apt install php-dev
+PHP8:    sudo apt install php-dev
 
 To bring all language bindings in:
 sudo apt install openjdk-8-jdk python-dev python3-dev mono-devel mono-mcs mono-tools-devel php-dev 
@@ -175,8 +176,11 @@ See above, under "Building a .deb from an Emdros tarball", for
 information about which packages can also be installed for more
 functionality.
 
-SWIG version 3.0.11 or higher is required if you need support for PHP
-7, after a "make distclean", or a fresh git clone.
+SWIG version 3.0.11 or higher is required if you need support for
+PHP7, after a "make distclean", or a fresh git clone.
+
+SWIG version 4.1.0 or higher is required if you need support for PHP8,
+after a "make distclean", or a fresh git clone.
 
 
 
@@ -345,7 +349,7 @@ into the debian/rules file, meaning they will also be effective after
 you run make dist.  For example, you could do the following instead of
 merely configure:
 
-./configure  --with-swig-language-nodejs=no --with-swig-language-java=no  --with-swig-language-python2=yes  --with-swig-language-python3=yes --with-swig-language-php7=no --with-swig-language-php=no --with-wx=maybe  --with-sqlite3=yes  --with-mysql=no  --with-bpt=maybe  --enable-shared=yes  --disable-debug  
+./configure  --with-swig-language-nodejs=no --with-swig-language-java=no  --with-swig-language-python2=yes  --with-swig-language-python3=yes --with-swig-language-php7=no --with-swig-language-php8=no --with-swig-language-php=no --with-wx=maybe  --with-sqlite3=yes  --with-mysql=no  --with-bpt=maybe  --enable-shared=yes  --disable-debug  
 
 Then these options will be carried over into debian/rules, via
 debian/rules.in.
@@ -396,6 +400,7 @@ In particular, the configure-script looks for the following:
 - Python 2(for SWIG)
 - Python 3 (for SWIG)
 - PHP 7 (for SWIG)
+- PHP 8 (for SWIG)
 
 These are controlled from the configure command line with
 switches starting with --with.  For example:
@@ -428,6 +433,7 @@ The switches are as follows:
 - Python 2 (for SWIG) --with-swig-language-python=[yes|no|maybe]
 - Python 3 (for SWIG) --with-swig-language-python3=[yes|no|maybe]
 - PHP7 (for SWIG)     --with-swig-language-php7=[yes|no|maybe]
+- PHP8 (for SWIG)     --with-swig-language-php8=[yes|no|maybe]
 
 
 --with-sqlite3
@@ -537,6 +543,7 @@ The most important ones are:
 - --with-swig-language-python=[yes|no|maybe]
 - --with-swig-language-python3=[yes|no|maybe]
 - --with-swig-language-php7=[yes|no|maybe]
+- --with-swig-language-php8=[yes|no|maybe]
 - --with-default-backend=[sqlite|sqlite3|mysql|postgresql]
 
 For descriptions of these and other options, you can run the following
