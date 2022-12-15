@@ -1,11 +1,11 @@
-README for Emdros SWIG-PHP7
+README for Emdros SWIG-PHP8
 Created: 8/17-2013
-Last update: 1/25-2017
+Last update: 12/15-2022
 
 Introduction
 ============
 
-This document explains how to use the SWIG PHP7 bindings for Emdros.
+This document explains how to use the SWIG PHP8 bindings for Emdros.
 
 This document is still sketchy.
 
@@ -16,19 +16,19 @@ How to use
 1) Set up php.ini to have the following line (modify the path as
 appropriate):
 
-extension=/usr/lib/emdros/EmdrosPHP7.so
+extension=/usr/lib/emdros/EmdrosPHP8.so
 
-You can also do this by copying the file "EmdrosPHP7.ini" into your
-/etc/php.d/ directory.  The EmdrosPHP7.ini file will have been
+You can also do this by copying the file "EmdrosPHP8.ini" into your
+/etc/php.d/ directory.  The EmdrosPHP8.ini file will have been
 installed in /usr/share/doc/emdros/, or similar path.
 
 2) In your PHP script, add the following line (again, adjust the path
 as appropriate):
 
-require('/usr/lib/emdros/EmdrosPHP7.php');
+require('/usr/lib/emdros/EmdrosPHP8.php');
 
 3) Write your PHP code to use Emdros. There is an example in
- /usr/share/doc/emdros/test.php.
+ /usr/share/doc/emdros/test8.php.
 
 
 Things to be aware of
@@ -69,6 +69,7 @@ Communication welcome
 
 Please write to me if you have any further insights, or if something
 doesn't work.
+
 
 Ulrik Sandborg-Petersen
 
