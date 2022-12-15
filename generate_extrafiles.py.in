@@ -30,6 +30,9 @@ extrafiles_emdros_list = [
     @SWIG_WITH_PHP7_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP7.php", # MAIN
     @SWIG_WITH_PHP7_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP7.ini", # MAIN
     @SWIG_WITH_PHP7_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP7.so.*", # MAIN
+    @SWIG_WITH_PHP8_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP8.php", # MAIN
+    @SWIG_WITH_PHP8_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP8.ini", # MAIN
+    @SWIG_WITH_PHP8_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP8.so.*", # MAIN
     @SWIG_WITH_JAVA_WRAPPERS_TRUE@"%{prefix}/lib/emdros/jemdros.jar", # MAIN
     @SWIG_WITH_JAVA_WRAPPERS_TRUE@"%{prefix}/lib/emdros/libjemdros.so.*", # MAIN
     @SWIG_WITH_CSHARP_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosDotNet.dll", #MAIN
@@ -64,6 +67,8 @@ extrafiles_emdros_devel_list = [
     @SWIG_WITH_PYTHON3_WRAPPERS_TRUE@"%{prefix}/lib/emdros/_EmdrosPy3.so",
     @SWIG_WITH_PHP7_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP7.la",
     @SWIG_WITH_PHP7_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP7.so",
+    @SWIG_WITH_PHP8_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP8.la",
+    @SWIG_WITH_PHP8_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP8.so",
     @SWIG_WITH_JAVA_WRAPPERS_TRUE@"%{prefix}/lib/emdros/libjemdros.la",
     @SWIG_WITH_JAVA_WRAPPERS_TRUE@"%{prefix}/lib/emdros/libjemdros.so",
     @SWIG_WITH_CSHARP_WRAPPERS_TRUE@"%{prefix}/lib/emdros/libcsemdros.la",
