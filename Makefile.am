@@ -150,6 +150,9 @@ endif
 if SWIG_WITH_PHP7_WRAPPERS
 	mkdir -p $(MACDISTDIR)/development/SWIG/php7
 endif
+if SWIG_WITH_PHP8_WRAPPERS
+	mkdir -p $(MACDISTDIR)/development/SWIG/php8
+endif
 	mkdir -p $(MACDISTDIR)/development/sourcecode
 if WX_DO_UNICODE
 	cp -Rp src/qrytool/EmdrosQueryTool.app $(MACDISTDIR)/
