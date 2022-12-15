@@ -1,5 +1,9 @@
 ============ 3.7.4 ============
 
+2022-12-15 Ulrik Sandborg-Petersen
+
+	* Remove support for PHP5.
+
 2022-10-10 Ulrik Sandborg-Petersen
 
 	* Fixups for C++20. Don't put the <V> template name after the
