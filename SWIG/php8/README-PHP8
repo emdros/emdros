@@ -1,0 +1,75 @@
+README for Emdros SWIG-PHP7
+Created: 8/17-2013
+Last update: 1/25-2017
+
+Introduction
+============
+
+This document explains how to use the SWIG PHP7 bindings for Emdros.
+
+This document is still sketchy.
+
+
+How to use
+==========
+
+1) Set up php.ini to have the following line (modify the path as
+appropriate):
+
+extension=/usr/lib/emdros/EmdrosPHP7.so
+
+You can also do this by copying the file "EmdrosPHP7.ini" into your
+/etc/php.d/ directory.  The EmdrosPHP7.ini file will have been
+installed in /usr/share/doc/emdros/, or similar path.
+
+2) In your PHP script, add the following line (again, adjust the path
+as appropriate):
+
+require('/usr/lib/emdros/EmdrosPHP7.php');
+
+3) Write your PHP code to use Emdros. There is an example in
+ /usr/share/doc/emdros/test.php.
+
+
+Things to be aware of
+=====================
+
+1) bool& and long& parameters
+-----------------------------
+
+With reference to the Emdros C++ API:
+
+- Whenever a C++ method or function has a parameter which is bool& or
+  a long&, that parameter gets returned from the method or function in
+  a PHP array, along with any return value.  For example, the
+  "EmdrosEnv::executeString()" method has a signature as follows:
+
+  bool executeString(const std::string& input, bool& bResult, 
+                      bool bPrintResult, bool bReportError);
+
+  This means that you should call it like this:
+
+  $bPrintResult = true; // Or false... depending on what you want
+  $bReportError = true; // Or false... depending on what you want
+  $arrResult = $env->executeString($query, $bPrintResult, $bReportError);
+  $bDBOK = $arrResult[0];
+  // Note how the bResult is passed in the return value
+  $bResult = $arrResult[1];  // == bCompilerOK
+
+
+2) methods called 'empty'
+-------------------------
+
+Since 'empty' is a PHP keyword, methods which are called 'empty' have
+been renamed to 'c_empty'.
+
+
+Communication welcome
+---------------------
+
+Please write to me if you have any further insights, or if something
+doesn't work.
+
+Ulrik Sandborg-Petersen
+
+
