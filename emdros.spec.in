@@ -44,7 +44,7 @@ query/create/update/delete operations.
 CFLAGS="$RPM_OPT_FLAGS $CFLAGS"
 CXXFLAGS="$RPM_OPT_FLAGS $CXXFLAGS"
 export CFLAGS CXXFLAGS
-./configure  @WITH_SWIG_CSHARP@  @WITH_SWIG_JAVA@  @WITH_SWIG_PHP7@  @WITH_SWIG_PYTHON2@  @WITH_SWIG_PYTHON3@ --disable-static --disable-dependency-tracking --enable-debug  @WITH_WXWIDGETS@  @WITH_SQLITE3@  @WITH_POSTGRESQL@  @WITH_MYSQL@   @WITH_BPT@   --prefix=%{prefix}
+./configure  @WITH_SWIG_CSHARP@  @WITH_SWIG_JAVA@  @WITH_SWIG_PHP7@  @WITH_SWIG_PHP8@  @WITH_SWIG_PYTHON2@  @WITH_SWIG_PYTHON3@ --disable-static --disable-dependency-tracking --enable-debug  @WITH_WXWIDGETS@  @WITH_SQLITE3@  @WITH_POSTGRESQL@  @WITH_MYSQL@   @WITH_BPT@   --prefix=%{prefix}
 %make_build
 
 
@@ -162,6 +162,8 @@ This package contains development files.
 %doc SWIG/python3/test3.py
 %doc SWIG/php7/README-PHP7
 %doc SWIG/php7/test7.php
+%doc SWIG/php8/README-PHP8
+%doc SWIG/php8/test8.php
 %doc %{_mandir}/man1/*.1*
 %doc %{_mandir}/man5/*.5*
 %doc README NEWS ChangeLog COPYING AUTHORS INSTALL
