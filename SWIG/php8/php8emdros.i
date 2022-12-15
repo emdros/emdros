@@ -1,7 +1,7 @@
 /*
  * phpemdros.i: PHP bindings for Emdros using SWIG
  * Created: 2/8-2003 (February 8, 2003)
- * Last update: 1/24-2017
+ * Last update: 12/15-2022
  *
  */
 
@@ -17,7 +17,21 @@
 
 
 
-%module(directors="1") EmdrosPHP7
+%module(directors="1") EmdrosPHP8
+
+/* As of SWIG 4.1.0 and PHP8, the documentation says:
+
+   "If you're writing a new set of bindings and only targeting PHP8
+   or newer then enabling type declarations everywhere probably makes
+   sense. It will only actually make a difference if you enable
+   directors and are wrapping C++ classes with virtual methods, but
+   doing it anyway means you won't forget to if the code you are
+   wrapping later evolves to have such classes and methods."
+
+   So, turn them on here, since this directory is not for PHP < 8."
+
+ */
+%feature("php:type", "1");  
 
 %feature("director") MQLResultCallback;
 
