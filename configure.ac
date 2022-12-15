@@ -98,6 +98,7 @@ AC_CONFIG_FILES([Makefile
                  SWIG/csharp/Makefile
                  SWIG/java/Makefile
                  SWIG/php7/Makefile
+                 SWIG/php8/Makefile
                  SWIG/python/Makefile
                  SWIG/python3/Makefile
 		 wx/Makefile
