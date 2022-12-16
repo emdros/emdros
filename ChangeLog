@@ -13,6 +13,14 @@
 	* m4/emdros_swig.m4: When looking for the PHP7 version of
 	php-config, also look for php-config7.4 anmd php-config7.3.
 
+	* .gitignore: Add the SWIG-generated PHP8 files:
+
+	+SWIG/php8/EmdrosPHP8.ini
+	+SWIG/php8/php8emdros_wrap.cxx
+	+SWIG/php8/php8emdros_wrap.h
+	+SWIG/php8/php_EmdrosPHP8.h
+
+
 2022-12-15 Ulrik Sandborg-Petersen
 
 	* Remove last vestiges of support for PHP5.

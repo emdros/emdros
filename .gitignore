@@ -69,6 +69,10 @@ SWIG/php7/EmdrosPHP7.php
 SWIG/php7/php7emdros_wrap.cxx
 SWIG/php7/php7emdros_wrap.h
 SWIG/php7/php_EmdrosPHP7.h
+SWIG/php8/EmdrosPHP8.ini
+SWIG/php8/php8emdros_wrap.cxx
+SWIG/php8/php8emdros_wrap.h
+SWIG/php8/php_EmdrosPHP8.h
 SWIG/python/EmdrosPy.py
 SWIG/python/pyemdros_wrap.cxx
 SWIG/python3/EmdrosPy3.py
