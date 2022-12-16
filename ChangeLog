@@ -8,6 +8,8 @@
 	* m4/emdros_buildenv.m4: Remove obsolete AC_HEADER_STDC. It does
 	nothing, and just triggers a warning on autoconf 2.71 and later.
 
+	* m4/emdros_swig.m4: Further fixes for SWIG and PHP7 / PHP8.
+
 2022-12-15 Ulrik Sandborg-Petersen
 
 	* Remove last vestiges of support for PHP5.
