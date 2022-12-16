@@ -87,7 +87,7 @@ fi
 
 dnl Checks for header files.
 AC_LANG([C])
-AC_HEADER_STDC
+
 AC_CHECK_HEADERS(limits.h malloc.h stddef.h stdlib.h string.h unistd.h)
 
 

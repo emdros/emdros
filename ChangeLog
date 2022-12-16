@@ -2,7 +2,11 @@
 
 2022-12-16 Ulrik Sandborg-Petersen
 
-	* Update autoconf prerequisite to be 2.71, by running autoupdate.
+	* configure.ac: Update autoconf prerequisite to be 2.71, by
+	running autoupdate.
+
+	* m4/emdros_buildenv.m4: Remove obsolete AC_HEADER_STDC. It does
+	nothing, and just triggers a warning on autoconf 2.71 and later.
 
 2022-12-15 Ulrik Sandborg-Petersen
 
