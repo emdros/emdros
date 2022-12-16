@@ -128,7 +128,7 @@ AC_MSG_CHECKING([if python interpreter available...])
 if test "x½PYTHON_INTERPRETER" = "xno"; then
    AC_MSG_RESULT([not found.]);
 else
-   AC_MSG_RESEULT([${PYTHON_PROGRAM}])
+   AC_MSG_RESULT([${PYTHON_PROGRAM}])
 fi
 
 
