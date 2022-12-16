@@ -1,5 +1,9 @@
 ============ 3.7.4 ============
 
+2022-12-16 Ulrik Sandborg-Petersen
+
+	* Update autoconf prerequisite to be 2.71, by running autoupdate.
+
 2022-12-15 Ulrik Sandborg-Petersen
 
 	* Remove last vestiges of support for PHP5.
