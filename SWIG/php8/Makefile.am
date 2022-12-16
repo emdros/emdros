@@ -3,8 +3,8 @@ SWIG_PROGRAM = @SWIG_PROGRAM@
 SWIG_PHP8_SRC = \
       php8emdros_wrap.cxx \
       php8emdros_wrap.h \
-      php_EmdrosPHP8.h \
-      EmdrosPHP8.php
+      php_EmdrosPHP8.h 
+
 
 
 
@@ -16,8 +16,6 @@ AM_CPPFLAGS = -I. -I$(top_srcdir) @PHP8_INCLUDES@
 # invoke PHP7 or PHP8 support. Could also use -php.
 php8emdros_wrap.cxx: php8emdros.i libemdfphp.i libmqlphp.i 
 	$(SWIG_PROGRAM) -c++ -php7 php8emdros.i
-
-EmdrosPHP8.php: php8emdros_wrap.cxx
 
 php_EmdrosPHP8.h: php8emdros_wrap.cxx
 
@@ -51,16 +49,15 @@ EmdrosPHP8_la_DEPENDENCIES = @EMDROS_DEPS_BACKBACK@
 
 
 install-exec-hook:
-	cp EmdrosPHP8.php EmdrosPHP8.ini $(DESTDIR)$(pkglibdir)
+	cp EmdrosPHP8.ini $(DESTDIR)$(pkglibdir)
 	rm -f $(DESTDIR)$(pkglibdir)/EmdrosPHP8.a
 
 uninstall-hook:
-	rm -f $(DESTDIR)$(pkglibdir)/EmdrosPHP8.php 
 	rm -f $(DESTDIR)$(pkglibdir)/EmdrosPHP8.so* 
 
 
 macdist:
-	cp -fL README-PHP8 EmdrosPHP8.php .libs/EmdrosPHP8.so $(MACDISTDIR)/development/SWIG/php8/
+	cp -fL README-PHP8 .libs/EmdrosPHP8.so $(MACDISTDIR)/development/SWIG/php8/
 
 
 else
@@ -91,5 +88,5 @@ CLEANFILES = *~ core config.log
 
 DISTCLEANFILES = $(SWIG_PHP8_SRC) \
                  php8emdros_wrap.cxx php8emdros_wrap.h \
-                 php_EmdrosPHP8.h EmdrosPHP8.php EmdrosPHP8.ini 
+                 php_EmdrosPHP8.h EmdrosPHP8.ini 
 

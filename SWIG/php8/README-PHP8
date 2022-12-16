@@ -1,6 +1,6 @@
 README for Emdros SWIG-PHP8
 Created: 8/17-2013
-Last update: 12/15-2022
+Last update: 12/16-2022
 
 Introduction
 ============
@@ -22,12 +22,7 @@ You can also do this by copying the file "EmdrosPHP8.ini" into your
 /etc/php.d/ directory.  The EmdrosPHP8.ini file will have been
 installed in /usr/share/doc/emdros/, or similar path.
 
-2) In your PHP script, add the following line (again, adjust the path
-as appropriate):
-
-require('/usr/lib/emdros/EmdrosPHP8.php');
-
-3) Write your PHP code to use Emdros. There is an example in
+2) Write your PHP code to use Emdros. There is an example in
  /usr/share/doc/emdros/test8.php.
 
 

@@ -23,6 +23,19 @@
 	* SWIG/php7/php7emdros.i: Force the creation of
 	SWIG/php7/EmdrosPHP7.php, even on SWIG >= 4.1.0.
 
+	* SWIG/php8/: Don't create or try to distribute EmdrosPHP8.php.
+
+	As of SWIG 4.1.0, this is no longer created, since its purpose
+	were taken over by other ways of doing the same thing. We could
+	have forced its creation, even on SWIG >= 4.1.0, by using
+	%pragma(php) code="...", but this would just have inserted that
+	code into EmdrosPHP8.php, and the file would otherwise be
+	semantically empty.
+
+	modified:   SWIG/php8/Makefile.am
+	modified:   SWIG/php8/README-PHP8
+	modified:   SWIG/php8/php8emdros.i
+
 
 2022-12-15 Ulrik Sandborg-Petersen
 
