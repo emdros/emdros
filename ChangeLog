@@ -10,6 +10,9 @@
 
 	* m4/emdros_swig.m4: Further fixes for SWIG and PHP7 / PHP8.
 
+	* m4/emdros_swig.m4: When looking for the PHP7 version of
+	php-config, also look for php-config7.4 anmd php-config7.3.
+
 2022-12-15 Ulrik Sandborg-Petersen
 
 	* Remove last vestiges of support for PHP5.

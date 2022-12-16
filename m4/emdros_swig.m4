@@ -891,7 +891,7 @@ fi
 
 if test x$DO_SWIG_PHP7 != xno; then
   dnl php7 program
-  AC_CHECK_PROGS(PHP7_CONFIG, [php-config7.2 php-config7.1 php-config7.0 php-config], [no])
+  AC_CHECK_PROGS(PHP7_CONFIG, [php-config7.4 php-config7.3 php-config7.2 php-config7.1 php-config7.0 php-config], [no])
   AC_SUBST(PHP7_CONFIG)
   if test x$PHP7_CONFIG = xno; then
     if test x$DO_SWIG_PHP7 = xyes; then
