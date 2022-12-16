@@ -36,6 +36,14 @@
 	modified:   SWIG/php8/README-PHP8
 	modified:   SWIG/php8/php8emdros.i
 
+	* SWIG/Makefile.am: Add target 'gen_files', which recurses into
+	the directories 'csharp' and 'java', running the 'gen_files'
+	target in each of these.
+
+	This makes it easier to maintain Emdros, by allowing the developer
+	to ensure that gen_files is run on all of the directories which
+	need this.
+
 
 2022-12-15 Ulrik Sandborg-Petersen
 
