@@ -1,7 +1,7 @@
 /*
  * phpemdros.i: PHP bindings for Emdros using SWIG
  * Created: 2/8-2003 (February 8, 2003)
- * Last update: 1/24-2017
+ * Last update: 12/16-2022.
  *
  */
 
@@ -20,6 +20,29 @@
 %module(directors="1") EmdrosPHP7
 
 %feature("director") MQLResultCallback;
+
+%pragma(php) code="
+ /* From the SWIG 4.1 docs:
+    
+    If the interface file uses %pragma(php) include=... or
+    %pragma(php) code=... then SWIG will also generate a third file,
+    example.php to contain what these specify. In SWIG < 4.1.0, this
+    third file was always generated as it defined the PHP classes, etc
+    (but this is now done via C code in example_wrap.c) and also
+    contained code to dynamically load the extension (but this used
+    the PHP dl() function, which isn't recommended nowadays).
+
+ */
+
+ /*
+     But, since we might be using an earlier version of SWIG, which
+     does generate EmdrosPHP7.php, we might as well force this, even
+     if we are using SWIG >= 4.1.0.  This makes it easier to maintain
+     the Makefile.am infrastructure.
+     
+ */
+"
+
 
 
 

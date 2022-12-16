@@ -20,6 +20,9 @@
 	+SWIG/php8/php8emdros_wrap.h
 	+SWIG/php8/php_EmdrosPHP8.h
 
+	* SWIG/php7/php7emdros.i: Force the creation of
+	SWIG/php7/EmdrosPHP7.php, even on SWIG >= 4.1.0.
+
 
 2022-12-15 Ulrik Sandborg-Petersen
 
