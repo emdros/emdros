@@ -44,6 +44,14 @@
 	to ensure that gen_files is run on all of the directories which
 	need this.
 
+	* .gitignore: Ignore these:
+
+	SWIG/csharp/ll.txt
+	SWIG/java/ll.txt
+
+	They are a by-product of running gen_files in each of these
+	directories.
+
 
 2022-12-15 Ulrik Sandborg-Petersen
 
