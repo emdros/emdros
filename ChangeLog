@@ -69,6 +69,9 @@
 	modified:   tests/Makefile.am
 	modified:   tests/asv/Makefile.am
 
+	* ./build-deb.sh: Find the EMDROS_VERSION from configure.ac again,
+	after the change to AC_INIT made by running autoupdate earlier
+	today.
 
 2022-12-15 Ulrik Sandborg-Petersen
 

@@ -7,7 +7,7 @@
 #
 
 # Find the Emdros version from configure.ac
-EMDROS_VERSION=`grep "AC_INIT" configure.ac | awk '{print \$2}' | sed -e 's_\\[__g;s_\\]__g;s_,__g'`
+EMDROS_VERSION=`grep "AC_INIT" configure.ac | awk -F ',' '{print \$2}' | sed -e 's_\\[__g;s_\\]__g;s_,__g'`
 echo "EMDROS_VERSION = ${EMDROS_VERSION}"
 
 # Do we have a tarball in the current directory?
