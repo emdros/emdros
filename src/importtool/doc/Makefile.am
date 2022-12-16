@@ -24,7 +24,7 @@ $(DOCUMENT_NAME).htb: 1001.htm
           $(srcdir)/config.py $(srcdir)/buildhtb.py \
           Content.txt files.txt \
           $(PNGFILES_ALL)
-	  cd $(srcdir); python $(srcdir)/buildhtb.py --htb
+	  cd $(srcdir); $(PYTHON_PROGRAM) $(srcdir)/buildhtb.py --htb
 
 $(DOCUMENT_NAME).hhc: 1001.htm
 
@@ -34,7 +34,7 @@ $(DOCUMENT_NAME).tex: \
           $(srcdir)/config.py $(srcdir)/buildhtb.py \
           Content.txt files.txt \
           $(PNGFILES_ALL)
-	cd $(srcdir) ; python $(srcdir)/buildhtb.py --latex
+	cd $(srcdir) ; $(PYTHON_PROGRAM) $(srcdir)/buildhtb.py --latex
 
 
 $(DOCUMENT_NAME).pdf: $(DOCUMENT_NAME).tex

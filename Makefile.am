@@ -67,7 +67,7 @@ include include/Makefile.inc
 
 
 extrafiles-emdros.txt: generate_extrafiles.py
-	python generate_extrafiles.py
+	$(PYTHON_PROGRAM) generate_extrafiles.py
 
 
 

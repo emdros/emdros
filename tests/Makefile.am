@@ -159,12 +159,12 @@ BUILT_SOURCES = mqlqa.h bptqa.h \
 
 mqlqa.h: mqlqa.h.in qa2h.py
 	rm -f $@
-	python qa2h.py mqlqa.h.in $@
+	$(PYTHON_PROGRAM) qa2h.py mqlqa.h.in $@
 
 
 bptqa.h: bptqa.h.in bptqa2h.py
 	rm -f $@
-	python bptqa2h.py bptqa.h.in $@
+	$(PYTHON_PROGRAM) bptqa2h.py bptqa.h.in $@
 
 
 

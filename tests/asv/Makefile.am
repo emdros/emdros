@@ -44,7 +44,7 @@ test:
 	$(MAKE) diff.txt
 
 asv.mql: asv.Gen1-3.osis.xml osis2mql.py
-	python osis2mql.py --OT asv.Gen1-3.osis.xml $@
+	$(PYTHON_PROGRAM) osis2mql.py --OT asv.Gen1-3.osis.xml $@
 
 
 

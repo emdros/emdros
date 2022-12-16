@@ -52,6 +52,23 @@
 	They are a by-product of running gen_files in each of these
 	directories.
 
+	* m4/emdros_buildenv.m4: Try to find name of Python interpreter
+	installed. Save it in the AC_SUBST variable PYTHON_PROGRAM.
+
+	Rationale: On Ubuntu 22.04 LTS (and presumably others), there is
+	sometimes no "python" program available, only "python3". Hence,
+	set the name of the python interpreter, and use this instead of
+	running "python ..." where necessary.
+
+	* Run $(PYTHON_PROGRAM) rather than invoking "python".
+
+	modified:   Makefile.am
+	modified:   doc/progref/Makefile.am
+	modified:   src/importtool/doc/Makefile.am
+	modified:   src/qrytool/doc/Makefile.am
+	modified:   tests/Makefile.am
+	modified:   tests/asv/Makefile.am
+
 
 2022-12-15 Ulrik Sandborg-Petersen
 

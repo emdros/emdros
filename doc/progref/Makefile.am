@@ -55,7 +55,7 @@ EmdrosProgRefGuide.htb: 1001.htm
 
 1001.htm: config.py EmdrosProgRefGuide.hhp buildhtb.py \
           Content.txt files.txt
-	cd $(srcdir); python $(srcdir)/buildhtb.py --htb
+	cd $(srcdir); $(PYTHON_PROGRAM) $(srcdir)/buildhtb.py --htb
 
 EmdrosProgRefGuide.hhc: 1001.htm
 
@@ -63,7 +63,7 @@ EmdrosProgRefGuide.hhk: 1001.htm
 
 EmdrosProgRefGuide.tex: config.py buildhtb.py \
                         Content.txt files.txt 
-	cd $(srcdir); python $(srcdir)/buildhtb.py --latex
+	cd $(srcdir); $(PYTHON_PROGRAM) $(srcdir)/buildhtb.py --latex
 
 EmdrosProgRefGuide.pdf: EmdrosProgRefGuide.tex
 	$(PROG_PDFLATEX) EmdrosProgRefGuide.tex > pdflatex-log.txt 2>&1
@@ -101,7 +101,7 @@ config.py: config.py.in
 
 1001.html: config.py buildhtb.py \
           Content.txt files.txt
-	cd $(srcdir); python $(srcdir)/buildhtb.py --web
+	cd $(srcdir); $(PYTHON_PROGRAM) $(srcdir)/buildhtb.py --web
 	cp 1001.html index.html
 
 index.html: 1001.html
