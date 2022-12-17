@@ -89,6 +89,10 @@
 	SWIG/php8/EmdrosPHP8.ini
 	SWIG/php8/test8.php
 
+	* generate_extrafiles.py.in: Don't include
+	%{prefix}/lib/emdros/EmdrosPHP8.php, since we no longer generate
+	it.
+
 
 2022-12-15 Ulrik Sandborg-Petersen
 
