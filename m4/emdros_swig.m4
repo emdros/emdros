@@ -980,13 +980,15 @@ ORIGINAL_DO_SWIG_PHP8=$DO_SWIG_PHP8
 
 dnl If SWIG can't do PHP8, don't do them, unless we have the sources already.
 if test x$CAN_SWIG_DO_PHP8 == xno; then
-   if test -f SWIG/php8/php8emdros_wrap.cxx -a -f SWIG/php8/EmdrosPHP8.php; then
+   AC_MSG_CHECKING([... well, the installed version of SWIG can't do PHP8. Let's see if we have the sources necessary available already...])
+   if test -f SWIG/php8/php8emdros_wrap.cxx; then
      if test "x$DO_SWIG_PHP8" != "xno"; then
         DO_SWIG_PHP8=yes;
      fi
    else
      DO_SWIG_PHP8=no;
    fi
+   AC_MSG_RESULT([${DO_SWIG_PHP8}])
 fi
 
 
@@ -1014,7 +1016,8 @@ fi
 
 
 if test x$DO_SWIG_PHP8 != xno; then
-  dnl php8 program
+  dnl php8 php-config program
+  AC_MSG_CHECKING([for PHP8 php-config program...])
   AC_CHECK_PROGS(PHP8_CONFIG, [php-config8.2 php-config8.1 php-config8.0 php-config8 php-config], [no])
   AC_SUBST(PHP8_CONFIG)
   if test x$PHP8_CONFIG = xno; then

@@ -73,6 +73,9 @@
 	after the change to AC_INIT made by running autoupdate earlier
 	today.
 
+	* m4/emdros_swig.m4: If SWIG is unable to create the PHP8
+	extension, check to see if we have the PHP8 sources.
+
 2022-12-15 Ulrik Sandborg-Petersen
 
 	* Remove last vestiges of support for PHP5.
