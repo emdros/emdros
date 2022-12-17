@@ -40,9 +40,9 @@ case "$1" in
    fi
 fi
 
-@SWIG_WITH_PHP7_WRAPPERS_TRUE@ln -s -f @prefix@/lib/emdros/EmdrosPHP7.ini @PHP7_INI_DIR@/99-EmdrosPHP7.ini
+@SWIG_WITH_PHP7_WRAPPERS_TRUE@ln -s -f @libdir@/EmdrosPHP7.ini @PHP7_INI_PATH@/../mods-available/EmdrosPHP7.ini
 
-@SWIG_WITH_PHP8_WRAPPERS_TRUE@ln -s -f @prefix@/lib/emdros/EmdrosPHP8.ini @PHP8_INI_DIR@/99-EmdrosPHP8.ini
+@SWIG_WITH_PHP8_WRAPPERS_TRUE@ln -s -f @libdir@/EmdrosPHP8.ini @PHP8_INI_PATH@/../mods-available/EmdrosPHP8.ini
 
     ;;
 

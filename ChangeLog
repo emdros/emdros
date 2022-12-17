@@ -147,6 +147,12 @@
 	* m4/emdros_swig.m4: Add addition of PHP7_INI_PATH and
 	PHP8_INI_PATH.
 
+	* On Debian, install the EmdrosPHP{7,8}.ini file in
+	@PHP{7,8}_INI_PATH@/../mods-available/.
+
+	Hopefully this will work on all Debian-based distros, so you can
+	use phpenmod.
+
 2022-12-15 Ulrik Sandborg-Petersen
 
 	* Remove last vestiges of support for PHP5.
