@@ -103,6 +103,11 @@
 	* generate_extrafiles.py.in: Add EmdrosPHP7.php, EmdrosPHP7.ini,
 	and EmdrosPHP8.ini to the extrafiles_emdros_devel_list array.
 
+	* On Fedora 36, rpmbuild has a new policy that automatically
+	removes *.la files.  This policy is called
+	"%__brp_remove_la_files", and is invoked by default.
+
+	Therefore, do not attempt to install *.la files.
 
 2022-12-15 Ulrik Sandborg-Petersen
 

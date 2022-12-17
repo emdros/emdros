@@ -142,7 +142,6 @@ This package contains development files.
 
 %files devel -f %{_builddir}/emdros-%{ver}/extrafiles-emdros-devel.txt
 %{prefix}/lib/*.so
-%{prefix}/lib/*.la
 %{_datadir}/pkgconfig/emdros.pc
 %{_includedir}/emdros/
 
@@ -171,9 +170,13 @@ This package contains development files.
 
 
 
+
 #%defattr(-,root,root)
 
 %changelog
+
+* Fri Dec 16 2022 Ulrik Sandborg-Petersen <ulrikp@emdros.org>
+  Do not attempt to install *.la files.
 
 * Fri Feb 15 2019 Ulrik Sandborg-Petersen <ulrikp@emdros.org>
   Remove @WITH_BPT2@.  
