@@ -114,7 +114,10 @@
 	devel package.
 
 	* SWIG/php8/Makefile.am: In install-exec-hook and uninstall-hook,
-	add the $(DESTDIR) prefix to $(PHP8_INI_DIR).
+	add the $(DESTDIR) prefix to $(PHP8_INI_DIR).'
+
+	* SWIG/php8/Makefile.am: In install-exec-hook, ensure the
+	existence of $(DESTDIR)/$(PHP8_INI_DIR).
 
 2022-12-15 Ulrik Sandborg-Petersen
 
