@@ -137,6 +137,8 @@
 	the patten of the files installed on Debian, which start with two
 	numbers and a dash. Also remove it upon uninstall.
 
+	* When building a .deb, also do the same for EmdrosPHP7.ini.
+
 2022-12-15 Ulrik Sandborg-Petersen
 
 	* Remove last vestiges of support for PHP5.
