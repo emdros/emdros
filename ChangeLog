@@ -82,6 +82,14 @@
 	* SWIG/PHP8/test8.php: Update the file with instructions for how
 	to use it.
 
+	* debian/emdros.example: Add the following files:
+
+	SWIG/php7/test7.php
+	SWIG/php8/README-PHP8
+	SWIG/php8/EmdrosPHP8.ini
+	SWIG/php8/test8.php
+
+
 2022-12-15 Ulrik Sandborg-Petersen
 
 	* Remove last vestiges of support for PHP5.
