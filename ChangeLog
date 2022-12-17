@@ -79,6 +79,9 @@
 	* SWIG/PHP8/README-PHP8: Update the instructions for loading the
 	extension to fit PHP8.
 
+	* SWIG/PHP8/test8.php: Update the file with instructions for how
+	to use it.
+
 2022-12-15 Ulrik Sandborg-Petersen
 
 	* Remove last vestiges of support for PHP5.

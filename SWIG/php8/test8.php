@@ -1,6 +1,40 @@
 <?php
-require('/usr/lib/emdros/EmdrosPHP.php');
-/* require('/home/ulrikp/Ongoing/emdros/trunk/emdros/SWIG/php/EmdrosPHP.php'); */
+
+/* The best way of loading the EmdrosPHP8 extension is by
+loading it with:
+
+extension=/path/to/extention/EmdrosPHP8.so
+
+somehow in php.ini.
+
+The file
+
+/path/to/module/libraries/EmdrosPHP8.ini
+
+provides an example.
+
+To know where to put this, run:
+
+$ php-config --ini-dir
+
+For example, this might emit:
+
+/etc/php/8.1/cli/conf.d
+
+The file EmdrosPHP8.ini can then be placed (or symlinked) into the
+`php-config --ini-dir` directory.
+
+If dl() is enabled in php.ini, you might be able to do this:
+
+dl("/path/to/module/EmdrosPHP8.so");
+
+See:
+
+https://www.php.net/manual/en/info.configuration.php#ini.enable-dl
+
+*/
+
+
 
 function execString(&$env, $query) {
 	 $bPrintResult = true;
