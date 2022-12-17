@@ -59,6 +59,8 @@ make install DESTDIR=%{buildroot}
 %post
 /sbin/ldconfig
 
+@SWIG_WITH_PHP7_WRAPPERS_TRUE@%{__ln_s} -f %{prefix}/lib/emdros/EmdrosPHP7.ini @PHP7_INI_DIR@
+
 @SWIG_WITH_PHP8_WRAPPERS_TRUE@%{__ln_s} -f %{prefix}/lib/emdros/EmdrosPHP8.ini @PHP8_INI_DIR@
 
 
@@ -119,6 +121,18 @@ fi
 %postun
 /sbin/ldconfig
 
+@SWIG_WITH_PHP7_WRAPPERS_TRUE@# Remove the @PHP7_INI_DIR@/EmdrosPHP7.ini symlink upon uninstall.
+@SWIG_WITH_PHP7_WRAPPERS_TRUE@#
+@SWIG_WITH_PHP7_WRAPPERS_TRUE@# See https://serverfault.com/questions/72193/creating-symlink-in-usr-bin-when-creating-an-rpm
+@SWIG_WITH_PHP7_WRAPPERS_TRUE@# This case statement ensures that we only remove the symlink when actually uninstalling the RPM, not when upgrade, downgrade, or reinstall.
+@SWIG_WITH_PHP7_WRAPPERS_TRUE@case "$1" in
+@SWIG_WITH_PHP7_WRAPPERS_TRUE@  0) # last one out put out the lights
+@SWIG_WITH_PHP7_WRAPPERS_TRUE@    rm -f @PHP7_INI_DIR@/EmdrosPHP7.ini
+@SWIG_WITH_PHP7_WRAPPERS_TRUE@  ;;
+@SWIG_WITH_PHP7_WRAPPERS_TRUE@esac
+
+@SWIG_WITH_PHP8_WRAPPERS_TRUE@# Remove the @PHP8_INI_DIR@/EmdrosPHP8.ini symlink upon uninstall.
+@SWIG_WITH_PHP8_WRAPPERS_TRUE@#
 @SWIG_WITH_PHP8_WRAPPERS_TRUE@# See https://serverfault.com/questions/82193/creating-symlink-in-usr-bin-when-creating-an-rpm
 @SWIG_WITH_PHP8_WRAPPERS_TRUE@# This case statement ensures that we only remove the symlink when actually uninstalling the RPM, not when upgrade, downgrade, or reinstall.
 @SWIG_WITH_PHP8_WRAPPERS_TRUE@case "$1" in

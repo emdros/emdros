@@ -944,10 +944,16 @@ if test x$DO_SWIG_PHP7 != xno; then
   echo "PHP7_LIBS = $PHP7_LIBS"
   AC_SUBST(PHP7_LIBS)
 
-  dnl PHP7 extension-dir
+  dnl PHP7 ldflags
   PHP7_LDFLAGS=`$PHP7_CONFIG --ldflags`
   echo "PHP7_LDFLAGS = $PHP7_LDFLAGS"
   AC_SUBST(PHP7_LDFLAGS)
+
+  dnl PHP7 ini-dir
+  PHP7_INI_DIR=`$PHP7_CONFIG --ini-dir`
+  echo "PHP7_INI_DIR = $PHP7_INI_DIR"
+  AC_SUBST(PHP7_INI_DIR)
+
 fi
 
 AC_MSG_CHECKING([Whether to do SWIG PHP7 frontend])

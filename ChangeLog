@@ -126,6 +126,12 @@
 	add the creation of the symlink to the %post and %post-un sections
 	of emdros.spec.in.
 
+	* When building an RPM, also add the EmdrosPHP7.ini symlink to
+	PHP7_INI_DIR for PHP7.
+
+	modified:   emdros.spec.in
+	modified:   m4/emdros_swig.m4
+
 2022-12-15 Ulrik Sandborg-Petersen
 
 	* Remove last vestiges of support for PHP5.
