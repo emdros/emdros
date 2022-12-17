@@ -67,6 +67,7 @@ extrafiles_emdros_devel_list = [
     @SWIG_WITH_PHP7_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP7.so",
     @SWIG_WITH_PHP8_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP8.ini",
     @SWIG_WITH_PHP8_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP8.so",
+    @SWIG_WITH_PHP8_WRAPPERS_TRUE@"@PHP8_INI_DIR@/EmdrosPHP8.ini",
     @SWIG_WITH_JAVA_WRAPPERS_TRUE@"%{prefix}/lib/emdros/libjemdros.so",
     @SWIG_WITH_CSHARP_WRAPPERS_TRUE@"%{prefix}/lib/emdros/libcsemdros.so",
     @WX_DO_UNICODE_TRUE@"%{prefix}/lib/libemdrosguiu.a",

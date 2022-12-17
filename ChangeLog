@@ -109,6 +109,10 @@
 
 	Therefore, do not attempt to install *.la files.
 
+	* generate_extrafiles.py.in: Add the new symlink for the
+	@PHP8_INI_DIR@/EmdrosPHP8.ini file to the %files section of the
+	devel package.
+
 2022-12-15 Ulrik Sandborg-Petersen
 
 	* Remove last vestiges of support for PHP5.
