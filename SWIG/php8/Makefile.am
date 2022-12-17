@@ -50,11 +50,12 @@ EmdrosPHP8_la_DEPENDENCIES = @EMDROS_DEPS_BACKBACK@
 
 install-exec-hook:
 	cp EmdrosPHP8.ini $(DESTDIR)$(pkglibdir)
+	ln -s $(DESTDIR)$(pkglibdir)/EmdrosPHP8.ini $(PHP8_INI_DIR)/
 	rm -f $(DESTDIR)$(pkglibdir)/EmdrosPHP8.a
 
 uninstall-hook:
-	rm -f $(DESTDIR)$(pkglibdir)/EmdrosPHP8.so* 
-
+	rm -f $(PHP8_INI_DIR)/EmdrosPHP8.ini
+	rm -f $(DESTDIR)$(pkglibdir)/EmdrosPHP8.so*
 
 macdist:
 	cp -fL README-PHP8 .libs/EmdrosPHP8.so $(MACDISTDIR)/development/SWIG/php8/

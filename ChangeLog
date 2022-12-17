@@ -96,6 +96,10 @@
 	* m4/emdros_swig.m4: Add AC_SUBST() variable PHP8_INI_DIR from
 	`$PHP8_CONFIG --ini-dir`.
 
+	* SWIG/php8/Makefile.am: In the install-exec-hook: Add a command
+	to soft link the file EmdrosPHP8.ini into the
+	$(PHP8_INI_DIR). Also uninstall it with the uninstall-hook.
+
 
 2022-12-15 Ulrik Sandborg-Petersen
 
