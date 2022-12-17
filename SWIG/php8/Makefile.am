@@ -48,14 +48,15 @@ EmdrosPHP8_la_DEPENDENCIES = @EMDROS_DEPS_BACKBACK@
 
 
 
+#if [ ! -d $(DESTDIR)/$(PHP8_INI_DIR) ] ; then mkdir -p $(DESTDIR)/$(PHP8_INI_DIR) ; fi
+#ln -s $(DESTDIR)$(pkglibdir)/EmdrosPHP8.ini $(DESTDIR)/$(PHP8_INI_DIR)/
+
 install-exec-hook:
 	cp EmdrosPHP8.ini $(DESTDIR)$(pkglibdir)
-	if [ ! -d $(DESTDIR)/$(PHP8_INI_DIR) ] ; then mkdir -p $(DESTDIR)/$(PHP8_INI_DIR) ; fi
-	ln -s $(DESTDIR)$(pkglibdir)/EmdrosPHP8.ini $(DESTDIR)/$(PHP8_INI_DIR)/
 	rm -f $(DESTDIR)$(pkglibdir)/EmdrosPHP8.a
 
+#rm -f $(DESTDIR)/$(PHP8_INI_DIR)/EmdrosPHP8.ini
 uninstall-hook:
-	rm -f $(DESTDIR)/$(PHP8_INI_DIR)/EmdrosPHP8.ini
 	rm -f $(DESTDIR)$(pkglibdir)/EmdrosPHP8.so*
 
 macdist:

@@ -119,6 +119,13 @@
 	* SWIG/php8/Makefile.am: In install-exec-hook, ensure the
 	existence of $(DESTDIR)/$(PHP8_INI_DIR).
 
+	* Remove the new symlink from SWIG/php8/Makefile.am. This is
+	because I could not make it work this way.
+
+	As a consequence, remove it from generate_extra_files.py.in, and
+	add the creation of the symlink to the %post and %post-un sections
+	of emdros.spec.in.
+
 2022-12-15 Ulrik Sandborg-Petersen
 
 	* Remove last vestiges of support for PHP5.
