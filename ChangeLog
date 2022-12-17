@@ -113,6 +113,9 @@
 	@PHP8_INI_DIR@/EmdrosPHP8.ini file to the %files section of the
 	devel package.
 
+	* SWIG/php8/Makefile.am: In install-exec-hook and uninstall-hook,
+	add the $(DESTDIR) prefix to $(PHP8_INI_DIR).
+
 2022-12-15 Ulrik Sandborg-Petersen
 
 	* Remove last vestiges of support for PHP5.
