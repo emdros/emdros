@@ -1071,10 +1071,15 @@ if test x$DO_SWIG_PHP8 != xno; then
   echo "PHP8_LIBS = $PHP8_LIBS"
   AC_SUBST(PHP8_LIBS)
 
-  dnl PHP8 extension-dir
+  dnl PHP8 ldflags
   PHP8_LDFLAGS=`$PHP8_CONFIG --ldflags`
   echo "PHP8_LDFLAGS = $PHP8_LDFLAGS"
   AC_SUBST(PHP8_LDFLAGS)
+
+  dnl PHP8 ini-dir
+  PHP8_INI_DIR=`$PHP8_CONFIG --ini-dir`
+  echo "PHP8_INI_DIR = $PHP8_INI_DIR"
+  AC_SUBST(PHP8_INI_DIR)
 fi
 
 AC_MSG_CHECKING([Whether to do SWIG PHP8 frontend])

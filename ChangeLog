@@ -93,6 +93,9 @@
 	%{prefix}/lib/emdros/EmdrosPHP8.php, since we no longer generate
 	it.
 
+	* m4/emdros_swig.m4: Add AC_SUBST() variable PHP8_INI_DIR from
+	`$PHP8_CONFIG --ini-dir`.
+
 
 2022-12-15 Ulrik Sandborg-Petersen
 
