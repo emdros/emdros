@@ -100,6 +100,9 @@
 	to soft link the file EmdrosPHP8.ini into the
 	$(PHP8_INI_DIR). Also uninstall it with the uninstall-hook.
 
+	* generate_extrafiles.py.in: Add EmdrosPHP7.php, EmdrosPHP7.ini,
+	and EmdrosPHP8.ini to the extrafiles_emdros_devel_list array.
+
 
 2022-12-15 Ulrik Sandborg-Petersen
 
