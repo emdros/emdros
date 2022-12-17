@@ -139,6 +139,11 @@
 
 	* When building a .deb, also do the same for EmdrosPHP7.ini.
 
+	* Add "; priority=99" to the following:
+
+	modified:   SWIG/php7/EmdrosPHP7.ini.in
+	modified:   SWIG/php8/EmdrosPHP8.ini.in
+
 2022-12-15 Ulrik Sandborg-Petersen
 
 	* Remove last vestiges of support for PHP5.

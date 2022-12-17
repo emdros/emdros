@@ -1,4 +1,5 @@
 ; Place this file in /etc/php.d/
 ;
 ; Enable Emdros extension module
+; priority=99
 extension=@pkglibdir@/EmdrosPHP7.so
