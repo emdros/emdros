@@ -132,6 +132,11 @@
 	modified:   emdros.spec.in
 	modified:   m4/emdros_swig.m4
 
+	* When building a .deb, add the symlink to EmdrosPHP8.ini into
+	PHP8_INI_DIOR. But call it 99-EmdrosPHP8.ini, so as to not break
+	the patten of the files installed on Debian, which start with two
+	numbers and a dash. Also remove it upon uninstall.
+
 2022-12-15 Ulrik Sandborg-Petersen
 
 	* Remove last vestiges of support for PHP5.

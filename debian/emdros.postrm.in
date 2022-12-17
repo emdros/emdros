@@ -40,6 +40,11 @@ case "$1" in
    	     fi
    	  fi   
         fi
+
+	@SWIG_WITH_PHP8_WRAPPERS_TRUE@# Remove the @PHP8_INI_DIR@/99-EmdrosPHP8.ini symlink upon uninstall.
+	@SWIG_WITH_PHP8_WRAPPERS_TRUE@#
+	@SWIG_WITH_PHP8_WRAPPERS_TRUE@rm -f @PHP8_INI_DIR@/99-EmdrosPHP8.ini
+	
     ;;
 
     *)
