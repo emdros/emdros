@@ -949,6 +949,11 @@ if test x$DO_SWIG_PHP7 != xno; then
   echo "PHP7_LDFLAGS = $PHP7_LDFLAGS"
   AC_SUBST(PHP7_LDFLAGS)
 
+  dnl PHP7 ini-path
+  PHP7_INI_PATH=`$PHP7_CONFIG --ini-path`
+  echo "PHP7_INI_PATH = $PHP7_INI_PATH"
+  AC_SUBST(PHP7_INI_PATH)
+
   dnl PHP7 ini-dir
   PHP7_INI_DIR=`$PHP7_CONFIG --ini-dir`
   echo "PHP7_INI_DIR = $PHP7_INI_DIR"
@@ -1082,10 +1087,16 @@ if test x$DO_SWIG_PHP8 != xno; then
   echo "PHP8_LDFLAGS = $PHP8_LDFLAGS"
   AC_SUBST(PHP8_LDFLAGS)
 
+  dnl PHP8 ini-path
+  PHP8_INI_PATH=`$PHP8_CONFIG --ini-path`
+  echo "PHP8_INI_PATH = $PHP8_INI_PATH"
+  AC_SUBST(PHP8_INI_PATH)
+
   dnl PHP8 ini-dir
   PHP8_INI_DIR=`$PHP8_CONFIG --ini-dir`
   echo "PHP8_INI_DIR = $PHP8_INI_DIR"
   AC_SUBST(PHP8_INI_DIR)
+
 fi
 
 AC_MSG_CHECKING([Whether to do SWIG PHP8 frontend])
