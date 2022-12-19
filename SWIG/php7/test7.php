@@ -2,6 +2,8 @@
 require('/usr/lib/emdros/EmdrosPHP.php');
 /* require('/home/ulrikp/Ongoing/emdros/trunk/emdros/SWIG/php/EmdrosPHP.php'); */
 
+echo "<pre>\n";
+
 function execString(&$env, $query) {
 	 $bPrintResult = true;
 	 $bReportError = true;
@@ -85,5 +87,7 @@ while ($myFlatSheafConstIterator->hasNext()) {
 	    echo "first_monad = " . $monads->first() . " feature = '" . $feature . "'\n";
       }
 }
+
+echo "</pre>\n";
 
 ?>

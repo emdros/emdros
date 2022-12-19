@@ -12,6 +12,13 @@
 	Hopefully this will work on all Debian-based distros, so you can
 	use phpenmod.
 
+	* SWIG/php8/test8.php: Add echo'ing of <pre>...</pre> tags, for a
+	nicer view on the web.  Note that PHP8 bindings now work.
+
+	* SWIG/php8/test7.php: Also add this echo'ing of <pre>...</pre>
+	for PHP7. PHP7 support has not yet been tested again, but
+	hopefully it works.
+
 2022-12-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Update autoconf prerequisite to be 2.71, by

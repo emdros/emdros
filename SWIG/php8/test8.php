@@ -35,6 +35,8 @@ https://www.php.net/manual/en/info.configuration.php#ini.enable-dl
 */
 
 
+echo "<pre>\n";
+
 
 function execString(&$env, $query) {
 	 $bPrintResult = true;
@@ -119,5 +121,8 @@ while ($myFlatSheafConstIterator->hasNext()) {
 	    echo "first_monad = " . $monads->first() . " feature = '" . $feature . "'\n";
       }
 }
+
+echo "</pre>\n";
+
 
 ?>
