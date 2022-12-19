@@ -40,9 +40,25 @@ case "$1" in
    fi
 fi
 
-@SWIG_WITH_PHP7_WRAPPERS_TRUE@ln -s -f @libdir@/EmdrosPHP7.ini @PHP7_INI_PATH@/../mods-available/EmdrosPHP7.ini
+      # Ensure we have ${prefix}, which is necessary for @libdir@ below.
+      prefix=@prefix@
 
-@SWIG_WITH_PHP8_WRAPPERS_TRUE@ln -s -f @libdir@/EmdrosPHP8.ini @PHP8_INI_PATH@/../mods-available/EmdrosPHP8.ini
+      #
+      # Based on https://wiki.debian.org/PHP#How_PHP_is_packaged_in_Debian
+      #
+      # Since Debian 9 (Stretch), the extensions are expected to
+      # install their configuration to /etc/php/M.N/mods-available for
+      # each M.N tuple the extension has been compiled with and enable
+      # the extension as appropriate using
+      # /usr/lib/php/php-maintscript-helper.
+      #
+      # On Debian 8 (Jessie) and below, this was difference.
+      #
+      # Unbuntu 16.04 xenial was the first to be based on stretch.
+      #
+      @SWIG_WITH_PHP7_WRAPPERS_TRUE@ln -s -f @libdir@/EmdrosPHP7.ini /etc/php/@PHP7_VERNUM_MAJOR_DOT_MINOR@/mods-available/
+
+      @SWIG_WITH_PHP8_WRAPPERS_TRUE@ln -s -f @libdir@/EmdrosPHP8.ini /etc/php/@PHP8_VERNUM_MAJOR_DOT_MINOR@/mods-available/
 
     ;;
 

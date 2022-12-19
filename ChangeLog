@@ -1,5 +1,17 @@
 ============ 3.7.4 ============
 
+2022-12-19 Ulrik Sandborg-Petersen
+
+	* m4/emdros_swig.m4: Add PHP{7,8}_VERNUM_MAJOR_DOT_MINOR and related
+	variables.
+
+	* debian/emdros.postinst.in, debian/emdros.postrm.in: On Debian,
+	install/remove the EmdrosPHP{7,8}.ini file in
+	/etc/php/@PHP{7,8}_VERNUM_MAJOR_DOT_MINOR@/mods-available/.
+
+	Hopefully this will work on all Debian-based distros, so you can
+	use phpenmod.
+
 2022-12-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Update autoconf prerequisite to be 2.71, by

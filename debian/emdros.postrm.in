@@ -41,13 +41,15 @@ case "$1" in
    	  fi   
         fi
 
-	@SWIG_WITH_PHP7_WRAPPERS_TRUE@# Remove the @PHP7_INI_PATH@/../mods-available/EmdrosPHP7.ini symlink upon uninstall.
-	@SWIG_WITH_PHP7_WRAPPERS_TRUE@#
-	@SWIG_WITH_PHP7_WRAPPERS_TRUE@rm -f @PHP7_INI_PATH@/../mods-available/EmdrosPHP7.ini
 	
-	@SWIG_WITH_PHP8_WRAPPERS_TRUE@# Remove the @PHP8_INI_PATH@/../mods-available/EmdrosPHP8.ini symlink upon uninstall.
+	
+	@SWIG_WITH_PHP7_WRAPPERS_TRUE@# Remove the EmdrosPHP7.ini file
+	@SWIG_WITH_PHP7_WRAPPERS_TRUE@#
+	@SWIG_WITH_PHP7_WRAPPERS_TRUE@rm -f /etc/php/@PHP7_VERNUM_MAJOR_DOT_MINOR@/mods-available/EmdrosPHP7.ini
+	
+	@SWIG_WITH_PHP8_WRAPPERS_TRUE@# Remove the EmdrosPHP8.ini file
 	@SWIG_WITH_PHP8_WRAPPERS_TRUE@#
-	@SWIG_WITH_PHP8_WRAPPERS_TRUE@rm -f @PHP8_INI_PATH@/../mods-available/EmdrosPHP8.ini
+	@SWIG_WITH_PHP8_WRAPPERS_TRUE@rm -f /etc/php/@PHP8_VERNUM_MAJOR_DOT_MINOR@/mods-available/EmdrosPHP8.ini
 	
     ;;
 
