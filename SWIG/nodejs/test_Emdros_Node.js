@@ -4,12 +4,24 @@ function execString(env, query) {
     var bCompilerOK = true;
     var bPrintResult = true;
     var bReportError = true;
-    var bCompilerError = true;
+    var bCompilerOK = true;
     console.log("query = '%s'", query);
-    var bDBOK = env.executeString(query, bCompilerError, bPrintResult, bReportError);
+    var arrOutput = env.executeString(query, bCompilerOK, bPrintResult, bReportError);
+    [bDBOK, bCompilerOK] = arrOutput;
+    
+    console.log("bDBOK = %s  bCompilerOK = %s", bDBOK, bCompilerOK);
+    return bDBOK && bCompilerOK;
+    var bCompilerOK = true;
+    var bPrintResult = true;
+    var bReportError = true;
+    var bCompilerOK = true;
+    console.log("query = '%s'", query);
+    var arrOutput = env.executeString(query, bCompilerOK, bPrintResult, bReportError);
+    [bDBOK, bCompilerOK] = arrOutput;
+    
+    console.log("bDBOK = %s  bCompilerOK = %s", bDBOK, bCompilerOK);
     return bDBOK && bCompilerOK;
 }
-
 var env = new Emdros.EmdrosEnv(Emdros.kOKConsole,
      Emdros.kCSUTF8,
      "", // hostname, e.g., localhost
