@@ -44,7 +44,7 @@ if test "x$1" != "x"; then
     EMDROS_VERSION="$1"
 fi
 
-if test "x$EMDROS_VERSION" = "x" -a test -f configure.ac ; then
+if test "x$EMDROS_VERSION" = "x" -a -f configure.ac ; then
     # Find the Emdros version from configure.ac
     EMDROS_VERSION=`grep "AC_INIT" configure.ac | awk -F ',' '{print \$2}' | sed -e 's_\\[__g;s_\\]__g;s_,__g'`
 fi
