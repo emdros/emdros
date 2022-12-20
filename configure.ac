@@ -101,6 +101,7 @@ AC_CONFIG_FILES([Makefile
                  SWIG/php8/Makefile
                  SWIG/python/Makefile
                  SWIG/python3/Makefile
+                 SWIG/nodejs/Makefile
 		 wx/Makefile
 		 tests/Makefile
 		 tests/asv/Makefile
