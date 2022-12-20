@@ -114,9 +114,10 @@ EXTRA_DIST = nodejs_emdros.i \
              README-Nodejs \
              $(MAYBE_BUILT_SRC)
 
-CLEANFILES = *~ core config.log 
+CLEANFILES = *~ core config.log \
+             phpemdrostest
+
 
 DISTCLEANFILES = $(SWIG_NODEJS_SRC) \
-                 nodejs_emdros_wrap.cxx nodejs_emdros_wrap.h \
                  binding.gyp 
 
