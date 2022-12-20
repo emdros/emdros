@@ -9,7 +9,7 @@ dnl
 dnl SWIG 3.0 is required for PHP7 support.
 dnl SWIG 4.1 is required for PHP8 support
 dnl
-AC_CHECK_PROGS(SWIG_PROGRAM, [swig4.1 swig4.0 swig3.0 swig], [no])
+AC_CHECK_PROGS(SWIG_PROGRAM, [swig swig4.1 swig4.0 swig3.0], [no])
 if test "x$SWIG_PROGRAM" == "xno"; then 
    CAN_DO_SWIG="no"
 else

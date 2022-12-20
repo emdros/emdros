@@ -38,6 +38,11 @@
 	c) Clone the Emdros GitHub repo, build a tarball, and try to
 	deb-build that.
 
+	* m4/emdros_swig.m4: When looking for the SWIG_PROGRAM, first look
+	for 'swig', then 'swig4.1' and the others. This is so as to catch
+	any local swig version which we may have installed as 'swig' in
+	the path.
+
 2022-12-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Update autoconf prerequisite to be 2.71, by
