@@ -1130,6 +1130,125 @@ fi
 
 
 
+dnl SWIG support for nodejs
+
+AC_ARG_WITH(swig-language-nodejs,
+[  --with-swig-language-nodejs  Use swig scripting language wrappers],
+[case "${withval}" in
+       yes) DO_SWIG_NODEJS=yes ;;
+       no)  DO_SWIG_NODEJS=no ;;
+       maybe) DO_SWIG_NODEJS=maybe ;;
+       *)   AC_MSG_ERROR(Bad value ${withval} for --with-swig-language-nodejs) ;;
+     esac],
+[DO_SWIG_NODEJS=maybe],
+)
+ORIGINAL_DO_SWIG_NODEJS=$DO_SWIG_NODEJS
+
+
+
+AC_MSG_CHECKING([Whether we are to do nodejs...])
+if test x$enable_shared != xyes; then
+   if test x$DO_SWIG_NODEJS = xyes; then
+      AC_MSG_WARN([
+WARNING: You cannot do SWIG backends (in this case, Node.js)
+if you are not also doing shared libraries. This means
+that you must not use --disable-shared when wishing to
+do a SWIG backend.])
+      DO_SWIG_NODEJS=no
+   else
+      AC_MSG_RESULT([no, since we are not doing shared libraries.])
+      DO_SWIG_NODEJS=no
+   fi
+else
+   AC_MSG_RESULT([maybe... let's check some more...])
+fi
+
+
+
+
+
+
+if test x$DO_SWIG_NODEJS != xno; then
+  dnl nodejs node program
+  AC_MSG_CHECKING([for Node.js node program...])
+  AC_CHECK_PROGS(NODE_PROGRAM, [node], [no])
+  AC_SUBST(NODE_PROGRAM)
+  if test x$NODE_PROGRAM = xno; then
+    if test x$DO_SWIG_NODEJS = xyes; then
+      AC_MSG_WARN([
+  Could not find Node.js node program in path. Not doing SWIG Node.js bindings.])
+      DO_SWIG_NODEJS=no
+    else
+      AC_MSG_RESULT([Not found. Not doing SWIG Node.js frontend.])
+      DO_SWIG_NODEJS=no
+    fi
+  fi    
+fi
+
+
+if test x$DO_SWIG_NODEJS != xno; then
+  dnl nodejs node-gyp program
+  AC_MSG_CHECKING([for Node.js node-gyp program...])
+  AC_CHECK_PROGS(NODE_GYP_PROGRAM, [node-gyp], [no])
+  AC_SUBST(NODE_GYP_PROGRAM)
+  if test x$NODE_GYP_PROGRAM = xno; then
+    if test x$DO_SWIG_NODEJS = xyes; then
+      AC_MSG_WARN([
+  Could not find Node.js node-gyp program in path. Not doing SWIG Node.js bindings.])
+      DO_SWIG_NODEJS=no
+    else
+      AC_MSG_RESULT([Not found. Not doing SWIG Node.js frontend.])
+      DO_SWIG_NODEJS=no
+    fi
+  fi    
+fi
+
+
+dnl Test for NodeJS version
+if test x$DO_SWIG_NODEJS != xno; then
+  AC_MSG_CHECKING([Node.js version... ])
+
+  NODEJS_VERSION=`$NODE_PROGRAM --version | sed -e 's_v__g'`
+  AC_MSG_RESULT($NODEJS_VERSION)
+fi
+
+if test x$DO_SWIG_NODEJS != xno; then
+  # 
+  # If we came this far, then 'maybe' should be 'yes', unconditionally.
+  #
+  DO_SWIG_NODEJS=yes
+
+  dnl NODEJS VERSION MAJOR / MINOR / MAJOR_DOT_MINOR
+  NODEJS_VERSION_MAJOR=`echo $NODEJS_VERSION | awk -F '\.' '{a=1; MAJOR_VERSION = $a + 0; print MAJOR_VERSION; }' `
+  NODEJS_VERSION_MINOR=`echo $NODEJS_VERSION |  | awk -F '\.' '{a=2; MINOR_VERSION = $a + 0; print MINOR_VERSION; }' `
+
+  dnl NODEJS_VERSION_MAJOR_DOT_MINOR="${NODEJS_VERSION_MAJOR}.${NODEJS_VERSION_MINOR}"
+
+  AC_SUBST(NODEJS_VERSION_MAJOR)
+
+  dnl AC_SUBST(NODEJS_VERSION_MAJOR_DOT_MINOR)
+
+fi
+
+
+AC_MSG_CHECKING([Whether to do SWIG Node.js frontend])
+AC_MSG_RESULT($DO_SWIG_NODEJS)
+
+if test x$DO_SWIG_NODEJS = xyes; then
+  DO_AT_LEAST_ONE_SWIG=yes
+fi
+
+
+
+
+
+
+
+
+
+
+
+
 
 WITH_SWIG_CSHARP="--with-swig-language-csharp=$ORIGINAL_DO_SWIG_CSHARP"
 WITH_SWIG_JAVA="--with-swig-language-java=$ORIGINAL_DO_SWIG_JAVA"
@@ -1137,6 +1256,7 @@ WITH_SWIG_PHP7="--with-swig-language-php7=$ORIGINAL_DO_SWIG_PHP7"
 WITH_SWIG_PHP8="--with-swig-language-php8=$ORIGINAL_DO_SWIG_PHP8"
 WITH_SWIG_PYTHON2="--with-swig-language-python2=$ORIGINAL_DO_SWIG_PYTHON2"
 WITH_SWIG_PYTHON3="--with-swig-language-python3=$ORIGINAL_DO_SWIG_PYTHON3"
+WITH_SWIG_NODEJS="--with-swig-language-nodejs=$ORIGINAL_DO_SWIG_NODEJS"
 
 AC_SUBST(SWIG_PROGRAM)
 AC_SUBST(WITH_SWIG_CSHARP)
@@ -1145,6 +1265,7 @@ AC_SUBST(WITH_SWIG_PHP7)
 AC_SUBST(WITH_SWIG_PHP8)
 AC_SUBST(WITH_SWIG_PYTHON2)
 AC_SUBST(WITH_SWIG_PYTHON3)
+AC_SUBST(WITH_SWIG_NODEJS)
 
 AM_CONDITIONAL(SWIG_WITH_CSHARP_WRAPPERS, test x$DO_SWIG_CSHARP = xyes)
 AC_SUBST(SWIG_WITH_CSHARP_WRAPPERS)
@@ -1164,6 +1285,9 @@ AC_SUBST(SWIG_WITH_PYTHON2_WRAPPERS)
 AM_CONDITIONAL(SWIG_WITH_PYTHON3_WRAPPERS, test x$DO_SWIG_PYTHON3 = xyes)
 AC_SUBST(SWIG_WITH_PYTHON3_WRAPPERS)
 
+AM_CONDITIONAL(SWIG_WITH_NODEJS_WRAPPERS, test x$DO_SWIG_NODEJS = xyes)
+AC_SUBST(SWIG_WITH_NODEJS_WRAPPERS)
+
 AM_CONDITIONAL(CAN_DO_SWIG, test x$CAN_DO_SWIG = xyes)
 AC_SUBST(CAN_DO_SWIG)
 
@@ -1179,5 +1303,8 @@ AC_SUBST(DO_SWIG_PHP7)
 AC_SUBST(DO_SWIG_PHP8)
 AC_SUBST(DO_SWIG_PYTHON2)
 AC_SUBST(DO_SWIG_PYTHON3)
+AC_SUBST(DO_SWIG_NODEJS)
+
+
 
 ])

@@ -74,6 +74,9 @@ fi
 if test "x$DO_SWIG_PYTHON3" = "xyes"; then
   echo "SWIG Backend:         python3"
 fi
+if test "x$DO_SWIG_NODEJS" = "xyes"; then
+  echo "SWIG Backend:         nodejs"
+fi
 
 echo ""
 
