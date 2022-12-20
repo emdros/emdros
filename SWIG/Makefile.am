@@ -1,6 +1,6 @@
 EXTRA_DIST=win32.mak mingw.mak
 
-SUBDIRS = csharp java php7 php8 python python3
+SUBDIRS = csharp java php7 php8 python python3 nodejs
 
 
 macdist:
@@ -10,6 +10,7 @@ macdist:
 	cd php8    ; make macdist MACDISTDIR=$(MACDISTDIR) ; cd ..
 	cd python  ; make macdist MACDISTDIR=$(MACDISTDIR) ; cd ..
 	cd python3 ; make macdist MACDISTDIR=$(MACDISTDIR) ; cd ..
+	cd nodejs  ; make macdist MACDISTDIR=$(MACDISTDIR) ; cd ..
 
 
 # Recurse into the directories that have a 'gen_files' target, and
