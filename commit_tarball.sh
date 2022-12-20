@@ -5,7 +5,8 @@ if test "x$DIR" = "x"; then
     exit 1;
 fi
 
-VERSION=`grep "AC_INIT" configure.ac | awk -F '[' '{print $3;}' | sed -e 's_)__g;s_\]__g'`
+VERSION=`grep "AC_INIT" configure.ac | awk -F ',' '{print \$2}' | sed -e 's_\\[__g;s_\\]__g;s_,__g'`
+
 echo "VERSION: $VERSION"
 
 make distclean || true
