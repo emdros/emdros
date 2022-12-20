@@ -21,6 +21,14 @@
 
 	* commit_tarball.sh: Fix finding VERSION from AC_INIT in configure.ac.
 
+	* SWIG/download_and_make_local_swig.sh: Add this script. It
+	downloads a version of SWIG, compiles it, and installs it under
+	${HOME}/opt/swig-${SWIG_VERSION}/. Then it adds symlinks to the
+	installed binaries under ${HOME}/opt/bin/.
+
+	The reason we do this is because we need this for making
+	predictable tarball releases. 
+
 2022-12-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Update autoconf prerequisite to be 2.71, by
