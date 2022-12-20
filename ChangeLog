@@ -1,5 +1,15 @@
 ============ 3.7.4 ============
 
+2022-12-20 Ulrik Sandborg-Petersen
+
+	* Add first pass at Node.js SWIG bindings.
+
+	- SWIG/nodejs/
+	- SWIG/Makefile.am
+	- m4/emdros_swig.m4
+	- m4/emdros_banner.m4
+	- configure.ac
+
 2022-12-19 Ulrik Sandborg-Petersen
 
 	* m4/emdros_swig.m4: Add PHP{7,8}_VERNUM_MAJOR_DOT_MINOR and related

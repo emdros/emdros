@@ -95,7 +95,7 @@ yum install gcc-c++ make binutils groff gcc glibc-devel glibc-headers kernel-hea
 Fedora
 ------
 
-On Fedora 26-29, the following packages are required to build the full
+On Fedora 36-37, the following packages are required to build the full
 gamut of Emdros programs and libraries, even after a "make distclean"
 or a "make clean":
 
@@ -103,7 +103,13 @@ gcc-c++ make binutils groff gcc glibc-devel glibc-headers kernel-headers groff l
 
 The following packages are optional on Fedora:
 
-java-1.8.0-openjdk java-1.8.0-openjdk-devel python-devel python3-devel php-devel mono-core mysql mysql-server mysql mysql-devel postgresql postgresql-server postgresql-devel 
+java-1.8.0-openjdk java-1.8.0-openjdk-devel python-devel python3-devel php-devel mono-core mysql mysql-server mysql mysql-devel postgresql postgresql-server postgresql-devel nodejs nodejs-devel npm
+
+Also, for Node.JS bindings, you need:
+
+sudo npm install -g node-gyp
+
+
 
 Ubuntu
 ------
@@ -144,9 +150,15 @@ Python3: sudo apt install python3-dev
 Mono/C#: sudo apt install mono-devel mono-mcs mono-tools-devel
 PHP7:    sudo apt install php-dev
 PHP8:    sudo apt install php-dev
+NodeJS:  sudo apt-install nodejs npm
 
 To bring all language bindings in:
-sudo apt install openjdk-8-jdk python-dev python3-dev mono-devel mono-mcs mono-tools-devel php-dev 
+sudo apt install openjdk-8-jdk python-dev python3-dev mono-devel mono-mcs mono-tools-devel php-dev nodejs npm
+
+Also, for Node.JS bindings, you need:
+
+sudo npm install -g node-gyp
+
 
 To build a .deb:
 
