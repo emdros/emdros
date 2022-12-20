@@ -43,6 +43,11 @@
 	any local swig version which we may have installed as 'swig' in
 	the path.
 
+	* configure.ac: Bump required version of autoconf down from 2.71
+	to 2.69. The reason is that Ubuntu 20.04 still uses autoconf 2.69,
+	and we want to build from scratch on this platform. Also, we don't
+	need it to be version 2.71.
+
 2022-12-16 Ulrik Sandborg-Petersen
 
 	* configure.ac: Update autoconf prerequisite to be 2.71, by
