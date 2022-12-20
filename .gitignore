@@ -319,4 +319,9 @@ emdros.pc
 pdflatex-log.txt
 SWIG/csharp/ll.txt
 SWIG/java/ll.txt
+SWIG/nodejs/emdros_amalgamation_1_emdros.cpp
+SWIG/nodejs/emdros_c.h
+SWIG/nodejs/nodejs_emdros_wrap.cxx
+SWIG/nodejs/phpemdrostest
+
 
