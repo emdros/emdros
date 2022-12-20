@@ -87,7 +87,7 @@ uninstall-hook:
 	rm -f $(DESTDIR)$(pkglibdir)/EmdrosNode.so*
 
 macdist:
-	cp -fL README-Nodejs .libs/EmdrosNode.so $(MACDISTDIR)/development/SWIG/nodejs_/
+	cp -fL README_NODEJS.md .libs/EmdrosNode.so $(MACDISTDIR)/development/SWIG/nodejs_/
 
 
 else
@@ -111,7 +111,7 @@ EXTRA_DIST = nodejs_emdros.i \
              libemdf_nodejs.i libmql_nodejs.i \
              binding.gyp.in \
              test_Emdros_Node.js \
-             README-Nodejs \
+             README-NODEJS.md \
              $(MAYBE_BUILT_SRC)
 
 CLEANFILES = *~ core config.log \
