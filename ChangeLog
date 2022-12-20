@@ -27,7 +27,16 @@
 	installed binaries under ${HOME}/opt/bin/.
 
 	The reason we do this is because we need this for making
-	predictable tarball releases. 
+	predictable tarball releases.
+
+	* build-deb.sh: Expand the script, to:
+
+	a) Take the Emdros version as the command line paramter, if present.
+
+	b) Build it from the sources, if present.
+
+	c) Clone the Emdros GitHub repo, build a tarball, and try to
+	deb-build that.
 
 2022-12-16 Ulrik Sandborg-Petersen
 
