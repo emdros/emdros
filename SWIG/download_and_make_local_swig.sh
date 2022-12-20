@@ -54,6 +54,7 @@ else
 fi
 
 EXEC_DIR=${HOME}/opt/bin
+mkdir -p ${EXEC_DIR}
 
 SYMLINK_SWIG="${SWIG_PREFIX}/bin/swig ${EXEC_DIR}/"
 SYMLINK_CCACHE_SWIG="${SWIG_PREFIX}/bin/ccache-swig ${EXEC_DIR}/"
