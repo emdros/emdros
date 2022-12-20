@@ -118,7 +118,7 @@ else
     echo ""
     echo "Perhaps do:"
     echo ""
-    echo "dpkg -i ${DEB_FILE}"
+    echo "sudo dpkg -i ${DEB_FILE}"
     echo ""
 fi
 
