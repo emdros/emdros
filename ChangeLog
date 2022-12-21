@@ -1,5 +1,9 @@
 ============ 3.7.4 ============
 
+2022-12-21 Ulrik Sandborg-Petersen
+
+	* INSTALL.Mac.txt: Update the compilation instructions for wxWidgets.
+
 2022-12-20 Ulrik Sandborg-Petersen
 
 	* Add first pass at Node.js SWIG bindings.
