@@ -25,13 +25,13 @@ var env = new Emdros.EmdrosEnv(Emdros.kOKConsole,
 console.log("connectionOk() = %s\n", env.connectionOk());
 console.log("getBackendName() = %s\n", env.getBackendName());
 
-if (!execString(env, "DROP DATABASE 'phpemdrostest'GO")) {
+if (!execString(env, "DROP DATABASE 'node_emdros_test.sqlite3' GO")) {
    ; // Do nothing. If it doesn't exist, execString will return false, but that doesn't matter.
 }
 
 
-query = "CREATE DATABASE 'phpemdrostest' GO\n" +
-       "USE DATABASE 'phpemdrostest' GO\n" +
+query = "CREATE DATABASE 'node_emdros_test.sqlite3' GO\n" +
+       "USE DATABASE 'node_emdros_test.sqlite3' GO\n" +
        "CREATE OBJECT TYPE WITH SINGLE MONAD OBJECTS\n" +
        "[token surface : STRING;]GO\n" +
        "CREATE OBJECTS WITH OBJECT TYPE [token]\n" +

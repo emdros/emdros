@@ -322,6 +322,6 @@ SWIG/java/ll.txt
 SWIG/nodejs/emdros_amalgamation_1_emdros.cpp
 SWIG/nodejs/emdros_c.h
 SWIG/nodejs/nodejs_emdros_wrap.cxx
-SWIG/nodejs/phpemdrostest
+SWIG/nodejs/node_emdros_test.sqlite3
 
 
