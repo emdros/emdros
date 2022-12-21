@@ -101,7 +101,7 @@ EXTRA_DIST = nodejs_emdros.i \
              libemdf_nodejs.i libmql_nodejs.i \
              binding.gyp.in \
              test_Emdros_Node.js \
-             README-NODEJS.md \
+             README_NODEJS.md \
              $(MAYBE_BUILT_SRC)
 
 CLEANFILES = *~ core config.log \
