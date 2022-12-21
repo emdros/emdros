@@ -1,6 +1,6 @@
 {
   'targets': [{
-    'target_name': 'EmdrosNode',
+    'target_name': 'Emdros',
     'include_dirs': ['.'],
     'sources' : [
           'nodejs_emdros_wrap.cxx',

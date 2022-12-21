@@ -1,4 +1,4 @@
-var Emdros = require("./build/Release/EmdrosNode")
+var Emdros = require("./build/Release/Emdros")
 
 function execString(env, query) {
     var bCompilerOK = true;
