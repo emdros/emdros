@@ -2,7 +2,6 @@ SWIG_PROGRAM = @SWIG_PROGRAM@
 
 SWIG_NODEJS_SRC = \
       nodejs_emdros_wrap.cxx \
-      nodejs_emdros_wrap.h \
       emdros_amalgamation_1_emdros.cpp \
       emdros_c_amalgamation_1.c \
       emdros_c_amalgamation_2.c \
@@ -28,8 +27,6 @@ AM_CPPFLAGS = -I. -I$(top_srcdir) @NODEJS_INCLUDES@
 
 nodejs_emdros_wrap.cxx: nodejs_emdros.i libemdf_nodejs.i libmql_nodejs.i 
 	$(SWIG_PROGRAM) -c++ -javascript -node nodejs_emdros.i
-
-nodejs_emdros_wrap.h: nodejs_emdros_wrap.cxx
 
 binding.gyp: Makefile binding.gyp.in
 	sed -e 's:%NODE_CXXFLAGS%:$(NODE_CXXFLAGS):g;s:%NODE_CFLAGS%:$(NODE_CFLAGS):g;s:%BACKEND_LIBS_AMALGAMATION%:@BACKEND_LIBS_AMALGAMATION@:g' binding.gyp.in > $@
