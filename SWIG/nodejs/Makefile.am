@@ -60,18 +60,18 @@ build/Release/Emdros.node: $(SWIG_NODEJS_SRC)
 
 
 if CAN_DO_SWIG
-MAYBE_BUILT_SRC = $(SWIG_NODEJS_SRC) $(RELEASE_EMDROS_NODE)
+MAYBE_BUILT_SRC = $(SWIG_NODEJS_SRC)
 endif
+
+
+# Work around directory combinations which Automake forbids.  Do not
+# use this without a very good reason!
+my_execbindir = $(pkglibdir)
 
 
 if SWIG_WITH_NODEJS_WRAPPERS
 
-install-exec-hook:
-	cp $(RELEASE_EMDROS_NODE) $(DESTDIR)$(pkglibdir)/
-
-
-uninstall-hook:
-	rm -f $(DESTDIR)$(pkglibdir)/$(RELEASE_EMDROS_NODE)
+my_execbin_SCRIPTS = $(RELEASE_EMDROS_NODE)
 
 macdist:
 	cp -fL README_NODEJS.md test_Emdros_Node.js $(RELEASE_EMDROS_NODE) $(MACDISTDIR)/development/SWIG/nodejs/
@@ -80,7 +80,7 @@ macdist:
 else
 # Not SWIG_WITH_NODEJS_WRAPPERS
 
-pkglib_LTLIBRARIES =
+my_execbin_SCRIPTS = 
 
 install-exec-hook:
 
