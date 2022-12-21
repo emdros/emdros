@@ -11,17 +11,9 @@ function execString(env, query) {
     
     console.log("bDBOK = %s  bCompilerOK = %s", bDBOK, bCompilerOK);
     return bDBOK && bCompilerOK;
-    var bCompilerOK = true;
-    var bPrintResult = true;
-    var bReportError = true;
-    var bCompilerOK = true;
-    console.log("query = '%s'", query);
-    var arrOutput = env.executeString(query, bCompilerOK, bPrintResult, bReportError);
-    [bDBOK, bCompilerOK] = arrOutput;
-    
-    console.log("bDBOK = %s  bCompilerOK = %s", bDBOK, bCompilerOK);
-    return bDBOK && bCompilerOK;
 }
+
+
 var env = new Emdros.EmdrosEnv(Emdros.kOKConsole,
      Emdros.kCSUTF8,
      "", // hostname, e.g., localhost
@@ -49,12 +41,12 @@ query = "CREATE DATABASE 'phpemdrostest' GO\n" +
        "CREATE OBJECT FROM MONADS = { 4 } WITH ID_D = 4 [surface := 'blue.';]";
 
 if (!execString(env, query)) {
-   die("Emdros error");
+   throw new Error("Emdros error");
 }
 
 
 if (!execString(env, "SELECT ALL OBJECTS IN {1-10} WHERE [Token GET surface]")) {
-   die("Emdros error");
+   throw new Error("Emdros error");
 }
 
 mySheaf = env.takeOverSheaf();
@@ -76,7 +68,7 @@ while (mySheafConstIterator.hasNext()) {
 }
 
 if (!execString(env, "GET OBJECTS HAVING MONADS IN {1-10} [Token GET surface]")) {
-   die("Emdros error");
+   throw new Error("Emdros error");
 }
 
 myFlatSheaf = env.takeOverFlatSheaf();
