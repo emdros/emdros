@@ -9,8 +9,12 @@ SWIG_NODEJS_SRC = \
       emdros-lconfig.h \
       emdros_c.h \
       emdros-config.h \
-      emdros.h
+      emdros.h \
+      binding.gyp 
 
+
+# This is built by node-gyp. The name is defined in binding.gyp.in
+RELEASE_EMDROS_NODE = build/Release/Emdros.node
 
 
 AM_CXXFLAGS = @SUN_CXXFLAGS@ @DARWIN_CXXFLAGS@ @ADDITIONAL_CXXFLAGS@ @DEBUGFLAG@
@@ -53,41 +57,27 @@ emdros.h: ../../amalgamation/emdros.h
 
 
 
+build/Release/Emdros.node: $(SWIG_NODEJS_SRC)
+	$(NODE_GYP_PROGRAM) clean configure build
+
 
 
 if CAN_DO_SWIG
-MAYBE_BUILT_SRC = $(SWIG_NODEJS_SRC) binding.gyp
+MAYBE_BUILT_SRC = $(SWIG_NODEJS_SRC) $(RELEASE_EMDROS_NODE)
 endif
 
 
 if SWIG_WITH_NODEJS_WRAPPERS
 
-#pkglib_LTLIBRARIES = EmdrosNode.la
-
-#nodist_EmdrosNode_la_SOURCES = nodejs_emdros_wrap.cxx
-
-EmdrosNode_la_LIBADD = @EMDROS_LDADD_BACKBACK@
-EmdrosNode_la_LDFLAGS = -module \
-                       -version-info \
-                       @LIB_EMDROS_CURRENT@:@LIB_EMDROS_REVISION@:@LIB_EMDROS_AGE@ \
-                       @DARWIN_LDFLAGS@ @SUN_LDFLAGS@
-EmdrosNode_la_DEPENDENCIES = @EMDROS_DEPS_BACKBACK@
-
-
-
-#if [ ! -d $(DESTDIR)/$(Nodejs_INI_DIR) ] ; then mkdir -p $(DESTDIR)/$(Nodejs_INI_DIR) ; fi
-#ln -s $(DESTDIR)$(pkglibdir)/EmdrosNode.ini $(DESTDIR)/$(Nodejs_INI_DIR)/
-
 install-exec-hook:
-	cp EmdrosNode.ini $(DESTDIR)$(pkglibdir)
-	rm -f $(DESTDIR)$(pkglibdir)/EmdrosNode.a
+	cp $(RELEASE_EMDROS_NODE) $(DESTDIR)$(pkglibdir)/
 
-#rm -f $(DESTDIR)/$(Nodejs_INI_DIR)/EmdrosNode.ini
+
 uninstall-hook:
-	rm -f $(DESTDIR)$(pkglibdir)/EmdrosNode.so*
+	rm -f $(DESTDIR)$(pkglibdir)/$(RELEASE_EMDROS_NODE)
 
 macdist:
-	cp -fL README_NODEJS.md .libs/EmdrosNode.so $(MACDISTDIR)/development/SWIG/nodejs_/
+	cp -fL README_NODEJS.md test_Emdros_Node.js $(RELEASE_EMDROS_NODE) $(MACDISTDIR)/development/SWIG/nodejs/
 
 
 else
