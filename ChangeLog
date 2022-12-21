@@ -9,6 +9,8 @@
 	- m4/emdros_swig.m4
 	- m4/emdros_banner.m4
 	- configure.ac
+	- Makefile.am
+	- debian/emdros.examples
 	- INSTALL
 
 2022-12-19 Ulrik Sandborg-Petersen
