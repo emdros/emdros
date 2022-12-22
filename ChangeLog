@@ -7,6 +7,8 @@
 	* m4/emdros_macos.m4: Updates to the mechanisms deciding minimum
 	macos version and architecture flags.
 
+	* m4/emdros_wx.m4: Add ability to work with wxWidgets version 3.2.
+
 2022-12-20 Ulrik Sandborg-Petersen
 
 	* Add first pass at Node.js SWIG bindings.

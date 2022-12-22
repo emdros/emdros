@@ -60,12 +60,12 @@ WX_RELEASE=none
 if test x$DO_WXWIDGETS = xyes; then
   WX_RELEASE=`$WX_CONFIG_PROG --release`
   WX_VERSION=`$WX_CONFIG_PROG --version`
-  if test "x$WX_RELEASE" = "x2.9" -o "x$WX_RELEASE" = "x3.0" -o "x$WX_RELEASE" = "x3.1"; then
+  if test "x$WX_RELEASE" = "x2.9" -o "x$WX_RELEASE" = "x3.0" -o "x$WX_RELEASE" = "x3.1" -o "x$WX_RELEASE" = "x3.2"; then
      WXLIBS_ALL="all";
   else
      WXLIBS_ALL="";
   fi
-  if test "x$WX_RELEASE" = "x2.8" -o "x$WX_RELEASE" = "x2.9" -o "x$WX_RELEASE" = "x3.0" -o "x$WX_RELEASE" = "x3.1" ; then
+  if test "x$WX_RELEASE" = "x2.8" -o "x$WX_RELEASE" = "x2.9" -o "x$WX_RELEASE" = "x3.0" -o "x$WX_RELEASE" = "x3.1"  -o "x$WX_RELEASE" = "x3.2" ; then
     DUMMY_OUT=`$WX_CONFIG_PROG --unicode=yes` && WX_DO_UNICODE=yes
 
     if test "x$WX_DO_UNICODE" = "xyes"; then
@@ -83,7 +83,7 @@ if test x$DO_WXWIDGETS = xyes; then
   else
     AC_MSG_CHECKING([wxWidgets version])
     AC_MSG_ERROR([Error: this configure script does not know how to 
-    build Emdros with wxWidgets greater than 3.1 or less than 2.8.])
+    build Emdros with wxWidgets greater than 3.2 or less than 2.8.])
   fi
 
   if test x$HOSTISDARWIN = xyes; then
