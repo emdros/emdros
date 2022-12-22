@@ -148,9 +148,24 @@ if test "x$HOSTISDARWIN" = "xyes"; then
     AC_MSG_RESULT([10.15]) 
     MACOS_VERSION_MIN="10.14"
     MACOS_CFLAGS=""
-  else
-    AC_MSG_RESULT([unknown... Using 10.16.]) 
+  dnl macOS 11 (Big Sur)
+  elif test "x$DARWINMAJORVERSION" = "x20"; then
+    AC_MSG_RESULT([11]) 
     MACOS_VERSION_MIN="10.15"
+    MACOS_CFLAGS=""
+  dnl macOS 12 (Monterey)
+  elif test "x$DARWINMAJORVERSION" = "x21"; then
+    AC_MSG_RESULT([11]) 
+    MACOS_VERSION_MIN="11"
+    MACOS_CFLAGS=""
+  dnl macOS 13 (Ventura) (Released Oct 24, 2022)
+  elif test "x$DARWINMAJORVERSION" = "x22"; then
+    AC_MSG_RESULT([12]) 
+    MACOS_VERSION_MIN="12"
+    MACOS_CFLAGS=""
+  else
+    AC_MSG_RESULT([unknown... Using 12.]) 
+    MACOS_VERSION_MIN="12"
     MACOS_CFLAGS=""
   fi
 
@@ -268,14 +283,22 @@ Please do so, and try again.])
   elif test "x$MACOS_VERSION_MIN" = "x10.14"; then
     AC_MSG_RESULT([10.14]) 
     MACOS_ARCH_FLAGS="-arch x86_64"
-  dnl macOS 10.15: macOS 10.15 doesn't support i386
+  dnl macOS 10.15: macOS 10.15 does not support arm64, but macOS 11 (Big Sur) does.
   elif test "x$MACOS_VERSION_MIN" = "x10.15"; then
     AC_MSG_RESULT([10.15]) 
-    MACOS_ARCH_FLAGS="-arch x86_64"
-  dnl macOS 10.15: macOS 10.16 doesn't support i386
+    MACOS_ARCH_FLAGS="-arch x86_64 -arch arm64"
+  dnl macOS 11 (Big Sur)
+  elif test "x$MACOS_VERSION_MIN" = "x11"; then
+    AC_MSG_RESULT([11]) 
+    MACOS_ARCH_FLAGS="-arch x86_64 -arch arm64"
+  dnl macOS 12 (Monterey)
+  elif test "x$MACOS_VERSION_MIN" = "x12"; then
+    AC_MSG_RESULT([12]) 
+    MACOS_ARCH_FLAGS="-arch x86_64 -arch arm64"
+  dnl Unknown
   else
-    AC_MSG_RESULT([Unknown... defaulting to x86_64])
-    MACOS_ARCH_FLAGS="-arch x86_64"
+    AC_MSG_RESULT([Unknown... defaulting to -arch x86_64 -arch arm64])
+    MACOS_ARCH_FLAGS="-arch x86_64 -arch arm64"
   fi
 
   AC_MSG_CHECKING([macOS MACOS_ARCH_FLAGS for macOS minimum build version ${MACOS_VERSION_MIN} ...])
