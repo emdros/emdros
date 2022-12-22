@@ -135,6 +135,11 @@ program rather than the native Mac OS X wx-config.
 
        CXX="g++ -std=c++11 --stdlib=libc++" ../configure --prefix=${HOME}/opt/wxWidgets-3.2.1 --with-osx_cocoa --enable-macosx_arch=x86_64 --disable-shared --disable-dependency-tracking --with-expat=builtin --with-zlib=builtin --with-macosx-version-min=10.13
 
+       If on macOS 11 (Big Sur) or later:
+
+        CXX="g++ -std=c++11 --stdlib=libc++" ../configure --prefix=${HOME}/opt/wxWidgets-3.2.1 --with-osx_cocoa --disable-shared --disable-dependency-tracking --with-expat=builtin --with-zlib=builtin --enable-macosx_arch="x86_64,arm64" --with-macosx-version-min=10.15
+
+
    1f) make && make install
 
 
@@ -184,7 +189,7 @@ This is, however, not supported by the author of Emdros.
 
    then cd to the root of the sources, and do
 
-   export CFLAGS="-O3" CXXFLAGS="-O3" && ./configure --disable-debug --with-wx --enable-universal_binary --disable-dependency-tracking --with-sqlite3=local  --enable-local-zlib --enable-local-pcre  --with-swig-language-python2=no --with-swig-language-python3=no --with-swig-language-java=no --with-swig-language-csharp=no --with-swig-language-php7=no --with-swig-language-php8=no
+   export CFLAGS="-O3" CXXFLAGS="-O3" && ./configure --disable-debug --with-wx --enable-universal_binary --disable-dependency-tracking --with-sqlite3=local  --enable-local-zlib --enable-local-pcre  --with-swig-language-python2=no --with-swig-language-python3=no --with-swig-language-java=no --with-swig-language-csharp=no --with-swig-language-php7=no --with-swig-language-php8=no --with-swig-language-nodejs=maybe
 
    Please see the INSTALL file in the root of the sources for other
    switches you can give to configure.
