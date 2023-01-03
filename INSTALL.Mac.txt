@@ -1,5 +1,5 @@
 HOWTO Install Emdros on a Mac OS X
-Last update: December 21, 2022
+Last update: January 3, 2023
 
 Overview:
 
@@ -137,7 +137,7 @@ program rather than the native Mac OS X wx-config.
 
        If on macOS 11 (Big Sur) or later:
 
-        CXX="g++ -std=c++11 --stdlib=libc++" ../configure --prefix=${HOME}/opt/wxWidgets-3.2.1 --with-osx_cocoa --disable-shared --disable-dependency-tracking --with-expat=builtin --with-zlib=builtin --enable-macosx_arch="x86_64,arm64" --with-macosx-version-min=10.15
+        WXWIDGETS_VERSION=`cat ../configure.in  | grep AC_INIT | awk -F '[' '{print $3}' | awk -F ']' '{print $1}'` CXX="g++ -std=c++11 --stdlib=libc++" ../configure --prefix=${HOME}/opt/wxWidgets-$WXWIDGETS_VERSION --with-osx_cocoa --disable-shared --disable-dependency-tracking --with-expat=builtin --with-zlib=builtin --enable-macosx_arch="x86_64,arm64" --with-macosx-version-min=10.15
 
 
    1f) make && make install
