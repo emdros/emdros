@@ -1,3 +1,15 @@
+============ 3.8.0 ============
+
+2023-01-03 Ulrik Sandborg-Petersen
+
+	* Bumped to version 3.8.0, due to new, significant,
+	backwards-compatibnle features (in compliance with the Semantic
+	Versioning Spec).
+
+	modified:   ChangeLog
+	modified:   configure.ac
+	modified:   debian/changelog
+
 ============ 3.7.4 ============
 
 2022-12-21 Ulrik Sandborg-Petersen

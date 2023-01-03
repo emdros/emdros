@@ -2,7 +2,7 @@
 # Process this file with autoconf to produce a configure script.
 
 AC_PREREQ([2.69])
-AC_INIT([emdros],[3.7.4],[ulrikp@emdros.org])
+AC_INIT([emdros],[3.8.0],[ulrikp@emdros.org])
 AC_CONFIG_MACRO_DIRS([m4])
 LT_INIT
 AM_INIT_AUTOMAKE
