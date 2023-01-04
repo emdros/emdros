@@ -26,6 +26,10 @@
 	* SWIG/nodejs/binding.gyp.in: Fixes for building Node.js bindings
 	on macos.
 
+	* pcre/config.h: Revert to locally changed #define names that
+	conflict with their Emdros counterparts, e.g., VERSION ->
+	PCRE_VERSION, PACKAGE -> PCRE_PACKAGE, etc.
+
 2023-01-03 Ulrik Sandborg-Petersen
 
 	* zlib/: Update to version 1.2.13 from 2022-10-13. 

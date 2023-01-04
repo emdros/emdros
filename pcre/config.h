@@ -212,25 +212,25 @@ sure both macros are undefined; an emulation function will then be used. */
 /* #undef NO_RECURSE */
 
 /* Name of package */
-#define PACKAGE "pcre"
+#define PCRE_PACKAGE "pcre"
 
 /* Define to the address where bug reports for this package should be sent. */
-#define PACKAGE_BUGREPORT ""
+#define PCRE_PACKAGE_BUGREPORT ""
 
 /* Define to the full name of this package. */
-#define PACKAGE_NAME "PCRE"
+#define PCRE_PACKAGE_NAME "PCRE"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "PCRE 8.45"
+#define PCRE_PACKAGE_STRING "PCRE 8.45"
 
 /* Define to the one symbol short name of this package. */
-#define PACKAGE_TARNAME "pcre"
+#define PCRE_PACKAGE_TARNAME "pcre"
 
 /* Define to the home page for this package. */
-#define PACKAGE_URL ""
+#define PCRE_PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "8.45"
+#define PCRE_PACKAGE_VERSION "8.45"
 
 /* The value of PARENS_NEST_LIMIT specifies the maximum depth of nested
    parentheses (of any kind) in a pattern. This limits the amount of system
@@ -319,7 +319,7 @@ sure both macros are undefined; an emulation function will then be used. */
 /* #undef SUPPORT_PCRE32 */
 
 /* Define to any value to enable the 8 bit PCRE library. */
-#define SUPPORT_PCRE8 /**/
+#define SUPPORT_PCRE8 1
 
 /* Define to any value to enable JIT support in pcregrep. */
 /* #undef SUPPORT_PCREGREP_JIT */
@@ -331,13 +331,13 @@ sure both macros are undefined; an emulation function will then be used. */
    This will work even in an EBCDIC environment, but it is incompatible with
    the EBCDIC macro. That is, PCRE can support *either* EBCDIC code *or*
    ASCII/UTF-8/16/32, but not both at once. */
-/* #undef SUPPORT_UTF */
+#define SUPPORT_UTF 1
 
 /* Define to any value for valgrind support to find invalid memory reads. */
 /* #undef SUPPORT_VALGRIND */
 
 /* Version number of package */
-#define VERSION "8.45"
+#define PCRE_VERSION "8.45"
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */
