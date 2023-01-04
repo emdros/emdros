@@ -85,9 +85,6 @@ sure both macros are undefined; an emulation function will then be used. */
 /* Define to 1 if you have the `memmove' function. */
 #define HAVE_MEMMOVE 1
 
-/* Define to 1 if you have the <memory.h> header file. */
-#define HAVE_MEMORY_H 1
-
 /* Define if you have POSIX threads libraries and header files. */
 /* #undef HAVE_PTHREAD */
 
@@ -102,6 +99,9 @@ sure both macros are undefined; an emulation function will then be used. */
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1
+
+/* Define to 1 if you have the <stdio.h> header file. */
+#define HAVE_STDIO_H 1
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #define HAVE_STDLIB_H 1
@@ -212,25 +212,25 @@ sure both macros are undefined; an emulation function will then be used. */
 /* #undef NO_RECURSE */
 
 /* Name of package */
-#define PCRE_PACKAGE "pcre"
+#define PACKAGE "pcre"
 
 /* Define to the address where bug reports for this package should be sent. */
-#define PCRE_PACKAGE_BUGREPORT ""
+#define PACKAGE_BUGREPORT ""
 
 /* Define to the full name of this package. */
-#define PCRE_PACKAGE_NAME "PCRE"
+#define PACKAGE_NAME "PCRE"
 
 /* Define to the full name and version of this package. */
-#define PCRE_PACKAGE_STRING "PCRE 8.42"
+#define PACKAGE_STRING "PCRE 8.45"
 
 /* Define to the one symbol short name of this package. */
-#define PCRE_PACKAGE_TARNAME "pcre"
+#define PACKAGE_TARNAME "pcre"
 
 /* Define to the home page for this package. */
-#define PCRE_PACKAGE_URL ""
+#define PACKAGE_URL ""
 
 /* Define to the version of this package. */
-#define PCRE_PACKAGE_VERSION "8.42"
+#define PACKAGE_VERSION "8.45"
 
 /* The value of PARENS_NEST_LIMIT specifies the maximum depth of nested
    parentheses (of any kind) in a pattern. This limits the amount of system
@@ -290,7 +290,9 @@ sure both macros are undefined; an emulation function will then be used. */
    your system. */
 /* #undef PTHREAD_CREATE_JOINABLE */
 
-/* Define to 1 if you have the ANSI C header files. */
+/* Define to 1 if all of the C90 standard headers exist (not just the ones
+   required in a freestanding environment). This macro is provided for
+   backward compatibility; new code need not use it. */
 #define STDC_HEADERS 1
 
 /* Define to any value to enable support for Just-In-Time compiling. */
@@ -317,7 +319,7 @@ sure both macros are undefined; an emulation function will then be used. */
 /* #undef SUPPORT_PCRE32 */
 
 /* Define to any value to enable the 8 bit PCRE library. */
-#define SUPPORT_PCRE8 1
+#define SUPPORT_PCRE8 /**/
 
 /* Define to any value to enable JIT support in pcregrep. */
 /* #undef SUPPORT_PCREGREP_JIT */
@@ -329,13 +331,13 @@ sure both macros are undefined; an emulation function will then be used. */
    This will work even in an EBCDIC environment, but it is incompatible with
    the EBCDIC macro. That is, PCRE can support *either* EBCDIC code *or*
    ASCII/UTF-8/16/32, but not both at once. */
-#define SUPPORT_UTF 1
+/* #undef SUPPORT_UTF */
 
 /* Define to any value for valgrind support to find invalid memory reads. */
 /* #undef SUPPORT_VALGRIND */
 
 /* Version number of package */
-#define PCRE_VERSION "8.42"
+#define VERSION "8.45"
 
 /* Define to empty if `const' does not conform to ANSI C. */
 /* #undef const */
