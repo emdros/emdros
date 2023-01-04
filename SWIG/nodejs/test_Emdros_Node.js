@@ -1,3 +1,7 @@
+// Use the correct path to the 'Emdros.node' module.
+// For example:
+
+// var Emdros = require("/usr/lib/emdros/Emdros")
 var Emdros = require("./build/Release/Emdros")
 
 function execString(env, query) {

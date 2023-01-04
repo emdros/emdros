@@ -1,6 +1,6 @@
 README for Emdros SWIG Node.js
 Created: 8/17-2013
-Last update: 12/20-2022
+Last update: 1/3/2023
 
 # Introduction
 
@@ -14,7 +14,10 @@ This document is still sketchy.
 Here is an example:
 
 ```
-var Emdros = require("./build/Release/Emdros")
+// Use the correct path to the 'Emdros.node' module.
+// For example:
+
+var Emdros = require("/usr/lib/emdros/Emdros")
 
 function execString(env, query) {
     var bCompilerOK = true;
