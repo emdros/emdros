@@ -3,7 +3,7 @@
 2023-01-03 Ulrik Sandborg-Petersen
 
 	* Bumped to version 3.8.0, due to new, significant,
-	backwards-compatibnle features (in compliance with the Semantic
+	backwards-compatible features (in compliance with the Semantic
 	Versioning Spec).
 
 	modified:   ChangeLog
