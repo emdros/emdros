@@ -65,7 +65,7 @@ EOF
      AC_MSG_WARN([swig version 2.0.12 or higher must be present for SWIG to be invoked]);
      CAN_DO_SWIG="no";
    else 
-     AC_MSG_RESULT(yes); 
+     AC_MSG_RESULT([yes. ${SWIG_VERSION_STRING}]); 
    fi
 else
    AC_MSG_CHECKING([swig program...])
