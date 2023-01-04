@@ -23,6 +23,9 @@
 	* m4/emdros_swig.m4: Fix bash syntax error in setting
 	NODEJS_VERSION_MINOR.
 
+	* SWIG/nodejs/binding.gyp.in: Fixes for building Node.js bindings
+	on macos.
+
 2023-01-03 Ulrik Sandborg-Petersen
 
 	* zlib/: Update to version 1.2.13 from 2022-10-13. 
