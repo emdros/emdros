@@ -13,6 +13,10 @@
 	* INSTALL.Mac.txt: Update building instructions for wxWidgets on
 	macos Big Sur and forward.
 
+2023-01-03 Ulrik Sandborg-Petersen
+
+	* zlib/: Update to version 1.2.13 from 2022-10-13. 
+
 ============ 3.7.4 ============
 
 2022-12-21 Ulrik Sandborg-Petersen
