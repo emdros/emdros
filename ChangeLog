@@ -13,6 +13,8 @@
 	* INSTALL.Mac.txt: Update building instructions for wxWidgets on
 	macos Big Sur and forward.
 
+	* sqlite3/: Update to version 3.40.1 from 2022-12-23.
+
 2023-01-03 Ulrik Sandborg-Petersen
 
 	* zlib/: Update to version 1.2.13 from 2022-10-13. 

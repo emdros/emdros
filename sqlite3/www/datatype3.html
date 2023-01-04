@@ -1,126 +1,172 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>Datatypes In SQLite Version 3</title>
-<style type="text/css">
-body {
-    margin: auto;
-    font-family: Verdana, sans-serif;
-    padding: 8px 1%;
-}
-
-a { color: #044a64 }
-a:visited { color: #734559 }
-
-.logo { position:absolute; margin:3px; }
-.tagline {
-  float:right;
-  text-align:right;
-  font-style:italic;
-  width:300px;
-  margin:12px;
-  margin-top:58px;
-}
-
-.menubar {
-  clear: both;
-  border-radius: 8px;
-  background: #044a64;
-  padding: 0px;
-  margin: 0px;
-  cell-spacing: 0px;
-}    
-.toolbar {
-  text-align: center;
-  line-height: 1.6em;
-  margin: 0;
-  padding: 0px 8px;
-}
-.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
-.toolbar a:visited { color: white; }
-.toolbar a:hover { color: #044a64; background: white; }
-
-.content    { margin: 5%; }
-.content dt { font-weight:bold; }
-.content dd { margin-bottom: 25px; margin-left:20%; }
-.content ul { padding:0px; padding-left: 15px; margin:0px; }
-
-/* Things for "fancyformat" documents start here. */
-.fancy img+p {font-style:italic}
-.fancy .codeblock i { color: darkblue; }
-.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
-.fancy h2 { margin-left: 10px }
-.fancy h3 { margin-left: 20px }
-.fancy h4 { margin-left: 30px }
-.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
-.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
-.fancy #toc a        { color: darkblue ; text-decoration: none }
-.fancy .todo         { color: #AA3333 ; font-style : italic }
-.fancy .todo:before  { content: 'TODO:' }
-.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
-.fancy img { display:block; }
-.fancy :link:hover, .fancy :visited:hover { background: wheat }
-.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
-.fancy li p { margin: 1em 0 }
-/* End of "fancyformat" specific rules. */
-
-</style>
-  
+<link href="sqlite.css" rel="stylesheet">
+<title>Datatypes In SQLite</title>
+<!-- path= -->
 </head>
 <body>
-<div><!-- container div to satisfy validator -->
-
+<div class=nosearch>
 <a href="index.html">
-<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite Logo"
- border="0"></a>
-<div><!-- IE hack to prevent disappearing logo--></div>
-<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
-
-<table width=100% class="menubar"><tr>
-  <td width=100%>
-  <div class="toolbar">
-    <a href="about.html">About</a>
-    <a href="sitemap.html">Sitemap</a>
-    <a href="docs.html">Documentation</a>
-    <a href="download.html">Download</a>
-    <a href="copyright.html">License</a>
-    <a href="news.html">News</a>
-    <a href="support.html">Support</a>
-  </div>
+<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='about.html'>About</a>
+<li class='desktoponly'><a href="docs.html">Documentation</a>
+<li class='desktoponly'><a href="download.html">Download</a>
+<li class='wideonly'><a href='copyright.html'>License</a>
+<li class='desktoponly'><a href="support.html">Support</a>
+<li class='desktoponly'><a href="prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='about.html'>About</a>
+<li><a href='docs.html'>Documentation</a>
+<li><a href='download.html'>Download</a>
+<li><a href='support.html'>Support</a>
+<li><a href='prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
 <script>
-  gMsg = "Search SQLite Docs..."
-  function entersearch() {
-    var q = document.getElementById("q");
-    if( q.value == gMsg ) { q.value = "" }
-    q.style.color = "black"
-    q.style.fontStyle = "normal"
-  }
-  function leavesearch() {
-    var q = document.getElementById("q");
-    if( q.value == "" ) { 
-      q.value = gMsg
-      q.style.color = "#044a64"
-      q.style.fontStyle = "italic"
-    }
-  }
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
 </script>
-<td>
-    <div style="padding:0 1em 0px 0;white-space:nowrap">
-    <form name=f method="GET" action="http://www.sqlite.org/search">
-      <input id=q name=q type=text
-       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
-      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
-    </form>
-    </div>
-  </table>
+<div class=fancy>
+<div class=nosearch>
+<div class="fancy_title">
+Datatypes In SQLite
+</div>
+<div class="fancy_toc">
+<a onclick="toggle_toc()">
+<span class="fancy_toc_mark" id="toc_mk">&#x25ba;</span>
+Table Of Contents
+</a>
+<div id="toc_sub"><div class="fancy-toc1"><a href="#datatypes_in_sqlite">1. Datatypes In SQLite</a></div>
+<div class="fancy-toc1"><a href="#storage_classes_and_datatypes">2. Storage Classes and Datatypes</a></div>
+<div class="fancy-toc2"><a href="#boolean_datatype">2.1. Boolean Datatype</a></div>
+<div class="fancy-toc2"><a href="#date_and_time_datatype">2.2. Date and Time Datatype</a></div>
+<div class="fancy-toc1"><a href="#type_affinity">3. Type Affinity</a></div>
+<div class="fancy-toc2"><a href="#determination_of_column_affinity">3.1. Determination Of Column Affinity</a></div>
+<div class="fancy-toc3"><a href="#affinity_name_examples">3.1.1. Affinity Name Examples</a></div>
+<div class="fancy-toc2"><a href="#affinity_of_expressions">3.2. Affinity Of Expressions</a></div>
+<div class="fancy-toc2"><a href="#column_affinity_for_views_and_subqueries">3.3. Column Affinity For Views And Subqueries</a></div>
+<div class="fancy-toc3"><a href="#column_affinity_for_compound_views">3.3.1. Column Affinity For Compound Views</a></div>
+<div class="fancy-toc2"><a href="#column_affinity_behavior_example">3.4. Column Affinity Behavior Example</a></div>
+<div class="fancy-toc1"><a href="#comparison_expressions">4. Comparison Expressions</a></div>
+<div class="fancy-toc2"><a href="#sort_order">4.1. Sort Order</a></div>
+<div class="fancy-toc2"><a href="#type_conversions_prior_to_comparison">4.2. Type Conversions Prior To Comparison</a></div>
+<div class="fancy-toc2"><a href="#comparison_example">4.3. Comparison Example</a></div>
+<div class="fancy-toc1"><a href="#operators">5. Operators</a></div>
+<div class="fancy-toc1"><a href="#sorting_grouping_and_compound_selects">6. Sorting, Grouping and Compound SELECTs</a></div>
+<div class="fancy-toc1"><a href="#collating_sequences">7. Collating Sequences</a></div>
+<div class="fancy-toc2"><a href="#assigning_collating_sequences_from_sql">7.1. Assigning Collating Sequences from SQL</a></div>
+<div class="fancy-toc2"><a href="#collation_sequence_examples">7.2. Collation Sequence Examples</a></div>
+</div>
+</div>
+<script>
+function toggle_toc(){
+var sub = document.getElementById("toc_sub")
+var mk = document.getElementById("toc_mk")
+if( sub.style.display!="block" ){
+sub.style.display = "block";
+mk.innerHTML = "&#x25bc;";
+} else {
+sub.style.display = "none";
+mk.innerHTML = "&#x25ba;";
+}
+}
+</script>
+</div>
 
-<div class=startsearch></div>
-  
 
 
 
-<h1 align=center>Datatypes In SQLite Version 3</h1>
 
+<h1 id="datatypes_in_sqlite"><span>1. </span>Datatypes In SQLite</h1>
 <p>Most SQL database engines (every SQL database engine other than SQLite,
 as far as we know) uses static, rigid typing.  With static typing, the datatype
 of a value is determined by its container - the particular column in
@@ -130,39 +176,45 @@ which the value is stored.</p>
 of a value is associated with the value itself, not with its container.
 The dynamic type system of SQLite is backwards
 compatible with the more common static type systems of other database engines
-in the sense that SQL statement that work on statically typed databases should
+in the sense that SQL statements that work on statically typed databases
 work the same way in SQLite.  However, the dynamic typing in SQLite allows
 it to do things which are not possible in traditional rigidly typed
-databases.</p>
+databases.  <a href="flextypegood.html">Flexible typing is a feature</a> of SQLite, not a bug.</p>
+
+<p>Update:
+As of version 3.37.0 (2021-11-27), SQLite provides <a href="stricttables.html">STRICT tables</a>
+that do rigid type enforcement, for developers who prefer that kind of thing.
 
 <a name="storageclasses"></a>
 
-<h2>1.0 Storage Classes and Datatypes</h2>
+</p><h1 id="storage_classes_and_datatypes"><span>2. </span>Storage Classes and Datatypes</h1>
 
 <p>Each value stored in an SQLite database (or manipulated by the
 database engine) has one of the following storage classes:</p>
 <ul>
-  <li><p><B>NULL</B>.
+  <li><p><b>NULL</b>.
   The value is a NULL value.</p>
 
-  <li><p><B>INTEGER</B>. The value is a signed integer, stored in 1,
+  </li><li><p><b>INTEGER</b>. The value is a signed integer, stored in 0, 1,
   2, 3, 4, 6, or 8 bytes depending on the magnitude of the value.</p>
 
-  <li><p><B>REAL</B>. The value is a floating point value, stored as
+  </li><li><p><b>REAL</b>. The value is a floating point value, stored as
   an 8-byte IEEE floating point number.</p>
 
-  <li><p><B>TEXT</B>. The value is a text string, stored using the
+  </li><li><p><b>TEXT</b>. The value is a text string, stored using the
   database encoding (UTF-8, UTF-16BE or UTF-16LE).</p>
 
-  <li><p><B>BLOB</B>. The value is a blob of data, stored exactly as
+  </li><li><p><b>BLOB</b>. The value is a blob of data, stored exactly as
   it was input.</p>
-</ul>
+</li></ul>
 
-<p>Note that a storage class is slightly more general than a datatype.
-The INTEGER storage class, for example, includes 6 different integer
-datatypes of different lengths.  This makes a difference on disk.  But
-as soon as INTEGER values are read off of disk and into memory for processing,
-they are converted to the most general datatype (8-byte signed integer).
+<p>A storage class is more general than a datatype.
+The INTEGER storage class, for example, includes 7 different integer
+datatypes of different lengths.
+<a href="fileformat2.html#record_format">This makes a difference on disk.</a> 
+But as soon as INTEGER values are read off of disk and into memory for
+processing, they are converted to the most general datatype
+(8-byte signed integer).
 And so for the most part, "storage class" is indistinguishable from 
 "datatype" and the two terms can be used interchangeably.</p>
 
@@ -181,14 +233,19 @@ database engine may convert values between numeric storage classes
 
 <a name="boolean"></a>
 
-<h3>1.1 Boolean Datatype</h3>
+<h2 id="boolean_datatype"><span>2.1. </span>Boolean Datatype</h2>
 
 <p>SQLite does not have a separate Boolean storage class.
 Instead, Boolean values are stored as integers 0 (false) and 1 (true).</p>
 
+<p>SQLite recognizes the keywords "TRUE" and "FALSE",
+as of version 3.23.0 (2018-04-02) but those keywords are
+really just alternative spellings for the integer literals 1 and 0
+respectively.
+
 <a name="datetime"></a>
 
-<h3>1.2 Date and Time Datatype</h3>
+</p><h2 id="date_and_time_datatype"><span>2.2. </span>Date and Time Datatype</h2>
 
 <p>SQLite does not have a storage class set aside for storing
 dates and/or times.
@@ -197,25 +254,41 @@ storing dates and times as TEXT, REAL, or INTEGER values:</p>
 
 <ul>
 <li><b>TEXT</b> as ISO8601 strings ("YYYY-MM-DD HH:MM:SS.SSS").
-<li><b>REAL</b> as Julian day numbers, the number of days since
+</li><li><b>REAL</b> as Julian day numbers, the number of days since
 noon in Greenwich on November 24, 4714 B.C. according to the
 proleptic Gregorian calendar.
-<li><b>INTEGER</b> as Unix Time, the number of seconds since
+</li><li><b>INTEGER</b> as Unix Time, the number of seconds since
 1970-01-01 00:00:00 UTC.
-</ul>
+</li></ul>
 
-<p>Applications can chose to store dates and times in any of these
-formats and freely convert between formats using the built-in date
-and time functions.</p>
+<p>Applications can choose to store dates and times in any of these
+formats and freely convert between formats using the built-in
+<a href="lang_datefunc.html">date and time functions</a>.</p>
 
 
 <a name="affinity"></a>
 
-<h2>2.0 Type Affinity</h2>
+<h1 id="type_affinity"><span>3. </span>Type Affinity</h1>
 
 <p>
+SQL database engines that use rigid typing will usually try to
+automatically convert values to the appropriate datatype.  Consider this:
+
+</p><blockquote><pre>
+CREATE TABLE t1(a INT, b VARCHAR(10));
+INSERT INTO t1(a,b) VALUES('123',456);
+</pre></blockquote>
+
+<p>
+Rigidly-typed database will convert the string '123' into an
+integer 123 and the integer 456 into a string '456' prior to
+doing the insert.
+
+</p><p>
 In order to maximize compatibility between SQLite and other database
-engines, SQLite supports the concept of "type affinity" on columns.
+engines, and so that the example above will work on SQLite as it does
+on other SQL database engines,
+SQLite supports the concept of "type affinity" on columns.
 The type affinity of a column is the recommended type for data stored
 in that column.  The important idea here is that the type is recommended, not
 required.  Any column can still store any type of data.
@@ -227,27 +300,40 @@ a column is called its "affinity".
 <p>Each column in an SQLite 3 database is assigned one of the
 following type affinities:</p>
 <ul>
-	<li>TEXT</LI>
-	<li>NUMERIC</LI>
-	<li>INTEGER</LI>
+	<li>TEXT</li>
+	<li>NUMERIC</li>
+	<li>INTEGER</li>
         <li>REAL</li>
-	<li>NONE</LI>
+	<li>BLOB</li>
 </ul>
 
-<p>A column with TEXT affinity stores all data using storage classes
+<p>(Historical note:  The "BLOB" type affinity used to be called "NONE".
+But that term was easy to confuse with "no affinity" and so it was
+renamed.)
+
+</p><p>A column with TEXT affinity stores all data using storage classes
 NULL, TEXT or BLOB. If numerical data is inserted into a column with
 TEXT affinity it is converted into text form before being stored.</p>
 
 <p>A column with NUMERIC affinity may contain values using all five
 storage classes.  When text data is inserted into a NUMERIC column, the
 storage class of the text is converted to INTEGER or REAL (in order of
-preference) if such conversion is lossless and reversible.
-For conversions between TEXT and REAL storage classes, SQLite considers
-the conversion to be lossless and reversible if the first 15 significant
-decimal digits of the number are preserved.
-If the lossless conversion of TEXT to INTEGER or REAL is not possible then
-the value is stored using the TEXT storage class. No
-attempt is made to convert NULL or BLOB values.</p>
+preference) if the text is a well-formed integer or real literal, respectively.
+If the TEXT value is a well-formed integer literal that is too large
+to fit in a 64-bit signed integer, it is converted to REAL.
+For conversions between TEXT and REAL storage classes, only the first
+15 significant decimal digits of the number are preserved.
+If the TEXT value is not a well-formed integer or real literal,
+then the value is stored as TEXT.
+For the purposes of this paragraph, hexadecimal integer
+literals are not considered well-formed and are stored as TEXT.
+(This is done for historical compatibility with versions of SQLite
+prior to <a href="releaselog/3_8_6.html">version 3.8.6</a> 2014-08-15 where hexadecimal integer
+literals were first introduced into SQLite.)
+If a floating point value that can be represented exactly as an integer
+is inserted into a column with NUMERIC affinity, the value is
+converted into an integer.
+No attempt is made to convert NULL or BLOB values.</p>
 
 <p>A string might look like a floating-point literal with
 a decimal point and/or exponent notation but as long as
@@ -258,7 +344,9 @@ point value 300000.0.</p>
 
 <p>A column that uses INTEGER affinity behaves the same as a column
 with NUMERIC affinity.  The difference between INTEGER and NUMERIC affinity
-is only evident in a <a href="lang_expr.html#castexpr">CAST expression</a>.</p>
+is only evident in a <a href="lang_expr.html#castexpr">CAST expression</a>:  The expression
+"CAST(4.0 AS INT)" returns an integer 4, whereas
+"CAST(4.0 AS NUMERIC)" leaves the value as a floating-point 4.0.</p>
 
 <p>A column with REAL affinity behaves like a column with NUMERIC
 affinity except that it forces integer values into floating point
@@ -270,43 +358,44 @@ the value is read out.
 This optimization is completely invisible at the SQL level and can only
 be detected by examining the raw bits of the database file.)</p>
 
-<p>A column with affinity NONE does not prefer one storage class over
+<p>A column with affinity BLOB does not prefer one storage class over
 another and no attempt is made to coerce data from one storage class into
 another.</p>
 
 <a name="affname"></a>
 
-<h3>2.1 Determination Of Column Affinity</h3>
+<h2 id="determination_of_column_affinity"><span>3.1. </span>Determination Of Column Affinity</h2>
 
-<p>The affinity of a column is determined by the declared type
+<p>For tables not declared as <a href="stricttables.html">STRICT</a>,
+the affinity of a column is determined by the declared type
 of the column, according to the following rules in the order shown:</p>
 
 <ol>
   <li><p>If the declared type contains the string "INT" then it
   is assigned INTEGER affinity.</p>
 
-  <li><p>If the declared type of the column contains any of the strings
+  </li><li><p>If the declared type of the column contains any of the strings
   "CHAR", "CLOB", or "TEXT" then that
   column has TEXT affinity.  Notice that the type VARCHAR contains the
   string "CHAR" and is thus assigned TEXT affinity.</p>
 
-  <li><p>If the declared type for a column
+  </li><li><p>If the declared type for a column
   contains the string "BLOB" or if
-  no type is specified then the column has affinity NONE.</p>
+  no type is specified then the column has affinity BLOB.</p>
 
-  <li><p>If the declared type for a column
+  </li><li><p>If the declared type for a column
   contains any of the strings "REAL", "FLOA",
   or "DOUB" then the column has REAL affinity.</p>
 
-  <li><p>Otherwise, the affinity is NUMERIC.</p>
-</ol>
+  </li><li><p>Otherwise, the affinity is NUMERIC.</p>
+</li></ol>
 
 <p>Note that the order of the rules for determining column affinity
 is important.  A column whose declared type is "CHARINT" will match
 both rules 1 and 2 but the first rule takes precedence and so the 
 column affinity will be INTEGER.</p>
 
-<h3>2.2 Affinity Name Examples</h3>
+<h3 id="affinity_name_examples"><span>3.1.1. </span>Affinity Name Examples</h3>
 
 <p>The following table shows how many common datatype names from
 more traditional SQL implementations are converted into affinities by the five rules of the
@@ -321,10 +410,10 @@ strings, BLOBs or numeric values.</p>
 <table border="1" cellpadding="5">
 <tr><th>Example Typenames From The<br>CREATE TABLE Statement<br>
         or CAST Expression
-    <th>Resulting Affinity
-    <th>Rule Used To Determine Affinity
+    </th><th>Resulting Affinity
+    </th><th>Rule Used To Determine Affinity
 
-<tr><td align="center" valign="top">
+</th></tr><tr><td align="center" valign="top">
   INT<br>
   INTEGER<br>
   TINYINT<br>
@@ -334,10 +423,10 @@ strings, BLOBs or numeric values.</p>
   UNSIGNED BIG INT<br>
   INT2<br>
   INT8
-<td align="center">INTEGER
-<td align="center">1
+</td><td align="center">INTEGER
+</td><td align="center">1
 
-<tr><td align="center" valign="top">
+</td></tr><tr><td align="center" valign="top">
   CHARACTER(20)<br>
   VARCHAR(255)<br>
   VARYING CHARACTER(255)<br>
@@ -346,39 +435,125 @@ strings, BLOBs or numeric values.</p>
   NVARCHAR(100)<br>
   TEXT<br>
   CLOB
-<td align="center">TEXT
-<td align="center">2
+</td><td align="center">TEXT
+</td><td align="center">2
 
-<tr><td align="center" valign="top">
+</td></tr><tr><td align="center" valign="top">
   BLOB<br>
   <i>no datatype specified</i>
-<td align="center">NONE
-<td align="center">3
+</td><td align="center">BLOB
+</td><td align="center">3
 
-<tr><td align="center" valign="top">
+</td></tr><tr><td align="center" valign="top">
   REAL<br>
   DOUBLE<br>
   DOUBLE PRECISION<br>
   FLOAT
-<td align="center">REAL
-<td align="center">4
+</td><td align="center">REAL
+</td><td align="center">4
 
-<tr><td align="center" valign="top">
+</td></tr><tr><td align="center" valign="top">
   NUMERIC<br>
   DECIMAL(10,5)<br>
   BOOLEAN<br>
   DATE<br>
   DATETIME
-<td align="center">NUMERIC
-<td align="center">5
-</table>
+</td><td align="center">NUMERIC
+</td><td align="center">5
+</td></tr></table>
 </blockquote>
 
 <p>Note that a declared type of "FLOATING POINT" would give INTEGER
 affinity, not REAL affinity, due to the "INT" at the end of "POINT".
 And the declared type of "STRING" has an affinity of NUMERIC, not TEXT.
 
-<h3>2.3 Column Affinity Behavior Example</h3>
+<a name="expraff"></a>
+
+</p><h2 id="affinity_of_expressions"><span>3.2. </span>Affinity Of Expressions</h2>
+
+<p>Every table column has a type affinity (one of BLOB, TEXT, INTEGER,
+REAL, or NUMERIC) but expressions do not necessarily have an affinity.
+
+</p><p>Expression affinity is determined by the following rules:
+
+</p><ul>
+  <li><p>The right-hand operand of an IN or NOT IN
+  operator has no affinity if the operand is a list, or has the same
+  affinity as the affinity of the result set expression if the operand
+  is a SELECT.
+
+  </p></li><li><p>When an expression is a simple reference to a column of a
+  real table (not a <a href="lang_createview.html">VIEW</a> or subquery) then the expression
+  has the same affinity as the table column.
+  </p><ul>
+  <li><p>Parentheses around the column name are ignored.  Hence if
+  X and Y.Z are column names, then (X) and (Y.Z) are also considered
+  column names and have the affinity of the corresponding columns.
+  </p></li><li><p>
+  Any operators applied to column names, including the no-op 
+   unary "+" operator, convert the column name into an expression which
+   always has no affinity.  Hence even if X and Y.Z are column names, the
+   expressions +X and +Y.Z are not column names and have no affinity.
+  </p></li></ul>
+
+  </li><li><p>An expression of the form "CAST(<i>expr</i> AS <i>type</i>)"
+  has an affinity that is the same as a column with a declared
+  type of "<i>type</i>".
+
+  </p></li><li><p>A COLLATE operator has the same affinity as its left-hand side operand.
+
+  </p></li><li><p>Otherwise, an expression has no affinity.
+</p></li></ul>
+
+<a name="affview"></a>
+
+<h2 id="column_affinity_for_views_and_subqueries"><span>3.3. </span>Column Affinity For Views And Subqueries</h2>
+
+<p>The "columns" of a <a href="lang_createview.html">VIEW</a> or FROM-clause subquery are really
+the expressions
+in the result set of the <a href="lang_select.html">SELECT</a> statement that implements the VIEW
+or subquery.  Thus, the affinity for columns of a VIEW or subquery
+are determined by the expression affinity rules above.
+Consider an example:
+
+</p><blockquote><pre>
+CREATE TABLE t1(a INT, b TEXT, c REAL);
+CREATE VIEW v1(x,y,z) AS SELECT b, a+c, 42 FROM t1 WHERE b!=11;
+</pre></blockquote>
+
+<p>The affinity of the v1.x column will be the same as the affinity
+of t1.b (TEXT), since v1.x maps directly into t1.b.  But
+columns v1.y and v1.z both have no affinity, since those columns
+map into expression a+c and 42, and expressions always have no
+affinity.
+
+<a name="affcompoundview"></a>
+
+</p><h3 id="column_affinity_for_compound_views"><span>3.3.1. </span>Column Affinity For Compound Views</h3>
+
+<p>When the <a href="lang_select.html">SELECT</a> statement that implements a <a href="lang_createview.html">VIEW</a> or 
+FROM-clause subquery is a <a href="lang_select.html#compound">compound SELECT</a> then the affinity of 
+each column of the VIEW or subquery will
+be the affinity of the corresponding result column for
+one of the individual SELECT statements that make up 
+the compound.  
+However, it is indeterminate which of the SELECT statements will 
+be used to determine affinity.
+Different constituent SELECT statements might be used to determine 
+affinity at different times during query evaluation.  The choice
+might vary across different versions of SQLite.  The choice might
+change between one query and the next in the same version of SQLite.
+The choice might be different at different times within the same
+query.  Hence, you can never be sure what affinity will be used
+for columns of a compound SELECT that have different affinities in
+the constituent subqueries.
+
+</p><p>Best practice is to avoid mixing affinities in a compound SELECT
+if you care about the datatype of the result.  Mixing affinities in
+a compound SELECT can lead to surprising and unintuitive results.
+See, for example, <a href="https://sqlite.org/forum/forumpost/02d7be94d7">forum post 02d7be94d7</a>.
+
+</p><h2 id="column_affinity_behavior_example"><span>3.4. </span>Column Affinity Behavior Example</h2>
 
 <p>The following SQL demonstrates how SQLite uses column affinity
 to do type conversions when values are inserted into a table.</p>
@@ -426,13 +601,15 @@ null|null|null|null|null
 
 <a name="comparisons"></a>
 
-<h2>3.0 Comparison Expressions</h2>
+<h1 id="comparison_expressions"><span>4. </span>Comparison Expressions</h1>
 
 <p>SQLite version 3 has the usual set of SQL comparison operators
-including "=", "==", "&lt;", "&lt;=", "&gt;", "&gt;=", "!=", "<>",
+including "=", "==", "&lt;", "&lt;=", "&gt;", "&gt;=", "!=", "",
 "IN", "NOT IN", "BETWEEN", "IS", and "IS NOT", .
 
-<h3>3.1 Sort Order</h3>
+<a name="sortorder"></a>
+
+</p><h2 id="sort_order"><span>4.1. </span>Sort Order</h2>
 
 <p>The results of a comparison depend on the storage classes of the
 operands, according to the following rules:</p>
@@ -440,68 +617,56 @@ operands, according to the following rules:</p>
   <li><p>A value with storage class NULL is considered less than any
   other value (including another value with storage class NULL).</p>
 
-  <li><p>An INTEGER or REAL value is less than any TEXT or BLOB value.
+  </li><li><p>An INTEGER or REAL value is less than any TEXT or BLOB value.
   When an INTEGER or REAL is compared to another INTEGER or REAL, a
   numerical comparison is performed.</p>
 
-  <li><p>A TEXT value is less than a BLOB value.  When two TEXT values
+  </li><li><p>A TEXT value is less than a BLOB value.  When two TEXT values
   are compared an appropriate collating sequence is used to determine 
   the result.  </p>
 
-  <li><p>When two BLOB values are compared, the result is
+  </li><li><p>When two BLOB values are compared, the result is
   determined using memcmp().</p>
-</ul>
+</li></ul>
 
-<a name="expraff"></a>
+<a name="compaff"></a>
 
-<h3>3.2 Affinity Of Comparison Operands</h3>
+<h2 id="type_conversions_prior_to_comparison"><span>4.2. </span>Type Conversions Prior To Comparison</h2>
 
 <p>SQLite may attempt to convert values between the storage classes
 INTEGER, REAL, and/or TEXT before performing a comparison.
 Whether or not any conversions are attempted before the comparison takes
-place depends on the affinity of the operands.
-Operand affinity is determined by the following rules:
+place depends on the type affinity of the operands.
 
-<ul>
-  <li><p>An expression that is a simple reference to a column value
-  has the same affinity as the column.
-  Note that if X and Y.Z 
-  are column names, then +X and +Y.Z are considered expressions for the
-  purpose of determining affinity.</p>
+</p><p>To "apply affinity" means to convert an operand to a particular storage
+class if and only if the conversion does not lose essential information.
+Numeric values can always be converted into TEXT.  TEXT values 
+can be converted into numeric values if the text content is a well-formed 
+integer or real literal, but not a hexadecimal integer literal.
+BLOB values are converted into TEXT values by simply interpreting
+the binary BLOB content as a text string in the current database
+encoding.
 
-  <li><p>An expression of the form "CAST(<i>expr</i> AS <i>type</i>)"
-  has an affinity that is the same as a column with a declared
-  type of "<i>type</i>".
-
-  <li><p>Otherwise, an expression has NONE affinity.
-</ul>
-
-<a name="compaff"></a>
-
-<h3>3.3 Type Conversions Prior To Comparison</h3>
-
-<p>To "apply affinity" means to convert an operand to a particular storage
-class if and only if the conversion is lossless and reversible.
-Affinity is applied to operands of a comparison operator prior to
+</p><p>Affinity is applied to operands of a comparison operator prior to
 the comparison according to the following rules in the order shown:</p>
 
 <ul>
 <li><p>If one operand has INTEGER, REAL or NUMERIC affinity
-and the other operand as TEXT or NONE affinity
+and the other operand has TEXT or BLOB or no affinity
 then NUMERIC affinity is applied to other operand.
 
-<li><p>If one operand has TEXT affinity and the other has NONE affinity,
+</p></li><li><p>If one operand has TEXT affinity and the other has no affinity,
 then TEXT affinity is applied to the other operand.
 
-<li><p>Otherwise, no affinity is applied and both operands are compared
+</p></li><li><p>Otherwise, no affinity is applied and both operands are compared
 as is.</p>
-</ul>
+</li></ul>
 
 <p>The expression "a BETWEEN b AND c" is treated as two separate
 binary comparisons "a &gt;= b AND a &lt;= c", even if that means
 different affinities are applied to 'a' in each of the comparisons.
 Datatype conversions in comparisons of the
-form "x IN (SELECT y ...)" are handled is if
+form "x IN (SELECT y ...)" are handled as if
 the comparison were really "x=y".
 The expression "a IN (x, y, z, ...)" is equivalent to "a = +x OR
 a = +y OR a = +z OR ...".  
@@ -510,7 +675,7 @@ and "z" values in this example) are considered to have no affinity,
 even if they happen to be column values or CAST expressions.  
 </p>
 
-<h3>3.4 Comparison Example</h3>
+<h2 id="comparison_example"><span>4.3. </span>Comparison Example</h2>
 
 <blockquote>
 <pre>
@@ -572,22 +737,38 @@ SELECT d &lt; '40', d &lt; '60', d &lt; '600' FROM t1;
 </pre>
 </blockquote>
 
-<p>All of the result in the example are the same if the comparisons are
+<p>All of the results in the example are the same if the comparisons are
 commuted - if expressions of the form "a&lt;40" are rewritten
 as "40&gt;a".
 
-<h2>4.0 Operators</h2>
+</p><h1 id="operators"><span>5. </span>Operators</h1>
 
-<p>All mathematical operators (+, -, *, /, %, &lt;&lt;, &gt;&gt;,
-&amp;, and |)
-cast both operands to the NUMERIC storage class prior to being carried out.
-The cast is carried through even if it is lossy and irreversible.
+<p>Mathematical operators (+, -, *, /, %, &lt;&lt;, &gt;&gt;,
+&amp;, and |) interpret both operands as if they were numbers.
+STRING or BLOB operands automatically convert into REAL or INTEGER values.
+If the STRING or BLOB looks like a real number (if it has a decimal point
+or an exponent) or if the value is outside the range that can be represented
+as a 64-bit signed integer, then it converts to REAL.  Otherwise the operand
+converts to INTEGER.
+The implied type conversion of mathematical operands is slightly different
+from <a href="lang_expr.html#castexpr">CAST to NUMERIC</a> in that string and BLOB values that
+look like real numbers but have no fractional part are kept as REAL
+instead of being converted into INTEGER as they would be for <a href="lang_expr.html#castexpr">CAST to NUMERIC</a>.
+The conversion from STRING or BLOB into REAL or INTEGER is performed
+even if it is lossy and irreversible.
+Some mathematical operators (%, &lt;&lt;, &gt;&gt;, &amp;, and |) expect
+INTEGER operands.  For those operators, REAL operands are converted into INTEGER
+in the same way as a <a href="lang_expr.html#castexpr">CAST to INTEGER</a>.
+The &lt;&lt;, &gt;&gt;, &amp;, and | operators always return an INTEGER (or NULL)
+result, but the % operator returns either INTEGER or REAL (or NULL)
+depending on the type of its operands.
 A NULL operand on a mathematical operator yields a NULL result.
 An operand on a mathematical operator that does not look in any way
 numeric and is not NULL is converted to 0 or 0.0.
+Division by zero gives a result of NULL.
 </p>
 
-<h2>5.0 Sorting, Grouping and Compound SELECTs</h2>
+<h1 id="sorting_grouping_and_compound_selects"><span>6. </span>Sorting, Grouping and Compound SELECTs</h1>
 
 <p>When query results are sorted by an ORDER BY clause, values with storage
 class NULL come first, followed by INTEGER and REAL values
@@ -609,10 +790,10 @@ are compared as is.</p>
 
 <a name="collation"></a>
 
-<h2>6.0 Collating Sequences</h2>
+<h1 id="collating_sequences"><span>7. </span>Collating Sequences</h1>
 
 <p>When SQLite compares two strings, it uses a collating sequence or
-collating function (two words for the same thing) to determine which
+collating function (two terms for the same thing) to determine which
 string is greater or if the two strings are equal.
 SQLite has three built-in collating functions:  BINARY, NOCASE, and 
 RTRIM.</p>
@@ -620,20 +801,27 @@ RTRIM.</p>
 <ul>
 <li><b>BINARY</b> - Compares string data using memcmp(), regardless
                    of text encoding.</li>
-<li><b>NOCASE</b> - The same as binary, except the 26 upper case
+<li><b>NOCASE</b> - Similar to binary, except that it uses
+     <a href="c3ref/stricmp.html">sqlite3_strnicmp()</a> for the comparison.  Hence the 26 upper case
      characters of ASCII are folded to their lower case equivalents before
      the comparison is performed.  Note that only ASCII characters
      are case folded.  SQLite does not attempt to do full
-     UTF case folding due to the size of the tables required.</li>
+     UTF case folding due to the size of the tables required.
+     Also note that any U+0000 characters in the string are considered
+     string terminators for comparison purposes.
 
-<li><b>RTRIM</b> - The same as binary, except that trailing space
+</li><li><b>RTRIM</b> - The same as binary, except that trailing space
      characters are ignored.</li>
 </ul>
 
 <p>An application can register additional collating functions using
 the <a href="c3ref/create_collation.html">sqlite3_create_collation()</a> interface.</p>
 
-<h3>6.1 Assigning Collating Sequences from SQL</h3>
+<p>Collating functions only matter when comparing string values.
+Numeric values are always compared numerically, and BLOBs are always
+compared byte-by-byte using memcmp().</p>
+
+<h2 id="assigning_collating_sequences_from_sql"><span>7.1. </span>Assigning Collating Sequences from SQL</h2>
 
 <p>
 Every column of every
@@ -641,14 +829,17 @@ table has an associated collating function.  If no collating function
 is explicitly defined, then the collating function defaults to BINARY.
 The COLLATE clause of the <a href="lang_createtable.html#tablecoldef">column definition</a> is used
 to define alternative collating functions for a column.
-</p>  
+</p>
+
+<a name="colrules"></a>
+
 
 <p>
 The rules for determining which collating function to use for a
 binary comparison operator (=, &lt;, &gt;, &lt;=, &gt;=, !=, IS, and
-IS NOT) are as follows and in the order shown:
+IS NOT) are as follows:
 
-<ol>
+</p><ol>
 <li><p>If either operand has an explicit collating function assignment
 using the postfix <a href="lang_expr.html#collateop">COLLATE operator</a>, then the explicit collating function
 is used for comparison, with precedence to the collating function of the
@@ -657,7 +848,8 @@ left operand.</p></li>
 <li><p>If either operand is a column, then the collating function of
 that column is used with precedence to the left operand.
 For the purposes of the previous sentence, a column name
-preceded by one or more unary "+" operators is still considered a column name.
+preceded by one or more unary "+" operators and/or CAST operators
+is still considered a column name.
 </p></li>
 
 <li><p>Otherwise, the BINARY collating function is used for comparison.
@@ -669,7 +861,7 @@ An operand of a comparison is considered to have an explicit
 collating function assignment (rule 1 above) 
 if any subexpression of the operand uses
 the postfix <a href="lang_expr.html#collateop">COLLATE operator</a>.  Thus, if a <a href="lang_expr.html#collateop">COLLATE operator</a> is used
-anywhere in a comparision expression, the collating function defined
+anywhere in a comparison expression, the collating function defined
 by that operator is used for string comparison regardless of what 
 table columns might be a part of that expression.  If two or more
 <a href="lang_expr.html#collateop">COLLATE operator</a> subexpressions appear anywhere in a comparison, the 
@@ -686,6 +878,9 @@ The expression "x IN (SELECT y ...)" is handled in the same way as the
 expression "x = y" for the purposes of determining the collating sequence.
 The collating sequence used for expressions of the form 
 "x IN (y, z, ...)" is the collating sequence of x.
+If an explicit collating sequence is required on an IN operator
+it should be applied to the left operand, like this: 
+"x COLLATE nocase IN (y,z, ...)".
 </p>  
 
 <p>
@@ -699,7 +894,7 @@ determine sort order. If the expression is not a column and has no
 COLLATE clause, then the BINARY collating sequence is used.
 </p>  
 
-<h3>6.2 Collation Sequence Examples</h3>
+<h2 id="collation_sequence_examples"><span>7.2. </span>Collation Sequence Examples</h2>
 <p>
 The examples below identify the collating sequences that would be used to
 determine the results of text comparisons that may be performed by various
@@ -768,4 +963,5 @@ SELECT x FROM t1 ORDER BY c COLLATE NOCASE, x;
 --result 2 4 3 1
 </pre>
 </blockquote>
+<p align="center"><small><i>This page last modified on  <a href="https://sqlite.org/docsrc/honeypot" id="mtimelink"  data-href="https://sqlite.org/docsrc/finfo/pages/datatype3.in?m=f7b103ca249842b97">2022-04-12 00:22:10</a> UTC </small></i></p>
 

@@ -1,197 +1,190 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="sqlite.css" rel="stylesheet">
 <title>Most Widely Deployed SQL Database Engine</title>
-<style type="text/css">
-body {
-    margin: auto;
-    font-family: Verdana, sans-serif;
-    padding: 8px 1%;
-}
-
-a { color: #044a64 }
-a:visited { color: #734559 }
-
-.logo { position:absolute; margin:3px; }
-.tagline {
-  float:right;
-  text-align:right;
-  font-style:italic;
-  width:300px;
-  margin:12px;
-  margin-top:58px;
-}
-
-.menubar {
-  clear: both;
-  border-radius: 8px;
-  background: #044a64;
-  padding: 0px;
-  margin: 0px;
-  cell-spacing: 0px;
-}    
-.toolbar {
-  text-align: center;
-  line-height: 1.6em;
-  margin: 0;
-  padding: 0px 8px;
-}
-.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
-.toolbar a:visited { color: white; }
-.toolbar a:hover { color: #044a64; background: white; }
-
-.content    { margin: 5%; }
-.content dt { font-weight:bold; }
-.content dd { margin-bottom: 25px; margin-left:20%; }
-.content ul { padding:0px; padding-left: 15px; margin:0px; }
-
-/* Things for "fancyformat" documents start here. */
-.fancy img+p {font-style:italic}
-.fancy .codeblock i { color: darkblue; }
-.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
-.fancy h2 { margin-left: 10px }
-.fancy h3 { margin-left: 20px }
-.fancy h4 { margin-left: 30px }
-.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
-.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
-.fancy #toc a        { color: darkblue ; text-decoration: none }
-.fancy .todo         { color: #AA3333 ; font-style : italic }
-.fancy .todo:before  { content: 'TODO:' }
-.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
-.fancy img { display:block; }
-.fancy :link:hover, .fancy :visited:hover { background: wheat }
-.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
-.fancy li p { margin: 1em 0 }
-/* End of "fancyformat" specific rules. */
-
-</style>
-  
+<!-- path= -->
 </head>
 <body>
-<div><!-- container div to satisfy validator -->
-
+<div class=nosearch>
 <a href="index.html">
-<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite Logo"
- border="0"></a>
-<div><!-- IE hack to prevent disappearing logo--></div>
-<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
-
-<table width=100% class="menubar"><tr>
-  <td width=100%>
-  <div class="toolbar">
-    <a href="about.html">About</a>
-    <a href="sitemap.html">Sitemap</a>
-    <a href="docs.html">Documentation</a>
-    <a href="download.html">Download</a>
-    <a href="copyright.html">License</a>
-    <a href="news.html">News</a>
-    <a href="support.html">Support</a>
-  </div>
+<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='about.html'>About</a>
+<li class='desktoponly'><a href="docs.html">Documentation</a>
+<li class='desktoponly'><a href="download.html">Download</a>
+<li class='wideonly'><a href='copyright.html'>License</a>
+<li class='desktoponly'><a href="support.html">Support</a>
+<li class='desktoponly'><a href="prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='about.html'>About</a>
+<li><a href='docs.html'>Documentation</a>
+<li><a href='download.html'>Download</a>
+<li><a href='support.html'>Support</a>
+<li><a href='prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
 <script>
-  gMsg = "Search SQLite Docs..."
-  function entersearch() {
-    var q = document.getElementById("q");
-    if( q.value == gMsg ) { q.value = "" }
-    q.style.color = "black"
-    q.style.fontStyle = "normal"
-  }
-  function leavesearch() {
-    var q = document.getElementById("q");
-    if( q.value == "" ) { 
-      q.value = gMsg
-      q.style.color = "#044a64"
-      q.style.fontStyle = "italic"
-    }
-  }
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
 </script>
-<td>
-    <div style="padding:0 1em 0px 0;white-space:nowrap">
-    <form name=f method="GET" action="http://www.sqlite.org/search">
-      <input id=q name=q type=text
-       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
-      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
-    </form>
-    </div>
-  </table>
-
-<div class=startsearch></div>
-  
 
 
-<h2>Most Widely Deployed SQL Database</h2>
 
-<p>We <em>believe</em> that there are more copies of SQLite
-in use around the world than any other SQL database engine,
-and possibly all other SQL database engines combined.  We cannot
-be certain of this since we have no way of measuring either
-the number of SQLite deployments nor the number of deployments
-of other databases.  But we believe the claim is defensible.</p>
+<h2>Most Widely Deployed and Used Database Engine</h2>
 
-<p>The belief that SQLite is the most widely deployed SQL
-database engine stems from its use as an embedded database.
-Other database engines, such as MySQL, PostgreSQL, or Oracle,
-are typically found one to a server.  And usually a single
-server can serve multiple users.  With SQLite, on the other
-hand, a single user will typically have exclusive use of
-multiple copies of SQLite.  SQLite is used on servers, but
-it is also used on desktop PC, and in cellphones, and PDAs,
-and MP3-players, and set-top boxes.</p>
-
-<h3>Estimates</h3>
-
-<p>At the end of 2006, there were 100 million websites on the internet.
-<a href="http://news.netcraft.com/archives/2006/11/01/november_2006_web_server_survey.html">&#91;1]</a>
-Let us use that number as a proxy for the number of deployed
-SQL database engines other than SQLite.  Not every website
-runs an SQL database engine and not every SQL database engine
-runs a website.  Larger websites run multiple
-database engines.  But the vast majority of smaller websites
-(the long tail) share
-a database engine with several other websites,
-if they use a database engine at all.
-And many large SQL database installations have nothing to do with
-websites.
-So using the number of websites as a surrogate for the number of operational
-SQL database engines is a crude approximation, but it is the best
-we have so we will go with it.  (Readers are encouraged to submit
-better estimates.)</p>
-
-<p>Now let's consider where SQLite is used:</p>
+<p>SQLite is likely used more than all other database engines
+combined.  Billions and billions of copies
+of SQLite exist in the wild.  SQLite is found in:
 
 <ul>
-<li>300 million copies of Mozilla Firefox.</li>
-<li>20 million Mac computers, each of which contains multiple
-copies of SQLite</li>
-<li>20 million websites run PHP which has SQLite built in.  
-<a href="http://www.php.net/usage.php">&#91;3]</a>  We have no
-way of estimating what fraction of those sites actively use
-SQLite, but we think it is a significant fraction.</li>
-<li>450 million registered <a href="http://www.skype.com/">Skype</a> users.</li>
-<li>20 million Symbian smartphones shipped in Q3 2007
-<a href="http://www.symbian.com/news/pr/2007/pr20079552.html">&#91;5]</a>
-Newer versions of the SymbianOS have SQLite built in.  It is unclear
-exactly how many Symbian phones actually contain SQLite, so we will
-use a single quarter's sales as a lower bound.</li>
-<li>10 million Solaris 10 installations, all of which require SQLite in
-order to boot.</li>
-<li>Millions and millions of copies of
-<a href="http://www.mcafee.com/">McAfee</a> anti-virus software all
-use SQLite internally.</li>
-<li>Millions of iPhones use SQLite</li>
-<li>Millions and millions of other cellphones from 
-manufactures other than Symbian and Apple use SQLite.
-This has not been publicly acknowledged by the manufactures
-but it is known to the SQLite developers.</li>
-<li>There are perhaps millions of additional deployments of
-SQLite that the SQLite developers do not know about.</li>
+<li>Every Android device
+<li>Every iPhone and iOS device
+<li>Every Mac
+<li>Every Windows10 machine
+<li>Every Firefox, Chrome, and Safari web browser
+<li>Every instance of Skype
+<li>Every instance of iTunes
+<li>Every Dropbox client
+<li>Every TurboTax and QuickBooks
+<li>PHP and Python
+<li>Most television sets and set-top cable boxes
+<li>Most automotive multimedia systems
+<li>Countless millions of other applications
+</ul>
+
+<p>Since SQLite is used extensively in every smartphone, and there are
+more than 4.0 billion (4.0e9) smartphones in active use, each holding
+hundreds of
+SQLite database files, it is seems likely that there are over one trillion
+(1e12) SQLite databases in active use.
+
+<h2>Most Widely Deployed Software Module of Any Type?</h2>
+
+<p>SQLite is probably one of the top five most deployed
+software modules of any description.  
+Other libraries with similar reach include:
+
+<ul>
+<li>
+The original <a href="http://zlib.net">zlib</a> implementation by
+Jean-loup Gailly and Mark Adler.
+<li>
+The original reference implementation for
+<a href="http://www.libpng.org">libpng</a>
+<li>
+Libjpeg from the <a href="http://ijg.org">Independent JPEG Group</a>
 </ul>
 
 <p>
-By these estimates, we see at least 500 million SQLite deployments
-and about 100 million deployments of other SQL database engines.  These
-estimates are obviously very rough and may be off significantly.  
-But there is a wide margin. So the SQLite
-developers think it is likely that SQLite is the most widely deployed
-SQL database engine in the world.
+Libc is omitted from the above list even though
+it is more common than SQLite because
+libc is not a single software component but rather several
+competing implementations (ex: BSD vs. GNU) with similar interfaces.
+There are also independent implementations of libjpeg and libpng,
+though in those cases the canonical implementations are very popular.
 </p>
+
+<p>
+Precise numbers are difficult to obtain and so exact rankings
+are impossible.  But our best guess is that SQLite is the second
+mostly widely deployed software library, after libz.
+Some commentators observe that SQLite tends
+to be statically linked and thus have multiple instances on
+each machine, whereas libz tends to have just
+a single instance per machine in the form of a shared library or DLL.
+So even though the number of devices containing libz
+may be greater than the number of
+devices that contain SQLite, the total number of instances per device
+<em>might</em> be higher for SQLite and so SQLite <em>might</em>
+be the single most widely deployed and used software component.
+</p>
+<p align="center"><small><i>This page last modified on  <a href="https://sqlite.org/docsrc/honeypot" id="mtimelink"  data-href="https://sqlite.org/docsrc/finfo/pages/mostdeployed.in?m=e39f595cab7018aae">2021-06-03 20:37:13</a> UTC </small></i></p>
 

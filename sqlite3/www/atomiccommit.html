@@ -1,129 +1,199 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="sqlite.css" rel="stylesheet">
 <title>Atomic Commit In SQLite</title>
-<style type="text/css">
-body {
-    margin: auto;
-    font-family: Verdana, sans-serif;
-    padding: 8px 1%;
-}
-
-a { color: #044a64 }
-a:visited { color: #734559 }
-
-.logo { position:absolute; margin:3px; }
-.tagline {
-  float:right;
-  text-align:right;
-  font-style:italic;
-  width:300px;
-  margin:12px;
-  margin-top:58px;
-}
-
-.menubar {
-  clear: both;
-  border-radius: 8px;
-  background: #044a64;
-  padding: 0px;
-  margin: 0px;
-  cell-spacing: 0px;
-}    
-.toolbar {
-  text-align: center;
-  line-height: 1.6em;
-  margin: 0;
-  padding: 0px 8px;
-}
-.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
-.toolbar a:visited { color: white; }
-.toolbar a:hover { color: #044a64; background: white; }
-
-.content    { margin: 5%; }
-.content dt { font-weight:bold; }
-.content dd { margin-bottom: 25px; margin-left:20%; }
-.content ul { padding:0px; padding-left: 15px; margin:0px; }
-
-/* Things for "fancyformat" documents start here. */
-.fancy img+p {font-style:italic}
-.fancy .codeblock i { color: darkblue; }
-.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
-.fancy h2 { margin-left: 10px }
-.fancy h3 { margin-left: 20px }
-.fancy h4 { margin-left: 30px }
-.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
-.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
-.fancy #toc a        { color: darkblue ; text-decoration: none }
-.fancy .todo         { color: #AA3333 ; font-style : italic }
-.fancy .todo:before  { content: 'TODO:' }
-.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
-.fancy img { display:block; }
-.fancy :link:hover, .fancy :visited:hover { background: wheat }
-.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
-.fancy li p { margin: 1em 0 }
-/* End of "fancyformat" specific rules. */
-
-</style>
-  
+<!-- path= -->
 </head>
 <body>
-<div><!-- container div to satisfy validator -->
-
+<div class=nosearch>
 <a href="index.html">
-<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite Logo"
- border="0"></a>
-<div><!-- IE hack to prevent disappearing logo--></div>
-<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
-
-<table width=100% class="menubar"><tr>
-  <td width=100%>
-  <div class="toolbar">
-    <a href="about.html">About</a>
-    <a href="sitemap.html">Sitemap</a>
-    <a href="docs.html">Documentation</a>
-    <a href="download.html">Download</a>
-    <a href="copyright.html">License</a>
-    <a href="news.html">News</a>
-    <a href="support.html">Support</a>
-  </div>
+<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='about.html'>About</a>
+<li class='desktoponly'><a href="docs.html">Documentation</a>
+<li class='desktoponly'><a href="download.html">Download</a>
+<li class='wideonly'><a href='copyright.html'>License</a>
+<li class='desktoponly'><a href="support.html">Support</a>
+<li class='desktoponly'><a href="prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='about.html'>About</a>
+<li><a href='docs.html'>Documentation</a>
+<li><a href='download.html'>Download</a>
+<li><a href='support.html'>Support</a>
+<li><a href='prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
 <script>
-  gMsg = "Search SQLite Docs..."
-  function entersearch() {
-    var q = document.getElementById("q");
-    if( q.value == gMsg ) { q.value = "" }
-    q.style.color = "black"
-    q.style.fontStyle = "normal"
-  }
-  function leavesearch() {
-    var q = document.getElementById("q");
-    if( q.value == "" ) { 
-      q.value = gMsg
-      q.style.color = "#044a64"
-      q.style.fontStyle = "italic"
-    }
-  }
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
 </script>
-<td>
-    <div style="padding:0 1em 0px 0;white-space:nowrap">
-    <form name=f method="GET" action="http://www.sqlite.org/search">
-      <input id=q name=q type=text
-       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
-      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
-    </form>
-    </div>
-  </table>
-
-<div class=startsearch></div>
-  
-
-
-
-<h1 align="center">
+<div class=fancy>
+<div class=nosearch>
+<div class="fancy_title">
 Atomic Commit In SQLite
-</h1>
+</div>
+<div class="fancy_toc">
+<a onclick="toggle_toc()">
+<span class="fancy_toc_mark" id="toc_mk">&#x25ba;</span>
+Table Of Contents
+</a>
+<div id="toc_sub"><div class="fancy-toc1"><a href="#_introduction">1.  Introduction</a></div>
+<div class="fancy-toc1"><a href="#_hardware_assumptions">2.  Hardware Assumptions</a></div>
+<div class="fancy-toc1"><a href="#_single_file_commit">3.  Single File Commit</a></div>
+<div class="fancy-toc2"><a href="#_initial_state">3.1.  Initial State</a></div>
+<div class="fancy-toc2"><a href="#_acquiring_a_read_lock">3.2.  Acquiring A Read Lock</a></div>
+<div class="fancy-toc2"><a href="#_reading_information_out_of_the_database">3.3.  Reading Information Out Of The Database</a></div>
+<div class="fancy-toc2"><a href="#_obtaining_a_reserved_lock">3.4.  Obtaining A Reserved Lock</a></div>
+<div class="fancy-toc2"><a href="#_creating_a_rollback_journal_file">3.5.  Creating A Rollback Journal File</a></div>
+<div class="fancy-toc2"><a href="#_changing_database_pages_in_user_space">3.6.  Changing Database Pages In User Space</a></div>
+<div class="fancy-toc2"><a href="#_flushing_the_rollback_journal_file_to_mass_storage">3.7.  Flushing The Rollback Journal File To Mass Storage</a></div>
+<div class="fancy-toc2"><a href="#_obtaining_an_exclusive_lock">3.8.  Obtaining An Exclusive Lock</a></div>
+<div class="fancy-toc2"><a href="#_writing_changes_to_the_database_file">3.9.  Writing Changes To The Database File</a></div>
+<div class="fancy-toc2"><a href="#0_flushing_changes_to_mass_storage">3.10. 0 Flushing Changes To Mass Storage</a></div>
+<div class="fancy-toc2"><a href="#1_deleting_the_rollback_journal">3.11. 1 Deleting The Rollback Journal</a></div>
+<div class="fancy-toc2"><a href="#2_releasing_the_lock">3.12. 2 Releasing The Lock</a></div>
+<div class="fancy-toc1"><a href="#_rollback">4.  Rollback</a></div>
+<div class="fancy-toc2"><a href="#_when_something_goes_wrong_">4.1.  When Something Goes Wrong...</a></div>
+<div class="fancy-toc2"><a href="#_hot_rollback_journals">4.2.  Hot Rollback Journals</a></div>
+<div class="fancy-toc2"><a href="#_obtaining_an_exclusive_lock_on_the_database">4.3.  Obtaining An Exclusive Lock On The Database</a></div>
+<div class="fancy-toc2"><a href="#_rolling_back_incomplete_changes">4.4.  Rolling Back Incomplete Changes</a></div>
+<div class="fancy-toc2"><a href="#_deleting_the_hot_journal">4.5.  Deleting The Hot Journal</a></div>
+<div class="fancy-toc2"><a href="#_continue_as_if_the_uncompleted_writes_had_never_happened">4.6.  Continue As If The Uncompleted Writes Had Never Happened</a></div>
+<div class="fancy-toc1"><a href="#_multi_file_commit">5.  Multi-file Commit</a></div>
+<div class="fancy-toc2"><a href="#_separate_rollback_journals_for_each_database">5.1.  Separate Rollback Journals For Each Database</a></div>
+<div class="fancy-toc2"><a href="#_the_super_journal_file">5.2.  The Super-Journal File</a></div>
+<div class="fancy-toc2"><a href="#_updating_rollback_journal_headers">5.3.  Updating Rollback Journal Headers</a></div>
+<div class="fancy-toc2"><a href="#_updating_the_database_files">5.4.  Updating The Database Files</a></div>
+<div class="fancy-toc2"><a href="#_delete_the_super_journal_file">5.5.  Delete The Super-Journal File</a></div>
+<div class="fancy-toc2"><a href="#_clean_up_the_rollback_journals">5.6.  Clean Up The Rollback Journals</a></div>
+<div class="fancy-toc1"><a href="#_additional_details_of_the_commit_process">6.  Additional Details Of The Commit Process</a></div>
+<div class="fancy-toc2"><a href="#_always_journal_complete_sectors">6.1.  Always Journal Complete Sectors</a></div>
+<div class="fancy-toc2"><a href="#_dealing_with_garbage_written_into_journal_files">6.2.  Dealing With Garbage Written Into Journal Files</a></div>
+<div class="fancy-toc2"><a href="#_cache_spill_prior_to_commit">6.3.  Cache Spill Prior To Commit</a></div>
+<div class="fancy-toc1"><a href="#_optimizations">7.  Optimizations</a></div>
+<div class="fancy-toc2"><a href="#_cache_retained_between_transactions">7.1.  Cache Retained Between Transactions</a></div>
+<div class="fancy-toc2"><a href="#_exclusive_access_mode">7.2.  Exclusive Access Mode</a></div>
+<div class="fancy-toc2"><a href="#_do_not_journal_freelist_pages">7.3.  Do Not Journal Freelist Pages</a></div>
+<div class="fancy-toc2"><a href="#_single_page_updates_and_atomic_sector_writes">7.4.  Single Page Updates And Atomic Sector Writes</a></div>
+<div class="fancy-toc2"><a href="#_filesystems_with_safe_append_semantics">7.5.  Filesystems With Safe Append Semantics</a></div>
+<div class="fancy-toc2"><a href="#_persistent_rollback_journals">7.6.  Persistent Rollback Journals</a></div>
+<div class="fancy-toc1"><a href="#_testing_atomic_commit_behavior">8.  Testing Atomic Commit Behavior</a></div>
+<div class="fancy-toc1"><a href="#_things_that_can_go_wrong">9.  Things That Can Go Wrong</a></div>
+<div class="fancy-toc2"><a href="#_broken_locking_implementations">9.1.  Broken Locking Implementations</a></div>
+<div class="fancy-toc2"><a href="#_incomplete_disk_flushes">9.2.  Incomplete Disk Flushes</a></div>
+<div class="fancy-toc2"><a href="#_partial_file_deletions">9.3.  Partial File Deletions</a></div>
+<div class="fancy-toc2"><a href="#_garbage_written_into_files">9.4.  Garbage Written Into Files</a></div>
+<div class="fancy-toc2"><a href="#_deleting_or_renaming_a_hot_journal">9.5.  Deleting Or Renaming A Hot Journal</a></div>
+<div class="fancy-toc1"><a href="#_future_directions_and_conclusion">10.  Future Directions And Conclusion</a></div>
+</div>
+</div>
+<script>
+function toggle_toc(){
+var sub = document.getElementById("toc_sub")
+var mk = document.getElementById("toc_mk")
+if( sub.style.display!="block" ){
+sub.style.display = "block";
+mk.innerHTML = "&#x25bc;";
+} else {
+sub.style.display = "none";
+mk.innerHTML = "&#x25ba;";
+}
+}
+</script>
+</div>
 
-<h2>1.0 Introduction</h2>
+
+
+
+<h1 id="_introduction"><span>1. </span> Introduction</h1>
 
 <p>An important feature of transactional databases like SQLite
 is "atomic commit".  
@@ -150,13 +220,13 @@ illusion of atomic commit.</p>
 in "rollback mode", or in other words when SQLite is not 
 using a <a href="wal.html">write-ahead log</a>.  SQLite still supports atomic commit when
 write-ahead logging is enabled, but it accomplishes atomic commit by
-a different mechanism from the one describe in this article.  See
+a different mechanism from the one described in this article.  See
 the <a href="wal.html">write-ahead log documentation</a> for additional information on how
 SQLite supports atomic commit in that context.</p>
 
 <a name="hardware"></a>
 
-<h2>2.0 Hardware Assumptions</h2>
+<h1 id="_hardware_assumptions"><span>2. </span> Hardware Assumptions</h1>
 
 <p>Throughout this article, we will call the mass storage device "disk"
 even though the mass storage device might really be flash memory.</p>
@@ -189,7 +259,7 @@ of data that can be written to mass storage in a single go.</p>
   method still returns a hard-coded value of 512 bytes, since there
   is no standard way of discovering the true sector size on either
   Unix or Windows.  But the method is available for embedded device
-  manufactures to tweak according to their own needs.  And we have
+  manufacturers to tweak according to their own needs.  And we have
   left open the possibility of filling in a more meaningful implementation
   on Unix and Windows in the future.</p>
 
@@ -281,8 +351,9 @@ that it previously wrote.</p>
 
 <p>By default, SQLite assumes that an operating system call to write
 a range of bytes will not damage or alter any bytes outside of that range
-even if a power lose or OS crash occurs during that write.  We
-call this the "<a href="psow.html">powersafe overwrite</a>" property.  Prior to version 3.7.9,
+even if a power loss or OS crash occurs during that write.  We
+call this the "<a href="psow.html">powersafe overwrite</a>" property.  
+Prior to <a href="releaselog/3_7_9.html">version 3.7.9</a> (2011-11-01),
 SQLite did not assume powersafe overwrite.  But with the standard
 sector size increasing from 512 to 4096 bytes on most disk drives, it
 has become necessary to assume powersafe overwrite in order to maintain
@@ -294,7 +365,7 @@ details.
 
 
 <a name="section_3_0"></a>
-<h2>3.0 Single File Commit</h2>
+</p><h1 id="_single_file_commit"><span>3. </span> Single File Commit</h1>
 
 <p>We begin with an overview of the steps SQLite takes in order to
 perform an atomic commit of a transaction against a single database
@@ -304,7 +375,7 @@ multiple databases are discussed in later sections.</p>
 
 <a name="initstate"></a>
 
-<h3>3.1 Initial State</h3>
+<h2 id="_initial_state"><span>3.1. </span> Initial State</h2>
 
 <img src="images/ac/commit-0.gif" align="right" hspace="15">
 
@@ -327,14 +398,14 @@ user space is empty.
 
 <a name="rdlck"></a>
 
-<h3>3.2 Acquiring A Read Lock</h3>
+<h2 id="_acquiring_a_read_lock"><span>3.2. </span> Acquiring A Read Lock</h2>
 
 <img src="images/ac/commit-1.gif" align="right" hspace="15">
 
 <p>Before SQLite can write to a database, it must first read
 the database to see what is there already.  Even if it is just
 appending new data, SQLite still has to read in the database
-schema from the <b>sqlite_master</b> table so that it can know
+schema from the "<a href="schematab.html">sqlite_schema</a>" table so that it can know
 how to parse the INSERT statements and discover where in the
 database file the new information should be stored.</p>
 
@@ -347,7 +418,7 @@ while we are reading it.  This is necessary because if another
 database connection were writing to the database file at the
 same time we are reading from the database file, we might read
 some data before the change and other data after the change.
-This would make it appears as if the change made by the other
+This would make it appear as if the change made by the other
 process is not atomic.</p>
 
 <p>Notice that the shared lock is on the operating system
@@ -362,7 +433,7 @@ process that created the lock exits.</p>
 <br clear="both">
 
 <a name="section_3_3"></a>
-<h3>3.3 Reading Information Out Of The Database</h3>
+<h2 id="_reading_information_out_of_the_database"><span>3.3. </span> Reading Information Out Of The Database</h2>
 
 <img src="images/ac/commit-2.gif" align="right" hspace="15">
 
@@ -385,7 +456,7 @@ only touch a small percentage of those pages.</p>
 
 <a name="rsvdlock"></a>
 
-<h3>3.4 Obtaining A Reserved Lock</h3>
+<h2 id="_obtaining_a_reserved_lock"><span>3.4. </span> Obtaining A Reserved Lock</h2>
 
 <img src="images/ac/commit-3.gif" align="right" hspace="15">
 
@@ -399,7 +470,7 @@ single reserved lock on the database file.  Hence only a
 single process can be attempting to write to the database
 at one time.</p>
 
-<p>The idea behind a reserved locks is that it signals that
+<p>The idea behind a reserved lock is that it signals that
 a process intends to modify the database file in the near
 future but has not yet started to make the modifications.
 And because the modifications have not yet started, other
@@ -409,7 +480,7 @@ database.</p>
 
 <br clear="both">
 <a name="section_3_5"></a>
-<h3>3.5 Creating A Rollback Journal File</h3>
+<h2 id="_creating_a_rollback_journal_file"><span>3.5. </span> Creating A Rollback Journal File</h2>
 <img src="images/ac/commit-4.gif" align="right" hspace="15">
 
 <p>Prior to making any changes to the database file, SQLite first
@@ -441,7 +512,7 @@ written into the rollback journal.</p>
 
 <br clear="both">
 <a name="section_3_6"></a>
-<h3>3.6 Changing Database Pages In User Space</h3>
+<h2 id="_changing_database_pages_in_user_space"><span>3.6. </span> Changing Database Pages In User Space</h2>
 <img src="images/ac/commit-5.gif" align="right" hspace="15">
 
 <p>After the original page content has been saved in the rollback
@@ -456,7 +527,7 @@ own copies of the original database content.</p>
 
 <br clear="both">
 <a name="section_3_7"></a>
-<h3>3.7 Flushing The Rollback Journal File To Mass Storage</h3>
+<h2 id="_flushing_the_rollback_journal_file_to_mass_storage"><span>3.7. </span> Flushing The Rollback Journal File To Mass Storage</h2>
 <img src="images/ac/commit-6.gif" align="right" hspace="15">
 
 <p>The next step is to flush the content of the rollback journal
@@ -478,7 +549,7 @@ in a later section of this paper.</p>
 
 <br clear="both">
 <a name="section_3_8"></a>
-<h3>3.8 Obtaining An Exclusive Lock</h3>
+<h2 id="_obtaining_an_exclusive_lock"><span>3.8. </span> Obtaining An Exclusive Lock</h2>
 <img src="images/ac/commit-7.gif" align="right" hspace="15">
 
 <p>Prior to making changes to the database file itself, we must
@@ -508,7 +579,7 @@ able to escalate into an exclusive lock.</p>
 
 <br clear="both">
 <a name="section_3_9"></a>
-<h3>3.9 Writing Changes To The Database File</h3>
+<h2 id="_writing_changes_to_the_database_file"><span>3.9. </span> Writing Changes To The Database File</h2>
 <img src="images/ac/commit-8.gif" align="right" hspace="15">
 
 <p>Once an exclusive lock is held, we know that no other
@@ -519,7 +590,7 @@ cache and do not make it all the way to mass storage.</p>
 
 <br clear="both">
 <a name="section_3_10"></a>
-<h3>3.10 Flushing Changes To Mass Storage</h3>
+<h2 id="0_flushing_changes_to_mass_storage"><span>3.10. </span>0 Flushing Changes To Mass Storage</h2>
 <img src="images/ac/commit-9.gif" align="right" hspace="15">
 
 <p>Another flush must occur to make sure that all the
@@ -528,12 +599,12 @@ This is a critical step to ensure that the database will
 survive a power loss without damage.  However, because
 of the inherent slowness of writing to disk or flash memory, 
 this step together with the rollback journal file flush in section
-3.7 above takes up most the time required to complete a
+3.7 above takes up most of the time required to complete a
 transaction commit in SQLite.</p>
 
 <br clear="both">
 <a name="section_3_11"></a>
-<h3>3.11 Deleting The Rollback Journal</h3>
+<h2 id="1_deleting_the_rollback_journal"><span>3.11. </span>1 Deleting The Rollback Journal</h2>
 <img src="images/ac/commit-A.gif" align="right" hspace="15">
 
 <p>After the database changes are all safely on the mass
@@ -541,7 +612,7 @@ storage device, the rollback journal file is deleted.
 This is the instant where the transaction commits.
 If a power failure or system crash occurs prior to this
 point, then recovery processes to be described later make
-it appears as if no changes were ever made to the database
+it appear as if no changes were ever made to the database
 file.  If a power failure or system crash occurs after
 the rollback journal is deleted, then it appears as if
 all changes have been written to disk.  Thus, SQLite gives
@@ -583,7 +654,7 @@ as soon as the first byte of the header is zeroed.</p>
 
 <br clear="both">
 <a name="section_3_12"></a>
-<h3>3.12 Releasing The Lock</h3>
+<h2 id="2_releasing_the_lock"><span>3.12. </span>2 Releasing The Lock</h2>
 <img src="images/ac/commit-B.gif" align="right" hspace="15">
 
 <p>The last step in the commit process is to release the
@@ -612,7 +683,7 @@ space cache can be reused for a significant performance savings.</p>
 <br clear="both">
 <a name="rollback"></a>
 
-<h2>4.0 Rollback</h2>
+<h1 id="_rollback"><span>4. </span> Rollback</h1>
 
 <p>An atomic commit is supposed to happen instantaneously.  But the processing
 described above clearly takes a finite amount of time.
@@ -624,10 +695,11 @@ the state it was in prior to the beginning of the transaction.</p>
 
 <a name="crisis"></a>
 
-<h3>4.1 When Something Goes Wrong...</h3>
+<h2 id="_when_something_goes_wrong_"><span>4.1. </span> When Something Goes Wrong...</h2>
 <img src="images/ac/rollback-0.gif" align="right" hspace="15">
 
-<p>Suppose the power loss occurred during step 3.10 above,
+<p>Suppose the power loss occurred
+during <a href="#section_3_10">step 3.10</a> above,
 while the database changes were being written to disk.
 After power is restored, the situation might be something
 like what is shown to the right.  We were trying to change
@@ -637,18 +709,20 @@ and a third page was not written at all.</p>
 
 <p>The rollback journal is complete and intact on disk when
 the power is restored.  This is a key point.  The reason for
-the flush operation in step 3.7 is to make absolutely sure that
+the flush operation in <a href="#section_3_7">step 3.7</a>
+is to make absolutely sure that
 all of the rollback journal is safely on nonvolatile storage
 prior to making any changes to the database file itself.</p>
 
 <br clear="both">
 <a name="section_4_2"></a>
-<h3>4.2 Hot Rollback Journals</h3>
+<h2 id="_hot_rollback_journals"><span>4.2. </span> Hot Rollback Journals</h2>
 <img src="images/ac/rollback-1.gif" align="right" hspace="15">
 
 <p>The first time that any SQLite process attempts to access
 the database file, it obtains a shared lock as described in
-section 3.2 above.  But then it notices that there is a 
+<a href="section_3_2">section 3.2</a> above.
+But then it notices that there is a 
 rollback journal file present.  SQLite then checks to see if
 the rollback journal is a "hot journal".   A hot journal is
 a rollback journal that needs to be played back in order to
@@ -660,17 +734,17 @@ a transaction when it crashed or lost power.</p>
 are true:</p>
 
 <ul>
-<li>The rollback journal exist.
-<li>The rollback journal is not an empty file.
-<li>There is no reserved lock on the main database file.
-<li>The header of the rollback journal is well-formed and in particular
+<li>The rollback journal exists.
+</li><li>The rollback journal is not an empty file.
+</li><li>There is no reserved lock on the main database file.
+</li><li>The header of the rollback journal is well-formed and in particular
     has not been zeroed out.
-<li>The rollback journal does not
-contain the name of a master journal file (see
+</li><li>The rollback journal does not
+contain the name of a super-journal file (see
 <a href="#section_5_5">section 5.5</a> below) or if does
-contain the name of a master journal, then that master journal
+contain the name of a super-journal, then that super-journal
 file exists.
-</ul>
+</li></ul>
 
 <p>The presence of a hot journal is our indication
 that a previous process was trying to commit a transaction but
@@ -682,7 +756,7 @@ be repaired (by rollback) prior to being used.</p>
 <br clear="both">
 <a name="exlock"></a>
 
-<h3>4.3 Obtaining An Exclusive Lock On The Database</h3>
+<h2 id="_obtaining_an_exclusive_lock_on_the_database"><span>4.3. </span> Obtaining An Exclusive Lock On The Database</h2>
 <img src="images/ac/rollback-2.gif" align="right" hspace="15">
 
 <p>The first step toward dealing with a hot journal is to
@@ -692,13 +766,13 @@ at the same time.</p>
 
 <br clear="both">
 <a name="section_4_4"></a>
-<h3>4.4 Rolling Back Incomplete Changes</h3>
+<h2 id="_rolling_back_incomplete_changes"><span>4.4. </span> Rolling Back Incomplete Changes</h2>
 <img src="images/ac/rollback-3.gif" align="right" hspace="15">
 
 <p>Once a process obtains an exclusive lock, it is permitted
 to write to the database file.  It then proceeds to read the
 original content of pages out of the rollback journal and write
-that content back to were it came from in the database file.
+that content back to where it came from in the database file.
 Recall that the header of the rollback journal records the original
 size of the database file prior to the start of the aborted
 transaction.  SQLite uses this information to truncate the
@@ -711,7 +785,7 @@ the aborted transaction.</p>
 <br clear="both">
 <a name="delhotjrnl"></a>
 
-<h3>4.5 Deleting The Hot Journal</h3>
+<h2 id="_deleting_the_hot_journal"><span>4.5. </span> Deleting The Hot Journal</h2>
 <img src="images/ac/rollback-4.gif" align="right" hspace="15">
 
 <p>After all information in the rollback journal has been
@@ -722,13 +796,13 @@ can be deleted.</p>
 <p>As in <a href="#section_3_11">section 3.11</a>, the journal
 file might be truncated to zero length or its header might
 be overwritten with zeros as an optimization on systems where
-deleting a file is expense.  Either way, the journal is no 
-long hot after this step.</p>
+deleting a file is expensive.  Either way, the journal is no 
+longer hot after this step.</p>
 
 <br clear="both">
 <a name="cont"></a>
 
-<h3>4.6 Continue As If The Uncompleted Writes Had Never Happened</h3>
+<h2 id="_continue_as_if_the_uncompleted_writes_had_never_happened"><span>4.6. </span> Continue As If The Uncompleted Writes Had Never Happened</h2>
 <img src="images/ac/rollback-5.gif" align="right" hspace="15">
 
 <p>The final recovery step is to reduce the exclusive lock back
@@ -741,7 +815,7 @@ SQLite as if the aborted transaction had never begun.</p>
 <br clear="both">
 <a name="multicommit"></a>
 
-<h2>5.0 Multi-file Commit</h2>
+<h1 id="_multi_file_commit"><span>5. </span> Multi-file Commit</h1>
 
 <p>SQLite allows a single 
 <a href="c3ref/sqlite3.html">database connection</a> to talk to
@@ -757,7 +831,7 @@ describes how SQLite works that bit of magic.</p>
 
 <a name="multijrnl"></a>
 
-<h3>5.1 Separate Rollback Journals For Each Database</h3>
+<h2 id="_separate_rollback_journals_for_each_database"><span>5.1. </span> Separate Rollback Journals For Each Database</h2>
 <img src="images/ac/multi-0.gif" align="right" hspace="15">
 
 <p>When multiple database files are involved in a transaction,
@@ -785,50 +859,56 @@ just take up a lot of space in the diagrams and they do not add
 any new information, so they are omitted here.</p>
 
 <br clear="both">
-<a name="masterjrnl"></a>
+<a name="sprjrnl"></a>
 
-<h3>5.2 The Master Journal File</h3>
+<h2 id="_the_super_journal_file"><span>5.2. </span> The Super-Journal File</h2>
 <img src="images/ac/multi-1.gif" align="right" hspace="15">
 
 <p>The next step in a multi-file commit is the creation of a
-"master journal" file.  The name of the master journal file is
+"super-journal" file.  The name of the super-journal file is
 the same name as the original database filename (the database
 that was opened using the 
 <a href="c3ref/open.html">sqlite3_open()</a> interface,
 not one of the <a href="lang_attach.html">ATTACHed</a> auxiliary
 databases) with the text "<b>-mj</b><i>HHHHHHHH</i>" appended where
 <i>HHHHHHHH</i> is a random 32-bit hexadecimal number.  The
-random <i>HHHHHHHH</i> suffix changes for every new master journal.</p>
+random <i>HHHHHHHH</i> suffix changes for every new super-journal.</p>
 
-<p><i>(Nota bene: The formula for computing the master journal filename
+<p><i>(Nota bene: The formula for computing the super-journal filename
 given in the previous paragraph corresponds to the implementation as
 of SQLite version 3.5.0.  But this formula is not part of the SQLite
 specification and is subject to change in future releases.)</i></p>
 
-<p>Unlike the rollback journals, the master journal does not contain
-any original database page content.  Instead, the master journal contains
+<p>Unlike the rollback journals, the super-journal does not contain
+any original database page content.  Instead, the super-journal contains
 the full pathnames for rollback journals for every database that is
 participating in the transaction.</p>
 
-<p>After the master journal is constructed, its content is flushed
+<p>After the super-journal is constructed, its content is flushed
 to disk before any further actions are taken.  On Unix, the directory
-that contains the master journal is also synced in order to make sure
-the master journal file will appear in the directory following a
+that contains the super-journal is also synced in order to make sure
+the super-journal file will appear in the directory following a
 power failure.</p>
+
+<p>The purpose of the super-journal is to ensure that multi-file
+transactions are atomic across a power-loss.  But if the database files
+have other settings that compromise integrity across a power-loss event
+(such as <a href="pragma.html#pragma_synchronous">PRAGMA synchronous=OFF</a> or <a href="pragma.html#pragma_journal_mode">PRAGMA journal_mode=MEMORY</a>) then
+the creation of the super-journal is omitted, as an optimization.
 
 <br clear="both">
 <a name="multijrnlupdate"></a>
 
-<h3>5.3 Updating Rollback Journal Headers</h3>
+</p><h2 id="_updating_rollback_journal_headers"><span>5.3. </span> Updating Rollback Journal Headers</h2>
 <img src="images/ac/multi-2.gif" align="right" hspace="15">
 
-<p>The next step is to record the full pathname of the master journal file
-in the header of every rollback journal.  Space to hold the master
-journal filename was reserved at the beginning of each rollback journal
+<p>The next step is to record the full pathname of the super-journal file
+in the header of every rollback journal.  Space to hold the 
+super-journal filename was reserved at the beginning of each rollback journal
 as the rollback journals were created.</p>
 
 <p>The content of each rollback journal is flushed to disk both before
-and after the master journal filename is written into the rollback
+and after the super-journal filename is written into the rollback
 journal header.  It is important to do both of these flushes.  Fortunately,
 the second flush is usually inexpensive since typically only a single
 page of the journal file (the first page) has changed.</p>
@@ -840,7 +920,7 @@ scenario described above.</p>
 <br clear="both">
 <a name="multidbupdate"></a>
 
-<h3>5.4 Updating The Database Files</h3>
+<h2 id="_updating_the_database_files"><span>5.4. </span> Updating The Database Files</h2>
 <img src="images/ac/multi-3.gif" align="right" hspace="15">
 
 <p>Once all rollback journal files have been flushed to disk, it
@@ -859,10 +939,10 @@ scenario described previously.</p>
 
 <br clear="both">
 <a name="section_5_5"></a>
-<h3>5.5 Delete The Master Journal File</h3>
+<h2 id="_delete_the_super_journal_file"><span>5.5. </span> Delete The Super-Journal File</h2>
 <img src="images/ac/multi-4.gif" align="right" hspace="15">
 
-<p>The next step is to delete the master journal file.
+<p>The next step is to delete the super-journal file.
 This is the point where the multi-file transaction commits.
 This step corresponds to 
 <a href="#section_3_11">step 3.11</a> in the single-file
@@ -871,17 +951,17 @@ commit scenario where the rollback journal is deleted.</p>
 <p>If a power failure or operating system crash occurs at this
 point, the transaction will not rollback when the system reboots
 even though there are rollback journals present.  The
-difference is the master journal pathname in the header of the
+difference is the super-journal pathname in the header of the
 rollback journal.  Upon restart, SQLite only considers a journal
 to be hot and will only playback the journal if there is no
-master journal filename in the header (which is the case for
-a single-file commit) or if the master journal file still
+super-journal filename in the header (which is the case for
+a single-file commit) or if the super-journal file still
 exists on disk.</p>
 
 <br clear="both">
 <a name="cleanup"></a>
 
-<h3>5.6 Clean Up The Rollback Journals</h3>
+<h2 id="_clean_up_the_rollback_journals"><span>5.6. </span> Clean Up The Rollback Journals</h2>
 <img src="images/ac/multi-5.gif" align="right" hspace="15">
 
 <p>The final step in a multi-file commit is to delete the
@@ -904,7 +984,7 @@ unlocked.</p>
 
 <a name="moredetail"></a>
 
-<h2>6.0 Additional Details Of The Commit Process</h2>
+<h1 id="_additional_details_of_the_commit_process"><span>6. </span> Additional Details Of The Commit Process</h1>
 
 <p><a href="#section_3_0">Section 3.0</a> above provides an overview of
 how atomic commit works in SQLite.  But it glosses over a number of
@@ -913,11 +993,11 @@ in the gaps.</p>
 
 <a name="completesectors"></a>
 
-<h3>6.1 Always Journal Complete Sectors</h3>
+<h2 id="_always_journal_complete_sectors"><span>6.1. </span> Always Journal Complete Sectors</h2>
 
 <p>When the original content of a database page is written into
 the rollback journal (as shown in <a href="#section_3_5">section 3.5</a>),
-SQLite always writes a complete sectors worth of data, even if the
+SQLite always writes a complete sector of data, even if the
 page size of the database is smaller than the sector size.  
 Historically, the sector size in SQLite has been hard coded to 512
 bytes and since the minimum page size is also 512 bytes, this has never
@@ -940,7 +1020,7 @@ of all of those pages must be contained in the rollback journal.</p>
 
 <a name="journalgarbage"></a>
 
-<h3>6.2 Dealing With Garbage Written Into Journal Files</h3>
+<h2 id="_dealing_with_garbage_written_into_journal_files"><span>6.2. </span> Dealing With Garbage Written Into Journal Files</h2>
 
 <p>When data is appended to the end of the rollback journal,
 SQLite normally makes the pessimistic assumption that the file
@@ -1006,7 +1086,7 @@ of the synchronous setting.</p>
 
 <a name="cachespill"></a>
 
-<h3>6.3 Cache Spill Prior To Commit</h3>
+<h2 id="_cache_spill_prior_to_commit"><span>6.3. </span> Cache Spill Prior To Commit</h2>
 
 <p>The commit process shown in <a href="#section_3_0">section 3.0</a>
 assumes that all database changes fit in memory until it is time to
@@ -1042,7 +1122,7 @@ For these reasons a cache spill is avoided whenever possible.</p>
 
 <a name="opts"></a>
 
-<h2>7.0 Optimizations</h2>
+<h1 id="_optimizations"><span>7. </span> Optimizations</h1>
 
 <p>Profiling indicates that for most systems and in most circumstances
 SQLite spends most of its time doing disk I/O.  It follows then that
@@ -1053,7 +1133,7 @@ amount of disk I/O to a minimum while still preserving atomic commit.</p>
 
 <a name="keepcache"></a>
 
-<h3>7.1 Cache Retained Between Transactions</h3>
+<h2 id="_cache_retained_between_transactions"><span>7.1. </span> Cache Retained Between Transactions</h2>
 
 <p><a href="#section_3_12">Step 3.12</a> of the commit process shows
 that once the shared lock has been released, all user-space cache
@@ -1086,12 +1166,12 @@ against the current counter value and erases the cache if the values
 are different, or reuses the cache if they are the same.</p>
 
 <a name="section_7_2"></a>
-<h3>7.2 Exclusive Access Mode</h3>
+<h2 id="_exclusive_access_mode"><span>7.2. </span> Exclusive Access Mode</h2>
 
 <p>SQLite version 3.3.14 adds the concept of "Exclusive Access Mode".
 In exclusive access mode, SQLite retains the exclusive
 database lock at the conclusion of each transaction.  This prevents
-other processes for accessing the database, but in many deployments
+other processes from accessing the database, but in many deployments
 only a single process is using a database so this is not a
 serious problem.  The advantage of exclusive access mode is that
 disk I/O can be reduced in three ways:</p>
@@ -1124,7 +1204,7 @@ as described in <a href="#section_7_6">section 7.6</a> below.</p>
 
 <a name="freelistjrnl"></a>
 
-<h3>7.3 Do Not Journal Freelist Pages</h3>
+<h2 id="_do_not_journal_freelist_pages"><span>7.3. </span> Do Not Journal Freelist Pages</h2>
 
 <p>When information is deleted from an SQLite database, the pages used
 to hold the deleted information are added to a "<a href="fileformat2.html#freelist">freelist</a>".  Subsequent
@@ -1150,7 +1230,7 @@ when making changes to a database file that contains free space.</p>
 
 <a name="atomicsector"></a>
 
-<h3>7.4 Single Page Updates And Atomic Sector Writes</h3>
+<h2 id="_single_page_updates_and_atomic_sector_writes"><span>7.4. </span> Single Page Updates And Atomic Sector Writes</h2>
 
 <p>Beginning in SQLite version 3.5.0, the new Virtual File System (VFS)
 interface contains a method named xDeviceCharacteristics which reports
@@ -1175,7 +1255,7 @@ layers in between the write system call and the on-board disk drive
 electronics that we take the safe approach in both Unix and w32 VFS
 implementations and assume that sector writes are not atomic.  On the
 other hand, device
-manufactures with more control over their filesystems might want
+manufacturers with more control over their filesystems might want
 to consider enabling the atomic write property of xDeviceCharacteristics
 if their hardware really does do atomic writes.</p>
 
@@ -1189,7 +1269,7 @@ done if power is lost before the change counter can be updated.</p>
 
 <a name="safeappend"></a>
 
-<h3>7.5 Filesystems With Safe Append Semantics</h3>
+<h2 id="_filesystems_with_safe_append_semantics"><span>7.5. </span> Filesystems With Safe Append Semantics</h2>
 
 <p>Another optimization introduced in SQLite version 3.5.0 makes
 use of "safe append" behavior of the underlying disk.
@@ -1217,7 +1297,7 @@ to the end of the journal; we can simply continue appending
 new pages to the end of the existing journal.</p>
 
 <a name="section_7_6"></a>
-<h3>7.6 Persistent Rollback Journals</h3>
+<h2 id="_persistent_rollback_journals"><span>7.6. </span> Persistent Rollback Journals</h2>
 
 <p>Deleting a file is an expensive operation on many systems.
 So as an optimization, SQLite can be configured to avoid the
@@ -1242,9 +1322,9 @@ For example:</p>
 
 <blockquote><pre>
 PRAGMA journal_mode=PERSIST;
-</per></blockquote>
+</pre></blockquote>
 
-<p>The use of persistent journal mode provide a noticeable performance
+<p>The use of persistent journal mode provides a noticeable performance
 improvement on many systems.  Of course, the drawback is that the 
 journal files remain on the disk, using disk space and cluttering
 directories, long after the transaction commits.  The only safe way
@@ -1255,13 +1335,14 @@ with journaling mode set to DELETE:</p>
 PRAGMA journal_mode=DELETE;
 BEGIN EXCLUSIVE;
 COMMIT;
-</per></blockquote>
+</pre></blockquote>
 
 <p>Beware of deleting persistent journal files by any other means
 since the journal file might be hot, in which case deleting it will
 corrupt the corresponding database file.</p>
 
-<p>Beginning in SQLite version 3.6.4, the TRUNCATE journal mode is
+<p>Beginning in SQLite <a href="releaselog/3_6_4.html">version 3.6.4</a> (2008-10-15), 
+the TRUNCATE journal mode is
 also supported:</p>
 
 <blockquote><pre>
@@ -1294,7 +1375,7 @@ will usually overwrite with PERSIST.</p>
 
 <a name="testing"></a>
 
-<h2>8.0 Testing Atomic Commit Behavior</h2>
+<h1 id="_testing_atomic_commit_behavior"><span>8. </span> Testing Atomic Commit Behavior</h1>
 
 <p>The developers of SQLite are confident that it is robust
 in the face of power failures and system crashes because the
@@ -1326,18 +1407,18 @@ corruption following a system crash or power failure.</p>
 
 <a name="sect_9_0"></a>
 
-<h2>9.0 Things That Can Go Wrong</h2>
+<h1 id="_things_that_can_go_wrong"><span>9. </span> Things That Can Go Wrong</h1>
 
 <p>The atomic commit mechanism in SQLite has proven to be robust,
 but it can be circumvented by a sufficiently creative
 adversary or a sufficiently broken operating system implementation.
 This section describes a few of the ways in which an SQLite database
 might be corrupted by a power failure or system crash.
-(See also: <a href="lockingv3.html#how_to_corrupt">How To Corrupt Your Database Files</a>.)</p>
+(See also: <a href="howtocorrupt.html">How To Corrupt Your Database Files</a>.)</p>
 
 <a name="brokenlocks"></a>
 
-<h3>9.1 Broken Locking Implementations</h3>
+<h2 id="_broken_locking_implementations"><span>9.1. </span> Broken Locking Implementations</h2>
 
 <p>SQLite uses filesystem locks to make sure that only one
 process and database connection is trying to modify the database
@@ -1373,11 +1454,11 @@ dot-file locks or vice versa.</p>
 
 <a name="fsync"></a>
 
-<h3>9.2 Incomplete Disk Flushes</h3>
+<h2 id="_incomplete_disk_flushes"><span>9.2. </span> Incomplete Disk Flushes</h2>
 
 <p>SQLite uses the fsync() system call on Unix and the FlushFileBuffers()
 system call on w32 in order to sync the file system buffers onto disk
-oxide as shown in  <a href="#section_3_7">step 3.7</a> and
+oxide as shown in <a href="#section_3_7">step 3.7</a> and
 <a href="#section_3_10">step 3.10</a>.  Unfortunately, we have received
 reports that neither of these interfaces works as advertised on many
 systems.  We hear that FlushFileBuffers() can be completely disabled
@@ -1402,7 +1483,7 @@ So its use is not recommended.</p>
 
 <a name="filedel"></a>
 
-<h3>9.3 Partial File Deletions</h3>
+<h2 id="_partial_file_deletions"><span>9.3. </span> Partial File Deletions</h2>
 
 <p>SQLite assumes that file deletion is an atomic operation from the
 point of view of a user process.  If power fails in the middle of
@@ -1413,7 +1494,7 @@ on systems that do not work this way.</p>
 
 <a name="filegarbage"></a>
 
-<h3>9.4 Garbage Written Into Files</h3>
+<h2 id="_garbage_written_into_files"><span>9.4. </span> Garbage Written Into Files</h2>
 
 <p>SQLite database files are ordinary disk files that can be
 opened and written by ordinary user processes.  A rogue process
@@ -1425,13 +1506,13 @@ do to defend against these kinds of problems.</p>
 
 <a name="mvhotjrnl"></a>
 
-<h3>9.5 Deleting Or Renaming A Hot Journal</h3>
+<h2 id="_deleting_or_renaming_a_hot_journal"><span>9.5. </span> Deleting Or Renaming A Hot Journal</h2>
 
 <p>If a crash or power loss does occur and a hot journal is left on
 the disk, it is essential that the original database file and the hot
 journal remain on disk with their original names until the database
 file is opened by another SQLite process and rolled back.  
-During recovery at <a href="section_4_2">step 4.2</a> SQLite locates
+During recovery at <a href="#section_4_2">step 4.2</a> SQLite locates
 the hot journal by looking for a file in the same directory as the
 database being opened and whose name is derived from the name of the
 file being opened.  If either the original database file or the
@@ -1471,7 +1552,7 @@ subdirectory.</p>
 
 <a name="future"></a>
 
-<h2>10.0 Future Directions And Conclusion</h2>
+<h1 id="_future_directions_and_conclusion"><span>10. </span> Future Directions And Conclusion</h1>
 
 <p>Every now and then someone discovers a new failure mode for
 the atomic commit mechanism in SQLite and the developers have to
@@ -1492,4 +1573,5 @@ particular, we suspect that most modern filesystems exhibit the
 safe append property and that many of them might support atomic
 sector writes.  But until this is known for certain, SQLite will
 take the conservative approach and assume the worst.</p>
+<p align="center"><small><i>This page last modified on  <a href="https://sqlite.org/docsrc/honeypot" id="mtimelink"  data-href="https://sqlite.org/docsrc/finfo/pages/atomiccommit.in?m=daed65c9ccb4a9262">2021-10-05 17:51:47</a> UTC </small></i></p>
 

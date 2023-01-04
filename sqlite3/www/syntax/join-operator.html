@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="../sqlite.css" rel="stylesheet">
+<title>SQLite Syntax: join-operator</title>
+<!-- path=../ -->
+</head>
+<body>
+<div class=nosearch>
+<a href="../index.html">
+<img class="logo" src="../images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="../index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='../about.html'>About</a>
+<li class='desktoponly'><a href="../docs.html">Documentation</a>
+<li class='desktoponly'><a href="../download.html">Download</a>
+<li class='wideonly'><a href='../copyright.html'>License</a>
+<li class='desktoponly'><a href="../support.html">Support</a>
+<li class='desktoponly'><a href="../prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='../about.html'>About</a>
+<li><a href='../docs.html'>Documentation</a>
+<li><a href='../download.html'>Download</a>
+<li><a href='../support.html'>Support</a>
+<li><a href='../prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="../search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
+<script>
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
+</script>
+<h1 align='center'>join-operator</h1>
+<div class='imgcontainer'>
+<div style="max-width:620px"><svg xmlns='http://www.w3.org/2000/svg' class="pikchr" viewBox="0 0 620.333 255.312">
+<circle cx="5" cy="17" r="3.6"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<polygon points="50,71 39,76 39,67" style="fill:rgb(0,0,0)"/>
+<path d="M9,17 L 16,17 Q 24,17 24,32 L 24,56 Q 24,71 34,71 L 45,71"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M66,86L133,86A15 15 0 0 0 148 71A15 15 0 0 0 133 56L66,56A15 15 0 0 0 50 71A15 15 0 0 0 66 86Z"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<text x="99" y="71" text-anchor="middle" fill="rgb(0,0,0)" dominant-baseline="central">NATURAL</text>
+<polygon points="189,41 178,45 178,37" style="fill:rgb(0,0,0)"/>
+<path d="M148,71 L 155,71 Q 163,71 163,56 L 163,56 Q 163,41 173,41 L 184,41"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<polygon points="231,71 219,76 219,67" style="fill:rgb(0,0,0)"/>
+<path d="M189,41 L 197,41 Q 204,41 204,56 L 204,56 Q 204,71 215,71 L 225,71"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M246,86L273,86A15 15 0 0 0 288 71A15 15 0 0 0 273 56L246,56A15 15 0 0 0 231 71A15 15 0 0 0 246 86Z"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<text x="259" y="71" text-anchor="middle" fill="rgb(0,0,0)" dominant-baseline="central">LEFT</text>
+<polygon points="378,71 366,76 366,67" style="fill:rgb(0,0,0)"/>
+<path d="M288,71L372,71"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M393,86L437,86A15 15 0 0 0 452 71A15 15 0 0 0 437 56L393,56A15 15 0 0 0 378 71A15 15 0 0 0 393 86Z"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<text x="415" y="71" text-anchor="middle" fill="rgb(0,0,0)" dominant-baseline="central">OUTER</text>
+<polygon points="475,71 463,76 463,67" style="fill:rgb(0,0,0)"/>
+<path d="M452,71L469,71"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<polygon points="516,41 505,45 505,37" style="fill:rgb(0,0,0)"/>
+<path d="M475,71 L 482,71 Q 490,71 490,56 L 490,56 Q 490,41 500,41 L 511,41"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M532,56L554,56A15 15 0 0 0 569 41A15 15 0 0 0 554 26L532,26A15 15 0 0 0 516 41A15 15 0 0 0 532 56Z"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<text x="543" y="41" text-anchor="middle" fill="rgb(0,0,0)" dominant-baseline="central">JOIN</text>
+<polygon points="610,17 599,21 599,12" style="fill:rgb(0,0,0)"/>
+<path d="M569,41 L 576,41 Q 584,41 584,29 Q 584,17 594,17 L 605,17"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<circle cx="614" cy="17" r="3.6"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M310,32A15 15 0 0 0 325 17A15 15 0 0 0 310 2A15 15 0 0 0 295 17A15 15 0 0 0 310 32Z"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<text x="310" y="17" text-anchor="middle" font-weight="bold" fill="rgb(0,0,0)" dominant-baseline="central">,</text>
+<polygon points="295,17 283,21 283,12" style="fill:rgb(0,0,0)"/>
+<path d="M9,17L289,17"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M325,17L599,17"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<polygon points="99,41 88,45 88,37" style="fill:rgb(0,0,0)"/>
+<path d="M9,17 L 16,17 Q 24,17 24,29 Q 24,41 39,41 L 78,41 L 93,41"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M99,41L178,41"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M189,41L505,41"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<polygon points="378,41 366,45 366,37" style="fill:rgb(0,0,0)"/>
+<path d="M336,71 L 344,71 Q 351,71 351,56 L 351,56 Q 351,41 362,41 L 372,41"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<polygon points="231,109 219,113 219,105" style="fill:rgb(0,0,0)"/>
+<path d="M189,41 L 197,41 Q 204,41 204,56 L 204,94 Q 204,109 215,109 L 225,109"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M246,124L284,124A15 15 0 0 0 299 109A15 15 0 0 0 284 94L246,94A15 15 0 0 0 231 109A15 15 0 0 0 246 124Z"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<text x="265" y="109" text-anchor="middle" fill="rgb(0,0,0)" dominant-baseline="central">RIGHT</text>
+<polygon points="341,71 329,76 329,67" style="fill:rgb(0,0,0)"/>
+<path d="M299,109 L 307,109 Q 314,109 314,94 L 314,86 Q 314,71 324,71 L 335,71"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<polygon points="231,147 219,151 219,142" style="fill:rgb(0,0,0)"/>
+<path d="M189,41 L 197,41 Q 204,41 204,56 L 204,132 Q 204,147 215,147 L 225,147"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M246,162L274,162A15 15 0 0 0 289 147A15 15 0 0 0 274 132L246,132A15 15 0 0 0 231 147A15 15 0 0 0 246 162Z"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<text x="260" y="147" text-anchor="middle" fill="rgb(0,0,0)" dominant-baseline="central">FULL</text>
+<path d="M289,147 L 302,147 Q 314,147 314,132 L 314,109 L 314,94"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<polygon points="231,192 219,196 219,188" style="fill:rgb(0,0,0)"/>
+<path d="M189,41 L 197,41 Q 204,41 204,56 L 204,177 Q 204,192 215,192 L 225,192"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M246,207L287,207A15 15 0 0 0 302 192A15 15 0 0 0 287 177L246,177A15 15 0 0 0 231 192A15 15 0 0 0 246 207Z"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<text x="267" y="192" text-anchor="middle" fill="rgb(0,0,0)" dominant-baseline="central">INNER</text>
+<polygon points="475,192 463,196 463,188" style="fill:rgb(0,0,0)"/>
+<path d="M302,192L469,192"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M475,192 L 482,192 Q 490,192 490,185 L 490,177"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<polygon points="231,238 219,242 219,233" style="fill:rgb(0,0,0)"/>
+<path d="M9,17 L 16,17 Q 24,17 24,32 L 24,223 Q 24,238 39,238 L 210,238 L 225,238"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M246,253L287,253A15 15 0 0 0 303 238A15 15 0 0 0 287 222L246,222A15 15 0 0 0 231 238A15 15 0 0 0 246 253Z"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<text x="267" y="238" text-anchor="middle" fill="rgb(0,0,0)" dominant-baseline="central">CROSS</text>
+<polygon points="475,238 463,242 463,233" style="fill:rgb(0,0,0)"/>
+<path d="M303,238L469,238"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+<path d="M475,238 L 482,238 Q 490,238 490,223 L 490,71 L 490,56"  style="fill:none;stroke-width:2.16;stroke:rgb(0,0,0);" />
+</svg>
+</div><br>
+
+Used by:&nbsp;&nbsp; <a href='./join-clause.html'>join-clause</a><br></br>
+See also:&nbsp;&nbsp; <a href='../lang_aggfunc.html'>lang_aggfunc.html</a>&nbsp;&nbsp; <a href='../lang_altertable.html'>lang_altertable.html</a>&nbsp;&nbsp; <a href='../lang_attach.html'>lang_attach.html</a>&nbsp;&nbsp; <a href='../lang_createindex.html'>lang_createindex.html</a>&nbsp;&nbsp; <a href='../lang_createtable.html'>lang_createtable.html</a>&nbsp;&nbsp; <a href='../lang_createtrigger.html'>lang_createtrigger.html</a>&nbsp;&nbsp; <a href='../lang_createview.html'>lang_createview.html</a>&nbsp;&nbsp; <a href='../lang_delete.html'>lang_delete.html</a>&nbsp;&nbsp; <a href='../lang_expr.html'>lang_expr.html</a>&nbsp;&nbsp; <a href='../lang_insert.html'>lang_insert.html</a>&nbsp;&nbsp; <a href='../lang_returning.html'>lang_returning.html</a>&nbsp;&nbsp; <a href='../lang_select.html'>lang_select.html</a>&nbsp;&nbsp; <a href='../lang_update.html'>lang_update.html</a>&nbsp;&nbsp; <a href='../lang_upsert.html'>lang_upsert.html</a>&nbsp;&nbsp; <a href='../lang_with.html'>lang_with.html</a>&nbsp;&nbsp; <a href='../partialindex.html'>partialindex.html</a>
+</div>
+
+
+

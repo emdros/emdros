@@ -1,167 +1,232 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="sqlite.css" rel="stylesheet">
 <title>How SQLite Is Tested</title>
-<style type="text/css">
-body {
-    margin: auto;
-    font-family: Verdana, sans-serif;
-    padding: 8px 1%;
-}
-
-a { color: #044a64 }
-a:visited { color: #734559 }
-
-.logo { position:absolute; margin:3px; }
-.tagline {
-  float:right;
-  text-align:right;
-  font-style:italic;
-  width:300px;
-  margin:12px;
-  margin-top:58px;
-}
-
-.menubar {
-  clear: both;
-  border-radius: 8px;
-  background: #044a64;
-  padding: 0px;
-  margin: 0px;
-  cell-spacing: 0px;
-}    
-.toolbar {
-  text-align: center;
-  line-height: 1.6em;
-  margin: 0;
-  padding: 0px 8px;
-}
-.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
-.toolbar a:visited { color: white; }
-.toolbar a:hover { color: #044a64; background: white; }
-
-.content    { margin: 5%; }
-.content dt { font-weight:bold; }
-.content dd { margin-bottom: 25px; margin-left:20%; }
-.content ul { padding:0px; padding-left: 15px; margin:0px; }
-
-/* Things for "fancyformat" documents start here. */
-.fancy img+p {font-style:italic}
-.fancy .codeblock i { color: darkblue; }
-.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
-.fancy h2 { margin-left: 10px }
-.fancy h3 { margin-left: 20px }
-.fancy h4 { margin-left: 30px }
-.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
-.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
-.fancy #toc a        { color: darkblue ; text-decoration: none }
-.fancy .todo         { color: #AA3333 ; font-style : italic }
-.fancy .todo:before  { content: 'TODO:' }
-.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
-.fancy img { display:block; }
-.fancy :link:hover, .fancy :visited:hover { background: wheat }
-.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
-.fancy li p { margin: 1em 0 }
-/* End of "fancyformat" specific rules. */
-
-</style>
-  
+<!-- path= -->
 </head>
 <body>
-<div><!-- container div to satisfy validator -->
-
+<div class=nosearch>
 <a href="index.html">
-<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite Logo"
- border="0"></a>
-<div><!-- IE hack to prevent disappearing logo--></div>
-<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
-
-<table width=100% class="menubar"><tr>
-  <td width=100%>
-  <div class="toolbar">
-    <a href="about.html">About</a>
-    <a href="sitemap.html">Sitemap</a>
-    <a href="docs.html">Documentation</a>
-    <a href="download.html">Download</a>
-    <a href="copyright.html">License</a>
-    <a href="news.html">News</a>
-    <a href="support.html">Support</a>
-  </div>
+<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='about.html'>About</a>
+<li class='desktoponly'><a href="docs.html">Documentation</a>
+<li class='desktoponly'><a href="download.html">Download</a>
+<li class='wideonly'><a href='copyright.html'>License</a>
+<li class='desktoponly'><a href="support.html">Support</a>
+<li class='desktoponly'><a href="prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='about.html'>About</a>
+<li><a href='docs.html'>Documentation</a>
+<li><a href='download.html'>Download</a>
+<li><a href='support.html'>Support</a>
+<li><a href='prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
 <script>
-  gMsg = "Search SQLite Docs..."
-  function entersearch() {
-    var q = document.getElementById("q");
-    if( q.value == gMsg ) { q.value = "" }
-    q.style.color = "black"
-    q.style.fontStyle = "normal"
-  }
-  function leavesearch() {
-    var q = document.getElementById("q");
-    if( q.value == "" ) { 
-      q.value = gMsg
-      q.style.color = "#044a64"
-      q.style.fontStyle = "italic"
-    }
-  }
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
 </script>
-<td>
-    <div style="padding:0 1em 0px 0;white-space:nowrap">
-    <form name=f method="GET" action="http://www.sqlite.org/search">
-      <input id=q name=q type=text
-       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
-      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
-    </form>
-    </div>
-  </table>
+<div class=fancy>
+<div class=nosearch>
+<div class="fancy_title">
+How SQLite Is Tested
+</div>
+<div class="fancy_toc">
+<a onclick="toggle_toc()">
+<span class="fancy_toc_mark" id="toc_mk">&#x25ba;</span>
+Table Of Contents
+</a>
+<div id="toc_sub"><div class="fancy-toc1"><a href="#introduction">1. Introduction</a></div>
+<div class="fancy-toc2"><a href="#executive_summary">1.1. Executive Summary</a></div>
+<div class="fancy-toc1"><a href="#test_harnesses">2. Test Harnesses</a></div>
+<div class="fancy-toc1"><a href="#anomaly_testing">3. Anomaly Testing</a></div>
+<div class="fancy-toc2"><a href="#out_of_memory_testing">3.1. Out-Of-Memory Testing</a></div>
+<div class="fancy-toc2"><a href="#i_o_error_testing">3.2. I/O Error Testing</a></div>
+<div class="fancy-toc2"><a href="#crash_testing">3.3. Crash Testing</a></div>
+<div class="fancy-toc2"><a href="#compound_failure_tests">3.4. Compound failure tests</a></div>
+<div class="fancy-toc1"><a href="#fuzz_testing">4. Fuzz Testing</a></div>
+<div class="fancy-toc2"><a href="#sql_fuzz">4.1. SQL Fuzz</a></div>
+<div class="fancy-toc3"><a href="#sql_fuzz_using_the_american_fuzzy_lop_fuzzer">4.1.1. SQL Fuzz Using The American Fuzzy Lop Fuzzer</a></div>
+<div class="fancy-toc3"><a href="#google_oss_fuzz">4.1.2. Google OSS Fuzz</a></div>
+<div class="fancy-toc3"><a href="#the_dbsqlfuzz_fuzzer">4.1.3. The dbsqlfuzz fuzzer</a></div>
+<div class="fancy-toc3"><a href="#other_third_party_fuzzers">4.1.4. Other third-party fuzzers</a></div>
+<div class="fancy-toc3"><a href="#the_fuzzcheck_test_harness">4.1.5. The fuzzcheck test harness</a></div>
+<div class="fancy-toc3"><a href="#tension_between_fuzz_testing_and_100_mc_dc_testing">4.1.6. Tension Between Fuzz Testing And 100% MC/DC Testing</a></div>
+<div class="fancy-toc2"><a href="#malformed_database_files">4.2. Malformed Database Files</a></div>
+<div class="fancy-toc2"><a href="#boundary_value_tests">4.3. Boundary Value Tests</a></div>
+<div class="fancy-toc1"><a href="#regression_testing">5. Regression Testing</a></div>
+<div class="fancy-toc1"><a href="#automatic_resource_leak_detection">6. Automatic Resource Leak Detection</a></div>
+<div class="fancy-toc1"><a href="#test_coverage">7. Test Coverage</a></div>
+<div class="fancy-toc2"><a href="#statement_versus_branch_coverage">7.1. Statement versus branch coverage</a></div>
+<div class="fancy-toc2"><a href="#coverage_testing_of_defensive_code">7.2. Coverage testing of defensive code</a></div>
+<div class="fancy-toc2"><a href="#forcing_coverage_of_boundary_values_and_boolean_vector_tests">7.3. Forcing coverage of boundary values and boolean vector tests</a></div>
+<div class="fancy-toc2"><a href="#branch_coverage_versus_mc_dc">7.4. Branch coverage versus MC/DC</a></div>
+<div class="fancy-toc2"><a href="#measuring_branch_coverage">7.5. Measuring branch coverage</a></div>
+<div class="fancy-toc2"><a href="#mutation_testing">7.6. Mutation testing</a></div>
+<div class="fancy-toc2"><a href="#experience_with_full_test_coverage">7.7. Experience with full test coverage</a></div>
+<div class="fancy-toc1"><a href="#dynamic_analysis">8. Dynamic Analysis</a></div>
+<div class="fancy-toc2"><a href="#assert">8.1. Assert</a></div>
+<div class="fancy-toc2"><a href="#valgrind">8.2. Valgrind</a></div>
+<div class="fancy-toc2"><a href="#memsys2">8.3. Memsys2</a></div>
+<div class="fancy-toc2"><a href="#mutex_asserts">8.4. Mutex Asserts</a></div>
+<div class="fancy-toc2"><a href="#journal_tests">8.5. Journal Tests</a></div>
+<div class="fancy-toc2"><a href="#undefined_behavior_checks">8.6. Undefined Behavior Checks</a></div>
+<div class="fancy-toc1"><a href="#disabled_optimization_tests">9. Disabled Optimization Tests</a></div>
+<div class="fancy-toc1"><a href="#checklists">10. Checklists</a></div>
+<div class="fancy-toc1"><a href="#static_analysis">11. Static Analysis</a></div>
+<div class="fancy-toc1"><a href="#summary">12. Summary</a></div>
+</div>
+</div>
+<script>
+function toggle_toc(){
+var sub = document.getElementById("toc_sub")
+var mk = document.getElementById("toc_mk")
+if( sub.style.display!="block" ){
+sub.style.display = "block";
+mk.innerHTML = "&#x25bc;";
+} else {
+sub.style.display = "none";
+mk.innerHTML = "&#x25ba;";
+}
+}
+</script>
+</div>
 
-<div class=startsearch></div>
-  
 
 
 
 
 
-<h1 align="center">How SQLite Is Tested</h1>
 
-<h2>1.0 Introduction</h2>
+<h1 id="introduction"><span>1. </span>Introduction</h1>
 
 <p>The reliability and robustness of SQLite is achieved in part
 by thorough and careful testing.</p>
 
-<p>As of <a href="releaselog/3_7_14.html">version 3.7.14</a>,
+<p>As of <a href="releaselog/3_39_0.html">version 3.39.0</a> (2022-06-25),
 the SQLite library consists of approximately
-81.3 KSLOC of C code.
+151.3 KSLOC of C code.
 (KSLOC means thousands of "Source Lines Of Code" or, in other words,
 lines of code excluding blank lines and comments.)
 By comparison, the project has
-1124 times as much
+608 times as much
 test code and test scripts - 
-91421.1 KSLOC.</p>
+92038.3 KSLOC.</p>
 
-<h3>1.1 Executive Summary</h3>
+<h2 id="executive_summary"><span>1.1. </span>Executive Summary</h2>
 
 <ul>
-<li> Three independently developed test harnesses
-<li> 100% branch test coverage in an as-deployed configuration
-<li> Millions and millions of test cases
-<li> Out-of-memory tests
-<li> I/O error tests
-<li> Crash and power loss tests
-<li> Fuzz tests
-<li> Boundary value tests
-<li> Disabled optimization tests
-<li> Regression tests
-<li> Malformed database tests
-<li> Extensive use of assert() and run-time checks
-<li> Valgrind analysis
-<li> Signed-integer overflow checks
-</ul>
+<li> Four independently developed test harnesses
+</li><li> 100% branch test coverage in an as-deployed configuration
+</li><li> Millions and millions of test cases
+</li><li> Out-of-memory tests
+</li><li> I/O error tests
+</li><li> Crash and power loss tests
+</li><li> Fuzz tests
+</li><li> Boundary value tests
+</li><li> Disabled optimization tests
+</li><li> Regression tests
+</li><li> Malformed database tests
+</li><li> Extensive use of assert() and run-time checks
+</li><li> Valgrind analysis
+</li><li> Undefined behavior checks
+</li><li> Checklists
+</li></ul>
 
 <a name="harnesses"></a>
 
-<h2>2.0 Test Harnesses</h2>
+<h1 id="test_harnesses"><span>2. </span>Test Harnesses</h1>
 
-<p>There are three independent test harnesses used for testing the 
+<p>There are four independent test harnesses used for testing the 
 core SQLite library.
 Each test harness is designed, maintained, and managed separately
 from the others.
@@ -171,35 +236,35 @@ from the others.
 <li><p>
 <a name="tcl"></a>
 
-The <b>TCL Tests</b> are the oldest set of tests for SQLite.  
+The <b>TCL Tests</b> are the original tests for SQLite.  
 They are contained in the same source tree as the
 SQLite core and like the SQLite core are in the public domain.  The
 TCL tests are the primary tests used during development.
 The TCL tests are written using the 
-<a href="http://www.tcl.tk/">TCL scripting language</a>.
-The TCL test harness itself consists of 25.1 KSLOC 
+<a href="http://www.tcl-lang.org/">TCL scripting language</a>.
+The TCL test harness itself consists of 27.7 KSLOC 
 of C code used to create the TCL interface.  The test scripts are contained
-in 711 files totaling 
-10.0MB in size.  There are
-29226 distinct test cases, but many of the test
+in 1343 files totaling 
+23.5MB in size.  There are
+50240 distinct test cases, but many of the test
 cases are parameterized and run multiple times (with different parameters)
-so that on a full test run, about 3.1 million 
+so that on a full test run millions of
 separate tests are performed.
 </p>
 </li>
 
 <li><p>
 The <b><a href="th3.html">TH3</a></b> test harness is a set of proprietary tests, written in
-C that provide 100% branch test coverage (and 100% MC/DC test coverage) to
+C that provide 100% branch test coverage 
+(and <a href="testing.html#mcdc">100% MC/DC test coverage</a>) to
 the core SQLite library.  The TH3 tests are designed to run
 on embedded and specialized platforms that would not easily support
 TCL or other workstation services.  TH3 tests use only the published 
-SQLite interfaces.  TH3 is free to <a href="consortium.html">SQLite Consortium</a> members 
-and is available by license to others.  TH3 consists of about
-50.1 MB or 666.9 KSLOC
-of C code implementing 34229 distinct test cases.
+SQLite interfaces. TH3 consists of about
+75.7 MB or 1038.0 KSLOC
+of C code implementing 49116 distinct test cases.
 TH3 tests are heavily parameterized, though, so a full-coverage test runs
-about 0.8 million different test
+about 2.3 million different test
 instances.  The cases that provide 100% branch test coverage constitute
 a subset of the total TH3 test suite.  A soak test
 prior to release does hundreds of millions of tests.
@@ -216,7 +281,35 @@ SQLite against PostgreSQL, MySQL, Microsoft SQL Server, and Oracle 10g.
 SLT runs 7.2 million queries comprising
 1.12GB of test data.
 </p></li>
-</ol>
+
+<li><p>
+The <a href="#dbsqlfuzz"><b>dbsqlfuzz</b></a> engine is a
+proprietary fuzz tester.  Other <a href="testing.html#fuzztesting">fuzzers for SQLite</a> 
+mutate either the SQL inputs or the database file.  Dbsqlfuzz mutates
+both the SQL and the database file at the same time, and is thus able
+to reach new error states.  Dbsqlfuzz is built using the
+<a href="http://llvm.org/docs/LibFuzzer.html">libFuzzer</a> framework of LLVM
+with a custom mutator.  There are
+303 seed files. The dbsqlfuzz fuzzer
+runs about one billion test mutations per day.
+Dbsqlfuzz helps ensure
+that SQLite is robust against attack via malicious SQL or database
+inputs.
+</p></li></ol>
+
+<p>In addition to the four main test harnesses, there several other
+small programs that implement specialized tests.
+</p><ol>
+<li value="5">The "speedtest1.c" program 
+estimates the performance of SQLite under a typical workload.  
+</li><li>The "mptester.c" program is a stress test for multiple processes 
+concurrently reading and writing a single database.
+</li><li>The "threadtest3.c" program is a stress test for multiple threads using
+SQLite simultaneously.  
+</li><li>The "fuzzershell.c" program is used to
+run some <a href="#fuzztesting">fuzz tests</a>.
+</li></ol>
+
 
 <p>All of the tests above must run successfully, on multiple platforms
 and under multiple compile-time configurations,
@@ -225,15 +318,15 @@ before each release of SQLite.</p>
 <p>Prior to each check-in to the SQLite source tree, developers
 typically run a subset (called "veryquick") of the Tcl tests
 consisting of about 
-129.1 thousand test cases.
-The veryquick tests include everything except the anomaly, fuzz, and 
+300.2 thousand test cases.
+The veryquick tests include most tests other than the anomaly, fuzz, and 
 soak tests.  The idea behind the veryquick tests are that they are
 sufficient to catch most errors, but also run in only a few minutes
 instead of a few hours.</p>
 
-<a name="anomoly"></a>
+<a name="anomaly"></a>
 
-<h2>3.0 Anomaly Testing</h2>
+<h1 id="anomaly_testing"><span>3. </span>Anomaly Testing</h1>
 
 <p>Anomaly tests are tests designed to verify the correct behavior
 of SQLite when something goes wrong.  It is (relatively) easy to build
@@ -245,7 +338,7 @@ behavior.</p>
 
 <a name="oomtesting"></a>
 
-<h3>3.1 Out-Of-Memory Testing</h3>
+<h2 id="out_of_memory_testing"><span>3.1. </span>Out-Of-Memory Testing</h2>
 
 <p>SQLite, like all SQL database engines, makes extensive use of
 malloc()  (See the separate report on
@@ -278,7 +371,7 @@ to fail continuously after the first failure.</p>
 
 <a name="ioerrtesting"></a>
 
-<h3>3.2 I/O Error Testing</h3>
+<h2 id="i_o_error_testing"><span>3.2. </span>I/O Error Testing</h2>
 
 <p>I/O error testing seeks to verify that SQLite responds sanely
 to failed I/O operations.  I/O errors might result from a full disk drive,
@@ -310,7 +403,7 @@ introduced database corruption.</p>
 
 <a name="crashtesting"></a>
 
-<h3>3.3 Crash Testing</h3>
+<h2 id="crash_testing"><span>3.3. </span>Crash Testing</h2>
 
 <p>Crash testing seeks to demonstrate that an SQLite database will not
 go corrupt if the application or operating system crashes or if there
@@ -356,7 +449,7 @@ snapshot with different random damage each time.</p>
 
 <a name="multifail"></a>
 
-<h3>3.4 Compound failure tests</h3>
+<h2 id="compound_failure_tests"><span>3.4. </span>Compound failure tests</h2>
 
 <p>The test suites for SQLite also explore the result of stacking
 multiple failures.  For example, tests are run to ensure correct behavior
@@ -365,13 +458,13 @@ prior crash.
 
 <a name="fuzztesting"></a>
 
-<h2>4.0 Fuzz Testing</h2>
+</p><h1 id="fuzz_testing"><span>4. </span>Fuzz Testing</h1>
 
 <p><a href="http://en.wikipedia.org/wiki/Fuzz_testing">Fuzz testing</a>
 seeks to establish that SQLite responds correctly to invalid, out-of-range,
 or malformed inputs.</p>
 
-<h3>4.1 SQL Fuzz</h3>
+<h2 id="sql_fuzz"><span>4.1. </span>SQL Fuzz</h2>
 
 <p>SQL fuzz testing consists of creating syntactically correct yet
 wildly nonsensical SQL statements and feeding them to SQLite to see
@@ -381,12 +474,174 @@ statement also happens to be semantically correct.  In that case, the
 resulting prepared statement is run to make sure it gives a reasonable
 result.</p>
 
-<p>The SQL fuzz generator tests are part of the TCL test suite.
-During a full test run, about 126.3 
-thousand fuzz SQL statements are
-generated and tested.</p>
+<a name="aflfuzz"></a>
 
-<h3>4.2 Malformed Database Files</h3>
+<h3 id="sql_fuzz_using_the_american_fuzzy_lop_fuzzer"><span>4.1.1. </span>SQL Fuzz Using The American Fuzzy Lop Fuzzer</h3>
+
+<p>The concept of fuzz testing has been around for decades, but fuzz
+testing was not an effective way to find bugs until 2014 when
+Michal Zalewski invented the first practical profile-guided fuzzer,
+<a href="http://lcamtuf.coredump.cx/afl/">American Fuzzy Lop</a> or "AFL".
+Unlike prior fuzzers that blindly generate random inputs, AFL
+instruments the program being tested (by modifying the assembly-language
+output from the C compiler) and uses that instrumentation to detect when
+an input causes the program to do something different - to follow
+a new control path or loop a different number of times.  Inputs that provoke
+new behavior are retained and further mutated.  In this way, AFL is able
+to "discover" new behaviors of the program under test, including behaviors
+that were never envisioned by the designers.
+
+</p><p>AFL proved adept at finding arcane bugs in SQLite.
+Most of the findings have been assert() statements where the conditional
+was false under obscure circumstances.  But AFL has also found
+a fair number of crash bugs in SQLite, and even a few cases where SQLite 
+computed incorrect results.
+
+</p><p>Because of its past success, AFL became a standard part of the testing
+strategy for SQLite beginning with <a href="releaselog/3_8_10.html">version 3.8.10</a> (2015-05-07) until
+it was superseded by better fuzzers in <a href="releaselog/3_29_0.html">version 3.29.0</a> (2019-07-10).
+
+<a name="ossfuzz"></a>
+
+</p><h3 id="google_oss_fuzz"><span>4.1.2. </span>Google OSS Fuzz</h3>
+
+<p>Beginning in 2016, a team of engineers at Google started the
+<a href="https://github.com/google/oss-fuzz">OSS Fuzz</a> project.  
+OSS Fuzz uses a AFL-style guided fuzzer running on Google's infrastructure.
+The Fuzzer automatically downloads the latest check-ins for participating
+projects, fuzzes them, and sends email to the developers reporting any
+problems.  When a fix is checked in, the fuzzer automatically detects this
+and emails a confirmation to the developers.
+
+</p><p>SQLite is one of many open-source projects that OSS Fuzz tests. The
+<a href="https://www.sqlite.org/src/file/test/ossfuzz.c">test/ossfuzz.c</a> source file
+in the SQLite repository is SQLite's interface to OSS fuzz.
+
+</p><p>OSS Fuzz no longer finds historical bugs in SQLite.  But it is still
+running and does occasionally find issues in new development check-ins.
+Examples:
+<a href="https://www.sqlite.org/src/timeline?y=ci&c=c422afb507dc8757">&#91;1&#93;</a>
+<a href="https://www.sqlite.org/src/timeline?y=ci&c=0a2eb949f8a759e5">&#91;2&#93;</a>
+<a href="https://www.sqlite.org/src/timeline?y=ci&c=62f2235adf796c72">&#91;3&#93;</a>.
+
+<a name="dbsqlfuzz"></a>
+
+</p><h3 id="the_dbsqlfuzz_fuzzer"><span>4.1.3. </span>The dbsqlfuzz fuzzer</h3>
+
+<p>Beginning in late 2018, SQLite has been fuzzed using a proprietary
+fuzzer called "dbsqlfuzz".  Dbsqlfuzz is built using the 
+<a href="http://llvm.org/docs/LibFuzzer.html">libFuzzer</a> framework of LLVM.
+
+</p><p>The dbsqlfuzz fuzzer mutates both the SQL input and the database file
+at the same time.  Dbsqlfuzz uses a custom
+<a href="https://github.com/google/fuzzing/blob/master/docs/structure-aware-fuzzing.md">Structure-Aware Mutator</a>
+on a specialized input file that defines both an input database and SQL
+text to be run against that database. Because it mutates both the input
+database and the input SQL at the same time, dbsqlfuzz has been able to
+find some obscure faults in SQLite that were missed by prior fuzzers that
+mutated only SQL inputs or only the database file.
+The SQLite developers keep dbsqlfuzz running against trunk in about
+16 cores at all times.  Each instance of dbsqlfuzz program is able to 
+evalutes about 400 test cases per second, meaning that about 500 million
+cases are checked every day.</p>
+
+<p>The dbsqlfuzz fuzzer has been very successful at hardening the
+SQLite code base against malicious attack.  Since dbsqlfuzz has been
+added to the SQLite internal test suite, bug reports from external
+fuzzers such as OSSFuzz have all but stopped.
+
+</p><p>Note that dbsqlfuzz is <i>not</i> the Protobuf-based structure-aware
+fuzzer for SQLite that is used by Chromium and described in the
+<a href="https://github.com/google/fuzzing/blob/master/docs/structure-aware-fuzzing.md#user-content-example-sqlite">Structure-Aware Mutator article</a>.
+There is no connection between these two fuzzers, other than the fact that they
+are both based on <a href="http://llvm.org/docs/LibFuzzer.html">libFuzzer</a>
+The Protobuf fuzzer for SQLite is written and maintained by the Chromium
+team at Google, whereas dbsqlfuzz is written and maintained by the original
+SQLite developers.  Having multiple independently-developed fuzzers for SQLite
+is good, as it means that obscure issues are more likely to be uncovered.
+
+<a name="3pfuzz"></a>
+
+</p><h3 id="other_third_party_fuzzers"><span>4.1.4. </span>Other third-party fuzzers</h3>
+
+<p>SQLite seems to be a popular target for third-parties to fuzz.
+The developers hear about many attempts to fuzz SQLite
+and they do occasionally get bug reports found by independent
+fuzzers.  All such reports are promptly fixed, so the product is
+improved and that the entire SQLite user community benefits.
+This mechanism of having many independent testers is similar to
+<a href="https://en.wikipedia.org/wiki/Linus%27s_law">Linus's law</a>:
+"given enough eyeballs, all bugs are shallow".
+
+</p><p>One fuzzing researcher of particular note is 
+<a href="https://www.manuelrigger.at/">Manuel Rigger</a>, currently
+(as this paragraph is written on 2019-12-21)
+at <a href="https://ethz.ch/en.html">ETH Zurich</a>.
+Most fuzzers only look for assertion faults, crashes, undefined behavior (UB),
+or other easily detected anomalies.  Dr. Rigger's fuzzers, on the other hand,
+are able to find cases where SQLite computes an incorrect answer.
+Rigger has found
+<a href="https://www.sqlite.org/src/timeline?y=t&u=mrigger&n=all">many such cases</a>.
+Most of these finds are obscure corner cases involving type
+conversions and affinity transformations, and a good number of the finds
+are against unreleased features.  Nevertheless, his finds are still important
+as they are real bugs,
+and the SQLite developers are grateful to be able to identify and fix
+the underlying problems.  Rigger's work is currently unpublished.  When it
+is released, it could be as influential as Zalewski's invention of AFL
+and profile-guided fuzzing.
+
+<a name="fuzzcheck"></a>
+
+</p><h3 id="the_fuzzcheck_test_harness"><span>4.1.5. </span>The fuzzcheck test harness</h3>
+
+<p>Historical test cases from <a href="testing.html#aflfuzz">AFL</a>, <a href="testing.html#ossfuzz">OSS Fuzz</a>, and <a href="testing.html#dbsqlfuzz">dbsqlfuzz</a> are
+collected in a set of database files in the main SQLite source tree
+and then rerun by the "fuzzcheck" utility program whenever one runs
+"make test".  Fuzzcheck only runs a few thousand "interesting" cases
+out of the billions of cases that the various fuzzers have
+examined over the years.  "Interesting" cases are cases that exhibit
+previously unseen behavior.  Actual bugs found by fuzzers are always
+included among the interesting test cases, but most of the cases run
+by fuzzcheck were never actual bugs. 
+
+<a name="tension"></a>
+
+</p><h3 id="tension_between_fuzz_testing_and_100_mc_dc_testing"><span>4.1.6. </span>Tension Between Fuzz Testing And 100% MC/DC Testing</h3>
+
+<p>Fuzz testing and <a href="testing.html#mcdc">100% MC/DC testing</a> are in tension with
+one another.
+That is to say, code tested to 100% MC/DC will tend to be
+more vulnerable to problems found by fuzzing and code that performs
+well during fuzz testing will tend to have (much) less than 
+100% MC/DC.
+This is because MC/DC testing discourages <a href="testing.html#defcode">defensive code</a> with
+unreachable branches, but without defensive code, a fuzzer is
+more likely to find a path that causes problems.  MC/DC testing
+seems to work well for building code that is robust during
+normal use, whereas fuzz testing is good for building code that is
+robust against malicious attack.
+
+</p><p>Of course, users would prefer code that is both robust in normal
+use and resistant to malicious attack.  The SQLite developers are
+dedicated to providing that.  The purpose of this section is merely
+to point out that doing both at the same time is difficult.
+
+</p><p>For much of its history SQLite has been focused on 100% MC/DC testing.
+Resistance to fuzzing attacks only became a concern with the introduction
+of AFL in 2014.  For a while there, fuzzers were finding many problems
+in SQLite.  In more recent years, the testing strategy of SQLite has
+evolved to place more emphasis on fuzz testing.  We still maintain
+100% MC/DC of the core SQLite code, but most testing CPU cycles are 
+now devoted to fuzzing.
+
+</p><p>While fuzz testing and 100% MC/DC testing are in tension, they
+are not completely at cross-purposes.  The fact that the SQlite test
+suite does test to 100% MC/DC means that when fuzzers do find problems,
+those problems can be fixed quickly and with little risk of introducing
+new errors.
+
+</p><h2 id="malformed_database_files"><span>4.2. </span>Malformed Database Files</h2>
 
 <p>There are numerous test cases that verify that SQLite is able to
 deal with malformed database files.
@@ -401,11 +656,14 @@ no effect on the integrity of the database.
 The interesting cases are when bytes of the file that
 define database structure get changed.  The malformed database tests
 verify that SQLite finds the file format errors and reports them
-using the <a href="c3ref/c_abort.html">SQLITE_CORRUPT</a> return code without overflowing
+using the <a href="rescode.html#corrupt">SQLITE_CORRUPT</a> return code without overflowing
 buffers, dereferencing NULL pointers, or performing other
 unwholesome actions.</p>
 
-<h3>4.3 Boundary Value Tests</h3>
+<p>The <a href="testing.html#dbsqlfuzz">dbsqlfuzz</a> fuzzer also does an excellent job of verifying
+that SQLite responds sanely to malformed database files.</p>
+
+<h2 id="boundary_value_tests"><span>4.3. </span>Boundary Value Tests</h2>
 
 <p>SQLite defines certain <a href="limits.html">limits</a> on its operation, such as the
 maximum number of columns in a table, the maximum length of an 
@@ -419,19 +677,20 @@ have been tested.</p>
 
 <a name="regressiontesting"></a>
 
-<h2>5.0 Regression Testing</h2>
+<h1 id="regression_testing"><span>5. </span>Regression Testing</h1>
 
 <p>Whenever a bug is reported against SQLite, that bug is not considered
-fixed until new test cases have been added to the TCL test suite which
-would exhibit the bug in an unpatched version of SQLite.  Over the years,
-this has resulted in thousands and thousands of new tests being added
-to the TCL test suite.  These regression tests ensure that bugs that have
+fixed until new test cases that would exhibit the bug have been added 
+to either the TCL or TH3 test suites.
+Over the years,
+this has resulted in thousands and thousands of new tests.
+These regression tests ensure that bugs that have
 been fixed in the past are not reintroduced into future versions of
 SQLite.</p>
 
 <a name="leakcheck"></a>
 
-<h2>6.0 Automatic Resource Leak Detection</h2>
+<h1 id="automatic_resource_leak_detection"><span>6. </span>Automatic Resource Leak Detection</h1>
 
 <p>Resource leak occurs when system resources
 are allocated and never freed.  The most troublesome resource leaks
@@ -450,21 +709,18 @@ harnesses are zealous to enforce this.</p>
 
 <a name="coverage"></a>
 
-<h2>7.0 Test Coverage</h2>
+<h1 id="test_coverage"><span>7. </span>Test Coverage</h1>
 
-<p>The SQLite core has 100% branch test coverage under <a href="th3.html">TH3</a> as of
-2009-07-25, in its default configuration as measured by
-<a href="http://gcc.gnu.org/onlinedocs/gcc/Gcov.html">gcov</a>
-utility on SuSE Linux 10.1 on x86 hardware with the GCC 4.0.1 compiler.</p>
-
-<p>The "SQLite core" in the previous paragraph excludes the
-operating-system dependent <a href="vfs.html">VFS</a> backends, since it is
-not possible to write cross-platform tests for those modules.  Extensions
-such as FTS3 and RTree are also excluded from the analysis.</p>
+<p>The SQLite core, including the unix <a href="vfs.html">VFS</a>,
+has 100% branch test coverage under <a href="th3.html">TH3</a> in
+its default configuration as measured by
+<a href="http://gcc.gnu.org/onlinedocs/gcc/Gcov.html">gcov</a>.
+Extensions such as FTS3 and RTree are excluded from this
+analysis.</p>
 
 <a name="stmtvbr"></a>
 
-<h3>7.1 Statement versus branch coverage</h3>
+<h2 id="statement_versus_branch_coverage"><span>7.1. </span>Statement versus branch coverage</h2>
 
 <p>There are many ways to measure test coverage.  The most popular
 metric is "statement coverage".  When you hear someone say that their
@@ -480,9 +736,8 @@ are evaluated at least once on both directions.</p>
 branch coverage, consider the following hypothetical
 line of C code:</p>
 
-<blockquote><pre>
-if( a>b && c!=25 ){ d++; }
-</pre></blockquote>
+<div class="codeblock"><pre>if( a>b && c!=25 ){ d++; }
+</pre></div>
 
 <p>Such a line of C code might generate a dozen separate machine code
 instructions.  If any one of those instructions is ever evaluated, then
@@ -497,11 +752,11 @@ each subblock within the statement is considered separately.  In order
 to achieve 100% branch coverage in the example above, there must be at
 least three test cases:</p>
 
-<p><ul>
-<li> a<=b
-<li> a>b && c==25
-<li> a>b && c!=25
-</ul></p>
+<p></p><ul>
+<li> a&lt;=b
+</li><li> a&gt;b && c==25
+</li><li> a&gt;b && c!=25
+</li></ul>
 
 <p>Any one of the above test cases would provide 100% statement coverage
 but all three are required for 100% branch coverage.  Generally speaking,
@@ -510,12 +765,13 @@ not true.  To reemphasize, the
 <a href="th3.html">TH3</a> test harness for SQLite provides the stronger form of
 test coverage - 100% branch test coverage.</p>
 
-<a name="defensivecode"></a>
+<a name="defcode"></a>
 
-<h3>7.2 Coverage testing of defensive code</h3>
+<h2 id="coverage_testing_of_defensive_code"><span>7.2. </span>Coverage testing of defensive code</h2>
 
-<p>A well-written C program will typically contain some defensive tests
-which in practice are always true or always false.  This leads to a 
+<p>A well-written C program will typically contain some defensive
+conditionals which in practice are always true or always false.
+This leads to a 
 programming dilemma:  Does one remove defensive code in order to obtain
 100% branch coverage?</p>
 
@@ -526,31 +782,28 @@ surrounds conditions
 which are expected to always evaluate as true and NEVER() surrounds
 conditions that are always evaluated to false.  These macros serve as
 comments to indicate that the conditions are defensive code.
-For standard builds, these macros are pass-throughs:</p>
+In release builds, these macros are pass-throughs:</p>
 
-<blockquote><pre>
-#define ALWAYS(X)  (X)
+<div class="codeblock"><pre>#define ALWAYS(X)  (X)
 #define NEVER(X)   (X)
-</pre></blockquote>
+</pre></div>
 
 <p>During most testing, however, these macros will throw an assertion
 fault if their argument does not have the expected truth value.  This
 alerts the developers quickly to incorrect design assumptions.
 
-<blockquote><pre>
-#define ALWAYS(X)  ((X)?1:assert(0),0)
+</p><div class="codeblock"><pre>#define ALWAYS(X)  ((X)?1:assert(0),0)
 #define NEVER(X)   ((X)?assert(0),1:0)
-</pre></blockquote>
+</pre></div>
 
 <p>When measuring test coverage, these macros are defined to be constant
 truth values so that they do not generate assembly language branch
 instructions, and hence do not come into play when calculating the
 branch coverage:</p>
 
-<blockquote><pre>
-#define ALWAYS(X)  (1)
+<div class="codeblock"><pre>#define ALWAYS(X)  (1)
 #define NEVER(X)   (0)
-</pre></blockquote>
+</pre></div>
 
 <p>The test suite is designed to be run three times, once for each of
 the ALWAYS() and NEVER() definitions shown above.  All three test runs
@@ -561,7 +814,7 @@ form (the pass-through form) for deployment.</p>
 
 <a name="testcase"></a>
 
-<h3>7.3 Forcing coverage of boundary values and boolean vector tests</h3>
+<h2 id="forcing_coverage_of_boundary_values_and_boolean_vector_tests"><span>7.3. </span>Forcing coverage of boundary values and boolean vector tests</h2>
 
 <p>Another macro used in conjunction with test coverage measurement is
 the <tt>testcase()</tt> macro.  The argument is a condition for which
@@ -569,9 +822,8 @@ we want test cases that evaluate to both true and false.
 In non-coverage builds (that is to say, in release builds) the
 <tt>testcase()</tt> macro is a no-op:</p>
 
-<blockquote><pre>
-#define testcase(X)
-</pre></blockquote>
+<div class="codeblock"><pre>#define testcase(X)
+</pre></div>
 
 <p>But in a coverage measuring build, the <tt>testcase()</tt> macro
 generates code that evaluates the conditional expression in its argument.  
@@ -580,18 +832,16 @@ is made to ensure tests exist that evaluate the conditional to both true
 and false.  <tt>Testcase()</tt> macros are used, for example, to help verify
 that boundary values are tested.  For example:</p>
 
-<blockquote><pre>
-testcase( a==b );
+<div class="codeblock"><pre>testcase( a==b );
 testcase( a==b+1 );
 if( a>b && c!=25 ){ d++; }
-</pre></blockquote>
+</pre></div>
 
 <p>Testcase macros are also used when two or more cases of a switch
 statement go to the same block of code, to make sure that the code was
 reached for all cases:</p>
 
-<blockquote><pre>
-switch( op ){
+<div class="codeblock"><pre>switch( op ){
   case OP_Add:
   case OP_Subtract: {
     testcase( op==OP_Add );
@@ -601,27 +851,26 @@ switch( op ){
   }
   /* ... */
 }
-</pre></blockquote>
+</pre></div>
 
 <p>For bitmask tests, <tt>testcase()</tt> macros are used to verify that every
-bit of the bitmask affects the test.  For example, in the following block
+bit of the bitmask affects the outcome.  For example, in the following block
 of code, the condition is true if the mask contains either of two bits
 indicating either a MAIN_DB or a TEMP_DB is being opened.  
 The <tt>testcase()</tt>
 macros that precede the if statement verify that both cases are tested:</p>
 
-<blockquote><pre>
-testcase( mask & SQLITE_OPEN_MAIN_DB );
+<div class="codeblock"><pre>testcase( mask & SQLITE_OPEN_MAIN_DB );
 testcase( mask & SQLITE_OPEN_TEMP_DB );
 if( (mask & (SQLITE_OPEN_MAIN_DB|SQLITE_OPEN_TEMP_DB))!=0 ){ ... }
-</pre></blockquote>
+</pre></div>
 
-<p>The SQLite source code contains 667
+<p>The SQLite source code contains 1143
 uses of the <tt>testcase()</tt> macro.</p>
 
 <a name="mcdc"></a>
 
-<h3>7.4 Branch coverage versus MC/DC</h3>
+<h2 id="branch_coverage_versus_mc_dc"><span>7.4. </span>Branch coverage versus MC/DC</h2>
 
 <p>Two methods of measuring test coverage were described above:
 "statement" and "branch" coverage.  There are many other test coverage
@@ -632,11 +881,11 @@ defines MC/DC as follows:</p>
 
 <ul>
 <li> Each decision tries every possible outcome.
-<li> Each condition in a decision takes on every possible outcome.
-<li> Each entry and exit point is invoked.
-<li> Each condition in a decision is shown to independently
+</li><li> Each condition in a decision takes on every possible outcome.
+</li><li> Each entry and exit point is invoked.
+</li><li> Each condition in a decision is shown to independently
      affect the outcome of the decision.
-</ul>
+</li></ul>
 
 <p>In the C programming language 
 where <b><tt>&amp;&amp;</tt></b> and <b><tt>||</tt></b>
@@ -652,22 +901,128 @@ subsection to make sure that every condition in a bit-vector decision takes
 on every possible outcome.  In this way, SQLite also achieves 100% MC/DC
 in addition to 100% branch coverage.</p>
 
+<h2 id="measuring_branch_coverage"><span>7.5. </span>Measuring branch coverage</h2>
+
+<p>Branch coverage in SQLite is currently measured
+using <a href="https://gcc.gnu.org/onlinedocs/gcc/Gcov.html">gcov</a> with the "-b"
+option.  First the test program is compiled using options
+"-g -fprofile-arcs -ftest-coverage" and then the test program is run.
+Then "gcov -b" is run to generate a coverage report.
+The coverage report is verbose and inconvenient to read, 
+so the gcov-generated report is processed using
+some simple scripts to put it into a more human-friendly format.
+This entire process is automated using scripts, of course.
+
+</p><p>Note that running SQLite with gcov is not a test of SQLite &mdash;
+it is a test of the test suite.  The gcov run does not test SQLite because
+the -fprofile-args and -ftest-coverage options cause the compiler to 
+generate different code.  
+The gcov run merely verifies that the test suite provides 100% branch test
+coverage.  The gcov run is a test of the test - a meta-test.
+
+</p><p>After gcov has been run to verify 100% branch test coverage,
+then the test program is recompiled using delivery compiler options
+(without the special -fprofile-arcs and -ftest-coverage options)
+and the test program is rerun.
+This second run is the actual test of SQLite.
+
+</p><p>It is important to verify that the gcov test run 
+and the second real test run both give the same output.  Any
+differences in output indicate either the use of undefined or
+indeterminate behavior in the SQLite code (and hence a bug), 
+or a bug in the compiler.
+Note that SQLite has, over the previous decade, encountered bugs
+in each of GCC, Clang, and MSVC.  Compiler bugs, while rare, do happen,
+which is why it is so important to test the code in an as-delivered
+configuration.
+
+<a name="mutationtests"></a>
+
+</p><h2 id="mutation_testing"><span>7.6. </span>Mutation testing</h2>
+
+<p>Using gcov (or similar) to show that every branch instruction is taken
+at least once in both directions is good measure of test suite quality.
+But even better is showing that every branch instruction makes
+a difference in the output.  In other words, we want to show 
+not only that every branch instruction both jumps and falls through but also
+that every branch is doing useful work and that the test suite is able
+to detect and verify that work.  When a branch is found that does not
+make a difference in the output, that suggests that the code associated 
+the branch can be removed (reducing the size of the library and perhaps
+making it run faster) or that the test suite is inadequately testing the
+feature that the branch implements.
+
+</p><p>SQLite strives to verify that every branch instruction makes a difference
+using <a href="https://en.wikipedia.org/wiki/Mutation_testing">mutation testing</a>.
+<a href="th3.html#muttest">A script</a>
+first compiles the SQLite source code into assembly language
+(using, for example, the -S option to gcc).  Then the script steps through
+the generated assembly language and, one by one, changes each branch 
+instruction into either an unconditional jump or a no-op, compiles the 
+result, and verifies that the test suite catches the mutation.
+
+</p><p>
+Unfortunately, SQLite contains many branch instructions that
+help the code run faster without changing the output.
+Such branches generate false-positives during mutation testing.
+As an example, consider the following 
+<a href="https://www.sqlite.org/src/artifact/55b5fb474?ln=55-62">hash function</a>
+used to accelerate table-name lookup:
+
+</p><div class="codeblock"><pre>55  static unsigned int strHash(const char *z){
+56    unsigned int h = 0;
+57    unsigned char c;
+58    while( (c = (unsigned char)*z++)!=0 ){     /*OPTIMIZATION-IF-TRUE*/
+59      h = (h&lt;&lt;3) &#94; h &#94; sqlite3UpperToLower&#91;c&#93;;
+60    }
+61    return h;
+62  }
+</pre></div>
+
+<p>
+If the branch instruction that implements the "c!=0" test on line 58
+is changed into a no-op, then the while-loop will loop forever and the
+test suite will fail with a time-out.  But if that branch is changed
+into an unconditional jump, then the hash function will always return 0.
+The problem is that 0 is a valid hash.  A hash function that always
+returns 0 still works in the sense that SQLite still always gets the correct
+answer.  The table-name hash table degenerates into a linked-list
+and so the table-name lookups that occur while parsing SQL statements 
+might be a little slower, but the end result will be the same.
+
+</p><p>
+To work around this problem, comments of the form
+"<code>/*OPTIMIZATION-IF-TRUE*/</code>" and
+"<code>/*OPTIMIZATION-IF-FALSE*/</code>" are inserted into the SQLite
+source code to tell the mutation testing script to ignore some branch
+instructions.
+
 <a name="thoughts1"></a>
 
-<h3>7.5 Experience with full test coverage</h3>
+</p><h2 id="experience_with_full_test_coverage"><span>7.7. </span>Experience with full test coverage</h2>
 
 <p>The developers of SQLite have found that full coverage testing is an
-extremely productive method for preventing the introduction of new bugs
-as the system evolves.  Because every single branch
+extremely effective method for locating and preventing bugs.
+Because every single branch
 instruction in SQLite core code is covered by test cases, the developers
-can be confident that changes they make in one part of the code
+can be confident that changes made in one part of the code
 do not have unintended consequences in other parts of the code.
-It would be extremely difficult maintain the quality of SQLite without such
-assurances.</p>
+The many new features and performance improvements that have been
+added to SQLite in recent years would not have been possible without
+the availability of full-coverage testing.</p>
+
+<p>Maintaining 100% MC/DC is laborious and time-consuming.
+The level of effort needed to maintain full-coverage testing
+is probably not cost effective for a typical application.
+However, we think that full-coverage testing is justified for a
+<a href="mostdeployed.html">very widely deployed</a> infrastructure library
+like SQLite, and especially for a database library which by its very
+nature "remembers" past mistakes.
+
 
 <a name="dynamicanalysis"></a>
 
-<h2>8.0 Dynamic Analysis</h2>
+</p><h1 id="dynamic_analysis"><span>8. </span>Dynamic Analysis</h1>
 
 <p>Dynamic analysis refers to internal and external checks on the
 SQLite code which are performed while the code is live and running.
@@ -676,9 +1031,9 @@ quality of SQLite.</p>
 
 <a name="asserts"></a>
 
-<h3>8.1 Assert</h3>
+<h2 id="assert"><span>8.1. </span>Assert</h2>
 
-<p>The SQLite core contains 3531 <tt>assert()</tt>
+<p>The SQLite core contains 6548 <tt>assert()</tt>
 statements that verify function preconditions and postconditions and
 loop invariants.  Assert() is a macro which is a standard part of
 ANSI-C.  The argument is a boolean value that is assumed to always be
@@ -693,9 +1048,12 @@ Hence, the default (production) build of SQLite disables asserts.
 Assert statements are only enabled when SQLite is compiled with the
 SQLITE_DEBUG preprocessor macro defined.</p>
 
+<p>See the <a href="assert.html">Use Of assert in SQLite</a> document
+for additional information about how SQLite uses assert().</p>
+
 <a name="valgrind"></a>
 
-<h3>8.2 Valgrind</h3>
+<h2 id="valgrind"><span>8.2. </span>Valgrind</h2>
 
 <p><a href="http://valgrind.org/">Valgrind</a> is perhaps the most amazing
 and useful developer tool in the world.  Valgrind is a simulator - it simulates
@@ -721,7 +1079,7 @@ release.</p>
 
 <a name="memtesting"></a>
 
-<h3>8.3 Memsys2</h3>
+<h2 id="memsys2"><span>8.3. </span>Memsys2</h2>
 
 <p>SQLite contains a pluggable
 <a href="malloc.html">memory allocation subsystem</a>.
@@ -738,7 +1096,7 @@ means the checks can be done more often and for longer tests.</p>
 
 <a name="mutextesting"></a>
 
-<h3>8.4 Mutex Asserts</h3>
+<h2 id="mutex_asserts"><span>8.4. </span>Mutex Asserts</h2>
 
 <p>SQLite contains a pluggable mutex subsystem.  Depending on 
 compile-time options, the default mutex system contains interfaces
@@ -751,7 +1109,7 @@ in multi-threaded applications.</p>
 
 <a name="journaltest"></a>
 
-<h3>8.5 Journal Tests</h3>
+<h2 id="journal_tests"><span>8.5. </span>Journal Tests</h2>
 
 <p>One of the things that SQLite does to ensure that transactions
 are atomic across system crashes and power failures is to write
@@ -770,31 +1128,53 @@ across system crashes and power failures.</p>
 
 <a name="intoverflow"></a>
 
-<h3>8.6 Signed-Integer Overflow Checks</h3>
+<h2 id="undefined_behavior_checks"><span>8.6. </span>Undefined Behavior Checks</h2>
 
-<p>The various C language standards say that the signed-integer overflow
-behavior is undefined.  In other words, when you add a value to a signed
-integer such that the result is too large to fit in that integer, the
-value does not necessarily wrap around to a negative number, as most
-programmers expect.  It might do that.  But it might do something completely
-different.  See, for example,
-<a href="http://thiemonagel.de/2010/01/signed-integer-overflow/">here</a>
-and <a href="http://blog.regehr.org/archives/482">here</a>.  Even the
-same compiler might do something different with signed integer overflow
-in different places in the code or at different optimizations settings.</p>
+<p>In the C programming language, it is very easy to write code that
+has "undefined" or "implementation defined" behavior.
+That means that the code might work during development, but then give
+a different answer on a different system, or when recompiled using different
+compiler options.  
+Examples of undefined and implementation-defined behavior in
+ANSI C include:
+</p><ul>
+<li>Signed integer overflow.  (Signed integer overflow does <u>not</u>
+necessarily wrap around, as most people expect.)
+</li><li>Shifting an N-bit integer by more than N bits.
+</li><li>Shifting by a negative amount.
+</li><li>Shifting a negative number.
+</li><li>Using the memcpy() function on overlapping buffers.
+</li><li>The order of evaluation of function arguments.
+</li><li>Whether or not "char" variables are signed or unsigned.
+</li><li>And so forth....
+</li></ul>
 
-<p>SQLite never overflows a signed integer.
-To verify this, the test suites are run at least once when compiled with
-the -ftrapv option to GCC.  The -ftrapv option causes GCC to generate code
-that will panic() on a signed integer overflow.  In addition, there are
-many test cases the strive to provoke integer overflows
-using boundary value calculations such as
- "<b>SELECT -1*(-9223372036854775808);</b>".
+<p>Since undefined and implementation-defined behavior is non-portable
+and can easily lead to incorrect answers, SQLite works very hard to avoid it.
+For example,
+when adding two integer column values together as part of an SQL statement,
+SQLite does not simply add them together using the C-language "+" operator.
+Instead, it first checks to make sure the
+addition will not overflow, and if it will, it does the addition using
+floating point instead.
 
+</p><p>To help ensure that SQLite does not make use of undefined or
+implementation defined behavior, the test suites are rerun using
+instrumented builds that try to detect undefined behavior.  For example,
+test suites are run using the "-ftrapv" option of GCC.  And they
+are run again using the "-fsanitize=undefined" option on Clang.  And
+again using the "/RTC1" option in MSVC.  Then the test suites are rerun
+using options like "-funsigned-char" and "-fsigned-char" to make sure
+that implementation differences do not matter either.  Tests are then repeated
+on 32-bit and 64-bit systems and on big-endian and little-endian systems,
+using a variety of CPU architectures.
+Furthermore, the test suites are augmented with many test cases that are
+deliberately designed to provoke undefined behavior.  For example:
+"<b>SELECT -1*(-9223372036854775808);</b>".
 
 <a name="disopttest"></a>
 
-<h2>9.0 Disabled Optimization Tests</h2>
+</p><h1 id="disabled_optimization_tests"><span>9. </span>Disabled Optimization Tests</h1>
 
 <p>The <a href="c3ref/test_control.html">sqlite3_test_control</a>(<a href="c3ref/c_testctrl_always.html">SQLITE_TESTCTRL_OPTIMIZATIONS</a>, ...) interface
 allows selected SQL statement optimizations to be disabled at run-time.
@@ -819,25 +1199,60 @@ without the optimizations, in order to show that the optimizations do not
 cause malfunctions.</p>
 
 
+<a name="cklist"></a>
+
+<h1 id="checklists"><span>10. </span>Checklists</h1>
+
+<p>The SQLite developers use an on-line checklist to coordinate testing
+activity and to verify that all tests pass prior each SQLite release.
+<a href="http://www.sqlite.org/checklists/index.html">Past checklists</a>
+are retained for historical reference.
+(The checklists are read-only for anonymous internet viewers, but
+developers can log in and update checklist items in their web
+browsers.)
+The use of checklists for SQLite testing and other development activities
+is inspired by <i>
+<a href="http://atulgawande.com/book/the-checklist-manifesto/">The Checklist Manifesto</a>
+</i>.</p>
+
+<p>The latest checklists contain approximately 200 items that are
+individually verified for each release.  Some checklist items only take
+a few seconds to verify and mark off.  Others involve test suites
+that run for many hours.</p>
+
+<p>The release checklist is not automated: developers run each item on
+the checklist manually.  We find that it is important to keep a human in
+the loop.  Sometimes problems are found while running a checklist item
+even though the test itself passed.  It is important to have a human
+reviewing the test output at the highest level, and constantly asking
+"Is this really right?"</p>
+
+<p>The release checklist is continuously evolving.  As new problems or
+potential problems are discovered, new checklist items are added to
+make sure those problems do not appear in subsequent releases.  The
+release checklist has proven to be an invaluable tool in helping to
+ensure that nothing is overlooked during the release process.</p>
+
+
 <a name="staticanalysis"></a>
 
-<h2>10.0 Static Analysis</h2>
+<h1 id="static_analysis"><span>11. </span>Static Analysis</h1>
 
-<p>Static analysis means analyzing code at or before compile-time to
-check for correctness.  Static analysis includes looking at compiler
-warning messages and running the code through more in-depth
-analysis engines such as the
+<p>Static analysis means analyzing source code at compile-time to
+check for correctness.  Static analysis includes compiler
+warning messages and more in-depth analysis engines such as the
 <a href="http://clang-analyzer.llvm.org/">Clang Static Analyzer</a>.
 SQLite compiles without warnings on GCC and Clang using 
 the -Wall and -Wextra flags on Linux and Mac and on MSVC on Windows.
-No warnings are generated by the Clang Static Analyzer tool "scan-build"
-either.  Nevertheless, some warnings might be generated by other
+No valid warnings are generated by the Clang Static Analyzer tool "scan-build"
+either (though recent versions of clang seem to generate many false-positives.)
+Nevertheless, some warnings might be generated by other
 static analyzers.  Users are encouraged not to stress over these
 warnings and to instead take solace in the intense testing of SQLite
 described above. 
 </p>
 
-<p>Static analysis has not proven to be especially helpful in finding
+<p>Static analysis has not been helpful in finding
 bugs in SQLite.  Static analysis has found a few bugs in SQLite, but
 those are the exceptions.  More bugs have been
 introduced into SQLite while trying to get it to compile without 
@@ -845,7 +1260,7 @@ warnings than have been found by static analysis.</p>
 
 <a name="summary"></a>
 
-<h2>11.0 Summary</h2>
+<h1 id="summary"><span>12. </span>Summary</h1>
 
 <p>SQLite is open source.  This gives many people the idea that
 it is not well tested as commercial software and is perhaps unreliable.
@@ -856,6 +1271,7 @@ The quality of SQLite is achieved in part by careful code design and
 implementation.  But extensive testing also plays a vital role in
 maintaining and improving the quality of SQLite.  This document has
 summarized the testing procedures that every release of SQLite undergoes
-with the hopes of inspiring the reader to understand that SQLite is
+with the hope of inspiring confidence that SQLite is
 suitable for use in mission-critical applications.</p>
+<p align="center"><small><i>This page last modified on  <a href="https://sqlite.org/docsrc/honeypot" id="mtimelink"  data-href="https://sqlite.org/docsrc/finfo/pages/testing.in?m=a6f909eb7e889cd20">2022-05-31 20:17:58</a> UTC </small></i></p>
 

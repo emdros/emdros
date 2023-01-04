@@ -1,135 +1,150 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="sqlite.css" rel="stylesheet">
 <title>SQLite Support Options</title>
-<style type="text/css">
-body {
-    margin: auto;
-    font-family: Verdana, sans-serif;
-    padding: 8px 1%;
-}
-
-a { color: #044a64 }
-a:visited { color: #734559 }
-
-.logo { position:absolute; margin:3px; }
-.tagline {
-  float:right;
-  text-align:right;
-  font-style:italic;
-  width:300px;
-  margin:12px;
-  margin-top:58px;
-}
-
-.menubar {
-  clear: both;
-  border-radius: 8px;
-  background: #044a64;
-  padding: 0px;
-  margin: 0px;
-  cell-spacing: 0px;
-}    
-.toolbar {
-  text-align: center;
-  line-height: 1.6em;
-  margin: 0;
-  padding: 0px 8px;
-}
-.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
-.toolbar a:visited { color: white; }
-.toolbar a:hover { color: #044a64; background: white; }
-
-.content    { margin: 5%; }
-.content dt { font-weight:bold; }
-.content dd { margin-bottom: 25px; margin-left:20%; }
-.content ul { padding:0px; padding-left: 15px; margin:0px; }
-
-/* Things for "fancyformat" documents start here. */
-.fancy img+p {font-style:italic}
-.fancy .codeblock i { color: darkblue; }
-.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
-.fancy h2 { margin-left: 10px }
-.fancy h3 { margin-left: 20px }
-.fancy h4 { margin-left: 30px }
-.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
-.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
-.fancy #toc a        { color: darkblue ; text-decoration: none }
-.fancy .todo         { color: #AA3333 ; font-style : italic }
-.fancy .todo:before  { content: 'TODO:' }
-.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
-.fancy img { display:block; }
-.fancy :link:hover, .fancy :visited:hover { background: wheat }
-.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
-.fancy li p { margin: 1em 0 }
-/* End of "fancyformat" specific rules. */
-
-</style>
-  
+<!-- path= -->
 </head>
 <body>
-<div><!-- container div to satisfy validator -->
-
+<div class=nosearch>
 <a href="index.html">
-<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite Logo"
- border="0"></a>
-<div><!-- IE hack to prevent disappearing logo--></div>
-<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
-
-<table width=100% class="menubar"><tr>
-  <td width=100%>
-  <div class="toolbar">
-    <a href="about.html">About</a>
-    <a href="sitemap.html">Sitemap</a>
-    <a href="docs.html">Documentation</a>
-    <a href="download.html">Download</a>
-    <a href="copyright.html">License</a>
-    <a href="news.html">News</a>
-    <a href="support.html">Support</a>
-  </div>
+<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='about.html'>About</a>
+<li class='desktoponly'><a href="docs.html">Documentation</a>
+<li class='desktoponly'><a href="download.html">Download</a>
+<li class='wideonly'><a href='copyright.html'>License</a>
+<li class='desktoponly'><a href="support.html">Support</a>
+<li class='desktoponly'><a href="prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='about.html'>About</a>
+<li><a href='docs.html'>Documentation</a>
+<li><a href='download.html'>Download</a>
+<li><a href='support.html'>Support</a>
+<li><a href='prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
 <script>
-  gMsg = "Search SQLite Docs..."
-  function entersearch() {
-    var q = document.getElementById("q");
-    if( q.value == gMsg ) { q.value = "" }
-    q.style.color = "black"
-    q.style.fontStyle = "normal"
-  }
-  function leavesearch() {
-    var q = document.getElementById("q");
-    if( q.value == "" ) { 
-      q.value = gMsg
-      q.style.color = "#044a64"
-      q.style.fontStyle = "italic"
-    }
-  }
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
 </script>
-<td>
-    <div style="padding:0 1em 0px 0;white-space:nowrap">
-    <form name=f method="GET" action="http://www.sqlite.org/search">
-      <input id=q name=q type=text
-       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
-      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
-    </form>
-    </div>
-  </table>
-
-<div class=startsearch></div>
-  
 
 
-<h2>SQLite Support Options</h2>
+<a name="fx"></a>
+
+<h2>Public Forum</h2>
+
+<p>Connect with SQLite developers and other SQLite users on the
+<a href="https://sqlite.org/forum/forum">SQLite Forum</a>.  This is the preferred
+way to get free help with SQLite.
+
+<a name="mailinglists"></a>
+
+
+<p>There was formerly a mailing list devoted to discussions
+about SQLite, but as of 2020-03-12, the mailing list is deprecated.
+Please use the 
+<a href="https://sqlite.org/forum/forum">SQLite Forum</a> instead.
+Historical mailing lists posts are preserved at
+<a href="http://www.mail-archive.com/sqlite-users%40mailinglists.sqlite.org/">
+www.mail-archive.com</a>
 
 <a name="prosupport"></a>
 
-<h3>Professional Support</h3>
+<h2>Paid Professional Support</h2>
 
 <p>
-If you would like professional support for SQLite
+If you would like <a href="prosupport.html">professional support</a> for SQLite
 or if you want custom modifications performed by the
 original author of SQLite, these services are available for a modest fee.
-For additional information visit
-<a href="http://www.hwaci.com/sw/sqlite/prosupport.html">http://www.hwaci.com/sw/sqlite/prosupport.html</a> or contact:</p>
+For additional information contact:</p>
 
 <table border="0" cellpadding="15">
 <tr><td valign="top">
@@ -138,28 +153,31 @@ Hwaci - Applied Software Research <br />
 704.948.4565 <br />
 <a href="mailto:drh@hwaci.com">drh@hwaci.com</a>
 </td><td valign="top">
-<form method="GET" action="http://www.hwaci.com/sw/sqlite/prosupport.html">
-<input type="submit" value="More Info"></form>
-</td></tr>
+<a class="button" href="prosupport.html">More Info</a>
+</td>
 </table>
 
-<h3>Proprietary SQLite Extensions</h3>
+<h2>Proprietary SQLite Extensions</h2>
 
 <p>The core SQLite library found on this website is in the
 <a href="copyright.html">public domain</a>.  But there also exist
-proprietary, licensed extensions to SQLite, written and maintained
-by the original developer.</p>
+proprietary, licensed extensions to SQLite.</p>
 
 <ul>
 <li><p>
-The <a href="http://www.hwaci.com/sw/sqlite/see.html">SQLite Encryption Extension (SEE)</a>
-will read and write database file encrypted using
+The <a href="https://www.hwaci.com/sw/sqlite/see.html">SQLite Encryption Extension (SEE)</a>
+will read and write database files encrypted using
 128-bit or 256-bit AES.</p></li>
 
 <li><p>
-The <a href="http://www.hwaci.com/sw/sqlite/cerod.html">SQLite Compressed and Encrypted Read-Only Database (CEROD)</a>
-Extension will read a database file that is both compressed
+The <a href="https://www.hwaci.com/sw/sqlite/cerod.html">SQLite Compressed and Encrypted Read-Only Database (CEROD)</a>
+extension will read a database file that is both compressed
 and encrypted.</p></li>
+
+<li><p>
+The <a href="https://www.hwaci.com/sw/sqlite/zipvfs.html">ZIPVFS</a>
+extension will both read and write database files that are both compressed and optionally
+encrypted using application-supplied compression and encryption routines.</p></li>
 
 <li><p>
 The <a href="th3.html">Test Harness #3 (TH3)</a> is an alternative set of test
@@ -169,59 +187,6 @@ as-deployed configuration on embedded platforms with
 </li>
 </ul>
 
-<a name="mailinglists"></a>
-
-<h3>Mailing Lists</h3>
-<p>Three separate mailing lists have been established to help support
-SQLite:</p>
-
-<ul>
-<li><a href="http://sqlite.org:8080/cgi-bin/mailman/listinfo/sqlite-announce">
-sqlite-announce</a> - announcements of new
-releases or significant developments.</li>
-<li><a href="http://sqlite.org:8080/cgi-bin/mailman/listinfo/sqlite-users">
-sqlite-users</a> - general user discussion; most postings belong here.</li>
-<li><a href="http://sqlite.org:8080/cgi-bin/mailman/listinfo/sqlite-dev">
-sqlite-dev</a> - developer conversations; for people who have or aspire to
-have write permission on the SQLite source code repository.</li>
-</ul>
-
-<p>
-Most users of SQLite will want to join the
-<a href="http://sqlite.org:8080/cgi-bin/mailman/listinfo/sqlite-announce">
-sqlite-announce</a> list and many will want to join the
-<a href="http://sqlite.org:8080/cgi-bin/mailman/listinfo/sqlite-users">
-sqlite-users</a> list.  The
-<a href="http://sqlite.org:8080/cgi-bin/mailman/listinfo/sqlite-dev">
-sqlite-dev</a> list is more specialized and appeals to a narrower audience.
-Off-site archives of the
-<a href="http://sqlite.org:8080/cgi-bin/mailman/listinfo/sqlite-users">
-sqlite-users</a> list are available at:
 </p>
-
-<blockquote>
-<a href="http://www.mail-archive.com/sqlite-users%40sqlite.org/">http://www.mail-archive.com/sqlite-users%40sqlite.org/</a><br>
-<a href="http://marc.info/?l=sqlite-users&r=1&w=2">http://marc.info/?l=sqlite-users&r=1&w=2</a><br>
-<a href="http://news.gmane.org/gmane.comp.db.sqlite.general">http://news.gmane.org/gmane.comp.db.sqlite.general</a>
-</blockquote>
-
-</p>
-
-<a name="directemail"></a>
-<h3>Direct E-Mail To The Author</h3>
-
-<p>
-Use the mailing list.
-Please do <b>not</b> send email directly to the author of SQLite
-unless:
-<ul>
-<li>You have or intend to acquire a professional support contract
-as described above, or</li>
-<li>You are working on an open source project.</li>
-</ul>
-You are welcomed to use SQLite in closed source, proprietary, and/or
-commercial projects and to ask questions about such use on the public
-mailing list.  But please do not ask to receive free direct technical
-support.  The software is free; direct technical support is not.
-</p>
+<p align="center"><small><i>This page last modified on  <a href="https://sqlite.org/docsrc/honeypot" id="mtimelink"  data-href="https://sqlite.org/docsrc/finfo/pages/support.in?m=76de5e3c2734b7ea5">2021-01-16 12:18:53</a> UTC </small></i></p>
 

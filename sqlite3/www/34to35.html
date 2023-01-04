@@ -1,125 +1,124 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="sqlite.css" rel="stylesheet">
 <title>SQLite Changes From Version 3.4.2 To 3.5.0</title>
-<style type="text/css">
-body {
-    margin: auto;
-    font-family: Verdana, sans-serif;
-    padding: 8px 1%;
-}
-
-a { color: #044a64 }
-a:visited { color: #734559 }
-
-.logo { position:absolute; margin:3px; }
-.tagline {
-  float:right;
-  text-align:right;
-  font-style:italic;
-  width:300px;
-  margin:12px;
-  margin-top:58px;
-}
-
-.menubar {
-  clear: both;
-  border-radius: 8px;
-  background: #044a64;
-  padding: 0px;
-  margin: 0px;
-  cell-spacing: 0px;
-}    
-.toolbar {
-  text-align: center;
-  line-height: 1.6em;
-  margin: 0;
-  padding: 0px 8px;
-}
-.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
-.toolbar a:visited { color: white; }
-.toolbar a:hover { color: #044a64; background: white; }
-
-.content    { margin: 5%; }
-.content dt { font-weight:bold; }
-.content dd { margin-bottom: 25px; margin-left:20%; }
-.content ul { padding:0px; padding-left: 15px; margin:0px; }
-
-/* Things for "fancyformat" documents start here. */
-.fancy img+p {font-style:italic}
-.fancy .codeblock i { color: darkblue; }
-.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
-.fancy h2 { margin-left: 10px }
-.fancy h3 { margin-left: 20px }
-.fancy h4 { margin-left: 30px }
-.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
-.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
-.fancy #toc a        { color: darkblue ; text-decoration: none }
-.fancy .todo         { color: #AA3333 ; font-style : italic }
-.fancy .todo:before  { content: 'TODO:' }
-.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
-.fancy img { display:block; }
-.fancy :link:hover, .fancy :visited:hover { background: wheat }
-.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
-.fancy li p { margin: 1em 0 }
-/* End of "fancyformat" specific rules. */
-
-</style>
-  
+<!-- path= -->
 </head>
 <body>
-<div><!-- container div to satisfy validator -->
-
+<div class=nosearch>
 <a href="index.html">
-<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite Logo"
- border="0"></a>
-<div><!-- IE hack to prevent disappearing logo--></div>
-<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
-
-<table width=100% class="menubar"><tr>
-  <td width=100%>
-  <div class="toolbar">
-    <a href="about.html">About</a>
-    <a href="sitemap.html">Sitemap</a>
-    <a href="docs.html">Documentation</a>
-    <a href="download.html">Download</a>
-    <a href="copyright.html">License</a>
-    <a href="news.html">News</a>
-    <a href="support.html">Support</a>
-  </div>
+<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='about.html'>About</a>
+<li class='desktoponly'><a href="docs.html">Documentation</a>
+<li class='desktoponly'><a href="download.html">Download</a>
+<li class='wideonly'><a href='copyright.html'>License</a>
+<li class='desktoponly'><a href="support.html">Support</a>
+<li class='desktoponly'><a href="prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='about.html'>About</a>
+<li><a href='docs.html'>Documentation</a>
+<li><a href='download.html'>Download</a>
+<li><a href='support.html'>Support</a>
+<li><a href='prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
 <script>
-  gMsg = "Search SQLite Docs..."
-  function entersearch() {
-    var q = document.getElementById("q");
-    if( q.value == gMsg ) { q.value = "" }
-    q.style.color = "black"
-    q.style.fontStyle = "normal"
-  }
-  function leavesearch() {
-    var q = document.getElementById("q");
-    if( q.value == "" ) { 
-      q.value = gMsg
-      q.style.color = "#044a64"
-      q.style.fontStyle = "italic"
-    }
-  }
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
 </script>
-<td>
-    <div style="padding:0 1em 0px 0;white-space:nowrap">
-    <form name=f method="GET" action="http://www.sqlite.org/search">
-      <input id=q name=q type=text
-       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
-      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
-    </form>
-    </div>
-  </table>
-
-<div class=startsearch></div>
-  
 <?xml version="1.0" encoding="Windows-1252"?>
 
 <h1> Moving From SQLite 3.4.2 to 3.5.0</h1><p>
-  SQLite version 3.5.0 introduces a new OS interface layer that
+  SQLite version 3.5.0 (2007-09-04) introduces a new OS interface layer that
   is incompatible with all prior versions of SQLite.  In addition,
   a few existing interfaces have been generalized to work across all
   database connections within a process rather than just all
@@ -130,7 +129,7 @@ a:visited { color: #734559 }
 </p>
 <h2>1.0 Overview Of Changes</h2><p>
   A quick enumeration of the changes in SQLite version 3.5.0
-  is provide here.  Subsequent sections will describe these
+  is provided here.  Subsequent sections will describe these
   changes in more detail.
 </p>
 <p>
@@ -211,7 +210,7 @@ a:visited { color: #734559 }
   The sqlite3_vfs object is basically a structure containing pointers
   to functions that implement the primitive disk I/O operations that
   SQLite needs to perform in order to read and write databases.  
-  In this article, we will often refer a sqlite3_vfs objects as a "VFS".
+  In this article, we will often refer to an sqlite3_vfs objects as a "VFS".
 </p>
 <p>
   SQLite is able to use multiple VFSes at the same time.  Each
@@ -239,7 +238,7 @@ a:visited { color: #734559 }
 <blockquote><pre>
 int sqlite3_vfs_register(sqlite3_vfs*, int makeDflt);
 </pre></blockquote><p>
-  Applications can call sqlite3_vfs_register at any time, though of course
+  Applications can call sqlite3_vfs_register() at any time, though of course
   a VFS needs to be registered before it can be used.  The first argument
   is a pointer to a customized VFS object that the application has prepared.
   The second argument is true to make the new VFS the default VFS so that
@@ -248,7 +247,7 @@ int sqlite3_vfs_register(sqlite3_vfs*, int makeDflt);
   the new <a href="c3ref/open.html">sqlite3_open_v2()</a> API to use it.  Note, however, that if
   a new VFS is the only VFS known to SQLite (if SQLite was compiled without
   its usual default VFS or if the precompiled default VFS was removed
-  using <a href="c3ref/vfs_find.html">sqlite3_vfs_unregister()</a>) then the new VFS automatic becomes the
+  using <a href="c3ref/vfs_find.html">sqlite3_vfs_unregister()</a>) then the new VFS automatically becomes the
   default VFS regardless of the makeDflt argument to <a href="c3ref/vfs_find.html">sqlite3_vfs_register()</a>.
 </p>
 <p>
@@ -289,7 +288,7 @@ sqlite3_vfs *sqlite3_vfs_find(const char *zVfsName);
   The application could, perhaps, use <a href="c3ref/vfs_find.html">sqlite3_vfs_find()</a> to locate
   the old VFS, make a copy of the old VFS into a new <a href="c3ref/vfs.html">sqlite3_vfs</a>
   object, make the desired modifications to the new VFS, unregister
-  the old VFS, the register the new VFS in its place.  Existing
+  the old VFS, then register the new VFS in its place.  Existing
   database connections would continue to use the old VFS even after
   it is unregistered, but new database connections would use the
   new VFS.
@@ -366,9 +365,9 @@ struct sqlite3_vfs {
   want to carry around.
 </p>
 <p>
-  The remaining fields of the <a href="c3ref/vfs.html">sqlite3_vfs</a> object all store pointer
+  The remaining fields of the <a href="c3ref/vfs.html">sqlite3_vfs</a> object all store pointers
   to functions that implement primitive operations.  We call these
-  "methods".  The first methods, xOpen, is used to open files on
+  "methods".  The first method, xOpen, is used to open files on
   the underlying storage media.  The result is an <a href="c3ref/file.html">sqlite3_file</a>
   object.  There are additional methods, defined by the <a href="c3ref/file.html">sqlite3_file</a>
   object itself that are used to read and write and close the file.
@@ -393,13 +392,13 @@ struct sqlite3_vfs {
    <li>  <a href="c3ref/c_open_autoproxy.html">SQLITE_OPEN_TEMP_JOURNAL</a>
    <li>  <a href="c3ref/c_open_autoproxy.html">SQLITE_OPEN_TRANSIENT_DB</a>
    <li>  <a href="c3ref/c_open_autoproxy.html">SQLITE_OPEN_SUBJOURNAL</a>
-   <li>  <a href="c3ref/c_open_autoproxy.html">SQLITE_OPEN_MASTER_JOURNAL</a>
+   <li>  <a href="c3ref/c_open_autoproxy.html">SQLITE_OPEN_SUPER_JOURNAL</a>
    </ul>
    The file I/O implementation can use the object type flags to
    changes the way it deals with files.  For example, an application
    that does not care about crash recovery or rollback, might make
    the open of a journal file a no-op.  Writes to this journal are
-   also a no-op.  Any attempt to read the journal returns <a href="c3ref/c_abort.html">SQLITE_IOERR</a>.
+   also a no-op.  Any attempt to read the journal returns <a href="rescode.html#ioerr">SQLITE_IOERR</a>.
    Or the implementation might recognize the a database file will
    be doing page-aligned sector reads and writes in a random order
    and set up its I/O subsystem accordingly.
@@ -434,7 +433,7 @@ struct sqlite3_vfs {
   last only for the duration of a single SQL statement.
 </p>
 <p>
-  The xDelete method is used delete a file.  The name of the file is
+  The xDelete method is used to delete a file.  The name of the file is
   given in the second parameter.  The filename will be in UTF-8.
   The VFS must convert the filename into whatever character representation
   the underlying operating system expects.  If the syncDir parameter is
@@ -494,7 +493,7 @@ struct sqlite3_vfs {
   bytes of randomness obtained.  The quality of the randomness so obtained
   will determine the quality of the randomness generated by built-in 
   SQLite functions such as random() and randomblob().  SQLite also
-  uses its PRNG to generate temporary file names..  On some platforms
+  uses its PRNG to generate temporary file names.  On some platforms
   (ex: Windows) SQLite assumes that temporary file names are unique
   without actually testing for collisions, so it is important to have
   good-quality randomness even if the random() and randomblob() 
@@ -511,7 +510,7 @@ struct sqlite3_vfs {
 </p>
 <p>
   The xCurrentTime method finds the current time and date and writes
-  the result as double-precision floating point value into pointer
+  the result as a double-precision floating point value into pointer
   provided by the second parameter.  The time and date is in
   coordinated universal time (UTC) and is a fractional Julian day number.
 </p>
@@ -568,9 +567,9 @@ struct sqlite3_io_methods {
 <p>
   The xRead method reads iAmt bytes from the file beginning at a byte
   offset to iOfst.  The data read is stored in the pointer of the
-  second parameter.  xRead returns the <a href="c3ref/c_abort.html">SQLITE_OK</a> on success,
-  <a href="c3ref/c_abort_rollback.html">SQLITE_IOERR_SHORT_READ</a> if it was not able to read the full number
-  of bytes because it reached end-of-file, or <a href="c3ref/c_abort_rollback.html">SQLITE_IOERR_READ</a> for
+  second parameter.  xRead returns the <a href="rescode.html#ok">SQLITE_OK</a> on success,
+  <a href="rescode.html#ioerr_short_read">SQLITE_IOERR_SHORT_READ</a> if it was not able to read the full number
+  of bytes because it reached end-of-file, or <a href="rescode.html#ioerr_read">SQLITE_IOERR_READ</a> for
   any other error.
 </p>
 <p>
@@ -581,15 +580,15 @@ struct sqlite3_io_methods {
   to beginning its write.  xWrite continues to extends the file as
   necessary so that the size of the file is at least iAmt+iOfst bytes 
   at the conclusion of the xWrite call.  The xWrite method returns
-  <a href="c3ref/c_abort.html">SQLITE_OK</a> on success.  If the write cannot complete because the
-  underlying storage medium is full, then <a href="c3ref/c_abort.html">SQLITE_FULL</a> is returned.
-  <a href="c3ref/c_abort_rollback.html">SQLITE_IOERR_WRITE</a> should be returned for any other error.
+  <a href="rescode.html#ok">SQLITE_OK</a> on success.  If the write cannot complete because the
+  underlying storage medium is full, then <a href="rescode.html#full">SQLITE_FULL</a> is returned.
+  <a href="rescode.html#ioerr_write">SQLITE_IOERR_WRITE</a> should be returned for any other error.
 </p>
 <p>
   The xTruncate method truncates a file to be nByte bytes in length.
   If the file is already nByte bytes or less in length then this
-  method is a no-op.  The xTruncate method returns <a href="c3ref/c_abort.html">SQLITE_OK</a> on
-  success and <a href="c3ref/c_abort_rollback.html">SQLITE_IOERR_TRUNCATE</a> if anything goes wrong.
+  method is a no-op.  The xTruncate method returns <a href="rescode.html#ok">SQLITE_OK</a> on
+  success and <a href="rescode.html#ioerr_truncate">SQLITE_IOERR_TRUNCATE</a> if anything goes wrong.
 </p>
 <p>
   The xSync method is used to force previously written data out of
@@ -599,12 +598,12 @@ struct sqlite3_io_methods {
   data has also been flushed through the disk controllers cache.
   The <a href="c3ref/c_sync_dataonly.html">SQLITE_SYNC_FULL</a> parameter is the equivalent of the F_FULLSYNC
   ioctl() on Mac OS X. The xSync method returns
-  <a href="c3ref/c_abort.html">SQLITE_OK</a> on success and <a href="c3ref/c_abort_rollback.html">SQLITE_IOERR_FSYNC</a> if anything goes wrong.
+  <a href="rescode.html#ok">SQLITE_OK</a> on success and <a href="rescode.html#ioerr_fsync">SQLITE_IOERR_FSYNC</a> if anything goes wrong.
 </p>
 <p>
   The xFileSize() method determines the current size of the file
-  in bytes and writes that value into *pSize.  It returns <a href="c3ref/c_abort.html">SQLITE_OK</a>
-  on success and <a href="c3ref/c_abort_rollback.html">SQLITE_IOERR_FSTAT</a> if something goes wrong.
+  in bytes and writes that value into *pSize.  It returns <a href="rescode.html#ok">SQLITE_OK</a>
+  on success and <a href="rescode.html#ioerr_fstat">SQLITE_IOERR_FSTAT</a> if something goes wrong.
 </p>
 <p>
   The xLock and xUnlock methods are used to set and clear file locks.
@@ -625,21 +624,21 @@ struct sqlite3_io_methods {
   <a href="c3ref/c_lock_exclusive.html">SQLITE_LOCK_NONE</a> means that the file is unlocked.  <a href="c3ref/c_lock_exclusive.html">SQLITE_LOCK_SHARED</a>
   gives permission to read the file.  Multiple database connections can
   hold <a href="c3ref/c_lock_exclusive.html">SQLITE_LOCK_SHARED</a> at the same time.
-  <a href="c3ref/c_lock_exclusive.html">SQLITE_LOCK_RESERVED</a> is like <a href="c3ref/c_lock_exclusive.html">SQLITE_LOCK_SHARED</a> in that its is permission
+  <a href="c3ref/c_lock_exclusive.html">SQLITE_LOCK_RESERVED</a> is like <a href="c3ref/c_lock_exclusive.html">SQLITE_LOCK_SHARED</a> in that it is permission
   to read the file.  But only a single connection can hold a reserved lock
   at any point in time.  The <a href="c3ref/c_lock_exclusive.html">SQLITE_LOCK_PENDING</a> is also permission to
   read the file.  Other connections can continue to read the file as well,
   but no other connection is allowed to escalate a lock from none to shared.
   <a href="c3ref/c_lock_exclusive.html">SQLITE_LOCK_EXCLUSIVE</a> is permission to write on the file.  Only a single
   connection can hold an exclusive lock and no other connection can hold
-  any lock (other than "none") while one connection is hold an exclusive
-  lock.  The xLock returns <a href="c3ref/c_abort.html">SQLITE_OK</a> on success, <a href="c3ref/c_abort.html">SQLITE_BUSY</a> if it
-  is unable to obtain the lock, or <a href="c3ref/c_abort_rollback.html">SQLITE_IOERR_RDLOCK</a> if something else
-  goes wrong.  The xUnlock method returns <a href="c3ref/c_abort.html">SQLITE_OK</a> on success and
-  <a href="c3ref/c_abort_rollback.html">SQLITE_IOERR_UNLOCK</a> for problems.
+  any lock (other than "none") while one connection holds an exclusive
+  lock.  The xLock returns <a href="rescode.html#ok">SQLITE_OK</a> on success, <a href="rescode.html#busy">SQLITE_BUSY</a> if it
+  is unable to obtain the lock, or <a href="rescode.html#ioerr_rdlock">SQLITE_IOERR_RDLOCK</a> if something else
+  goes wrong.  The xUnlock method returns <a href="rescode.html#ok">SQLITE_OK</a> on success and
+  <a href="rescode.html#ioerr_unlock">SQLITE_IOERR_UNLOCK</a> for problems.
 </p>
 <p>
-  The xCheckReservedLock method checks to see if another connection or
+  The xCheckReservedLock() method checks to see if another connection or
   another process is currently holding a reserved, pending, or exclusive
   lock on the file.  It returns true or false.
 </p>
@@ -648,7 +647,7 @@ struct sqlite3_io_methods {
   VFS implementations to directly control an open file using the
   (new and experimental)
   <a href="c3ref/file_control.html">sqlite3_file_control()</a> interface.  The second "op" argument
-  is an integer opcode.   The third
+  is an integer opcode.  The third
   argument is a generic pointer which is intended to be a pointer
   to a structure that may contain arguments or space in which to
   write return values.  Potential uses for xFileControl() might be
@@ -656,7 +655,7 @@ struct sqlite3_io_methods {
   locking strategy (for example to use dot-file locks), to inquire
   about the status of a lock, or to break stale locks.  The SQLite
   core reserves opcodes less than 100 for its own use. 
-  A <a href="c3ref/c_fcntl_busyhandler.html">list of opcodes</a> less than 100 is available.
+  A <a href="c3ref/c_fcntl_begin_atomic_write.html#sqlitefcntllockstate">list of opcodes</a> less than 100 is available.
   Applications that define a custom xFileControl method should use opcodes 
   greater than 100 to avoid conflicts.
 </p>
@@ -668,7 +667,7 @@ struct sqlite3_io_methods {
   though there is a push to increase this value to 4KiB.  SQLite needs
   to know the sector size so that it can write a full sector at a
   time, and thus avoid corrupting adjacent storage space if a power
-  lose occurs in the middle of a write.
+  loss occurs in the middle of a write.
 </p>
 <p>
   The xDeviceCharacteristics method returns an integer bit vector that
@@ -775,7 +774,7 @@ int sqlite3_memory_alarm(
 </pre></blockquote><p>
  The <a href="c3ref/aggregate_count.html">sqlite3_memory_alarm</a> routine is used to register
  a callback on memory allocation events.
- This routine registers or clears a callbacks that fires when
+ This routine registers or clears a callback that fires when
  the amount of memory allocated exceeds iThreshold.  Only
  a single callback can be registered at a time.  Each call
  to <a href="c3ref/aggregate_count.html">sqlite3_memory_alarm()</a> overwrites the previous callback.
@@ -851,7 +850,7 @@ void sqlite3_mutex_leave(sqlite3_mutex*);
   substituted in that case.  The argument to <a href="c3ref/mutex_alloc.html">sqlite3_mutex_alloc()</a>
   can also be a constant designating one of several static mutexes:
   <ul>
-  <li>  <a href="c3ref/c_mutex_fast.html">SQLITE_MUTEX_STATIC_MASTER</a>
+  <li>  <a href="c3ref/c_mutex_fast.html">SQLITE_MUTEX_STATIC_MAIN</a>
   <li>  <a href="c3ref/c_mutex_fast.html">SQLITE_MUTEX_STATIC_MEM</a>
   <li>  <a href="c3ref/c_mutex_fast.html">SQLITE_MUTEX_STATIC_MEM2</a>
   <li>  <a href="c3ref/c_mutex_fast.html">SQLITE_MUTEX_STATIC_PRNG</a>
@@ -869,7 +868,7 @@ void sqlite3_mutex_leave(sqlite3_mutex*);
 <p>
   The <a href="c3ref/mutex_alloc.html">sqlite3_mutex_enter()</a> attempts to enter the mutex and blocks
   if another threads is already there.  <a href="c3ref/mutex_alloc.html">sqlite3_mutex_try()</a> attempts
-  to enter and returns <a href="c3ref/c_abort.html">SQLITE_OK</a> on success or <a href="c3ref/c_abort.html">SQLITE_BUSY</a> if another
+  to enter and returns <a href="rescode.html#ok">SQLITE_OK</a> on success or <a href="rescode.html#busy">SQLITE_BUSY</a> if another
   thread is already there.  <a href="c3ref/mutex_alloc.html">sqlite3_mutex_leave()</a> exits a mutex.
   The mutex is held until the number of exits matches the number of
   entrances.  If <a href="c3ref/mutex_alloc.html">sqlite3_mutex_leave()</a> is called on a mutex that 
@@ -942,4 +941,5 @@ void sqlite3_mutex_leave(sqlite3_mutex*);
   tolerant of highly threaded designs.
 </p>
 
+<p align="center"><small><i>This page last modified on  <a href="https://sqlite.org/docsrc/honeypot" id="mtimelink"  data-href="https://sqlite.org/docsrc/finfo/pages/34to35.in?m=ea67967bbd60713dd">2020-06-18 21:18:56</a> UTC </small></i></p>
 

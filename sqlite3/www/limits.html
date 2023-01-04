@@ -1,121 +1,120 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="sqlite.css" rel="stylesheet">
 <title>Implementation Limits For SQLite</title>
-<style type="text/css">
-body {
-    margin: auto;
-    font-family: Verdana, sans-serif;
-    padding: 8px 1%;
-}
-
-a { color: #044a64 }
-a:visited { color: #734559 }
-
-.logo { position:absolute; margin:3px; }
-.tagline {
-  float:right;
-  text-align:right;
-  font-style:italic;
-  width:300px;
-  margin:12px;
-  margin-top:58px;
-}
-
-.menubar {
-  clear: both;
-  border-radius: 8px;
-  background: #044a64;
-  padding: 0px;
-  margin: 0px;
-  cell-spacing: 0px;
-}    
-.toolbar {
-  text-align: center;
-  line-height: 1.6em;
-  margin: 0;
-  padding: 0px 8px;
-}
-.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
-.toolbar a:visited { color: white; }
-.toolbar a:hover { color: #044a64; background: white; }
-
-.content    { margin: 5%; }
-.content dt { font-weight:bold; }
-.content dd { margin-bottom: 25px; margin-left:20%; }
-.content ul { padding:0px; padding-left: 15px; margin:0px; }
-
-/* Things for "fancyformat" documents start here. */
-.fancy img+p {font-style:italic}
-.fancy .codeblock i { color: darkblue; }
-.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
-.fancy h2 { margin-left: 10px }
-.fancy h3 { margin-left: 20px }
-.fancy h4 { margin-left: 30px }
-.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
-.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
-.fancy #toc a        { color: darkblue ; text-decoration: none }
-.fancy .todo         { color: #AA3333 ; font-style : italic }
-.fancy .todo:before  { content: 'TODO:' }
-.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
-.fancy img { display:block; }
-.fancy :link:hover, .fancy :visited:hover { background: wheat }
-.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
-.fancy li p { margin: 1em 0 }
-/* End of "fancyformat" specific rules. */
-
-</style>
-  
+<!-- path= -->
 </head>
 <body>
-<div><!-- container div to satisfy validator -->
-
+<div class=nosearch>
 <a href="index.html">
-<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite Logo"
- border="0"></a>
-<div><!-- IE hack to prevent disappearing logo--></div>
-<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
-
-<table width=100% class="menubar"><tr>
-  <td width=100%>
-  <div class="toolbar">
-    <a href="about.html">About</a>
-    <a href="sitemap.html">Sitemap</a>
-    <a href="docs.html">Documentation</a>
-    <a href="download.html">Download</a>
-    <a href="copyright.html">License</a>
-    <a href="news.html">News</a>
-    <a href="support.html">Support</a>
-  </div>
+<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='about.html'>About</a>
+<li class='desktoponly'><a href="docs.html">Documentation</a>
+<li class='desktoponly'><a href="download.html">Download</a>
+<li class='wideonly'><a href='copyright.html'>License</a>
+<li class='desktoponly'><a href="support.html">Support</a>
+<li class='desktoponly'><a href="prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='about.html'>About</a>
+<li><a href='docs.html'>Documentation</a>
+<li><a href='download.html'>Download</a>
+<li><a href='support.html'>Support</a>
+<li><a href='prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
 <script>
-  gMsg = "Search SQLite Docs..."
-  function entersearch() {
-    var q = document.getElementById("q");
-    if( q.value == gMsg ) { q.value = "" }
-    q.style.color = "black"
-    q.style.fontStyle = "normal"
-  }
-  function leavesearch() {
-    var q = document.getElementById("q");
-    if( q.value == "" ) { 
-      q.value = gMsg
-      q.style.color = "#044a64"
-      q.style.fontStyle = "italic"
-    }
-  }
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
 </script>
-<td>
-    <div style="padding:0 1em 0px 0;white-space:nowrap">
-    <form name=f method="GET" action="http://www.sqlite.org/search">
-      <input id=q name=q type=text
-       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
-      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
-    </form>
-    </div>
-  </table>
-
-<div class=startsearch></div>
-  
 
 
 
@@ -142,10 +141,10 @@ it should work.
 <p>
 Unfortunately, the no-limits policy has been shown to create
 problems.  Because the upper bounds were not well
-defined, they were not tested, and bugs (including possible
-security exploits) were often found when pushing SQLite to
-extremes.  For this reason, newer versions of SQLite have
-well-defined limits and those limits are tested as part of
+defined, they were not tested, and bugs were often found
+when pushing SQLite to extremes.  For this reason, versions
+of SQLite since about release 3.5.8 (2008-04-16)
+have well-defined limits, and those limits are tested as part of
 the <a href="testing.html">test suite</a>.
 </p>
 
@@ -260,9 +259,7 @@ the <a href="c3ref/limit.html">sqlite3_limit</a>(db,<a href="c3ref/c_limit_attac
 
 <p>
 The maximum number of bytes in the text of an SQL statement is 
-limited to SQLITE_MAX_SQL_LENGTH which defaults to 1000000.  You
-can redefine this limit to be as large as the smaller of SQLITE_MAX_LENGTH
-and 1073741824.  
+limited to SQLITE_MAX_SQL_LENGTH which defaults to 1,000,000,000.
 </p>
 
 <p>
@@ -281,7 +278,7 @@ INSERT INTO tab1 VALUES(?,?,?);
 Then use the <a href="c3ref/bind_blob.html">sqlite3_bind_XXXX()</a> functions
 to bind your large string values to the SQL statement.  The use of binding
 obviates the need to escape quote characters in the string, reducing the
-risk of SQL injection attacks.  It is also runs faster since the large
+risk of SQL injection attacks.  It also runs faster since the large
 string does not need to be parsed or copied as much.
 </p>
 
@@ -298,9 +295,8 @@ uses bitmaps with one bit per join-table in the query optimizer.
 </p>
 
 <p>
-SQLite uses a very efficient O(N&sup2;) greedy algorithm for determining
-the order of tables in a join and so a large join can be
-<a href="c3ref/prepare.html">prepared</a> quickly.
+SQLite uses an efficient <a href="queryplanner-ng.html">query planner algorithm</a>
+and so even a large join can be <a href="c3ref/prepare.html">prepared</a> quickly.
 Hence, there is no mechanism to raise or lower the limit on the
 number of tables in a join.
 </p>
@@ -381,7 +377,7 @@ the <a href="c3ref/limit.html">sqlite3_limit</a>(db,<a href="c3ref/c_limit_attac
 
 <p>
 The pattern matching algorithm used in the default <a href="lang_expr.html#like">LIKE</a> and <a href="lang_expr.html#glob">GLOB</a>
-implementation of SQLite can exhibit O(N&sup2) performance (where
+implementation of SQLite can exhibit O(N&sup2;) performance (where
 N is the number of characters in the pattern) for certain pathological
 cases.  To avoid denial-of-service attacks from miscreants who are able
 to specify their own LIKE or GLOB patterns, the length of the LIKE
@@ -426,7 +422,8 @@ a host parameter like ?1000000000 would require gigabytes of storage.
 This could easily overwhelm the resources of the host machine.
 To prevent excessive memory allocations, 
 the maximum value of a host parameter number is SQLITE_MAX_VARIABLE_NUMBER,
-which defaults to 999.
+which defaults to 999 for SQLite versions prior to 3.32.0 (2020-05-22)
+or 32766 for SQLite versions after 3.32.0.
 </p>
 
 <p>
@@ -442,10 +439,12 @@ a statement involving recursive triggers from using an unbounded amount
 of memory.  
 </p>
 
-<p>Prior to SQLite version 3.6.18, triggers were not recursive and so
+<p>Prior to SQLite <a href="releaselog/3_6_18.html">version 3.6.18</a> (2009-09-11), 
+triggers were not recursive and so
 this limit was meaningless.  Beginning with version 3.6.18, recursive triggers
 were supported but had to be explicitly enabled using the
-<a href="pragma.html#pragma_recursive_triggers">PRAGMA recursive_triggers</a> statement.  Beginning with version 3.7.0, 
+<a href="pragma.html#pragma_recursive_triggers">PRAGMA recursive_triggers</a> statement.  
+Beginning with <a href="releaselog/3_7_0.html">version 3.7.0</a> (2009-09-11), 
 recursive triggers are enabled by default but can be manually disabled
 using <a href="pragma.html#pragma_recursive_triggers">PRAGMA recursive_triggers</a>.  The SQLITE_MAX_TRIGGER_DEPTH is
 only meaningful if recursive triggers are enabled.</p>
@@ -460,9 +459,7 @@ that allows two or more databases to be associated to the same database
 connection and to operate as if they were a single database.  The number
 of simultaneously attached databases is limited to SQLITE_MAX_ATTACHED
 which is set to 10 by default.
-The code generator in SQLite uses bitmaps
-to keep track of attached databases.  That means that the number of
-attached databases cannot be increased above 62.</p>
+The maximum number of attached databases cannot be increased above 125.</p>
 
 <p>
 The maximum number of attached databases can be lowered at run-time using
@@ -483,9 +480,9 @@ SQLITE_FULL.
 </p>
 
 <p>
-The largest possible setting for SQLITE_MAX_PAGE_COUNT is 2147483646.
+The largest possible setting for SQLITE_MAX_PAGE_COUNT is 4294967294.
 When used with the maximum page size of 65536, this gives a maximum
-SQLite database size of about 140 terabytes.</p>
+SQLite database size of about 281 terabytes.</p>
 
 <p>
 The <a href="pragma.html#pragma_max_page_count">
@@ -497,10 +494,42 @@ limit at run-time.
 <p>
 The theoretical maximum number of rows in a table is
 2<sup><small>64</small></sup> (18446744073709551616 or about 1.8e+19).
-This limit is unreachable since the maximum database size of 140 terabytes
-will be reached first.  A 140 terabytes database can hold no more than
-approximately 1e+13 rows, and then only if there are no indices and if
+This limit is unreachable since the maximum database size of 281 terabytes
+will be reached first.  A 281 terabytes database can hold no more than
+approximately 2e+13 rows, and then only if there are no indices and if
 each row contains very little data.
+</li><li><p><b>Maximum Database Size</b></p>
+
+<p>
+Every database consists of one or more "pages".  Within a single database,
+every page is the same size, but different databases can have page sizes
+that are powers of two between 512 and 65536, inclusive.  The maximum
+size of a database file is 4294967294 pages.  At the maximum page size
+of 65536 bytes, this translates into a maximum database size of 
+approximately 1.4e+14 bytes (281 terabytes, or 256 tebibytes, or
+281474 gigabytes or 256,000 gibibytes).
+<p>
+This particular upper bound is untested since the developers do not 
+have access to hardware capable of reaching this limit.  However, tests
+do verify that SQLite behaves correctly and sanely when a database 
+reaches the maximum file size of the underlying filesystem (which is
+usually much less than the maximum theoretical database size) and when
+a database is unable to grow due to disk space exhaustion.
+</li><li><p><b>Maximum Number Of Tables In A Schema</b></p>
+
+<p>
+Each table and index requires at least one page in the database file.
+An "index" in the previous sentence means an index created explicitly
+using a <a href="lang_createindex.html">CREATE INDEX</a> statement or implicit indices created by UNIQUE
+and PRIMARY KEY constraints.  Since the maximum number of pages in a
+database file is 2147483646 (a little over 2 billion) this is also then
+an upper bound on the number of tables and indices in a schema.
+<p>
+Whenever a database is opened, the entire schema is scanned and parsed
+and a parse tree for the schema is held in memory.  That means that
+database connection startup time and initial memory usage
+is proportional to the size of the schema.
 </li>
 </ol>
+<p align="center"><small><i>This page last modified on  <a href="https://sqlite.org/docsrc/honeypot" id="mtimelink"  data-href="https://sqlite.org/docsrc/finfo/pages/limits.in?m=896d3c205a3ca0d90">2022-01-20 21:38:08</a> UTC </small></i></p>
 

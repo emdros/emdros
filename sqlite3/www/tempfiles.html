@@ -1,130 +1,169 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="sqlite.css" rel="stylesheet">
 <title>Temporary Files Used By SQLite</title>
-<style type="text/css">
-body {
-    margin: auto;
-    font-family: Verdana, sans-serif;
-    padding: 8px 1%;
-}
-
-a { color: #044a64 }
-a:visited { color: #734559 }
-
-.logo { position:absolute; margin:3px; }
-.tagline {
-  float:right;
-  text-align:right;
-  font-style:italic;
-  width:300px;
-  margin:12px;
-  margin-top:58px;
-}
-
-.menubar {
-  clear: both;
-  border-radius: 8px;
-  background: #044a64;
-  padding: 0px;
-  margin: 0px;
-  cell-spacing: 0px;
-}    
-.toolbar {
-  text-align: center;
-  line-height: 1.6em;
-  margin: 0;
-  padding: 0px 8px;
-}
-.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
-.toolbar a:visited { color: white; }
-.toolbar a:hover { color: #044a64; background: white; }
-
-.content    { margin: 5%; }
-.content dt { font-weight:bold; }
-.content dd { margin-bottom: 25px; margin-left:20%; }
-.content ul { padding:0px; padding-left: 15px; margin:0px; }
-
-/* Things for "fancyformat" documents start here. */
-.fancy img+p {font-style:italic}
-.fancy .codeblock i { color: darkblue; }
-.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
-.fancy h2 { margin-left: 10px }
-.fancy h3 { margin-left: 20px }
-.fancy h4 { margin-left: 30px }
-.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
-.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
-.fancy #toc a        { color: darkblue ; text-decoration: none }
-.fancy .todo         { color: #AA3333 ; font-style : italic }
-.fancy .todo:before  { content: 'TODO:' }
-.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
-.fancy img { display:block; }
-.fancy :link:hover, .fancy :visited:hover { background: wheat }
-.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
-.fancy li p { margin: 1em 0 }
-/* End of "fancyformat" specific rules. */
-
-</style>
-  
+<!-- path= -->
 </head>
 <body>
-<div><!-- container div to satisfy validator -->
-
+<div class=nosearch>
 <a href="index.html">
-<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite Logo"
- border="0"></a>
-<div><!-- IE hack to prevent disappearing logo--></div>
-<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
-
-<table width=100% class="menubar"><tr>
-  <td width=100%>
-  <div class="toolbar">
-    <a href="about.html">About</a>
-    <a href="sitemap.html">Sitemap</a>
-    <a href="docs.html">Documentation</a>
-    <a href="download.html">Download</a>
-    <a href="copyright.html">License</a>
-    <a href="news.html">News</a>
-    <a href="support.html">Support</a>
-  </div>
+<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='about.html'>About</a>
+<li class='desktoponly'><a href="docs.html">Documentation</a>
+<li class='desktoponly'><a href="download.html">Download</a>
+<li class='wideonly'><a href='copyright.html'>License</a>
+<li class='desktoponly'><a href="support.html">Support</a>
+<li class='desktoponly'><a href="prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='about.html'>About</a>
+<li><a href='docs.html'>Documentation</a>
+<li><a href='download.html'>Download</a>
+<li><a href='support.html'>Support</a>
+<li><a href='prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
 <script>
-  gMsg = "Search SQLite Docs..."
-  function entersearch() {
-    var q = document.getElementById("q");
-    if( q.value == gMsg ) { q.value = "" }
-    q.style.color = "black"
-    q.style.fontStyle = "normal"
-  }
-  function leavesearch() {
-    var q = document.getElementById("q");
-    if( q.value == "" ) { 
-      q.value = gMsg
-      q.style.color = "#044a64"
-      q.style.fontStyle = "italic"
-    }
-  }
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
 </script>
-<td>
-    <div style="padding:0 1em 0px 0;white-space:nowrap">
-    <form name=f method="GET" action="http://www.sqlite.org/search">
-      <input id=q name=q type=text
-       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
-      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
-    </form>
-    </div>
-  </table>
+<div class=fancy>
+<div class=nosearch>
+<div class="fancy_title">
+Temporary Files Used By SQLite
+</div>
+<div class="fancy_toc">
+<a onclick="toggle_toc()">
+<span class="fancy_toc_mark" id="toc_mk">&#x25ba;</span>
+Table Of Contents
+</a>
+<div id="toc_sub"><div class="fancy-toc1"><a href="#introduction">1. Introduction</a></div>
+<div class="fancy-toc1"><a href="#nine_kinds_of_temporary_files">2. Nine Kinds Of Temporary Files</a></div>
+<div class="fancy-toc2"><a href="#rollback_journals">2.1. Rollback Journals</a></div>
+<div class="fancy-toc2"><a href="#write_ahead_log_wal_files">2.2. Write-Ahead Log (WAL) Files</a></div>
+<div class="fancy-toc2"><a href="#shared_memory_files">2.3. Shared-Memory Files</a></div>
+<div class="fancy-toc2"><a href="#super_journal_files">2.4. Super-Journal Files</a></div>
+<div class="fancy-toc2"><a href="#statement_journal_files">2.5. Statement Journal Files</a></div>
+<div class="fancy-toc2"><a href="#temp_databases">2.6. TEMP Databases</a></div>
+<div class="fancy-toc2"><a href="#materializations_of_views_and_subqueries">2.7. Materializations Of Views And Subqueries</a></div>
+<div class="fancy-toc2"><a href="#transient_indices">2.8. Transient Indices</a></div>
+<div class="fancy-toc2"><a href="#transient_database_used_by_vacuum_">2.9. Transient Database Used By <a href="lang_vacuum.html">VACUUM</a></a></div>
+<div class="fancy-toc1"><a href="#the_sqlite_temp_store_compile_time_parameter_and_pragma">3. The SQLITE_TEMP_STORE Compile-Time Parameter and Pragma</a></div>
+<div class="fancy-toc1"><a href="#other_temporary_file_optimizations">4. Other Temporary File Optimizations</a></div>
+<div class="fancy-toc1"><a href="#temporary_file_storage_locations">5. Temporary File Storage Locations</a></div>
+</div>
+</div>
+<script>
+function toggle_toc(){
+var sub = document.getElementById("toc_sub")
+var mk = document.getElementById("toc_mk")
+if( sub.style.display!="block" ){
+sub.style.display = "block";
+mk.innerHTML = "&#x25bc;";
+} else {
+sub.style.display = "none";
+mk.innerHTML = "&#x25ba;";
+}
+}
+</script>
+</div>
 
-<div class=startsearch></div>
-  
 
 
 
-<h1 align="center">SQLite's Use Of Temporary Disk Files</h1>
 
-<h2>1.0 Introduction</h2>
+<h1 id="introduction"><span>1. </span>Introduction</h1>
 
 <p>
-On of the <a href="different.html">distinctive features</a> of
+One of the <a href="different.html">distinctive features</a> of
 SQLite is that a database consists of a single disk file.
 This simplifies the use of SQLite since moving or backing up a
 database is a simple as copying a single file.  It also makes
@@ -155,17 +194,19 @@ the current temporary file uses might be discontinued
 in future releases of SQLite.
 </p>
 
-<a name="seventypes"></a>
+<a name="types"></a>
 
-<h2>2.0 Seven Kinds Of Temporary Files</h2>
+<h1 id="nine_kinds_of_temporary_files"><span>2. </span>Nine Kinds Of Temporary Files</h1>
 
 <p>
-SQLite currently uses seven distinct types of temporary files:
+SQLite currently uses nine distinct types of temporary files:
 </p>
 
 <ol>
 <li>Rollback journals</li>
-<li>Master journals</li>
+<li>Super-journals</li>
+<li>Write-ahead Log (WAL) files</li>
+<li>Shared-memory files</li>
 <li>Statement journals</li>
 <li>TEMP databases</li>
 <li>Materializations of views and subqueries</li>
@@ -180,7 +221,7 @@ is in the sequel.
 
 <a name="rollbackjrnl"></a>
 
-<h3>2.1 Rollback Journals</h3>
+<h2 id="rollback_journals"><span>2.1. </span>Rollback Journals</h2>
 
 <p>
 A rollback journal is a temporary file used to implement
@@ -250,55 +291,137 @@ journal and thus has the same effect as deleting the journal file, though
 without the expense of actually removing the file from disk.  In other
 words, journal mode PERSIST exhibits the same behavior as is seen
 in EXCLUSIVE locking mode. The
-OFF journal mode causes SQLite to forego creating a rollback journal
-in the first place.  The OFF journal mode disables the atomic
+OFF journal mode causes SQLite to omit the rollback journal, completely.
+In other words, no rollback journal is ever written if journal mode is
+set to OFF.
+The OFF journal mode disables the atomic
 commit and rollback capabilities of SQLite.  The ROLLBACK command
 is not available when OFF journal mode is set.  And if a crash or power
 loss occurs in the middle of a transaction that uses the OFF journal
 mode, no recovery is possible and the database file will likely
 go corrupt.
+The MEMORY journal mode causes the rollback journal to be stored in
+memory rather than on disk.  The ROLLBACK command still works when
+the journal mode is MEMORY, but because no file exists on disks for
+recovery, a crash or power loss in the middle of a transaction that uses
+the MEMORY journal mode will likely result in a corrupt database.
 </p>
 
-<a name="masterjrnl"></a>
+<a name="walfile"></a>
 
-<h3>2.2 Master Journal Files</h3>
+<h2 id="write_ahead_log_wal_files"><span>2.2. </span>Write-Ahead Log (WAL) Files</h2>
 
 <p>
-The master journal file is used as part of the atomic commit
+A write-ahead log or WAL file is used in place of a rollback journal
+when SQLite is operating in <a href="wal.html">WAL mode</a>.  As with the rollback journal,
+the purpose of the WAL file is to implement atomic commit and rollback.
+The WAL file is always located in the same directory
+as the database file and has the same name as the database
+file except with the 4 characters "<b>-wal</b>" appended.
+The WAL file is created when the first connection to the
+database is opened and is normally removed when the last
+connection to the database closes.  However, if the last connection
+does not shutdown cleanly, the WAL file will remain in the filesystem
+and will be automatically cleaned up the next time the database is
+opened.
+</p>
+
+<a name="shmfile"></a>
+
+<h2 id="shared_memory_files"><span>2.3. </span>Shared-Memory Files</h2>
+
+<p>
+When operating in <a href="wal.html">WAL mode</a>, all SQLite database connections associated
+with the same database file need to share some memory that is used as an
+index for the WAL file.  In most implementations, this shared memory is
+implemented by calling mmap() on a file created for this sole purpose:
+the shared-memory file.  The shared-memory file, if it exists, is located
+in the same directory as the database file and has the same name as the
+database file except with the 4 characters "<b>-shm</b>" appended.
+Shared memory files only exist while running in WAL mode.
+</p>
+
+<p>
+The shared-memory file contains no persistent content.  The only purpose
+of the shared-memory file is to provide a block of shared memory for use
+by multiple processes all accessing the same database in WAL mode.
+If the <a href="vfs.html">VFS</a> is able to provide an alternative method for accessing shared
+memory, then that alternative method might be used rather than the
+shared-memory file.  For example, if <a href="pragma.html#pragma_locking_mode">PRAGMA locking_mode</a> is set to
+EXCLUSIVE (meaning that only one process is able to access the database
+file) then the shared memory will be allocated from heap rather than out
+of the shared-memory file, and the shared-memory file will never be
+created.
+</p>
+
+<p>
+The shared-memory file has the same lifetime as its associated WAL file.
+The shared-memory file is created when the WAL file is created and is
+deleted when the WAL file is deleted.  During WAL file recovery, the
+shared memory file is recreated from scratch based on the contents of
+the WAL file being recovered.
+</p>
+
+<a name="superjrnl"></a>
+
+<h2 id="super_journal_files"><span>2.4. </span>Super-Journal Files</h2>
+
+<p>
+The super-journal file is used as part of the atomic commit
 process when a single transaction makes changes to multiple
 databases that have been added to a single <a href="c3ref/sqlite3.html">database connection</a>
-using the <a href="lang_attach.html">ATTACH</a> statement.  The master journal file is always
+using the <a href="lang_attach.html">ATTACH</a> statement.  The super-journal file is always
 located in the same directory as the main database file
 (the main database file is the database that is identified
 in the original <a href="c3ref/open.html">sqlite3_open()</a>, <a href="c3ref/open.html">sqlite3_open16()</a>, or
 <a href="c3ref/open.html">sqlite3_open_v2()</a> call that created the <a href="c3ref/sqlite3.html">database connection</a>)
-with a randomized suffix.  The master journal file contains
+with a randomized suffix.  The super-journal file contains
 the names of all of the various attached auxiliary databases
 that were changed during the transaction.  The multi-database
-transaction commits when the master journal file is deleted.
+transaction commits when the super-journal file is deleted.
 See the documentation titled
 <a href="atomiccommit.html">Atomic Commit In SQLite</a> for
 additional detail.
 </p>
 
 <p>
-The master journal file is only created in cases where a single
-<a href="c3ref/sqlite3.html">database connection</a> is talking with two or more databases files
-as a result of using <a href="lang_attach.html">ATTACH</a> to connection to auxiliary databases,
-and where a single transaction modifies more than one of those
-database files.
-Without the master journal, the transaction commit on a multi-database
+Without the super-journal, the transaction commit on a multi-database
 transaction would be atomic for each database individually, but it
 would not be atomic across all databases.  In other words, if the
 commit were interrupted in the middle by a crash or power loss, then
 the changes to one of the databases might complete while the changes
-to another database might roll back.  The master journal causes all
+to another database might roll back.  The super-journal causes all
 changes in all databases to either rollback or commit together.
 </p>
 
+<p>
+The super-journal file is only created for <a href="lang_transaction.html">COMMIT</a> operations that
+involve multiple database files where at least two of the databases 
+meet all of the following requirements:
+
+</p><ol>
+<li>The database is modified by the transaction
+</li><li>The <a href="pragma.html#pragma_synchronous">PRAGMA synchronous</a> setting is not OFF
+</li><li>The <a href="pragma.html#pragma_journal_mode">PRAGMA journal_mode</a> is not OFF, MEMORY, or WAL
+</li></ol>
+
+<p>
+This means that SQLite transactions are not atomic
+across multiple database files on a power-loss when the database 
+files have synchronous turned off or when they are using journal 
+modes of OFF, MEMORY, or WAL.  For synchronous OFF and for
+journal_modes OFF and MEMORY, database will usually corrupt if
+a transaction commit is interrupted by a power loss.  For 
+<a href="wal.html">WAL mode</a>, individual database files are updated atomically
+across a power-loss, but in the case of a multi-file transactions,
+some files might rollback while others roll forward after
+power is restored.
+</p>
+
+
 <a name="stmtjrnl"></a>
 
-<h3>2.3 Statement Journal Files</h3>
+<h2 id="statement_journal_files"><span>2.5. </span>Statement Journal Files</h2>
 
 <p>
 A statement journal file is used to rollback partial results of
@@ -329,9 +452,11 @@ used.  For example:
 UPDATE OR FAIL ...
 UPDATE OR IGNORE ...
 UPDATE OR REPLACE ...
+UPDATE OR ROLLBACK ...
 INSERT OR FAIL ...
 INSERT OR IGNORE ...
 INSERT OR REPLACE ...
+INSERT OR ROLLBACK ...
 REPLACE INTO ....
 </pre></blockquote>
 
@@ -346,7 +471,7 @@ to be created.
 
 <a name="tempdb"></a>
 
-<h3>2.4 TEMP Databases</h3>
+<h2 id="temp_databases"><span>2.6. </span>TEMP Databases</h2>
 
 <p>Tables created using the "CREATE TEMP TABLE" syntax are only
 visible to the <a href="c3ref/sqlite3.html">database connection</a> in which the "CREATE TEMP TABLE"
@@ -382,7 +507,7 @@ of the "CREATE TEMP TABLE" statement.
 
 <a name="views"></a>
 
-<h3>2.5 Materializations Of Views And Subqueries</h3>
+<h2 id="materializations_of_views_and_subqueries"><span>2.7. </span>Materializations Of Views And Subqueries</h2>
 
 <p>Queries that contain subqueries must sometime evaluate
 the subqueries separately and store the results in a temporary
@@ -427,7 +552,7 @@ SELECT * FROM ex1 WHERE EXISTS(SELECT 1 FROM ex2 WHERE ex2.b=ex1.a);
 </pre></blockquote>
 
 <p>
-Recent versions of SQLite (version 3.5.4 and later)
+Recent versions of SQLite (<a href="releaselog/3_5_4.html">version 3.5.4</a> 2007-12-14) and later)
 will do this rewrite automatically
 if an index exists on the column ex2.b.
 </p>
@@ -475,7 +600,7 @@ and SQLite will automatically transform the query into
 
 <blockquote><pre>
 SELECT ex1.*, ex2.b FROM ex1 JOIN ex2 ON ex2.b=ex1.a;
-</blockquote></pre>
+</pre></blockquote>
 
 <p>
 More complex queries may or may not be able to employ query
@@ -483,13 +608,13 @@ flattening to avoid the temporary table.  Whether or not
 the query can be flattened depends on such factors as whether
 or not the subquery or outer query contain aggregate functions,
 ORDER BY or GROUP BY clauses, LIMIT clauses, and so forth.
-The rules for when a query and cannot be flattened are
+The rules for when a query can and cannot be flattened are
 very complex and are beyond the scope of this document.
 </p>
 
 <a name="transidx"></a>
 
-<h3>2.6 Transient Indices</h3>
+<h2 id="transient_indices"><span>2.8. </span>Transient Indices</h2>
 
 <p>
 SQLite may make use of transient indices to
@@ -529,18 +654,6 @@ The ordering by GROUP BY terms is done in exactly the same way
 as the ordering by ORDER BY terms.  A preexisting index is used
 if possible, but if no suitable index is available, a transient
 index is created.
-</p>
-
-<p>
-The previous two paragraphs describe the implementation of SQLite
-as of version 3.5.8.  There are known problems with this approach
-for very large results sets - result sets that are larger than the
-available disk cache.  Future versions of SQLite will likely address
-this deficiency by completely reworking the sort algorithm for 
-cases when no suitable preexisting sort index is available.  The
-new sort algorithm will also use temporary files, but not in the
-same way as the current implementation, the temporary files
-for the new implementation will probably not be index files.
 </p>
 
 <p>
@@ -584,7 +697,7 @@ depending on how they are composed.)
 
 <a name="vacuumdb"></a>
 
-<h3>2.7 Transient Database Used By <a href="lang_vacuum.html">VACUUM</a></h3>
+</p><h2 id="transient_database_used_by_vacuum_"><span>2.9. </span>Transient Database Used By <a href="lang_vacuum.html">VACUUM</a></h2>
 
 <p>
 The <a href="lang_vacuum.html">VACUUM</a> command works by creating a temporary file
@@ -602,16 +715,16 @@ file will be no larger than the original database.
 
 <a name="tempstore"></a>
 
-<h2>3.0 The SQLITE_TEMP_STORE Compile-Time Parameter and Pragma</h2>
+<h1 id="the_sqlite_temp_store_compile_time_parameter_and_pragma"><span>3. </span>The SQLITE_TEMP_STORE Compile-Time Parameter and Pragma</h1>
 
 <p>
-The rollback journal, master journal,
-and statement journal files are always written
-to disk.
+The temporary files associated with transaction control, namely
+the rollback journal, super-journal, write-ahead log (WAL) files,
+and shared-memory files, are always written to disk.
 But the other kinds of temporary files might be stored in memory
 only and never written to disk.
 Whether or not temporary files other than the rollback,
-master, and statement journals are written to disk or stored only in memory
+super, and statement journals are written to disk or stored only in memory
 depends on the <a href="compile.html#temp_store">SQLITE_TEMP_STORE</a> compile-time parameter, the
 <a href="pragma.html#pragma_temp_store">temp_store pragma</a>,
 and on the size of the temporary file.
@@ -684,15 +797,15 @@ parameter.
 To reiterate, the <a href="compile.html#temp_store">SQLITE_TEMP_STORE</a> compile-time parameter and the 
 <a href="pragma.html#pragma_temp_store">temp_store pragma</a> only
 influence the temporary files other than the rollback journal
-and the master journal.  The rollback journal and the master
-journal are always written to disk regardless of the settings of
+and the super-journal.  The rollback journal and the
+super-journal are always written to disk regardless of the settings of
 the <a href="compile.html#temp_store">SQLITE_TEMP_STORE</a> compile-time parameter and the
 <a href="pragma.html#pragma_temp_store">temp_store pragma</a>.
 </p>
 
 <a name="otheropt"></a>
 
-<h2>4.0 Other Temporary File Optimizations</h2>
+<h1 id="other_temporary_file_optimizations"><span>4. </span>Other Temporary File Optimizations</h1>
 
 <p>
 SQLite uses a page cache of recently read and written database
@@ -726,4 +839,42 @@ be changed at run-time or on a per-table or per-index basis.
 Each temporary file gets its own private page cache with its
 own SQLITE_DEFAULT_TEMP_CACHE_SIZE page limit.
 </p>
+
+<a name="tempdir"></a>
+
+<h1 id="temporary_file_storage_locations"><span>5. </span>Temporary File Storage Locations</h1>
+
+<p>
+The directory or folder in which temporary files are created is
+determined by the OS-specific <a href="vfs.html">VFS</a>.
+
+</p><p>
+On unix-like systems, directories are searched in the following order:
+</p><ol>
+<li>The directory set by <a href="pragma.html#pragma_temp_store_directory">PRAGMA temp_store_directory</a> or by the
+    <a href="c3ref/temp_directory.html">sqlite3_temp_directory</a> global variable
+</li><li>The SQLITE_TMPDIR environment variable
+</li><li>The TMPDIR environment variable
+</li><li>/var/tmp
+</li><li>/usr/tmp
+</li><li>/tmp
+</li><li>The current working directory (".")
+</li></ol>
+The first of the above that is found to exist and have the write and
+execute bits set is used.  The final "." fallback is important for some
+applications that use SQLite inside of chroot jails that do not have
+the standard temporary file locations available.
+
+<p>
+On Windows systems, folders are searched in the following order:
+</p><ol>
+<li>The folder set by <a href="pragma.html#pragma_temp_store_directory">PRAGMA temp_store_directory</a> or by the
+    <a href="c3ref/temp_directory.html">sqlite3_temp_directory</a> global variable
+</li><li>The folder returned by the GetTempPath() system interface.
+</li></ol>
+SQLite itself does not pay any attention to environment variables
+in this case, though presumably the GetTempPath() system call does.
+The search algorithm is different for CYGWIN builds.  Check the 
+source code for details.
+<p align="center"><small><i>This page last modified on  <a href="https://sqlite.org/docsrc/honeypot" id="mtimelink"  data-href="https://sqlite.org/docsrc/finfo/pages/tempfiles.in?m=cd7bffb03130e7094">2020-08-16 11:16:26</a> UTC </small></i></p>
 

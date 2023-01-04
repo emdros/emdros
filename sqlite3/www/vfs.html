@@ -1,127 +1,161 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>The OS Backend (VFS) To SQLite</title>
-<style type="text/css">
-body {
-    margin: auto;
-    font-family: Verdana, sans-serif;
-    padding: 8px 1%;
-}
-
-a { color: #044a64 }
-a:visited { color: #734559 }
-
-.logo { position:absolute; margin:3px; }
-.tagline {
-  float:right;
-  text-align:right;
-  font-style:italic;
-  width:300px;
-  margin:12px;
-  margin-top:58px;
-}
-
-.menubar {
-  clear: both;
-  border-radius: 8px;
-  background: #044a64;
-  padding: 0px;
-  margin: 0px;
-  cell-spacing: 0px;
-}    
-.toolbar {
-  text-align: center;
-  line-height: 1.6em;
-  margin: 0;
-  padding: 0px 8px;
-}
-.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
-.toolbar a:visited { color: white; }
-.toolbar a:hover { color: #044a64; background: white; }
-
-.content    { margin: 5%; }
-.content dt { font-weight:bold; }
-.content dd { margin-bottom: 25px; margin-left:20%; }
-.content ul { padding:0px; padding-left: 15px; margin:0px; }
-
-/* Things for "fancyformat" documents start here. */
-.fancy img+p {font-style:italic}
-.fancy .codeblock i { color: darkblue; }
-.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
-.fancy h2 { margin-left: 10px }
-.fancy h3 { margin-left: 20px }
-.fancy h4 { margin-left: 30px }
-.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
-.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
-.fancy #toc a        { color: darkblue ; text-decoration: none }
-.fancy .todo         { color: #AA3333 ; font-style : italic }
-.fancy .todo:before  { content: 'TODO:' }
-.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
-.fancy img { display:block; }
-.fancy :link:hover, .fancy :visited:hover { background: wheat }
-.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
-.fancy li p { margin: 1em 0 }
-/* End of "fancyformat" specific rules. */
-
-</style>
-  
+<link href="sqlite.css" rel="stylesheet">
+<title>The SQLite OS Interface or "VFS"</title>
+<!-- path= -->
 </head>
 <body>
-<div><!-- container div to satisfy validator -->
-
+<div class=nosearch>
 <a href="index.html">
-<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite Logo"
- border="0"></a>
-<div><!-- IE hack to prevent disappearing logo--></div>
-<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
-
-<table width=100% class="menubar"><tr>
-  <td width=100%>
-  <div class="toolbar">
-    <a href="about.html">About</a>
-    <a href="sitemap.html">Sitemap</a>
-    <a href="docs.html">Documentation</a>
-    <a href="download.html">Download</a>
-    <a href="copyright.html">License</a>
-    <a href="news.html">News</a>
-    <a href="support.html">Support</a>
-  </div>
+<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='about.html'>About</a>
+<li class='desktoponly'><a href="docs.html">Documentation</a>
+<li class='desktoponly'><a href="download.html">Download</a>
+<li class='wideonly'><a href='copyright.html'>License</a>
+<li class='desktoponly'><a href="support.html">Support</a>
+<li class='desktoponly'><a href="prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='about.html'>About</a>
+<li><a href='docs.html'>Documentation</a>
+<li><a href='download.html'>Download</a>
+<li><a href='support.html'>Support</a>
+<li><a href='prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
 <script>
-  gMsg = "Search SQLite Docs..."
-  function entersearch() {
-    var q = document.getElementById("q");
-    if( q.value == gMsg ) { q.value = "" }
-    q.style.color = "black"
-    q.style.fontStyle = "normal"
-  }
-  function leavesearch() {
-    var q = document.getElementById("q");
-    if( q.value == "" ) { 
-      q.value = gMsg
-      q.style.color = "#044a64"
-      q.style.fontStyle = "italic"
-    }
-  }
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
 </script>
-<td>
-    <div style="padding:0 1em 0px 0;white-space:nowrap">
-    <form name=f method="GET" action="http://www.sqlite.org/search">
-      <input id=q name=q type=text
-       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
-      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
-    </form>
-    </div>
-  </table>
-
-<div class=startsearch></div>
-  
-
-
-
-<h1 align="center">
+<div class=fancy>
+<div class=nosearch>
+<div class="fancy_title">
 The SQLite OS Interface or "VFS"
-</h1>
+</div>
+<div class="fancy_toc">
+<a onclick="toggle_toc()">
+<span class="fancy_toc_mark" id="toc_mk">&#x25ba;</span>
+Table Of Contents
+</a>
+<div id="toc_sub"><div class="fancy-toc1"><a href="#introduction">1. Introduction</a></div>
+<div class="fancy-toc1"><a href="#the_vfs_in_relation_to_the_rest_of_sqlite">2. The VFS In Relation To The Rest Of SQLite</a></div>
+<div class="fancy-toc1"><a href="#multiple_vfses">3. Multiple VFSes</a></div>
+<div class="fancy-toc2"><a href="#standard_unix_vfses">3.1. Standard Unix VFSes</a></div>
+<div class="fancy-toc2"><a href="#standard_windows_vfses">3.2. Standard Windows VFSes</a></div>
+<div class="fancy-toc2"><a href="#specifying_which_vfs_to_use">3.3. Specifying Which VFS To Use</a></div>
+<div class="fancy-toc2"><a href="#vfs_shims">3.4. VFS Shims</a></div>
+<div class="fancy-toc2"><a href="#other_example_vfses">3.5. Other Example VFSes</a></div>
+<div class="fancy-toc1"><a href="#vfs_implementations">4. VFS Implementations</a></div>
+</div>
+</div>
+<script>
+function toggle_toc(){
+var sub = document.getElementById("toc_sub")
+var mk = document.getElementById("toc_mk")
+if( sub.style.display!="block" ){
+sub.style.display = "block";
+mk.innerHTML = "&#x25bc;";
+} else {
+sub.style.display = "none";
+mk.innerHTML = "&#x25ba;";
+}
+}
+</script>
+</div>
+
+
+
+
+
+<h1 id="introduction"><span>1. </span>Introduction</h1>
 
 <p>
 This article describes the SQLite OS portability layer or "VFS" - the
@@ -129,8 +163,11 @@ module at the bottom of the SQLite implementation stack
 that provides portability across operating systems.
 </p>
 
+<h1 id="the_vfs_in_relation_to_the_rest_of_sqlite"><span>2. </span>The VFS In Relation To The Rest Of SQLite</h1>
+
+<div>
 <img src="images/vfs1.gif" align="right" hspace="10">
-<h2>1.0 The VFS In Relation To The Rest Of SQLite</h2>
+</div>
 
 <p>
 The internal organization of the SQLite library can be viewed as the
@@ -167,10 +204,10 @@ Hence, porting SQLite to a new
 operating system is simply a matter of writing a new OS interface layer
 or "VFS".</p>
 
-<h2>2.0 Multiple VFSes</h2>
+<h1 id="multiple_vfses"><span>3. </span>Multiple VFSes</h1>
 
 <p>
-The standard SQLite source tree contains built-in VFSes for os/2, unix,
+The standard SQLite source tree contains built-in VFSes for unix
 and windows.  Alternative VFSes can be
 added at start-time or run-time using the
 <a href="c3ref/vfs_find.html">sqlite3_vfs_register()</a> interface.
@@ -186,24 +223,26 @@ the <a href="lang_attach.html">ATTACH</a> command, then each attached database m
 different VFS.
 </p>
 
+<h2 id="standard_unix_vfses"><span>3.1. </span>Standard Unix VFSes</h2>
+
 <p>
-Unix builds come with multiple VFSes built-in.  The default VFS
-for unix is called "unix" and is the VFS used in an overwhelming
-majority of applications.  Other VFSes that can be found in unix
-may include:
+Unix builds come with multiple built-in VFSes.  The default VFS
+for unix is called "unix" and is used in most applications.
+Other VFSes that might be found in unix (depending on compile-time
+options) include:
 </p>
 
 <ol>
 <li><p><b>unix-dotfile</b> - uses dot-file locking rather than
           POSIX advisory locks.
-<li><p><b>unix-excl</b> - obtains and holds an exclusive lock on
+</p></li><li><p><b>unix-excl</b> - obtains and holds an exclusive lock on
           database files, preventing other processes from accessing the
-          database.  Also keeps the <a href="fileformat2.html#walindexformat">wal-index</a> in heap rather than in
+          database.  Also keeps the <a href="walformat.html#shm">wal-index</a> in heap rather than in
           shared memory.
-<li><p><b>unix-none</b> - all file locking operations are no-ops.
-<li><p><b>unix-namedsem</b> - uses named semaphores for file locking.
+</p></li><li><p><b>unix-none</b> - all file locking operations are no-ops.
+</p></li><li><p><b>unix-namedsem</b> - uses named semaphores for file locking.
        VXWorks only.
-</ol>
+</p></li></ol>
 
 <p>
 The various unix VFSes differ only in the way they handle file locking -
@@ -221,7 +260,28 @@ Programmers are encouraged to use only "unix" or "unix-excl" unless
 there is a compelling reason to do otherwise.
 </p>
 
-<h2>2.1 Specifying Which VFS To Use</h2>
+<h2 id="standard_windows_vfses"><span>3.2. </span>Standard Windows VFSes</h2>
+
+
+<p>
+Windows builds also come with multiple built-in VFSes.  The default
+Windows VFS is called "win32" and is used in most applications.
+Other VFSes that might be found on windows builds include:
+</p>
+
+<ol>
+<li><p><b>win32-longpath</b> - like "win32" except that pathnames can
+          be up to 65534 bytes in length, whereas pathnames max out at
+          1040 bytes in "win32".
+</p></li><li><p><b>win32-none</b> - all file locking operations are no-ops.
+</p></li><li><p><b>win32-longpath-none</b> - combination of "win32-longpath"
+          and "win32-none" - long pathnames are supported and all lock
+          operations are no-ops.
+</p></li></ol>
+
+<p>As with unix, most of the code for the various Windows VFSes is shared.
+
+</p><h2 id="specifying_which_vfs_to_use"><span>3.3. </span>Specifying Which VFS To Use</h2>
 
 <p>
 There is always one VFS which is the default VFS.  On unix systems,
@@ -233,7 +293,7 @@ of the default VFS.
 <p>
 The default VFS can be changed by registering or re-registering the
 VFS using the <a href="c3ref/vfs_find.html">sqlite3_vfs_register()</a> interface with a second parameter
-of 1.  Hence, if a (unix) process to always use the "unix-nolock" VFS 
+of 1.  Hence, if a (unix) process wants to always use the "unix-nolock" VFS 
 in place of "unix", the following code would work:
 </p>
 
@@ -268,7 +328,9 @@ a VFS specified as the fourth argument to <a href="c3ref/open.html">sqlite3_open
 default VFS is used if no VFS is specified otherwise.
 </p>
 
-<h2>2.2 VFS Shims</h2>
+<a name="shim"></a>
+
+<h2 id="vfs_shims"><span>3.4. </span>VFS Shims</h2>
 
 <p>
 From the point of view of the uppers layers of the SQLite stack, each
@@ -287,7 +349,7 @@ into a log file, then passes control off to another VFS to do the actual
 work.
 </p>
 
-<h2>2.3 Other Example VFSes</h2>
+<h2 id="other_example_vfses"><span>3.5. </span>Other Example VFSes</h2>
 
 <p>
 The following are other VFS implementations available in the public
@@ -296,8 +358,17 @@ SQLite source tree:
 
 <ul>
 <li><p>
+<a href="http://www.sqlite.org/src/file/ext/misc/appendvfs.c">appendvfs.c</a> -
+This VFS allows an SQLite database to be appended to the end of some
+other file.  This can be used, for example, to append an SQLite database
+onto the end of an executable such that, when run, it can easily
+locate the appended database. The <a href="cli.html">command-line shell</a> will use this
+VFS if launched with the --append option, and its .archive command
+will use it given the --append flag.
+
+</p></li><li><p>
 <a href="http://www.sqlite.org/src/doc/trunk/src/test_demovfs.c">test_demovfs.c</a> - 
-This file implements a very simple VFS named "demo" that uss POSIX 
+This file implements a very simple VFS named "demo" that uses POSIX 
 functions such as
 open(), read(), write(), fsync(), close(), fsync(), sleep(), time(),
 and so forth.  This VFS only works on unix systems.  But it is not
@@ -306,21 +377,21 @@ on unix platforms.  The "demo" VFS is deliberately kept very simple
 so that it can be used as a learning aid or as template for building
 other VFSes or for porting SQLite to new operating systems.
 
-<li><p>
+</p></li><li><p>
 <a href="http://www.sqlite.org/src/doc/trunk/src/test_quota.c">test_quota.c</a> - 
 This file implements a shim called "quota" that enforces cumulative
 file size limits on a collection of database files.  An auxiliary
-interface is used to define "quote groups".  A quota group is a
+interface is used to define "quota groups".  A quota group is a
 set of files (database files, journals, and temporary files) whose
 names all match a <a href="lang_expr.html#glob">GLOB</a> pattern.  The sum of the sizes of all files
 in each quota group is tracked, and if that sum exceeds a threshold
 defined for the quota group, a callback function is invoked.  That
 callback can either increase the threshold or cause the operation
 that would have exceeded the quota to fail with an 
-<a href="c3ref/c_abort.html">SQLITE_FULL</a> error.  One of the uses of this shim is used to enforce 
+<a href="rescode.html#full">SQLITE_FULL</a> error.  One of the uses of this shim is used to enforce 
 resource limits on application databases in Firefox.
 
-<li><p>
+</p></li><li><p>
 <a href="http://www.sqlite.org/src/doc/trunk/src/test_multiplex.c">test_multiplex.c</a> - 
 This file implements a shim that allows database files to exceed the
 maximum file size of the underlying filesystem.  This shim presents
@@ -330,7 +401,7 @@ is split up into many smaller files on the underlying system.
 This shim has been used, for example, to allow databases to grow
 larger than 2 gibibytes on FAT16 filesystems.
 
-<li><p>
+</p></li><li><p>
 <a href="http://www.sqlite.org/src/doc/trunk/src/test_onefile.c">test_onefile.c</a> - 
 This file implements a demonstration VFS named "fs" that shows how SQLite 
 can be used on an embedded device that lacks a filesystem.  Content is
@@ -339,7 +410,7 @@ demonstration code could be used by a gadget with a limited amount of
 flash memory to make SQLite behave as the filesystem for the flash memory
 on the device.
 
-<li><p>
+</p></li><li><p>
 <a href="http://www.sqlite.org/src/doc/trunk/src/test_journal.c">test_journal.c</a> - 
 This file implements a shim used during SQLite testing that verifies that
 the database and rollback journal are written in the correct order and
@@ -352,13 +423,13 @@ Running a large suite of test cases using this shim provides added
 assurance that SQLite databases will not be damaged by unexpected
 power failures or device resets.
 
-<li><p>
+</p></li><li><p>
 <a href="http://www.sqlite.org/src/doc/trunk/src/test_vfs.c">test_vfs.c</a> - 
 This file implements a shim that can be used to simulate filesystem faults.
 This shim is used during testing to verify that SQLite responses sanely
 to hardware malfunctions or to other error conditions such as running out
 of filesystem space that are difficult to test on a real system.
-</ul>
+</p></li></ul>
 
 <p>
 There are other VFS implementations both in the core SQLite source code
@@ -367,7 +438,7 @@ exhaustive but merely representative of the kinds of features that can
 be realized using the VFS interface.
 </p>
 
-<h2>3.0 VFS Implementations</h2>
+<h1 id="vfs_implementations"><span>4. </span>VFS Implementations</h1>
 
 <p>
 A new VFS is implemented by subclassing three objects:
@@ -375,9 +446,9 @@ A new VFS is implemented by subclassing three objects:
 
 <ul>
 <li><a href="c3ref/vfs.html">sqlite3_vfs</a>
-<li><a href="c3ref/io_methods.html">sqlite3_io_methods</a>
-<li><a href="c3ref/file.html">sqlite3_file</a>
-</ul>
+</li><li><a href="c3ref/io_methods.html">sqlite3_io_methods</a>
+</li><li><a href="c3ref/file.html">sqlite3_file</a>
+</li></ul>
 
 <p>
 An <a href="c3ref/vfs.html">sqlite3_vfs</a> object defines the name of the VFS and the core
@@ -418,6 +489,5 @@ those objects are not registered directly with SQLite.  Instead, the
 <a href="c3ref/vfs.html">sqlite3_vfs</a> and the <a href="c3ref/file.html">sqlite3_file</a> object points to an instance
 of the <a href="c3ref/io_methods.html">sqlite3_io_methods</a> object.
 </p>
-
-<h2>To Be Continued...</h2>
+<p align="center"><small><i>This page last modified on  <a href="https://sqlite.org/docsrc/honeypot" id="mtimelink"  data-href="https://sqlite.org/docsrc/finfo/pages/vfs.in?m=05ae7aae3e6b495eb">2021-12-06 01:48:47</a> UTC </small></i></p>
 

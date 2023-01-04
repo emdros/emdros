@@ -1,128 +1,136 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="sqlite.css" rel="stylesheet">
 <title>Uniform Resource Identifiers</title>
-<style type="text/css">
-body {
-    margin: auto;
-    font-family: Verdana, sans-serif;
-    padding: 8px 1%;
-}
-
-a { color: #044a64 }
-a:visited { color: #734559 }
-
-.logo { position:absolute; margin:3px; }
-.tagline {
-  float:right;
-  text-align:right;
-  font-style:italic;
-  width:300px;
-  margin:12px;
-  margin-top:58px;
-}
-
-.menubar {
-  clear: both;
-  border-radius: 8px;
-  background: #044a64;
-  padding: 0px;
-  margin: 0px;
-  cell-spacing: 0px;
-}    
-.toolbar {
-  text-align: center;
-  line-height: 1.6em;
-  margin: 0;
-  padding: 0px 8px;
-}
-.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
-.toolbar a:visited { color: white; }
-.toolbar a:hover { color: #044a64; background: white; }
-
-.content    { margin: 5%; }
-.content dt { font-weight:bold; }
-.content dd { margin-bottom: 25px; margin-left:20%; }
-.content ul { padding:0px; padding-left: 15px; margin:0px; }
-
-/* Things for "fancyformat" documents start here. */
-.fancy img+p {font-style:italic}
-.fancy .codeblock i { color: darkblue; }
-.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
-.fancy h2 { margin-left: 10px }
-.fancy h3 { margin-left: 20px }
-.fancy h4 { margin-left: 30px }
-.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
-.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
-.fancy #toc a        { color: darkblue ; text-decoration: none }
-.fancy .todo         { color: #AA3333 ; font-style : italic }
-.fancy .todo:before  { content: 'TODO:' }
-.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
-.fancy img { display:block; }
-.fancy :link:hover, .fancy :visited:hover { background: wheat }
-.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
-.fancy li p { margin: 1em 0 }
-/* End of "fancyformat" specific rules. */
-
-</style>
-  
+<!-- path= -->
 </head>
 <body>
-<div><!-- container div to satisfy validator -->
-
+<div class=nosearch>
 <a href="index.html">
-<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite Logo"
- border="0"></a>
-<div><!-- IE hack to prevent disappearing logo--></div>
-<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
-
-<table width=100% class="menubar"><tr>
-  <td width=100%>
-  <div class="toolbar">
-    <a href="about.html">About</a>
-    <a href="sitemap.html">Sitemap</a>
-    <a href="docs.html">Documentation</a>
-    <a href="download.html">Download</a>
-    <a href="copyright.html">License</a>
-    <a href="news.html">News</a>
-    <a href="support.html">Support</a>
-  </div>
+<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='about.html'>About</a>
+<li class='desktoponly'><a href="docs.html">Documentation</a>
+<li class='desktoponly'><a href="download.html">Download</a>
+<li class='wideonly'><a href='copyright.html'>License</a>
+<li class='desktoponly'><a href="support.html">Support</a>
+<li class='desktoponly'><a href="prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='about.html'>About</a>
+<li><a href='docs.html'>Documentation</a>
+<li><a href='download.html'>Download</a>
+<li><a href='support.html'>Support</a>
+<li><a href='prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
 <script>
-  gMsg = "Search SQLite Docs..."
-  function entersearch() {
-    var q = document.getElementById("q");
-    if( q.value == gMsg ) { q.value = "" }
-    q.style.color = "black"
-    q.style.fontStyle = "normal"
-  }
-  function leavesearch() {
-    var q = document.getElementById("q");
-    if( q.value == "" ) { 
-      q.value = gMsg
-      q.style.color = "#044a64"
-      q.style.fontStyle = "italic"
-    }
-  }
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
 </script>
-<td>
-    <div style="padding:0 1em 0px 0;white-space:nowrap">
-    <form name=f method="GET" action="http://www.sqlite.org/search">
-      <input id=q name=q type=text
-       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
-      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
-    </form>
-    </div>
-  </table>
-
-<div class=startsearch></div>
-  
+<div class=fancy>
+<div class=nosearch>
+<div class="fancy_title">
+Uniform Resource Identifiers
+</div>
+</div>
 
 
 
-<h1>1.0 URI Filenames In SQLite</h1>
+
+
+<h1 id="uri_filenames_in_sqlite"><span>1. </span>URI Filenames In SQLite</h1>
 
 <p>
-Beginning with <a href="releaselog/3_7_7.html">version 3.7.7</a>, the SQLite database file argument to the
+Beginning with <a href="releaselog/3_7_7.html">version 3.7.7</a> (2011-06-23),
+the SQLite database file argument to the
 <a href="c3ref/open.html">sqlite3_open()</a>, <a href="c3ref/open.html">sqlite3_open16()</a>, and <a href="c3ref/open.html">sqlite3_open_v2()</a> interfaces
 and to the <a href="lang_attach.html">ATTACH</a> command can be specified
 either as an ordinary filename or as a Uniform Resource Identifier or URI.
@@ -134,23 +142,21 @@ Or the database can be opened read-only by using "mode=ro" as a query
 parameter.
 </p>
 
-<h1>2.0 Backwards Compatibility</h1>
+<h1 id="backwards_compatibility"><span>2. </span>Backwards Compatibility</h1>
 
 <p>
 In order to maintain full backwards compatibility for legacy applications,
-the URI filename capability is disabled by default.  
-In order for URI filenames
-to work, one or more of the following must be true:
+the URI filename capability is disabled by default.
+URI filenames can be enabled or disabled using the <a href="compile.html#use_uri">SQLITE_USE_URI=1</a>
+or <a href="compile.html#use_uri">SQLITE_USE_URI=0</a> compile-time options.
+The compile-time setting for URI filenames can be changed
+at start-time using the <a href="c3ref/config.html">sqlite3_config</a>(<a href="c3ref/c_config_covering_index_scan.html#sqliteconfiguri">SQLITE_CONFIG_URI</a>,1)
+or <a href="c3ref/config.html">sqlite3_config</a>(<a href="c3ref/c_config_covering_index_scan.html#sqliteconfiguri">SQLITE_CONFIG_URI</a>,0) configuration calls.
+Regardless of the compile-time or start-time settings, URI filenames
+can be enabled for individual database connections by including the
+<a href="c3ref/c_open_autoproxy.html">SQLITE_OPEN_URI</a> bit in the set of bits passed as the F parameter
+to <a href="c3ref/open.html">sqlite3_open_v2(N,P,F,V)</a>.
 </p>
-
-<ol>
-<li><p>The SQLite library is compiled with the <a href="compile.html#use_uri">SQLITE_USE_URI</a> 
-       compile-time option.</p></li>
-<li><p>The <a href="c3ref/config.html">sqlite3_config</a>(<a href="c3ref/c_config_covering_index_scan.html#sqliteconfiguri">SQLITE_CONFIG_URI</a>, 1); configuration option
-       is set at application start-time.</p></li>
-<li><p>The <a href="c3ref/c_open_autoproxy.html">SQLITE_OPEN_URI</a> bit is OR-ed in with the set bits passed in
-       as the 3rd parameter to the <a href="c3ref/open.html">sqlite3_open_v2()</a> interface.</p></li>
-</ol>
 
 <p>
 If URI filenames are recognized when the database connection is originally
@@ -160,7 +166,7 @@ is first opened, they will not be recognized by <a href="lang_attach.html">ATTAC
 </p>
 
 <p>
-Since SQLite always interprets any filename that does not begins 
+Since SQLite always interprets any filename that does not begin
 with "<tt>file:</tt>"
 as an ordinary filename regardless of the URI setting, and because it is
 very unusual to have an actual file begin with "<tt>file:</tt>", 
@@ -168,7 +174,7 @@ it is safe for most applications to enable URI processing even if URI
 filenames are not currently being used.
 </p>
 
-<h1>3.0 URI Format</h1>
+<h1 id="uri_format"><span>3. </span>URI Format</h1>
 
 <p>
 According to <a href="http://tools.ietf.org/html/rfc3986">RFC 3986</a>, a URI consists
@@ -195,15 +201,18 @@ A succinct summary of the URI parsing rules follows:
 <ul>
 <li> The scheme of the URI must be "<tt>file:</tt>".  Any other scheme
      results in the input being treated as an ordinary filename.
-<li> The authority may be omitted, may be blank, or may be
+</li><li> The authority may be omitted, may be blank, or may be
       "<tt>localhost</tt>".  Any other authority results in an error.
-<li> The path is optional if the authority is present.  If the authority
+      Exception: If SQLite is compiled with <a href="compile.html#allow_uri_authority">SQLITE_ALLOW_URI_AUTHORITY</a>
+      then any authority value other than "localhost" is passed through to the 
+      underlying operating system as a UNC filename.
+</li><li> The path is optional if the authority is present.  If the authority
      is omitted then the path is required. 
-<li> The query string is optional.  If the query string is present, then
+</li><li> The query string is optional.  If the query string is present, then
       all query parameters are passed through into the xOpen method of
       the underlying <a href="vfs.html">VFS</a>.  
-<li> The fragment is optional.  If present, it is ignored.
-</ul>
+</li><li> The fragment is optional.  If present, it is ignored.
+</li></ul>
 
 <p>Zero or more escape sequences of the form  "<b>%<i>HH</i></b>" 
 (where <b><i>H</i></b> represents any hexadecimal digit) can occur 
@@ -216,7 +225,7 @@ ordinary filename.</p>
 The filename argument sqlite3_open16() is converted from UTF16 
 native byte order into UTF8 prior to processing.
 
-<h2>3.1 The URI Path</h2>
+</p><h2 id="the_uri_path"><span>3.1. </span>The URI Path</h2>
 
 <p>The path component of the URI specifies the disk file that is the
 SQLite database to be opened.  If the path component is omitted, then
@@ -231,27 +240,27 @@ character ("a" through "z" or "A" through "Z") then the "<b><i>X:</i></b>"
 is understood to be the drive letter of the volume containing the file,
 not the toplevel directory.
 
-<p>An ordinary filename can usually be converted into an equivalent URI 
+</p><p>An ordinary filename can usually be converted into an equivalent URI 
 by the steps shown below.  The one exception is that a relative windows
 pathname with a drive letter cannot be converted directly into a URI; it must
 be changed into an absolute pathname first.</p>
 
 <ol>
 <li>Convert all "<tt>?</tt>" characters into "<tt>%3f</tt>".
-<li>Convert all "<tt>#</tt>" characters into "<tt>%23</tt>".
-<li>On windows only, convert all "<tt>\</tt>" characters into "<tt>/</tt>".
-<li>Convert all sequences of two or more "<tt>/</tt>" characters into a
+</li><li>Convert all "<tt>#</tt>" characters into "<tt>%23</tt>".
+</li><li>On windows only, convert all "<tt>\</tt>" characters into "<tt>/</tt>".
+</li><li>Convert all sequences of two or more "<tt>/</tt>" characters into a
     single "<tt>/</tt>" character.
-<li>On windows only, if the filename begins with a drive letter, prepend
+</li><li>On windows only, if the filename begins with a drive letter, prepend
     a single "<tt>/</tt>" character.
-<li>Prepend the "<tt>file:</tt>" scheme.
-</ol>
+</li><li>Prepend the "<tt>file:</tt>" scheme.
+</li></ol>
 
-<h2>3.2 Query String</h2>
+<h2 id="query_string"><span>3.2. </span>Query String</h2>
 
 <p>A URI filename can optionally be followed by a query string.
 The query string consists of text following the first "<tt>?</tt>"
-character but excluding the optional fragment that begins with with
+character but excluding the optional fragment that begins with
 "<tt>#</tt>".  The query string is divided into key/value pairs.
 We usually refer to these key/value pairs as "query parameters".
 Key/value pairs are separated by a single "<tt>&amp;</tt>" character.
@@ -267,14 +276,14 @@ being appended to the xOpen filename.
 A single zero-byte separates the xOpen filename argument from the key of
 the first query parameters, each key and value, and each subsequent key
 from the prior value.
-The list of query parameters parameters appended to the xOpen filename
+The list of query parameters appended to the xOpen filename
 is terminated by a single zero-length key.
 Note that the value of a query parameter can be an empty string.
 </p>
 
 <a name="coreqp"></a>
 
-<h2>3.3 Recognized Query Parameters</h2>
+<h2 id="recognized_query_parameters"><span>3.3. </span>Recognized Query Parameters</h2>
 
 <p>
 Some query parameters are interpreted by the SQLite core and used to 
@@ -284,43 +293,88 @@ they are previously read and interpreted by the SQLite core.
 </p>
 
 <p>
-The following query parameters are recognized by SQLite as of version 3.7.10.
-Other query parameters might be added to this set in future releases.
+The following query parameters are recognized by SQLite as of 
+<a href="releaselog/3_15_0.html">version 3.15.0</a> (2016-10-14).
+New query parameters might be added in the future.
 </p>
 
 <dl>
-<dt><b>vfs=</b><i>NAME</i></dt>
-<dd><p>The vfs query parameter causes the database connection to be opened
-using the <a href="vfs.html">VFS</a> called <i>NAME</i>.
-The open attempt fails if <i>NAME</i> is not the name of a <a href="vfs.html">VFS</a> that
-is built into SQLite or that has been previously registered using
-<a href="c3ref/vfs_find.html">sqlite3_vfs_register()</a>.</dd>
+<a name="uricache"></a>
+
+<dt><b>cache=shared<br>cache=private</b></dt>
+<dd><p>The cache query parameter determines if the new database is opened
+using <a href="sharedcache.html">shared cache mode</a> or with a private cache.
+</p></dd>
+
+<a name="uriimmutable"></a>
+
+<dt><b>immutable=1</b></dt>
+<dd><p>The immutable query parameter is a boolean that signals to
+SQLite that the underlying database file is held on read-only media
+and cannot be modified, even by another process with elevated 
+privileges.  SQLite always opens immutable database files
+read-only and it skips all file locking and change detection
+on immutable database files.  If this query parameter (or
+the <a href="c3ref/c_iocap_atomic.html">SQLITE_IOCAP_IMMUTABLE</a> bit in xDeviceCharacteristics)
+asserts that a database file is immutable and that file 
+changes anyhow, then SQLite might return incorrect query 
+results and/or <a href="rescode.html#corrupt">SQLITE_CORRUPT</a> errors.
+</p></dd>
+
+<a name="urimode"></a>
 
 <dt><b>mode=ro<br>mode=rw<br>mode=rwc<br>mode=memory</b></dt>
 <dd><p>The mode query parameter determines if the new database is opened
 read-only, read-write, read-write and created if it does not exist, or
 that the database is a pure in-memory database that never interacts with
-disk, respectively.  The <b>mode=memory</b> option was added in 
-<a href="releaselog/3_7_13.html">version 3.7.13</a>.
-</dd>
+disk, respectively.
+</p></dd>
 
-<dt><b>cache=shared<br>cache=private</b></dt>
-<dd><p>The cache query parameter determines if the new database is opened
-using <a href="sharedcache.html">shared cache mode</a> or with a private cache.
-</dd>
+<a name="urimodeof"></a>
 
-<dt><b>psow=0<br>psow=1</b></dt>
+<dt><b>modeof=</b><i>filename</i></dt>
+<dd><p>When creating a new database file during <a href="c3ref/open.html">sqlite3_open_v2()</a>
+on unix systems, SQLite will try to set the permissions of the new
+database file to match the existing file "<i>filename</i>".
+</p></dd>
+
+<a name="urinolock"></a>
+
+<dt><b>nolock=1</b></dt>
+<dd><p>The nolock query parameter is a boolean that disables all calls
+to the xLock, xUnlock, and xCheckReservedLock methods of the VFS when true.
+The nolock query parameter might be used, for example, when trying to
+access a file on a filesystem that does not support file locking.
+Caution:  If two or more <a href="c3ref/sqlite3.html">database connections</a> try to interact with 
+the same SQLite database and one or more of those connections has
+enabled "nolock", then database corruption can result.  The "nolock"
+query parameter should only be used if the application can guarantee
+that writes to the database are serialized.
+
+<a name="uripsow"></a>
+
+</p></dd><dt><b>psow=0<br>psow=1</b></dt>
 <dd><p>The psow query parameter overrides the <a href="psow.html">powersafe overwrite</a>
 property of the database file being opened.  The psow query parameter
 works with the default windows and unix <a href="vfs.html">VFSes</a> but might be a no-op for
 other proprietary or non-standard VFSes.
-</dd>
+</p></dd>
+
+<a name="urivfs"></a>
+
+<dt><b>vfs=</b><i>NAME</i></dt>
+<dd><p>The vfs query parameter causes the database connection to be opened
+using the <a href="vfs.html">VFS</a> called <i>NAME</i>.
+The open attempt fails if <i>NAME</i> is not the name of a <a href="vfs.html">VFS</a> that
+is built into SQLite or that has been previously registered using
+<a href="c3ref/vfs_find.html">sqlite3_vfs_register()</a>.</p></dd>
 </dl>
 
-<h1>4.0 See Also</h1>
+<h1 id="see_also"><span>4. </span>See Also</h1>
 
 <ul>
 <li> <a href="c3ref/open.html#urifilenamesinsqlite3open">URI filenames in sqlite3_open()</a>
-<li> <a href="c3ref/open.html#urifilenameexamples">URI filename examples</a>
-</ul>
+</li><li> <a href="c3ref/open.html#urifilenameexamples">URI filename examples</a>
+</li></ul>
+<p align="center"><small><i>This page last modified on  <a href="https://sqlite.org/docsrc/honeypot" id="mtimelink"  data-href="https://sqlite.org/docsrc/finfo/pages/uri.in?m=adfa05577ead37cf9">2022-01-20 21:38:08</a> UTC </small></i></p>
 

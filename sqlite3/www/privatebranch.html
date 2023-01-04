@@ -1,129 +1,164 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<title>Private Branches Of SQLite</title>
-<style type="text/css">
-body {
-    margin: auto;
-    font-family: Verdana, sans-serif;
-    padding: 8px 1%;
-}
-
-a { color: #044a64 }
-a:visited { color: #734559 }
-
-.logo { position:absolute; margin:3px; }
-.tagline {
-  float:right;
-  text-align:right;
-  font-style:italic;
-  width:300px;
-  margin:12px;
-  margin-top:58px;
-}
-
-.menubar {
-  clear: both;
-  border-radius: 8px;
-  background: #044a64;
-  padding: 0px;
-  margin: 0px;
-  cell-spacing: 0px;
-}    
-.toolbar {
-  text-align: center;
-  line-height: 1.6em;
-  margin: 0;
-  padding: 0px 8px;
-}
-.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
-.toolbar a:visited { color: white; }
-.toolbar a:hover { color: #044a64; background: white; }
-
-.content    { margin: 5%; }
-.content dt { font-weight:bold; }
-.content dd { margin-bottom: 25px; margin-left:20%; }
-.content ul { padding:0px; padding-left: 15px; margin:0px; }
-
-/* Things for "fancyformat" documents start here. */
-.fancy img+p {font-style:italic}
-.fancy .codeblock i { color: darkblue; }
-.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
-.fancy h2 { margin-left: 10px }
-.fancy h3 { margin-left: 20px }
-.fancy h4 { margin-left: 30px }
-.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
-.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
-.fancy #toc a        { color: darkblue ; text-decoration: none }
-.fancy .todo         { color: #AA3333 ; font-style : italic }
-.fancy .todo:before  { content: 'TODO:' }
-.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
-.fancy img { display:block; }
-.fancy :link:hover, .fancy :visited:hover { background: wheat }
-.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
-.fancy li p { margin: 1em 0 }
-/* End of "fancyformat" specific rules. */
-
-</style>
-  
+<link href="sqlite.css" rel="stylesheet">
+<title>Maintaining Private Branches Of SQLite</title>
+<!-- path= -->
 </head>
 <body>
-<div><!-- container div to satisfy validator -->
-
+<div class=nosearch>
 <a href="index.html">
-<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite Logo"
- border="0"></a>
-<div><!-- IE hack to prevent disappearing logo--></div>
-<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
-
-<table width=100% class="menubar"><tr>
-  <td width=100%>
-  <div class="toolbar">
-    <a href="about.html">About</a>
-    <a href="sitemap.html">Sitemap</a>
-    <a href="docs.html">Documentation</a>
-    <a href="download.html">Download</a>
-    <a href="copyright.html">License</a>
-    <a href="news.html">News</a>
-    <a href="support.html">Support</a>
-  </div>
+<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='about.html'>About</a>
+<li class='desktoponly'><a href="docs.html">Documentation</a>
+<li class='desktoponly'><a href="download.html">Download</a>
+<li class='wideonly'><a href='copyright.html'>License</a>
+<li class='desktoponly'><a href="support.html">Support</a>
+<li class='desktoponly'><a href="prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='about.html'>About</a>
+<li><a href='docs.html'>Documentation</a>
+<li><a href='download.html'>Download</a>
+<li><a href='support.html'>Support</a>
+<li><a href='prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
 <script>
-  gMsg = "Search SQLite Docs..."
-  function entersearch() {
-    var q = document.getElementById("q");
-    if( q.value == gMsg ) { q.value = "" }
-    q.style.color = "black"
-    q.style.fontStyle = "normal"
-  }
-  function leavesearch() {
-    var q = document.getElementById("q");
-    if( q.value == "" ) { 
-      q.value = gMsg
-      q.style.color = "#044a64"
-      q.style.fontStyle = "italic"
-    }
-  }
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
 </script>
-<td>
-    <div style="padding:0 1em 0px 0;white-space:nowrap">
-    <form name=f method="GET" action="http://www.sqlite.org/search">
-      <input id=q name=q type=text
-       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
-      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
-    </form>
-    </div>
-  </table>
-
-<div class=startsearch></div>
-  
-
-
-
-<h1 align="center">
+<div class=fancy>
+<div class=nosearch>
+<div class="fancy_title">
 Maintaining Private Branches Of SQLite
-</h1>
+</div>
+<div class="fancy_toc">
+<a onclick="toggle_toc()">
+<span class="fancy_toc_mark" id="toc_mk">&#x25ba;</span>
+Table Of Contents
+</a>
+<div id="toc_sub"><div class="fancy-toc1"><a href="#_introduction">1.  Introduction</a></div>
+<div class="fancy-toc1"><a href="#_the_basic_idea">2.  The Basic Idea</a></div>
+<div class="fancy-toc1"><a href="#_the_procedure">3.  The Procedure</a></div>
+<div class="fancy-toc2"><a href="#_obtain_the_software">3.1.  Obtain The Software</a></div>
+<div class="fancy-toc2"><a href="#_create_a_project_repository">3.2.  Create A Project Repository</a></div>
+<div class="fancy-toc2"><a href="#_installing_the_sqlite_baseline_in_fossil">3.3.  Installing The SQLite Baseline In Fossil</a></div>
+<div class="fancy-toc2"><a href="#_creating_the_private_branch">3.4.  Creating The Private Branch</a></div>
+<div class="fancy-toc2"><a href="#_adding_customizations_to_the_code_in_the_private_branch">3.5.  Adding Customizations To The Code In The Private Branch</a></div>
+<div class="fancy-toc2"><a href="#_incorporating_new_public_sqlite_releases">3.6.  Incorporating New Public SQLite Releases</a></div>
+<div class="fancy-toc2"><a href="#_merging_public_sqlite_updates_into_the_private_branch">3.7.  Merging Public SQLite Updates Into The Private Branch</a></div>
+<div class="fancy-toc2"><a href="#_further_updates">3.8.  Further Updates</a></div>
+<div class="fancy-toc1"><a href="#_variations">4.  Variations</a></div>
+</div>
+</div>
+<script>
+function toggle_toc(){
+var sub = document.getElementById("toc_sub")
+var mk = document.getElementById("toc_mk")
+if( sub.style.display!="block" ){
+sub.style.display = "block";
+mk.innerHTML = "&#x25bc;";
+} else {
+sub.style.display = "none";
+mk.innerHTML = "&#x25ba;";
+}
+}
+</script>
+</div>
 
-<h2>1.0 Introduction</h2>
+
+
+
+
+<h1 id="_introduction"><span>1. </span> Introduction</h1>
 
 <p>SQLite is designed to meet most developer's needs without any 
 changes or customization.  When changes are needed, they can normally
@@ -134,9 +169,9 @@ or runtime
 <a href="c3ref/vfs_find.html">(4)</a> configuration methods
 or via <a href="compile.html">compile-time options</a>.  It is very rare that an application 
 developer will need to edit the SQLite source code in order to 
-incorporate SQLite into a product.<p>
+incorporate SQLite into a product.</p><p>
 
-<p>We call custom modifications to the SQLite source code that are held
+</p><p>We call custom modifications to the SQLite source code that are held
 for the use of a single application a "private branch".  When a private
 branch becomes necessary, the application developer must take on the
 task of keeping the private branch in synchronization with the public
@@ -157,7 +192,7 @@ be used as a template for designing processes best suited for the
 circumstances of each individual project.</p>
 
 <img src="images/private_branch.gif" align="right">
-<h2>2.0 The Basic Idea</h2>
+<h1 id="_the_basic_idea"><span>2. </span> The Basic Idea</h1>
 
 
 <p>We propose to use the
@@ -210,7 +245,7 @@ another merge in order to incorporate the changes
 moving from (4) to (6) into the private branch, resulting
 in version (7).</p>
 
-<h2>3.0 The Procedure</h2>
+<h1 id="_the_procedure"><span>3. </span> The Procedure</h1>
 
 <p>The remainder of this document will guide the reader through
 the steps needed to maintain a private branch.  The general idea
@@ -222,7 +257,7 @@ acceptable method for maintaining private branch.  This approach
 is one of many.  Use this document as a baseline for preparing
 project-specific procedures.  Do not be afraid to experiment.</p>
 
-<h3>3.1 Obtain The Software</h3>
+<h2 id="_obtain_the_software"><span>3.1. </span> Obtain The Software</h2>
 
 <p><a href="http://www.fossil-scm.org/">Fossil</a> is a computer program
 that must be installed on your machine before you use it.
@@ -233,7 +268,7 @@ simply delete the exe file.
 fossil are available on the 
 <a href="http://www.fossil-scm.org">fossil website</a>.</p>
 
-<h3>3.2 Create A Project Repository</h3>
+<h2 id="_create_a_project_repository"><span>3.2. </span> Create A Project Repository</h2>
 
 <p>Create a fossil repository to host the private branch using the
 following command:</p>
@@ -274,7 +309,7 @@ fossil open private-project.fossil
 And you can "clone" the repository to different machines so that multiple
 developers can use it.  See the fossil website for further information.</p>
 
-<h3>3.3 Installing The SQLite Baseline In Fossil</h3>
+<h2 id="_installing_the_sqlite_baseline_in_fossil"><span>3.3. </span> Installing The SQLite Baseline In Fossil</h2>
 
 <p>The repository created in the previous step is initially empty.  The
 next step is to load the baseline SQLite release - circle (1) in the diagram
@@ -333,13 +368,13 @@ argument, you can.  But it is optional.</p>
 you can get some information from the command-line using commands like
 these:
 
-<blockquote><pre>
+</p><blockquote><pre>
 fossil timeline
 fossil info
 fossil status
 </pre></blockquote>
 
-<h3>3.4 Creating The Private Branch</h3>
+<h2 id="_creating_the_private_branch"><span>3.4. </span> Creating The Private Branch</h2>
 
 <p>The previous step created circle (1) in the diagram above.
 This step will create circle (2).  Run the following command:</p>
@@ -378,9 +413,9 @@ fossil update trunk
 
 <p>Normally, fossil will modify all the files in your checkout when switching
 between the private and the public branches.  But at this point, the files
-are identical in both branches so not modifications need to be made.</p>
+are identical in both branches so no modifications need to be made.</p>
 
-<h3>3.5 Adding Customizations To The Code In The Private Branch</h3>
+<h2 id="_adding_customizations_to_the_code_in_the_private_branch"><span>3.5. </span> Adding Customizations To The Code In The Private Branch</h2>
 
 <p>Now it is time to make the private, custom modifications to SQLite
 which are the whole point of this exercise.  Switch to the private branch
@@ -409,7 +444,7 @@ each separately.  In fact, making many small changes is the preferred way
 to work.  The only reason for doing all the changes in a single commit
 is that it makes the diagram easier to draw.</p>
 
-<h3>3.6 Incorporating New Public SQLite Releases</h3>
+<h2 id="_incorporating_new_public_sqlite_releases"><span>3.6. </span> Incorporating New Public SQLite Releases</h2>
 
 <p>Suppose that after a while (about a month, usually) a new version of
 SQLite is released: 3.6.16.  You will want to incorporate this new
@@ -421,16 +456,16 @@ fossil update trunk
 </pre></blockquote>
 
 <p>Then download the new version of the SQLite sources and overwrite the
-files that are in the checkout.<p>
+files that are in the checkout.</p><p>
 
-<p>If you made NL to CR-NL line ending changes or space to tab
+</p><p>If you made NL to CR-NL line ending changes or space to tab
 indentation changes in the original baseline, make the same changes
 to the new source file.</p>
 
 <p>Once everything is ready, run the "<tt>fossil commit</tt>" command to
 check in the changes.  This creates circle (4) in the diagram above.</p>
 
-<h3>3.7 Merging Public SQLite Updates Into The Private Branch</h3>
+<h2 id="_merging_public_sqlite_updates_into_the_private_branch"><span>3.7. </span> Merging Public SQLite Updates Into The Private Branch</h2>
 
 <p>The next step is to move the changes in the public branch over into
 the private branch.  In other words, we want to create circle (5) in the
@@ -458,14 +493,14 @@ new version before committing it to the repository.  Or you can commit
 first and test later.  Either way, run the "<tt>fossil commit</tt>"
 command to check-in the circle (5) version.
 
-<h3>3.8 Further Updates</h3>
+</p><h2 id="_further_updates"><span>3.8. </span> Further Updates</h2>
 
 <p>As new versions of SQLite are released, repeat steps 3.6 and 3.7 to
 add changes in the new release to the private branch.
 Additional private changes can be
 made on the private branch in between releases if desired.</p>
 
-<h2>4.0 Variations</h2>
+<h1 id="_variations"><span>4. </span> Variations</h1>
 
 <p>Since this document was first written, the canonical SQLite source code
 has been moved from the venerable CVS system into a Fossil repository at
@@ -479,7 +514,7 @@ fossil clone http://www.sqlite.org/src private-project.fossil
 </pre></blockquote>
 
 <p>This command both creates the new repository and populates it with
-all the latest SQLite could.  You can the create a private branch as
+all the latest SQLite code.  You can then create a private branch as
 described in section 3.4.</p>
 
 <p>When the private repository is created by cloning, incorporating new
@@ -493,4 +528,5 @@ fossil update
 
 <p>Then continue to merge the changes in "trunk" with your "private"
 changes as described in section 3.7.</p>
+<p align="center"><small><i>This page last modified on  <a href="https://sqlite.org/docsrc/honeypot" id="mtimelink"  data-href="https://sqlite.org/docsrc/finfo/pages/privatebranch.in?m=4a84b75757d9857d3">2021-04-07 11:02:17</a> UTC </small></i></p>
 

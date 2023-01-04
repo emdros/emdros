@@ -1,122 +1,127 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="../sqlite.css" rel="stylesheet">
 <title>OS Interface Object</title>
-<style type="text/css">
-body {
-    margin: auto;
-    font-family: Verdana, sans-serif;
-    padding: 8px 1%;
-}
-
-a { color: #044a64 }
-a:visited { color: #734559 }
-
-.logo { position:absolute; margin:3px; }
-.tagline {
-  float:right;
-  text-align:right;
-  font-style:italic;
-  width:300px;
-  margin:12px;
-  margin-top:58px;
-}
-
-.menubar {
-  clear: both;
-  border-radius: 8px;
-  background: #044a64;
-  padding: 0px;
-  margin: 0px;
-  cell-spacing: 0px;
-}    
-.toolbar {
-  text-align: center;
-  line-height: 1.6em;
-  margin: 0;
-  padding: 0px 8px;
-}
-.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
-.toolbar a:visited { color: white; }
-.toolbar a:hover { color: #044a64; background: white; }
-
-.content    { margin: 5%; }
-.content dt { font-weight:bold; }
-.content dd { margin-bottom: 25px; margin-left:20%; }
-.content ul { padding:0px; padding-left: 15px; margin:0px; }
-
-/* Things for "fancyformat" documents start here. */
-.fancy img+p {font-style:italic}
-.fancy .codeblock i { color: darkblue; }
-.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
-.fancy h2 { margin-left: 10px }
-.fancy h3 { margin-left: 20px }
-.fancy h4 { margin-left: 30px }
-.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
-.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
-.fancy #toc a        { color: darkblue ; text-decoration: none }
-.fancy .todo         { color: #AA3333 ; font-style : italic }
-.fancy .todo:before  { content: 'TODO:' }
-.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
-.fancy img { display:block; }
-.fancy :link:hover, .fancy :visited:hover { background: wheat }
-.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
-.fancy li p { margin: 1em 0 }
-/* End of "fancyformat" specific rules. */
-
-</style>
-  
+<!-- path=../ -->
 </head>
 <body>
-<div><!-- container div to satisfy validator -->
-
+<div class=nosearch>
 <a href="../index.html">
-<img class="logo" src="../images/sqlite370_banner.gif" alt="SQLite Logo"
- border="0"></a>
-<div><!-- IE hack to prevent disappearing logo--></div>
-<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
-
-<table width=100% class="menubar"><tr>
-  <td width=100%>
-  <div class="toolbar">
-    <a href="../about.html">About</a>
-    <a href="../sitemap.html">Sitemap</a>
-    <a href="../docs.html">Documentation</a>
-    <a href="../download.html">Download</a>
-    <a href="../copyright.html">License</a>
-    <a href="../news.html">News</a>
-    <a href="../support.html">Support</a>
-  </div>
+<img class="logo" src="../images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="../index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='../about.html'>About</a>
+<li class='desktoponly'><a href="../docs.html">Documentation</a>
+<li class='desktoponly'><a href="../download.html">Download</a>
+<li class='wideonly'><a href='../copyright.html'>License</a>
+<li class='desktoponly'><a href="../support.html">Support</a>
+<li class='desktoponly'><a href="../prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='../about.html'>About</a>
+<li><a href='../docs.html'>Documentation</a>
+<li><a href='../download.html'>Download</a>
+<li><a href='../support.html'>Support</a>
+<li><a href='../prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="../search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
 <script>
-  gMsg = "Search SQLite Docs..."
-  function entersearch() {
-    var q = document.getElementById("q");
-    if( q.value == gMsg ) { q.value = "" }
-    q.style.color = "black"
-    q.style.fontStyle = "normal"
-  }
-  function leavesearch() {
-    var q = document.getElementById("q");
-    if( q.value == "" ) { 
-      q.value = gMsg
-      q.style.color = "#044a64"
-      q.style.fontStyle = "italic"
-    }
-  }
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
 </script>
-<td>
-    <div style="padding:0 1em 0px 0;white-space:nowrap">
-    <form name=f method="GET" action="http://www.sqlite.org/search">
-      <input id=q name=q type=text
-       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
-      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
-    </form>
-    </div>
-  </table>
-
-<div class=startsearch></div>
-  
-<a href="intro.html"><h2>SQLite C Interface</h2></a><h2>OS Interface Object</h2><blockquote><pre>typedef struct sqlite3_vfs sqlite3_vfs;
+<!-- keywords: sqlite3_vfs -->
+<div class=nosearch>
+<a href="intro.html"><h2>SQLite C Interface</h2></a>
+<h2>OS Interface Object</h2>
+</div>
+<blockquote><pre>
+typedef struct sqlite3_vfs sqlite3_vfs;
 typedef void (*sqlite3_syscall_ptr)(void);
 struct sqlite3_vfs {
   int iVersion;            /* Structure version number (currently 3) */
@@ -125,7 +130,7 @@ struct sqlite3_vfs {
   sqlite3_vfs *pNext;      /* Next registered VFS */
   const char *zName;       /* Name of this virtual file system */
   void *pAppData;          /* Pointer to application-specific data */
-  int (*xOpen)(sqlite3_vfs*, const char *zName, sqlite3_file*,
+  int (*xOpen)(sqlite3_vfs*, sqlite3_filename zName, sqlite3_file*,
                int flags, int *pOutFlags);
   int (*xDelete)(sqlite3_vfs*, const char *zName, int syncDir);
   int (*xAccess)(sqlite3_vfs*, const char *zName, int flags, int *pResOut);
@@ -152,22 +157,29 @@ struct sqlite3_vfs {
   const char *(*xNextSystemCall)(sqlite3_vfs*, const char *zName);
   /*
   ** The methods above are in versions 1 through 3 of the sqlite_vfs object.
-  ** New fields may be appended in figure versions.  The iVersion
-  ** value will increment whenever this happens. 
+  ** New fields may be appended in future versions.  The iVersion
+  ** value will increment whenever this happens.
   */
 };
-</pre></blockquote><p>
+</pre></blockquote>
+<p>
 An instance of the sqlite3_vfs object defines the interface between
 the SQLite core and the underlying operating system.  The "vfs"
 in the name of the object stands for "virtual file system".  See
 the <a href="../vfs.html">VFS documentation</a> for further information.</p>
 
-<p>The value of the iVersion field is initially 1 but may be larger in
-future versions of SQLite.  Additional fields may be appended to this
-object when the iVersion value is increased.  Note that the structure
-of the sqlite3_vfs object changes in the transaction between
-SQLite version 3.5.9 and 3.6.0 and yet the iVersion field was not
-modified.</p>
+<p>The VFS interface is sometimes extended by adding new methods onto
+the end.  Each time such an extension occurs, the iVersion field
+is incremented.  The iVersion value started out as 1 in
+SQLite <a href="../releaselog/3_5_0.html">version 3.5.0</a> on 2007-09-04, then increased to 2
+with SQLite <a href="../releaselog/3_7_0.html">version 3.7.0</a> on 2010-07-21, and then increased
+to 3 with SQLite <a href="../releaselog/3_7_6.html">version 3.7.6</a> on 2011-04-12.  Additional fields
+may be appended to the sqlite3_vfs object and the iVersion value
+may increase again in future versions of SQLite.
+Note that due to an oversight, the structure
+of the sqlite3_vfs object changed in the transition from
+SQLite <a href="../releaselog/3_5_9.html">version 3.5.9</a> to <a href="../releaselog/3_6_0.html">version 3.6.0</a> on 2008-07-16
+and yet the iVersion field was not increased.</p>
 
 <p>The szOsFile field is the size of the subclassed <a href="../c3ref/file.html">sqlite3_file</a>
 structure used by this VFS.  mxPathname is the maximum length of
@@ -224,7 +236,7 @@ call, depending on the object being opened:</p>
 <li>  <a href="../c3ref/c_open_autoproxy.html">SQLITE_OPEN_TEMP_JOURNAL</a>
 <li>  <a href="../c3ref/c_open_autoproxy.html">SQLITE_OPEN_TRANSIENT_DB</a>
 <li>  <a href="../c3ref/c_open_autoproxy.html">SQLITE_OPEN_SUBJOURNAL</a>
-<li>  <a href="../c3ref/c_open_autoproxy.html">SQLITE_OPEN_MASTER_JOURNAL</a>
+<li>  <a href="../c3ref/c_open_autoproxy.html">SQLITE_OPEN_SUPER_JOURNAL</a>
 <li>  <a href="../c3ref/c_open_autoproxy.html">SQLITE_OPEN_WAL</a>
 </ul></p>
 
@@ -259,7 +271,7 @@ It is <i>not</i> used to indicate the file should be opened
 for exclusive access.</p>
 
 <p>At least szOsFile bytes of memory are allocated by SQLite
-to hold the  <a href="../c3ref/file.html">sqlite3_file</a> structure passed as the third
+to hold the <a href="../c3ref/file.html">sqlite3_file</a> structure passed as the third
 argument to xOpen.  The xOpen method does not have to
 allocate the structure; it should just fill it in.  Note that
 the xOpen method must set the sqlite3_file.pMethods to either
@@ -273,13 +285,19 @@ or failure of the xOpen call.</p>
 The flags argument to xAccess() may be <a href="../c3ref/c_access_exists.html">SQLITE_ACCESS_EXISTS</a>
 to test for the existence of a file, or <a href="../c3ref/c_access_exists.html">SQLITE_ACCESS_READWRITE</a> to
 test whether a file is readable and writable, or <a href="../c3ref/c_access_exists.html">SQLITE_ACCESS_READ</a>
-to test whether a file is at least readable.   The file can be a
-directory.</p>
+to test whether a file is at least readable.  The SQLITE_ACCESS_READ
+flag is never actually used and is not implemented in the built-in
+VFSes of SQLite.  The file is named by the second argument and can be a
+directory. The xAccess method returns <a href="../rescode.html#ok">SQLITE_OK</a> on success or some
+non-zero error code if there is an I/O error or if the name of
+the file given in the second argument is illegal.  If SQLITE_OK
+is returned, then non-zero or zero is written into *pResOut to indicate
+whether or not the file is accessible.</p>
 
 <p>SQLite will always allocate at least mxPathname+1 bytes for the
 output buffer xFullPathname.  The exact size of the output buffer
 is also passed as a parameter to both  methods. If the output buffer
-is not large enough, <a href="../c3ref/c_abort.html">SQLITE_CANTOPEN</a> should be returned. Since this is
+is not large enough, <a href="../rescode.html#cantopen">SQLITE_CANTOPEN</a> should be returned. Since this is
 handled as a fatal error by SQLite, vfs implementations should endeavor
 to prevent this by setting mxPathname to a sufficiently large value.</p>
 
@@ -316,3 +334,4 @@ any of these methods if the iVersion of the VFS is less than 3.
   <a href="objlist.html">Objects</a>,
   <a href="constlist.html">Constants</a>, and
   <a href="funclist.html">Functions</a>.</p>
+

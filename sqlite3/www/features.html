@@ -1,121 +1,120 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="sqlite.css" rel="stylesheet">
 <title>Features Of SQLite</title>
-<style type="text/css">
-body {
-    margin: auto;
-    font-family: Verdana, sans-serif;
-    padding: 8px 1%;
-}
-
-a { color: #044a64 }
-a:visited { color: #734559 }
-
-.logo { position:absolute; margin:3px; }
-.tagline {
-  float:right;
-  text-align:right;
-  font-style:italic;
-  width:300px;
-  margin:12px;
-  margin-top:58px;
-}
-
-.menubar {
-  clear: both;
-  border-radius: 8px;
-  background: #044a64;
-  padding: 0px;
-  margin: 0px;
-  cell-spacing: 0px;
-}    
-.toolbar {
-  text-align: center;
-  line-height: 1.6em;
-  margin: 0;
-  padding: 0px 8px;
-}
-.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
-.toolbar a:visited { color: white; }
-.toolbar a:hover { color: #044a64; background: white; }
-
-.content    { margin: 5%; }
-.content dt { font-weight:bold; }
-.content dd { margin-bottom: 25px; margin-left:20%; }
-.content ul { padding:0px; padding-left: 15px; margin:0px; }
-
-/* Things for "fancyformat" documents start here. */
-.fancy img+p {font-style:italic}
-.fancy .codeblock i { color: darkblue; }
-.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
-.fancy h2 { margin-left: 10px }
-.fancy h3 { margin-left: 20px }
-.fancy h4 { margin-left: 30px }
-.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
-.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
-.fancy #toc a        { color: darkblue ; text-decoration: none }
-.fancy .todo         { color: #AA3333 ; font-style : italic }
-.fancy .todo:before  { content: 'TODO:' }
-.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
-.fancy img { display:block; }
-.fancy :link:hover, .fancy :visited:hover { background: wheat }
-.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
-.fancy li p { margin: 1em 0 }
-/* End of "fancyformat" specific rules. */
-
-</style>
-  
+<!-- path= -->
 </head>
 <body>
-<div><!-- container div to satisfy validator -->
-
+<div class=nosearch>
 <a href="index.html">
-<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite Logo"
- border="0"></a>
-<div><!-- IE hack to prevent disappearing logo--></div>
-<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
-
-<table width=100% class="menubar"><tr>
-  <td width=100%>
-  <div class="toolbar">
-    <a href="about.html">About</a>
-    <a href="sitemap.html">Sitemap</a>
-    <a href="docs.html">Documentation</a>
-    <a href="download.html">Download</a>
-    <a href="copyright.html">License</a>
-    <a href="news.html">News</a>
-    <a href="support.html">Support</a>
-  </div>
+<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='about.html'>About</a>
+<li class='desktoponly'><a href="docs.html">Documentation</a>
+<li class='desktoponly'><a href="download.html">Download</a>
+<li class='wideonly'><a href='copyright.html'>License</a>
+<li class='desktoponly'><a href="support.html">Support</a>
+<li class='desktoponly'><a href="prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='about.html'>About</a>
+<li><a href='docs.html'>Documentation</a>
+<li><a href='download.html'>Download</a>
+<li><a href='support.html'>Support</a>
+<li><a href='prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
 <script>
-  gMsg = "Search SQLite Docs..."
-  function entersearch() {
-    var q = document.getElementById("q");
-    if( q.value == gMsg ) { q.value = "" }
-    q.style.color = "black"
-    q.style.fontStyle = "normal"
-  }
-  function leavesearch() {
-    var q = document.getElementById("q");
-    if( q.value == "" ) { 
-      q.value = gMsg
-      q.style.color = "#044a64"
-      q.style.fontStyle = "italic"
-    }
-  }
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
 </script>
-<td>
-    <div style="padding:0 1em 0px 0;white-space:nowrap">
-    <form name=f method="GET" action="http://www.sqlite.org/search">
-      <input id=q name=q type=text
-       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
-      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
-    </form>
-    </div>
-  </table>
-
-<div class=startsearch></div>
-  
 
 
 <h1 align=center>Features Of SQLite</h1>
@@ -126,35 +125,38 @@ a:visited { color: #734559 }
     even after system crashes and power failures.</li>
 <li><a href="zeroconf.html">Zero-configuration</a>
      - no setup or administration needed.</li>
-<li>Implements most of SQL92.
-    (<a href="omitted.html">Features not supported</a>)</li>
+<li><a href="fullsql.html">Full-featured SQL</a> implementation
+    with advanced capabilities like <a href="partialindex.html">partial indexes</a>,
+    <a href="expridx.html">indexes on expressions</a>, <a href="json1.html">JSON</a>,
+    <a href="lang_with.html">common table expressions</a>, and <a href="windowfunctions.html">window functions</a>.
+    (<a href="omitted.html">Omitted features</a>)</li>
 <li>A complete database is stored in a 
-    <a href="onefile.html">single cross-platform disk file</a>.</li>
+    <a href="onefile.html">single cross-platform disk file</a>.
+    Great for use as an <a href="appfileformat.html">application file format</a>.</li>
 <li>Supports terabyte-sized databases and gigabyte-sized strings
     and blobs.  (See <a href="limits.html">limits.html</a>.)
 <li>Small code <a href="footprint.html">footprint</a>: 
-    less than 400KiB fully configured or less
-    than 250KiB with optional features omitted.</li>
-<li><a href="speed.html">Faster</a> than popular client/server database
-    engines for most common operations.</li>
-<li>Simple, easy to use <a href="c3ref/intro.html">API</a>.</li>
+    less than 750KiB fully configured or much less
+    with optional features omitted.</li>
+<li>Simple, easy to use <a href="cintro.html">API</a>.</li>
+<li>Fast:  In some cases, SQLite is 
+    <a href="fasterthanfs.html">faster than direct filesystem I/O</a>
 <li>Written in ANSI-C.  <a href="tclsqlite.html">TCL bindings</a> included.
-    Bindings for dozens of other languages 
-    <a href="http://www.sqlite.org/cvstrac/wiki?p=SqliteWrappers">
-    available separately.</a></li>
+    Bindings for dozens of other languages available separately.</li>
 <li>Well-commented source code with
     <a href="testing.html#coverage">100% branch test coverage</a>.</li>
 <li>Available as a 
     <a href="amalgamation.html">single ANSI-C source-code file</a> 
-    that you can easily drop into another project.
+    that is <a href="howtocompile.html">easy to compile</a> and hence is easy
+    to add into a larger project.
 <li><a href="selfcontained.html">Self-contained</a>:
     no external dependencies.</li>
-<li>Cross-platform: Unix (Linux, Mac OS-X, Android, iOS) and Windows
-    (Win32, WinCE, WinRT)
+<li>Cross-platform: Android, *BSD, iOS, Linux, Mac, Solaris, VxWorks, 
+    and Windows (Win32, WinCE, WinRT)
     are supported out of the box.  Easy to port to other systems.
 <li>Sources are in the <a href="copyright.html">public domain</a>.
     Use for any purpose.</li>
-<li>Comes with a standalone <a href="sqlite.html">command-line interface</a>
+<li>Comes with a standalone <a href="cli.html">command-line interface</a>
     (CLI) client that can be used to administer SQLite databases.</li>
 </ul>
 </p>
@@ -162,19 +164,20 @@ a:visited { color: #734559 }
 <h2>Suggested Uses For SQLite:</h2>
 
 <p><ul>
-<li><p><b>Application File Format.</b>
-Rather than using fopen() to write XML or some proprietary format into
-disk files used by your application, use an SQLite database instead.
-You'll avoid having to write and troubleshoot a parser, your data
-will be more easily accessible and cross-platform, and your updates
-will be transactional.</p></li>
-
-<li><p><b>Database For Gadgets.</b>
+<li><p><b>Database For The Internet Of Things.</b>
 SQLite is popular choice for the database engine in cellphones,
 PDAs, MP3 players, set-top boxes, and other electronic gadgets.
 SQLite has a small code footprint, makes efficient use of memory,
 disk space, and disk bandwidth, is highly reliable, and requires
 no maintenance from a Database Administrator.</p></li>
+
+<li><p><b>Application File Format.</b>
+Rather than using fopen() to write XML, JSON, CSV,
+or some proprietary format into
+disk files used by your application, use an SQLite database.
+You'll avoid having to write and troubleshoot a parser, your data
+will be more easily accessible and cross-platform, and your updates
+will be transactional.  (<a href="appfileformat.html">more...</a>)</p></li>
 
 <li><p><b>Website Database.</b>
 Because it requires no configuration and stores information in ordinary
@@ -186,5 +189,8 @@ SQLite is often used as a surrogate for an enterprise RDBMS for
 demonstration purposes or for testing.  SQLite is fast and requires
 no setup, which takes a lot of the hassle out of testing and which
 makes demos perky and easy to launch.</p></li>
+
+<li><p><a href="./whentouse.html">More suggestions...</a></p></li>
 </ul>
+<p align="center"><small><i>This page last modified on  <a href="https://sqlite.org/docsrc/honeypot" id="mtimelink"  data-href="https://sqlite.org/docsrc/finfo/pages/features.in?m=4569e5ca2737be66a">2022-02-21 19:15:54</a> UTC </small></i></p>
 

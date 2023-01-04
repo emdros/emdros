@@ -1,122 +1,127 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="../sqlite.css" rel="stylesheet">
 <title>Online Backup API.</title>
-<style type="text/css">
-body {
-    margin: auto;
-    font-family: Verdana, sans-serif;
-    padding: 8px 1%;
-}
-
-a { color: #044a64 }
-a:visited { color: #734559 }
-
-.logo { position:absolute; margin:3px; }
-.tagline {
-  float:right;
-  text-align:right;
-  font-style:italic;
-  width:300px;
-  margin:12px;
-  margin-top:58px;
-}
-
-.menubar {
-  clear: both;
-  border-radius: 8px;
-  background: #044a64;
-  padding: 0px;
-  margin: 0px;
-  cell-spacing: 0px;
-}    
-.toolbar {
-  text-align: center;
-  line-height: 1.6em;
-  margin: 0;
-  padding: 0px 8px;
-}
-.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
-.toolbar a:visited { color: white; }
-.toolbar a:hover { color: #044a64; background: white; }
-
-.content    { margin: 5%; }
-.content dt { font-weight:bold; }
-.content dd { margin-bottom: 25px; margin-left:20%; }
-.content ul { padding:0px; padding-left: 15px; margin:0px; }
-
-/* Things for "fancyformat" documents start here. */
-.fancy img+p {font-style:italic}
-.fancy .codeblock i { color: darkblue; }
-.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
-.fancy h2 { margin-left: 10px }
-.fancy h3 { margin-left: 20px }
-.fancy h4 { margin-left: 30px }
-.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
-.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
-.fancy #toc a        { color: darkblue ; text-decoration: none }
-.fancy .todo         { color: #AA3333 ; font-style : italic }
-.fancy .todo:before  { content: 'TODO:' }
-.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
-.fancy img { display:block; }
-.fancy :link:hover, .fancy :visited:hover { background: wheat }
-.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
-.fancy li p { margin: 1em 0 }
-/* End of "fancyformat" specific rules. */
-
-</style>
-  
+<!-- path=../ -->
 </head>
 <body>
-<div><!-- container div to satisfy validator -->
-
+<div class=nosearch>
 <a href="../index.html">
-<img class="logo" src="../images/sqlite370_banner.gif" alt="SQLite Logo"
- border="0"></a>
-<div><!-- IE hack to prevent disappearing logo--></div>
-<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
-
-<table width=100% class="menubar"><tr>
-  <td width=100%>
-  <div class="toolbar">
-    <a href="../about.html">About</a>
-    <a href="../sitemap.html">Sitemap</a>
-    <a href="../docs.html">Documentation</a>
-    <a href="../download.html">Download</a>
-    <a href="../copyright.html">License</a>
-    <a href="../news.html">News</a>
-    <a href="../support.html">Support</a>
-  </div>
+<img class="logo" src="../images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="../index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='../about.html'>About</a>
+<li class='desktoponly'><a href="../docs.html">Documentation</a>
+<li class='desktoponly'><a href="../download.html">Download</a>
+<li class='wideonly'><a href='../copyright.html'>License</a>
+<li class='desktoponly'><a href="../support.html">Support</a>
+<li class='desktoponly'><a href="../prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='../about.html'>About</a>
+<li><a href='../docs.html'>Documentation</a>
+<li><a href='../download.html'>Download</a>
+<li><a href='../support.html'>Support</a>
+<li><a href='../prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="../search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
 <script>
-  gMsg = "Search SQLite Docs..."
-  function entersearch() {
-    var q = document.getElementById("q");
-    if( q.value == gMsg ) { q.value = "" }
-    q.style.color = "black"
-    q.style.fontStyle = "normal"
-  }
-  function leavesearch() {
-    var q = document.getElementById("q");
-    if( q.value == "" ) { 
-      q.value = gMsg
-      q.style.color = "#044a64"
-      q.style.fontStyle = "italic"
-    }
-  }
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
 </script>
-<td>
-    <div style="padding:0 1em 0px 0;white-space:nowrap">
-    <form name=f method="GET" action="http://www.sqlite.org/search">
-      <input id=q name=q type=text
-       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
-      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
-    </form>
-    </div>
-  </table>
-
-<div class=startsearch></div>
-  
-<a href="intro.html"><h2>SQLite C Interface</h2></a><h2>Online Backup API.</h2><blockquote><pre>sqlite3_backup *sqlite3_backup_init(
+<!-- keywords: sqlite3_backup_finish sqlite3_backup_init sqlite3_backup_pagecount sqlite3_backup_remaining sqlite3_backup_step -->
+<div class=nosearch>
+<a href="intro.html"><h2>SQLite C Interface</h2></a>
+<h2>Online Backup API.</h2>
+</div>
+<blockquote><pre>
+sqlite3_backup *sqlite3_backup_init(
   sqlite3 *pDest,                        /* Destination database handle */
   const char *zDestName,                 /* Destination database name */
   sqlite3 *pSource,                      /* Source database handle */
@@ -126,7 +131,8 @@ int sqlite3_backup_step(sqlite3_backup *p, int nPage);
 int sqlite3_backup_finish(sqlite3_backup *p);
 int sqlite3_backup_remaining(sqlite3_backup *p);
 int sqlite3_backup_pagecount(sqlite3_backup *p);
-</pre></blockquote><p>
+</pre></blockquote>
+<p>
 The backup API copies the content of one database into another.
 It is useful either for creating backups of databases or
 for copying in-memory databases to or from persistent files.</p>
@@ -169,6 +175,10 @@ The source and destination <a href="../c3ref/sqlite3.html">database connections<
 must be different or else sqlite3_backup_init(D,N,S,M) will fail with
 an error.</p>
 
+<p>A call to sqlite3_backup_init() will fail, returning NULL, if
+there is already a read or read-write transaction open on the
+destination database.</p>
+
 <p>If an error occurs within sqlite3_backup_init(D,N,S,M), then NULL is
 returned and an error code and error message are stored in the
 destination <a href="../c3ref/sqlite3.html">database connection</a> D.
@@ -188,16 +198,16 @@ operation.</p>
 the source and destination databases specified by <a href="../c3ref/backup.html">sqlite3_backup</a> object B.
 If N is negative, all remaining source pages are copied.
 If sqlite3_backup_step(B,N) successfully copies N pages and there
-are still more pages to be copied, then the function returns <a href="../c3ref/c_abort.html">SQLITE_OK</a>.
+are still more pages to be copied, then the function returns <a href="../rescode.html#ok">SQLITE_OK</a>.
 If sqlite3_backup_step(B,N) successfully finishes copying all pages
-from source to destination, then it returns <a href="../c3ref/c_abort.html">SQLITE_DONE</a>.
+from source to destination, then it returns <a href="../rescode.html#done">SQLITE_DONE</a>.
 If an error occurs while running sqlite3_backup_step(B,N),
-then an <a href="../c3ref/c_abort.html">error code</a> is returned. As well as <a href="../c3ref/c_abort.html">SQLITE_OK</a> and
-<a href="../c3ref/c_abort.html">SQLITE_DONE</a>, a call to sqlite3_backup_step() may return <a href="../c3ref/c_abort.html">SQLITE_READONLY</a>,
-<a href="../c3ref/c_abort.html">SQLITE_NOMEM</a>, <a href="../c3ref/c_abort.html">SQLITE_BUSY</a>, <a href="../c3ref/c_abort.html">SQLITE_LOCKED</a>, or an
-<a href="../c3ref/c_abort_rollback.html">SQLITE_IOERR_XXX</a> extended error code.</p>
+then an <a href="../rescode.html">error code</a> is returned. As well as <a href="../rescode.html#ok">SQLITE_OK</a> and
+<a href="../rescode.html#done">SQLITE_DONE</a>, a call to sqlite3_backup_step() may return <a href="../rescode.html#readonly">SQLITE_READONLY</a>,
+<a href="../rescode.html#nomem">SQLITE_NOMEM</a>, <a href="../rescode.html#busy">SQLITE_BUSY</a>, <a href="../rescode.html#locked">SQLITE_LOCKED</a>, or an
+<a href="../rescode.html#ioerr_access">SQLITE_IOERR_XXX</a> extended error code.</p>
 
-<p>The sqlite3_backup_step() might return <a href="../c3ref/c_abort.html">SQLITE_READONLY</a> if
+<p>The sqlite3_backup_step() might return <a href="../rescode.html#readonly">SQLITE_READONLY</a> if
 <ol>
 <li> the destination database was opened read-only, or
 <li> the destination database is using write-ahead-log journaling
@@ -210,14 +220,14 @@ destination and source page sizes differ.
 the <a href="../c3ref/busy_handler.html">busy-handler function</a>
 is invoked (if one is specified). If the
 busy-handler returns non-zero before the lock is available, then
-<a href="../c3ref/c_abort.html">SQLITE_BUSY</a> is returned to the caller. In this case the call to
+<a href="../rescode.html#busy">SQLITE_BUSY</a> is returned to the caller. In this case the call to
 sqlite3_backup_step() can be retried later. If the source
 <a href="../c3ref/sqlite3.html">database connection</a>
 is being used to write to the source database when sqlite3_backup_step()
-is called, then <a href="../c3ref/c_abort.html">SQLITE_LOCKED</a> is returned immediately. Again, in this
+is called, then <a href="../rescode.html#locked">SQLITE_LOCKED</a> is returned immediately. Again, in this
 case the call to sqlite3_backup_step() can be retried later on. If
-<a href="../c3ref/c_abort_rollback.html">SQLITE_IOERR_XXX</a>, <a href="../c3ref/c_abort.html">SQLITE_NOMEM</a>, or
-<a href="../c3ref/c_abort.html">SQLITE_READONLY</a> is returned, then
+<a href="../rescode.html#ioerr_access">SQLITE_IOERR_XXX</a>, <a href="../rescode.html#nomem">SQLITE_NOMEM</a>, or
+<a href="../rescode.html#readonly">SQLITE_READONLY</a> is returned, then
 there is no point in retrying the call to sqlite3_backup_step(). These
 errors are considered fatal.  The application must accept
 that the backup operation has failed and pass the backup operation handle
@@ -226,7 +236,7 @@ to the sqlite3_backup_finish() to release associated resources.</p>
 <p>The first call to sqlite3_backup_step() obtains an exclusive lock
 on the destination file. The exclusive lock is not released until either
 sqlite3_backup_finish() is called or the backup operation is complete
-and sqlite3_backup_step() returns <a href="../c3ref/c_abort.html">SQLITE_DONE</a>.  Every call to
+and sqlite3_backup_step() returns <a href="../rescode.html#done">SQLITE_DONE</a>.  Every call to
 sqlite3_backup_step() obtains a <a href="../lockingv3.html#shared_lock">shared lock</a> on the source database that
 lasts for the duration of the sqlite3_backup_step() call.
 Because the source database is not locked between calls to
@@ -242,24 +252,24 @@ updated at the same time.</p>
 <p><a name="sqlite3backupfinish"></a>
  <b>sqlite3_backup_finish()</b></p>
 
-<p>When sqlite3_backup_step() has returned <a href="../c3ref/c_abort.html">SQLITE_DONE</a>, or when the
+<p>When sqlite3_backup_step() has returned <a href="../rescode.html#done">SQLITE_DONE</a>, or when the
 application wishes to abandon the backup operation, the application
 should destroy the <a href="../c3ref/backup.html">sqlite3_backup</a> by passing it to sqlite3_backup_finish().
 The sqlite3_backup_finish() interfaces releases all
 resources associated with the <a href="../c3ref/backup.html">sqlite3_backup</a> object.
-If sqlite3_backup_step() has not yet returned <a href="../c3ref/c_abort.html">SQLITE_DONE</a>, then any
+If sqlite3_backup_step() has not yet returned <a href="../rescode.html#done">SQLITE_DONE</a>, then any
 active write-transaction on the destination database is rolled back.
 The <a href="../c3ref/backup.html">sqlite3_backup</a> object is invalid
 and may not be used following a call to sqlite3_backup_finish().</p>
 
-<p>The value returned by sqlite3_backup_finish is <a href="../c3ref/c_abort.html">SQLITE_OK</a> if no
+<p>The value returned by sqlite3_backup_finish is <a href="../rescode.html#ok">SQLITE_OK</a> if no
 sqlite3_backup_step() errors occurred, regardless or whether or not
 sqlite3_backup_step() completed.
 If an out-of-memory condition or IO error occurred during any prior
 sqlite3_backup_step() call on the same <a href="../c3ref/backup.html">sqlite3_backup</a> object, then
-sqlite3_backup_finish() returns the corresponding <a href="../c3ref/c_abort.html">error code</a>.</p>
+sqlite3_backup_finish() returns the corresponding <a href="../rescode.html">error code</a>.</p>
 
-<p>A return of <a href="../c3ref/c_abort.html">SQLITE_BUSY</a> or <a href="../c3ref/c_abort.html">SQLITE_LOCKED</a> from sqlite3_backup_step()
+<p>A return of <a href="../rescode.html#busy">SQLITE_BUSY</a> or <a href="../rescode.html#locked">SQLITE_LOCKED</a> from sqlite3_backup_step()
 is not a permanent error and does not affect the return value of
 sqlite3_backup_finish().</p>
 
@@ -268,17 +278,17 @@ sqlite3_backup_finish().</p>
 
 <b>sqlite3_backup_remaining() and sqlite3_backup_pagecount()</b></p>
 
-<p>Each call to sqlite3_backup_step() sets two values inside
-the <a href="../c3ref/backup.html">sqlite3_backup</a> object: the number of pages still to be backed
-up and the total number of pages in the source database file.
-The sqlite3_backup_remaining() and sqlite3_backup_pagecount() interfaces
-retrieve these two values, respectively.</p>
-
-<p>The values returned by these functions are only updated by
-sqlite3_backup_step(). If the source database is modified during a backup
-operation, then the values are not updated to account for any extra
-pages that need to be updated or the size of the source database file
-changing.</p>
+<p>The sqlite3_backup_remaining() routine returns the number of pages still
+to be backed up at the conclusion of the most recent sqlite3_backup_step().
+The sqlite3_backup_pagecount() routine returns the total number of pages
+in the source database at the conclusion of the most recent
+sqlite3_backup_step().
+The values returned by these functions are only updated by
+sqlite3_backup_step(). If the source database is modified in a way that
+changes the size of the source database or the number of pages remaining,
+those changes are not reflected in the output of sqlite3_backup_pagecount()
+and sqlite3_backup_remaining() until after the next
+sqlite3_backup_step().</p>
 
 <p><b>Concurrent Usage of Database Handles</b></p>
 
@@ -295,7 +305,7 @@ sqlite3_backup_finish().  SQLite does not currently check to see
 if the application incorrectly accesses the destination <a href="../c3ref/sqlite3.html">database connection</a>
 and so no error code is reported, but the operations may malfunction
 nevertheless.  Use of the destination database connection while a
-backup is in progress might also also cause a mutex deadlock.</p>
+backup is in progress might also cause a mutex deadlock.</p>
 
 <p>If running in <a href="../sharedcache.html">shared cache mode</a>, the application must
 guarantee that the shared cache used by the destination database
@@ -314,3 +324,4 @@ possible that they return invalid values.
   <a href="objlist.html">Objects</a>,
   <a href="constlist.html">Constants</a>, and
   <a href="funclist.html">Functions</a>.</p>
+

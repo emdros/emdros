@@ -1,172 +1,186 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="../sqlite.css" rel="stylesheet">
 <title>Count The Number Of Rows Modified</title>
-<style type="text/css">
-body {
-    margin: auto;
-    font-family: Verdana, sans-serif;
-    padding: 8px 1%;
-}
-
-a { color: #044a64 }
-a:visited { color: #734559 }
-
-.logo { position:absolute; margin:3px; }
-.tagline {
-  float:right;
-  text-align:right;
-  font-style:italic;
-  width:300px;
-  margin:12px;
-  margin-top:58px;
-}
-
-.menubar {
-  clear: both;
-  border-radius: 8px;
-  background: #044a64;
-  padding: 0px;
-  margin: 0px;
-  cell-spacing: 0px;
-}    
-.toolbar {
-  text-align: center;
-  line-height: 1.6em;
-  margin: 0;
-  padding: 0px 8px;
-}
-.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
-.toolbar a:visited { color: white; }
-.toolbar a:hover { color: #044a64; background: white; }
-
-.content    { margin: 5%; }
-.content dt { font-weight:bold; }
-.content dd { margin-bottom: 25px; margin-left:20%; }
-.content ul { padding:0px; padding-left: 15px; margin:0px; }
-
-/* Things for "fancyformat" documents start here. */
-.fancy img+p {font-style:italic}
-.fancy .codeblock i { color: darkblue; }
-.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
-.fancy h2 { margin-left: 10px }
-.fancy h3 { margin-left: 20px }
-.fancy h4 { margin-left: 30px }
-.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
-.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
-.fancy #toc a        { color: darkblue ; text-decoration: none }
-.fancy .todo         { color: #AA3333 ; font-style : italic }
-.fancy .todo:before  { content: 'TODO:' }
-.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
-.fancy img { display:block; }
-.fancy :link:hover, .fancy :visited:hover { background: wheat }
-.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
-.fancy li p { margin: 1em 0 }
-/* End of "fancyformat" specific rules. */
-
-</style>
-  
+<!-- path=../ -->
 </head>
 <body>
-<div><!-- container div to satisfy validator -->
-
+<div class=nosearch>
 <a href="../index.html">
-<img class="logo" src="../images/sqlite370_banner.gif" alt="SQLite Logo"
- border="0"></a>
-<div><!-- IE hack to prevent disappearing logo--></div>
-<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
-
-<table width=100% class="menubar"><tr>
-  <td width=100%>
-  <div class="toolbar">
-    <a href="../about.html">About</a>
-    <a href="../sitemap.html">Sitemap</a>
-    <a href="../docs.html">Documentation</a>
-    <a href="../download.html">Download</a>
-    <a href="../copyright.html">License</a>
-    <a href="../news.html">News</a>
-    <a href="../support.html">Support</a>
-  </div>
+<img class="logo" src="../images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="../index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='../about.html'>About</a>
+<li class='desktoponly'><a href="../docs.html">Documentation</a>
+<li class='desktoponly'><a href="../download.html">Download</a>
+<li class='wideonly'><a href='../copyright.html'>License</a>
+<li class='desktoponly'><a href="../support.html">Support</a>
+<li class='desktoponly'><a href="../prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='../about.html'>About</a>
+<li><a href='../docs.html'>Documentation</a>
+<li><a href='../download.html'>Download</a>
+<li><a href='../support.html'>Support</a>
+<li><a href='../prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="../search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
 <script>
-  gMsg = "Search SQLite Docs..."
-  function entersearch() {
-    var q = document.getElementById("q");
-    if( q.value == gMsg ) { q.value = "" }
-    q.style.color = "black"
-    q.style.fontStyle = "normal"
-  }
-  function leavesearch() {
-    var q = document.getElementById("q");
-    if( q.value == "" ) { 
-      q.value = gMsg
-      q.style.color = "#044a64"
-      q.style.fontStyle = "italic"
-    }
-  }
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
 </script>
-<td>
-    <div style="padding:0 1em 0px 0;white-space:nowrap">
-    <form name=f method="GET" action="http://www.sqlite.org/search">
-      <input id=q name=q type=text
-       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
-      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
-    </form>
-    </div>
-  </table>
+<!-- keywords: sqlite3_changes sqlite3_changes64 -->
+<div class=nosearch>
+<a href="intro.html"><h2>SQLite C Interface</h2></a>
+<h2>Count The Number Of Rows Modified</h2>
+</div>
+<blockquote><pre>
+int sqlite3_changes(sqlite3*);
+sqlite3_int64 sqlite3_changes64(sqlite3*);
+</pre></blockquote>
+<p>
+These functions return the number of rows modified, inserted or
+deleted by the most recently completed INSERT, UPDATE or DELETE
+statement on the database connection specified by the only parameter.
+The two functions are identical except for the type of the return value
+and that if the number of rows modified by the most recent INSERT, UPDATE
+or DELETE is greater than the maximum value supported by type "int", then
+the return value of sqlite3_changes() is undefined. Executing any other
+type of SQL statement does not modify the value returned by these functions.</p>
 
-<div class=startsearch></div>
-  
-<a href="intro.html"><h2>SQLite C Interface</h2></a><h2>Count The Number Of Rows Modified</h2><blockquote><pre>int sqlite3_changes(sqlite3*);
-</pre></blockquote><p>
-This function returns the number of database rows that were changed
-or inserted or deleted by the most recently completed SQL statement
-on the <a href="../c3ref/sqlite3.html">database connection</a> specified by the first parameter.
-Only changes that are directly specified by the <a href="../lang_insert.html">INSERT</a>, <a href="../lang_update.html">UPDATE</a>,
-or <a href="../lang_delete.html">DELETE</a> statement are counted.  Auxiliary changes caused by
-triggers or <a href="../foreignkeys.html#fk_actions">foreign key actions</a> are not counted. Use the
-<a href="../c3ref/total_changes.html">sqlite3_total_changes()</a> function to find the total number of changes
-including changes caused by triggers and foreign key actions.</p>
+<p>Only changes made directly by the INSERT, UPDATE or DELETE statement are
+considered - auxiliary changes caused by <a href="../lang_createtrigger.html">triggers</a>,
+<a href="../foreignkeys.html#fk_actions">foreign key actions</a> or <a href="../lang_replace.html">REPLACE</a> constraint resolution are not counted.</p>
 
-<p>Changes to a view that are simulated by an <a href="../lang_createtrigger.html#instead_of_trigger">INSTEAD OF trigger</a>
-are not counted.  Only real table changes are counted.</p>
+<p>Changes to a view that are intercepted by
+<a href="../lang_createtrigger.html#instead_of_trigger">INSTEAD OF triggers</a> are not counted. The value
+returned by sqlite3_changes() immediately after an INSERT, UPDATE or
+DELETE statement run on a view is always zero. Only changes made to real
+tables are counted.</p>
 
-<p>A "row change" is a change to a single row of a single table
-caused by an INSERT, DELETE, or UPDATE statement.  Rows that
-are changed as side effects of <a href="../lang_replace.html">REPLACE</a> constraint resolution,
-rollback, ABORT processing, <a href="../lang_droptable.html">DROP TABLE</a>, or by any other
-mechanisms do not count as direct row changes.</p>
+<p>Things are more complicated if the sqlite3_changes() function is
+executed while a trigger program is running. This may happen if the
+program uses the <a href="../lang_corefunc.html#changes">changes() SQL function</a>, or if some other callback
+function invokes sqlite3_changes() directly. Essentially:</p>
 
-<p>A "trigger context" is a scope of execution that begins and
-ends with the script of a <a href="../lang_createtrigger.html">trigger</a>.
-Most SQL statements are
-evaluated outside of any trigger.  This is the "top level"
-trigger context.  If a trigger fires from the top level, a
-new trigger context is entered for the duration of that one
-trigger.  Subtriggers create subcontexts for their duration.</p>
+<p><ul>
+<li> Before entering a trigger program the value returned by
+sqlite3_changes() function is saved. After the trigger program
+has finished, the original value is restored.</p>
 
-<p>Calling <a href="../c3ref/exec.html">sqlite3_exec()</a> or <a href="../c3ref/step.html">sqlite3_step()</a> recursively does
-not create a new trigger context.</p>
+<p><li> Within a trigger program each INSERT, UPDATE and DELETE
+statement sets the value returned by sqlite3_changes()
+upon completion as normal. Of course, this value will not include
+any changes performed by sub-triggers, as the sqlite3_changes()
+value will be saved and restored after each sub-trigger has run.
+</ul></p>
 
-<p>This function returns the number of direct row changes in the
-most recent INSERT, UPDATE, or DELETE statement within the same
-trigger context.</p>
-
-<p>Thus, when called from the top level, this function returns the
-number of changes in the most recent INSERT, UPDATE, or DELETE
-that also occurred at the top level.  Within the body of a trigger,
-the sqlite3_changes() interface can be called to find the number of
-changes in the most recently completed INSERT, UPDATE, or DELETE
-statement within the body of the same trigger.
-However, the number returned does not include changes
-caused by subtriggers since those have their own context.</p>
-
-<p>See also the <a href="../c3ref/total_changes.html">sqlite3_total_changes()</a> interface, the
-<a href="../pragma.html#pragma_count_changes">count_changes pragma</a>, and the <a href="../lang_corefunc.html#changes">changes() SQL function</a>.</p>
+<p>This means that if the changes() SQL function (or similar) is used
+by the first INSERT, UPDATE or DELETE statement within a trigger, it
+returns the value as set when the calling statement began executing.
+If it is used by the second or subsequent such statement within a trigger
+program, the value returned reflects the number of rows modified by the
+previous INSERT, UPDATE or DELETE statement within the same trigger.</p>
 
 <p>If a separate thread makes changes on the same database connection
 while <a href="../c3ref/changes.html">sqlite3_changes()</a> is running then the value returned
-is unpredictable and not meaningful.
+is unpredictable and not meaningful.</p>
+
+<p>See also:
+<ul>
+<li> the <a href="../c3ref/total_changes.html">sqlite3_total_changes()</a> interface
+<li> the <a href="../pragma.html#pragma_count_changes">count_changes pragma</a>
+<li> the <a href="../lang_corefunc.html#changes">changes() SQL function</a>
+<li> the <a href="../pragma.html#pragma_data_version">data_version pragma</a>
+</ul>
 </p><p>See also lists of
   <a href="objlist.html">Objects</a>,
   <a href="constlist.html">Constants</a>, and
   <a href="funclist.html">Functions</a>.</p>
+

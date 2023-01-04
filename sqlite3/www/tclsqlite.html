@@ -1,129 +1,128 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="sqlite.css" rel="stylesheet">
 <title>The Tcl interface to the SQLite library</title>
-<style type="text/css">
-body {
-    margin: auto;
-    font-family: Verdana, sans-serif;
-    padding: 8px 1%;
-}
-
-a { color: #044a64 }
-a:visited { color: #734559 }
-
-.logo { position:absolute; margin:3px; }
-.tagline {
-  float:right;
-  text-align:right;
-  font-style:italic;
-  width:300px;
-  margin:12px;
-  margin-top:58px;
-}
-
-.menubar {
-  clear: both;
-  border-radius: 8px;
-  background: #044a64;
-  padding: 0px;
-  margin: 0px;
-  cell-spacing: 0px;
-}    
-.toolbar {
-  text-align: center;
-  line-height: 1.6em;
-  margin: 0;
-  padding: 0px 8px;
-}
-.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
-.toolbar a:visited { color: white; }
-.toolbar a:hover { color: #044a64; background: white; }
-
-.content    { margin: 5%; }
-.content dt { font-weight:bold; }
-.content dd { margin-bottom: 25px; margin-left:20%; }
-.content ul { padding:0px; padding-left: 15px; margin:0px; }
-
-/* Things for "fancyformat" documents start here. */
-.fancy img+p {font-style:italic}
-.fancy .codeblock i { color: darkblue; }
-.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
-.fancy h2 { margin-left: 10px }
-.fancy h3 { margin-left: 20px }
-.fancy h4 { margin-left: 30px }
-.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
-.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
-.fancy #toc a        { color: darkblue ; text-decoration: none }
-.fancy .todo         { color: #AA3333 ; font-style : italic }
-.fancy .todo:before  { content: 'TODO:' }
-.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
-.fancy img { display:block; }
-.fancy :link:hover, .fancy :visited:hover { background: wheat }
-.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
-.fancy li p { margin: 1em 0 }
-/* End of "fancyformat" specific rules. */
-
-</style>
-  
+<!-- path= -->
 </head>
 <body>
-<div><!-- container div to satisfy validator -->
-
+<div class=nosearch>
 <a href="index.html">
-<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite Logo"
- border="0"></a>
-<div><!-- IE hack to prevent disappearing logo--></div>
-<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
-
-<table width=100% class="menubar"><tr>
-  <td width=100%>
-  <div class="toolbar">
-    <a href="about.html">About</a>
-    <a href="sitemap.html">Sitemap</a>
-    <a href="docs.html">Documentation</a>
-    <a href="download.html">Download</a>
-    <a href="copyright.html">License</a>
-    <a href="news.html">News</a>
-    <a href="support.html">Support</a>
-  </div>
+<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='about.html'>About</a>
+<li class='desktoponly'><a href="docs.html">Documentation</a>
+<li class='desktoponly'><a href="download.html">Download</a>
+<li class='wideonly'><a href='copyright.html'>License</a>
+<li class='desktoponly'><a href="support.html">Support</a>
+<li class='desktoponly'><a href="prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='about.html'>About</a>
+<li><a href='docs.html'>Documentation</a>
+<li><a href='download.html'>Download</a>
+<li><a href='support.html'>Support</a>
+<li><a href='prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
 <script>
-  gMsg = "Search SQLite Docs..."
-  function entersearch() {
-    var q = document.getElementById("q");
-    if( q.value == gMsg ) { q.value = "" }
-    q.style.color = "black"
-    q.style.fontStyle = "normal"
-  }
-  function leavesearch() {
-    var q = document.getElementById("q");
-    if( q.value == "" ) { 
-      q.value = gMsg
-      q.style.color = "#044a64"
-      q.style.fontStyle = "italic"
-    }
-  }
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
 </script>
-<td>
-    <div style="padding:0 1em 0px 0;white-space:nowrap">
-    <form name=f method="GET" action="http://www.sqlite.org/search">
-      <input id=q name=q type=text
-       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
-      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
-    </form>
-    </div>
-  </table>
-
-<div class=startsearch></div>
-  
 
 
 
 <h1 align=center>The Tcl interface to the SQLite library</h1>
 
 <p>The SQLite library is designed to be very easy to use from
-a <a href="http://www.tcl.tk">Tcl or Tcl/Tk</a> script.  SQLite
-began as a <a href="http://www.tcl.tk/doc/tea/">Tcl extension</a>
+a <a href="http://www.tcl-lang.org">Tcl or Tcl/Tk</a> script.  SQLite
+began as a <a href="http://www.tcl-lang.org/doc/tea/">Tcl extension</a>
 and the primary <a href="testing.html">test suite</a> for SQLite is written in TCL.  SQLite
 can be used with any programming language, but its connections to
 TCL run deep.</p>
@@ -139,42 +138,162 @@ Because there is only this
 one command, the interface is not placed in a separate
 namespace.</p>
 
-<p>The <b>sqlite3</b> command is used as follows:</p>
+<p>The <b>sqlite3</b> command is mostly used as follows
+to open or create a database:</p>
 
 <blockquote>
-<b>sqlite3</b>&nbsp;&nbsp;<i>dbcmd&nbsp;&nbsp;database-name</i>
+<b>sqlite3</b>&nbsp;&nbsp;<i>dbcmd&nbsp;&nbsp;?database-name?&nbsp;&nbsp;?options?</i>
 </blockquote>
 
-<p>
-The <b>sqlite3</b> command opens the database named in the second
-argument.  If the database does not already exist, it is
-automatically created.
-The <b>sqlite3</b> command also creates a new Tcl
-command to control the database.  The name of the new Tcl command
-is given by the first argument.  This approach is similar to the
-way widgets are created in Tk.
+<p>To get information only, the <b>sqlite3</b> command may be given exactly
+one argument, either "-version", "-sourceid" or "-has-codec", which will
+return the specified datum with no other effect.
+</p>
+
+<p>With other arguments, the <b>sqlite3</b> command opens the database
+named in the second non-option argument, or named "" if there is no such.
+If the open succeeds, a new Tcl command named by the first argument is created
+and "" is returned.
+(This approach is similar to the way widgets are created in Tk.)
+If the open fails, an error is raised without creating a Tcl command
+and an error message string is returned.
+</p>
+<p>If the database does not already exist, the default behavior
+is for it to be created automatically (though this can be changed by
+using the "<b>-create <i>false</i></b>" option).
 </p>
 
 <p>
-The name of the database is just the name of a disk file in which
+The name of the database is usually just the name of a disk file in which
 the database is stored.  If the name of the database is 
-the special name "<a href="inmemorydb.html">:memory:</a>" then a new database is created
+the special name "<a href="inmemorydb.html">:memory:</a>", then a new database is created
 in memory.  If the name of the database is an empty string, then
 the database is created in an empty file that is automatically deleted
-when the database connection closes.
+when the database connection closes.  <a href="uri.html">URI filenames</a> can be used if
+the "<b>-uri yes</b>" option is supplied on the <b>sqlite3</b> command.
 </p>
+
+<p>
+Options understood by the <b>sqlite3</b> command include:
+</p>
+
+<blockquote>
+<dl>
+
+<dt><b>-create</b> <i>BOOLEAN</i></dt>
+<dd><p>
+If true, then a new database is created if one does not already exist.
+If false, then an attempt to open a database file that does not previously
+exist raises an error.  The default behavior is "true".
+</p></dd>
+
+<dt><b>-nomutex</b> <i>BOOLEAN</i></dt>
+<dd><p>
+If true, then all mutexes for the database connection are disabled.
+This provides a small performance boost in single-threaded applications.
+</p></dd>
+
+<dt><b>-readonly</b> <i>BOOLEAN</i></dt>
+<dd><p>
+If true, then open the database file read-only.  If false, then the
+database is opened for both reading and writing if filesystem permissions
+allow, or for reading only if filesystem write permission is denied
+by the operating system.  The default setting is "false".  Note that
+if the previous process to have the database did not exit cleanly
+and left behind a <a href="fileformat2.html#hotjrnl">hot journal</a>, then the write permission is required
+to recover the database after opening, and the database cannot be
+opened read-only.
+</p></dd>
+
+<dt><b>-uri</b> <i>BOOLEAN</i></dt>
+<dd><p>
+If true, then interpret the filename argument as a <a href="uri.html">URI filename</a>.  If
+false, then the argument is a literal filename.  The default value is
+"false".
+</p></dd>
+
+<dt><b>-vfs</b> <i>VFSNAME</i></dt>
+<dd><p>
+Use an alternative <a href="vfs.html">VFS</a> named by the argument.
+</p></dd>
+
+<dt><b>-fullmutex</b> <i>BOOLEAN</i></dt>
+<dd><p>
+If true, multiple threads can safely attempt to use the database.
+If false, such attempts are unsafe. The default value depends upon
+how the extension is built.
+</p></dd>
+
+<dt><b>-nofollow</b> <i>BOOLEAN</i></dt>
+<dd><p>
+If true, and the database name refers to a symbolic link,
+it will not be followed to open the true database file.
+If false, symbolic links will be followed.
+The default is "false".
+</p></dd>
+
+</dl>
+</blockquote>
+
+
 
 <p>
 Once an SQLite database is open, it can be controlled using 
-methods of the <i>dbcmd</i>.  There are currently 22 methods
+methods of the <i>dbcmd</i>.
+There are currently 40 methods
 defined.</p>
 
-<p>
-<ul>
 
-<li><a href="#authorizer">authorizer</a></li><li><a href="#backup">backup</a></li><li><a href="#busy">busy</a></li><li><a href="#cache">cache</a></li><li><a href="#changes">changes</a></li><li><a href="#close">close</a></li><li><a href="#collate">collate</a></li><li><a href="#collation_needed">collation_needed</a></li><li><a href="#commit_hook">commit_hook</a></li><li><a href="#complete">complete</a></li><li><a href="#copy">copy</a></li><li><a href="#enable_load_extension">enable_load_extension</a></li><li><a href="#errorcode">errorcode</a></li><li><a href="#eval">eval</a></li><li><a href="#exists">exists</a></li><li><a href="#function">function</a></li><li><a href="#incrblob">incrblob</a></li><li><a href="#last_insert_rowid">last_insert_rowid</a></li><li><a href="#nullvalue">nullvalue</a></li><li><a href="#onecolumn">onecolumn</a></li><li><a href="#profile">profile</a></li><li><a href="#progress">progress</a></li><li><a href="#restore">restore</a></li><li><a href="#rollback_hook">rollback_hook</a></li><li><a href="#status">status</a></li><li><a href="#timeout">timeout</a></li><li><a href="#total_changes">total_changes</a></li><li><a href="#trace">trace</a></li><li><a href="#transaction">transaction</a></li><li><a href="#unlock_notify">unlock_notify</a></li><li><a href="#update_hook">update_hook</a></li><li><a href="#version">version</a></li>
-</ul>
-</p>
+<table border=0 cellpadding=10 width='100%'>
+<tr><td valign='top'><ul>
+<li><a href="#authorizer">authorizer</a></li>
+<li><a href="#backup">backup</a></li>
+<li><a href="#bind_fallback">bind_fallback</a></li>
+<li><a href="#busy">busy</a></li>
+<li><a href="#cache">cache</a></li>
+<li><a href="#changes">changes</a></li>
+<li><a href="#close">close</a></li>
+<li><a href="#collate">collate</a></li>
+<li><a href="#collation_needed">collation_needed</a></li>
+<li><a href="#commit_hook">commit_hook</a></li>
+<li><a href="#complete">complete</a></li>
+<li><a href="#config">config</a></li>
+<li><a href="#copy">copy</a></li>
+<li><a href="#deserialize">deserialize</a></li>
+</ul></td>
+<td valign='top'><ul>
+<li><a href="#enable_load_extension">enable_load_extension</a></li>
+<li><a href="#errorcode">errorcode</a></li>
+<li><a href="#eval">eval</a></li>
+<li><a href="#exists">exists</a></li>
+<li><a href="#function">function</a></li>
+<li><a href="#incrblob">incrblob</a></li>
+<li><a href="#interrupt">interrupt</a></li>
+<li><a href="#last_insert_rowid">last_insert_rowid</a></li>
+<li><a href="#nullvalue">nullvalue</a></li>
+<li><a href="#onecolumn">onecolumn</a></li>
+<li><a href="#preupdate">preupdate</a></li>
+<li><a href="#profile">profile</a></li>
+<li><a href="#progress">progress</a></li>
+<li><a href="#restore">restore</a></li>
+</ul></td>
+<td valign='top'><ul>
+<li><a href="#rollback_hook">rollback_hook</a></li>
+<li><a href="#serialize">serialize</a></li>
+<li><a href="#status">status</a></li>
+<li><a href="#timeout">timeout</a></li>
+<li><a href="#total_changes">total_changes</a></li>
+<li><a href="#trace">trace</a></li>
+<li><a href="#trace_v2">trace_v2</a></li>
+<li><a href="#transaction">transaction</a></li>
+<li><a href="#unlock_notify">unlock_notify</a></li>
+<li><a href="#update_hook">update_hook</a></li>
+<li><a href="#version">version</a></li>
+<li><a href="#wal_hook">wal_hook</a></li>
+
+</ul></td></tr>
+</table>
+
 
 <p>The use of each of these methods will be explained in the sequel, though
 not in the order shown above.</p>
@@ -188,8 +307,8 @@ to execute SQL on the database.  The syntax of the eval method looks
 like this:</p>
 
 <blockquote>
-<i>dbcmd</i>&nbsp;&nbsp;<b>eval</b>&nbsp;&nbsp;<i>sql</i>
-&nbsp;&nbsp;&nbsp;&nbsp;?<i>array-name&nbsp;</i>?&nbsp;?<i>script</i>?
+<i>dbcmd</i>&nbsp;&nbsp;<b>eval</b>&nbsp;&nbsp;?<i>options</i>?&nbsp;&nbsp;<i>sql</i>
+&nbsp;&nbsp;?<i>array-name</i>?&nbsp;&nbsp;?<i>script</i>?
 </blockquote>
 
 <p>
@@ -253,9 +372,19 @@ values(b) = howdy!</b>
 
 <p>
 For each column in a row of the result, the name of that column
-is used as an index in to array.  The value of the column is stored
-in the corresponding array entry.  The special array index * is
+is used as an index in to array and the value of the column is stored
+in the corresponding array entry.  (Caution:  If two or more columns
+in the result set of a query have the same name, then the last column
+with that name will overwrite prior values and earlier columns with the
+same name will be inaccessible.) The special array index * is
 used to store a list of column names in the order that they appear.
+</p>
+
+<p>
+Normally, NULL SQL results are stored in the array using the
+<a href="#nullvalue">nullvalue</a> setting.  However, if
+the <b>-withoutnulls</b> option is used, then NULL SQL values
+cause the corresponding array element to be unset instead.
 </p>
 
 <p>
@@ -305,7 +434,7 @@ If the $bigstring variable has both a string and a "bytearray" representation,
 then TCL inserts the value as a string.  If it has only a "bytearray"
 representation, then the value is inserted as a BLOB.  To force a
 value to be inserted as a BLOB even if it also has a text representation,
-us a "@" character to in place of the "$".  Like this:
+use a "@" character to in place of the "$".  Like this:
 </p>
 
 <blockquote><b>
@@ -323,12 +452,14 @@ db1 eval {INSERT INTO t1 VALUES(5,:bigstring)}
 </b></blockquote>
 
 <p>The use of ":" instead of "$" before the name of a variable can 
-sometimes be useful if the SQL text is enclosed in "..." instead of
-{...}.  When the SQL is contained within "..." then TCL will do
+sometimes be useful if the SQL text is enclosed in double-quotes "..."
+instead of curly-braces {...}.  
+When the SQL is contained within double-quotes "..." then TCL will do
 the substitution of $-variables, which can lead to SQL injection if
 extreme care is not used.  But TCL will never substitute a :-variable
-regardless of whether "..." or {...} are used to enclose the SQL, so
-the use of :-variables adds an extra measure of defense against SQL
+regardless of whether double-quotes "..." or curly-braces {...} are 
+used to enclose the SQL, so the use of :-variables adds an extra 
+measure of defense against SQL
 injection.
 </p>
 
@@ -386,7 +517,7 @@ The syntax looks like this:
 
 <blockquote>
 <i>dbcmd</i>&nbsp;&nbsp;<b>transaction</b>&nbsp;&nbsp;<i>?transaction-type?</i>
-&nbsp;&nbsp;<i>SCRIPT,</i>
+&nbsp;&nbsp;<i>script</i>
 </blockquote>
 
 
@@ -439,6 +570,44 @@ in order to know when the user has finished entering a line of SQL code.
 This is really just an interface to the 
 <a href="c3ref/complete.html"><b>sqlite3_complete()</b></a> C
 function.
+<a name="config"></a>
+<h3>The "config" method</h3>
+
+
+<p>
+The "config" method queries or changes certain configuration settings for
+the database connection using the <a href="c3ref/db_config.html">sqlite3_db_config()</a> interface.
+Run this method with no arguments to get a TCL list of available
+configuration settings and their current values:
+
+<blockquote>
+<i>dbcmd</i>&nbsp;&nbsp;<b>config</b>
+</blockquote>
+
+<p>The above will return something like this:
+
+<blockquote>
+defensive 0 dqs_ddl 1 dqs_dml 1 enable_fkey 0 enable_qpsg 0 enable_trigger 1 enable_view 1 fts3_tokenizer 1 legacy_alter_table 0 legacy_file_format 0 load_extension 0 no_ckpt_on_close 0 reset_database 0 trigger_eqp 0 trusted_schema 1 writable_schema 0
+</blockquote>
+
+<p>Add the name of an individual configuration setting to query the current
+value of that setting.  Optionally add a boolean value to change a setting.
+
+<p>
+The following four configuration changes are recommended for maximum
+application security.  Turning off the trust_schema setting prevents
+virtual tables and dodgy SQL functions from being used inside of triggers,
+views, CHECK constraints, generated columns, and expression indexes.
+Turning off the dqs_dml and dqs_ddl settings prevents the use of 
+double-quoted strings.  Turning on defensive prevents direct writes
+to shadow tables.
+
+<blockquote><pre>
+db config trusted_schema 0
+db config defensive 1
+db config dqs_dml 0
+db config dqs_ddl 0
+</pre></blockquote>
 <a name="copy"></a>
 <h3>The "copy" method</h3>
 
@@ -451,7 +620,7 @@ The syntax of the copy method looks like this:</p>
 <blockquote>
 <i>dbcmd</i>&nbsp;&nbsp;<b>copy</b>&nbsp;&nbsp;<i>conflict-algorithm</i>
 &nbsp;&nbsp;<i>table-name&nbsp;</i>&nbsp;&nbsp;<i>file-name&nbsp;</i>
-&nbsp;&nbsp;&nbsp;&nbsp;?<i>column-separator&nbsp;</i>?
+&nbsp;&nbsp;&nbsp;&nbsp;?<i>column-separator</i>?
 &nbsp;&nbsp;?<i>null-indicator</i>?
 </blockquote>
 
@@ -478,17 +647,6 @@ precede the null-indicator argument.</p>
 
 <p>The copy method implements similar functionality to the <b>.import</b>
 SQLite shell command. 
-The SQLite 2.x <a href="lang.html#copy"><b>COPY</b></a> statement 
-(using the PostgreSQL COPY file format)
-can be implemented with this method as:</p>
-
-<blockquote>
-dbcmd&nbsp;&nbsp;copy&nbsp;&nbsp;$conflictalgo
-&nbsp;&nbsp;$tablename&nbsp;&nbsp;&nbsp;$filename&nbsp;
-&nbsp;&nbsp;&nbsp;&nbsp;\t&nbsp;
-&nbsp;&nbsp;\\N
-</blockquote>
-
 <a name="timeout"></a>
 <h3>The "timeout" method</h3>
 
@@ -525,12 +683,18 @@ would be 2 seconds.</p>
 database is locked.  But the "busy" method gives the programmer much more
 control over what action to take.  The "busy" method specifies a callback
 Tcl procedure that is invoked whenever SQLite tries to open a locked
-database.  This callback can do whatever is desired.  Presumably, the
-callback will do some other useful work for a short while (such as service
-GUI events) then return
+database.  A single integer argument is appended to the callback before
+it is invoke.  The argument is the number of prior calls to the busy
+callback for the current locking event.  It is intended that
+the callback will do some other useful work for a short while 
+(such as service GUI events) then return
 so that the lock can be tried again.  The callback procedure should
 return "0" if it wants SQLite to try again to open the database and
 should return "1" if it wants SQLite to abandon the current operation.
+<p>
+If the busy method is invoked without an argument, the name of the callback
+procedure last set by the busy method is returned.  If no callback procedure
+has been set, an empty string is returned.
 <a name="enable_load_extension"></a>
 <h3>The "enable_load_extension" method</h3>
 
@@ -543,6 +707,11 @@ this method.</p>
 
 <p>This method takes a single boolean argument which will turn the
 extension loading functionality on or off.</p>
+
+<p>For best security, do not use this method unless truly needed, 
+and run <a href="pragma.html#pragma_trusted_schema">PRAGMA trusted_schema=OFF</a> or the
+"<a href="#config">db config trusted_schema 0</a>" method <u>before</u>
+invoking this method.
 
 <p>This method maps to the <a href="c3ref/enable_load_extension.html">sqlite3_enable_load_extension()</a> C/C++
 interface.</p>
@@ -582,6 +751,23 @@ implements that function.  Arguments to the function are appended to the
 TCL command before it is invoked.</p>
 
 <p>
+For security reasons, it is recommended that applications first set
+<a href="pragma.html#pragma_trusted_schema">PRAGMA trusted_schema=OFF</a> or run the 
+"<a href="#config">db config trusted_schema 0</a>"
+method before using this method.</p>
+
+<p>
+The syntax looks like this:
+</p>
+
+<blockquote>
+<i>dbcmd</i>&nbsp;&nbsp;<b>function</b>
+&nbsp;&nbsp;<i>sql-name</i>
+&nbsp;&nbsp;<i>?options?</i>
+&nbsp;&nbsp;<i>script</i>
+</blockquote>
+
+<p>
 The following example creates a new SQL function named "hex" that converts
 its numeric argument in to a hexadecimal encoded string:
 </p>
@@ -590,6 +776,73 @@ its numeric argument in to a hexadecimal encoded string:
 db function hex {format 0x%X}
 </b></blockquote>
 
+<p>The "function" method accepts the following options:
+<blockquote>
+<dl>
+
+<dt><b>-argcount</b> <i>INTEGER</i></dt>
+<dd><p>
+Specify the number of arguments that the SQL function accepts.  The default
+value of -1 means any number of arguments.
+
+<dt><b>-deterministic</b>
+<dd><p>
+This option indicates that the function will always return the same
+answer given the same argument values.  The SQLite query optimizer
+uses this information to cache answers from function calls with 
+constant inputs and reuse the result rather than invoke the function
+repeatedly.
+</dd>
+
+<dt><b>-directonly</b>
+<dd><p>
+This option restricts the function to only be usable by direct
+top-level SQL statement.  The function will not be accessible to
+triggers, views, CHECK constraints, generated columns, or index
+expressions.  This option is recommended for all application-defined
+SQL functions, and is <u>highly recommended</u> for any SQL
+function that has side effects or that reveals internal state of
+the application.
+
+<p style="background-color:#ffff90;"><b>Security Warning:</b>
+Without this switch, an attacker might be able to change the
+schema of a database file to include the new function inside a trigger
+or view or CHECK constraint and thereby trick the application into
+running the function with parameters of the attacker's choosing.
+Hence, if the new function has side effects or reveals internal
+state about the application and the -directonly option is not
+used, that is a potential security vulnerability.</p>
+</dd>
+
+<dt><b>-innocuous</b>
+<dd><p>
+This option indicates that the function has no side effects and
+does not leak any information that cannot be computed directly
+from its input parameters.  When this option is specified, the
+function may be used in triggers, views, CHECK constraints,
+generated columns, and/or index expressions even if
+<a href="pragma.html#pragma_trusted_schema">PRAGMA trusted_schema=OFF</a>.  The use of this option is discouraged
+unless it is truly needed.
+</dd>
+
+<dt><b>-returntype integer|real|text|blob|any</b>
+<dd><p>
+This option is used to configure the type of the result returned by the
+function.  If this option is set to "any" (the default), SQLite attempts to
+determine the type of each value returned by the function implementation based
+on the Tcl value's internal type. Or, if it is set to "text" or "blob", the
+returned value is always a text or blob value, respectively. If this option is
+set to "integer", SQLite attempts to coerce the value returned by the function
+to an integer. If this is not possible without data loss, it attempts to coerce
+it to a real value, and finally falls back to text. If this option is set to
+"real", an attempt is made to return a real value, falling back to text if this
+is not possible.
+</dd>
+</dl>
+
+
+
+</blockquote>
 <a name="nullvalue"></a>
 <h3>The "nullvalue" method</h3>
 
@@ -649,6 +902,42 @@ then the compilation fails with an error.
 
 <p>If the argument is an empty string then the authorizer is disabled.
 If the argument is omitted, then the current authorizer is returned.</p>
+<a name="bind_fallback"></a>
+<h3>The "bind_fallback" method</h3>
+
+
+<p>The "bind_fallback" method gives the application control over how to
+handle parameter binding when no TCL variable matches the parameter name.
+
+<p>When the <a href="#eval">eval method</a> sees a named SQL
+parameter such as "$abc" or ":def" or "@ghi" in an SQL statement, it tries
+to look up a TCL variable with the same name, and it binds the value
+of that TCL variable to the SQL parameter.  If no such TCL variable exists,
+the default behavior is to bind an SQL NULL value to the parameter.  However,
+if a bind_fallback proc is specified, then that proc is invoked with the
+name of the SQL parameter and the return value from the proc is bound to
+the SQL parameter.  Or if the proc returns an error, then the SQL statement
+aborts with that error.  If the proc returns with some code other than
+TCL_OK or TCL_ERROR, then the SQL parameter is bound to NULL, as it would
+be by default.
+
+<p>The "bind_fallback" method has a single optional argument.  If the argument
+is an empty string, then the bind_fallback is cancelled and the default behavior
+is restored.  If the argument is a non-empty string, then the argument is a
+TCL command (usually the name of a proc) to invoke whenever an SQL parameter 
+is seen that does not match any TCL variable.  If the "bind_fallback" method 
+is given no arguments, then the current bind_fallback command is returned.
+
+<p>As an example, the following setup causes TCL to throw an error if
+an SQL statement contains an parameter that does not match any global
+TCL variable:
+
+<blockquote><pre><b>
+proc bind_error {nm} {
+  error "no such variable: $nm"
+}
+db bind_fallback bind_error
+</b></pre></blockquote>
 <a name="progress"></a>
 <h3>The "progress" method</h3>
 
@@ -674,12 +963,12 @@ sequence.
 "NOCASE" that sorts in text order without regard to case:
 </p>
 
-<blockquote><b>
-proc nocase_compare {a b} {<br>
-&nbsp;&nbsp;&nbsp;&nbsp;return &#91;string compare &#91;string tolower $a&#93; &#91;string tolower $b&#93;&#93;<br>
-}<br>
-db collate NOCASE nocase_compare<br>
-</b></blockquote>
+<blockquote><pre><b>
+proc nocase_compare {a b} {
+  return &#91;string compare &#91;string tolower $a] &#91;string tolower $b]]
+}
+db collate NOCASE nocase_compare
+</b></pre></blockquote>
 <a name="collation_needed"></a>
 <h3>The "collation_needed" method</h3>
 
@@ -730,6 +1019,32 @@ arguments are appended to the callback before it is invoked:</p>
 <li>The table that is being changed</li>
 <li>The rowid of the row in the table being changed</li>
 </ul>
+<a name="wal_hook"></a>
+<h3>The "wal_hook" method</h3>
+
+
+<p>This method registers a callback routine that is invoked after transaction
+commit when the database is in <a href="wal.html">WAL mode</a>.  Two arguments are appended to the
+callback command before it is invoked:</p>
+
+<ul>
+<li>The name of the database on which the transaction was committed
+<li>The number of entries in the write-ahead log (WAL) file for that database
+</ul>
+
+<p>This method might decide to run a <a href="wal.html#ckpt">checkpoint</a> either itself or as a
+subsequent idle callback.  Note that SQLite only allows a single WAL hook.
+By default this single WAL hook is used for the auto-checkpointing.  If you
+set up an explicit WAL hook, then that one WAL hook must ensure that checkpoints
+are occurring since the auto-checkpointing mechanism will be disabled.</p>
+
+<p>This method should return an integer value that is equivalent to an 
+SQLite error code (usually 0 for SQLITE_OK in the case of success or 1 for
+SQLITE_ERROR if some error occurs). As in <a href="c3ref/wal_hook.html">sqlite3_wal_hook()</a>, the results of
+returning an integer that does not correspond to an SQLite error code are
+undefined. If the value returned by the script cannot be interpreted as an
+integer value, or if the script throws a Tcl exception, no error is returned to
+SQLite but a Tcl background-error is raised.
 <a name="incrblob"></a>
 <h3>The "incrblob" method</h3>
 
@@ -738,7 +1053,7 @@ arguments are appended to the callback before it is invoked:</p>
 into a preexisting BLOB in the database.  The syntax is like this:</p>
 
 <blockquote>
-<i>dbcmd</i>&nbsp;&nbsp;<b>incrblob</b>&nbsp;&nbsp;<b>?-readonly??</b>
+<i>dbcmd</i>&nbsp;&nbsp;<b>incrblob</b>&nbsp;&nbsp;<b>?-readonly?</b>
 &nbsp;&nbsp;<i>?DB?&nbsp;&nbsp;TABLE&nbsp;&nbsp;COLUMN&nbsp;&nbsp;ROWID</i>
 </blockquote>
 
@@ -763,6 +1078,61 @@ statement is compiled.  The text of the SQL is appended as a single string
 to the command before it is invoked.  This can be used (for example) to
 keep a log of all SQL operations that an application performs.
 </p>
+<a name="trace_v2"></a>
+<h3>The "trace_v2" method</h3>
+
+
+<p>The "trace_v2" method registers a callback that is invoked as each SQL
+statement is compiled. The syntax is as follows:
+
+
+<blockquote>
+<i>dbcmd</i>&nbsp;&nbsp;<b>trace_v2</b>&nbsp;&nbsp;?<i>callback</i>?&nbsp;&nbsp;?<i>mask</i>?
+</blockquote>
+
+<p>This command causes the "callback" script to be invoked whenever
+certain conditions occurs.  The conditions are determined by the <i>mask</i>
+argument, which should be a TCL-list of zero or more of the following
+keywords:
+
+<ul>
+<li> <b>statement</b>
+<li> <b>profile</b>
+<li> <b>row</b>
+<li> <b>close</b>
+</ul>
+
+<p>Traces for <b>statement</b> invoke the callback with two arguments
+whenever a new SQL statement is run.
+The first argument is an integer which is the value of the pointer
+to the underlying <a href="c3ref/stmt.html">sqlite3_stmt</a> object.  This integer can be used
+to correlate SQL statement text with the result of a <b>profile</b>
+or <b>row</b> callback. The second argument is the
+unexpanded text of the SQL statement being run.  By "unexpanded", we
+mean that variable substitutions in the text are not expanded into the
+variable values.  This is different from the behavior of the "trace"
+method which does expand variable substitutions.
+
+<p>Traces for <b>profile</b> invoke the callback with two arguments
+as each SQL statement finishes.  The first argument is an integer which
+is the value of the underlying <a href="c3ref/stmt.html">sqlite3_stmt</a> object.  The second
+argument is the approximate run-time for the statement in nanoseconds.
+The run-time is the best estimate available depending on the capabilities
+of the platform on which the application is running.
+
+<p>Traces for <b>row</b> invoke the callback with a single argument
+whenever a new result row is available from an SQL statement.
+The argument is an integer which is the value of the underlying
+<a href="c3ref/stmt.html">sqlite3_stmt</a> object pointer.
+
+<p>Traces for <b>close</b> invoke the callback with a single argument
+as the database connection is closing.  The argument is an integer which
+is the value of a pointer to the underlying <a href="c3ref/sqlite3.html">sqlite3</a> object that is
+closing.
+
+<p>There can only be a single trace callback registered on a database
+connection.  Each use of "trace" or "trace_v2" cancels all prior
+trace callback.
 <a name="backup"></a>
 <h3>The "backup" method</h3>
 
@@ -788,7 +1158,7 @@ it does, it must be a well-formed SQLite database.</p>
 <h3>The "restore" method</h3>
 
 
-<p>The "restore" method copies the content a separate database file 
+<p>The "restore" method copies the content from a separate database file 
 into the current database connection, overwriting any preexisting content.
 The command syntax is like this:</p>
 
@@ -806,10 +1176,55 @@ in the <a href="lang_attach.html">ATTACH</a> command.</p>
 
 <p>The <i>source-filename</i> is the name of an existing well-formed SQLite
 database file from which the content is extracted.</p>
+<a name="serialize"></a>
+<h3>The "serialize" method</h3>
+
+
+<p>The "serialize" method creates a BLOB which is a complete copy of an
+underlying database.  The syntax is like this:
+
+<blockquote>
+<i>dbcmd</i>&nbsp;&nbsp;<b>serialize</b>&nbsp;&nbsp;?<i>database</i>?
+</blockquote>
+
+<p>The optional argument is the name of the schema or database to be serialized.
+The default value is "main".
+
+<p>This routine returns a TCL byte-array that is the complete content of
+the identified database.  This byte-array can be written into a file and
+then used as an ordinary SQLite database, or it can be sent over a TCP/IP
+connection to some other application, or passed to the "deserialize" method
+of another database connection.
+
+<p>This method only functions if SQLite is compiled with -DSQLITE_ENABLE_DESERIALIZE
+<a name="deserialize"></a>
+<h3>The "deserialize" method</h3>
+
+<p>The "deserialize" method takes a TCL byte-array that contains an SQLite
+database file and adds it to the database connection.  The syntax is:
+
+<blockquote>
+<i>dbcmd</i>&nbsp;&nbsp;<b>deserialize</b>&nbsp;&nbsp;?<i>database</i>?&nbsp;&nbsp;<i>value</i>
+</blockquote>
+
+<p>The option <i>database</i> argument identifies which attached database
+should receive the deserialization.  The default is "main".
+
+<p>This command causes SQLite to disconnect from the previous database and
+reattach to an in-memory database with the content in <i>value</i>.  If <i>value</i>
+is not a byte-array containing a well-defined SQLite database, then subsequent
+commands will likely return <a href="rescode.html#corrupt">SQLITE_CORRUPT</a> errors.
+
+<p>This method only functions if SQLite is compiled with -DSQLITE_ENABLE_DESERIALIZE
+<a name="interrupt"></a>
+<h3>The "interrupt" method</h3>
+
+<p>The "interrupt" method invokes the <a href="c3ref/interrupt.html">sqlite3_interrupt()</a> interface, causing
+any pending queries to halt.
 <a name="version"></a>
 <h3>The "version" method</h3>
 
-  Return the current library version. For example, "3.6.17".
+  Return the current library version. For example, "3.23.0".
 <a name="profile"></a>
 <h3>The "profile" method</h3>
 
@@ -818,7 +1233,7 @@ database file from which the content is extracted.</p>
 </p>
 
 <blockquote>
-<i>dbcmd</i>&nbsp;&nbsp;<b>profile</b>&nbsp;&nbsp;?<i>script</i>
+<i>dbcmd</i>&nbsp;&nbsp;<b>profile</b>&nbsp;&nbsp;?<i>script</i>?
 </blockquote>
 
 <p>Unless <i>script</i> is an empty string, this method arranges for the
@@ -833,5 +1248,13 @@ is invoked, the previous profile script is replaced by the new one. If the
 <i>script</i> argument is an empty string, any previously registered 
 profile callback is canceled but no new profile script is registered.
 </p>
+<a name="unlock_notify"></a>
+<h3>The "unlock_notify" method</h3>
 
+<p>The unlock_notify method is used access the <a href="c3ref/unlock_notify.html">sqlite3_unlock_notify()</a>
+   interface to the SQLite core library for testing purposes.  The use of
+   this method by applications is discouraged.
+</p>
+
+<p align="center"><small><i>This page last modified on  <a href="https://sqlite.org/docsrc/honeypot" id="mtimelink"  data-href="https://sqlite.org/docsrc/finfo/pages/tclsqlite.in?m=dea4497aa28ca1740">2022-12-14 16:19:41</a> UTC </small></i></p>
 

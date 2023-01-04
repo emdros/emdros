@@ -1,125 +1,248 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="sqlite.css" rel="stylesheet">
 <title>Books About SQLite</title>
-<style type="text/css">
-body {
-    margin: auto;
-    font-family: Verdana, sans-serif;
-    padding: 8px 1%;
-}
-
-a { color: #044a64 }
-a:visited { color: #734559 }
-
-.logo { position:absolute; margin:3px; }
-.tagline {
-  float:right;
-  text-align:right;
-  font-style:italic;
-  width:300px;
-  margin:12px;
-  margin-top:58px;
-}
-
-.menubar {
-  clear: both;
-  border-radius: 8px;
-  background: #044a64;
-  padding: 0px;
-  margin: 0px;
-  cell-spacing: 0px;
-}    
-.toolbar {
-  text-align: center;
-  line-height: 1.6em;
-  margin: 0;
-  padding: 0px 8px;
-}
-.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
-.toolbar a:visited { color: white; }
-.toolbar a:hover { color: #044a64; background: white; }
-
-.content    { margin: 5%; }
-.content dt { font-weight:bold; }
-.content dd { margin-bottom: 25px; margin-left:20%; }
-.content ul { padding:0px; padding-left: 15px; margin:0px; }
-
-/* Things for "fancyformat" documents start here. */
-.fancy img+p {font-style:italic}
-.fancy .codeblock i { color: darkblue; }
-.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
-.fancy h2 { margin-left: 10px }
-.fancy h3 { margin-left: 20px }
-.fancy h4 { margin-left: 30px }
-.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
-.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
-.fancy #toc a        { color: darkblue ; text-decoration: none }
-.fancy .todo         { color: #AA3333 ; font-style : italic }
-.fancy .todo:before  { content: 'TODO:' }
-.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
-.fancy img { display:block; }
-.fancy :link:hover, .fancy :visited:hover { background: wheat }
-.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
-.fancy li p { margin: 1em 0 }
-/* End of "fancyformat" specific rules. */
-
-</style>
-  
+<!-- path= -->
 </head>
 <body>
-<div><!-- container div to satisfy validator -->
-
+<div class=nosearch>
 <a href="index.html">
-<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite Logo"
- border="0"></a>
-<div><!-- IE hack to prevent disappearing logo--></div>
-<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
-
-<table width=100% class="menubar"><tr>
-  <td width=100%>
-  <div class="toolbar">
-    <a href="about.html">About</a>
-    <a href="sitemap.html">Sitemap</a>
-    <a href="docs.html">Documentation</a>
-    <a href="download.html">Download</a>
-    <a href="copyright.html">License</a>
-    <a href="news.html">News</a>
-    <a href="support.html">Support</a>
-  </div>
+<img class="logo" src="images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='about.html'>About</a>
+<li class='desktoponly'><a href="docs.html">Documentation</a>
+<li class='desktoponly'><a href="download.html">Download</a>
+<li class='wideonly'><a href='copyright.html'>License</a>
+<li class='desktoponly'><a href="support.html">Support</a>
+<li class='desktoponly'><a href="prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='about.html'>About</a>
+<li><a href='docs.html'>Documentation</a>
+<li><a href='download.html'>Download</a>
+<li><a href='support.html'>Support</a>
+<li><a href='prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
 <script>
-  gMsg = "Search SQLite Docs..."
-  function entersearch() {
-    var q = document.getElementById("q");
-    if( q.value == gMsg ) { q.value = "" }
-    q.style.color = "black"
-    q.style.fontStyle = "normal"
-  }
-  function leavesearch() {
-    var q = document.getElementById("q");
-    if( q.value == "" ) { 
-      q.value = gMsg
-      q.style.color = "#044a64"
-      q.style.fontStyle = "italic"
-    }
-  }
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
 </script>
-<td>
-    <div style="padding:0 1em 0px 0;white-space:nowrap">
-    <form name=f method="GET" action="http://www.sqlite.org/search">
-      <input id=q name=q type=text
-       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
-      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
-    </form>
-    </div>
-  </table>
-
-<div class=startsearch></div>
-  
 
 
 
 <h1 align=center>Books About SQLite</h1>
+
+<hr>
+<table border=0><tr><td valign=top><img src="images/books/sanderson2018.jpg" style="border:44px solid white;">
+<td valign=top>
+<h2>SQLite Forensics (2018)</h2>
+
+<p>
+Author: Paul Sanderson<br>
+Publisher: <a href='https://www.amazon.com/SQLite-Forensics-Paul-Sanderson/dp/1980293074'>Amazon</a>
+
+<p>
+This text by noted digital forensics expert, Paul Sanderson, provides
+investigators with low-level technical details useful in analysing
+SQLite database files.
+
+<p>
+Every computer and phone uses hundreds of SQLite databases and there are
+over one trillion SQLite databases in active use. Hence, the importance
+of examining the data held in these databases in an
+investigation, including deleted data when possible, is paramount. This
+book fully explains the format of the SQLite database file. It shows how
+records are encoded, how to decode them manually and how to decode
+records that are partially overwritten. It also describe how the
+workings of SQLite, and in particular the journal and WAL, can be used
+to ascertain what has happened in a manner that cannot be determined
+from the data alone. The book covers basic SQL queries and how they can
+be used to create a custom report that includes data from different
+tables, and shows how one can use SQL queries to test hypotheses about
+the relationships of data in different tables. 
+<p>
+This book is aimed mainly at
+forensic practitioners, and it is assumed that the reader has some basic
+knowledge of computer forensics; it will also be of interest to computer
+professionals in general particularly those who have an interest in the
+SQLite file format.
+</table>
+
+
+<hr>
+<table border=0><tr><td valign=top><img src="images/books/darocha2016.jpg">
+<td valign=top>
+<h2>Learning SQLite for iOS (2016)</h2>
+
+<p>
+Author: Gene Da Rocha<br>
+Publisher: <a href="https://www.packtpub.com/application-development/learning-sqlite-ios">Packt Publishing</a>
+
+<p>
+This book starts with the architecture of SQLite database and introduces
+you to concepts in SQL. You will find yourself equipped to design your
+own database system, administer it, and maintain it. Further, you will
+learn how to operate your SQLite databases smoothly using SQL commands. 
+
+<p>
+You will be able to extend the functionality of SQLite by using its vast
+arsenal of C API calls to build some interesting, exciting, new, and
+intelligent data-driven applications. Understand how Xcode, HTML5, and
+Phonegap can be used to build a cross-platform modern app which can
+benefit from all these technologies - all through creating a complete,
+customizable application skeleton that you can build on for your own
+apps. This book provides a comprehensive description of SQLite database
+system. It describes design principles, engineering trade-offs,
+implementation issues, and operations of SQLite.
+</table>
+
+<hr>
+<table border=0><tr><td valign=top><img src="images/books/haldar2.jpg">
+<td valign=top>
+<h2>SQLite Database System Design and Implementation (2015)</h2>
+
+<p>
+Author: Sibsankar Haldar<br>
+Publisher: <a href="https://books.google.com/books?id=OEJ1CQAAQBAJ">https://books.google.com/</a><br>
+
+<p>
+This book provides a comprehensive description of SQLite database system. 
+It describes design principles, engineering trade-offs, implementation issues,
+and operations of SQLite. 
+</table>
+
+<hr>
+<table border=0><tr><td valign=top><img src="images/books/aditya.jpg">
+<td valign=top>
+<h2>Android SQLite Essentials (2014)</h2>
+
+<p>
+Authors: Sunny Kumar Aditya and Vikash Kumar Karn<br>
+Publisher: <a href="https://www.packtpub.com/application-development/android-sqlite-essentials">
+Packt Publishing</a><br>
+
+<p>
+Android SQLite Essentials focuses on the core concepts behind building
+database-driven applications. This book covers the basic and advanced
+topics with equivalent simplicity and detail, in order to enable
+readers to quickly grasp and implement the concepts to build an
+application database.
+
+<p>This book takes a hands-on, example-based approach to help readers
+understand the core topics of SQLite and Android database-driven
+applications. This book focuses on providing you with latent as well
+as widespread knowledge about practices and approaches towards
+development in an easily understandable manner.
+</table>
+
+<hr>
+<table border=0><tr><td valign=top><img src="images/books/das.jpg">
+<td valign=top>
+<h2>SQLite for Mobile Apps Simplified (2014)</h2>
+
+<p>
+Author: Sribatsa Das<br>
+Publisher: Amazon<br>
+<a href="http://amzn.com/B00M3OVSRK">Amazon</a>
+
+<p>
+SQLite for Mobile Apps Simplified is devoted to presenting approach
+and implementation methodology for using SQLite database in mobile apps.
+It presents step-by-step examples to create schema, execute transactions
+and access data from Android, BlackBerry and iOS applications.
+In addition, it presents ADB Shell and SQLite command-line shell from
+ADB Shell to access the SQLite Database created by the Android apps.
+For BlackBerry and iOS application, the book presents ways to access
+the data using the command line shell. 
+</table>
 
 <hr>
 <table border=0><tr><td valign=top><img src="images/books/owens.jpg">
@@ -135,7 +258,7 @@ Publisher: Apress<br>
 Outside of the world of enterprise computing, there is one database 
 that enables a huge range of software and hardware to flex relational 
 database capabilities, without the baggage and cost of traditional 
-database management systems. That database is SQLite\u2014an embeddable
+database management systems. That database is SQLite - an embeddable
 database with an amazingly small footprint, yet able to handle databases 
 of enormous size. SQLite comes equipped with an array of powerful 
 features available through a host of programming and development 
@@ -144,7 +267,7 @@ PHP, Python, Ruby, TCL, and more.</p>
 
 <p><i>The Definitive Guide to SQLite, Second Edition</i> 
 is devoted to complete coverage of the latest version of this powerful 
-database. It offers a thorough overview of SQLite\u2019s capabilities 
+database. It offers a thorough overview of SQLite's capabilities 
 and APIs. The book also uses SQLite as the basis for helping newcomers
 make their first foray into database development. In only a short time 
 you can be writing programs as diverse as a server-side browser plug-in 
@@ -315,4 +438,5 @@ using, administering and programming this up-and-coming database.
 If you want to learn about SQLite or about its use in conjunction with 
 PHP this is the book for you.</p>
 </table>
+<p align="center"><small><i>This page last modified on  <a href="https://sqlite.org/docsrc/honeypot" id="mtimelink"  data-href="https://sqlite.org/docsrc/finfo/pages/books.in?m=4fbe83576f6c58cb4">2019-09-28 19:02:24</a> UTC </small></i></p>
 

@@ -1,144 +1,156 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="../sqlite.css" rel="stylesheet">
 <title>Register A Callback To Handle SQLITE_BUSY Errors</title>
-<style type="text/css">
-body {
-    margin: auto;
-    font-family: Verdana, sans-serif;
-    padding: 8px 1%;
-}
-
-a { color: #044a64 }
-a:visited { color: #734559 }
-
-.logo { position:absolute; margin:3px; }
-.tagline {
-  float:right;
-  text-align:right;
-  font-style:italic;
-  width:300px;
-  margin:12px;
-  margin-top:58px;
-}
-
-.menubar {
-  clear: both;
-  border-radius: 8px;
-  background: #044a64;
-  padding: 0px;
-  margin: 0px;
-  cell-spacing: 0px;
-}    
-.toolbar {
-  text-align: center;
-  line-height: 1.6em;
-  margin: 0;
-  padding: 0px 8px;
-}
-.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
-.toolbar a:visited { color: white; }
-.toolbar a:hover { color: #044a64; background: white; }
-
-.content    { margin: 5%; }
-.content dt { font-weight:bold; }
-.content dd { margin-bottom: 25px; margin-left:20%; }
-.content ul { padding:0px; padding-left: 15px; margin:0px; }
-
-/* Things for "fancyformat" documents start here. */
-.fancy img+p {font-style:italic}
-.fancy .codeblock i { color: darkblue; }
-.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
-.fancy h2 { margin-left: 10px }
-.fancy h3 { margin-left: 20px }
-.fancy h4 { margin-left: 30px }
-.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
-.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
-.fancy #toc a        { color: darkblue ; text-decoration: none }
-.fancy .todo         { color: #AA3333 ; font-style : italic }
-.fancy .todo:before  { content: 'TODO:' }
-.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
-.fancy img { display:block; }
-.fancy :link:hover, .fancy :visited:hover { background: wheat }
-.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
-.fancy li p { margin: 1em 0 }
-/* End of "fancyformat" specific rules. */
-
-</style>
-  
+<!-- path=../ -->
 </head>
 <body>
-<div><!-- container div to satisfy validator -->
-
+<div class=nosearch>
 <a href="../index.html">
-<img class="logo" src="../images/sqlite370_banner.gif" alt="SQLite Logo"
- border="0"></a>
-<div><!-- IE hack to prevent disappearing logo--></div>
-<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
-
-<table width=100% class="menubar"><tr>
-  <td width=100%>
-  <div class="toolbar">
-    <a href="../about.html">About</a>
-    <a href="../sitemap.html">Sitemap</a>
-    <a href="../docs.html">Documentation</a>
-    <a href="../download.html">Download</a>
-    <a href="../copyright.html">License</a>
-    <a href="../news.html">News</a>
-    <a href="../support.html">Support</a>
-  </div>
+<img class="logo" src="../images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="../index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='../about.html'>About</a>
+<li class='desktoponly'><a href="../docs.html">Documentation</a>
+<li class='desktoponly'><a href="../download.html">Download</a>
+<li class='wideonly'><a href='../copyright.html'>License</a>
+<li class='desktoponly'><a href="../support.html">Support</a>
+<li class='desktoponly'><a href="../prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='../about.html'>About</a>
+<li><a href='../docs.html'>Documentation</a>
+<li><a href='../download.html'>Download</a>
+<li><a href='../support.html'>Support</a>
+<li><a href='../prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="../search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
 <script>
-  gMsg = "Search SQLite Docs..."
-  function entersearch() {
-    var q = document.getElementById("q");
-    if( q.value == gMsg ) { q.value = "" }
-    q.style.color = "black"
-    q.style.fontStyle = "normal"
-  }
-  function leavesearch() {
-    var q = document.getElementById("q");
-    if( q.value == "" ) { 
-      q.value = gMsg
-      q.style.color = "#044a64"
-      q.style.fontStyle = "italic"
-    }
-  }
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
 </script>
-<td>
-    <div style="padding:0 1em 0px 0;white-space:nowrap">
-    <form name=f method="GET" action="http://www.sqlite.org/search">
-      <input id=q name=q type=text
-       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
-      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
-    </form>
-    </div>
-  </table>
+<!-- keywords: {busy handler} {busy-handler callback} sqlite3_busy_handler -->
+<div class=nosearch>
+<a href="intro.html"><h2>SQLite C Interface</h2></a>
+<h2>Register A Callback To Handle SQLITE_BUSY Errors</h2>
+</div>
+<blockquote><pre>
+int sqlite3_busy_handler(sqlite3*,int(*)(void*,int),void*);
+</pre></blockquote>
+<p>
+The sqlite3_busy_handler(D,X,P) routine sets a callback function X
+that might be invoked with argument P whenever
+an attempt is made to access a database table associated with
+<a href="../c3ref/sqlite3.html">database connection</a> D when another thread
+or process has the table locked.
+The sqlite3_busy_handler() interface is used to implement
+<a href="../c3ref/busy_timeout.html">sqlite3_busy_timeout()</a> and <a href="../pragma.html#pragma_busy_timeout">PRAGMA busy_timeout</a>.</p>
 
-<div class=startsearch></div>
-  
-<a href="intro.html"><h2>SQLite C Interface</h2></a><h2>Register A Callback To Handle SQLITE_BUSY Errors</h2><blockquote><pre>int sqlite3_busy_handler(sqlite3*, int(*)(void*,int), void*);
-</pre></blockquote><p>
-This routine sets a callback function that might be invoked whenever
-an attempt is made to open a database table that another thread
-or process has locked.</p>
-
-<p>If the busy callback is NULL, then <a href="../c3ref/c_abort.html">SQLITE_BUSY</a> or <a href="../c3ref/c_abort_rollback.html">SQLITE_IOERR_BLOCKED</a>
+<p>If the busy callback is NULL, then <a href="../rescode.html#busy">SQLITE_BUSY</a>
 is returned immediately upon encountering the lock.  If the busy callback
 is not NULL, then the callback might be invoked with two arguments.</p>
 
 <p>The first argument to the busy handler is a copy of the void* pointer which
 is the third argument to sqlite3_busy_handler().  The second argument to
 the busy handler callback is the number of times that the busy handler has
-been invoked for this locking event.  If the
+been invoked previously for the same locking event.  If the
 busy callback returns 0, then no additional attempts are made to
-access the database and <a href="../c3ref/c_abort.html">SQLITE_BUSY</a> or <a href="../c3ref/c_abort_rollback.html">SQLITE_IOERR_BLOCKED</a> is returned.
+access the database and <a href="../rescode.html#busy">SQLITE_BUSY</a> is returned
+to the application.
 If the callback returns non-zero, then another attempt
-is made to open the database for reading and the cycle repeats.</p>
+is made to access the database and the cycle repeats.</p>
 
 <p>The presence of a busy handler does not guarantee that it will be invoked
 when there is lock contention. If SQLite determines that invoking the busy
-handler could result in a deadlock, it will go ahead and return <a href="../c3ref/c_abort.html">SQLITE_BUSY</a>
-or <a href="../c3ref/c_abort_rollback.html">SQLITE_IOERR_BLOCKED</a> instead of invoking the busy handler.
+handler could result in a deadlock, it will go ahead and return <a href="../rescode.html#busy">SQLITE_BUSY</a>
+to the application instead of invoking the
+busy handler.
 Consider a scenario where one process is holding a read lock that
 it is trying to promote to a reserved lock and
 a second process is holding a reserved lock that it is trying
@@ -146,34 +158,21 @@ to promote to an exclusive lock.  The first process cannot proceed
 because it is blocked by the second and the second process cannot
 proceed because it is blocked by the first.  If both processes
 invoke the busy handlers, neither will make any progress.  Therefore,
-SQLite returns <a href="../c3ref/c_abort.html">SQLITE_BUSY</a> for the first process, hoping that this
+SQLite returns <a href="../rescode.html#busy">SQLITE_BUSY</a> for the first process, hoping that this
 will induce the first process to release its read lock and allow
 the second process to proceed.</p>
 
 <p>The default busy callback is NULL.</p>
 
-<p>The <a href="../c3ref/c_abort.html">SQLITE_BUSY</a> error is converted to <a href="../c3ref/c_abort_rollback.html">SQLITE_IOERR_BLOCKED</a>
-when SQLite is in the middle of a large transaction where all the
-changes will not fit into the in-memory cache.  SQLite will
-already hold a RESERVED lock on the database file, but it needs
-to promote this lock to EXCLUSIVE so that it can spill cache
-pages into the database file without harm to concurrent
-readers.  If it is unable to promote the lock, then the in-memory
-cache will be left in an inconsistent state and so the error
-code is promoted from the relatively benign <a href="../c3ref/c_abort.html">SQLITE_BUSY</a> to
-the more severe <a href="../c3ref/c_abort_rollback.html">SQLITE_IOERR_BLOCKED</a>.  This error code promotion
-forces an automatic rollback of the changes.  See the
-<a href="/cvstrac/wiki?p=CorruptionFollowingBusyError">
-CorruptionFollowingBusyError</a> wiki page for a discussion of why
-this is important.</p>
-
 <p>There can only be a single busy handler defined for each
 <a href="../c3ref/sqlite3.html">database connection</a>.  Setting a new busy handler clears any
 previously set handler.  Note that calling <a href="../c3ref/busy_timeout.html">sqlite3_busy_timeout()</a>
-will also set or clear the busy handler.</p>
+or evaluating <a href="../pragma.html#pragma_busy_timeout">PRAGMA busy_timeout=N</a> will change the
+busy handler and thus clear any previously set busy handler.</p>
 
 <p>The busy callback should not take any actions which modify the
-database connection that invoked the busy handler.  Any such actions
+database connection that invoked the busy handler.  In other words,
+the busy handler is not reentrant.  Any such actions
 result in undefined behavior.</p>
 
 <p>A busy handler must not close the database connection
@@ -182,3 +181,4 @@ or <a href="../c3ref/stmt.html">prepared statement</a> that invoked the busy han
   <a href="objlist.html">Objects</a>,
   <a href="constlist.html">Constants</a>, and
   <a href="funclist.html">Functions</a>.</p>
+

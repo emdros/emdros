@@ -1,159 +1,179 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<!DOCTYPE html>
 <html><head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<link href="../sqlite.css" rel="stylesheet">
 <title>Function Auxiliary Data</title>
-<style type="text/css">
-body {
-    margin: auto;
-    font-family: Verdana, sans-serif;
-    padding: 8px 1%;
-}
-
-a { color: #044a64 }
-a:visited { color: #734559 }
-
-.logo { position:absolute; margin:3px; }
-.tagline {
-  float:right;
-  text-align:right;
-  font-style:italic;
-  width:300px;
-  margin:12px;
-  margin-top:58px;
-}
-
-.menubar {
-  clear: both;
-  border-radius: 8px;
-  background: #044a64;
-  padding: 0px;
-  margin: 0px;
-  cell-spacing: 0px;
-}    
-.toolbar {
-  text-align: center;
-  line-height: 1.6em;
-  margin: 0;
-  padding: 0px 8px;
-}
-.toolbar a { color: white; text-decoration: none; padding: 6px 12px; }
-.toolbar a:visited { color: white; }
-.toolbar a:hover { color: #044a64; background: white; }
-
-.content    { margin: 5%; }
-.content dt { font-weight:bold; }
-.content dd { margin-bottom: 25px; margin-left:20%; }
-.content ul { padding:0px; padding-left: 15px; margin:0px; }
-
-/* Things for "fancyformat" documents start here. */
-.fancy img+p {font-style:italic}
-.fancy .codeblock i { color: darkblue; }
-.fancy h1,.fancy h2,.fancy h3,.fancy h4 {font-weight:normal;color:#044a64}
-.fancy h2 { margin-left: 10px }
-.fancy h3 { margin-left: 20px }
-.fancy h4 { margin-left: 30px }
-.fancy th {white-space:nowrap;text-align:left;border-bottom:solid 1px #444}
-.fancy th, .fancy td {padding: 0.2em 1ex; vertical-align:top}
-.fancy #toc a        { color: darkblue ; text-decoration: none }
-.fancy .todo         { color: #AA3333 ; font-style : italic }
-.fancy .todo:before  { content: 'TODO:' }
-.fancy p.todo        { border: solid #AA3333 1px; padding: 1ex }
-.fancy img { display:block; }
-.fancy :link:hover, .fancy :visited:hover { background: wheat }
-.fancy p,.fancy ul,.fancy ol { margin: 1em 5ex }
-.fancy li p { margin: 1em 0 }
-/* End of "fancyformat" specific rules. */
-
-</style>
-  
+<!-- path=../ -->
 </head>
 <body>
-<div><!-- container div to satisfy validator -->
-
+<div class=nosearch>
 <a href="../index.html">
-<img class="logo" src="../images/sqlite370_banner.gif" alt="SQLite Logo"
- border="0"></a>
-<div><!-- IE hack to prevent disappearing logo--></div>
-<div class="tagline">Small. Fast. Reliable.<br>Choose any three.</div>
-
-<table width=100% class="menubar"><tr>
-  <td width=100%>
-  <div class="toolbar">
-    <a href="../about.html">About</a>
-    <a href="../sitemap.html">Sitemap</a>
-    <a href="../docs.html">Documentation</a>
-    <a href="../download.html">Download</a>
-    <a href="../copyright.html">License</a>
-    <a href="../news.html">News</a>
-    <a href="../support.html">Support</a>
-  </div>
+<img class="logo" src="../images/sqlite370_banner.gif" alt="SQLite" border="0">
+</a>
+<div><!-- IE hack to prevent disappearing logo --></div>
+<div class="tagline desktoponly">
+Small. Fast. Reliable.<br>Choose any three.
+</div>
+<div class="menu mainmenu">
+<ul>
+<li><a href="../index.html">Home</a>
+<li class='mobileonly'><a href="javascript:void(0)" onclick='toggle_div("submenu")'>Menu</a>
+<li class='wideonly'><a href='../about.html'>About</a>
+<li class='desktoponly'><a href="../docs.html">Documentation</a>
+<li class='desktoponly'><a href="../download.html">Download</a>
+<li class='wideonly'><a href='../copyright.html'>License</a>
+<li class='desktoponly'><a href="../support.html">Support</a>
+<li class='desktoponly'><a href="../prosupport.html">Purchase</a>
+<li class='search' id='search_menubutton'>
+<a href="javascript:void(0)" onclick='toggle_search()'>Search</a>
+</ul>
+</div>
+<div class="menu submenu" id="submenu">
+<ul>
+<li><a href='../about.html'>About</a>
+<li><a href='../docs.html'>Documentation</a>
+<li><a href='../download.html'>Download</a>
+<li><a href='../support.html'>Support</a>
+<li><a href='../prosupport.html'>Purchase</a>
+</ul>
+</div>
+<div class="searchmenu" id="searchmenu">
+<form method="GET" action="../search">
+<select name="s" id="searchtype">
+<option value="d">Search Documentation</option>
+<option value="c">Search Changelog</option>
+</select>
+<input type="text" name="q" id="searchbox" value="">
+<input type="submit" value="Go">
+</form>
+</div>
+</div>
 <script>
-  gMsg = "Search SQLite Docs..."
-  function entersearch() {
-    var q = document.getElementById("q");
-    if( q.value == gMsg ) { q.value = "" }
-    q.style.color = "black"
-    q.style.fontStyle = "normal"
-  }
-  function leavesearch() {
-    var q = document.getElementById("q");
-    if( q.value == "" ) { 
-      q.value = gMsg
-      q.style.color = "#044a64"
-      q.style.fontStyle = "italic"
-    }
-  }
+function toggle_div(nm) {
+var w = document.getElementById(nm);
+if( w.style.display=="block" ){
+w.style.display = "none";
+}else{
+w.style.display = "block";
+}
+}
+function toggle_search() {
+var w = document.getElementById("searchmenu");
+if( w.style.display=="block" ){
+w.style.display = "none";
+} else {
+w.style.display = "block";
+setTimeout(function(){
+document.getElementById("searchbox").focus()
+}, 30);
+}
+}
+function div_off(nm){document.getElementById(nm).style.display="none";}
+window.onbeforeunload = function(e){div_off("submenu");}
+/* Disable the Search feature if we are not operating from CGI, since */
+/* Search is accomplished using CGI and will not work without it. */
+if( !location.origin || !location.origin.match || !location.origin.match(/http/) ){
+document.getElementById("search_menubutton").style.display = "none";
+}
+/* Used by the Hide/Show button beside syntax diagrams, to toggle the */
+function hideorshow(btn,obj){
+var x = document.getElementById(obj);
+var b = document.getElementById(btn);
+if( x.style.display!='none' ){
+x.style.display = 'none';
+b.innerHTML='show';
+}else{
+x.style.display = '';
+b.innerHTML='hide';
+}
+return false;
+}
+var antiRobot = 0;
+function antiRobotGo(){
+if( antiRobot!=3 ) return;
+antiRobot = 7;
+var j = document.getElementById("mtimelink");
+if(j && j.hasAttribute("data-href")) j.href=j.getAttribute("data-href");
+}
+function antiRobotDefense(){
+document.body.onmousedown=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousedown=null;
+}
+document.body.onmousemove=function(){
+antiRobot |= 2;
+antiRobotGo();
+document.body.onmousemove=null;
+}
+setTimeout(function(){
+antiRobot |= 1;
+antiRobotGo();
+}, 100)
+antiRobotGo();
+}
+antiRobotDefense();
 </script>
-<td>
-    <div style="padding:0 1em 0px 0;white-space:nowrap">
-    <form name=f method="GET" action="http://www.sqlite.org/search">
-      <input id=q name=q type=text
-       onfocus="entersearch()" onblur="leavesearch()" style="width:24ex;padding:1px 1ex; border:solid white 1px; font-size:0.9em ; font-style:italic;color:#044a64;" value="Search SQLite Docs...">
-      <input type=submit value="Go" style="border:solid white 1px;background-color:#044a64;color:white;font-size:0.9em;padding:0 1ex">
-    </form>
-    </div>
-  </table>
-
-<div class=startsearch></div>
-  
-<a href="intro.html"><h2>SQLite C Interface</h2></a><h2>Function Auxiliary Data</h2><blockquote><pre>void *sqlite3_get_auxdata(sqlite3_context*, int N);
+<!-- keywords: sqlite3_get_auxdata sqlite3_set_auxdata -->
+<div class=nosearch>
+<a href="intro.html"><h2>SQLite C Interface</h2></a>
+<h2>Function Auxiliary Data</h2>
+</div>
+<blockquote><pre>
+void *sqlite3_get_auxdata(sqlite3_context*, int N);
 void sqlite3_set_auxdata(sqlite3_context*, int N, void*, void (*)(void*));
-</pre></blockquote><p>
-The following two functions may be used by scalar SQL functions to
+</pre></blockquote>
+<p>
+These functions may be used by (non-aggregate) SQL functions to
 associate metadata with argument values. If the same value is passed to
 multiple invocations of the same SQL function during query execution, under
-some circumstances the associated metadata may be preserved. This may
-be used, for example, to add a regular-expression matching scalar
-function. The compiled version of the regular expression is stored as
-metadata associated with the SQL value passed as the regular expression
-pattern.  The compiled regular expression can be reused on multiple
-invocations of the same function so that the original pattern string
-does not need to be recompiled on each invocation.</p>
+some circumstances the associated metadata may be preserved.  An example
+of where this might be useful is in a regular-expression matching
+function. The compiled version of the regular expression can be stored as
+metadata associated with the pattern string.
+Then as long as the pattern string remains the same,
+the compiled regular expression can be reused on multiple
+invocations of the same function.</p>
 
-<p>The sqlite3_get_auxdata() interface returns a pointer to the metadata
-associated by the sqlite3_set_auxdata() function with the Nth argument
-value to the application-defined function. If no metadata has been ever
-been set for the Nth argument of the function, or if the corresponding
-function parameter has changed since the meta-data was set,
-then sqlite3_get_auxdata() returns a NULL pointer.</p>
+<p>The sqlite3_get_auxdata(C,N) interface returns a pointer to the metadata
+associated by the sqlite3_set_auxdata(C,N,P,X) function with the Nth argument
+value to the application-defined function.  N is zero for the left-most
+function argument.  If there is no metadata
+associated with the function argument, the sqlite3_get_auxdata(C,N) interface
+returns a NULL pointer.</p>
 
-<p>The sqlite3_set_auxdata() interface saves the metadata
-pointed to by its 3rd parameter as the metadata for the N-th
+<p>The sqlite3_set_auxdata(C,N,P,X) interface saves P as metadata for the N-th
 argument of the application-defined function.  Subsequent
-calls to sqlite3_get_auxdata() might return this data, if it has
-not been destroyed.
-If it is not NULL, SQLite will invoke the destructor
-function given by the 4th parameter to sqlite3_set_auxdata() on
-the metadata when the corresponding function parameter changes
-or when the SQL statement completes, whichever comes first.</p>
+calls to sqlite3_get_auxdata(C,N) return P from the most recent
+sqlite3_set_auxdata(C,N,P,X) call if the metadata is still valid or
+NULL if the metadata has been discarded.
+After each call to sqlite3_set_auxdata(C,N,P,X) where X is not NULL,
+SQLite will invoke the destructor function X with parameter P exactly
+once, when the metadata is discarded.
+SQLite is free to discard the metadata at any time, including: <ul>
+<li> when the corresponding function parameter changes, or
+<li> when <a href="../c3ref/reset.html">sqlite3_reset()</a> or <a href="../c3ref/finalize.html">sqlite3_finalize()</a> is called for the
+SQL statement, or
+<li> when sqlite3_set_auxdata() is invoked again on the same
+parameter, or
+<li> during the original sqlite3_set_auxdata() call when a memory
+allocation error occurs. </ul></p>
 
-<p>SQLite is free to call the destructor and drop metadata on any
-parameter of any function at any time.  The only guarantee is that
-the destructor will be called before the metadata is dropped.</p>
+<p>Note the last bullet in particular.  The destructor X in
+sqlite3_set_auxdata(C,N,P,X) might be called immediately, before the
+sqlite3_set_auxdata() interface even returns.  Hence sqlite3_set_auxdata()
+should be called near the end of the function implementation and the
+function implementation should not make any use of P after
+sqlite3_set_auxdata() has been called.</p>
 
 <p>In practice, metadata is preserved between function calls for
-expressions that are constant at compile time. This includes literal
-values and <a href="../lang_expr.html#varparam">parameters</a>.</p>
+function parameters that are compile-time constants, including literal
+values and <a href="../lang_expr.html#varparam">parameters</a> and expressions composed from the same.</p>
+
+<p>The value of the N parameter to these interfaces should be non-negative.
+Future enhancements may make use of negative N values to define new
+kinds of function caching behavior.</p>
 
 <p>These routines must be called from the same thread in which
 the SQL function is running.
@@ -161,3 +181,4 @@ the SQL function is running.
   <a href="objlist.html">Objects</a>,
   <a href="constlist.html">Constants</a>, and
   <a href="funclist.html">Functions</a>.</p>
+
