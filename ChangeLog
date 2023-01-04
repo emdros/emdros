@@ -15,6 +15,11 @@
 
 	* sqlite3/: Update to version 3.40.1 from 2022-12-23.
 
+	* RPM build machinery: Add Node.JS bindings to the RPMs.
+
+	modified:   emdros.spec.in
+	modified:   generate_extrafiles.py.in
+
 2023-01-03 Ulrik Sandborg-Petersen
 
 	* zlib/: Update to version 1.2.13 from 2022-10-13. 

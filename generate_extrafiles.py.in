@@ -32,6 +32,7 @@ extrafiles_emdros_list = [
     @SWIG_WITH_PHP7_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP7.so.*", # MAIN
     @SWIG_WITH_PHP8_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP8.ini", # MAIN
     @SWIG_WITH_PHP8_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosPHP8.so.*", # MAIN
+    @SWIG_WITH_NODE_WRAPPERS_TRUE@"%{prefix}/lib/emdros/Emdros.node", # MAIN
     @SWIG_WITH_JAVA_WRAPPERS_TRUE@"%{prefix}/lib/emdros/jemdros.jar", # MAIN
     @SWIG_WITH_JAVA_WRAPPERS_TRUE@"%{prefix}/lib/emdros/libjemdros.so.*", # MAIN
     @SWIG_WITH_CSHARP_WRAPPERS_TRUE@"%{prefix}/lib/emdros/EmdrosDotNet.dll", #MAIN
