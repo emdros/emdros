@@ -1,5 +1,28 @@
 This file is for release-notes for Emdros.
 
+- *** Version 3.8.0 *** 
+
+Release notes for Emdros 3.8.0
+==============================
+
+- Remove support for PHP5 bindings.
+
+- Add support for PHP8 bindings
+
+- Add experimental support for Node.js bindings.
+
+- Upgraded SQLite3, PCRE, and ZLib to latest versions as of 2022-12-31.
+
+- Test suites extended
+
+- Assorted bugfixes
+
+- Fixes to the changing sands of compilers, languages, platforms,
+  security settings, operating systems... Sisyphos certainly has his
+  work rolled out for him, and he gives thanks for having a job...
+
+
+
 - *** Version 3.7.0 *** 
 
 Release notes for Emdros 3.7.0
