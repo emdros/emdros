@@ -6,6 +6,8 @@
 
 	* AUTHORS: Update Copyright year.
 
+	* win32/config.mak.in: Update paths to wxWidgets-3.2.1 and Mysql 8.0.
+
 2023-01-03 Ulrik Sandborg-Petersen
 
 	* Bumped to version 3.8.0, due to new, significant,

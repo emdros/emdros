@@ -110,7 +110,7 @@ PGTOP=$(PROGRAMFILES)\PostgreSQL\8.4
 !ENDIF
 
 !IF "$(MYSQLTOP)" == ""
-MYSQLTOP=C:\Program Files\MySQL\MySQL Connector C 6.1
+MYSQLTOP=C:\Program Files\MySQL\Connector C++ 8.0
 !ENDIF
 
 
@@ -148,9 +148,9 @@ WITH_WXWIN=yes
 !ENDIF
 
 
-# Set this as appropriate
+o# Set this as appropriate
 !IF "$(WXWIN_HOME)" == ""
-WXWIN_HOME=c:\wxWidgets-3.1.2
+WXWIN_HOME=c:\wxWidgets-3.2.1
 !ENDIF
 
 # ----------------------------------------------
