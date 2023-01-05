@@ -1,5 +1,9 @@
 ============ 3.8.0 ============
 
+2023-01-05 Ulrik Sandborg-Petersen
+
+	* win32/body.mak: Update with support for wxWidgets 3.2.
+
 2023-01-03 Ulrik Sandborg-Petersen
 
 	* Bumped to version 3.8.0, due to new, significant,

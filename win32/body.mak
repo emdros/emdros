@@ -186,6 +186,9 @@ WXVERSION=30
 !ELSEIF EXIST("$(WXDIR)\lib\vc_lib\wxbase31ud.lib")
 WXLIBDIR=$(WXDIR)\lib\vc_lib
 WXVERSION=31
+!ELSEIF EXIST("$(WXDIR)\lib\vc_lib\wxbase32ud.lib")
+WXLIBDIR=$(WXDIR)\lib\vc_lib
+WXVERSION=32
 !ELSE
 !ERROR Could not find wxWidgets library in $(WXDIR)
 !ENDIF 
@@ -207,6 +210,9 @@ WXVERSION=30
 !ELSEIF EXIST("$(WXDIR)\lib\vc_x64_lib\wxbase31ud.lib")
 WXLIBDIR=$(WXDIR)\lib\vc_x64_lib
 WXVERSION=31
+!ELSEIF EXIST("$(WXDIR)\lib\vc_x64_lib\wxbase32ud.lib")
+WXLIBDIR=$(WXDIR)\lib\vc_x64_lib
+WXVERSION=32
 !ELSE
 !ERROR Could not find wxWidgets library in $(WXDIR)
 !ENDIF 
@@ -231,6 +237,9 @@ WXVERSION=30
 !ELSEIF EXIST("$(WXDIR)\lib\vc_lib\wxbase31u.lib")
 WXLIBDIR=$(WXDIR)\lib\vc_lib
 WXVERSION=31
+!ELSEIF EXIST("$(WXDIR)\lib\vc_lib\wxbase32u.lib")
+WXLIBDIR=$(WXDIR)\lib\vc_lib
+WXVERSION=32
 !ELSE
 !ERROR Could not find wxWidgets library in $(WXDIR)
 !ENDIF 
@@ -253,6 +262,9 @@ WXVERSION=30
 !ELSEIF EXIST("$(WXDIR)\lib\vc_x64_lib\wxbase31u.lib")
 WXLIBDIR=$(WXDIR)\lib\vc_x64_lib
 WXVERSION=31
+!ELSEIF EXIST("$(WXDIR)\lib\vc_x64_lib\wxbase32u.lib")
+WXLIBDIR=$(WXDIR)\lib\vc_x64_lib
+WXVERSION=32
 !ELSE
 !ERROR Could not find wxWidgets library in $(WXDIR)
 !ENDIF 
@@ -342,6 +354,17 @@ WX_LIBS_UNICODE=$(WX_LIBS) \
    wxscintillad.lib \
    wxzlibd.lib wxjpegd.lib wxpngd.lib wxtiffd.lib
    
+!ELSEIF "$(WXVERSION)" == "32"
+WX_LIBS_UNICODE=$(WX_LIBS) \
+   wxbase32ud.lib wxmsw32ud_gl.lib wxmsw32ud_richtext.lib \
+   wxbase32ud_net.lib wxmsw32ud_html.lib wxmsw32ud_stc.lib \
+   wxbase32ud_xml.lib wxmsw32ud_media.lib wxmsw32ud_webview.lib \
+   wxmsw32ud_adv.lib wxmsw32ud_propgrid.lib wxmsw32ud_xrc.lib \
+   wxmsw32ud_aui.lib wxmsw32ud_qa.lib wxregexud.lib \
+   wxmsw32ud_core.lib wxmsw32ud_ribbon.lib \
+   wxscintillad.lib \
+   wxzlibd.lib wxjpegd.lib wxpngd.lib wxtiffd.lib
+   
 !ELSE
 !ERROR Unknown WXVERSION value: $(WXVERSION)
 !ENDIF
@@ -389,6 +412,17 @@ WX_LIBS_UNICODE=$(WX_LIBS) \
    wxmsw31u_adv.lib wxmsw31u_propgrid.lib wxmsw31u_xrc.lib \
    wxmsw31u_aui.lib wxmsw31u_qa.lib wxregexu.lib \
    wxmsw31u_core.lib wxmsw31u_ribbon.lib \
+   wxscintilla.lib \
+   wxzlib.lib wxjpeg.lib wxpng.lib wxtiff.lib
+
+!ELSEIF "$(WXVERSION)" == "32"
+WX_LIBS_UNICODE=$(WX_LIBS) \
+   wxbase32u.lib wxmsw32u_gl.lib wxmsw32u_richtext.lib \
+   wxbase32u_net.lib wxmsw32u_html.lib wxmsw32u_stc.lib \
+   wxbase32u_xml.lib wxmsw32u_media.lib wxmsw32u_webview.lib \
+   wxmsw32u_adv.lib wxmsw32u_propgrid.lib wxmsw32u_xrc.lib \
+   wxmsw32u_aui.lib wxmsw32u_qa.lib wxregexu.lib \
+   wxmsw32u_core.lib wxmsw32u_ribbon.lib \
    wxscintilla.lib \
    wxzlib.lib wxjpeg.lib wxpng.lib wxtiff.lib
 
