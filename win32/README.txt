@@ -2,95 +2,125 @@ Compiling Emdros with Visual C++
 ================================
 
 This file contains instructions for how to compile Emdros with Visual
-Studio 2010 or higher.  The instructions are split up into these
+Studio 2015 or higher.  The instructions are split up into these
 parts:
 
-- Generic build instructions
+- Prerequisites
+- Building Emdros
 - SWIG support
 - wxWidgets
-- Building Emdros only
+- Special configurations
+
+
+Prerequisites
+=============
+
+0) Install Visual Studio 2015 or later [required]
+
+https://visualstudio.microsoft.com/
+
+1) Install MySQL [optional].
+
+If you want to use MySQL as a backend, you must install MySQL on the build machine.
+
+Go to www.mysql.com to install it.
+
+The development files must be installed with MySQL as part of the
+installation process. Specifically, the C++ Connector must be installed.
+
+
+2) Install PostgreSQL [optional]
+
+If you want to use PostgreSQL as a backend, you must install PostgreSQL on the build machine.
+
+https://www.postgresql.org/
+
+
+3) Install wxWidgets [optional]
+
+If you want to build the client desktop programs that come with Emdros, you must install wxWidgets.
+
+See the section on wxWidgets below for how to do this.
+
+
+4) Install the Java (Open)JDK [optional]
+
+If you want to compile support for the SWIG Java bindings, you must install the Java JDK.
+
+You can install the OpenJDK version:
+
+https://openjdk.net/
+
+You could also install the version from Oracle that requires you to
+comply with the requirements of Oracle's license.
+
+5) Install Visual Studio 2015 or later.
+
+You can install any edition of Visual Studio, including the Community Edition.
 
 
 
-Generic build instructions
-==========================
+Building Emdros
+===============
 
-1) If you wish to support MySQL, download the latest MySQL from
-   www.mysql.com and install it.  Do remember to check the box in the
-   installer that says you want the development environment.
+1) First, ensure that you've installed all the required / wanted prerequisites (see above).
 
-2) If you wish to support PostgreSQL, download the latest PostgreSQL
-   installer from www.postgresql.org and install it.  Do remember to
-   check the box in the installer that says you want the development
-   environment.
+2) Open a Developer Command window from Visual Studio.
 
-3) Edit win32\config.mak to suit your taste.  In particular, you
-   should comment-out any of the following lines with the backend name
-   for which you do not wish support for that backend.
+Currently, the versions of the Developer Command window using PowerShell are not supported.
 
-   SQLITE3=1
-   MYSQL=1
-   PGSQL=1
+See the documentation for Visual Studio for how to do this.
 
-   Also, you should set MYSQLTOP if you need support for MySQL, and
-   PGTOP if you need support for PostgreSQL.
-   
-   Also, consider un-commenting-out the following lines:
+You should ensure that you open the Developer Command window which builds for the CPU target you want.
 
-   #WITH_WXWIN=yes
-   #WITH_SWIG_PYTHON=yes
-   #WITH_SWIG_JAVA=yes
+Currently, the following target CPUs are supported
 
-   Please see the note above about wxWidgets and/or SWIG if you decide
-   to uncomment any of these lines.
+- x64 (64 bit)
+_ x86 (32 bit)
 
-4) Build the package
+3) Unpack the Emdros sources somewhere on your file system. E.g.:
 
-   a) Start a console window.
+C:\Users\john\source\emdros\emdros-3.8.0
 
-   b) Make sure you have the VC++ environment variables in the
-      environment.  On Windows NT/2000, these may be there already.
-      If in doubt, run the BAT file VCVARS32.BAT found in the Visual
-      C++ distribution (usually found in "C:\Program Files\Microsoft
-      Visual Studio 9.0\VC\bin", or an equivalent).
+4) In the Developer Command window, navigate to the "win32" directory inside the root of the Emdros sources. E.g.:
 
-   c) cd to win32 in the Emdros source directory.
+> cd C:\Users\john\source\emdros\emdros-3.8.0\win32
 
-   d) nmake /f win32.mak
+5) Now it's time to build Emdros, using the nmake tool. nmake is a part of the Visual Studio installation.
 
-   e) If you wish, you can do an
+You can set a number build variables on the command line, or you can set them by editing the config.mak.
 
-      nmake /f win32.mak dist
+Here is an example which sets some of the possible build variables:
 
-      This will create a directory, called emdros-<version>-win32,
-      which contains all the files needed in the distribution.
+> nmake /f win32.mak SQLITE=1 MYSQL=1 MYSQLTOP="C:\Program Files\MySQL\Connector C++ 8.0" PGSQL=0 BPT=0 WITH_WXWIN=yes WXWIN_HOME=C:\wxWidgets-3.2.1 TARGET_CPU=X64
 
-5) If you have opted for support for MySQL:
+You are encouraged to study the "config.mak" file in this directory. It shows you what variables can be set.
 
-   In order to use the binaries, you need to place the following files
-   from the MySQL installation, either in your PATH, or in the same
-   directory as the Emdros binaries.
+If the build fails, please try to debug it. If you need help, please
+contact the author of Emdros. You can find the email address in the
+AUTHORS file in the root of the sources.
 
-   $(MYSQLTOP)\lib\opt\libmysql.dll
+6) You can build a directory with an Emdros distribution, where all files are placed in a nice directory structure.
 
-6) If you have opted for support for PostgreSQL:
+> nmake /f win32.mak dist
 
-   In order to use the binaries, you need to place the following files
-   from the PostgreSQL installation either in your path or in the same
-   directory as the Emdros binaries.
+The directory will be called something like
+emdros-<version>-<target_cpu>, and will be located inside the root of
+the emdros sources.
 
-   - $(PGTOP)\bin\libpq.dll
-   - $(PGTOP)\bin\comerr32.dll
-   - $(PGTOP)\bin\ssleay32.dll
-   - $(PGTOP)\bin\libeay32.dll
-   - $(PGTOP)\bin\krb5_32.dll
-   - $(PGTOP)\bin\libiconv2.dll
-   - $(PGTOP)\bin\libintl3.dll
-   - $(PGTOP)\bin\k5sprt32.dll
-   - $(PGTOP)\bin\gssapi32.dll
+You can drag and drop this resource folder to whereever you want and use it from there.
 
-   These are copied into the emdros-<version>-win32 directory by
-   default by the "dist" target.
+7) Build an executable installer [optional]
+
+You can build an executable installer for Emdros with the NSIS tool
+(Nullsoft Installer System). Install NSIS first, before you do this.
+
+> nmake /f win32.mak inst
+
+You may need to tweak the win32\emdros.nsi file.
+
+Have fun with using Emdros profitably!
+
 
 
 SWIG support
@@ -100,8 +130,8 @@ What is SWIG?
 -------------
 
 SWIG is a wrapper interface generator for wrapping C and C++ for use
-with scripting languages.  Currently, SWIG bindings for Python and
-Java are supported on Win32.
+with scripting languages.  Currently, SWIG bindings for Java and C#
+are supported on Windows.
 
 You do not need SWIG installed in order to use the SWIG bindings,
 since they have been pre-computed before distributing the Emdros
@@ -110,6 +140,9 @@ sources.
 
 Python support
 --------------
+
+Python support is probably currently broken. Please skip the following
+obsolete instructions.
 
 Before you compile Emdros, do the following:
 
@@ -274,9 +307,12 @@ wxWidgets version >= 3.0.0
 
 
 
+Special configurations
+======================
+
 
 Building Emdros only
-====================
+--------------------
 
 If you wish to build Emdros only (no examples, no SWIG, no query
 tool), you can define EMDROS_ONLY=1 in win32\config.mak.
@@ -290,7 +326,7 @@ to nmake.
 
 
 Building the amalgamation library only
-======================================
+--------------------------------------
 
 In win32\config.mak, there is a configuration variable called
 
