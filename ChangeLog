@@ -2,7 +2,9 @@
 
 2023-01-05 Ulrik Sandborg-Petersen
 
-	* win32/body.mak: Update with support for wxWidgets 3.2.
+	* win32/body.mak: Update with support for wxWidgets 3.2.X.
+
+	* AUTHORS: Update Copyright year.
 
 2023-01-03 Ulrik Sandborg-Petersen
 

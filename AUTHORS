@@ -4,7 +4,7 @@ Emdros
 Emdros was originally created by Ulrik Sandborg-Petersen,
 ulrikp@emdros.org, and he is the current maintainer.
 
-Copyright (c) 2001-2019 Ulrik Sandborg-Petersen
+Copyright (c) 2001-2023 Ulrik Sandborg-Petersen
 
 
 SWIG support
@@ -19,7 +19,7 @@ Kirk also has been a huge encouragement throughout the existence of
 Emdros.  He also kindly provided access to some seriously powerful 64
 bit hardware, back when that was rare, so that Emdros could support
 64-bit operating systems. Kirk also provided help with performance
-testing.
+testing, and wrote a scholarly paper about Emdros in a journal.
 
 
 
