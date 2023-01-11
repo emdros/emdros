@@ -21,6 +21,13 @@ Release notes for Emdros 3.8.0
   security settings, operating systems... Sisyphos certainly has his
   work rolled out for him, and he gives thanks for having a job...
 
+- MySQL is currently not supported on Windows, or on Mac.
+
+- PostgreSQL is currently not supported on Windows, or on Mac.
+
+- SWIG bindings are currently not supported on Windows.
+
+
 
 
 - *** Version 3.7.0 *** 
