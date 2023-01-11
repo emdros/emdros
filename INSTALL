@@ -82,16 +82,6 @@ The specific MySQL library needed by Emdros is:
 
 - libmysqlclient.a
 
-CentOS
-------
-
-On CentOS 7.0 (and presumably RHEL 7.0), installing the following
-packages will pull in the minimal set required for building Emdros as
-an RPM with support for MariaDB (MySQL), PostgreSQL, and Python.
-
-yum install gcc-c++ make binutils groff gcc glibc-devel glibc-headers kernel-headers groff libgomp libstdc++-devel python-devel mariadb mariadb-server mariadb-devel postgresql postgresql-server postgresql-devel rpm-build
-
-
 Fedora
 ------
 
@@ -103,7 +93,7 @@ gcc-c++ make binutils groff gcc glibc-devel glibc-headers kernel-headers groff l
 
 The following packages are optional on Fedora:
 
-java-1.8.0-openjdk java-1.8.0-openjdk-devel python-devel python3-devel php-devel mono-core mysql mysql-server mysql mysql-devel postgresql postgresql-server postgresql-devel nodejs nodejs-devel npm
+java-1.8.0-openjdk java-1.8.0-openjdk-devel python3-devel php-devel mono-core mysql mysql-server mysql mysql-devel postgresql postgresql-server postgresql-devel nodejs nodejs-devel npm 
 
 Also, for Node.JS bindings, you need:
 
@@ -122,12 +112,13 @@ ii) You want to be able to build from a fresh git clone.
 
 iii) You want to do a "make distclean" and build from there.
 
+
 Building a .deb from an Emdros tarball
 ::::::::::::::::::::::::::::::::::::::
 
 For (i), the minimum you need is pulled in with:
 
-sudo apt-get install -y g++ make binutils zlib1g zlib1g-dev build-essential fakeroot debhelper pkg-config python
+sudo apt-get install -y g++ make binutils zlib1g zlib1g-dev build-essential fakeroot debhelper pkg-config python3
 
 The following are all optional:
 
@@ -145,20 +136,14 @@ sudo apt install postgresql libpq-dev postgresql-client
 
 SWIG bindings support:
 Java:    sudo apt install openjdk-8-jdk
-Python2: sudo apt install python-dev
 Python3: sudo apt install python3-dev
 Mono/C#: sudo apt install mono-devel mono-mcs mono-tools-devel
 PHP7:    sudo apt install php-dev
 PHP8:    sudo apt install php-dev
-NodeJS:  sudo apt-install nodejs npm
+NodeJS:  sudo apt-install nodejs npm node-gyp
 
 To bring all language bindings in:
-sudo apt install openjdk-8-jdk python-dev python3-dev mono-devel mono-mcs mono-tools-devel php-dev nodejs npm
-
-Also, for Node.JS bindings, you need:
-
-sudo npm install -g node-gyp
-
+sudo apt install openjdk-8-jdk python3-dev mono-devel mono-mcs mono-tools-devel php-dev nodejs npm node-gyp
 
 To build a .deb:
 
@@ -194,25 +179,6 @@ PHP7, after a "make distclean", or a fresh git clone.
 SWIG version 4.1.0 or higher is required if you need support for PHP8,
 after a "make distclean", or a fresh git clone.
 
-
-
-Older versions of Ubuntu
-::::::::::::::::::::::::
-
-On Ubuntu 14.04 LTS (Trusty Tahr), the following command will bring in
-everything needed to build a .deb:
-
-sudo apt-get install g++ make binutils re2c latex2html swig autoconf automake libtool libwxgtk3.0-dev libwxgtk-media3.0-dev openjdk-7-jdk python-dev mono-devel mono-gmcs mono-tools-devel libmysqlclient-dev mysql-client mysql-server postgresql libpq-dev postgresql-client groff imagemagick xdg-utils zlib1g-dev build-essential fakeroot debhelper autotools-dev 
-
-On Ubuntu Server 14.04 LTS, and possibly others, the minimum packages
-needed to build a .deb of Emdros from an Emdros release tarball will
-be pulled in with the following.
-
-sudo apt-get install make g++ libwxgtk3.0-0 libwxgtk3.0-dev libwxgtk-media3.0-dev zlib1g-dev build-essential fakeroot debhelper autotools-dev 
-
-Note that this does not pull in PostgreSQL or MySQL, so unless their
-development packages are installed, support for these will not be
-compiled in.
 
 
 
@@ -361,7 +327,7 @@ into the debian/rules file, meaning they will also be effective after
 you run make dist.  For example, you could do the following instead of
 merely configure:
 
-./configure  --with-swig-language-nodejs=no --with-swig-language-java=no  --with-swig-language-python2=yes  --with-swig-language-python3=yes --with-swig-language-php7=no --with-swig-language-php8=no --with-wx=maybe  --with-sqlite3=yes  --with-mysql=no  --with-bpt=maybe  --enable-shared=yes  --disable-debug  
+./configure  --with-swig-language-nodejs=no --with-swig-language-java=no  --with-swig-language-python3=yes --with-swig-language-php7=no --with-swig-language-php8=no --with-wx=maybe  --with-sqlite3=yes  --with-mysql=no  --with-bpt=maybe  --enable-shared=yes  --disable-debug  
 
 Then these options will be carried over into debian/rules, via
 debian/rules.in.
@@ -442,10 +408,10 @@ The switches are as follows:
 - wxWidgets           --with-wx=[yes|no|maybe]
 - .Net (for SWIG)     --with-swig-language-csharp=[yes|no|maybe]
 - Java (for SWIG)     --with-swig-language-java=[yes|no|maybe]
-- Python 2 (for SWIG) --with-swig-language-python=[yes|no|maybe]
 - Python 3 (for SWIG) --with-swig-language-python3=[yes|no|maybe]
 - PHP7 (for SWIG)     --with-swig-language-php7=[yes|no|maybe]
 - PHP8 (for SWIG)     --with-swig-language-php8=[yes|no|maybe]
+- Node.js (for SWIG)  --with-swig-language-nodejs=[yes|no|maybe]
 
 
 --with-sqlite3
@@ -511,7 +477,7 @@ Building a package
 ------------------
 
 If you need to build a package (e.g., on Solaris), here is the
-procedure.  The following assumes that you want to install in
+rocedure.  The following assumes that you want to install in
 /opt/Emdros and build the package in /var/tmp/Emdros before
 installing.  This is just an example.
 
@@ -552,7 +518,7 @@ The most important ones are:
 - --disable-local-pcre
 - --with-swig-language-nodejs=[yes|no|maybe]
 - --with-swig-language-java=[yes|no|maybe]
-- --with-swig-language-python=[yes|no|maybe]
+- --with-swig-language-csharp=[yes|no|maybe]
 - --with-swig-language-python3=[yes|no|maybe]
 - --with-swig-language-php7=[yes|no|maybe]
 - --with-swig-language-php8=[yes|no|maybe]

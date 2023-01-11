@@ -1,5 +1,14 @@
 ============ 3.8.0 ============
 
+2023-01-10 Ulrik Sandborg-Petersen
+
+	* INSTALL: Modernize:
+	- Remove mention of obsolete Python 2
+	- Remove mention of discontinued CentOS
+	- Remove mention of ancient Ubuntu 14.04
+	- Add mention of SWIG Node.js
+	- Update list of packages to install for Ubuntu and Fedora
+
 2023-01-05 Ulrik Sandborg-Petersen
 
 	* win32/body.mak: Update with support for wxWidgets 3.2.X.
