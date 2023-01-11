@@ -35,11 +35,11 @@ SQLITE3=1
 !IF "$TARGET_CPU" == "X64"
 # You may modify this...
 !IF "$(MYSQL)" == ""
-MYSQL=1
+MYSQL = 1
 !ENDIF
 !ELSE
 # But not this...
-MYSQL=0
+MYSQL = 0
 !ENDIF
 
 # PostgreSQL support is not provided in the official binaries,
@@ -47,7 +47,7 @@ MYSQL=0
 # and due to licensing restrictions posed on the libraries
 # shipped with PostreSQL.
 !IF "$(PGSQL)" == ""
-PGSQL=0
+PGSQL = 0
 !ENDIF
 
 #
@@ -68,7 +68,7 @@ PGSQL=0
 # you can set the following to 1.
 #
 !IF "$(BPT)" == ""
-BPT=0
+BPT = 0
 !ENDIF
 
 
@@ -78,12 +78,12 @@ BPT=0
 # -----------------------
 
 !IF "$(DEBUG)" == ""
-DEBUG=0
-#DEBUG=1
+DEBUG = 0
+#DEBUG = 1
 !ENDIF
 
 # Don't do anything to this.
-DEBUGINFO=1
+DEBUGINFO = 1
 
 
 # -----------------------------------------------
@@ -94,8 +94,8 @@ DEBUGINFO=1
 # -----------------------------------------------
 
 !IF "$(EMDROS_ONLY)" == ""
-EMDROS_ONLY=0
-#EMDROS_ONLY=1
+EMDROS_ONLY = 0
+#EMDROS_ONLY = 1
 !ENDIF
 
 
@@ -106,11 +106,11 @@ EMDROS_ONLY=0
 # or MySQL (and ignore whichever isn't relevant)
 # ----------------------------------------------
 !IF "$(PGTOP)" == ""
-PGTOP=$(PROGRAMFILES)\PostgreSQL\8.4
+PGTOP = $(PROGRAMFILES)\PostgreSQL\8.4
 !ENDIF
 
 !IF "$(MYSQLTOP)" == ""
-MYSQLTOP=C:\Program Files\MySQL\Connector C++ 8.0
+MYSQLTOP = C:\Program Files\MySQL\Connector C++ 8.0
 !ENDIF
 
 
@@ -130,8 +130,8 @@ MYSQLTOP=C:\Program Files\MySQL\Connector C++ 8.0
 # On the other hand, things are significantly faster with this set to 1.
 
 !IF "$(SQLITE3_NO_SYNC)" == ""
-SQLITE3_NO_SYNC=1
-#SQLITE3_NO_SYNC=0
+SQLITE3_NO_SYNC = 1
+#SQLITE3_NO_SYNC = 0
 !ENDIF
 
 
@@ -144,13 +144,13 @@ SQLITE3_NO_SYNC=1
 # Uncomment this line if you wish to compile the programs
 # which depend on wxWidgets
 !IF "$(WITH_WXWIN)" == ""
-WITH_WXWIN=yes
+WITH_WXWIN = yes
 !ENDIF
 
 
-o# Set this as appropriate
+# Set this as appropriate
 !IF "$(WXWIN_HOME)" == ""
-WXWIN_HOME=c:\wxWidgets-3.2.1
+WXWIN_HOME = c:\wxWidgets-3.2.1
 !ENDIF
 
 # ----------------------------------------------
@@ -159,8 +159,8 @@ WXWIN_HOME=c:\wxWidgets-3.2.1
 
 # set to "yes" to enable C# SWIG support
 !IF "$(WITH_SWIG_CSHARP)" == ""
-WITH_SWIG_CSHARP=no
-#WITH_SWIG_CSHARP=yes
+WITH_SWIG_CSHARP = no
+#WITH_SWIG_CSHARP = yes
 !ENDIF
 
 
@@ -170,18 +170,18 @@ WITH_SWIG_CSHARP=no
 
 # uncomment to enable Python
 !IF "$(WITH_SWIG_PYTHON)" == ""
-WITH_SWIG_PYTHON=no
-#WITH_SWIG_PYTHON=yes
+WITH_SWIG_PYTHON = no
+#WITH_SWIG_PYTHON = yes
 !ENDIF
 
 #PYTHON_INCLUDE : Set this to the directory that contains python.h
 !IF "$(PYTHON_INCLUDE)" == ""
-PYTHON_INCLUDE=c:\python27\include
+PYTHON_INCLUDE = c:\python27\include
 !ENDIF
 
 # PYTHON_LIB : Set this to the python library including path for linking with
 !IF "$(PYTHON_LIB)" == ""
-PYTHON_LIB=c:\python27\libs\python27.lib
+PYTHON_LIB = c:\python27\libs\python27.lib
 !ENDIF
 
 
@@ -191,13 +191,13 @@ PYTHON_LIB=c:\python27\libs\python27.lib
 
 # uncomment to enable Java
 !IF "$(WITH_SWIG_JAVA)" == ""
-WITH_SWIG_JAVA=no
-#WITH_SWIG_JAVA=yes
+WITH_SWIG_JAVA = no
+#WITH_SWIG_JAVA = yes
 !ENDIF
 
 #SWIG_JDK_DIR : Set this to the top-level JDK directory
 !IF "$(SWIG_JDK_DIR)" == ""
-SWIG_JDK_DIR=c:\Program Files\java\jdk1.8.0_121
+SWIG_JDK_DIR = c:\Program Files\java\jdk1.8.0_121
 !ENDIF
 
 
@@ -209,12 +209,12 @@ SWIG_JDK_DIR=c:\Program Files\java\jdk1.8.0_121
 # 
 # ----------------------------------------------
 !IF "$(NSISEXE)" == ""
-NSISEXE=C:\Program Files (x86)\NSIS\makensis.exe
+NSISEXE = C:\Program Files (x86)\NSIS\makensis.exe
 !ENDIF
 
 
 # Set VERSION variable
-VERSION=@VERSION@
+VERSION = @VERSION@
 
 
 # Don't touch this, or Emdros won't compile.
@@ -226,7 +226,7 @@ COMPILE_EMDROS = 1
 # In win32/win32.mak, this MAKEARGS macro is used
 # whenever doing recursive nmake
 #
-MAKEARGS =  CC="$(CC)" CXX="$(CXX)" CFLAGS="$(CFLAGS)" CXXFLAGS="$(CXXFLAGS)" \
+MAKEARGS = CC="$(CC)" CXX="$(CXX)" CFLAGS="$(CFLAGS)" CXXFLAGS="$(CXXFLAGS)" \
             CPPFLAGS="$(CPPFLAGS)" LDFLAGS="$(LDFLAGS)" CPP="$(CPP)" \
 	    TARGET_CPU="$(TARGET_CPU)" \
 	    BUILD_FOR_DEVEL="$(BUILD_FOR_DEVEL)" \
@@ -245,4 +245,4 @@ MAKEARGS =  CC="$(CC)" CXX="$(CXX)" CFLAGS="$(CFLAGS)" CXXFLAGS="$(CXXFLAGS)" \
 	    PYTHON_LIB="$(PYTHON_LIB)" \
 	    WITH_SWIG_JAVA="$(WITH_SWIG_JAVA)" \
 	    SWIG_JDK_DIR="$(SWIG_JDK_DIR)" \
-	    NSISEXE="$(NSISEXE)" 
+	    NSISEXE ="$(NSISEXE)" 
