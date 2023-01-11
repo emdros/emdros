@@ -142,19 +142,10 @@ If building on a Win32 system, please see INSTALL.Win32.txt.
 If building or using on a Mac system, please see INSTALL.Mac.txt
 
 
-How to use
-==========
-
-Please see the doc/HOW-TO-USE.txt file.  
-
-There is also a lot of documentation in doc/.  In particular, the MQL
-User's Guide (MQL-User.pdf) will probably be of interest.
-
-
 Credits
 =======
 
-Emdros was written by Ulrik Petersen
+Emdros was written by Ulrik Sandborg-Petersen
 (ulrikp[at]users.sourceforge.net).  He is the current maintainer.
 
 The MdF model and the QL query language, on which Emdros rests, were
@@ -173,6 +164,7 @@ iterators.
 
 Martin Petersen contributed some of the code for the import wizard.
 
+See the AUTHORS file in the root of the sources for more contributors.
 
 
 Directory overview
@@ -182,13 +174,10 @@ Emdros has the following directories:
 
 ./           - Contains configuration files, basic doc files, etc.
 ./doc        - Contains documentation.
-./djgpp      - DJGPP compilation support
-./examples   - various examples
 ./EMdF       - Source files for the library implementing the EMdF model.
 ./include    - All include files
 ./MQL        - Source files for the library implementing MQL
 ./pcre       - Perl-Comaptible Regular Expressions library
-./sqlite     - Local SQLite 2.X.X sources
 ./sqlite3    - Local SQLite 3.X.X sources
 ./src        - Source files for programs taking advantage of the Emdros
                libraries.
