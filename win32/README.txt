@@ -2,7 +2,7 @@ Compiling Emdros with Visual C++
 ================================
 
 This file contains instructions for how to compile Emdros with Visual
-Studio 2015 or higher.  The instructions are split up into these
+Studio 2019 or higher.  The instructions are split up into these
 parts:
 
 - Prerequisites
@@ -15,13 +15,16 @@ parts:
 Prerequisites
 =============
 
-0) Install Visual Studio 2015 or later [required]
+0) Install Visual Studio 2019 or later [required]
 
 https://visualstudio.microsoft.com/
 
 1) Install MySQL [optional].
 
-If you want to use MySQL as a backend, you must install MySQL on the build machine.
+*** MYSQL IS CURRENTLY NOT SUPPORTED ON WINDOWS ***
+
+If you want to use MySQL as a backend, you must install MySQL on the
+build machine.
 
 Go to www.mysql.com to install it.
 
@@ -30,6 +33,8 @@ installation process. Specifically, the C++ Connector must be installed.
 
 
 2) Install PostgreSQL [optional]
+
+*** POSTGRESQL IS CURRENTLY NOT SUPPORTED ON WINDOWS ***
 
 If you want to use PostgreSQL as a backend, you must install PostgreSQL on the build machine.
 
@@ -45,6 +50,8 @@ See the section on wxWidgets below for how to do this.
 
 4) Install the Java (Open)JDK [optional]
 
+*** THE SWIG JAVA BNINDINGS ARE CURRENTLY NOT SUPPORTED ON WINDOWS ***
+
 If you want to compile support for the SWIG Java bindings, you must install the Java JDK.
 
 You can install the OpenJDK version:
@@ -54,35 +61,34 @@ https://openjdk.net/
 You could also install the version from Oracle that requires you to
 comply with the requirements of Oracle's license.
 
-5) Install Visual Studio 2015 or later.
-
-You can install any edition of Visual Studio, including the Community Edition.
-
-
 
 Building Emdros
 ===============
 
-1) First, ensure that you've installed all the required / wanted prerequisites (see above).
+1) First, ensure that you've installed all the required / wanted
+prerequisites (see above).
 
 2) Open a Developer Command window from Visual Studio.
 
-Currently, the versions of the Developer Command window using PowerShell are not supported.
+Currently, the versions of the Developer Command window using
+PowerShell are not supported.
 
 See the documentation for Visual Studio for how to do this.
 
-You should ensure that you open the Developer Command window which builds for the CPU target you want.
+You should ensure that you open the Developer Command window which
+builds for the CPU target you want.
 
 Currently, the following target CPUs are supported
 
 - x64 (64 bit)
-_ x86 (32 bit)
+- x86 (32 bit)
 
 3) Unpack the Emdros sources somewhere on your file system. E.g.:
 
 C:\Users\john\source\emdros\emdros-3.8.0
 
-4) In the Developer Command window, navigate to the "win32" directory inside the root of the Emdros sources. E.g.:
+4) In the Developer Command window, navigate to the "win32" directory
+inside the root of the Emdros sources. E.g.:
 
 > cd C:\Users\john\source\emdros\emdros-3.8.0\win32
 
@@ -92,7 +98,7 @@ You can set a number build variables on the command line, or you can set them by
 
 Here is an example which sets some of the possible build variables:
 
-> nmake /f win32.mak SQLITE=1 MYSQL=1 MYSQLTOP="C:\Program Files\MySQL\Connector C++ 8.0" PGSQL=0 BPT=0 WITH_WXWIN=yes WXWIN_HOME=C:\wxWidgets-3.2.1 TARGET_CPU=X64
+> nmake /f win32.mak SQLITE=1 MYSQL=0 PGSQL=0 BPT=0 WITH_WXWIN=yes WXWIN_HOME=C:\wxWidgets-3.2.1 TARGET_CPU=X64
 
 You are encouraged to study the "config.mak" file in this directory. It shows you what variables can be set.
 

@@ -4,6 +4,9 @@
 
  	* NEWS: Add some more release notes for 3.8.0.
 
+	* win32/README.txt: MySQL is currently not supported. Nor is
+	PostgreSQL. Nor are the SWIG bindings.
+
 2023-01-10 Ulrik Sandborg-Petersen
 
 	* INSTALL: Modernize:
