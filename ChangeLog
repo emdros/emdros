@@ -13,6 +13,12 @@
 	- Add mention of SWIG Node.js
 	- Update list of packages to install for Ubuntu and Fedora
 
+	* win32/config.mak.in: Add spaces around all '=' variable
+	assignments. Also, remove extraneous character in definition of
+	WXWIN_HOME.
+
+	
+
 2023-01-05 Ulrik Sandborg-Petersen
 
 	* win32/body.mak: Update with support for wxWidgets 3.2.X.
