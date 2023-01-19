@@ -1,3 +1,18 @@
+============ 3.8.1 ============
+
+2023-01-19 Ulrik Sandborg-Petersen
+
+	* Bumped to version 3.8.1.
+
+	I don't yet know whether this will be a backwards compatible bug
+	fix (3.8.1) or the addition of functionality in backwards
+	compatible ways (3.9.0). I want to follow Semantic Versioning, as
+	per the Semantic Versioning spec.
+
+	modified:   ChangeLog
+	modified:   configure.ac
+	modified:   debian/changelog
+
 ============ 3.8.0 ============
 
 2023-01-11 Ulrik Sandborg-Petersen
