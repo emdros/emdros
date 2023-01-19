@@ -13,6 +13,9 @@
 	modified:   configure.ac
 	modified:   debian/changelog
 
+	* tests/erwtry.cpp: Change the message in show_versioning to say
+	'erwtry' rather than 'emdros_utiltry'.
+
 ============ 3.8.0 ============
 
 2023-01-11 Ulrik Sandborg-Petersen

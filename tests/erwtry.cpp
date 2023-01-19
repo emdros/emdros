@@ -5,6 +5,7 @@
  *
  * Claus Tøndering
  * Created: 4/18-2018
+ * Last update: 1/19-2023
  *
  */
 
@@ -41,7 +42,7 @@ using std::map;
 
 void show_version(ostream& ostr)
 {
-	ostr << "emdros_utiltry from Emdros version " << EMDROS_VERSION << endl;
+	ostr << "erwtry from Emdros version " << EMDROS_VERSION << endl;
 }
 
 
