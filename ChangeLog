@@ -4,6 +4,10 @@
 
 	* Bumpt SQLite3 to version 3.43.1, released on 2023-09-11.
 
+	* m4/emdros_macos.m4: Attempt to account for macOS releases up to
+	version 15 (Sonoma). This has not been tested. Please help fix
+	any bugs.
+
 2023-01-19 Ulrik Sandborg-Petersen
 
 	* Bumped to version 3.8.1.
