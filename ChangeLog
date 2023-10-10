@@ -1,5 +1,9 @@
 ============ 3.8.1 ============
 
+2023-10-10 Ulrik Sandborg-Petersen
+
+	* Bumpt SQLite3 to version 3.43.1, released on 2023-09-11.
+
 2023-01-19 Ulrik Sandborg-Petersen
 
 	* Bumped to version 3.8.1.
