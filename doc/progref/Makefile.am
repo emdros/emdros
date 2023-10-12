@@ -77,14 +77,6 @@ EmdrosProgRefGuide.pdf: EmdrosProgRefGuide.tex
 
 DISTCLEANFILES = \
              config.py config.pyc config.log \
-             EmdrosProgRefGuide.aux \
-             EmdrosProgRefGuide.out \
-             EmdrosProgRefGuide.tex \
-             EmdrosProgRefGuide.toc \
-             EmdrosProgRefGuide.log \
-             EmdrosProgRefGuide.htb \
-             EmdrosProgRefGuide.hhk \
-             EmdrosProgRefGuide.hhc \
              EmdrosProgRefGuide.pdf \
              EmdrosProgRefGuide.tex \
              $(EMDROS_PROGREF_GUIDE_HTML_DIR).zip \
@@ -92,7 +84,14 @@ DISTCLEANFILES = \
 
 CLEANFILES = *~ core \
              pdflatex-log.txt \
-             $(BUILT_SOURCES)
+             EmdrosProgRefGuide.aux \
+             EmdrosProgRefGuide.out \
+             EmdrosProgRefGuide.toc \
+             EmdrosProgRefGuide.log \
+             EmdrosProgRefGuide.htb \
+             EmdrosProgRefGuide.hhk \
+             EmdrosProgRefGuide.hhc \
+             $(BUILT_SOURCES) 
 
 
 
