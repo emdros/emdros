@@ -28,7 +28,8 @@ EXTRA_DIST = Content.txt files.txt \
              $(BOOKFILES) \
              Makefile.inc \
              $(MAYBE_ZIP) \
-             1001.htm $(HTML_FILES) 1001.html \
+             $(ALL_HTM_FILES) \
+             $(ALL_HTML_FILES) \
              buildhtb.py \
              $(MAYBE_PDF) \
              EmdrosProgRefGuide.tex \
