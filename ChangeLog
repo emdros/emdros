@@ -12,6 +12,10 @@
 	Further updates for Python 3. Also, expect VERSION variable in
 	config.py.
 
+	* doc/progref/Makefile.am:
+        - Deal with *.htm
+	- In target 'clean', remove all BUILT_SOURCES.
+	- Add explicit dependencies for *.htm
 
 2023-10-10 Ulrik Sandborg-Petersen
 

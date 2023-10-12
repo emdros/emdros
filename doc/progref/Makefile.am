@@ -16,6 +16,10 @@ endif
 
 ALL_HTML_FILES = $(HTML_FILES) 1001.html
 
+HTM_FILES = $(HTML_FILES:.html=.htm)
+
+ALL_HTM_FILES = $(HTM_FILES) 1001.htm
+
 BOOKFILES = EmdrosProgRefGuide.hhc \
             EmdrosProgRefGuide.hhk \
             EmdrosProgRefGuide.hhp 
@@ -34,7 +38,8 @@ EXTRA_DIST = Content.txt files.txt \
 BUILT_SOURCES = EmdrosProgRefGuide.hhc \
                 EmdrosProgRefGuide.hhk \
                 EmdrosProgRefGuide.tex \
-                1001.htm 1001.html $(HTML_FILES) \
+                $(ALL_HTM_FILES) \
+                $(ALL_HTML_FILES) \
                 config.py \
                 $(MAYBE_ZIP) \
                 $(MAYBE_PDF)
@@ -56,6 +61,7 @@ EmdrosProgRefGuide.htb: 1001.htm
 1001.htm: config.py EmdrosProgRefGuide.hhp buildhtb.py \
           Content.txt files.txt
 	cd $(srcdir); $(PYTHON_PROGRAM) $(srcdir)/buildhtb.py --htb
+	cp 1001.htm index.htm
 
 EmdrosProgRefGuide.hhc: 1001.htm
 
@@ -85,7 +91,8 @@ DISTCLEANFILES = \
              *.htm $(ALL_HTML_FILES)
 
 CLEANFILES = *~ core \
-             pdflatex-log.txt
+             pdflatex-log.txt \
+             $(BUILT_SOURCES)
 
 
 
@@ -105,6 +112,8 @@ config.py: config.py.in
 	cp 1001.html index.html
 
 index.html: 1001.html
+
+index.htm: 1001.htm
 
 $(HTML_FILES): 1001.html
 
