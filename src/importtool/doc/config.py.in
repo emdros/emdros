@@ -1,3 +1,4 @@
 PDF_PREFIX="ImportToolUsersGuide"
-DOC_TITLE="Emdros Import Tool User's Guide -- Version @VERSION@"
+DOC_TITLE="Emdros Import Tool User's Guide"
 DOC_DATE="January 24, 2007"
+VERSION="@VERSION@"
