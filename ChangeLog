@@ -7,6 +7,12 @@
 	- Remove Version from DOC_TITLE.
 	- Bump DOC_DATE.
 
+	* doc/progref/buildhtb.py:
+
+	Further updates for Python 3. Also, expect VERSION variable in
+	config.py.
+
+
 2023-10-10 Ulrik Sandborg-Petersen
 
 	* Bumpt SQLite3 to version 3.43.1, released on 2023-09-11.
