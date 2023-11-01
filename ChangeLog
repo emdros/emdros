@@ -5,6 +5,9 @@
 	* debian/rules.in: Add @WITH_SWIG_PHP8@ to dh_auto_configure. This
 	had accidentally been left out in the move to PHP8.
 
+	* doc/progref/Makefile.am: Add .NOTPARALLEL target, to disable
+	parallel make.
+
 2023-10-12 Ulrik Sandborg-Petersen
 
 	* doc/progref/config.py.in:
