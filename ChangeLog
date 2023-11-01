@@ -1,5 +1,10 @@
 ============ 3.8.1 ============
 
+2023-11-01 Ulrik Sandborg-Petersen
+
+	* debian/rules.in: Add @WITH_SWIG_PHP8@ to dh_auto_configure. This
+	had accidentally been left out in the move to PHP8.
+
 2023-10-12 Ulrik Sandborg-Petersen
 
 	* doc/progref/config.py.in:
