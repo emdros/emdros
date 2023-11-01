@@ -1,3 +1,9 @@
+# Make sure we don't try to do parallel make
+#
+# A cleanup of the dependencies could possibly fix the need for this.
+#
+.NOTPARALLEL:
+
 DOCUMENT_NAME = ImportToolUsersGuide
 
 include Makefile.inc
