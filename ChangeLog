@@ -9,7 +9,14 @@
 
 	* configure.ac, debian/copying: Update Emdros version to 3.9.0, as
 	per the Semantic Versioning Spect: We have added new functionality
-	in a backwards compatible way, to wit.
+	in a backwards compatible way, to wit:
+
+	* util/erw.cpp, include/erw.h: Emdros REST Wrapper: Move it
+	further towards usability and official status as API (not yet
+	there):
+
+	- Wrap the params in a typedef "ERWParamsString2StringMap".
+	- Make sure SWIG knows about this one.
 
 2023-11-01 Ulrik Sandborg-Petersen
 
