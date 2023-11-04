@@ -7,6 +7,10 @@
 	* SWIG bindings: Add %include <stl_map.i>, so as to be able to
 	make typemaps for std::map<> in various interfaces.
 
+	* configure.ac, debian/copying: Update Emdros version to 3.9.0, as
+	per the Semantic Versioning Spect: We have added new functionality
+	in a backwards compatible way, to wit.
+
 2023-11-01 Ulrik Sandborg-Petersen
 
 	* debian/rules.in: Add @WITH_SWIG_PHP8@ to dh_auto_configure. This

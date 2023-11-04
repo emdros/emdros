@@ -5,7 +5,7 @@
  *
  * Claus Tøndering and Ulrik Sandborg-Petersen
  * Created: 1/14-2016
- * Last update: 4/10-2017
+ * Last update: 11/4-2023
  *
  */
 
@@ -128,7 +128,7 @@ string Erw::enumJson() const
 /// @return Error code.
 int Erw::request(const string& pathname,
                  const string& verb, 
-                 const map<string, string>& params,
+                 const ERWParamsString2StringMap& params,
                  string& reply) const
 {
     reply = "";

@@ -5,7 +5,7 @@
  *
  * Claus Tøndering and Ulrik Sandborg-Petersen
  * Created: 1/14-2016
- * Last update: 4/10-2017
+ * Last update: 11/4-2023
  *
  */
 
@@ -38,6 +38,11 @@
 #define ERW_BAD_PARAM           6
 #define ERW_BAD_CONFIG          7
 
+typedef std::map<std::string, std::string> ERWParamsString2StringMap;
+#ifdef SWIG
+%template(ERWParamsString2StringMap) std::map<std::string, std::string>;
+#endif
+
 class Erw {
   public:
     // Constructor. Parameter is configuration file.
@@ -51,7 +56,7 @@ class Erw {
     // Executes MQL request
     int request(const std::string& pathname,
                 const std::string& verb, 
-                const std::map<std::string, std::string>& params,
+                const ERWParamsString2StringMap& params,
                 std::string& reply) const;
 
     // Returns true if this Erw object has been properly initialized
