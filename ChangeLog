@@ -1,5 +1,9 @@
 ============ 3.8.1 ============
 
+2023-11-04 Ulrik Sandborg-Petersen
+
+	* COPYING: Remove mention of TECkit, which was removed long ago.
+
 2023-11-01 Ulrik Sandborg-Petersen
 
 	* debian/rules.in: Add @WITH_SWIG_PHP8@ to dh_auto_configure. This

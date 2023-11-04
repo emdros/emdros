@@ -83,19 +83,6 @@ library, with modifications by Ulrik Sandborg-Petersen.
 
 
 
-TECkit
-======
-
-TECkit is used for the Emdros Query Tool, and can be found in
-src/qrytool/TECkit/.  TECkit is Open Source software by SIL
-International, written by Jonathan Kew.
-
-The TECkit sources distributed with Emdros are not the full sources,
-and are modified.  The full, original sources can be downloaded from:
-
-http://scripts.sil.org/TECkit
-
-
 MySQL
 =====
 
