@@ -1,7 +1,7 @@
 /*
  * libjemdros.i: Java bindings for Emdros using SWIG
  * Created: 2/8-2003 (February 8, 2003)
- * Last update: 2/6-2019
+ * Last update: 11/4-2023
  *
  */
 
@@ -33,6 +33,7 @@
 %include "various.i"
 %include "std_string.i"
 %include "std_vector.i"
+%include "std_map.i"
 
 %include "exception.i"
 

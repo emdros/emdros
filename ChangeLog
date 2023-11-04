@@ -4,6 +4,9 @@
 
 	* COPYING: Remove mention of TECkit, which was removed long ago.
 
+	* SWIG bindings: Add %include <stl_map.i>, so as to be able to
+	make typemaps for std::map<> in various interfaces.
+
 2023-11-01 Ulrik Sandborg-Petersen
 
 	* debian/rules.in: Add @WITH_SWIG_PHP8@ to dh_auto_configure. This

@@ -1,7 +1,7 @@
 /*
  * py3emdros.i: Python 3 bindings for Emdros using SWIG
  * Created: 2/8-2003 (February 8, 2003)
- * Last update: 2/6-2019
+ * Last update: 11/4-2023
  *
  */
 
@@ -33,6 +33,7 @@
 %include "std_common.i"
 %include "std_string.i"
 %include "std_vector.i"
+%include "std_map.i"
 
 %include "exception.i"
 
@@ -65,6 +66,7 @@
 #include "../../include/renderobjects.h"
 #include "../../include/renderxml.h"
 #include "../../include/harvest_fts.h"
+#include "../../include/erw.h"
 %}
 
 // Include this before using emdros_int64, monad_m, id_d_t, etc.
@@ -129,3 +131,4 @@
 %include "../../include/renderobjects.h"
 %include "../../include/renderxml.h"
 %include "../../include/harvest_fts.h"
+%include "../../include/erw.h"
