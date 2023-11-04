@@ -17,7 +17,8 @@ Here is an example:
 // Use the correct path to the 'Emdros.node' module.
 // For example:
 
-var Emdros = require("/usr/lib/emdros/Emdros")
+//var Emdros = require("/usr/lib/emdros/Emdros")
+var Emdros = require("./build/Release/Emdros")
 
 function execString(env, query) {
     var bCompilerOK = true;
@@ -108,6 +109,87 @@ while (myFlatSheafConstIterator.hasNext()) {
       }
 }
 
+//
+// Test harvest library
+//
+json_string = `
+{
+   "fetchinfo" : {
+      "base" : {
+         "object_types" : {
+            "token" : {
+               "get" : ["surface"],
+               "start" : "{{ feature 0 }}",
+               "end" : " "
+            }
+         },
+         "priority_list" : [
+            "token"
+         ],
+         "postprocess" : [
+            { "prefix" : "<sentence>" },
+            { "suffix" : "</sentence>" }
+         ],
+         "prepend_XML_declaration" : true
+      }
+   }
+}
+`;
+
+// Use Emdros' JSON implementation to parse the json_string into a
+// Emdros.JSONValue value.
+var error_message = "";
+var pFetchInfo;
+parse_output = Emdros.readAndParseJSONFromString(json_string);
+[pFetchInfo, error_message] = parse_output;
+
+console.log("UP200: parse_output should be a list, because the error_message parameter is an output parameter.");
+console.log("UP201: parse_output = ", parse_output);
+
+console.log("error_message = '%s'\n", error_message);
+
+console.log("UP210");
+
+// Pretty-print the JSON value
+var bEscapeAsUnicode = false;
+var json_string_pretty_printed = pFetchInfo.castToString(bEscapeAsUnicode);
+console.log("pFetchInfo's castToString() method returns:", json_string_pretty_printed);
+
+//
+// Now render the document
+//
+
+//
+// The db_name parameter to render_objects does not need to be the
+// same name as the database name. This value is used inside the
+// rendering mechanism, e.g., witht he {{ dbname }} template, which
+// emits this value.
+//
+var db_name = "node_emdros_test";
+
+// We use the stylesheet named 'base'
+var stylesheet = "base";
+
+// The monad range to query
+var first_monad = 1;
+var last_monad = 10;
+
+// Make placeholder variables for output
+var rendered_doc = "";
+var bResult = false;
+
+// The function returns an array
+var render_result_array = Emdros.render_objects(env, db_name, pFetchInfo, stylesheet, first_monad, last_monad, bResult);
+
+// Unpack the array.
+[rendered_doc, bResult] = render_result_array
+
+
+console.log("render_objects result: ", bResult);
+console.log("render_objects output:");
+console.log(rendered_doc);
+console.log("\n");
+
 
 ```
 
@@ -116,8 +198,8 @@ while (myFlatSheafConstIterator.hasNext()) {
 
 ## bool& and long& parameters
 
-Many functions in the C++ API take a bool& or a long& parameter. These
-parameters are used to return a value.
+Many functions in the C++ API take a bool&, long&, or std::string&
+parameter. These parameters are used to return a value.
 
 In the JavaScript bindings, the return type is converted to a list of
 values. The first entry will be the return value from the

@@ -46,6 +46,12 @@
 
 	Also, bump the version documented to 3.9.0.
 
+	* SWIG/nodejs/: Extend the example code to use the renderobjects
+	library.
+
+	modified:   SWIG/nodejs/README_NODEJS.md
+	modified:   SWIG/nodejs/test_Emdros_Node.js
+
 2023-11-01 Ulrik Sandborg-Petersen
 
 	* debian/rules.in: Add @WITH_SWIG_PHP8@ to dh_auto_configure. This
