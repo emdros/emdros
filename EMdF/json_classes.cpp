@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 4/12-2019
+ * Last update: 11/4-2023
  *
  */
 
@@ -270,9 +270,10 @@ void JSONValue::deleteList(void)
 			++it;
 		}
 		m_value.m_pList->clear();
-	}
-	delete m_value.m_pList;
-	m_kind = kJSONNull;
+
+		delete m_value.m_pList;
+		m_kind = kJSONNull;
+	} 
 }
 
 void JSONValue::deleteObject(void)
@@ -284,9 +285,10 @@ void JSONValue::deleteObject(void)
 			++it;
 		}
 		m_value.m_pObject->clear();
+		
+		delete m_value.m_pObject;
+		m_kind = kJSONNull;
 	}
-	delete m_value.m_pObject;
-	m_kind = kJSONNull;
 }
 
 
@@ -318,6 +320,7 @@ long long JSONValue::getInteger(void) const
 	} else {
 		return 0;
 	}
+
 }
 
 
@@ -494,11 +497,18 @@ long long JSONValue::castToInteger() const
 	return 0;
 }
 
-std::string JSONValue::castToString() const
+std::string JSONValue::castToString(bool bEscapeAsUnicode) const
 {
 	std::stringstream sout;
-	bool bEscapeAsUnicode = false;
 	this->pretty(&sout, 0, bEscapeAsUnicode);
+	return sout.str();
+}
+
+
+std::string JSONValue::castToCompactString(bool bEscapeAsUnicode) const
+{
+	std::stringstream sout;
+	this->printCompact(&sout, bEscapeAsUnicode);
 	return sout.str();
 }
 
@@ -756,7 +766,6 @@ int jjparse(JSONExecEnv *pEE)
 		return 0;
 	}
 }
-
 
 
 

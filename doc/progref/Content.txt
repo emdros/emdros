@@ -36,7 +36,7 @@ covered:</P>
 
 <h2>Appliccable version</h2>
 
-<P>This guide documents Emdros version <strong>3.7.0</strong>
+<P>This guide documents Emdros version <strong>3.9.0</strong>
 and later.</P>
 
 
@@ -3437,6 +3437,225 @@ public:
 
   bool isEmpty(void) const;
 };
+
+</PRE><!-- widthincm : 12 -->
+
+</page>
+
+
+<page ID="1146">
+
+<h2>Overview</h2>
+
+<P>Emdros provides classes and functions to handle JSON.</P>
+
+<P>The central class is JSONValue.</P>
+
+<P>The format is standard JSON, except for some additions. The JSON variant allowed is <page_anchor ID="1420">documented later</page_anchor>.
+
+<P>Two functions are provided to parse a string or the contents of a
+file to a JSONValue.</P>
+
+<h2>C++ interface for creating JSONValue objects</h2>
+
+<PRE class="interface">
+{PREHASH}ifdef SWIG
+%apply std::string{PREAMP} OUTPUT { std::string{PREAMP} error{PREUNDERSCORE}message }
+{PREHASH}endif
+// Parse the json{PREUNDERSCORE}string parameter and return it as a JSONValue* object.
+// 0 (nil) is returned if this is unsuccessful.
+// Any error message is returned in the error{PREUNDERSCORE}message out parameter.
+extern JSONValue *readAndParseJSONFromString(const std::string{PREAMP} json{PREUNDERSCORE}string, std::string{PREAMP} error{PREUNDERSCORE}message);
+
+{PREHASH}ifdef SWIG
+%apply std::string{PREAMP} OUTPUT { std::string{PREAMP} error{PREUNDERSCORE}message }
+{PREHASH}endif
+// Parse the contents of the file with the given filename as JSON, and
+// return it as a JSONValue* object.
+// 0 (nil) is returned if this is unsuccessful.
+// Any error message is returned in the error{PREUNDERSCORE}message out parameter.
+extern JSONValue *readAndParseJSONFromFile(const std::string{PREAMP} filename, std::string{PREAMP} error{PREUNDERSCORE}message);
+
+</PRE><!-- widthincm : 12 -->
+
+<h2>C++ interface</h2>
+
+<P>The JSONValue class is documented below. Special mention should be
+made of the castToString() and castToCompactString() methods, which
+convert the contents into either a pretty-printed string or a compact
+string with as little whitespace as possible.</P>
+
+<PRE class="interface">
+
+{PREHASH}include {PRELT}json{PREUNDERSCORE}classes.h{PREGT}
+
+typedef enum {
+	kJSONNull,
+	kJSONBoolean,
+	kJSONInteger,
+	kJSONString,
+	kJSONList,
+	kJSONObject
+} eJSONValueKind;
+
+class JSONValue {
+{PREHASH}ifndef SWIG
+	eJSONValueKind m{PREUNDERSCORE}kind;
+	union {
+		bool m{PREUNDERSCORE}boolean;
+		long long m{PREUNDERSCORE}integer;
+		const std::string* m{PREUNDERSCORE}pString;
+		std::list{PRELT}JSONValue*{PREGT} *m{PREUNDERSCORE}pList;
+		std::map{PRELT}std::string, JSONValue*{PREGT} *m{PREUNDERSCORE}pObject;
+	} m{PREUNDERSCORE}value;
+{PREHASH}endif
+ public:
+        // null value
+	JSONValue();
+        // boolean value
+	JSONValue(bool bValue);
+        // integer
+	JSONValue(long long integer);
+{PREHASH}ifndef SWIG
+        // string
+	JSONValue(std::string *pString);    // string
+        // list
+	JSONValue(JSONListElement *pTail);  // list
+        // object
+	JSONValue(JSONKeyValuePair *pTail); //
+{PREHASH}endif
+        // any of the above, making an empty (or null, false, or 0) JSONValue
+	JSONValue(eJSONValueKind kind);
+        // Copy constructor
+	JSONValue(const JSONValue{PREAMP} other);
+        // Destructor
+	~JSONValue();
+
+        // get the kind
+	eJSONValueKind getKind(void) const { return m{PREUNDERSCORE}kind; };
+
+        // If the value is a string, return that value.
+        // Otherwise, return the empty string "".
+	std::string getString(void) const;
+
+        // If the value is a boolean, return that value.
+        // Otherwise, return false.
+	bool getBoolean(void) const;
+
+        // If the value is a JSON integer, return that value.
+        // Otherwise, return 0
+	long long getInteger(void) const;
+
+        // If the value is a JSON list, construct and return a
+        // std::list{PRELT}JSONValue*{PREGT} with the contents of the string.
+        // Otherwise, return the empty list.
+	const std::list{PRELT}JSONValue*{PREGT}{PREAMP} getList(void) const;
+
+        // If the value is a JSON list, append the value.
+        // Otherwise, do nothing.
+	void append(JSONValue* pValue);
+
+        // If the value is a JSON object, add the key and the value.
+        // Otherwise, do nothing.
+	void addKeyValue(const std::string{PREAMP} key, JSONValue *pValue);
+
+        // If the value is a JSON object, look for the key. If the key
+        // is found, return the corresponding JSONValue* value. If the
+        // key is not found, return 0 (nil). If the value is not a
+        // JSON object, return 0 (nil),
+	const JSONValue* getObjectValue(const std::string{PREAMP} key) const;
+
+        // non-const variant. Does the exact same thing as the const
+        // version.
+	JSONValue* getObjectValue(const std::string{PREAMP} key);
+{PREHASH}ifndef SWIG
+
+        // Calls getObjectValue() const version.
+	const JSONValue* operator[](const std::string{PREAMP} key) const { return getObjectValue(key); };
+
+        // Calls getObjectValue() non-const version.
+	JSONValue* operator[](const std::string{PREAMP} key) { return getObjectValue(key); };
+{PREHASH}endif
+
+        // If the value is a JSON object, return a list of the keys in it.
+        // Otherwise, return the empty list.
+	std::list{PRELT}std::string{PREGT} getObjectKeys(void) const;
+
+        // Return true if one of the following is true:
+        // - kind is kJSONNull.
+        // - kind is kJSONBoolean, and the value is false.
+        // - kind is kJSONInteger, and the value is 0L.
+        // - kind is kJSONString, and the string is empty.
+        // - kind is kJSONList, and the list is empty.
+        // - kind is kJSONObject, and the object has no key/value pairs.
+        // Otherwise, returns false.
+	bool isFalse() const;
+
+        // If the value is a kJSONObject, returns true if the object
+        // has the key provided, and false if the object does not have
+        // the key.
+        // If the value is not a kJSONObject, return false.
+	bool hasObjectKey(const std::string{PREAMP} key) const;
+{PREHASH}ifndef SWIG
+
+        // Pretty-print to pOut, with indentation and newlines.  Use
+        // the initial indentation level provided in the indent{PREUNDERSCORE}level
+        // parameter.  Also, if the parameter bEscapeAsUnicode is
+        // true, UTF-8-encoded code points are escaped as \u rather
+        // than being copied as the raw UTF-8 characters.
+        void pretty(std::ostream *pOut, int indent{PREUNDERSCORE}level = 0, bool bEscapeAsUnicode = false) const;
+
+        // Pretty-print as a compact string to pOut, with as little
+        // whitespace as possible.  If the parameter bEscapeAsUnicode
+        // is true, UTF-8-encoded code points are escaped as \u rather
+        // than being copied as the raw UTF-8 characters.
+	void printCompact(std::ostream *pOut, bool bEscapeAsUnicode = false) const;
+{PREHASH}endif
+        // Return !(this-{PREGT}isFalse()).
+	bool castToBool() const;
+
+        // - If kind is kJSONNull, return 0.
+        // - If kind is kSONBooelan, return 1L if the value is true, or 0
+        //   if the value is false.
+        // - If the kind is kJSONInteger, return the value.
+        // - If the kind is kJSONString, attempt to convert the
+        //   contents of the string to to longlong, and return the
+        //   value.
+        // - If the kind is kJSONList, return the size of the list.
+        // - If the kind is kJSONObject, return the number of key/value pairs.
+	long long castToInteger() const;
+
+        // Use pretty() and return the string.
+	std::string castToString(bool bEscapeAsUnicode = false) const;
+
+        // Use printCompact() and return the string.
+	std::string castToCompactString(bool bEscapeAsUnicode = false) const;
+ private:
+{PREHASH}ifndef SWIG
+        // Assignment operator
+	JSONValue{PREAMP} operator=(const JSONValue{PREAMP} other);
+
+        // copying Mechanism, used in the copy constructor and the
+        // assignment operator.
+	void copyOther(const JSONValue{PREAMP} other);
+{PREHASH}endif
+        // If it is a list, deletes the list items, then deletes the
+        // list, and sets the m{PREUNDERSCORE}kind to kJSONNull.
+        // If it is not a list, do nothing.
+	void deleteList(void);
+
+        // If it is a kJSONObject, delete all key/value pairs. Then
+        // deletes the object, then sets m{PREUNDERSCORE}kind to kJSONNull. If it is
+        // not a kJSONObject, do nothing.
+	void deleteObject(void);
+{PREHASH}ifndef SWIG
+        // Emit some 3 spaces indent{PREUNDERSCORE}level times.  This is used in
+        // pretty(), and hence also in castToString().
+	void indent(std::ostream *pOut, int indent{PREUNDERSCORE}level) const;
+{PREHASH}endif
+};
+
+
 
 </PRE><!-- widthincm : 12 -->
 

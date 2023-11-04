@@ -18,6 +18,34 @@
 	- Wrap the params in a typedef "ERWParamsString2StringMap".
 	- Make sure SWIG knows about this one.
 
+	* include/json_classes.h, EMdF/json_classes.cpp:
+
+	- Add parameter bool bEscapeAsUnicode to
+	  JSONValue::castAsString(), with default = false, for backwards
+	  compatibility.
+
+	* EMdF/json_classes.cpp: Add new method
+	JSONValue::castAsCompactString(bool bEscapeAsUnicode = false);
+
+	* EMdF/json_classes.cpp: Fix bugs in:
+
+	- JSONValue::deleteList(void)
+	- JSONValue::deleteObject(void)
+
+	Bugfix: Only delete the list / object if the kind is actually
+	kJSONList or kJSONObject respectively.
+
+	* include/json_classes.h: Document the JSONValue class
+	inline. Also, document readAndParseJSONFromString() and
+	readAndParseJSONFromFile() inline.
+
+	* doc/progref/: Document the JSON layer.
+
+	- Content.txt
+	- files.txt
+
+	Also, bump the version documented to 3.9.0.
+
 2023-11-01 Ulrik Sandborg-Petersen
 
 	* debian/rules.in: Add @WITH_SWIG_PHP8@ to dh_auto_configure. This
