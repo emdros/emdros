@@ -5,6 +5,10 @@
 	* doc/progref/buildhtb.py: Remove extraneous ')' after the <body>
 	tag in HTML output.
 
+	* util/erw.cpp, include/erw.h: Revert ERWParamsString2StringMap
+	back to std::map<std::string, std::string> because we creating a
+	new EmdrosRestWrapper.
+
 2023-11-04 Ulrik Sandborg-Petersen
 
 	* COPYING: Remove mention of TECkit, which was removed long ago.
