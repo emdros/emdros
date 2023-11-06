@@ -1,5 +1,10 @@
 ============ 3.8.1 ============
 
+2023-11-06 Ulrik Sandborg-Petersen
+
+	* doc/progref/buildhtb.py: Remove extraneous ')' after the <body>
+	tag in HTML output.
+
 2023-11-04 Ulrik Sandborg-Petersen
 
 	* COPYING: Remove mention of TECkit, which was removed long ago.

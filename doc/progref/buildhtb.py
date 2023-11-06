@@ -183,7 +183,7 @@ class Pages:
         f.write(("     <title>" + hierarchy.getEntry(id).getTitle() + "</title>\n").encode('utf-8'))
         f.write((css_header + "\n").encode('utf-8'))
         f.write("  </head>\n".encode('utf-8'))
-        f.write("<body>)\n".encode('utf-8'))
+        f.write("<body>\n".encode('utf-8'))
 
     def writeHTMLPage(self, f, id, hierarchy, extension, bWithNavigation):
         if bWithNavigation:
