@@ -74,7 +74,7 @@ elif test -f configure.ac; then
     ./rmfiles.sh
 
     # Then rebuild, make the tarball, unpack it, and build the .deb
-    autoreconf -i && ./configure && make dist && tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
+    autoreconf -i && ./configure ${EMDROS_CONFIGURE_SWITCHES} && make dist && tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
 else
     # No, we don't have the tarball, not do we have sources.  git
     # clone the repoi. Make the tarball. Then try to build a .deb from

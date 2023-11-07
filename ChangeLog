@@ -1,5 +1,10 @@
 ============ 3.8.1 ============
 
+2023-11-07 Ulrik Sandborg-Petersen
+
+	* build-deb.sh: Add ${EMDROS_CONFIGURE_SWITCHES} after the
+	invocation of configure.
+
 2023-11-06 Ulrik Sandborg-Petersen
 
 	* doc/progref/buildhtb.py: Remove extraneous ')' after the <body>
