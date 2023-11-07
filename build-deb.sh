@@ -108,7 +108,7 @@ else
     ./rmfiles.sh
 
     # Then rebuild, make the tarball, unpack it, and build the .deb
-    autoreconf -i && ./configure && make dist && tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
+    autoreconf -i && ./configure ${EMDROS_CONFIGURE_SWITCHES} && make dist && tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
 
     DEB_FILE=`ls ${BUILD_DIR}/emdros/*.deb`
 
