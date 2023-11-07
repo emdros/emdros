@@ -5,6 +5,10 @@
 	* build-deb.sh: Add ${EMDROS_CONFIGURE_SWITCHES} after the
 	invocation of configure.
 
+	* build-deb.sh: Document the presence of the
+	EMDROS_CONFIGURE_SWITCHES environment variable at the top of the
+	script.
+
 2023-11-06 Ulrik Sandborg-Petersen
 
 	* doc/progref/buildhtb.py: Remove extraneous ')' after the <body>

@@ -35,6 +35,23 @@
 # it is downloaded by itself, then invoked without the rest of the
 # sources.
 #
+#
+# You can pass switches to the configure script by setting the
+# environment variable:
+#
+# - EMDROS_CONFIGURE_SWITCHES
+#
+# before invocation of this script.
+
+# For example:
+#
+# export EMDROS_CONFIGURE_SWITCHES="--with-mysql=no --with-postgresql=no --with-swig-language-nodejs=yes" && bash build-deb.sh
+#
+# See the file INSTALL in the root of the sources for other configure
+# switches.
+#
+#
+
 
 
 #
