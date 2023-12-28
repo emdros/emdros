@@ -91,6 +91,13 @@ or a "make clean":
 
 gcc-c++ make binutils groff gcc glibc-devel glibc-headers kernel-headers groff libgomp libstdc++-devel re2c latex2html swig autoconf automake libtool wxGTK3 wxGTK3-devel ImageMagick texlive-a4wide texlive-times texlive-courier texlive-ulem texlive-epstopdf-bin texlive-latex pkg-config python xdg-utils desktop-file-utils
 
+On Fedora 38 and following packages are required to build the full
+gamut of Emdros programs and libraries, even after a "make distclean"
+or a "make clean":
+
+gcc-c++ make binutils groff gcc glibc-devel glibc-headers kernel-headers groff libgomp libstdc++-devel re2c latex2html autoconf automake libtool wxGTK wxGTK-devel ImageMagick texlive-a4wide texlive-times texlive-courier texlive-ulem texlive-epstopdf-bin texlive-latex pkg-config python xdg-utils desktop-file-utils swig
+
+
 The following packages are optional on Fedora:
 
 java-1.8.0-openjdk java-1.8.0-openjdk-devel python3-devel php-devel mono-core mysql mysql-server mysql mysql-devel postgresql postgresql-server postgresql-devel nodejs nodejs-devel npm 

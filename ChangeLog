@@ -1,5 +1,10 @@
 ============ 3.8.1 ============
 
+2023-12-28 Ulrik Sandborg-Petersen
+
+	* Added the packages required for compiling on Fedora 38 and
+	following.
+
 2023-11-07 Ulrik Sandborg-Petersen
 
 	* build-deb.sh: Add ${EMDROS_CONFIGURE_SWITCHES} after the
