@@ -2,8 +2,10 @@
 
 2023-12-28 Ulrik Sandborg-Petersen
 
-	* Added the packages required for compiling on Fedora 38 and
-	following.
+	* INSTALL: Added the packages required for compiling on Fedora 38
+	and following.
+
+	* configure.ac: Upgrade AC_PREREQ from 2.69 to 2.71.
 
 2023-11-07 Ulrik Sandborg-Petersen
 
