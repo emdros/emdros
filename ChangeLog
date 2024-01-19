@@ -1,5 +1,22 @@
 ============ 3.8.1 ============
 
+2024-01-19 Ulrik Sandborg-Petersen
+
+	* Bugfix: For EmdrosQueryTool and other wxWidgets-based programs
+	that use the wx/conndlg.cpp implementation of a connection dialog:
+
+	- Fix the validation of the backend kind.
+
+	This resulted in a bug whereby the ConnectionDialog would not
+	accept a press on the "OK" button. The dialog simply stayed open,
+	since the validation could not go through.
+
+	- Remove the event table for ConnectionDialog.
+
+	- Use wxDialog::CreateSeparatedButtonDialog() instead of manually
+	making the wxButton objects for OK and Cancel.
+
+
 2023-12-28 Ulrik Sandborg-Petersen
 
 	* INSTALL: Added the packages required for compiling on Fedora 38

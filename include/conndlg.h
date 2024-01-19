@@ -6,7 +6,7 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 3/31-2013
+ * Last update: 1/19-2024
  *
  */
 
@@ -86,9 +86,9 @@
 class ConnectionPanel: public wxPanel
 {    
 	DECLARE_DYNAMIC_CLASS( ConnectionPanel )
-		DECLARE_EVENT_TABLE()
+	DECLARE_EVENT_TABLE()
 
-		public:
+public:
 	/// Constructors
 	ConnectionPanel( );
 	ConnectionPanel( app_checkConfigurationFunc_t conf_check_callback, bool bHasConfiguration, wxWindow* parent, wxWindowID id = SYMBOL_CONNECTIONDIALOG_IDNAME, const wxString& caption = SYMBOL_CONNECTIONDIALOG_TITLE, const wxPoint& pos = SYMBOL_CONNECTIONDIALOG_POSITION, const wxSize& size = SYMBOL_CONNECTIONDIALOG_SIZE, long style = SYMBOL_CONNECTIONDIALOG_STYLE );
@@ -181,10 +181,10 @@ class ConnectionPanel: public wxPanel
 class ConnectionDialog: public wxDialog
 {    
 	DECLARE_DYNAMIC_CLASS( ConnectionDialog )
-		DECLARE_EVENT_TABLE()
+	// DECLARE_EVENT_TABLE()
    
 
-		public:
+public:
 	/// Constructors
 	ConnectionDialog( );
 	ConnectionDialog( app_checkConfigurationFunc_t conf_check_callback, bool bHasConfiguration, wxWindow* parent, wxWindowID id = SYMBOL_CONNECTIONDIALOG_IDNAME, const wxString& caption = SYMBOL_CONNECTIONDIALOG_TITLE, const wxPoint& pos = SYMBOL_CONNECTIONDIALOG_POSITION, const wxSize& size = SYMBOL_CONNECTIONDIALOG_SIZE, long style = SYMBOL_CONNECTIONDIALOG_STYLE );

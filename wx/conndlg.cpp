@@ -6,7 +6,7 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 11/2-2018
+ * Last update: 1/19-2024
  *
  */
 
@@ -70,9 +70,9 @@ public:
 	virtual bool Validate(wxWindow *pParent) {
 		if (pParent == 0) {
 			return false;
-		} else {
-			if (pParent->IsKindOf(CLASSINFO(ConnectionPanel))) {
-				wxString strBackendKind = ((ConnectionPanel*)pParent)->m_cbBackendCB->GetValue();
+		} else {	
+			if (pParent->IsKindOf(CLASSINFO(wxComboBox))) {
+				wxString strBackendKind = ((wxComboBox*)pParent)->GetValue();
 				eBackendKind backend = getBackendKindFromString(strBackendKind);
 				return backend != kBackendNone;
 			} else {
@@ -205,7 +205,7 @@ bool ConnectionPanel::Create( app_checkConfigurationFunc_t conf_check_callback, 
 	////@end ConnectionPanel member initialisation
 
 	////@begin ConnectionPanel creation
-	SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS|wxWS_EX_VALIDATE_RECURSIVELY);
+	SetExtraStyle(GetExtraStyle()|wxWS_EX_VALIDATE_RECURSIVELY);
 	wxPanel::Create( parent, id, pos, size, style );
 
 	CreateControls();
@@ -717,8 +717,10 @@ IMPLEMENT_DYNAMIC_CLASS( ConnectionDialog, wxDialog )
 /*!
  * ConnectionDialog event table definition
  */
-BEGIN_EVENT_TABLE( ConnectionDialog, wxDialog )
+/*
+  BEGIN_EVENT_TABLE( ConnectionDialog, wxDialog )
 END_EVENT_TABLE()
+*/
 
 
 /*!
@@ -752,7 +754,7 @@ bool ConnectionDialog::Create( app_checkConfigurationFunc_t conf_check_callback,
 	m_bHasConfiguration = bHasConfiguration;
 
 	////@begin ConnectionDialog creation
-	SetExtraStyle(GetExtraStyle()|wxWS_EX_BLOCK_EVENTS|wxWS_EX_VALIDATE_RECURSIVELY);
+	SetExtraStyle(GetExtraStyle()|wxWS_EX_VALIDATE_RECURSIVELY);
 	wxDialog::Create( parent, id, caption, pos, size, style );
 
 	CreateControls();
@@ -783,14 +785,15 @@ void ConnectionDialog::CreateControls()
 						 this);
 	pSizerAll->Add(m_pConnectionPanel, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
 
-	wxBoxSizer* itemBoxSizer7 = new wxBoxSizer(wxHORIZONTAL);
-	pSizerAll->Add(itemBoxSizer7, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
 
-	wxButton* itemButton17 = new wxButton( itemDialog1, wxID_OK, _("&OK"), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer7->Add(itemButton17, 0, wxALIGN_LEFT|wxALL, 5);
-
-	wxButton* itemButton18 = new wxButton( itemDialog1, wxID_CANCEL, _("&Cancel"), wxDefaultPosition, wxDefaultSize, 0 );
-	itemBoxSizer7->Add(itemButton18, 0, wxALIGN_LEFT|wxALL, 5);
+	wxSizer *pButtonSizer = CreateSeparatedButtonSizer(wxOK|wxCANCEL);
+	// The button sizer may be 0 / NULL on platforms which
+	// have a different mechanism than these buttons for
+	// OK and Cancel (such as some smartphones).
+	if (pButtonSizer != 0) {
+		// Only add it if it was created.
+		pSizerAll->Add(pButtonSizer, 0, wxALIGN_CENTER_HORIZONTAL|wxALL, 0);
+	}
 
 	////@end ConnectionDialog content construction
 }
@@ -802,6 +805,7 @@ bool ConnectionDialog::ShowToolTips()
 {
 	return TRUE;
 }
+
 
 /*!
  * Get bitmap resources
