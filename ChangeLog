@@ -16,6 +16,11 @@
 	- Use wxDialog::CreateSeparatedButtonDialog() instead of manually
 	making the wxButton objects for OK and Cancel.
 
+	- include/conndlg.h
+	- wx/conndlg.cpp
+
+	* include/layout.h: Remove debugging output from
+	LayoutCanvas::HandleButtonDown().
 
 2023-12-28 Ulrik Sandborg-Petersen
 

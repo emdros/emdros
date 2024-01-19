@@ -11,7 +11,7 @@
 // November 11, 2003.
 //
 // Created: 7/17-2005
-// Last update: 4/19-2019
+// Last update: 1/19-2024
 //
 //
 
@@ -487,8 +487,6 @@ public:
 		(void)(event);
 		(void)(point);
 		(void)(RightButton);
-
-		std:: cerr << "UP200: LayoutCanvas::HandleButtonDown()" << std::endl;
 	};
 	
 	// Returns true on HREF-anchor at point, and sets href_attribute if it is.
