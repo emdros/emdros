@@ -155,27 +155,22 @@ if test "x$HOSTISDARWIN" = "xyes"; then
     MACOS_CFLAGS=""
   dnl macOS 12 (Monterey)
   elif test "x$DARWINMAJORVERSION" = "x21"; then
-    AC_MSG_RESULT([11]) 
+    AC_MSG_RESULT([12]) 
     MACOS_VERSION_MIN="11"
     MACOS_CFLAGS=""
   dnl macOS 13 (Ventura) 
   elif test "x$DARWINMAJORVERSION" = "x22"; then
-    AC_MSG_RESULT([22]) 
+    AC_MSG_RESULT([13]) 
     MACOS_VERSION_MIN="12"
     MACOS_CFLAGS=""
-  dnl macOS 14
+  dnl macOS 14 (Sonoma)
   elif test "x$DARWINMAJORVERSION" = "x23"; then
-    AC_MSG_RESULT([23]) 
+    AC_MSG_RESULT([14]) 
     MACOS_VERSION_MIN="13"
     MACOS_CFLAGS=""
-  dnl macOS 15 (Catalina)
-  elif test "x$DARWINMAJORVERSION" = "x24"; then
-    AC_MSG_RESULT([24]) 
-    MACOS_VERSION_MIN="14"
-    MACOS_CFLAGS=""
   else
-    AC_MSG_RESULT([unknown... Using 12.]) 
-    MACOS_VERSION_MIN="14"
+    AC_MSG_RESULT([unknown... Using 13.]) 
+    MACOS_VERSION_MIN="13"
     MACOS_CFLAGS=""
   fi
 
@@ -305,14 +300,13 @@ Please do so, and try again.])
   elif test "x$MACOS_VERSION_MIN" = "x12"; then
     AC_MSG_RESULT([12]) 
     MACOS_ARCH_FLAGS="-arch x86_64 -arch arm64"
+  dnl macOS 13 (Ventura) 
   elif test "x$MACOS_VERSION_MIN" = "x13"; then
-    AC_MSG_RESULT([12]) 
+    AC_MSG_RESULT([13]) 
     MACOS_ARCH_FLAGS="-arch x86_64 -arch arm64"
+  dnl macOS 14 (Sonoma)
   elif test "x$MACOS_VERSION_MIN" = "x14"; then
-    AC_MSG_RESULT([12]) 
-    MACOS_ARCH_FLAGS="-arch x86_64 -arch arm64"
-  elif test "x$MACOS_VERSION_MIN" = "x15"; then
-    AC_MSG_RESULT([12]) 
+    AC_MSG_RESULT([14]) 
     MACOS_ARCH_FLAGS="-arch x86_64 -arch arm64"
   dnl Unknown
   else
