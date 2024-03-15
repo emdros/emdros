@@ -17,6 +17,12 @@
 	* doc/cms/buildhtb.py: Fix syntax to conform better to Python 3,
 	even for the case when the user passes an unknown switch.
 
+	* install_mac.sh.in: Bugfix / update
+
+	- Actually display an error message if something goes wrong. Don't
+        just say it succeeded.
+	- Also copy the contents of ../doc/* into share/doc/emdros/
+
 2024-01-19 Ulrik Sandborg-Petersen
 
 	* Bugfix: For EmdrosQueryTool and other wxWidgets-based programs

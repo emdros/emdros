@@ -4,13 +4,18 @@
 #
 # install_mac.sh [install-prefix]
 #
-# If no install prefix is given, then ~/opt/Emdros@VERSION@ is used
+# If no install prefix is given, then ${HOME}/opt/Emdros@VERSION@ is used
 #
 # 
 #
 
+function fail {
+    echo "ERROR: Something went wrong installing Emdros to ${PREFIX}.";
+    exit 1;
+}
+
 if test "x$1" = "x"; then
-   PREFIX="`cd ~ ; pwd`/opt/Emdros@VERSION@"
+   PREFIX="${HOME}/opt/Emdros@VERSION@"
 else
    PREFIX=$1
 fi
@@ -19,11 +24,21 @@ mkdir -pv $PREFIX/bin
 mkdir -pv $PREFIX/include/emdros
 mkdir -pv $PREFIX/lib/emdros
 mkdir -pv $PREFIX/man/1
+mkdir -pv $PREFIX/share/doc/emdros
 
 cp -Rfp bin/* $PREFIX/bin/
+if test "x$?" != "x0"; then fail; fi
+    
 cp -Rfp man/* $PREFIX/man/
+if test "x$?" != "x0"; then fail; fi
+
 cp -Rfp include/* $PREFIX/include/emdros
+if test "x$?" != "x0"; then fail; fi
+
 cp -Rfp lib/* $PREFIX/lib/emdros
-cp -Rfp share/* $PREFIX/share/
+if test "x$?" != "x0"; then fail; fi
+
+cp -Rfp ../doc/* $PREFIX/share/docs/emdros
+if test "x$?" != "x0"; then fail; fi
 
 echo "Emdros successfully installed with prefix $PREFIX"
