@@ -112,9 +112,6 @@ AC_PROG_MAKE_SET
 dnl
 dnl Check for availability of a Python interpreter.
 dnl
-dnl SWIG 3.0 is required for PHP7 support.
-dnl SWIG 4.1 is required for PHP8 support
-dnl
 AC_CHECK_PROGS(PYTHON_PROGRAM, [python3 python2 python], [no])
 if test "x$PYTHON_PROGRAM" == "xno"; then 
    PYTHON_INTERPRETER_AVAILABLE="no"

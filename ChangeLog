@@ -6,7 +6,13 @@
 	MACOS_ARCH_FLAGS for macOS 12 (Monterey) and later. Also added
 	support for macOS 14 (Sonoma).
 
-	m4/emdros_macos.m4:
+	m4/emdros_macos.m4
+
+	* Documentation fix: Remove redundant comments mentioning SWIG
+	version requirements for PHP7 and PHP8 in the section dealing with
+	Python.
+
+	m4/emdros_buildenv.m4
 
 2024-01-19 Ulrik Sandborg-Petersen
 
