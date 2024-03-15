@@ -23,6 +23,8 @@
         just say it succeeded.
 	- Also copy the contents of ../doc/* into share/doc/emdros/
 
+	* NEWS: Release notes for 3.9.0.
+
 2024-01-19 Ulrik Sandborg-Petersen
 
 	* Bugfix: For EmdrosQueryTool and other wxWidgets-based programs

@@ -1,5 +1,72 @@
 This file is for release-notes for Emdros.
 
+- *** Version 3.9.0 *** 
+
+Release notes for Emdros 3.9.0
+==============================
+
+- Update SQLite to version 3.43.1.
+
+- Build system:
+
+  - Enable compilation on macOS Sonoma.
+
+  - Fix the Programmer's Reference guide's build system in various ways.
+
+  - Fix Python 3 compatibility in the build system.
+
+  - Fix various issues with the Debian .deb build system.
+
+  - build-deb.sh: Add the possibility to set the shell environment
+    variable EMDROS_CONFIGURE_SWITCHES which will pass switches to the
+    Emdros configure script when building the .deb.
+
+  - Bump autoconf AC_PREREQ from 2.69 to 2.71.
+
+  - Update the install_mac.sh.in script, so it actually gives an error
+    message and stops if an error is encountered. Also, copy the
+    documentation as part of the macOS install.
+
+- Changes for the JSON classes:
+
+  - Add new method JSONValue::castAsCompactString(bool bEscapeAsUnicode
+    = false);
+
+  - Document the JSON functionality in the Programmer's Reference
+    Guide, and inline in the code.
+
+  - Add parameter bool bEscapeAsUnicode, toJSONValue::castAsString()
+    with default value 'false', for backwards compatiblity.
+
+  - Add new method JSONValue::castAsCompactString(bool
+    bEscapeAsUnicode = false).
+
+  - Fix bugs in:
+  
+    - JSONValue::deleteList(void)
+    - JSONValue::deleteObject(void)
+
+    Bugfix: Only delete the list / object if the kind is actually
+    kJSONList or kJSONObject respectively.
+
+- SWIG bindings changes:
+
+  - Extend the example for the Node.js SWIG bindings to exercise the
+    renderobjects machinery.
+
+  - Add support for C++ STL <map> typemaps in various interfaces.
+
+- Emdros Rest Wrapper (util/erwc.pp, include/erw.h):
+
+   - Move it closer towards usability.
+
+- Emdros Query Tool:
+
+   - Fix the connection dialog so it works again, now being able to
+     validate the backend chooser again.
+
+
+
 - *** Version 3.8.0 *** 
 
 Release notes for Emdros 3.8.0
