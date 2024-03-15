@@ -643,7 +643,7 @@ if len(sys.argv) >= 2:
     if arg1[0:2] == "--":
         purpose = arg1[2:]
     else:
-	print "Unknown switch: %s" % arg1
+	print("Unknown switch: %s" % arg1)
 	sys.exit(1)
 
 

@@ -14,6 +14,9 @@
 
 	m4/emdros_buildenv.m4
 
+	* doc/cms/buildhtb.py: Fix syntax to conform better to Python 3,
+	even for the case when the user passes an unknown switch.
+
 2024-01-19 Ulrik Sandborg-Petersen
 
 	* Bugfix: For EmdrosQueryTool and other wxWidgets-based programs
