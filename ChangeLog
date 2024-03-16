@@ -7,6 +7,11 @@
 	* doc/progref/buildhtb.py: Fix bug in emission of LaTeX code:
 	Escape & into \\& not \&. The latter is not a valid Python escape.
 
+	* Bump to 3.9.1.
+
+	modified:   configure.ac
+	modified:   debian/changelog
+
 ============ 3.9.0 ============
 
 2024-03-15 Ulrik Sandborg-Petersen
