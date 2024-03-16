@@ -1,3 +1,9 @@
+============ 3.9.1 ============
+
+2024-03-16 Ulrik Sandborg-Petersen
+
+	* doc/cms/buildhtb.py: Copy doc/progref/buildhtb.py to doc/cms/.
+
 ============ 3.9.0 ============
 
 2024-03-15 Ulrik Sandborg-Petersen
