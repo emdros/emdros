@@ -412,7 +412,7 @@ class Pages:
         tmpstr = tmpstr.replace("&lt;", "$<$")
         tmpstr = tmpstr.replace("&gt;", "$>$")
         tmpstr = tmpstr.replace("&amp;", "&")
-        tmpstr = tmpstr.replace("&","\&")
+        tmpstr = tmpstr.replace("&","\\&")
         tmpstr = tmpstr.replace("{PREBACKSLASH}", "\\")
         tmpstr = tmpstr.replace("{PREUNDERSCORE}","_")
         tmpstr = tmpstr.replace("#", "\\#")

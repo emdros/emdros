@@ -4,6 +4,9 @@
 
 	* doc/cms/buildhtb.py: Copy doc/progref/buildhtb.py to doc/cms/.
 
+	* doc/progref/buildhtb.py: Fix bug in emission of LaTeX code:
+	Escape & into \\& not \&. The latter is not a valid Python escape.
+
 ============ 3.9.0 ============
 
 2024-03-15 Ulrik Sandborg-Petersen
