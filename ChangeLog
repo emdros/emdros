@@ -2,7 +2,9 @@
 
 2024-05-15 Ulrik Sandborg-Petersen
 
-	* m4/emdros_swig.m4: Attempt to support PHP 8.3.
+	* m4/emdros_swig.m4: Attempt to support PHP 8.3 better by
+	explicitly finding php-config8.3. Note that PHP 8.3 was already
+	supported if php-config could be found.
 
 2024-03-16 Ulrik Sandborg-Petersen
 
