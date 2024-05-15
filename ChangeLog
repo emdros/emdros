@@ -1,5 +1,9 @@
 ============ 3.9.1 ============
 
+2024-05-15 Ulrik Sandborg-Petersen
+
+	* m4/emdros_swig.m4: Attempt to support PHP 8.3.
+
 2024-03-16 Ulrik Sandborg-Petersen
 
 	* doc/cms/buildhtb.py: Copy doc/progref/buildhtb.py to doc/cms/.

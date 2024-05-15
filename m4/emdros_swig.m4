@@ -1036,7 +1036,7 @@ fi
 if test x$DO_SWIG_PHP8 != xno; then
   dnl php8 php-config program
   AC_MSG_CHECKING([for PHP8 php-config program...])
-  AC_CHECK_PROGS(PHP8_CONFIG, [php-config8.2 php-config8.1 php-config8.0 php-config8 php-config], [no])
+  AC_CHECK_PROGS(PHP8_CONFIG, [php-config8.3 php-config8.2 php-config8.1 php-config8.0 php-config8 php-config], [no])
   AC_SUBST(PHP8_CONFIG)
   if test x$PHP8_CONFIG = xno; then
     if test x$DO_SWIG_PHP8 = xyes; then
