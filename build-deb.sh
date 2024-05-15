@@ -75,7 +75,7 @@ echo "EMDROS_VERSION = '${EMDROS_VERSION}'"
 function build_tarball {
     cd ${BUILD_DIR}
     if test -f emdros-${EMDROS_VERSION}.tar.gz; then
-	tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
+	tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( mv emdros-${EMDROS_VERSION} emdros && cd emdros && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
     else
 	"FAILURE: Could not find ${BUILD_DIR}/emdros-${EMDROS_VERSION}.tar.gz"
 	exit 1;
@@ -157,8 +157,9 @@ elif test -f configure.ac; then
     make distclean
     ./rmfiles.sh
 
-    # Then rebuild, make the tarball, unpack it, and build the .deb
-    autoreconf -i && ./configure ${EMDROS_CONFIGURE_SWITCHES} && make dist && tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
+    # Then rebuild, make the tarball, copy it into BUILD_DIR, and
+    # build the tarball.
+    autoreconf -i && ./configure ${EMDROS_CONFIGURE_SWITCHES} && make dist && cp emdros-${EMDROS_VERSION}.tar.gz ${BUILD_DIR}/ && build_tarball;
 else
     # No, we don't have the tarball, nor do we have sources.
 
@@ -203,16 +204,25 @@ else
 	# Then rebuild, make the tarball, unpack it, and build the .deb
 	autoreconf -i && ./configure ${EMDROS_CONFIGURE_SWITCHES} && make dist && tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
 	
-	DEB_FILE=`ls ${BUILD_DIR}/emdros/*.deb`
-	
-	echo ""
-	echo "SUCCESS"
-	echo "Built in ${BUILD_DIR}/emdros"
-	echo ""
-	echo "Perhaps do:"
-	echo ""
-	echo "sudo dpkg -i ${DEB_FILE}"
-	echo ""
     fi
 fi
+
+if test -f ${BUILD_DIR}/emdros/*.deb; then
+    DEB_FILE=`ls ${BUILD_DIR}/emdros/*.deb`
+    echo ""
+    echo "SUCCESS"
+    echo "Built in ${BUILD_DIR}/emdros"
+    echo ""
+    echo "Perhaps do:"
+    echo ""
+    echo "sudo dpkg -i ${DEB_FILE}"
+    echo ""
+else
+    echo ""
+    echo "ERROR"
+    echo "Something went wrong."
+    echo ""
+    exit 1;
+fi
+
 
