@@ -11,6 +11,12 @@
 	or wget. This is done before git cloning the sources as a last
 	resort.
 
+	* build-deb.sh: Now always compiles in the same directory,
+	regardless of whether the source is a tarball, the configure
+	script, or the git clone process.
+
+	* build-deb.sh: Now always emits a banner at the end.
+
 2024-03-16 Ulrik Sandborg-Petersen
 
 	* doc/cms/buildhtb.py: Copy doc/progref/buildhtb.py to doc/cms/.
