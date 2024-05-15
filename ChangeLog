@@ -6,6 +6,11 @@
 	explicitly finding php-config8.3. Note that PHP 8.3 was already
 	supported if php-config could be found.
 
+	* build-deb.sh: Add a new scenario: The EMDROS_VERSION is given,
+	and it can be downloaded from the Emdros website with either curl
+	or wget. This is done before git cloning the sources as a last
+	resort.
+
 2024-03-16 Ulrik Sandborg-Petersen
 
 	* doc/cms/buildhtb.py: Copy doc/progref/buildhtb.py to doc/cms/.

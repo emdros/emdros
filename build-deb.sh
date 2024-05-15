@@ -16,7 +16,7 @@
 # If no argument is given, and the file configure.ac is present in the
 # current directory, the EMDROS_VERSION is extracted from that file.
 #
-# There are then four cases:
+# There are then five cases:
 #
 # 1) If the file 'emdros-${EMDROS_VERSION}.tar.gz' exists, it is
 # unpacked, and the script attempts to build a .deb out of it.
@@ -28,12 +28,16 @@
 # directory, then take the sources there, clean them up, make a new
 # tarball, and try to deb-build that.
 #
-# 4) Otherwise, try to clone the GitHub emdros/emdros repo, then make
+# 4) Otherwise, if the EMDROS_VERSION given is non-empty, the script
+# attempts to download an official release for that version from the
+# Emdros website. If this succeeds, it deb-builds that.
+#
+# 5) Otherwise, try to clone the GitHub emdros/emdros repo, then make
 # a tarball, and try to deb-build it.
 #
-# The last option is useful if the script is used in a context where
-# it is downloaded by itself, then invoked without the rest of the
-# sources.
+# The last two options are useful if the script is used in a context
+# where it is downloaded by itself, then invoked without the rest of
+# the sources.
 #
 #
 # You can pass switches to the configure script by setting the
@@ -68,12 +72,53 @@ fi
 
 echo "EMDROS_VERSION = '${EMDROS_VERSION}'"
 
+function build_tarball {
+    tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
+}
+
+function download_tarball {
+    # Do we have an Emdros version?
+    if test "x${EMDROS_VERSION}" != "x"; then
+	# Yes.
+
+	# So, first attempt to download the sources from the Emdros
+	# website.
+
+	# First, we see if we have curl available
+	WHICH_CURL=`which curl`
+	NO_CURL_IN=`echo ${WHICH_CURL} | grep "no curl in"`
+	if test "x${WHICH_CURL}" != "x" -a "x${NO_CURL_IN}" = "x"; then
+	    # We have curl. Attempt to download
+	    ${WHICH_CURL} -L -o emdros-$EMDROS_VERSION.tar.gz https://emdros.org/downloads/emdros/emdros-$EMDROS_VERSION.tar.gz
+	    if test "x$?" != "x0"; then
+		# Exit code from curl was not 0. So remove whatever was
+		# downloaded.
+		rm -f emdros-$EMDROS_VERSION.tar.gz
+	    fi
+	else
+	    # Did not have curl. Do we have wget?
+	    WHICH_WGET=`which wget`
+	    NO_WGET_IN=`echo ${WHICH_WGET} | grep "no wget in"`
+	    if test "x${WHICH_WGET}" != "x" -a "x${NO_WGET_IN}" = "x"; then
+		# We have wget. Attempt to download
+		${WHICH_WGET} https://emdros.org/downloads/emdros/emdros-$EMDROS_VERSION.tar.gz
+		if test "x$?" != "x0"; then
+		    # Exit code from wget was not 0. So remove whatever was
+		    # downloaded.
+		    rm -f emdros-$EMDROS_VERSION.tar.gz
+		fi
+	    fi
+	fi
+    fi
+}
+
+
 # Do we have a tarball in the current directory?
 if test -f emdros-${EMDROS_VERSION}.tar.gz; then
     # Yes, we do have the tarball.
     
     # Unpack it, and build the package.
-    tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
+    build_tarball;
 elif test -f ../emdros-${EMDROS_VERSION}.tar.gz; then
     # We have the tarball in the parent directory.
 
@@ -81,7 +126,7 @@ elif test -f ../emdros-${EMDROS_VERSION}.tar.gz; then
     cp ../emdros-${EMDROS_VERSION}.tar.gz .
 
     # Unpack it, and build the package.
-    tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
+    build_tarball;
 elif test -f configure.ac; then
     # No, we don't have the tarball, but we do have sources.  Make the
     # tarball. Then try to build a .deb from it.
@@ -93,49 +138,62 @@ elif test -f configure.ac; then
     # Then rebuild, make the tarball, unpack it, and build the .deb
     autoreconf -i && ./configure ${EMDROS_CONFIGURE_SWITCHES} && make dist && tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
 else
-    # No, we don't have the tarball, not do we have sources.  git
-    # clone the repoi. Make the tarball. Then try to build a .deb from
-    # it.
+    # No, we don't have the tarball, nor do we have sources.
 
-    # Get the PID of the subshell in which this script is running.
-    PID="$$"
+    download_tarball;
 
-    # Make a build dir
-    BUILD_DIR=${HOME}/build/emdros-build-$PID
-    mkdir -p ${BUILD_DIR}
-    cd ${BUILD_DIR}
+    # Were we able to download a tarball?
+    if test -f emdros-${EMDROS_VERSION}.tar.gz; then
+	# Yes, we now have the tarball.
+	
+	# Unpack it, and build the package.
+	build_tarball;
+    else
+	# No, we did not download a tarball.
 
-    echo ""
-    echo "Did not find tarball or sources."
-    echo "... Cloning into ${BUILD_DIR}/."
-    echo ""
+	# So, git clone the repo. Make the tarball. Then try to build a .deb from
+	# it.
 
-    git clone https://github.com/emdros/emdros.git
+	# Get the PID of the subshell in which this script is running.
+	PID="$$"
 
-    cd emdros
+	# Make a build dir
+	BUILD_DIR=${HOME}/build/emdros-build-$PID
+	mkdir -p ${BUILD_DIR}
+	cd ${BUILD_DIR}
+	
+	echo ""
+	echo "Did not find tarball or sources."
+	echo "... Cloning into ${BUILD_DIR}/."
+	echo ""
+	
+	git clone https://github.com/emdros/emdros.git
 
-    # Find the emdros version
-    if test -f configure.ac ; then
-	# Find the Emdros version from configure.ac
-	EMDROS_VERSION=`grep "AC_INIT" configure.ac | awk -F ',' '{print \$2}' | sed -e 's_\\[__g;s_\\]__g;s_,__g'`
+	cd emdros
+	
+	# Find the emdros version
+	if test -f configure.ac ; then
+	    # Find the Emdros version from configure.ac
+	    EMDROS_VERSION=`grep "AC_INIT" configure.ac | awk -F ',' '{print \$2}' | sed -e 's_\\[__g;s_\\]__g;s_,__g'`
+	fi
+	
+	# First make sure we are pristine
+	make distclean
+	./rmfiles.sh
+	
+	# Then rebuild, make the tarball, unpack it, and build the .deb
+	autoreconf -i && ./configure ${EMDROS_CONFIGURE_SWITCHES} && make dist && tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
+	
+	DEB_FILE=`ls ${BUILD_DIR}/emdros/*.deb`
+	
+	echo ""
+	echo "SUCCESS"
+	echo "Built in ${BUILD_DIR}/emdros"
+	echo ""
+	echo "Perhaps do:"
+	echo ""
+	echo "sudo dpkg -i ${DEB_FILE}"
+	echo ""
     fi
-    
-    # First make sure we are pristine
-    make distclean
-    ./rmfiles.sh
-
-    # Then rebuild, make the tarball, unpack it, and build the .deb
-    autoreconf -i && ./configure ${EMDROS_CONFIGURE_SWITCHES} && make dist && tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
-
-    DEB_FILE=`ls ${BUILD_DIR}/emdros/*.deb`
-
-    echo ""
-    echo "SUCCESS"
-    echo "Built in ${BUILD_DIR}/emdros"
-    echo ""
-    echo "Perhaps do:"
-    echo ""
-    echo "sudo dpkg -i ${DEB_FILE}"
-    echo ""
 fi
 
