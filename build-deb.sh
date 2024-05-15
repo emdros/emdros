@@ -73,7 +73,13 @@ fi
 echo "EMDROS_VERSION = '${EMDROS_VERSION}'"
 
 function build_tarball {
-    tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
+    cd ${BUILD_DIR}
+    if test -f emdros-${EMDROS_VERSION}.tar.gz; then
+	tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
+    else
+	"FAILURE: Could not find ${BUILD_DIR}/emdros-${EMDROS_VERSION}.tar.gz"
+	exit 1;
+    fi
 }
 
 function test_is_gzipped_tarball_delete_if_not {
@@ -118,18 +124,28 @@ function download_tarball {
     fi
 }
 
+# Get the PID of the subshell in which this script is running.
+PID="$$"
+
+# Make a build dir
+BUILD_DIR=${HOME}/build/emdros-build-$PID
+mkdir -p ${BUILD_DIR}
+
 
 # Do we have a tarball in the current directory?
 if test -f emdros-${EMDROS_VERSION}.tar.gz; then
     # Yes, we do have the tarball.
+
+    # Copy it into BUILD_DIR
+    cp emdros-${EMDROS_VERSION}.tar.gz ${BUILD_DIR}/
     
     # Unpack it, and build the package.
     build_tarball;
 elif test -f ../emdros-${EMDROS_VERSION}.tar.gz; then
     # We have the tarball in the parent directory.
 
-    # Copy it to the current directory
-    cp ../emdros-${EMDROS_VERSION}.tar.gz .
+    # Copy it into BUILD_DIR
+    cp ../emdros-${EMDROS_VERSION}.tar.gz ${BUILD_DIR}/
 
     # Unpack it, and build the package.
     build_tarball;
@@ -151,6 +167,9 @@ else
     # Were we able to download a tarball?
     if test -f emdros-${EMDROS_VERSION}.tar.gz; then
 	# Yes, we now have the tarball.
+
+	# Copy it into BUILD_DIR
+	cp emdros-${EMDROS_VERSION}.tar.gz ${BUILD_DIR}/
 	
 	# Unpack it, and build the package.
 	build_tarball;
@@ -160,19 +179,13 @@ else
 	# So, git clone the repo. Make the tarball. Then try to build a .deb from
 	# it.
 
-	# Get the PID of the subshell in which this script is running.
-	PID="$$"
-
-	# Make a build dir
-	BUILD_DIR=${HOME}/build/emdros-build-$PID
-	mkdir -p ${BUILD_DIR}
-	cd ${BUILD_DIR}
-	
 	echo ""
 	echo "Did not find tarball or sources."
 	echo "... Cloning into ${BUILD_DIR}/."
 	echo ""
-	
+
+	cd ${BUILD_DIR}
+
 	git clone https://github.com/emdros/emdros.git
 
 	cd emdros
