@@ -76,6 +76,20 @@ function build_tarball {
     tar xfzv emdros-${EMDROS_VERSION}.tar.gz && ( cd emdros-${EMDROS_VERSION} && dpkg-buildpackage -rfakeroot -d -us -uc && cd .. )
 }
 
+function test_is_gzipped_tarball_delete_if_not {
+    # See if the tarball exists
+    if test -f emdros-${EMDROS_VERSION}.tar.gz; then
+	# Yes, it exists. See if it is a gzip file.
+	FILE_EMDROS_TARBALL_IS_GZIP=`file emdros-${EMDROS_VERSION}.tar.gz | grep "gzip compressed data"`
+	if test "x${FILE_EMDROS_TARBALL_IS_GZIP}" = "x"; then
+	    # No, it was not a gzip file. Probably a failed download.
+	    #
+	    # Remove it.
+	    rm -f emdros-${EMDROS_VERSION}.tar.gz
+	fi
+    fi
+}
+
 function download_tarball {
     # Do we have an Emdros version?
     if test "x${EMDROS_VERSION}" != "x"; then
@@ -90,11 +104,7 @@ function download_tarball {
 	if test "x${WHICH_CURL}" != "x" -a "x${NO_CURL_IN}" = "x"; then
 	    # We have curl. Attempt to download
 	    ${WHICH_CURL} -L -o emdros-$EMDROS_VERSION.tar.gz https://emdros.org/downloads/emdros/emdros-$EMDROS_VERSION.tar.gz
-	    if test "x$?" != "x0"; then
-		# Exit code from curl was not 0. So remove whatever was
-		# downloaded.
-		rm -f emdros-$EMDROS_VERSION.tar.gz
-	    fi
+	    test_is_gzipped_tarball_delete_if_not;
 	else
 	    # Did not have curl. Do we have wget?
 	    WHICH_WGET=`which wget`
@@ -102,11 +112,7 @@ function download_tarball {
 	    if test "x${WHICH_WGET}" != "x" -a "x${NO_WGET_IN}" = "x"; then
 		# We have wget. Attempt to download
 		${WHICH_WGET} https://emdros.org/downloads/emdros/emdros-$EMDROS_VERSION.tar.gz
-		if test "x$?" != "x0"; then
-		    # Exit code from wget was not 0. So remove whatever was
-		    # downloaded.
-		    rm -f emdros-$EMDROS_VERSION.tar.gz
-		fi
+		test_is_gzipped_tarball_delete_if_not;
 	    fi
 	fi
     fi
