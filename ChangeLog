@@ -12,6 +12,11 @@
 	modified:   tests/bptqa.h.in
 	modified:   tests/mqlqa.h.in
 
+	* m4/ax_cxx_compile_stdcxx.m4: Upgrade to latest official version
+	from GNU:
+
+	http://git.savannah.gnu.org/gitweb/?p=autoconf-archive.git;a=blob_plain;f=m4/ax_cxx_compile_stdcxx.m4
+
 2024-05-15 Ulrik Sandborg-Petersen
 
 	* m4/emdros_swig.m4: Attempt to support PHP 8.3 better by
