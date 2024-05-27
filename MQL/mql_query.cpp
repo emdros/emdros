@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 2/27-2001
- * Last update: 3/2-2019
+ * Last update: 5/27-2024
  *
  */
 
@@ -2054,6 +2054,25 @@ bool FeatureComparison::type(MQLExecEnv *pEE, bool& bResult)
 				|| featureTypeIdIsASCII(ft);
 			if (!bResult) {
 				pEE->pError->appendError("The feature " + *m_feature_name + " is being compared with a string.  The feature is not a string.\n");
+			} else {
+				switch (m_comparison_op) {
+				case kEqual:
+				case kLessThan:
+				case kGreaterThan:
+				case kNotEqual:
+				case kLessThanOrEqual:
+				case kGreaterThanOrEqual:
+				case kTilde:
+				case kNotTilde:
+					break;
+				case kIn:
+				case kHas:
+					bResult = false;
+					break;
+				}
+				if (!bResult) {
+					pEE->pError->appendError("The feature '" + *m_feature_name + "' is being compared with a string,\nbut the comparison operator is not one of: =, <>, <, <=, >, >=, ~, !~.\n");
+				}
 			}
 			break;
 		case kValObjectReferenceUsage:

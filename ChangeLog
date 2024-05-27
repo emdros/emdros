@@ -1,5 +1,11 @@
 ============ 3.9.1 ============
 
+2024-05-27 Ulrik Sandborg-Petersen
+
+	* MQL/mql_query.cpp: In FeatureComparison::type(), when comparing
+	a string feature, check the comparison operator. It must not be
+	either HAS or IN.
+
 2024-05-15 Ulrik Sandborg-Petersen
 
 	* m4/emdros_swig.m4: Attempt to support PHP 8.3 better by
