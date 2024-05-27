@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 10/10-2022
+ * Last update: 5/27-2024
  *
  */
 
@@ -72,7 +72,13 @@ SQLite3EMdFDB::SQLite3EMdFDB(std::string database_name, std::string key)
 	pConn = new SQLite3EMdFConnection(database_name, key);
 	useDatabase(database_name, key, false);
 #else
-	; // FIXME: What to do if not implemented?
+	// Avoid compiler errors
+	UNUSED(database_name);
+	UNUSED(key);
+
+	// Implement constructor which does not initialize the pConn.
+	m_max_table_name_length = 1024;
+	pConn = 0;
 #endif
 }
 

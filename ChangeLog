@@ -27,6 +27,15 @@
 	modified:   amalgamation/amalgamation.xml
 	modified:   sqlite3/src/Makefile.am
 
+	* SQLite3: Avoid compiler warnings when not compiling with SQLite3
+	support, i.e., when passing '--with-sqlite3=no' to ./configure.
+
+	Files affected:
+
+	modified:   EMdF/sqlite3conn.cpp
+	modified:   EMdF/sqlite3emdfdb.cpp
+	modified:   include/sqlite3conn.h
+
 2024-05-15 Ulrik Sandborg-Petersen
 
 	* m4/emdros_swig.m4: Attempt to support PHP 8.3 better by

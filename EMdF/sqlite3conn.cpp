@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/30-2018
+ * Last update: 5/27-2024
  *
  */
 
@@ -106,6 +106,10 @@ SQLite3EMdFConnection::SQLite3EMdFConnection(const std::string& database_name, c
 	}
 
 	useDatabaseSQLite3(db, key, false);
+#else
+	// Avoid compiler warnings when not building with SQLite3 support 
+	UNUSED(database_name);
+	UNUSED(key);
 #endif
 }
 
@@ -185,6 +189,10 @@ bool SQLite3EMdFConnection::execSelect(const std::string& query)
 		return true;
 	}
 #else
+	// Avoid compiler warning when not building with SQLite3 support 
+	UNUSED(query);
+
+	// Report error
 	return false;
 #endif /* USE_SQLITE3 */
 }
@@ -241,6 +249,10 @@ bool SQLite3EMdFConnection::execCommand(const std::string& query)
 		return true;
 	}
 #else
+	// Avoid compiler warning when not building with SQLite3 support 
+	UNUSED(query);
+
+	// Report error
 	return false;
 #endif /* USE_SQLITE3 */
 }
@@ -260,6 +272,10 @@ bool SQLite3EMdFConnection::errorMessage(std::string& out)
 		return false;
 	}
 #else
+	// Avoid compiler warning when not building with SQLite3 support 
+	UNUSED(out);
+
+	// Report error
 	return false;
 #endif /* USE_SQLITE3 */
 }
@@ -397,6 +413,10 @@ bool SQLite3EMdFConnection::vacuum(bool bAnalyze)
 		return true;
 	}
 #else
+	// Avoid compiler warning when not building with SQLite3 support 
+	UNUSED(bAnalyze);
+
+	// Report error
 	return false;
 #endif /* USE_SQLITE3 */
 }
@@ -494,6 +514,12 @@ bool SQLite3EMdFConnection::useDatabaseSQLite3(const std::string& database_name,
 	// If we got this far, there were no DB errors
 	return true;
 #else
+	// Avoid compiler warnings when not building with SQLite3 support 
+	UNUSED(database_name);
+	UNUSED(key);
+	UNUSED(bIsCreating);
+
+	// Report error
 	return false;
 #endif /* USE_SQLITE3 */
 }

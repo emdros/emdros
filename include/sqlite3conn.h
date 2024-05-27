@@ -5,7 +5,7 @@
  *
  * Ulrik Petersen
  * Created: 1/27-2001
- * Last update: 11/30-2018
+ * Last update: 5/27-2024
  *
  */
 
@@ -139,6 +139,8 @@ class SQLite3EMdFConnection : public EMdFConnection {
 			}
 		}
 #else
+		bMoreTuples = m_bHasRow = false;
+		
 		return false;
 #endif
 	};
@@ -174,6 +176,13 @@ class SQLite3EMdFConnection : public EMdFConnection {
 			}
 		}
 #else
+		// Avoid compiler warning when not building with SQLite3 support 
+		UNUSED(field_no);
+
+		// Result is false by definition: We don't use SQLITE3.
+		result = false;
+
+		// Return DB error
 		return false;
 #endif
 	};
@@ -198,6 +207,11 @@ class SQLite3EMdFConnection : public EMdFConnection {
 			}
 		}
 #else
+		// Avoid compiler warnings when not building with SQLite3 support 
+		UNUSED(field_no);
+		UNUSED(result);
+
+		// Return DB error
 		return false;
 #endif
 	};
@@ -237,6 +251,11 @@ class SQLite3EMdFConnection : public EMdFConnection {
 			}
 		}
 #else
+		// Avoid compiler warnings when not building with SQLite3 support 
+		UNUSED(field_no);
+		result = "";
+
+		// Return DB error
 		return false;
 #endif
 	};
