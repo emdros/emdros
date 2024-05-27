@@ -6,6 +6,12 @@
 	a string feature, check the comparison operator. It must not be
 	either HAS or IN.
 
+	* Add tests for the new FeatureComparison::type() check on strings
+	which was just implemented:
+
+	modified:   tests/bptqa.h.in
+	modified:   tests/mqlqa.h.in
+
 2024-05-15 Ulrik Sandborg-Petersen
 
 	* m4/emdros_swig.m4: Attempt to support PHP 8.3 better by

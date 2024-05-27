@@ -22192,6 +22192,16 @@ GO
  > 
  > 
 ---- answer
+++++ query topographic query on realistic db number 21.1
+SELECT ALL OBJECTS
+WHERE
+[Word surface HAS 'a']
+GO
+++++ answer failcompiler
+Typechecking failed with compiler error
+The feature 'surface' is being compared with a string,
+but the comparison operator is not one of: =, <>, <, <=, >, >=, ~, !~.
+---- answer
 
 ++++ query newdb REcreating realistic DB schema
 CREATE ENUMERATION pos_t = {
