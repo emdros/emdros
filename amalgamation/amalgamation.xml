@@ -42,6 +42,8 @@
 #define HAVE_CONFIG_H  (1)
 #endif
 
+#include "emdros-lconfig.h"
+
 
     </target_preamble>
   </target_preambles>

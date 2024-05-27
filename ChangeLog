@@ -17,6 +17,16 @@
 
 	http://git.savannah.gnu.org/gitweb/?p=autoconf-archive.git;a=blob_plain;f=m4/ax_cxx_compile_stdcxx.m4
 
+	* Don't compile in support for SQLite3 if this has been disabled
+	with the ./configure switch
+
+	--with-sqlite3=no
+
+	Files affected:
+
+	modified:   amalgamation/amalgamation.xml
+	modified:   sqlite3/src/Makefile.am
+
 2024-05-15 Ulrik Sandborg-Petersen
 
 	* m4/emdros_swig.m4: Attempt to support PHP 8.3 better by

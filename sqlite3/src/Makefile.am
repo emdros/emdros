@@ -10,8 +10,14 @@ EXTRA_DIST = win32.mak mingw.mak \
 
 
 
+if USE_LOCAL_SQLITE3
 MAYBE_LIBS_SQLITE3 = libsqlite3_emdros.la
 MAYBE_PROGS_SQLITE3 = sqlite3_emdros
+else
+MAYBE_LIBS_SQLITE3 = 
+MAYBE_PROGS_SQLITE3 = 
+endif
+
 
 
 
