@@ -1,5 +1,9 @@
 ============ 3.9.1 ============
 
+2024-08-02 Ulrik Sandborg-Petersen
+
+	* zlib/: Update to ZLib to version 1.3.1 from January 22, 2024.
+
 2024-05-27 Ulrik Sandborg-Petersen
 
 	* MQL/mql_query.cpp: In FeatureComparison::type(), when comparing
