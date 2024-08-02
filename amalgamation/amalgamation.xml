@@ -192,7 +192,6 @@
         <header_file name="include/utils.h" />
         <header_file name="include/zconf.h" />
         <header_file name="include/zlib_emdros.h" />
-        <header_file name="zlib/zlib.h" />
         <header_file name="include/lzma_emdros.h" />
         <header_file name="include/bptemdfdb.h" />
         <header_file name="include/conn.h" />
@@ -223,7 +222,6 @@
 	<header_file name="include/environment_emdros.h" />
 	<header_file name="include/emdros_environment.h" />
         <header_file name="include/zlib_emdros.h" />
-        <header_file name="zlib/zlib.h" />
 	<header_file name="include/mql_database_statements.h" />
 	<header_file name="include/mql_enumeration_statements.h" />
 	<header_file name="include/mql_enums.h" />
