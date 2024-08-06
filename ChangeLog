@@ -8,6 +8,26 @@
 
 	BUGFIX: Handle {PREAMP} correctly.
 
+	* New template in renderobjects: {{ feature format
+	<em>format-string</em> <em>feature-index-integer</em> }}
+
+	This retrives the feature at the specified index, converts it to
+	long long, and then emits it as a base-10 integer formatted
+	according to the format-string.
+
+	Add the TemplateFeatureFormat class to
+	include/templatelang_classes.h and
+	harvest/templatelang_classes.cpp.
+
+	Files modified:
+
+	modified:   doc/progref/Content.txt
+	modified:   doc/progref/config.py.in
+	modified:   harvest/templatelang.yxx
+	modified:   harvest/templatelang_classes.cpp
+	modified:   include/templatelang_classes.h
+
+
 2024-08-02 Ulrik Sandborg-Petersen
 
 	* zlib/: Update to ZLib to version 1.3.1 from January 22, 2024.

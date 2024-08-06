@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 5/9-2019
+ * Last update: 8/6-2024
  *
  */
 
@@ -165,6 +165,42 @@ void TemplateFeature::exec(TemplateLangExecEnv *pEE)
 		pEE->addToOutput(tmp);
 		break;
 	}
+}
+
+
+
+
+//////////////////////////////////////////////////////////////////
+//
+// TemplateFeatureFormat
+//
+//////////////////////////////////////////////////////////////////
+
+TemplateFeatureFormat::TemplateFeatureFormat(long index, std::string *pFormat)
+	: m_index(index),
+	  m_format(*pFormat)
+{
+	delete pFormat;
+}
+
+
+TemplateFeatureFormat::~TemplateFeatureFormat()
+{
+}
+
+
+void TemplateFeatureFormat::exec(TemplateLangExecEnv *pEE)
+{
+	TemplateASTNode::exec(pEE);
+
+	// Get feature value as stringXXX
+	std::string tmp(pEE->m_pObject->getFeature(m_index));
+
+	// Convert feature value to integer
+	long long feature_value = string2longlong(tmp);
+
+	// Add it to the output, with the format
+	pEE->addToOutput(longlong2string_format(feature_value, m_format));
 }
 
 

@@ -4827,56 +4827,82 @@ follows.  It is a list of the following kinds of string:</p>
 
   <LI><p><strong>{OPENBRACE}{OPENBRACE} id_d
   {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the id_d of the object under
-  consideration.<br/><b>Only available in
+  consideration.<br><b>Only available in
   RenderObjects, not RenderXML.</b></p>
 
   <LI><p><strong>{OPENBRACE}{OPENBRACE} firstmonad
   {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the first monad of the
   object under consideration.  This is done in base-10, so that if an
   object has a set of objects with first monad "3", then "3" is
-  emitted (without the quotes).<br/><b>Only available in
+  emitted (without the quotes).<br><b>Only available in
   RenderObjects, not RenderXML.</b></p>
 
   <LI><p><strong>{OPENBRACE}{OPENBRACE} lastmonad
   {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the last monad of the
   object under consideration.  This is done in base-10, so that if an
   object has a set of objects with last monad "3", then "3" is
-  emitted (without the quotes).<br/><b>Only available in
+  emitted (without the quotes).<br><b>Only available in
   RenderObjects, not RenderXML.</b></p>
 
   <LI><p><strong>{OPENBRACE}{OPENBRACE} dbname
   {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the database name under
   consideration.  This is the database name given to the constructor
-  of the RenderObjects class.<br/><b>Only available in
+  of the RenderObjects class.<br> <br><b>Only available in
   RenderObjects, not RenderXML.</b></p>
 
   <LI><p><strong>{OPENBRACE}{OPENBRACE} feature <em>integer</em>
   {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the value of the object's
   feature given by the <em>integer</em>'s 0-based index into the list
   of features in the "get" part of the stylesheet for this object
-  type.  Thus if the "get" part says '"get" : [ "surface", "suffix"
-  ]', and the "start" part says: '"start" : "{OPENBRACE}{OPENBRACE}
-  feature 1 {CLOSEBRACE}{CLOSEBRACE}"', then the value of the object's
-  "suffix" feature is emitted.  The feature value is escaped (mangled)
-  according to XML rules, such that less-than becomes "&amp;lt;",
-  greater-than becomes "&amp;gt;", ampersand becomes "&amp;amp;", and
-  "double tuote" becomes "&amp;quot;".<br/><b>Only available in
-  RenderObjects, not RenderXML.</b></p>
+  type.<br><br>For example, if the "get" part says '"get" : [
+  "surface", "suffix" ]', and the "start" part says: '"start" :
+  "{OPENBRACE}{OPENBRACE} feature 1 {CLOSEBRACE}{CLOSEBRACE}"', then
+  the value of the object's "suffix" feature is emitted as the "start"
+  string.<br> <br>Before emission, the feature value is escaped
+  (mangled) according to XML rules, such that '{PRELT}' becomes
+  '&amp;lt;', '{PREGT}' becomes '&amp;gt;', '{PREAMP}' becomes
+  '&amp;amp;', and '{PREQUOT}'' becomes '&amp;quot;'.<br> <br> <b>Only
+  available in RenderObjects, not RenderXML.</b></p>
 
   <LI><p><strong>{OPENBRACE}{OPENBRACE} featurenomangle
   <em>integer</em> {CLOSEBRACE}{CLOSEBRACE}</strong>: Just like the
   "feature" counterpart just described, except that no XML mangling
-  takes place.</p>
-
-  <p><b>Only available in RenderObjects, not RenderXML.</b></p>
+  takes place.<br><br><b>Only available in RenderObjects, not
+  RenderXML.</b></p>
 
   <LI><p><strong>{OPENBRACE}{OPENBRACE} featurejsonmangle
   <em>integer</em> {CLOSEBRACE}{CLOSEBRACE}</strong>: Just like the
   "feature" counterpart described above, except that the string is
-  mangled to be a part of a JSON string, rather than part of an XML
-  document.<br/></p>
+  mangled so that it can be a part of a JSON string, rather than part
+  of an XML document.<br><br><b>Only available in RenderObjects, not
+  RenderXML.</b></p>
 
-  <p><b>Only available in RenderObjects, not RenderXML.</b></p>
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} feature format
+  <em>format-string</em> <em>integer</em>
+  {CLOSEBRACE}{CLOSEBRACE}</strong>: Same as "{OPENBRACE}{OPENBRACE}
+  feature <em>integer</em> {CLOSEBRACE}{CLOSEBRACE}", except: Before
+  emission, first decode the feature value as an integer, then format
+  it according to the format-string. And do not XML-mangle the
+  output.<br><br> The format-string is currently limited to the
+  following cases. For example:
+  
+  <UL>
+    <LI><p><b>Empty</b> No formatting is done on the integer. It is
+	just printed as a base-10 number.</p>
+	
+    <LI><p><b>017</b> I.e., a 0-prefixed integer (e.g., 17).  This
+	makes sure that the number string is at least as long as the
+	given integer (e.g., 17 characters long), and padded with '0',
+	ASCII 48=0x32.</p>
+	
+    <LI><p><b>17</b> I.e., a non-0-prefixed integer.  Same as 017,
+        except that the padding charater is a space: ASCII
+        32=0x20.</p>
+
+  </UL>
+
+  <b>Only available in RenderObjects, not RenderXML.</b></p>
+
 
   <LI><p><strong>{OPENBRACE}{OPENBRACE} counter <em>string</em>
   {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the contents of the
@@ -4889,24 +4915,14 @@ follows.  It is a list of the following kinds of string:</p>
   <LI><p><strong>{OPENBRACE}{OPENBRACE} counter <em>string</em> format
   <em>format-string</em> {CLOSEBRACE}{CLOSEBRACE}</strong>: Emits the
   contents of the "counter" within the template execution environment,
-  named by the first string, formatted using the format-string.<br/>
-  <br/> The format-string is currently limited to the following
-  cases. For example:
+  named by the first string, formatted using the format-string. See
+  under "{OPENBRACE}{OPENBRACE} feature format <em>format-string</em>
+  <em>integer</em> {CLOSEBRACE}{CLOSEBRACE}" above for a description
+  of the format strings.
+
+</UL>
+
   
-  <UL>
-	<LI><p><b>Empty</b> No formatting is done on the integer. It is just printed as a base-10 number.</p>
-	
-	<LI><p><b>017</b> I.e., a 0-prefixed integer (e.g., 17).
-	This makes sure that the number string is at least as long as
-	the given integer (e.g., 17 characters long), and padded with
-	'0', ASCII 48=0x32.</p>
-	
-	<LI><p><b>17</b> I.e., a non-0-prefixed integer.  Same as 017,
-        except that the padding charater is a space: ASCII 32=0x20.</p>
-
- 	</UL>
-  </UL>
-
 <h2>Document control commands</h2>
 
 <UL>

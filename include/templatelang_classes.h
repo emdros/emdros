@@ -5,7 +5,7 @@
  *
  * Ulrik Sandborg-Petersen
  * Created: 7/28-2008
- * Last update: 4/10-2019
+ * Last update: 8/6-2024
  *
  */
 
@@ -128,6 +128,17 @@ class TemplateFeature : public TemplateASTNode {
  public:
 	TemplateFeature(long index, eMangleKind mangle_kind);
 	virtual ~TemplateFeature();
+
+	virtual void exec(TemplateLangExecEnv *pEE);
+};
+
+class TemplateFeatureFormat : public TemplateASTNode {
+ protected:
+	long m_index;
+	std::string m_format;
+ public:
+	TemplateFeatureFormat(long index, std::string *pFormat);
+	virtual ~TemplateFeatureFormat();
 
 	virtual void exec(TemplateLangExecEnv *pEE);
 };
