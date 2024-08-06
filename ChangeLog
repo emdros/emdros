@@ -27,6 +27,20 @@
 	modified:   harvest/templatelang_classes.cpp
 	modified:   include/templatelang_classes.h
 
+	* New template in renderobjects: {{ dictlookup 'dictionary-name'
+	default 'default-value' feature feature-index-integer format
+	'format-string' }}
+
+	Also, redo the syntax of the new feature format template to be:
+
+	{{ feature feature-index-integer format 'format-string' }}
+
+	modified:   doc/progref/Content.txt
+	modified:   harvest/templatelang.yxx
+	modified:   harvest/templatelang_classes.cpp
+	modified:   include/templatelang_classes.h
+
+
 
 2024-08-02 Ulrik Sandborg-Petersen
 

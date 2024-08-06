@@ -4877,14 +4877,14 @@ follows.  It is a list of the following kinds of string:</p>
   of an XML document.<br><br><b>Only available in RenderObjects, not
   RenderXML.</b></p>
 
-  <LI><p><strong>{OPENBRACE}{OPENBRACE} feature format
-  <em>format-string</em> <em>integer</em>
-  {CLOSEBRACE}{CLOSEBRACE}</strong>: Same as "{OPENBRACE}{OPENBRACE}
-  feature <em>integer</em> {CLOSEBRACE}{CLOSEBRACE}", except: Before
-  emission, first decode the feature value as an integer, then format
-  it according to the format-string. And do not XML-mangle the
-  output.<br><br> The format-string is currently limited to the
-  following cases. For example:
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} feature <em>integer</em>
+  format <em>format-string</em> {CLOSEBRACE}{CLOSEBRACE}</strong>:
+  Same as "{OPENBRACE}{OPENBRACE} feature <em>integer</em>
+  {CLOSEBRACE}{CLOSEBRACE}", except: Before emission, first decode the
+  feature value as an integer, then format it according to the
+  format-string. And do not XML-mangle the output.<br><br> The
+  format-string is currently limited to the following cases. For
+  example:
   
   <UL>
     <LI><p><b>Empty</b> No formatting is done on the integer. It is
@@ -5194,6 +5194,22 @@ follows.  It is a list of the following kinds of string:</p>
 
   <p>Example: {OPENBRACE}{OPENBRACE} dictlookup 'booknames'
   featurenomangle 0 'Unknown book ID' {CLOSEBRACE}{CLOSEBRACE}</p>
+
+  <LI><p><strong>{OPENBRACE}{OPENBRACE} dictlookup
+  <em>dictname-as-string</em> feature
+  <em>feature-index-as-integer</em> <em>default-as-string</em> format
+  <em>format-string</em> {CLOSEBRACE}{CLOSEBRACE}</strong>: This
+  behaves just like the dictlookup ... feature ... counterpart,
+  except: a) It does not XML-mangle the feature value before the
+  dictionary lookup, and b) after lookup, it reinterprets the value as
+  an integer (casting from string to integer, if necessary), and c)
+  Once reinterpreted as an integer, it is formatted according to the
+  <em>format-string</em>.<br><br> This can only be used with
+  fetchinfo, not renderinfo.</p>
+
+  <p>Example: {OPENBRACE}{OPENBRACE} dictlookup
+  'booknames_to_book_number' feature 0 '99' format '02'
+  {CLOSEBRACE}{CLOSEBRACE}</p>
 
   <LI><p><strong>{OPENBRACE}{OPENBRACE} dictlookup
   <em>dictname-as-string</em> var <em>variable-name-as-string</em>

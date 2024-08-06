@@ -193,7 +193,7 @@ void TemplateFeatureFormat::exec(TemplateLangExecEnv *pEE)
 {
 	TemplateASTNode::exec(pEE);
 
-	// Get feature value as stringXXX
+	// Get feature value as string
 	std::string tmp(pEE->m_pObject->getFeature(m_index));
 
 	// Convert feature value to integer
@@ -568,7 +568,7 @@ void TemplateNixing::exec(TemplateLangExecEnv *pEE)
 //
 //////////////////////////////////////////////////////////////////
 
-TemplateDictlookupFeature::TemplateDictlookupFeature(std::string *pDictName, long feature_index, std::string *pDefaultValue, bool bMangleFeature)
+TemplateDictlookupFeature::TemplateDictlookupFeature(std::string *pDictName, long feature_index, std::string *pDefaultValue, bool bMangleFeature, std::string *pFormat)
 {
 	m_dict_name = *pDictName;
 	delete pDictName;
@@ -576,6 +576,15 @@ TemplateDictlookupFeature::TemplateDictlookupFeature(std::string *pDictName, lon
 	m_default_value = *pDefaultValue;
 	delete pDefaultValue;
 	m_bMangleFeature = bMangleFeature;
+
+	if (pFormat == 0) {
+		m_bConvertToIntegerAndFormat = false;
+		m_format = "";
+	} else {
+		m_bConvertToIntegerAndFormat = true;
+		m_format = *pFormat;
+		delete pFormat;
+	}
 }
 
 
@@ -600,7 +609,20 @@ void TemplateDictlookupFeature::exec(TemplateLangExecEnv *pEE)
 	} else {
 		featureValue = pEE->m_pObject->getFeature(m_feature_index);
 	}
-	pEE->addToOutput(pEE->dictLookup(m_dict_name, featureValue, m_default_value));
+
+	std::string dictlookupValue = pEE->dictLookup(m_dict_name, featureValue, m_default_value);
+	
+	if (m_bConvertToIntegerAndFormat) {
+		// Convert feature value to integer
+		long long dictlookup_value = string2longlong(dictlookupValue);
+
+		std::string formatted_value = longlong2string_format(dictlookup_value, m_format);
+		
+		// Add it to the output, with the format
+		pEE->addToOutput(formatted_value);
+	} else {
+		pEE->addToOutput(dictlookupValue);
+	}
 }
 
 

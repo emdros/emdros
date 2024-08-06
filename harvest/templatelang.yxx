@@ -78,7 +78,7 @@ template_list_element(T) ::= KEY_LASTMONAD .
 { T = new TemplateSimpleNode(kTemplateLastMonad); }
 template_list_element(T) ::= KEY_FEATURE KEY_SPACE INTEGER(I) KEY_BB_CLOSE .
 { T = new TemplateFeature((long) I->integer, kMKXML); delete I; }
-template_list_element(T) ::= KEY_FEATURE KEY_SPACE KEY_BARE_FORMAT KEY_SPACE STRING(F) KEY_SPACE INTEGER(I) KEY_BB_CLOSE .
+template_list_element(T) ::= KEY_FEATURE KEY_SPACE INTEGER(I) KEY_SPACE KEY_BARE_FORMAT KEY_SPACE STRING(F) KEY_BB_CLOSE .
 { T = new TemplateFeatureFormat((long) I->integer, F->extractString()); delete F; delete I; }
 template_list_element(T) ::= KEY_FEATUREJSONMANGLE KEY_SPACE INTEGER(I) KEY_BB_CLOSE .
 { T = new TemplateFeature((long) I->integer, kMKJSON); delete I; }
@@ -155,11 +155,15 @@ template_list_element(T) ::= template_dictlookup_counter(A) .
 %type template_dictlookup_feature {TemplateDictlookupFeature*}
 %destructor template_dictlookup_feature {delete ($$);}
 template_dictlookup_feature(T) ::= KEY_DICTLOOKUP KEY_SPACE STRING(S) KEY_SPACE KEY_BARE_FEATURE KEY_SPACE INTEGER(I) KEY_SPACE STRING(D) KEY_BB_CLOSE .
-{ T = new TemplateDictlookupFeature(S->extractString(), (long) I->integer, D->extractString(), true); 
+{ T = new TemplateDictlookupFeature(S->extractString(), (long) I->integer, D->extractString(), true, 0); 
   delete S; delete I; delete D;
 }
+template_dictlookup_feature(T) ::= KEY_DICTLOOKUP KEY_SPACE STRING(S) KEY_SPACE KEY_BARE_FEATURE KEY_SPACE INTEGER(I) KEY_SPACE STRING(D) KEY_SPACE KEY_BARE_FORMAT KEY_SPACE STRING(F) KEY_BB_CLOSE .
+{ T = new TemplateDictlookupFeature(S->extractString(), (long) I->integer, D->extractString(), false, F->extractString()); 
+  delete S; delete I; delete D; delete F;
+}
 template_dictlookup_feature(T) ::= KEY_DICTLOOKUP KEY_SPACE STRING(S) KEY_SPACE KEY_BARE_FEATURENOMANGLE KEY_SPACE INTEGER(I) KEY_SPACE STRING(D) KEY_BB_CLOSE .
-{ T = new TemplateDictlookupFeature(S->extractString(), (long) I->integer, D->extractString(), false); 
+{ T = new TemplateDictlookupFeature(S->extractString(), (long) I->integer, D->extractString(), false, 0); 
   delete S; delete I; delete D;
 }
 

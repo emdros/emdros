@@ -66,8 +66,10 @@ class TemplateDictlookupFeature : public TemplateASTNode {
 	long m_feature_index;
 	std::string m_default_value;
 	bool m_bMangleFeature;
+	bool m_bConvertToIntegerAndFormat;
+	std::string m_format;
  public:
-	TemplateDictlookupFeature(std::string *pDictName, long feature_index, std::string *pDefaultValue, bool bMangleFeature);
+	TemplateDictlookupFeature(std::string *pDictName, long feature_index, std::string *pDefaultValue, bool bMangleFeature, std::string *pFormat);
 	virtual ~TemplateDictlookupFeature();
 
 	virtual void exec(TemplateLangExecEnv *pEE);
