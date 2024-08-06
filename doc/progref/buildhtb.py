@@ -382,6 +382,7 @@ class Pages:
         tmpstr = tmpstr.replace("{PREAMP}", "&amp;")
         tmpstr = tmpstr.replace("{PREDOLLAR}","$")
         tmpstr = tmpstr.replace("{PREPIPE}", "|")
+        tmpstr = tmpstr.replace("{PREQUOT}", "&quot;")
         return tmpstr
 
     def expandTagsLaTeX(self, pagestring, id, hierarchy):
@@ -417,7 +418,7 @@ class Pages:
         tmpstr = tmpstr.replace("{PREUNDERSCORE}","_")
         tmpstr = tmpstr.replace("#", "\\#")
         tmpstr = tmpstr.replace("{DOLLAR}", "\\$")
-        tmpstr = tmpstr.replace("{PREAMP}", "&")
+        tmpstr = tmpstr.replace("{PREAMP}", "\\&")
         tmpstr = tmpstr.replace("{PREDOLLAR}","$")
         tmpstr = tmpstr.replace("^", "\\^")
         tmpstr = tmpstr.replace("{OPENBRACE}", "\\{")
@@ -534,7 +535,7 @@ class Pages:
 
 
 
-        tmpstr = tmpstr.replace("{PREHASH}", "#").replace("{PRELT}","<").replace("{PREGT}",">").replace("{PREOPENBRACE}","{").replace("{PRECLOSEBRACE}","}")
+        tmpstr = tmpstr.replace("{PREHASH}", "#").replace("{PRELT}","<").replace("{PREGT}",">").replace("{PREOPENBRACE}","{").replace("{PRECLOSEBRACE}","}").replace("{PREQUOT}", "\"")
 
         tmpstr = tmpstr.replace("%", "\\%")
 
