@@ -4,7 +4,7 @@
  * A tool to query Emdros databases.
  *
  * Created: 5/1-2001 (1st of May, 2001)
- * Last update: 3/20-2010
+ * Last update: 8/10-2024
  *
  * Return codes:
  * 
@@ -84,8 +84,10 @@ void print_usage(std::ostream& ostr)
 	printUsageStandardArguments(ostr);
 	ostr << "   -c , --config file   Use this config file\n";
 	ostr << "   -d , --db database   Use this database\n";
+	ostr << "   -o , --ouptut        Use this output filename\n";
 	ostr << "DEFAULTS:\n";
 	printUsageDefaultsOfStandardArguments(ostr);
+	ostr << "   -o -                 Meaning 'stdout'" << std::endl;
 }
 
 int main(int argc, char* argv[])
@@ -93,7 +95,8 @@ int main(int argc, char* argv[])
 	// Set defaults
 	eOutputKind output_kind = kOKConsole;
 	std::string initial_db("");
-	std::string filename;
+	std::string infilename;
+	std::string outfilename;
 	std::string hostname("localhost");
 	std::string user("emdf");
 	std::string configfile(app_prefix() + "default.cfg");
@@ -115,6 +118,10 @@ int main(int argc, char* argv[])
 		  "",
 		  "ERROR: -d and --dbname must have a database-name as their argument.\n"
 		  "       example: -d book1\n");
+	addOption("-o", "--output", true, 
+		  "",
+		  "ERROR: -o and --output must have a filename-name as their argument.\n"
+		  "       example: -o output.html\n");
 
 	// Parse arguments
 	std::list<std::string> surplus_arguments;
@@ -155,23 +162,44 @@ int main(int argc, char* argv[])
 		// -d | --dbname
 		getArgumentValue("-d", initial_db);
 
+		// -o | --output
+		getArgumentValue("-o", outfilename);
+
 		// -c | --config
 		getArgumentValue("-c", configfile);
 
 		if (surplus_arguments.size() == 0) {
-			filename = "";
+			infilename = "";
 		} else if (surplus_arguments.size() == 1) {
-			filename = *surplus_arguments.begin();
+			infilename = *surplus_arguments.begin();
 		} else {
 			std::cerr << "Error: You can only specify one filename. You specified: '" << joinList("' and '", surplus_arguments) << "'." << std::endl;
 			return 1;
 		}
 	}
   
-	std::cerr << "Using config file " << configfile << std::endl;
-	ConsoleQTOutput consoutput(&std::cout, false);
+	std::ofstream *pOUTFSTREAM = 0;
+	bool bUsepOUTFSTREAM;
+	if (outfilename == "" or outfilename == "-") {
+		bUsepOUTFSTREAM = false;		
+	} else {
+		pOUTFSTREAM = new std::ofstream;
+		
+		if (pOUTFSTREAM != 0) {
+			pOUTFSTREAM->open(outfilename);
+		}
+		if (pOUTFSTREAM == 0 || !(*pOUTFSTREAM)) {
+			std::cerr << "ERROR: Could not open '" << outfilename << "' for writing." << std::endl;
+			return 1;
+		}
+		bUsepOUTFSTREAM = true;
+	}
+
+
+	ConsoleQTOutput consoutput((pOUTFSTREAM == 0) ? &std::cout : pOUTFSTREAM, false);
+	
 	pConf = parse_config_file(configfile, app_prefix(), 
-				  &std::cout);
+				  &std::cerr);
 	if (pConf == 0) {
 		std::cerr << "Error: Could not parse config file '" << configfile << "'." << std::endl;
 		return 1;
@@ -230,10 +258,10 @@ int main(int argc, char* argv[])
 		return 3;
 	}
 
-	if (filename == "") {
+	if (infilename == "") {
 		nResult = exec_cin(pEW);
 	} else {
-		nResult = exec_file(filename, pEW);
+		nResult = exec_file(infilename, pEW);
 	}
 
 	// Clean up
@@ -241,6 +269,10 @@ int main(int argc, char* argv[])
 	delete pEE;
 	delete pConf;
 
+	if (bUsepOUTFSTREAM) {
+		pOUTFSTREAM->close();
+		delete pOUTFSTREAM;
+	}
 
 	return nResult;
 }

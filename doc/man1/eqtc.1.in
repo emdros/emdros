@@ -3,7 +3,7 @@
 .\"
 .\"  tbl eqtc.1 | nroff -man | less
 .\"
-.TH EQTC 1 "January 20, 2007"
+.TH EQTC 1 "August 10, 2024"
 .SH NAME
 eqtc \- Query arbitrary Emdros databases
 .SH SYNOPSIS
@@ -44,8 +44,12 @@ set the name of the ocnfiguration file
 .BI \-d\ ,\ \-\-dbname \ dbname 
 set database name (overrides what is in the config file)
 .TP
+.BI \-o\ ,\ \-\-output \ outfilename
+use this filename as the output, instead of stdout
+.TP
 .BI \-h\ ,\ \-\-host \ hostname 
-set db back-end hostname to connect to (default is 'localhost') (has no effect on SQLite)
+set db back-end hostname to connect to (default is 'localhost') (has
+no effect on SQLite)
 .TP
 .BI \-u\ ,\ \-\-user \ user
 set database user to connect as (default is 'emdf') (has no effect on SQLite)
