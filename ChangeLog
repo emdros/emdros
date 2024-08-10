@@ -7,6 +7,13 @@
 	- Some <pre> environments did not get converted correctly.
 	- Some title elements did not get converted correctly.
 
+	* doc/cms/: buildhtb.py was just a copy of
+	../progref/buildhtb.py. So remove it, and add a rule to the
+	Makefile.am to copy it from ../progref/.
+
+	modified:   doc/cms/Makefile.am
+	deleted:    doc/cms/buildhtb.py
+
 2024-08-06 Ulrik Sandborg-Petersen
 
 	* doc/progref/buildhtb.py:
