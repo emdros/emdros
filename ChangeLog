@@ -31,6 +31,8 @@
 	modified:   src/qrytool/mqlqtwx.cpp
 	modified:   src/qrytool/mqlqtwx.h
 
+	* NEWS: Add news about eqtu(1) and eqtc(1) for today.
+
 2024-08-06 Ulrik Sandborg-Petersen
 
 	* doc/progref/buildhtb.py:

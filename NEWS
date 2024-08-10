@@ -1,5 +1,16 @@
 This file is for release-notes for Emdros.
 
+- *** Version 3.9.1 *** 
+
+Release notes for Emdros 3.9.1
+==============================
+
+- Emdros Query Tool (wxWidgets) / eqtu(1): Add ability to run query,
+  emit as HTML, and exit immediately. Add command line switches --html
+  and -o outfilename to implement this.
+
+- eqtc(1): Add -o, --output outfilename switch.
+
 - *** Version 3.9.0 *** 
 
 Release notes for Emdros 3.9.0
