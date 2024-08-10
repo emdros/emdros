@@ -77,6 +77,9 @@ public:
 
 
     bool GetConnection(ConnectionData& conndata);
+    bool GetConnectionNonInteractively(ConnectionData& conndata);	
+    void FilloutDefaultConnectionData(ConnectionData& conndata);
+	
     static wxString wxHelpPrefix(void);
     wxString m_strAppPath;
 };

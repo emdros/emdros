@@ -3,7 +3,7 @@
 .\"
 .\"  tbl eqtu.1 | nroff -man | less
 .\"
-.TH EQTU 1 "January 16, 2019"
+.TH EQTU 1 "August 10, 2024"
 .SH NAME
 eqtu \- Query arbitrary Emdros databases with a GUI
 .SH SYNOPSIS
@@ -33,6 +33,13 @@ set the name of the ocnfiguration file
 .TP
 .BI \-d\ ,\ \-\-dbname \ dbname 
 set database name (overrides what is in the config file)
+.TP
+.BI \-o\ ,\ \-\-output \ outfilename
+use this filename as the output. Default is 'output.html'. Only works
+if --html is also given.
+.TP
+.BI \-\-html
+Connect, run query, emit html, and exit.
 .TP
 .BI \-h\ ,\ \-\-host \ hostname 
 set db back-end hostname to connect to (default is 'localhost') (has no effect on SQLite)

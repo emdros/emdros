@@ -17,8 +17,19 @@
 	* src/qrytool/: Add -o switch to eqtc(1), indicating an output
 	filename.
 
+	Also, if the configuration file cannot be read, then emit the
+	error to std::cerr, not std::cout.
+
 	modified:   doc/man1/eqtc.1.in
 	modified:   src/qrytool/mqlqt.cpp
+
+	* src/qrytool: Implement support for emitting output as HTML, and
+	then quitting. That is, add command line switches -o and
+	--html. Document these in doc/man1/eqtu.1.in.
+
+	modified:   doc/man1/eqtu.1.in
+	modified:   src/qrytool/mqlqtwx.cpp
+	modified:   src/qrytool/mqlqtwx.h
 
 2024-08-06 Ulrik Sandborg-Petersen
 

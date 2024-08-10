@@ -6,7 +6,7 @@
  *
  * Ulrik Petersen
  * Created: 4/13-2005
- * Last update: 4/18-2018
+ * Last update: 8/10-2024
  *
  */
 
@@ -139,8 +139,10 @@ bool EmdrosQueryToolApp::OnInit()
 	wxFileSystem::AddHandler(new wxZipFSHandler);
 
 	ConnectionData conndata;
-	bool bCreatePNGs = false;
+	bool bCreateHTML = false;
 	wxString strMQLFile;
+	wxString strOutFilename;	
+	wxString strDatabase;
 	for (int i = 1;
 	     i < argc;
 	     ++i) {
@@ -161,12 +163,12 @@ bool EmdrosQueryToolApp::OnInit()
 					conndata.m_backend_kind = backend_kind;
 				}
 			}
-		} else if (strArg == wxT("--png")) {
-			bCreatePNGs = true;
+		} else if (strArg == wxT("--html")) {
+			bCreateHTML = true;
 		} else if (strArg == wxT("-d")) {
 			if (i < (argc - 1)) {
 				++i;
-				wxString strDatabase = argv[i];
+				strDatabase = argv[i];				
 				conndata.m_strDatabase = strDatabase;
 			}
 		} else if (strArg == wxT("-h")) {
@@ -187,6 +189,11 @@ bool EmdrosQueryToolApp::OnInit()
 				wxString strPassword = argv[i];
 				conndata.m_strPassword = strPassword;
 			}
+		} else if (strArg == wxT("-o")) {
+			if (i < (argc - 1)) {
+				++i;
+				strOutFilename = argv[i];
+			}
 		} else {
 			strMQLFile = argv[i];
 		}
@@ -194,10 +201,16 @@ bool EmdrosQueryToolApp::OnInit()
 
 	m_pMainFrame = NULL;
 	//int nReturnCode = 0;
-	if (bCreatePNGs) {
-		if (!GetConnection(conndata)) {
+	if (bCreateHTML) {
+		std::cout << "UP202" << std::endl;
+
+		if (!GetConnectionNonInteractively(conndata)) {
+			wxEmdrosErrorMessage(wxString(wxT("Error: Could not get conndata non-interactively.\n")));
+
 			return false;
 		} else {
+			std::cout << "UP204" << std::endl;
+			
 			m_pMainFrame = new MainFrame(NULL);
 			
 			m_pMainFrame->Show(false);
@@ -208,6 +221,8 @@ bool EmdrosQueryToolApp::OnInit()
 				return false;
 			} else {
 				std::string str_file_name = std::string((const char*) strMQLFile.mb_str(wxConvUTF8));
+				std::cout << "UP200: strMQLFile = '" << str_file_name << "'" << std::endl;
+				
 				if (str_file_name.empty()) {
 					//nReturnCode = 
 					exec_stream(&std::cin, m_pMainFrame->m_pEW);
@@ -218,6 +233,10 @@ bool EmdrosQueryToolApp::OnInit()
 						exec_stream(&fin, m_pMainFrame->m_pEW);
 					}
 				}
+				if (strOutFilename == wxT("")) {
+					strOutFilename = "output.html";
+				}
+				m_pMainFrame->SaveOutputAreaAsHTML(strOutFilename);
 				return false;
 			}
 		}
@@ -264,7 +283,7 @@ int EmdrosQueryToolApp::OnExit()
 }
 
 
-bool EmdrosQueryToolApp::GetConnection(ConnectionData& conndata)
+void EmdrosQueryToolApp::FilloutDefaultConnectionData(ConnectionData& conndata)
 {
 	if (conndata.m_strHost.empty())
 		conndata.m_strHost = wxT("localhost");
@@ -276,8 +295,47 @@ bool EmdrosQueryToolApp::GetConnection(ConnectionData& conndata)
 	    && conndata.m_backend_kind != kMySQL) {
 		conndata.m_backend_kind = DEFAULT_BACKEND_ENUM;
 	}
-      
+}
+
+bool EmdrosQueryToolApp::GetConnectionNonInteractively(ConnectionData& conndata)
+{
+	FilloutDefaultConnectionData(conndata);
+
+	bool bSuccess = false;
+	std::ostringstream strout;
+
+	if (conndata.m_strConfiguration.IsEmpty()) {
+		wxEmdrosErrorMessage(wxString(wxT("Error: The configuration name is left empty.")));
+		
+		bSuccess = false;
+	} else {
+		Configuration *pConf = 
+			parse_config_file(std::string((const char*)(conndata.m_strConfiguration.mb_str(wxConvUTF8))),
+					  "",
+					  &strout);
+		if (pConf == 0) {
+			wxEmdrosErrorMessage(wxString(wxT("Error: The requested file is not a valid configuration file.Here is what is wrong:\n")) + wxString(strout.str().c_str(), wxConvUTF8) + wxT("\nPlease choose a configuration file that is valid."));
+			bSuccess = false;		
+		} else {
+			std::string error_msg;
+			if (!app_checkConfiguration(pConf,error_msg)) {
+				wxEmdrosErrorMessage(wxString(wxT("Error: The request file is not a valid configuration file.  Here is what is wrong:\n")) + wxString(error_msg.c_str(), wxConvUTF8) + wxT("\n--------------------\nPlease choose one that is valid, and try again."));
+				bSuccess = false;
+			} else {
+				bSuccess = true;
+			}
+
+			delete pConf;
+		}
+	}
+	
+	return bSuccess;
+}
   
+bool EmdrosQueryToolApp::GetConnection(ConnectionData& conndata)
+{
+	FilloutDefaultConnectionData(conndata);
+
 	ConnectionDialog  dlg(app_checkConfiguration, true, m_pMainFrame);
 	/*
 	dlg.setBackend(conndata.m_backend_kind);
