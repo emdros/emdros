@@ -1,5 +1,12 @@
 ============ 3.9.1 ============
 
+2024-08-10 Ulrik Sandborg-Petersen
+
+	* doc/progref/buildhtb.py: Solve some issues with LaTeX whereby:
+
+	- Some <pre> environments did not get converted correctly.
+	- Some title elements did not get converted correctly.
+
 2024-08-06 Ulrik Sandborg-Petersen
 
 	* doc/progref/buildhtb.py:

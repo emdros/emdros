@@ -28,8 +28,13 @@ class FilesEntry:
         print(self.mylist[0])
         return int(self.mylist[0])
 
-    def getTitle(self):
-        return self.mylist[1]
+    def getTitleLaTeX(self, pages, hierarchy):
+        title = self.mylist[1]
+        return pages.expandTagsLaTeX(title, self.getID(), hierarchy)
+
+    def getTitleHTML(self, pages, hierarchy, extension):
+        title = self.mylist[1]
+        return pages.expandTags(title, self.getID(), hierarchy, extension)
 
     def getNext(self):
         return int(self.mylist[2])
@@ -110,12 +115,14 @@ class Hierarchy:
     def getIDs(self):
         return self.entries.keys()
 
-    def getLinkFromId(self, id, extension):
+    def getLinkFromId(self, id, pages, extension):
         if id == -1:
             return "none"
         else:
             fe = self.entries[id]
-            return "<A HREF=\"%s\">%s</A>" % (str(id) + str(extension), fe.getTitle())
+          
+            return "<A HREF=\"%s\">%s</A>" % (str(id) + str(extension), fe.getTitleHTML(pages, self, extension))
+
     def idIsBelowOther(self, other_id, id):
         up_id = self.getUp(id)
 
@@ -170,17 +177,17 @@ class Pages:
             css_header = ""
         css_header += "\n        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n"
 
-        self.writeHTMLHeader(f, id, hierarchy, css_header)
+        self.writeHTMLHeader(f, id, hierarchy, extension, css_header)
         self.writeHTMLPage(f, id, hierarchy, extension, bWithNavigation)
         self.writeHTMLFooter(f, id, hierarchy, extension)
         f.close()
 
-    def writeHTMLHeader(self, f, id, hierarchy, css_header):
+    def writeHTMLHeader(self, f, id, hierarchy, extension, css_header):
         f.write("""<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" 
         "http://www.w3.org/TR/REC-html40/strict.dtd">\n""".encode('utf-8'))
         f.write(("<html>\n").encode('utf-8'))
         f.write(("  <head>\n").encode('utf-8'))
-        f.write(("     <title>" + hierarchy.getEntry(id).getTitle() + "</title>\n").encode('utf-8'))
+        f.write(("     <title>" + hierarchy.getEntry(id).getTitleHTML(self, hierarchy, extension) + "</title>\n").encode('utf-8'))
         f.write((css_header + "\n").encode('utf-8'))
         f.write("  </head>\n".encode('utf-8'))
         f.write("<body>\n".encode('utf-8'))
@@ -205,7 +212,7 @@ class Pages:
             addFileIfExists(f, "sidebar.inc")
             f.write(("</TD><TD class=\"main\">\n").encode('utf-8'))
             f.write(("\n").encode('utf-8'))
-        f.write(("<H1>%s</H1>\n" % hierarchy.getEntry(id).getTitle()).encode('utf-8'))
+        f.write(("<H1>%s</H1>\n" % hierarchy.getEntry(id).getTitleHTML(self, hierarchy, extension)).encode('utf-8'))
         pagestring = self.pages[id]
         pagestring = self.expandTags(pagestring, id, hierarchy, extension)
         f.write(pagestring.encode('utf-8'))
@@ -225,7 +232,7 @@ class Pages:
 
             for child_id in arr_subsections:
                 entry = hierarchy.getEntry(child_id)
-                child_title = entry.getTitle()
+                child_title = entry.getTitleHTML(self, hierarchy, extension)
 
                 if entry.getType() == "Part":
                     bChildIsPart = True
@@ -259,10 +266,14 @@ class Pages:
     def writeHTMLFooter(self, f, id, hierarchy, extension):
         f.write(("<hr>\n").encode('utf-8'))
         if id != 1000 and hierarchy.getPrev(id) != 1000:
-            f.write((("<strong>Previous:</strong> " + hierarchy.getLinkFromId(hierarchy.getPrev(id), extension) + "<br>\n").encode('utf-8')))
+            previous = "<strong>Previous:</strong> " + hierarchy.getLinkFromId(hierarchy.getPrev(id), self, extension) + "<br>\n"
+            f.write(previous.encode('utf-8'))
         if id != 1000 and hierarchy.getUp(id) != 1000:
-            f.write((("<strong>Up:</strong> " + hierarchy.getLinkFromId(hierarchy.getUp(id), extension) + "<br>\n").encode('utf-8')))
-        f.write((("<strong>Next:</strong> " + hierarchy.getLinkFromId(hierarchy.getNext(id), extension) + "<br>\n").encode('utf-8')))
+            up = "<strong>Up:</strong> " + hierarchy.getLinkFromId(hierarchy.getUp(id), self, extension) + "<br>\n"
+            f.write(up.encode('utf-8'))
+        next_string = "<strong>Next:</strong> " + hierarchy.getLinkFromId(hierarchy.getNext(id), self, extension) + "<br>\n"
+        
+        f.write(next_string.encode('utf-8'))
         f.write(("</body>\n").encode('utf-8'))
         f.write(("</html>").encode('utf-8'))
 
@@ -279,7 +290,7 @@ class Pages:
 
         for id in hierarchy.docline:
             if id != 1000:
-                f.write(("<H%d><A NAME=\"%s\">%s</A></H%d>\n" % (hierarchy.levels[id],str(id),hierarchy.getEntry(id).getTitle(),hierarchy.levels[id])).encode('utf-8'))
+                f.write(("<H%d><A NAME=\"%s\">%s</A></H%d>\n" % (hierarchy.levels[id],str(id),hierarchy.getEntry(id).getTitleHTML(self, hierarchy, extension), hierarchy.levels[id])).encode('utf-8'))
                 pagestring = self.pages[id]
                 pagestring = self.expandTags(pagestring, id, hierarchy, None)
                 f.write((pagestring).encode('utf-8'))
@@ -308,6 +319,7 @@ class Pages:
         f.write(("\\usepackage{graphicx}\n").encode('utf-8'))
         f.write(("\\usepackage{ucs}\n").encode('utf-8'))
         f.write(("\\usepackage{html}\n").encode('utf-8'))
+        f.write(("\\usepackage{listings}\n").encode('utf-8'))
         f.write(("\\title{%s\\newline\n%s}\n" % (title, subtitle)).encode('utf-8'))
         f.write(("\\author{Ulrik Sandborg-Petersen}\n").encode('utf-8'))
         try:
@@ -331,7 +343,7 @@ class Pages:
 
         for id in hierarchy.docline:
             if id != 1000:
-                f.write(("%s{%s}\n" % (self.getSection(hierarchy.levels[id]),hierarchy.getEntry(id).getTitle().replace("&quot;","\""))).encode('utf-8'))
+                f.write(("%s{%s}\n" % (self.getSection(hierarchy.levels[id]),hierarchy.getEntry(id).getTitleLaTeX(self, hierarchy).replace("&quot;","\""))).encode('utf-8'))
                 pagestring = self.pages[id]
                 pagestring = self.expandTagsLaTeX(pagestring, id, hierarchy)
                 f.write((pagestring).encode('utf-8'))
@@ -354,7 +366,7 @@ class Pages:
         else:
             for index in range(1, len(ref_list), 3):
                 ref_id = int(ref_list[index+1])
-                ref_title = hierarchy.getEntry(int(ref_id)).getTitle()
+                ref_title = hierarchy.getEntry(int(ref_id)).getTitleHTML(self, hierarchy, extension)
                 tmpstr = tmpstr + r'<A HREF="%d%s">%s</A>' % (ref_id, extension, ref_title)
                 if index + 2 < len(ref_list):
                     tmpstr = tmpstr + ref_list[index+2]
@@ -399,7 +411,7 @@ class Pages:
         else:
             for index in range(1, len(ref_list), 3):
                 ref_id = int(ref_list[index+1])
-                ref_title = hierarchy.getEntry(int(ref_id)).getTitle()
+                ref_title = hierarchy.getEntry(int(ref_id)).getTitleLaTeX(self, hierarchy)
                 tmpstr = tmpstr + "%s" % ref_title
                 if index + 2 < len(ref_list):
                     tmpstr = tmpstr + ref_list[index+2]
@@ -407,15 +419,15 @@ class Pages:
         # Simple replacements
         tmpstr = tmpstr.replace("&quot;", "\"")
         tmpstr = tmpstr.replace("$","{DOLLAR}")
-        tmpstr = tmpstr.replace("\\","$\\backslash$")
+        tmpstr = tmpstr.replace("\\","{\\textbackslash}")
         tmpstr = tmpstr.replace("_","\\_")
         tmpstr = tmpstr.replace("&nbsp;", "\\ ")
         tmpstr = tmpstr.replace("&lt;", "$<$")
         tmpstr = tmpstr.replace("&gt;", "$>$")
         tmpstr = tmpstr.replace("&amp;", "&")
         tmpstr = tmpstr.replace("&","\\&")
-        tmpstr = tmpstr.replace("{PREBACKSLASH}", "\\")
-        tmpstr = tmpstr.replace("{PREUNDERSCORE}","_")
+        tmpstr = tmpstr.replace("{PREBACKSLASH}", "{\\textbackslash}")
+        tmpstr = tmpstr.replace("{PREUNDERSCORE}","\\_")
         tmpstr = tmpstr.replace("#", "\\#")
         tmpstr = tmpstr.replace("{DOLLAR}", "\\$")
         tmpstr = tmpstr.replace("{PREAMP}", "\\&")
@@ -431,7 +443,6 @@ class Pages:
         tmpstr = tmpstr.replace("à", "{\\`a}")
         tmpstr = tmpstr.replace("í", "{\\'i}")
         tmpstr = tmpstr.replace("ñ", "{\\~n}")
-
 
         # IMG
         p_img_re = re.compile(r'<[Pp]><[Ii][Mm][Gg][^>]+[Ss][Rr][Cc]="([^"]+)"[^>]*></[Pp]>')
@@ -456,15 +467,41 @@ class Pages:
         # BR
         br_re = re.compile(r'<[Bb][Rr]>')
         tmpstr = br_re.sub("\\\\newline\n", tmpstr)
+
         # PRE
+
+        PRE_REPLACE_BACK_LIST = [
+                    ("{\\textbackslash}", "\\"),
+                    ]
+
+        def pre_sub(mo):
+            content = mo.group(1)
+
+            for (s, replacement) in PRE_REPLACE_BACK_LIST:
+                content = content.replace(s, replacement)
+                
+            return '\\begin{lstlisting}\n%s\n\\end{lstlisting}' % content
+            
         preMQLExample_re = re.compile(r'<[Pp][Rr][Ee][ \n\t]+class="MQLExample"[^>]*>([^<]+)</[Pp][Rr][Ee]>')
-        tmpstr = preMQLExample_re.sub(r'\\begin{verbatim}\n\1\n\\end{verbatim}', tmpstr)
-        preCODE_re = re.compile(r'<[Pp][Rr][Ee][ \n\t]+class="code"[^>]*>([^<]+)</[Pp][Rr][Ee]><!-- widthincm[^:]*:[^0-9]*([0-9]+)[^-]*-->')
-        tmpstr = preCODE_re.sub(r'\\begin{verbatim}\n\1\n\\end{verbatim}', tmpstr)
-        preINTERFACE_re = re.compile(r'<[Pp][Rr][Ee][ \n\t]+class="interface"[^>]*>([^<]+)</[Pp][Rr][Ee]><!-- widthincm[^:]*:[^0-9]*([0-9]+)[^-]*-->')
-        tmpstr = preINTERFACE_re.sub(r'\\begin{verbatim}\n\1\n\\end{verbatim}', tmpstr)
+        tmpstr = preMQLExample_re.sub(pre_sub, tmpstr)
+        
+        preCODE_re = re.compile(r'<[Pp][Rr][Ee][ \n\t]+class="code"[^>]*>([^<]+)</[Pp][Rr][Ee]>(?:<!-- widthincm[^:]*:[^0-9]*([0-9]+)[^-]*-->)?')
+        tmpstr = preCODE_re.sub(pre_sub, tmpstr)
+        
+        preINTERFACE_re = re.compile(r'<[Pp][Rr][Ee][ \n\t]+class="interface"[^>]*>([^<]+)</[Pp][Rr][Ee]>(?:<!-- widthincm[^:]*:[^0-9]*([0-9]+)[^-]*-->)?')
+        tmpstr = preINTERFACE_re.sub(pre_sub, tmpstr)
+
+        def pre_sub_minipage(mo):
+            minipage_width = mo.group(2)
+            content = mo.group(1)
+
+            for (s, replacement) in PRE_REPLACE_BACK_LIST:
+                content = content.replace(s, replacement)
+                
+            return '\\begin{minipage}{%scm}\\begin{lstlisting}\n%s\n\\end{lstlisting}\\end{minipage}' % (minipage_width, content)
+            
         pre_re = re.compile(r'<[Pp][Rr][Ee][^>]*>([^<]+)</[Pp][Rr][Ee]>[^<]*<!-- widthincm[^:]*:[^0-9]*([0-9]+)[^-]*-->')
-        tmpstr = pre_re.sub(r'\\begin{minipage}{\2cm}\\begin{verbatim}\n\1\n\\end{verbatim}\\end{minipage}', tmpstr)
+        tmpstr = pre_re.sub(pre_sub_minipage, tmpstr)
         
 
         # UL / OL / LI
@@ -552,7 +589,7 @@ class Pages:
             f.write(("<ul>\n").encode('utf-8'))
             for id in idlist:
                 f.write(("  <li><object type=\"text/sitemap\">\n").encode('utf-8'))
-                f.write(("          <param name=\"Name\" value=\"%s\">\n" % hierarchy.getEntry(id).getTitle()).encode('utf-8'))
+                f.write(("          <param name=\"Name\" value=\"%s\">\n" % hierarchy.getEntry(id).getTitleHTML(self, hierarchy, extension)).encode('utf-8'))
                 f.write(("          <param name=\"ID\" value=%d>\n" % id).encode('utf-8'))
                 f.write(("          <param name=\"Local\" value=\"%d%s\">\n" % (id, str(extension))).encode('utf-8'))
                 f.write(("      </object>\n").encode('utf-8'))
@@ -561,7 +598,7 @@ class Pages:
             f.write(("</ul>\n").encode('utf-8'))
 
     def writeHHK(self, bookname, hierarchy, extension):
-        self.produceIndex(hierarchy)
+        self.produceIndex(hierarchy, extension)
         f = open(bookname + ".hhk", "wb")
         topics = list(sorted(self.myindex.keys()))
         if len(topics) > 0:
@@ -578,10 +615,10 @@ class Pages:
             f.write(("</ul>\n").encode('utf-8'))
         f.close()
 
-    def produceIndex(self, hierarchy):
+    def produceIndex(self, hierarchy, extension):
         index_tag_re = re.compile(r'<index[ \t\n]+term="([^"]+)">')
         for pageid in self.pages.keys():
-            title = hierarchy.getEntry(pageid).getTitle()
+            title = hierarchy.getEntry(pageid).getTitleHTML(self, hierarchy, extension)
             if title not in self.myindex.keys():
                 self.myindex[title] = []
             self.myindex[title].append(pageid)
