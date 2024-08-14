@@ -1,5 +1,10 @@
 ============ 3.9.1 ============
 
+2024-08-14 Ulrik Sandborg-Petersen
+
+	* doc/man1/eqtu.1.in: Remove obsolete mention of switch --pngs. It
+	has been replaced with the switch --html.
+
 2024-08-10 Ulrik Sandborg-Petersen
 
 	* doc/progref/buildhtb.py: Solve some issues with LaTeX whereby:

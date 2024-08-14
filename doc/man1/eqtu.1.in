@@ -52,8 +52,6 @@ set password to use for the database user.  Has no effect on SQLite,
 unless you have an encryption-enabled SQLite, in which case this gets
 passed as the key.
 .TP
-.BI \-\-png
-Generate PNGs only; do not show GUI.
 
 .SH CONFIGURATION FILE FORMAT
 
