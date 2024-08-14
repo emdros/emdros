@@ -3,7 +3,7 @@
 .\"
 .\"  tbl eqtu.1 | nroff -man | less
 .\"
-.TH EQTU 1 "August 10, 2024"
+.TH EQTU 1 "August 14, 2024"
 .SH NAME
 eqtu \- Query arbitrary Emdros databases with a GUI
 .SH SYNOPSIS
