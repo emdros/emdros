@@ -3,7 +3,7 @@
 .\"
 .\"  tbl mql.1 | nroff -man | less
 .\"
-.TH MQL 1 "July 24, 2013"
+.TH MQL 1 "August 14, 2024"
 .SH NAME
 mql \- A front-end to the Emdros engine using the MQL query language
 .SH SYNOPSIS
@@ -33,6 +33,12 @@ output-format is XML
 .BI \-\-cxml\ 
 output-format is compact XML
 .TP
+.BI \-\-json\ 
+output-format is pretty-printed JSON
+.TP
+.BI \-\-cjson\ 
+output-format is compact JSON
+.TP
 .BI \-\-console
 output-format is console (this is the default)
 .TP
@@ -40,6 +46,9 @@ output-format is console (this is the default)
 the caller is prepared to expect incomplete output.  The tradeoff is
 that, with this option, we gain some speed due to flushing the output
 buffer all the time being unnecessary.
+.TP
+.BI \-o\ ,\ \-\-output output_filename
+print the output on this file. If '-', is given, use stdout.
 .TP
 .BI \-d\ ,\ \-\-dbname \ dbname 
 set initial dbname (default is 'emdf')

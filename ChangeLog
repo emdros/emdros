@@ -5,6 +5,12 @@
 	* doc/man1/eqtu.1.in: Remove obsolete mention of switch --pngs. It
 	has been replaced with the switch --html.
 
+	* doc/man1/mql.1: Document the --json and --cjson switches.
+
+	* src/mql.cpp, doc/man1/mql.1: Teach mql(1) how to use a new switch:
+
+	-o, --output output_filename
+
 2024-08-10 Ulrik Sandborg-Petersen
 
 	* doc/progref/buildhtb.py: Solve some issues with LaTeX whereby:

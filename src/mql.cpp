@@ -3,7 +3,7 @@
  *
  * A front-end to the MQL parser
  * Created: 5/1-2001 (1st of May, 2001)
- * Last update: 5/11-2018
+ * Last update: 8/14-2024
  *
  * Return codes:
  * 
@@ -130,12 +130,14 @@ void print_usage(std::ostream& ostr)
 	ostr << "   --cjson              Output compact JSON format" << std::endl;
 	ostr << "   --console            Output console-friendly format" << std::endl;
 	ostr << "   --incomplete-output  Caller accepts incomplete output while processing" << std::endl;
+	ostr << "   -o , --output fn     Output to this filename. '-' means stdout." << std::endl;
 	printUsageStandardArguments(ostr);
 	ostr << "   -d , --dbname db     Set initial database to db" << std::endl;
 	ostr << "   -n , --nop           Do not print results (no output)" << std::endl;
 	ostr << "DEFAULTS:" << std::endl;
 	ostr << "   --console" << std::endl;
 	ostr << "   -d emdf" << std::endl;
+	ostr << "   -o -" << std::endl;
 	printUsageDefaultsOfStandardArguments(ostr);
 }
 
@@ -164,13 +166,21 @@ int main(int argc, char* argv[])
 	addOption("--incomplete-output", "--incomplete-output");
 	addOption("-n", "--nop");
 
+
 	addOption("-d", "--dbname", true, 
 		  "emdf",
 		  "ERROR: -d and --dbname must have a database-name as their argument.\n"
 		  "       example: -d book1\n");
 
+	addOption("-o", "--output", true, 
+		  "-",
+		  "ERROR: -o and --output must have a filename as their argument.\n"
+		  "       example: -o output.sheaf.txt\n");
+
 	// Parse arguments
 	std::list<std::string> surplus_arguments;
+
+	std::string output_filename;
 
 	std::string error_message;
 	if (!parseArguments(argc, argv, error_message, surplus_arguments)) {
@@ -230,6 +240,13 @@ int main(int argc, char* argv[])
 			bPrintOutput = false;
 		}
 
+		if (getArgumentPresent("-o")) {
+			getArgumentValue("-o", output_filename);
+		} else {
+			// "-" == stdout
+			output_filename = "-";
+		}
+
 		getArgumentValue("-d", initial_db);
 
 		if (surplus_arguments.size() == 0) {
@@ -242,40 +259,61 @@ int main(int argc, char* argv[])
 		}
 	}
 
-	int nResult = 3;
+	int nResult = 0;
 	EmdrosEnv *pEE = 0;
 	MQLResultCallbackOutput *pCallback = 0;
+	std::ostream *pOut = 0;
 	
 	try {
-	
-		// Make connection
-		pEE = new EmdrosEnv(output_kind, 
-				    charset,
-				    hostname,
-				    user, password,
-				    initial_db,
-				    backend_kind);
-		// Zero-fill password
-		zeroFillString(password);
-		
-		// Check that we connected
-		if (!pEE->connectionOk()) {
-			emdrosMessageConnectionNotOK(&std::cerr, backend_kind);
-			delete pEE;
-			return 2;
-		}
-		
-		bool bFlushAfterEveryResult = !bCallerAcceptsIncompleteOutput;
-		if (bPrintOutput) {
-			pCallback = new MQLResultCallbackOutput(pEE->getMQLEE(), bFlushAfterEveryResult);
+		if (output_filename == "-") {
+			// Make connection, print on stdout
+			pEE = new EmdrosEnv(output_kind, 
+					    charset,
+					    hostname,
+					    user, password,
+					    initial_db,
+					    backend_kind);
 		} else {
-			pCallback = 0;
+			pOut = new std::ofstream(output_filename.c_str());
+
+			if (!*pOut) {
+				std::cerr << "FAILURE: Could not open file " << output_filename << " for writing." << std::endl;
+				std::cerr << "Action aborted." << std::endl;
+				nResult = 4;
+			} else {
+				pEE = new EmdrosEnv(pOut,
+						    output_kind, 
+						    charset,
+						    hostname,
+						    user, password,
+						    initial_db,
+						    backend_kind);
+			}
 		}
+
+		if (nResult == 0) {
+			// Zero-fill password
+			zeroFillString(password);
 		
-		if (filename == "") {
-			nResult = exec_cin(pEE, bPrintOutput, bCallerAcceptsIncompleteOutput, pCallback);
-		} else {
-			nResult = exec_file(pEE, filename, bPrintOutput, bCallerAcceptsIncompleteOutput, pCallback);
+			// Check that we connected
+			if (!pEE->connectionOk()) {
+				emdrosMessageConnectionNotOK(&std::cerr, backend_kind);
+				delete pEE;
+				return 2;
+			}
+			
+			bool bFlushAfterEveryResult = !bCallerAcceptsIncompleteOutput;
+			if (bPrintOutput) {
+				pCallback = new MQLResultCallbackOutput(pEE->getMQLEE(), bFlushAfterEveryResult);
+			} else {
+				pCallback = 0;
+			}
+			
+			if (filename == "") {
+				nResult = exec_cin(pEE, bPrintOutput, bCallerAcceptsIncompleteOutput, pCallback);
+			} else {
+				nResult = exec_file(pEE, filename, bPrintOutput, bCallerAcceptsIncompleteOutput, pCallback);
+			}
 		}
 	} catch (EMdFNULLValueException& e) {
 		std::cerr << "ERROR: EMdFNULLValueException (Database error)..." << std::endl;
@@ -311,8 +349,14 @@ int main(int argc, char* argv[])
 	} 
 
 	// Clean up
+	if (pOut != 0) {
+		// Also closes the file
+		delete pOut;
+	}
+	
 	delete pEE;
 	delete pCallback;
+
 
 	return nResult;
 }
