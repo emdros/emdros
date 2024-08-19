@@ -2,7 +2,7 @@
 // Horizontal Tree Canvas : implementation file
 //
 // Created: 9/8-2007
-// Last update: 4/19-2019
+// Last update: 8/19-2024
 //
 
 /*
@@ -257,7 +257,7 @@ void HTreeNode::Draw(wxDC *pDC, int y, int yParentMiddle, int yParentBottom, int
 			pDC->DrawLine(xMiddle + xOffset,
 				      y + yOffset,
 				      xMiddle + xOffset,
-				      yParent + yOffset - 1);
+				      yParent + yOffset);
 			pDC->SetPen(wxNullPen);
 		}
 	}
@@ -382,12 +382,12 @@ void HNonTerminalNode::Draw(wxDC *pDC, int y, int yParentMiddle, int yParentBott
 	if (m_leftmost_x == m_rightmost_x) {
 		; // Do nothing
 	} else {
-		int yMiddle = y + m_pMainBox->GetHeightLP()/2;
+		int yMiddle = this->getMiddleY(y);
 
 		pDC->SetPen(pen);
 		pDC->DrawLine(m_x + xOffset,
 			      yMiddle + yOffset, 
-			      m_leftmost_x + xOffset - 1,
+			      m_leftmost_x + xOffset,
 			      yMiddle + yOffset);
 		pDC->DrawLine(m_x + m_pMainBox->GetWidthLP() + xOffset,
 			      yMiddle + yOffset,

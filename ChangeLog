@@ -1,5 +1,10 @@
 ============ 3.9.1 ============
 
+2024-08-24 Ulrik Sandborg-Petersen
+
+	* wx/htreecanvas.cpp: Fix off-by-one errors in the positioning of
+	lines.
+
 2024-08-14 Ulrik Sandborg-Petersen
 
 	* doc/man1/eqtu.1.in: Remove obsolete mention of switch --pngs. It
