@@ -8,6 +8,12 @@
 	* wx/layout.cpp, include/layout.h: Make the selection work again
 	for all boxes.
 
+	* wx/vtreecanvas.cpp, include/vtreecanvas.h:
+
+	- Make the scrolling work on macos.
+	- Recalculate the tree upon resizing the window.
+	- Fix some issues with scroll height not getting adjusted.
+
 2024-08-14 Ulrik Sandborg-Petersen
 
 	* doc/man1/eqtu.1.in: Remove obsolete mention of switch --pngs. It

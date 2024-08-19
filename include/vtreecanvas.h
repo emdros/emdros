@@ -8,7 +8,7 @@
 // Petersen dated August 13, 2004.
 //
 // Created: 3/29-2000
-// Last update: 5/17-2019
+// Last update: 8/19-2024
 //
 //
 
@@ -204,7 +204,6 @@ public:
 	  virtual void ReadRegistrySettings(void);
 	*/
 	void drawTree(wxDC* pDC, CTreeItem* treeitem, int heightSoFar, int height, int startIndex);
-	void adjustHeights(wxDC* pDC);
 	void CalculateTreeParameters(CTreeParameters& tp, bool printing);
 	void CalculateNodeRect(size_t start_index, size_t end_index, wxRect &rectNode, bool is_printing);
 	bool FindTreeItemByID_D(id_d_t id_d, int &tree_item, bool is_printing = false);

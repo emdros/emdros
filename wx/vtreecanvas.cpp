@@ -9,7 +9,7 @@
 // Petersen dated August 13, 2004.
 //
 // Created: 3/29-2000
-// Last update: 5/17-2019
+// Last update: 8/19-2024
 //
 //
 
@@ -384,49 +384,13 @@ void VTreeCanvas::toggleExpansionState(CTreeItem* tree_item)
 		collapse(tree_item->get_id_d_t()); // kExpanded
 	}
 
-	// Make tree
-	wxClientDC dc(this);
-
-	/*
-	make_tree(m_tree_items, pViewMetrics, &dc);
-
-	// Make visual layout
-	CalculateLineTypes();
-
-	// Set scroll sizes
-	adjustHeights(&dc); // Calls invalidate
-	*/
-
-
-
-	// Resize
-	//	wxRect rect;
-	//	GetClientRect(&rect);
-	//	OnSize(SIZE_RESTORED, rect.right, rect.bottom);
-
-	// Update all other views
+	// Update all views, including this one
 	UpdateAllViews();
 	
 	// Invalidate ourselves
 	this->Refresh();	
 }
 
-
-//adjust heights of windows, typically when a sub-window grew by a line while
-//typing
-void VTreeCanvas::adjustHeights(wxDC* pDC)
-{
-	(void)(pDC); // Silence a warning
-	
-	// Calculate overall height
-	CalculateOverallHeight();
-
-	wxSizeEvent evt;
-	OnSize(evt);
-
-	// Invalidate client area
-	this->Refresh();
-}
 
 void VTreeCanvas::GetClipBox(wxDC *pDC, wxRect& clipRect)
 {
@@ -1057,17 +1021,11 @@ void VTreeCanvas::OnMouseEvent(wxMouseEvent& event)
 
 void VTreeCanvas::OnUpdate() 
 {
-	// Get client DC
-	wxClientDC dc(this);
+	wxSizeEvent evt;
+	OnSize(evt);
 
-	// Make tree
-	make_tree(m_tree_items, pViewMetrics, &dc);
-
-	// Make visual layout
-	CalculateLineTypes();
-
-	// Set scroll sizes 
-	adjustHeights(&dc); // Also calls Refresh()
+	// Invalidate client area
+	this->Refresh();
 }
 
 
@@ -1075,24 +1033,28 @@ void VTreeCanvas::OnUpdate()
 void VTreeCanvas::OnSize(wxSizeEvent& event) 
 {
 	(void)(event); // Silence a warning
+
+	if (pViewMetrics != 0) {
+		// Make sure the view metrics width is up-to-date
+		UpdateViewMetricsViewWidth();
 	
+		// Get client DC
+		wxClientDC dc(this);
+
+		// Make tree
+		make_tree(m_tree_items, pViewMetrics, &dc);
+
+		// Make visual layout
+		CalculateLineTypes();
+
+		// Calculate overall height
+		CalculateOverallHeight();
+
+	}
+
 	// Get device context
 	wxClientDC dc(this);
 	dc.SetMapMode(m_nMapMode);
-
-	if (pViewMetrics != 0) {
-		if (UpdateViewMetricsViewWidth()) {
-			// Make tree
-			make_tree(m_tree_items, pViewMetrics, &dc);
-	    
-			// Make visual layout
-			CalculateLineTypes();
-		}
-	}
-
-
-	// Calculate overall height
-	CalculateOverallHeight();
 
 	// Get client rect in logical points
 	wxCoord clientWidth, clientHeight;
@@ -1237,44 +1199,46 @@ size_t VTreeCanvas::get_end_index_of_node_plus_decendants(size_t start_index, bo
 }
 void VTreeCanvas::CalculateTreeParameters(CTreeParameters& tp, bool printing)
 {
-	if (!printing) {
-		tp.kOnePixel = pViewMetrics->onePixelAsLP(); // One pixel in logical units
-		tp.kTopLineHeight = pViewMetrics->getLineHeight(0); 
-		tp.kIconWidth = (tp.kTopLineHeight*4)/10;  //width of the minus or plus sign
-		tp.kIconGap = tp.kIconWidth/4; //width of gap between icon and box
-		tp.kIconHeight = tp.kIconWidth; //height of plus sign
-		tp.kBoxWidth = tp.kIconWidth+2*tp.kIconGap; //width of the control box
-		tp.kBoxHeight = tp.kBoxWidth; //try making height the same
-		tp.kTextGap = 2*tp.kIconGap;  //gap between line from icon and text
-		tp.kHeaderLineLength = tp.kIconWidth; //from right side of box to the gap between the line and the text
-		tp.kIndentDistance = tp.kBoxWidth+tp.kHeaderLineLength+tp.kTextGap;
-		tp.kHalfIndent = tp.kBoxWidth/2; //how much vertical line is indented
-		tp.kVerticalIndent = tp.kHalfIndent; // Distance from left side of kIndentDistance to the vertical line on the tree
-		tp.kLeftMargin = 4*tp.kOnePixel; //gap at the far left of everything
-		tp.kMMScaleFactor = pViewMetrics->nMMScaleFactor(); // scale factor for y direction
-		tp.kMinYDistanceBetweenItems = tp.kOnePixel; // Minimum Y Distance between items
-		tp.kTreeLineWidth = tp.kOnePixel; // Width of the lines used to draw the tree
-		tp.k1cmLP = pViewMetrics->ConvertMMtoLP(10);
-	} else {
-		tp.kOnePixel = m_pPrintMetrics->onePixelAsLP(); // One pixel in logical units
-		//tp.kTopLineHeight = (int)(m_pPrintMetrics->latinLineHeightLP*m_yScaleFactor);
-		//tp.kTopLineHeight = m_pPrintMetrics->latinLineHeightLP;
-		tp.kTopLineHeight = m_pPrintMetrics->getLineHeight(0);
-		tp.kIconWidth = (tp.kTopLineHeight*4)/10;  //width of the minus or plus sign
-		tp.kIconGap = tp.kIconWidth/4; //width of gap between icon and box
-		tp.kIconHeight = tp.kIconWidth; //height of plus sign
-		tp.kBoxWidth = tp.kIconWidth+2*tp.kIconGap; //width of the control box
-		tp.kBoxHeight = tp.kBoxWidth; //try making height the same
-		tp.kTextGap = 2*tp.kIconGap;  //gap between line from icon and text
-		tp.kHeaderLineLength = tp.kIconWidth; //from right side of box to the gap between the line and the text
-		tp.kIndentDistance = tp.kBoxWidth+tp.kHeaderLineLength+tp.kTextGap;
-		tp.kHalfIndent = tp.kBoxWidth/2; //how much vertical line is indented
-		tp.kVerticalIndent = tp.kHalfIndent; // Distance from left side of kIndentDistance to the vertical line on the tree
-		tp.kLeftMargin = 4*tp.kOnePixel; //gap at the far left of everything
-		tp.kMMScaleFactor = m_pPrintMetrics->nMMScaleFactor(); // scale factor for y direction
-		tp.kMinYDistanceBetweenItems = tp.kTopLineHeight/10; // Minimum Y Distance between items
-		tp.kTreeLineWidth = m_pPrintMetrics->Convert10thofMMtoLP(4); // Width of the lines used to draw the tree
-		tp.k1cmLP = m_pPrintMetrics->ConvertMMtoLP(10);
+	if (pViewMetrics != 0) {
+		if (!printing) {
+			tp.kOnePixel = pViewMetrics->onePixelAsLP(); // One pixel in logical units
+			tp.kTopLineHeight = pViewMetrics->getLineHeight(0); 
+			tp.kIconWidth = (tp.kTopLineHeight*4)/10;  //width of the minus or plus sign
+			tp.kIconGap = tp.kIconWidth/4; //width of gap between icon and box
+			tp.kIconHeight = tp.kIconWidth; //height of plus sign
+			tp.kBoxWidth = tp.kIconWidth+2*tp.kIconGap; //width of the control box
+			tp.kBoxHeight = tp.kBoxWidth; //try making height the same
+			tp.kTextGap = 2*tp.kIconGap;  //gap between line from icon and text
+			tp.kHeaderLineLength = tp.kIconWidth; //from right side of box to the gap between the line and the text
+			tp.kIndentDistance = tp.kBoxWidth+tp.kHeaderLineLength+tp.kTextGap;
+			tp.kHalfIndent = tp.kBoxWidth/2; //how much vertical line is indented
+			tp.kVerticalIndent = tp.kHalfIndent; // Distance from left side of kIndentDistance to the vertical line on the tree
+			tp.kLeftMargin = 4*tp.kOnePixel; //gap at the far left of everything
+			tp.kMMScaleFactor = pViewMetrics->nMMScaleFactor(); // scale factor for y direction
+			tp.kMinYDistanceBetweenItems = tp.kOnePixel; // Minimum Y Distance between items
+			tp.kTreeLineWidth = tp.kOnePixel; // Width of the lines used to draw the tree
+			tp.k1cmLP = pViewMetrics->ConvertMMtoLP(10);
+		} else {
+			tp.kOnePixel = m_pPrintMetrics->onePixelAsLP(); // One pixel in logical units
+			//tp.kTopLineHeight = (int)(m_pPrintMetrics->latinLineHeightLP*m_yScaleFactor);
+			//tp.kTopLineHeight = m_pPrintMetrics->latinLineHeightLP;
+			tp.kTopLineHeight = m_pPrintMetrics->getLineHeight(0);
+			tp.kIconWidth = (tp.kTopLineHeight*4)/10;  //width of the minus or plus sign
+			tp.kIconGap = tp.kIconWidth/4; //width of gap between icon and box
+			tp.kIconHeight = tp.kIconWidth; //height of plus sign
+			tp.kBoxWidth = tp.kIconWidth+2*tp.kIconGap; //width of the control box
+			tp.kBoxHeight = tp.kBoxWidth; //try making height the same
+			tp.kTextGap = 2*tp.kIconGap;  //gap between line from icon and text
+			tp.kHeaderLineLength = tp.kIconWidth; //from right side of box to the gap between the line and the text
+			tp.kIndentDistance = tp.kBoxWidth+tp.kHeaderLineLength+tp.kTextGap;
+			tp.kHalfIndent = tp.kBoxWidth/2; //how much vertical line is indented
+			tp.kVerticalIndent = tp.kHalfIndent; // Distance from left side of kIndentDistance to the vertical line on the tree
+			tp.kLeftMargin = 4*tp.kOnePixel; //gap at the far left of everything
+			tp.kMMScaleFactor = m_pPrintMetrics->nMMScaleFactor(); // scale factor for y direction
+			tp.kMinYDistanceBetweenItems = tp.kTopLineHeight/10; // Minimum Y Distance between items
+			tp.kTreeLineWidth = m_pPrintMetrics->Convert10thofMMtoLP(4); // Width of the lines used to draw the tree
+			tp.k1cmLP = m_pPrintMetrics->ConvertMMtoLP(10);
+		}
 	}
 }
 
