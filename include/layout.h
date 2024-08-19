@@ -11,7 +11,7 @@
 // November 11, 2003.
 //
 // Created: 7/17-2005
-// Last update: 1/19-2024
+// Last update: 8/19-2024
 //
 //
 
@@ -93,12 +93,14 @@ class LayoutItem {
 	virtual void toHTML(std::ostream *pOut, const std::string& filename) {
 		(void)(pOut); // Silence a warning
 		(void)(filename); // Silence a warning
-		/* By default, do nothing. */ };
+		/* By default, do nothing. */
+	};
 	virtual void doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename) {
 		(void)(pOut); // Silence a warning
 		(void)(bIsRightToLeft); // Silence a warning
 		(void)(filename); // Silence a warning
-		/* By default, do nothing. */ };
+		/* By default, do nothing. */
+	};
 };
 
 typedef enum {
@@ -130,7 +132,8 @@ class LayoutBoxBase : public LayoutItem {
 		(void)(pDC); // Silence a warning
 		(void)(xLP); // Silence a warning
 		(void)(yLP); // Silence a warning
-		/* must be implemented. */ };
+		/* must be implemented. */
+	};
 	bool IsSelected(void) const { return m_bIsSelected; };
 	void SetSelected(bool selected) { m_bIsSelected = selected; };
 	long GetLong(void) const { return m_long; };
@@ -138,7 +141,8 @@ class LayoutBoxBase : public LayoutItem {
 	bool GetSpaceAfter(void) const { return m_bSpaceAfter; };
 	virtual void RecalculateExtents(wxDC *pDC) {
 		(void)(pDC); // Silence a warning
-		/* must be implemented. */ };
+		/* must be implemented. */
+	};
 	virtual void DrawBox(wxDC *pDC, int xLeftLP, int yTopLP);
 
 	virtual void doToHTML(std::ostream *pOut, bool bIsRightToLeft, const std::string& filename) {

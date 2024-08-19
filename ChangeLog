@@ -5,6 +5,9 @@
 	* wx/htreecanvas.cpp: Fix off-by-one errors in the positioning of
 	lines.
 
+	* wx/layout.cpp, include/layout.h: Make the selection work again
+	for all boxes.
+
 2024-08-14 Ulrik Sandborg-Petersen
 
 	* doc/man1/eqtu.1.in: Remove obsolete mention of switch --pngs. It

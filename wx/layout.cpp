@@ -11,7 +11,7 @@
 // November 11, 2003.
 //
 // Created: 7/17-2005
-// Last update: 4/19-2019
+// Last update: 8/19-2024
 //
 
 /*
@@ -132,15 +132,9 @@ void LayoutBoxBase::DrawBox(wxDC *pDC, int xLeftLP, int yTopLP)
 
 		wxRasterOperationMode oldLogicalFunction = pDC->GetLogicalFunction();
 
-		// wxINVERT does not work on __WXOSX__, but it does on
-		// Windows.
-#ifdef __WXMSW__
-		pDC->SetLogicalFunction(wxINVERT);
-#else
-		pDC->SetLogicalFunction(wxXOR);
-#endif
+		pDC->SetLogicalFunction(wxCOPY);
 		pDC->SetPen(*wxBLACK_PEN);
-		pDC->SetBrush(*wxWHITE_BRUSH);
+		pDC->SetBrush(*wxBLACK_BRUSH);
 		pDC->DrawRectangle(point, mysize);
 		pDC->SetBrush(wxNullBrush);
 		pDC->SetPen(wxNullPen);
@@ -175,6 +169,8 @@ LayoutBox::LayoutBox(wxDC *pDC, const wxstringvec_t& strings, ViewMetrics *pMetr
 
 void LayoutBox::Draw(wxDC *pDC, int xLP, int yLP)
 {
+	DrawBox(pDC, xLP, yLP);
+	
 	int y = yLP;
 	int x = xLP;
 	unsigned int strings_size = m_strings.size();
@@ -187,8 +183,6 @@ void LayoutBox::Draw(wxDC *pDC, int xLP, int yLP)
 			y = y + m_pMetrics->nMMScaleFactor()*pILM->lineHeightLP;
 		}
 	}
-
-	DrawBox(pDC, xLP, yLP);
 }
 
 void LayoutBox::RecalculateExtents(wxDC *pDC)
@@ -294,8 +288,13 @@ void LayoutBox::DrawText(wxDC *pDC, wxString strOutput, int xLP, int yLP, unsign
 
 	// Set font and colors
 	pDC->SetFont(*pFont);
-	pDC->SetTextBackground(*wxWHITE);
-	pDC->SetTextForeground(color);
+	if (m_bIsSelected) {
+		pDC->SetTextBackground(*wxBLACK);
+		pDC->SetTextForeground(*wxWHITE);
+	} else {
+		pDC->SetTextBackground(*wxWHITE);
+		pDC->SetTextForeground(color);
+	}
 
 	// Draw text
 	if (m_bIsCentered) {
@@ -310,6 +309,7 @@ void LayoutBox::DrawText(wxDC *pDC, wxString strOutput, int xLP, int yLP, unsign
 		pDC->DrawText(strOutput, xLP, yLP);
 	}
 	pDC->SetTextForeground(*wxBLACK);
+	pDC->SetTextBackground(*wxWHITE);
 	pDC->SetFont(wxNullFont);
 }
 
@@ -387,14 +387,20 @@ void LatinLayoutBox::DrawText(wxDC *pDC, wxString strOutput, int xLP, int yLP, u
   
 	// Set font and colors
 	pDC->SetFont(*pFont);
-	pDC->SetTextBackground(*wxWHITE);
-	pDC->SetTextForeground(m_color);
+	if (m_bIsSelected) {
+		pDC->SetTextBackground(*wxBLACK);
+		pDC->SetTextForeground(*wxWHITE);
+	} else {
+		pDC->SetTextBackground(*wxWHITE);
+		pDC->SetTextForeground(m_color);
+	}
   
 	// Draw text
 	pDC->DrawText(strOutput, xLP, yLP);
   
 	pDC->SetFont(wxNullFont);
 	pDC->SetTextForeground(*wxBLACK);
+	pDC->SetTextBackground(*wxWHITE);
 }
 
 void LatinLayoutBox::RecalculateExtents(wxDC *pDC)
@@ -453,12 +459,19 @@ BorderedStackedLatinLayoutBox::BorderedStackedLatinLayoutBox(wxDC *pDC, const wx
 
 void BorderedStackedLatinLayoutBox::Draw(wxDC *pDC, int xLP, int yLP)
 {
+	DrawBox(pDC, xLP, yLP);
+	
 	wxFont *pFont = m_pMetrics->getLatinFont();
 
 	// Set font and colors
 	pDC->SetFont(*pFont);
-	pDC->SetTextBackground(*wxWHITE);
-	pDC->SetTextForeground(m_beforeSeparatorLinesColor);
+	if (m_bIsSelected) {
+		pDC->SetTextBackground(*wxBLACK);
+		pDC->SetTextForeground(*wxWHITE);
+	} else {
+		pDC->SetTextBackground(*wxWHITE);
+		pDC->SetTextForeground(m_beforeSeparatorLinesColor);
+	}
 
 	int y = yLP + m_pMetrics->getLatinFontHeight() / 4;
 	int x = xLP + m_pMetrics->getLatinFontHeight() / 2;
@@ -486,14 +499,18 @@ void BorderedStackedLatinLayoutBox::Draw(wxDC *pDC, int xLP, int yLP)
 
 		if ((m_nLineAfterWhichToAddSeparator >= 0)
 		    && index == ((unsigned int) m_nLineAfterWhichToAddSeparator)) {
-			pDC->SetTextForeground(m_afterSeparatorLinesColor);
+			if (m_bIsSelected) {
+				pDC->SetTextBackground(*wxBLACK);
+				pDC->SetTextForeground(*wxWHITE);
+			} else {
+				pDC->SetTextForeground(m_afterSeparatorLinesColor);
+			}
 		}
 	}
 
 	pDC->SetTextForeground(*wxBLACK);
+ 	pDC->SetTextBackground(*wxWHITE);
 	pDC->SetFont(wxNullFont);
-
-	DrawBox(pDC, xLP, yLP);
 }
 
 void BorderedStackedLatinLayoutBox::DrawText(wxDC *pDC, const wxString& strOutput, int xLP, int yLP)
@@ -504,6 +521,9 @@ void BorderedStackedLatinLayoutBox::DrawText(wxDC *pDC, const wxString& strOutpu
 
 void BorderedStackedLatinLayoutBox::DrawBox(wxDC *pDC, int xLeftLP, int yTopLP)
 {
+	// Call parent
+	LayoutBoxBase::DrawBox(pDC, xLeftLP, yTopLP);
+	
 	int xRightLP = xLeftLP + m_xExtentLP;
 	if (m_bSpaceAfter) {
 		xRightLP -= m_pMetrics->spaceBetweenWordsLP;
@@ -519,11 +539,18 @@ void BorderedStackedLatinLayoutBox::DrawBox(wxDC *pDC, int xLeftLP, int yTopLP)
 	int nPenWidth = getPenWidth(m_pMetrics->m_nMagnification);
 
 	// Make pen for border
+	wxColour penColor;
+	if (m_bIsSelected) {
+		penColor = *wxWHITE;
+	} else {
+		penColor = *wxBLACK;
+	}
 #if wxCHECK_VERSION(3,0,0)
-	wxPen penBorder(*wxBLACK, nPenWidth, wxPENSTYLE_SOLID);
+ 	wxPen penBorder(penColor, nPenWidth, wxPENSTYLE_SOLID);
 #else
-	wxPen penBorder(*wxBLACK, nPenWidth, wxSOLID);
+ 	wxPen penBorder(penColor, nPenWidth, wxSOLID);
 #endif
+	
 
 	// Draw bracket or parenthesis itself
 	pDC->SetPen(penBorder);
@@ -555,9 +582,6 @@ void BorderedStackedLatinLayoutBox::DrawBox(wxDC *pDC, int xLeftLP, int yTopLP)
 	}
 	pDC->SetPen(wxNullPen);
 	pDC->SetLogicalFunction(oldLogicalFunction);
-
-	// Call parent
-	LayoutBoxBase::DrawBox(pDC, xLeftLP, yTopLP);
 }
 
 
@@ -649,12 +673,19 @@ StackedLatinLayoutBox::StackedLatinLayoutBox(wxDC *pDC, const wxstringvec_t& str
 
 void StackedLatinLayoutBox::Draw(wxDC *pDC, int xLP, int yLP)
 {
+	DrawBox(pDC, xLP, yLP);
+	
 	wxFont *pFont = m_pMetrics->getLatinFont();
 
 	// Set font and colors
 	pDC->SetFont(*pFont);
-	pDC->SetTextBackground(*wxWHITE);
-	pDC->SetTextForeground(m_color);
+	if (m_bIsSelected) {
+		pDC->SetTextBackground(*wxBLACK);
+		pDC->SetTextForeground(*wxWHITE);
+	} else {
+		pDC->SetTextBackground(*wxWHITE);
+		pDC->SetTextForeground(m_color);
+	}
 
 	int y = yLP;
 	int x = xLP;
@@ -666,10 +697,8 @@ void StackedLatinLayoutBox::Draw(wxDC *pDC, int xLP, int yLP)
 	}
 
 	pDC->SetTextForeground(*wxBLACK);
+	pDC->SetTextBackground(*wxWHITE);
 	pDC->SetFont(wxNullFont);
-
-
-	DrawBox(pDC, xLP, yLP);
 }
 
 void StackedLatinLayoutBox::DrawText(wxDC *pDC, int ilmIndex, const wxString& strOutput, int xLP, int yLP)
@@ -780,6 +809,8 @@ void LayoutSymbolBox::doToHTML(std::ostream *pOut, bool bIsRightToLeft, const st
 
 void LayoutSymbolBox::Draw(wxDC *pDC, int x, int y)
 {
+	DrawBox(pDC, x, y);
+	
 	// Calculate y values for 
         int nRadius = (m_circle_diameter/2);
 	int yMiddle = y + m_pMetrics->nMMScaleFactor()*nRadius;
@@ -793,7 +824,9 @@ void LayoutSymbolBox::Draw(wxDC *pDC, int x, int y)
 
 	// Make pen for symbol
         wxColour color;
-        if (m_bIsGrayed) {
+	if (m_bIsSelected) {
+		color = *wxWHITE;
+	} else if (m_bIsGrayed) {
                 color = LAYOUT_GRAY;
         } else {
                 color = *wxBLACK;
@@ -820,8 +853,6 @@ void LayoutSymbolBox::Draw(wxDC *pDC, int x, int y)
 	pDC->DrawLine(x+m_xExtentLP,y+m_yExtentLP,x, y+m_yExtentLP);
 	pDC->DrawLine(x, y+m_yExtentLP,x,y);
 	*/
-
-	DrawBox(pDC, x, y);
 }
 
 void LayoutSymbolBox::RecalculateExtents(wxDC *pDC)
@@ -928,6 +959,15 @@ void LayoutBracketBox::doToHTML(std::ostream *pOut, bool bIsRightToLeft, const s
 
 void LayoutBracketBox::Draw(wxDC *pDC, int x, int y)
 {
+	DrawBox(pDC, x, y);
+
+	wxColour penColor;
+	if (m_bIsSelected) {
+		penColor = *wxWHITE;
+	} else {
+		penColor = *wxBLACK;
+	}
+
 	// Calculate y values for bracket
 	int yMiddle = y + m_pMetrics->nMMScaleFactor()*(m_yExtentLP/2);
 	int yTop = yMiddle - m_pMetrics->nMMScaleFactor()*(m_nHeight/2);
@@ -952,9 +992,9 @@ void LayoutBracketBox::Draw(wxDC *pDC, int x, int y)
 
 	// Make pen for bracket or parenthesis
 #if wxCHECK_VERSION(3,0,0)
-	wxPen penBracket(*wxBLACK, m_nLineWidth, wxPENSTYLE_SOLID);
+	wxPen penBracket(penColor, m_nLineWidth, wxPENSTYLE_SOLID);
 #else
-	wxPen penBracket(*wxBLACK, m_nLineWidth, wxSOLID);
+	wxPen penBracket(penColor, m_nLineWidth, wxSOLID);
 #endif
 
 	// Draw bracket or parenthesis itself
@@ -1029,9 +1069,9 @@ void LayoutBracketBox::Draw(wxDC *pDC, int x, int y)
 
 		// Draw arrow
 #if wxCHECK_VERSION(3,0,0)
-		wxPen penArrow(*wxBLACK, m_nArrowLineWidth, wxPENSTYLE_SOLID);
+		wxPen penArrow(penColor, m_nArrowLineWidth, wxPENSTYLE_SOLID);
 #else
-		wxPen penArrow(*wxBLACK, m_nArrowLineWidth, wxSOLID);
+		wxPen penArrow(penColor, m_nArrowLineWidth, wxSOLID);
 #endif
 		pDC->SetPen(penArrow);
 		pDC->DrawLine(xArrowTail, yMiddle, xArrowHead, yMiddle);
@@ -1043,7 +1083,13 @@ void LayoutBracketBox::Draw(wxDC *pDC, int x, int y)
 	// Make label if necessary
 	if (m_has_label) {
 		pDC->SetFont(*m_pMetrics->getLatinFont());
-		pDC->SetTextForeground(*wxBLACK);
+		if (m_bIsSelected) {
+			pDC->SetTextBackground(*wxBLACK);
+			pDC->SetTextForeground(*wxWHITE);
+		} else {
+			pDC->SetTextBackground(*wxWHITE);
+			pDC->SetTextForeground(*wxBLACK);
+		}
 
 		int yLabel = y + m_pMetrics->interlinearLineHeightLP/2 - m_pMetrics->latinLineHeightLP/2;
 
@@ -1066,8 +1112,6 @@ void LayoutBracketBox::Draw(wxDC *pDC, int x, int y)
 	pDC->DrawLine(x+m_xExtentLP,y+m_yExtentLP,x, y+m_yExtentLP);
 	pDC->DrawLine(x, y+m_yExtentLP,x,y);
 	*/
-
-	DrawBox(pDC, x, y);
 }
 
 void LayoutBracketBox::RecalculateExtents(wxDC *pDC)
