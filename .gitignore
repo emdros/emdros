@@ -95,6 +95,7 @@ doc/man1/*.html
 doc/man5/*.html
 doc/*.pdf
 doc/*.eps
+doc/cms/buildhtb.py
 doc/man1/eqtc.1
 doc/man1/eqtu.1
 doc/progref/*.htm

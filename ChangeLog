@@ -1,5 +1,9 @@
 ============ 3.9.1 ============
 
+2025-01-20 Ulrik Sandborg-Petersen
+
+	* .gitignore: Add doc/cms/buildhtb.py, since it is built by doc/cms/Makefile.am
+
 2024-08-24 Ulrik Sandborg-Petersen
 
 	* wx/htreecanvas.cpp: Fix off-by-one errors in the positioning of
