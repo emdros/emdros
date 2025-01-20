@@ -189,7 +189,7 @@ else
 
 	git clone https://github.com/emdros/emdros.git
 
-	cd emdros
+	cd emdros ; mv * ../ ; cd ..
 	
 	# Find the emdros version
 	if test -f configure.ac ; then
@@ -207,20 +207,22 @@ else
     fi
 fi
 
-if test -f ${BUILD_DIR}/emdros/*.deb; then
-    DEB_FILE=`ls ${BUILD_DIR}/emdros/*.deb`
+if test -f ${BUILD_DIR}/*.deb; then
+    DEB_FILE=`ls ${BUILD_DIR}/*.deb`
     echo ""
     echo "SUCCESS"
-    echo "Built in ${BUILD_DIR}/emdros"
+    echo "Built in ${BUILD_DIR}/"
     echo ""
     echo "Perhaps do:"
     echo ""
     echo "sudo dpkg -i ${DEB_FILE}"
     echo ""
+    exit 0;
 else
     echo ""
     echo "ERROR"
     echo "Something went wrong."
+    echo "Could not find *.deb in ${BUILD_DIR}/"
     echo ""
     exit 1;
 fi

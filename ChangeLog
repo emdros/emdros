@@ -4,6 +4,19 @@
 
 	* .gitignore: Add doc/cms/buildhtb.py, since it is built by doc/cms/Makefile.am
 
+	* build-deb.sh:
+
+	- Build the GitHub-cloned version in ${BUILD_DIR}, not ${BUILD_DIR}/emdros.
+
+	- When finished, look for the *.deb file in ${BUILD_DIR}, not
+	${BUILD_DIR}/emdros. This reinstates the behavior where the
+	non-GitHub cloned execution paths know where to find the .deb.
+
+	- When exiting, explicitly exit with exit code 0 when everything is fine.
+
+	- When exiting in error, write that the *.deb could not be found
+	in ${BUILD_DIR}/.
+
 2024-08-24 Ulrik Sandborg-Petersen
 
 	* wx/htreecanvas.cpp: Fix off-by-one errors in the positioning of
